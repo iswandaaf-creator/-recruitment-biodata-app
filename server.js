@@ -266,16 +266,16 @@ app.post('/api/submit', (req, res) => {
   `;
 
   const params = [
-    body.posisi_dilamar, body.posisi_lain, body.sumber_info, body.punya_kerabat, body.nama_kerabat_posisi,
-    body.nama_lengkap, body.nama_panggilan, body.email, body.jenis_kelamin, body.kewarganegaraan, body.suku,
-    body.tempat_lahir, body.tanggal_lahir, body.agama, body.golongan_darah, body.nomor_ktp, body.alamat_ktp,
-    body.kota_ktp, body.kode_pos_ktp, body.alamat_domisili, body.kota_domisili, body.kode_pos_domisili,
-    body.status_alamat_domisili, body.no_telp_rumah, body.no_hp, body.status_perkawinan, body.hobby,
+    body.posisi_dilamar || '', body.posisi_lain || '', body.sumber_info || '', body.punya_kerabat || '', body.nama_kerabat_posisi || '',
+    body.nama_lengkap || '', body.nama_panggilan || '', body.email || '', body.jenis_kelamin || '', body.kewarganegaraan || '', body.suku || '',
+    body.tempat_lahir || '', body.tanggal_lahir || '', body.agama || '', body.golongan_darah || '', body.nomor_ktp || '', body.alamat_ktp || '',
+    body.kota_ktp || '', body.kode_pos_ktp || '', body.alamat_domisili || '', body.kota_domisili || '', body.kode_pos_domisili || '',
+    body.status_alamat_domisili || '', body.no_telp_rumah || '', body.no_hp || '', body.status_perkawinan || '', body.hobby || '',
     JSON.stringify(keluarga_kandung), JSON.stringify(keluarga_menikah), JSON.stringify(pendidikan_formal),
     JSON.stringify(pendidikan_non_formal), JSON.stringify(referensi), JSON.stringify(riwayat_pekerjaan),
-    body.alasan_rekrutmen, body.minat_passion, body.rencana_3_5_tahun, body.prestasi,
-    body.melamar_perusahaan_lain, JSON.stringify(social_media), body.riwayat_kesehatan,
-    body.perkiraan_bergabung, body.gaji_diharapkan, body.kota_ttd, body.tanggal_ttd, body.signature_data,
+    body.alasan_rekrutmen || '', body.minat_passion || '', body.rencana_3_5_tahun || '', body.prestasi || '',
+    body.melamar_perusahaan_lain || '', JSON.stringify(social_media), body.riwayat_kesehatan || '',
+    body.perkiraan_bergabung || '', body.gaji_diharapkan || '', body.kota_ttd || '', body.tanggal_ttd || '', body.signature_data || '',
     body.share_token || body.ref || body.token || ''
   ];
 
