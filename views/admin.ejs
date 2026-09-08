@@ -14,6 +14,8 @@
     .badge-status-Dipertimbangkan { background-color: #f59e0b; color: white; }
     .badge-status-Ditolak { background-color: #ef4444; color: white; }
     .badge-status-Belum { background-color: #6b7280; color: white; }
+    .sortable-header { cursor: pointer; user-select: none; }
+    .sortable-header:hover { background-color: #e2e8f0; }
   </style>
 </head>
 <body>
@@ -63,32 +65,84 @@
 
     <!-- Candidate List Table Card -->
     <div class="card">
-      <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-        <h5 class="mb-0 fw-bold text-secondary">
-          <i class="fas fa-list me-2"></i>Daftar Record Pelamar Kerja (<%= candidates.length %>)
-        </h5>
-        <div class="w-25">
-          <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Cari nama, email, posisi..." onkeyup="filterTable()">
+      <div class="card-header bg-white py-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div>
+            <h5 class="mb-1 fw-bold text-secondary">
+              <i class="fas fa-list me-2"></i>Daftar Record Pelamar Kerja (<span id="candidateCount"><%= candidates.length %></span>)
+            </h5>
+            <div class="text-muted small">Kelola, urutkan, dan filter data pelamar serta cek redundansi data.</div>
+          </div>
+          
+          <div class="d-flex flex-wrap align-items-center gap-2">
+            <!-- Search Box -->
+            <div class="input-group input-group-sm" style="width: 250px;">
+              <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control" id="searchInput" placeholder="Cari nama, email, KTP..." onkeyup="applyFilterAndSort()">
+            </div>
+
+            <!-- Sort Select -->
+            <div class="input-group input-group-sm" style="width: 230px;">
+              <span class="input-group-text bg-light"><i class="fas fa-sort-amount-down"></i></span>
+              <select class="form-select" id="sortSelect" onchange="applyFilterAndSort()">
+                <option value="date-desc" selected>Tanggal (Terbaru)</option>
+                <option value="date-asc">Tanggal (Terlama)</option>
+                <option value="name-asc">Nama Pelamar (A-Z)</option>
+                <option value="name-desc">Nama Pelamar (Z-A)</option>
+                <option value="status-asc">Status Rekrutmen</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Status & Redundancy Quick Buttons -->
+        <div class="mt-3 d-flex flex-wrap gap-2 align-items-center">
+          <span class="small fw-bold me-1 text-muted"><i class="fas fa-filter me-1"></i>Filter Status:</span>
+          <button type="button" class="btn btn-sm btn-outline-dark active filter-btn" data-filter="all" onclick="setFilter('all', this)">
+            Semua (<%= candidates.length %>)
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-secondary filter-btn" data-filter="Belum Diproses" onclick="setFilter('Belum Diproses', this)">
+            Belum Diproses (<%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>)
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-success filter-btn" data-filter="Diterima" onclick="setFilter('Diterima', this)">
+            <i class="fas fa-check-circle me-1"></i>Diterima (<%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>)
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-warning filter-btn" data-filter="Dipertimbangkan" onclick="setFilter('Dipertimbangkan', this)">
+            <i class="fas fa-clock me-1"></i>Dipertimbangkan (<%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>)
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-danger filter-btn" data-filter="Ditolak" onclick="setFilter('Ditolak', this)">
+            <i class="fas fa-times-circle me-1"></i>Ditolak (<%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>)
+          </button>
+          <button type="button" class="btn btn-sm btn-warning text-dark fw-bold filter-btn ms-auto" data-filter="duplicate" onclick="setFilter('duplicate', this)">
+            <i class="fas fa-exclamation-triangle me-1 text-danger"></i>Pelamar Berulang (<%= candidates.filter(c => c.is_duplicate).length %>)
+          </button>
         </div>
       </div>
+
       <div class="card-body p-0">
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0" id="candidateTable">
             <thead class="table-light">
               <tr>
                 <th class="ps-4">ID</th>
-                <th>Tanggal Submit</th>
-                <th>Nama Pelamar</th>
+                <th class="sortable-header" onclick="toggleSort('date')">
+                  Tanggal Submit <i class="fas fa-sort ms-1 text-muted" id="sortIconDate"></i>
+                </th>
+                <th class="sortable-header" onclick="toggleSort('name')">
+                  Nama Pelamar <i class="fas fa-sort ms-1 text-muted" id="sortIconName"></i>
+                </th>
                 <th>Posisi Dilamar</th>
                 <th>Email / No. HP</th>
-                <th>Domisili</th>
-                <th>Status Rekrutmen</th>
+                <th class="sortable-header" onclick="toggleSort('status')">
+                  Status Rekrutmen <i class="fas fa-sort ms-1 text-muted" id="sortIconStatus"></i>
+                </th>
+                <th>Anti-Redundansi / Indikator</th>
                 <th class="text-center pe-4">Aksi</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="candidateTableBody">
               <% if (candidates.length === 0) { %>
-                <tr>
+                <tr id="noDataRow">
                   <td colspan="8" class="text-center py-5 text-muted">
                     <i class="fas fa-folder-open fa-3x mb-3 d-block opacity-50"></i>
                     Belum ada data pelamar yang masuk.
@@ -96,24 +150,41 @@
                 </tr>
               <% } %>
               <% candidates.forEach(c => { %>
-                <tr>
+                <tr data-id="<%= c.id %>"
+                    data-date="<%= new Date(c.created_at).getTime() %>"
+                    data-name="<%= c.nama_lengkap.toLowerCase() %>"
+                    data-status="<%= c.kesimpulan_status || 'Belum Diproses' %>"
+                    data-duplicate="<%= c.is_duplicate ? 'true' : 'false' %>">
                   <td class="ps-4 fw-bold">#<%= c.id %></td>
                   <td class="small text-muted"><%= new Date(c.created_at).toLocaleString('id-ID') %></td>
                   <td>
                     <div class="fw-bold"><%= c.nama_lengkap %></div>
-                    <div class="small text-muted"><%= c.nama_panggilan ? '(' + c.nama_panggilan + ')' : '' %></div>
+                    <div class="small text-muted">
+                      <%= c.nama_panggilan ? '(' + c.nama_panggilan + ')' : '' %>
+                      <% if (c.nomor_ktp) { %> <span class="ms-1 border-start ps-1">KTP: <%= c.nomor_ktp %></span> <% } %>
+                    </div>
                   </td>
                   <td><span class="badge bg-secondary bg-opacity-10 text-dark border px-2 py-1"><%= c.posisi_dilamar %></span></td>
                   <td>
                     <div><i class="fas fa-envelope me-1 text-muted small"></i><%= c.email %></div>
                     <div class="small text-muted"><i class="fas fa-phone me-1"></i><%= c.no_hp %></div>
                   </td>
-                  <td><%= c.kota_domisili || '-' %></td>
                   <td>
                     <% const statusClass = 'badge-status-' + (c.kesimpulan_status || 'Belum'); %>
                     <span class="badge <%= statusClass %> px-2 py-1">
                       <%= c.kesimpulan_status || 'Belum Diproses' %>
                     </span>
+                  </td>
+                  <td>
+                    <% if (c.is_duplicate) { %>
+                      <span class="badge bg-warning text-dark border border-warning px-2 py-1" title="Terdeteksi mengisi form <%= c.duplicate_count %>x dengan <%= c.match_reason %> yang sama">
+                        <i class="fas fa-exclamation-triangle text-danger me-1"></i>Melamar <%= c.duplicate_count %>x (<%= c.match_reason %>)
+                      </span>
+                    <% } else { %>
+                      <span class="badge bg-light text-secondary border px-2 py-1">
+                        <i class="fas fa-check-circle me-1 text-success"></i>Unik (1x)
+                      </span>
+                    <% } %>
                   </td>
                   <td class="text-center pe-4">
                     <div class="btn-group btn-group-sm">
@@ -146,14 +217,86 @@
       });
     }
 
-    function filterTable() {
-      const input = document.getElementById('searchInput').value.toLowerCase();
-      const rows = document.querySelectorAll('#candidateTable tbody tr');
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(input) ? '' : 'none';
-      });
+    let activeFilter = 'all';
+
+    function setFilter(filterType, btnElem) {
+      activeFilter = filterType;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active', 'btn-dark', 'btn-success', 'btn-warning', 'btn-danger', 'btn-secondary'));
+      
+      // Highlight active button
+      btnElem.classList.add('active');
+      
+      applyFilterAndSort();
     }
+
+    function toggleSort(type) {
+      const select = document.getElementById('sortSelect');
+      if (type === 'date') {
+        select.value = select.value === 'date-desc' ? 'date-asc' : 'date-desc';
+      } else if (type === 'name') {
+        select.value = select.value === 'name-asc' ? 'name-desc' : 'name-asc';
+      } else if (type === 'status') {
+        select.value = select.value === 'status-asc' ? 'date-desc' : 'status-asc';
+      }
+      applyFilterAndSort();
+    }
+
+    function applyFilterAndSort() {
+      const searchVal = document.getElementById('searchInput').value.toLowerCase();
+      const sortVal = document.getElementById('sortSelect').value;
+      const tbody = document.getElementById('candidateTableBody');
+      const rows = Array.from(tbody.querySelectorAll('tr[data-id]'));
+
+      let visibleCount = 0;
+
+      rows.forEach(row => {
+        const rowText = row.innerText.toLowerCase();
+        const rowStatus = row.getAttribute('data-status');
+        const isDuplicate = row.getAttribute('data-duplicate') === 'true';
+
+        let matchesSearch = rowText.includes(searchVal);
+        let matchesFilter = true;
+
+        if (activeFilter === 'duplicate') {
+          matchesFilter = isDuplicate;
+        } else if (activeFilter !== 'all') {
+          matchesFilter = (rowStatus === activeFilter);
+        }
+
+        if (matchesSearch && matchesFilter) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
+      });
+
+      document.getElementById('candidateCount').innerText = visibleCount;
+
+      // Sorting Logic
+      rows.sort((a, b) => {
+        if (sortVal === 'date-desc') {
+          return parseInt(b.getAttribute('data-date')) - parseInt(a.getAttribute('data-date'));
+        } else if (sortVal === 'date-asc') {
+          return parseInt(a.getAttribute('data-date')) - parseInt(b.getAttribute('data-date'));
+        } else if (sortVal === 'name-asc') {
+          return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+        } else if (sortVal === 'name-desc') {
+          return b.getAttribute('data-name').localeCompare(a.getAttribute('data-name'));
+        } else if (sortVal === 'status-asc') {
+          return a.getAttribute('data-status').localeCompare(b.getAttribute('data-status'));
+        }
+        return 0;
+      });
+
+      // Re-append sorted rows
+      rows.forEach(row => tbody.appendChild(row));
+    }
+
+    // Run filter & sort on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      applyFilterAndSort();
+    });
   </script>
 </body>
 </html>

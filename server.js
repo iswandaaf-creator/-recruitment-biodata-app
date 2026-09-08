@@ -283,7 +283,20 @@ app.post('/api/submit', (req, res) => {
       console.error(err);
       return res.status(500).json({ success: false, error: err.message });
     }
-    res.json({ success: true, id: this.lastID });
+    const insertedId = this.lastID;
+    db.get(
+      'SELECT id FROM candidates WHERE id != ? AND ((nomor_ktp IS NOT NULL AND nomor_ktp != "" AND nomor_ktp = ?) OR (email IS NOT NULL AND email != "" AND email = ?) OR (no_hp IS NOT NULL AND no_hp != "" AND no_hp = ?)) LIMIT 1',
+      [insertedId, body.nomor_ktp || '', body.email || '', body.no_hp || ''],
+      (err, existing) => {
+        const isDuplicate = !!existing;
+        res.json({
+          success: true,
+          id: insertedId,
+          is_duplicate: isDuplicate,
+          message: isDuplicate ? 'Formulir terkirim! (Sistem mencatat Anda pernah mendaftar sebelumnya).' : 'Formulir berhasil terkirim.'
+        });
+      }
+    );
   });
 });
 
@@ -291,7 +304,62 @@ app.post('/api/submit', (req, res) => {
 app.get('/admin', requireAuth, (req, res) => {
   db.all('SELECT * FROM candidates ORDER BY id DESC', [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
-    res.render('admin', { candidates: rows, user: req.session.user });
+
+    const ktpMap = {}, emailMap = {}, hpMap = {}, namaMap = {};
+    rows.forEach(r => {
+      if (r.nomor_ktp && r.nomor_ktp.trim()) {
+        const k = r.nomor_ktp.trim().toLowerCase();
+        ktpMap[k] = (ktpMap[k] || 0) + 1;
+      }
+      if (r.email && r.email.trim()) {
+        const e = r.email.trim().toLowerCase();
+        emailMap[e] = (emailMap[e] || 0) + 1;
+      }
+      if (r.no_hp && r.no_hp.trim()) {
+        const h = r.no_hp.trim().replace(/\D/g, '');
+        if (h.length > 5) hpMap[h] = (hpMap[h] || 0) + 1;
+      }
+      if (r.nama_lengkap && r.nama_lengkap.trim()) {
+        const n = r.nama_lengkap.trim().toLowerCase();
+        namaMap[n] = (namaMap[n] || 0) + 1;
+      }
+    });
+
+    const candidates = rows.map(r => {
+      const k = r.nomor_ktp ? r.nomor_ktp.trim().toLowerCase() : '';
+      const e = r.email ? r.email.trim().toLowerCase() : '';
+      const h = r.no_hp ? r.no_hp.trim().replace(/\D/g, '') : '';
+      const n = r.nama_lengkap ? r.nama_lengkap.trim().toLowerCase() : '';
+
+      let dupCount = 1;
+      let reasons = [];
+
+      if (k && ktpMap[k] > 1) {
+        dupCount = Math.max(dupCount, ktpMap[k]);
+        reasons.push('KTP');
+      }
+      if (e && emailMap[e] > 1) {
+        dupCount = Math.max(dupCount, emailMap[e]);
+        reasons.push('Email');
+      }
+      if (h && hpMap[h] > 1) {
+        dupCount = Math.max(dupCount, hpMap[h]);
+        reasons.push('No HP');
+      }
+      if (n && namaMap[n] > 1 && reasons.length === 0) {
+        dupCount = Math.max(dupCount, namaMap[n]);
+        reasons.push('Nama');
+      }
+
+      return {
+        ...r,
+        duplicate_count: dupCount,
+        is_duplicate: dupCount > 1,
+        match_reason: reasons.join(', ')
+      };
+    });
+
+    res.render('admin', { candidates, user: req.session.user });
   });
 });
 
@@ -300,11 +368,38 @@ app.get('/admin/candidate/:id', requireAuth, (req, res) => {
   db.get('SELECT * FROM candidates WHERE id = ?', [req.params.id], (err, row) => {
     if (err || !row) return res.status(404).send('Candidate not found');
 
-    const cw1 = typeof row.catatan_wawancara_1 === 'string' ? JSON.parse(row.catatan_wawancara_1 || '{}') : (row.catatan_wawancara_1 || {});
-    const cw2 = typeof row.catatan_wawancara_2 === 'string' ? JSON.parse(row.catatan_wawancara_2 || '{}') : (row.catatan_wawancara_2 || {});
-    const cw3 = typeof row.catatan_wawancara_3 === 'string' ? JSON.parse(row.catatan_wawancara_3 || '{}') : (row.catatan_wawancara_3 || {});
+    const k = row.nomor_ktp ? row.nomor_ktp.trim() : '';
+    const e = row.email ? row.email.trim().toLowerCase() : '';
+    const h = row.no_hp ? row.no_hp.trim().replace(/\D/g, '') : '';
+    const n = row.nama_lengkap ? row.nama_lengkap.trim().toLowerCase() : '';
 
-    res.render('candidate_detail', { candidate: row, cw1, cw2, cw3, user: req.session.user });
+    db.all('SELECT id, created_at, nama_lengkap, email, no_hp, nomor_ktp, kesimpulan_status FROM candidates ORDER BY id DESC', [], (err, allRows) => {
+      const duplicates = (allRows || []).filter(item => {
+        const itemK = item.nomor_ktp ? item.nomor_ktp.trim() : '';
+        const itemE = item.email ? item.email.trim().toLowerCase() : '';
+        const itemH = item.no_hp ? item.no_hp.trim().replace(/\D/g, '') : '';
+        const itemN = item.nama_lengkap ? item.nama_lengkap.trim().toLowerCase() : '';
+
+        const matchK = k && itemK && k === itemK;
+        const matchE = e && itemE && e === itemE;
+        const matchH = h && itemH && h === itemH;
+        const matchN = n && itemN && n === itemN;
+
+        return matchK || matchE || matchH || matchN;
+      });
+
+      const cw1 = typeof row.catatan_wawancara_1 === 'string' ? JSON.parse(row.catatan_wawancara_1 || '{}') : (row.catatan_wawancara_1 || {});
+      const cw2 = typeof row.catatan_wawancara_2 === 'string' ? JSON.parse(row.catatan_wawancara_2 || '{}') : (row.catatan_wawancara_2 || {});
+      const cw3 = typeof row.catatan_wawancara_3 === 'string' ? JSON.parse(row.catatan_wawancara_3 || '{}') : (row.catatan_wawancara_3 || {});
+
+      res.render('candidate_detail', {
+        candidate: row,
+        cw1, cw2, cw3,
+        user: req.session.user,
+        duplicates: duplicates,
+        is_duplicate: duplicates.length > 1
+      });
+    });
   });
 });
 

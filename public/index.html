@@ -687,7 +687,11 @@
 
         const res = await response.json();
         if (res.success) {
-          alert('Biodata Anda berhasil terkirim! Terima kasih.');
+          if (res.is_duplicate) {
+            alert('Biodata Anda terkirim! (Sistem mencatat Anda pernah mengisi formulir ini sebelumnya). Terima kasih.');
+          } else {
+            alert('Biodata Anda berhasil terkirim! Terima kasih.');
+          }
           window.location.href = '/success.html';
         } else {
           alert('Gagal mengirim biodata: ' + res.error);
