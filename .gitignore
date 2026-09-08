@@ -3,3 +3,5 @@ node_modules/
 .DS_Store
 test_*.pdf
 test_*.xlsx
+db/*.sqlite
+*.sqlite

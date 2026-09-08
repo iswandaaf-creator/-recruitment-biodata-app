@@ -2,12 +2,16 @@ const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
 
-const dbDir = path.join(__dirname, 'db');
-if (!fs.existsSync(dbDir)) {
-  fs.mkdirSync(dbDir, { recursive: true });
+const dataDir = process.env.DATA_DIR || 
+                process.env.RAILWAY_VOLUME_MOUNT_PATH || 
+                (fs.existsSync('/data') ? '/data' : path.join(__dirname, 'db'));
+
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
 }
 
-const dbPath = path.join(dbDir, 'database.sqlite');
+const dbPath = path.join(dataDir, 'database.sqlite');
+console.log('[DATABASE] Connecting to SQLite database at:', dbPath);
 const sqlite = new DatabaseSync(dbPath);
 
 // Async Callback Wrapper for better-sqlite3 (100% compatible with sqlite3 API)
