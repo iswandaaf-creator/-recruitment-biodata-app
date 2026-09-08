@@ -26,7 +26,8 @@ const db = {
     }
     try {
       const stmt = sqlite.prepare(sql);
-      const info = stmt.run(...(Array.isArray(params) ? params : [params]));
+      const cleanParams = (Array.isArray(params) ? params : [params]).map(p => (p === undefined || p === null) ? '' : p);
+      const info = stmt.run(...cleanParams);
       if (callback) {
         callback.call({ lastID: Number(info.lastInsertRowid), changes: info.changes }, null);
       }
@@ -42,7 +43,8 @@ const db = {
     }
     try {
       const stmt = sqlite.prepare(sql);
-      const row = stmt.get(...(Array.isArray(params) ? params : [params]));
+      const cleanParams = (Array.isArray(params) ? params : [params]).map(p => (p === undefined || p === null) ? '' : p);
+      const row = stmt.get(...cleanParams);
       if (callback) callback(null, row);
     } catch (err) {
       if (callback) callback(err);
@@ -56,7 +58,8 @@ const db = {
     }
     try {
       const stmt = sqlite.prepare(sql);
-      const rows = stmt.all(...(Array.isArray(params) ? params : [params]));
+      const cleanParams = (Array.isArray(params) ? params : [params]).map(p => (p === undefined || p === null) ? '' : p);
+      const rows = stmt.all(...cleanParams);
       if (callback) callback(null, rows);
     } catch (err) {
       if (callback) callback(err);
