@@ -136,9 +136,16 @@ db.serialize(() => {
       catatan_wawancara_2 TEXT,
       catatan_wawancara_3 TEXT,
       kesimpulan_status TEXT,
-      kesimpulan_catatan TEXT
+      kesimpulan_catatan TEXT,
+      share_token TEXT
     )
   `);
+
+  try {
+    sqlite.exec("ALTER TABLE candidates ADD COLUMN share_token TEXT");
+  } catch (e) {
+    // Column already exists
+  }
 
   // Admin Users Table
   db.run(`

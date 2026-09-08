@@ -83,6 +83,7 @@
 
   <div class="container pb-5">
     <form id="biodataForm" onsubmit="submitForm(event)">
+      <input type="hidden" name="share_token" id="shareTokenInput">
 
       <!-- SECTION 0: INFORMASI LOWONGAN -->
       <div class="card">
@@ -700,6 +701,15 @@
         alert('Terjadi kesalahan koneksi server.');
       }
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('ref') || urlParams.get('token') || urlParams.get('ref_code');
+      if (token) {
+        const input = document.getElementById('shareTokenInput');
+        if (input) input.value = token;
+      }
+    });
   </script>
 </body>
 </html>

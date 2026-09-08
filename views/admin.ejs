@@ -37,8 +37,8 @@
             </a>
           <% } %>
         <% } %>
-        <button class="btn btn-light btn-sm fw-semibold" onclick="copyShareLink()">
-          <i class="fas fa-link me-1 text-primary"></i>Copy Share Link Form
+        <button class="btn btn-light btn-sm fw-semibold" onclick="generateAndCopyShareLink()">
+          <i class="fas fa-random me-1 text-primary"></i>Copy Share Link Form (Acak)
         </button>
         <a href="/api/export/excel" class="btn btn-success btn-sm fw-semibold">
           <i class="fas fa-file-excel me-1"></i>Export All to Excel
@@ -56,11 +56,17 @@
     <div class="alert alert-primary d-flex align-items-center justify-content-between rounded-3 mb-4 shadow-sm" role="alert">
       <div>
         <i class="fas fa-share-alt me-2 fs-5"></i>
-        <strong>Link Form Kandidat:</strong> <span id="shareUrl" class="user-select-all fw-mono">http://localhost:3000/</span>
+        <strong>Link Form Unik Kandidat (Acak):</strong> 
+        <span id="shareUrl" class="user-select-all fw-mono bg-white text-dark px-2 py-1 rounded border ms-1">http://localhost:3000/?ref=c-8f3a921d</span>
       </div>
-      <button class="btn btn-sm btn-primary px-3" onclick="copyShareLink()">
-        <i class="fas fa-copy me-1"></i>Salin Link
-      </button>
+      <div class="d-flex gap-2">
+        <button class="btn btn-sm btn-outline-primary bg-white fw-bold px-3" onclick="generateRandomShareLink(false)">
+          <i class="fas fa-sync-alt me-1"></i>Acak Baru
+        </button>
+        <button class="btn btn-sm btn-primary px-3" onclick="generateAndCopyShareLink()">
+          <i class="fas fa-copy me-1"></i>Salin Link Unik
+        </button>
+      </div>
     </div>
 
     <!-- Candidate List Table Card -->
@@ -185,6 +191,9 @@
                         <i class="fas fa-check-circle me-1 text-success"></i>Unik (1x)
                       </span>
                     <% } %>
+                    <% if (c.share_token) { %>
+                      <div class="mt-1"><span class="badge bg-light text-dark font-monospace border" title="Token Unik Link saat melamar">Ref: <%= c.share_token %></span></div>
+                    <% } %>
                   </td>
                   <td class="text-center pe-4">
                     <div class="btn-group btn-group-sm">
@@ -207,14 +216,30 @@
   </div>
 
   <script>
-    // Set actual window host to shareUrl
-    document.getElementById('shareUrl').innerText = window.location.origin + '/';
+    function getRandomToken() {
+      const chars = '23456789abcdefghjkmnpqrstuvwxyz';
+      let result = '';
+      for (let i = 0; i < 8; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return 'c-' + result;
+    }
 
-    function copyShareLink() {
-      const url = window.location.origin + '/';
-      navigator.clipboard.writeText(url).then(() => {
-        alert('Link form berhasil disalin: ' + url);
-      });
+    function generateRandomShareLink(shouldCopy = true) {
+      const token = getRandomToken();
+      const url = window.location.origin + '/?ref=' + token;
+      document.getElementById('shareUrl').innerText = url;
+
+      if (shouldCopy) {
+        navigator.clipboard.writeText(url).then(() => {
+          alert('✅ Link Form Unik Baru Berhasil Dibuat dan Disalin!\n\nURL: ' + url + '\n\nKandidat yang membuka link ini akan otomatis tercatat memakai token unik ini.');
+        });
+      }
+      return url;
+    }
+
+    function generateAndCopyShareLink() {
+      generateRandomShareLink(true);
     }
 
     let activeFilter = 'all';
@@ -223,9 +248,7 @@
       activeFilter = filterType;
       document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active', 'btn-dark', 'btn-success', 'btn-warning', 'btn-danger', 'btn-secondary'));
       
-      // Highlight active button
       btnElem.classList.add('active');
-      
       applyFilterAndSort();
     }
 
@@ -289,12 +312,11 @@
         return 0;
       });
 
-      // Re-append sorted rows
       rows.forEach(row => tbody.appendChild(row));
     }
 
-    // Run filter & sort on page load
     document.addEventListener('DOMContentLoaded', () => {
+      generateRandomShareLink(false);
       applyFilterAndSort();
     });
   </script>

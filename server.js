@@ -261,8 +261,8 @@ app.post('/api/submit', (req, res) => {
       keluarga_kandung, keluarga_menikah, pendidikan_formal, pendidikan_non_formal,
       referensi, riwayat_pekerjaan, alasan_rekrutmen, minat_passion, rencana_3_5_tahun,
       prestasi, melamar_perusahaan_lain, social_media, riwayat_kesehatan,
-      perkiraan_bergabung, gaji_diharapkan, kota_ttd, tanggal_ttd, signature_data
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      perkiraan_bergabung, gaji_diharapkan, kota_ttd, tanggal_ttd, signature_data, share_token
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const params = [
@@ -275,7 +275,8 @@ app.post('/api/submit', (req, res) => {
     JSON.stringify(pendidikan_non_formal), JSON.stringify(referensi), JSON.stringify(riwayat_pekerjaan),
     body.alasan_rekrutmen, body.minat_passion, body.rencana_3_5_tahun, body.prestasi,
     body.melamar_perusahaan_lain, JSON.stringify(social_media), body.riwayat_kesehatan,
-    body.perkiraan_bergabung, body.gaji_diharapkan, body.kota_ttd, body.tanggal_ttd, body.signature_data
+    body.perkiraan_bergabung, body.gaji_diharapkan, body.kota_ttd, body.tanggal_ttd, body.signature_data,
+    body.share_token || body.ref || body.token || ''
   ];
 
   db.run(sql, params, function (err) {
