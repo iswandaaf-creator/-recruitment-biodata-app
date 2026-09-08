@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "chromium", "nss", "freetype", "harfbuzz", "ca-certificates", "ttf-freefont"]
+nixPkgs = ["nodejs_20", "gcc", "gnumake", "python3", "chromium", "nss", "freetype", "harfbuzz", "ca-certificates", "ttf-freefont"]
 
 [variables]
 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
