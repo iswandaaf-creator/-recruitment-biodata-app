@@ -1,4 +1,4 @@
-const Database = require('better-sqlite3');
+const { DatabaseSync } = require('node:sqlite');
 const path = require('path');
 const fs = require('fs');
 
@@ -8,7 +8,7 @@ if (!fs.existsSync(dbDir)) {
 }
 
 const dbPath = path.join(dbDir, 'database.sqlite');
-const sqlite = new Database(dbPath);
+const sqlite = new DatabaseSync(dbPath);
 
 // Async Callback Wrapper for better-sqlite3 (100% compatible with sqlite3 API)
 const db = {

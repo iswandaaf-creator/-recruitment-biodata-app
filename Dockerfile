@@ -1,11 +1,8 @@
-FROM node:20-slim
+FROM node:22-slim
 
-# Install Chromium and C++ build tools for native SQLite3 compilation
+# Install Chromium for Puppeteer PDF generation
 RUN apt-get update && apt-get install -y \
     chromium \
-    python3 \
-    make \
-    g++ \
     fonts-freefont-ttf \
     libxss1 \
     --no-install-recommends \
@@ -18,7 +15,6 @@ WORKDIR /app
 
 COPY package*.json ./
 RUN npm install
-RUN npm rebuild better-sqlite3 --build-from-source
 
 COPY . .
 
