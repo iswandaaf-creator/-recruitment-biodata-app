@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Biodata Candidate</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 10mm 12mm;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 9.5px;
+      line-height: 1.25;
+      color: #000;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .page {
+      position: relative;
+      width: 100%;
+      height: 272mm;
+      page-break-after: always;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+    .page:last-child {
+      page-break-after: avoid;
+    }
+    .watermark {
+      position: absolute;
+      top: 40%;
+      left: 15%;
+      transform: rotate(-35deg);
+      font-size: 70px;
+      font-weight: bold;
+      color: rgba(210, 210, 210, 0.3);
+      letter-spacing: 8px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .content-wrap {
+      position: relative;
+      z-index: 1;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 6px;
+      table-layout: fixed;
+    }
+    th, td {
+      border: 1px solid #000;
+      padding: 2.5px 4px;
+      vertical-align: top;
+      word-wrap: break-word;
+    }
+    th.section-header {
+      background-color: #dcdcdc;
+      font-weight: bold;
+      text-align: center;
+      font-size: 10.5px;
+      letter-spacing: 0.5px;
+    }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .bold { font-weight: bold; }
+    .header-info-table td {
+      border: none;
+      padding: 1px 2px;
+    }
+    .header-info-table {
+      margin-bottom: 6px;
+    }
+    .footer-note {
+      font-size: 8.5px;
+      font-style: italic;
+      margin-top: 2px;
+    }
+    .checkbox-box {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #000;
+      margin-right: 2px;
+      text-align: center;
+      line-height: 8px;
+      font-size: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1 -->
+  <div class="page">
+    <div class="watermark">CONFIDENTIAL</div>
+    <div class="content-wrap">
+      
+      <!-- Top Right Header Info -->
+      <table class="header-info-table" style="width: 100%;">
+        <tr>
+          <td style="width: 45%;"></td>
+          <td style="width: 55%;">
+            <table style="width: 100%; border: none;">
+              <tr>
+                <td style="width: 48%; border: none;" class="text-right bold">Posisi Yang Dilamar :</td>
+                <td style="border: none; border-bottom: 1px solid #000;"><%= candidate.posisi_dilamar || '' %></td>
+              </tr>
+              <tr>
+                <td style="border: none;" class="text-right bold">Posisi Lain Yang Diminati :</td>
+                <td style="border: none; border-bottom: 1px solid #000;"><%= candidate.posisi_lain || '' %></td>
+              </tr>
+              <tr>
+                <td style="border: none;" class="text-right bold">Sumber Informasi Lowongan :</td>
+                <td style="border: none; border-bottom: 1px solid #000;"><%= candidate.sumber_info || '' %></td>
+              </tr>
+              <tr>
+                <td style="border: none;" class="text-right bold">Memiliki Kerabat di Perusahaan :</td>
+                <td style="border: none; border-bottom: 1px solid #000;"><%= candidate.punya_kerabat || 'Tidak' %></td>
+              </tr>
+              <tr>
+                <td style="border: none;" class="text-right bold">Bila "Ya", Nama & Posisi :</td>
+                <td style="border: none; border-bottom: 1px solid #000;"><%= candidate.nama_kerabat_posisi || '' %></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!-- IDENTITAS DIRI -->
+      <table>
+        <tr>
+          <th colspan="4" class="section-header">IDENTITAS DIRI</th>
+        </tr>
+        <tr>
+          <td style="width: 20%;" class="bold">Nama Lengkap</td>
+          <td style="width: 40%;">: <%= candidate.nama_lengkap || '' %></td>
+          <td style="width: 18%;" class="bold">Nama Panggilan</td>
+          <td style="width: 22%;">: <%= candidate.nama_panggilan || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Email</td>
+          <td colspan="3">: <%= candidate.email || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Jenis Kelamin</td>
+          <td>: 
+            <span class="checkbox-box"><%= candidate.jenis_kelamin === 'Laki-laki' ? '✓' : '' %></span> Laki-laki
+            &nbsp;&nbsp;
+            <span class="checkbox-box"><%= candidate.jenis_kelamin === 'Perempuan' ? '✓' : '' %></span> Perempuan
+          </td>
+          <td class="bold">Kewarganegaraan</td>
+          <td>: <%= candidate.kewarganegaraan || 'WNI' %> &nbsp; <b>Suku :</b> <%= candidate.suku || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Tempat/Tanggal Lahir</td>
+          <td>: <%= candidate.tempat_lahir || '' %>, <%= candidate.tanggal_lahir || '' %></td>
+          <td class="bold">Agama</td>
+          <td>: <%= candidate.agama || '' %> &nbsp; <b>Gol. Darah:</b> <%= candidate.golongan_darah || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Nomor KTP</td>
+          <td colspan="3">: <%= candidate.nomor_ktp || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Alamat Sesuai KTP</td>
+          <td colspan="3">: <%= candidate.alamat_ktp || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Kota</td>
+          <td>: <%= candidate.kota_ktp || '' %></td>
+          <td class="bold">Kode Pos</td>
+          <td>: <%= candidate.kode_pos_ktp || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Alamat Domisili</td>
+          <td colspan="3">: <%= candidate.alamat_domisili || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Kota</td>
+          <td>: <%= candidate.kota_domisili || '' %></td>
+          <td class="bold">Kode Pos</td>
+          <td>: <%= candidate.kode_pos_domisili || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Status Alamat Domisili</td>
+          <td colspan="3">: <%= candidate.status_alamat_domisili || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Nomor Telepon Rumah</td>
+          <td>: <%= candidate.no_telp_rumah || '-' %></td>
+          <td class="bold">No. Handphone</td>
+          <td>: <%= candidate.no_hp || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Status Perkawinan</td>
+          <td colspan="3">: 
+            <span class="checkbox-box"><%= candidate.status_perkawinan === 'Lajang' ? '✓' : '' %></span> Lajang
+            &nbsp;&nbsp;
+            <span class="checkbox-box"><%= candidate.status_perkawinan === 'Menikah' ? '✓' : '' %></span> Menikah
+            &nbsp;&nbsp;
+            <span class="checkbox-box"><%= candidate.status_perkawinan === 'Janda' ? '✓' : '' %></span> Janda
+            &nbsp;&nbsp;
+            <span class="checkbox-box"><%= candidate.status_perkawinan === 'Duda' ? '✓' : '' %></span> Duda
+          </td>
+        </tr>
+        <tr>
+          <td class="bold">Hobby</td>
+          <td colspan="3">: <%= candidate.hobby || '' %></td>
+        </tr>
+      </table>
+
+      <!-- LATAR BELAKANG KELUARGA -->
+      <table>
+        <tr>
+          <th colspan="6" class="section-header">LATAR BELAKANG KELUARGA</th>
+        </tr>
+        <tr>
+          <th style="width: 18%;">Anggota Keluarga</th>
+          <th style="width: 25%;">Nama</th>
+          <th style="width: 7%;">L/P</th>
+          <th style="width: 24%;">Tempat/TanggalLahir</th>
+          <th style="width: 13%;">Pendidikan</th>
+          <th style="width: 13%;">Pekerjaan</th>
+        </tr>
+        <% 
+          const kb = candidate.keluarga_kandung || {};
+          const rowsKandung = ['Ayah', 'Ibu', 'Anak 1', 'Anak 2', 'Anak 3', 'Anak 4', 'Anak 5', 'Anak 6'];
+          rowsKandung.forEach(role => {
+            const item = kb[role] || {};
+        %>
+        <tr>
+          <td class="bold"><%= role %></td>
+          <td><%= item.nama || '' %></td>
+          <td class="text-center"><%= item.lp || '' %></td>
+          <td><%= item.ttl || '' %></td>
+          <td><%= item.pendidikan || '' %></td>
+          <td><%= item.pekerjaan || '' %></td>
+        </tr>
+        <% }); %>
+      </table>
+
+      <!-- DIISI BILA SUDAH MENIKAH -->
+      <table>
+        <tr>
+          <th colspan="6" class="section-header">DIISI BILA SUDAH MENIKAH</th>
+        </tr>
+        <tr>
+          <th style="width: 18%;">Anggota Keluarga</th>
+          <th style="width: 25%;">Nama</th>
+          <th style="width: 7%;">L/P</th>
+          <th style="width: 24%;">Tempat/TanggalLahir</th>
+          <th style="width: 13%;">Pendidikan</th>
+          <th style="width: 13%;">Pekerjaan</th>
+        </tr>
+        <% 
+          const km = candidate.keluarga_menikah || {};
+          const rowsMenikah = ['Istri/Suami', 'Anak 1', 'Anak 2', 'Anak 3', 'Anak 4'];
+          rowsMenikah.forEach(role => {
+            const item = km[role] || {};
+        %>
+        <tr>
+          <td class="bold"><%= role %></td>
+          <td><%= item.nama || '' %></td>
+          <td class="text-center"><%= item.lp || '' %></td>
+          <td><%= item.ttl || '' %></td>
+          <td><%= item.pendidikan || '' %></td>
+          <td><%= item.pekerjaan || '' %></td>
+        </tr>
+        <% }); %>
+      </table>
+
+    </div>
+    <div class="footer-note">- Beritanda √ atau x pada ☐ yang sesuai.</div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page">
+    <div class="watermark">CONFIDENTIAL</div>
+    <div class="content-wrap">
+      
+      <!-- LATAR BELAKANG PENDIDIKAN FORMAL -->
+      <table>
+        <tr>
+          <th colspan="5" class="section-header">LATAR BELAKANG PENDIDIKAN</th>
+        </tr>
+        <tr>
+          <th colspan="5" style="background: #efefef; font-weight: bold;" class="text-center">FORMAL</th>
+        </tr>
+        <tr>
+          <th style="width: 15%;">Tingkatan</th>
+          <th style="width: 35%;">Nama Sekolah</th>
+          <th style="width: 15%;">Kota</th>
+          <th style="width: 23%;">Jurusan / Fakultas</th>
+          <th style="width: 12%;">Tahun</th>
+        </tr>
+        <% 
+          const pf = candidate.pendidikan_formal || {};
+          const rowsFormal = ['SD', 'SMP', 'SMU', 'Akademi', 'Sarjana S-1', 'PascaSarjana', 'Doktoral'];
+          rowsFormal.forEach(tingkat => {
+            const item = pf[tingkat] || {};
+        %>
+        <tr>
+          <td class="bold"><%= tingkat %></td>
+          <td><%= item.sekolah || '' %></td>
+          <td><%= item.kota || '' %></td>
+          <td><%= item.jurusan || '' %></td>
+          <td class="text-center"><%= item.tahun || '' %></td>
+        </tr>
+        <% }); %>
+      </table>
+
+      <!-- PENDIDIKAN NON FORMAL (KURSUS / SEMINAR / PENATARAN) -->
+      <table>
+        <tr>
+          <th colspan="6" class="section-header">PENDIDIKAN NON FORMAL (KURSUS / SEMINAR / PENATARAN)</th>
+        </tr>
+        <tr>
+          <th style="width: 4%;">#</th>
+          <th style="width: 40%;">Jenis Kursus/Topik</th>
+          <th style="width: 12%;">Tahun</th>
+          <th style="width: 12%;">Lama</th>
+          <th style="width: 17%;">Ijazah</th>
+          <th style="width: 15%;">Dibiayai Oleh</th>
+        </tr>
+        <% 
+          const pnf = candidate.pendidikan_non_formal || [];
+          for(let i=0; i<20; i++) {
+            const item = pnf[i] || {};
+        %>
+        <tr>
+          <td class="text-center"><%= i+1 %>.</td>
+          <td><%= item.topik || '' %></td>
+          <td class="text-center"><%= item.tahun || '' %></td>
+          <td class="text-center"><%= item.lama || '' %></td>
+          <td class="text-center">
+            <span class="checkbox-box"><%= item.ijazah === 'Ada' ? '✓' : '' %></span> Ada &nbsp;
+            <span class="checkbox-box"><%= item.ijazah === 'TidakAda' ? '✓' : '' %></span> TidakAda
+          </td>
+          <td><%= item.dibiayai || '' %></td>
+        </tr>
+        <% } %>
+      </table>
+
+      <!-- REFERENSI -->
+      <table>
+        <tr>
+          <th colspan="5" class="section-header">REFERENSI</th>
+        </tr>
+        <tr>
+          <th style="width: 4%;">#</th>
+          <th style="width: 30%;">Nama</th>
+          <th style="width: 30%;">Nama Perusahaan</th>
+          <th style="width: 18%;">No. Telp./HP</th>
+          <th style="width: 18%;">Posisi</th>
+        </tr>
+        <% 
+          const ref = candidate.referensi || [];
+          for(let i=0; i<3; i++) {
+            const item = ref[i] || {};
+        %>
+        <tr>
+          <td class="text-center"><%= i+1 %>.</td>
+          <td><%= item.nama || '' %></td>
+          <td><%= item.perusahaan || '' %></td>
+          <td><%= item.telp || '' %></td>
+          <td><%= item.posisi || '' %></td>
+        </tr>
+        <% } %>
+      </table>
+
+    </div>
+    <div class="footer-note">- Beritanda √ atau x pada ☐ yang sesuai.</div>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page">
+    <div class="watermark">CONFIDENTIAL</div>
+    <div class="content-wrap">
+      
+      <!-- RIWAYAT PEKERJAAN -->
+      <table>
+        <tr>
+          <th class="section-header">RIWAYAT PEKERJAAN (DIMULAI DARI YANG TERAKHIR)</th>
+        </tr>
+      </table>
+
+      <% 
+        const rp = candidate.riwayat_pekerjaan || [];
+        for(let i=0; i<5; i++) {
+          const item = rp[i] || {};
+      %>
+      <table style="margin-bottom: 5px;">
+        <tr>
+          <td style="width: 25%;" class="bold"><%= i+1 %>. Nama Perusahaan</td>
+          <td style="width: 75%;" colspan="3">: <%= item.nama_perusahaan || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">&nbsp;&nbsp;&nbsp;&nbsp;Alamat Perusahaan</td>
+          <td colspan="3">: <%= item.alamat_perusahaan || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">&nbsp;&nbsp;&nbsp;&nbsp;Jabatan / Posisi</td>
+          <td style="width: 35%;">: <%= item.jabatan || '' %></td>
+          <td style="width: 22%;" class="bold">Periode Bekerja (bulan & tahun):</td>
+          <td style="width: 18%;">: <%= item.periode || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">&nbsp;&nbsp;&nbsp;&nbsp;Total Gaji & Tunjangan</td>
+          <td>: <%= item.gaji ? 'Rp ' + item.gaji : '' %></td>
+          <td class="bold">Atasan – No Telp/HP :</td>
+          <td>: <%= item.atasan_telp || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">&nbsp;&nbsp;&nbsp;&nbsp;Tugas & Tanggungjawab</td>
+          <td colspan="3">: <%= item.tugas || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">&nbsp;&nbsp;&nbsp;&nbsp;Prestasi</td>
+          <td colspan="3">: <%= item.prestasi || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">&nbsp;&nbsp;&nbsp;&nbsp;Alasan Pengunduran Diri</td>
+          <td colspan="3">: <%= item.alasan_resign || '' %></td>
+        </tr>
+      </table>
+      <% } %>
+
+    </div>
+    <div class="footer-note">- Beritanda √ atau x pada ☐ yang sesuai.</div>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page">
+    <div class="watermark">CONFIDENTIAL</div>
+    <div class="content-wrap">
+      
+      <!-- INFORMASI PRIBADI LAINNYA -->
+      <table>
+        <tr>
+          <th class="section-header">INFORMASI PRIBADI LAINNYA</th>
+        </tr>
+        <tr>
+          <td>
+            <b>1. Apakah alasan Anda bersedia mengikuti proses rekrutmen di Perusahaan ini ?</b><br>
+            <div style="min-height: 20px; padding: 2px 4px;"><%= candidate.alasan_rekrutmen || '' %></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>2. Sebutkan bidang yang menjadi minat / passion Anda dalam bekerja. Jelaskan !</b><br>
+            <div style="min-height: 20px; padding: 2px 4px;"><%= candidate.minat_passion || '' %></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>3. Apa rencana Anda dalam 3-5 tahun ke depan ?</b><br>
+            <div style="min-height: 20px; padding: 2px 4px;"><%= candidate.rencana_3_5_tahun || '' %></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>4. Prestasi apa saja yang pernah Anda raih ?</b><br>
+            <div style="min-height: 20px; padding: 2px 4px;"><%= candidate.prestasi || '' %></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>5. Apakah saat ini Anda melamar pekerjaan di perusahaan lainnya selain Perusahaan ini? Jika ya, sebutkan!</b><br>
+            <div style="min-height: 20px; padding: 2px 4px;"><%= candidate.melamar_perusahaan_lain || '' %></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>6. Sebutkan social media anda yang paling sering digunakan dan tuliskan usernamenya ?</b><br>
+            <% const sm = candidate.social_media || {}; %>
+            <div style="margin-top: 2px;">
+              <span class="checkbox-box"><%= sm.instagram ? '✓' : '' %></span> Instagram : <%= sm.instagram || '' %><br>
+              <span class="checkbox-box"><%= sm.linkedin ? '✓' : '' %></span> Linkedin : <%= sm.linkedin || '' %><br>
+              <span class="checkbox-box"><%= sm.twitter ? '✓' : '' %></span> Twitter : <%= sm.twitter || '' %><br>
+              <span class="checkbox-box"><%= sm.facebook ? '✓' : '' %></span> Facebook : <%= sm.facebook || '' %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>7. Apakah dalam waktu satu tahun terakhir mengalami kecelakaan atau menjalani perawatan rutin dengan mengkonsumsi obat-obatan ? Jika Ya, sebutkan .</b><br>
+            <div style="min-height: 20px; padding: 2px 4px;"><%= candidate.riwayat_kesehatan || '' %></div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- LAIN-LAIN -->
+      <table>
+        <tr>
+          <th class="section-header">LAIN-LAIN</th>
+        </tr>
+        <tr>
+          <td>
+            <b>Perkiraan untuk dapat mulai bergabung sejak tanda tangan Offering Letter?</b><br>
+            <div style="padding: 2px 4px;"><%= candidate.perkiraan_bergabung || '' %></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Gaji/tunjangan/fasilitas yang diharapkan?</b><br>
+            <div style="padding: 2px 4px;"><%= candidate.gaji_diharapkan || '' %></div>
+          </td>
+        </tr>
+      </table>
+
+      <!-- DECLARATION & SIGNATURE -->
+      <div style="margin-top: 10px; font-size: 9.5px;">
+        Dengan ini saya menyatakan bahwa keterangan di atas adalah benar. Pernyataan yang salah ataupun ketidakjujuran pernyataan akan membatalkan lamaran saya, dan saya bersedia untuk mengundurkan diri dan menerima pembatalan.
+      </div>
+
+      <div style="margin-top: 10px; width: 220px; float: right; text-align: center;">
+        <div><%= candidate.kota_ttd || 'Semarang' %>, <%= candidate.tanggal_ttd || '' %></div>
+        <div style="height: 50px; margin: 4px 0;">
+          <% if (candidate.signature_data) { %>
+            <img src="<%= candidate.signature_data %>" style="max-height: 48px; max-width: 180px;">
+          <% } %>
+        </div>
+        <div>_________________________</div>
+        <div>(Tanda tangan dan Nama Jelas)</div>
+      </div>
+      <div style="clear: both;"></div>
+
+    </div>
+    <div class="footer-note">- Beritanda √ atau x pada ☐ yang sesuai.</div>
+  </div>
+
+  <!-- PAGE 5 -->
+  <div class="page">
+    <div class="watermark">CONFIDENTIAL</div>
+    <div class="content-wrap">
+      
+      <!-- DIISI OLEH PEWAWANCARA -->
+      <table>
+        <tr>
+          <th colspan="2" class="section-header">DIISI OLEH, PEWAWANCARA</th>
+        </tr>
+        <% 
+          const cw1 = candidate.catatan_wawancara_1 || {};
+          const cw2 = candidate.catatan_wawancara_2 || {};
+          const cw3 = candidate.catatan_wawancara_3 || {};
+          const wawancaraArr = [cw1, cw2, cw3];
+          wawancaraArr.forEach((cw, idx) => {
+        %>
+        <tr>
+          <td style="width: 68%; height: 105px;">
+            <b>Catatan Wawancara:</b><br>
+            <div style="white-space: pre-wrap; padding: 3px;"><%= cw.catatan || '' %></div>
+          </td>
+          <td style="width: 32%;">
+            <div style="height: 45px;"></div>
+            <table style="width: 100%; border: none; margin-bottom: 0;">
+              <tr>
+                <td style="border: none; border-top: 1px solid #000;">Nama : <%= cw.nama || '' %></td>
+              </tr>
+              <tr>
+                <td style="border: none; border-top: 1px solid #000;">Jabatan : <%= cw.jabatan || '' %></td>
+              </tr>
+              <tr>
+                <td style="border: none; border-top: 1px solid #000;">Tanggal : <%= cw.tanggal || '' %></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <% }); %>
+      </table>
+
+      <!-- KESIMPULAN -->
+      <table>
+        <tr>
+          <th class="section-header">KESIMPULAN</th>
+        </tr>
+        <tr>
+          <td>
+            <b>Diterima :</b> <%= candidate.kesimpulan_status === 'Diterima' ? '✓ ' + (candidate.kesimpulan_catatan || '') : '' %><br>
+            <div style="border-bottom: 1px solid #000; height: 12px;"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Dipertimbangkan :</b> <%= candidate.kesimpulan_status === 'Dipertimbangkan' ? '✓ ' + (candidate.kesimpulan_catatan || '') : '' %><br>
+            <div style="border-bottom: 1px solid #000; height: 12px;"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>Ditolak :</b> <%= candidate.kesimpulan_status === 'Ditolak' ? '✓ ' + (candidate.kesimpulan_catatan || '') : '' %><br>
+            <div style="border-bottom: 1px solid #000; height: 12px;"></div>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+    <div class="footer-note">- Beritanda √ atau x pada ☐ yang sesuai.</div>
+  </div>
+
+</body>
+</html>

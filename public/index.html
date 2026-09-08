@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Biodata Pelamar Kerja</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .form-header {
+      background: linear-gradient(135deg, #1f4e78 0%, #2f5597 100%);
+      color: white;
+      padding: 2.5rem 1rem;
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+    .card-header {
+      background-color: #ffffff;
+      border-bottom: 2px solid #eef2f5;
+      font-weight: 700;
+      color: #1f4e78;
+      font-size: 1.1rem;
+      padding: 1.2rem 1.5rem;
+    }
+    .form-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #495057;
+    }
+    .btn-primary {
+      background-color: #1f4e78;
+      border-color: #1f4e78;
+      padding: 0.75rem 2rem;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+    .btn-primary:hover {
+      background-color: #163857;
+      border-color: #163857;
+    }
+    .signature-container {
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      background-color: #fafafa;
+      position: relative;
+      width: 100%;
+      height: 180px;
+    }
+    canvas#signature-pad {
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+    .table-custom th {
+      background-color: #f8fafc;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="form-header text-center mb-4">
+    <div class="container">
+      <h2 class="fw-bold mb-2"><i class="fas fa-file-signature me-2"></i>Formulir Biodata Pelamar Kerja</h2>
+      <p class="mb-0 opacity-75">Silakan isi formulir biodata di bawah ini dengan benar dan lengkap.</p>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <form id="biodataForm" onsubmit="submitForm(event)">
+
+      <!-- SECTION 0: INFORMASI LOWONGAN -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-briefcase me-2 text-primary"></i>Informasi Lowongan Kerja
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Posisi Yang Dilamar <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="posisi_dilamar" required placeholder="Contoh: Software Engineer">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Posisi Lain Yang Diminati</label>
+              <input type="text" class="form-control" name="posisi_lain" placeholder="Contoh: Technical Lead">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Sumber Informasi Lowongan</label>
+              <input type="text" class="form-control" name="sumber_info" placeholder="LinkedIn, JobStreet, Kerabat, dll">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Memiliki Kerabat Aktif di Perusahaan Ini?</label>
+              <select class="form-select" name="punya_kerabat" onchange="toggleKerabatInfo(this.value)">
+                <option value="Tidak">Tidak</option>
+                <option value="Ya">Ya</option>
+              </select>
+            </div>
+            <div class="col-md-12 d-none" id="kerabatInfoBox">
+              <label class="form-label">Nama dan Posisi Jabatan Kerabat</label>
+              <input type="text" class="form-control" name="nama_kerabat_posisi" placeholder="Tuliskan Nama & Jabatan kerabat di perusahaan">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 1: IDENTITAS DIRI -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-id-card me-2 text-primary"></i>Identitas Diri
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="nama_lengkap" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Nama Panggilan</label>
+              <input type="text" class="form-control" name="nama_panggilan">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" name="email" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+              <select class="form-select" name="jenis_kelamin" required>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Kewarganegaraan</label>
+              <input type="text" class="form-control" name="kewarganegaraan" value="WNI">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Suku</label>
+              <input type="text" class="form-control" name="suku">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Agama</label>
+              <input type="text" class="form-control" name="agama">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Tempat Lahir</label>
+              <input type="text" class="form-control" name="tempat_lahir">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Tanggal Lahir</label>
+              <input type="date" class="form-control" name="tanggal_lahir">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Golongan Darah</label>
+              <select class="form-select" name="golongan_darah">
+                <option value="">-- Pilih --</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="AB">AB</option>
+                <option value="O">O</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Nomor KTP</label>
+              <input type="text" class="form-control" name="nomor_ktp" maxlength="16">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">No. Handphone (WhatsApp) <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" name="no_hp" required placeholder="08xxxxxxxxxx">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Alamat Sesuai KTP</label>
+              <textarea class="form-control" name="alamat_ktp" rows="2"></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Kota (KTP)</label>
+              <input type="text" class="form-control" name="kota_ktp">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Kode Pos (KTP)</label>
+              <input type="text" class="form-control" name="kode_pos_ktp">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Alamat Domisili</label>
+              <textarea class="form-control" name="alamat_domisili" rows="2"></textarea>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Kota (Domisili)</label>
+              <input type="text" class="form-control" name="kota_domisili">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Kode Pos (Domisili)</label>
+              <input type="text" class="form-control" name="kode_pos_domisili">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Status Alamat Domisili</label>
+              <input type="text" class="form-control" name="status_alamat_domisili" placeholder="Rumah Sendiri / Kontrak / Kost / Orang Tua">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Nomor Telepon Rumah</label>
+              <input type="text" class="form-control" name="no_telp_rumah" value="-">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Status Perkawinan</label>
+              <select class="form-select" name="status_perkawinan" onchange="toggleMarriageSection(this.value)">
+                <option value="Lajang">Lajang</option>
+                <option value="Menikah">Menikah</option>
+                <option value="Janda">Janda</option>
+                <option value="Duda">Duda</option>
+              </select>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Hobby</label>
+              <input type="text" class="form-control" name="hobby">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2: LATAR BELAKANG KELUARGA KANDUNG -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-users me-2 text-primary"></i>Latar Belakang Keluarga Kandung
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-custom text-nowrap align-middle">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">Anggota Keluarga</th>
+                  <th>Nama</th>
+                  <th style="width: 10%;">L/P</th>
+                  <th>Tempat/Tanggal Lahir</th>
+                  <th>Pendidikan</th>
+                  <th>Pekerjaan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <script>
+                  const kandungList = ['Ayah', 'Ibu', 'Anak 1', 'Anak 2', 'Anak 3', 'Anak 4', 'Anak 5', 'Anak 6'];
+                  document.write(kandungList.map(item => `
+                    <tr>
+                      <td class="fw-bold">${item}</td>
+                      <td><input type="text" class="form-control form-control-sm" name="kk_${item}_nama"></td>
+                      <td>
+                        <select class="form-select form-select-sm" name="kk_${item}_lp">
+                          <option value=""></option>
+                          <option value="L">L</option>
+                          <option value="P">P</option>
+                        </select>
+                      </td>
+                      <td><input type="text" class="form-control form-control-sm" name="kk_${item}_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                      <td><input type="text" class="form-control form-control-sm" name="kk_${item}_pendidikan"></td>
+                      <td><input type="text" class="form-control form-control-sm" name="kk_${item}_pekerjaan"></td>
+                    </tr>
+                  `).join(''));
+                </script>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3: DIISI BILA SUDAH MENIKAH -->
+      <div class="card" id="marriageSection">
+        <div class="card-header">
+          <i class="fas fa-heart me-2 text-primary"></i>Diisi Bila Sudah Menikah
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-custom text-nowrap align-middle">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">Anggota Keluarga</th>
+                  <th>Nama</th>
+                  <th style="width: 10%;">L/P</th>
+                  <th>Tempat/Tanggal Lahir</th>
+                  <th>Pendidikan</th>
+                  <th>Pekerjaan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <script>
+                  const menikahList = ['Istri/Suami', 'Anak 1', 'Anak 2', 'Anak 3', 'Anak 4'];
+                  document.write(menikahList.map(item => `
+                    <tr>
+                      <td class="fw-bold">${item}</td>
+                      <td><input type="text" class="form-control form-control-sm" name="km_${item}_nama"></td>
+                      <td>
+                        <select class="form-select form-select-sm" name="km_${item}_lp">
+                          <option value=""></option>
+                          <option value="L">L</option>
+                          <option value="P">P</option>
+                        </select>
+                      </td>
+                      <td><input type="text" class="form-control form-control-sm" name="km_${item}_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                      <td><input type="text" class="form-control form-control-sm" name="km_${item}_pendidikan"></td>
+                      <td><input type="text" class="form-control form-control-sm" name="km_${item}_pekerjaan"></td>
+                    </tr>
+                  `).join(''));
+                </script>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4: PENDIDIKAN FORMAL & NON FORMAL -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-graduation-cap me-2 text-primary"></i>Latar Belakang Pendidikan
+        </div>
+        <div class="card-body">
+          <h6 class="fw-bold text-secondary mb-3">1. Pendidikan Formal</h6>
+          <div class="table-responsive mb-4">
+            <table class="table table-bordered table-custom align-middle">
+              <thead>
+                <tr>
+                  <th style="width: 15%;">Tingkatan</th>
+                  <th>Nama Sekolah</th>
+                  <th>Kota</th>
+                  <th>Jurusan / Fakultas</th>
+                  <th style="width: 12%;">Tahun</th>
+                </tr>
+              </thead>
+              <tbody>
+                <script>
+                  const formalList = ['SD', 'SMP', 'SMU', 'Akademi', 'Sarjana S-1', 'PascaSarjana', 'Doktoral'];
+                  document.write(formalList.map(tingkat => `
+                    <tr>
+                      <td class="fw-bold">${tingkat}</td>
+                      <td><input type="text" class="form-control form-control-sm" name="pf_${tingkat}_sekolah"></td>
+                      <td><input type="text" class="form-control form-control-sm" name="pf_${tingkat}_kota"></td>
+                      <td><input type="text" class="form-control form-control-sm" name="pf_${tingkat}_jurusan"></td>
+                      <td><input type="text" class="form-control form-control-sm" name="pf_${tingkat}_tahun" placeholder="yyyy - yyyy"></td>
+                    </tr>
+                  `).join(''));
+                </script>
+              </tbody>
+            </table>
+          </div>
+
+          <h6 class="fw-bold text-secondary mb-3">2. Pendidikan Non Formal (Kursus / Seminar / Penataran)</h6>
+          <div class="table-responsive">
+            <table class="table table-bordered table-custom align-middle" id="nonFormalTable">
+              <thead>
+                <tr>
+                  <th style="width: 5%;">#</th>
+                  <th>Jenis Kursus / Topik</th>
+                  <th style="width: 12%;">Tahun</th>
+                  <th style="width: 12%;">Lama</th>
+                  <th style="width: 15%;">Ijazah</th>
+                  <th>Dibiayai Oleh</th>
+                </tr>
+              </thead>
+              <tbody>
+                <script>
+                  for(let i=1; i<=5; i++) {
+                    document.write(`
+                      <tr>
+                        <td class="text-center fw-bold">${i}</td>
+                        <td><input type="text" class="form-control form-control-sm" name="pnf_${i}_topik"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="pnf_${i}_tahun"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="pnf_${i}_lama"></td>
+                        <td>
+                          <select class="form-select form-select-sm" name="pnf_${i}_ijazah">
+                            <option value="TidakAda">Tidak Ada</option>
+                            <option value="Ada">Ada</option>
+                          </select>
+                        </td>
+                        <td><input type="text" class="form-control form-control-sm" name="pnf_${i}_dibiayai"></td>
+                      </tr>
+                    `);
+                  }
+                </script>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 5: REFERENSI -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-address-book me-2 text-primary"></i>Referensi Kerja / Personal
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-custom align-middle">
+              <thead>
+                <tr>
+                  <th style="width: 5%;">#</th>
+                  <th>Nama</th>
+                  <th>Nama Perusahaan</th>
+                  <th>No. Telp / HP</th>
+                  <th>Posisi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <script>
+                  for(let i=1; i<=3; i++) {
+                    document.write(`
+                      <tr>
+                        <td class="text-center fw-bold">${i}</td>
+                        <td><input type="text" class="form-control form-control-sm" name="ref_${i}_nama"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="ref_${i}_perusahaan"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="ref_${i}_telp"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="ref_${i}_posisi"></td>
+                      </tr>
+                    `);
+                  }
+                </script>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 6: RIWAYAT PEKERJAAN -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-history me-2 text-primary"></i>Riwayat Pekerjaan (Dimulai Dari Yang Terakhir)
+        </div>
+        <div class="card-body">
+          <div id="jobAccordion" class="accordion">
+            <script>
+              for(let i=1; i<=3; i++) {
+                document.write(`
+                  <div class="accordion-item mb-3 border rounded-3 overflow-hidden">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button ${i>1?'collapsed':''}" type="button" data-bs-toggle="collapse" data-bs-target="#job_${i}">
+                        <i class="fas fa-building me-2"></i> Pekerjaan #${i} ${i===1?'(Terakhir/Saat Ini)':''}
+                      </button>
+                    </h2>
+                    <div id="job_${i}" class="accordion-collapse collapse ${i===1?'show':''}">
+                      <div class="accordion-body bg-light">
+                        <div class="row g-3">
+                          <div class="col-md-6">
+                            <label class="form-label">Nama Perusahaan</label>
+                            <input type="text" class="form-control" name="rp_${i}_nama_perusahaan">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Jabatan / Posisi</label>
+                            <input type="text" class="form-control" name="rp_${i}_jabatan">
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Alamat Perusahaan</label>
+                            <input type="text" class="form-control" name="rp_${i}_alamat_perusahaan">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Periode Bekerja (bulan & tahun)</label>
+                            <input type="text" class="form-control" name="rp_${i}_periode" placeholder="Contoh: Jan 2021 - Des 2023">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Total Gaji & Tunjangan (Rp)</label>
+                            <input type="text" class="form-control" name="rp_${i}_gaji">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Atasan – No Telp/HP</label>
+                            <input type="text" class="form-control" name="rp_${i}_atasan_telp">
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Tugas & Tanggungjawab</label>
+                            <textarea class="form-control" name="rp_${i}_tugas" rows="2"></textarea>
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Prestasi</label>
+                            <input type="text" class="form-control" name="rp_${i}_prestasi">
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Alasan Pengunduran Diri</label>
+                            <input type="text" class="form-control" name="rp_${i}_alasan_resign">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `);
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 7: INFORMASI PRIBADI LAINNYA & LAIN-LAIN -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-question-circle me-2 text-primary"></i>Informasi Pribadi Lainnya
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label">1. Apakah alasan Anda bersedia mengikuti proses rekrutmen di Perusahaan ini?</label>
+              <textarea class="form-control" name="alasan_rekrutmen" rows="2"></textarea>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">2. Sebutkan bidang yang menjadi minat / passion Anda dalam bekerja. Jelaskan!</label>
+              <textarea class="form-control" name="minat_passion" rows="2"></textarea>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">3. Apa rencana Anda dalam 3-5 tahun ke depan?</label>
+              <textarea class="form-control" name="rencana_3_5_tahun" rows="2"></textarea>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">4. Prestasi apa saja yang pernah Anda raih?</label>
+              <textarea class="form-control" name="prestasi" rows="2"></textarea>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">5. Apakah saat ini Anda melamar pekerjaan di perusahaan lainnya selain Perusahaan ini? Jika ya, sebutkan!</label>
+              <textarea class="form-control" name="melamar_perusahaan_lain" rows="2"></textarea>
+            </div>
+
+            <!-- Social Media -->
+            <div class="col-md-12">
+              <label class="form-label fw-bold">6. Sebutkan akun media sosial Anda:</label>
+              <div class="row g-2">
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fab fa-instagram"></i></span>
+                    <input type="text" class="form-control" name="sm_instagram" placeholder="Username Instagram">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
+                    <input type="text" class="form-control" name="sm_linkedin" placeholder="Username / URL LinkedIn">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fab fa-twitter"></i></span>
+                    <input type="text" class="form-control" name="sm_twitter" placeholder="Username Twitter / X">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fab fa-facebook"></i></span>
+                    <input type="text" class="form-control" name="sm_facebook" placeholder="Username Facebook">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <label class="form-label">7. Apakah dalam waktu satu tahun terakhir mengalami kecelakaan atau menjalani perawatan rutin dengan mengkonsumsi obat-obatan? Jika Ya, sebutkan.</label>
+              <textarea class="form-control" name="riwayat_kesehatan" rows="2"></textarea>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="col-md-6">
+              <label class="form-label">Perkiraan untuk dapat mulai bergabung sejak tanda tangan Offering Letter?</label>
+              <input type="text" class="form-control" name="perkiraan_bergabung" placeholder="Contoh: Immediate / 1 Bulan Notice">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Gaji / Tunjangan / Fasilitas yang diharapkan?</label>
+              <input type="text" class="form-control" name="gaji_diharapkan" placeholder="Contoh: Rp 8.000.000 / Nego">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 8: PERNYATAAN & TANDA TANGAN -->
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-file-contract me-2 text-primary"></i>Pernyataan & Tanda Tangan Digital
+        </div>
+        <div class="card-body">
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>Dengan ini saya menyatakan bahwa keterangan di atas adalah benar. Pernyataan yang salah ataupun ketidakjujuran pernyataan akan membatalkan lamaran saya, dan saya bersedia untuk mengundurkan diri dan menerima pembatalan.
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Kota Tempat Tanda Tangan</label>
+              <input type="text" class="form-control" name="kota_ttd" value="Semarang">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Tanggal Tanda Tangan</label>
+              <input type="date" class="form-control" name="tanggal_ttd" id="tanggalTtd">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Tanda Tangan Digital (Gunakan Mouse / Layar Sentuh) <span class="text-danger">*</span></label>
+              <div class="signature-container">
+                <canvas id="signature-pad"></canvas>
+              </div>
+              <div class="mt-2 text-end">
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearSignature()">
+                  <i class="fas fa-eraser me-1"></i>Hapus Tanda Tangan
+                </button>
+              </div>
+              <input type="hidden" name="signature_data" id="signatureData">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUBMIT BUTTON -->
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg shadow">
+          <i class="fas fa-paper-plane me-2"></i>Kirim Biodata Pelamar
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Signature Pad JS & Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+
+  <script>
+    // Set default date for TTD
+    document.getElementById('tanggalTtd').value = new Date().toISOString().split('T')[0];
+
+    // Initialize Signature Pad
+    const canvas = document.getElementById('signature-pad');
+    let signaturePad;
+
+    function resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      canvas.getContext("2d").scale(ratio, ratio);
+      if (signaturePad) signaturePad.clear();
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    
+    document.addEventListener("DOMContentLoaded", () => {
+      resizeCanvas();
+      signaturePad = new SignaturePad(canvas, {
+        backgroundColor: 'rgb(255, 255, 255)',
+        penColor: 'rgb(0, 0, 0)'
+      });
+    });
+
+    function clearSignature() {
+      signaturePad.clear();
+    }
+
+    function toggleKerabatInfo(val) {
+      const box = document.getElementById('kerabatInfoBox');
+      if (val === 'Ya') {
+        box.classList.remove('d-none');
+      } else {
+        box.classList.add('d-none');
+      }
+    }
+
+    async function submitForm(e) {
+      e.preventDefault();
+      
+      if (signaturePad.isEmpty()) {
+        alert('Harap masukkan Tanda Tangan Digital Anda sebelum mengirim.');
+        return;
+      }
+
+      document.getElementById('signatureData').value = signaturePad.toDataURL();
+
+      const formData = new FormData(e.target);
+      const data = {};
+
+      formData.forEach((val, key) => {
+        data[key] = val;
+      });
+
+      try {
+        const response = await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const res = await response.json();
+        if (res.success) {
+          alert('Biodata Anda berhasil terkirim! Terima kasih.');
+          window.location.href = '/success.html';
+        } else {
+          alert('Gagal mengirim biodata: ' + res.error);
+        }
+      } catch (err) {
+        alert('Terjadi kesalahan koneksi server.');
+      }
+    }
+  </script>
+</body>
+</html>

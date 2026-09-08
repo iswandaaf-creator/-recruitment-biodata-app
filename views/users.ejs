@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola User - HR Recruitment System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar { background: linear-gradient(135deg, #1f4e78 0%, #2f5597 100%); }
+    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .badge-superadmin { background-color: #8b5cf6; color: white; }
+    .badge-admin { background-color: #0284c7; color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="/admin">
+        <i class="fas fa-users-cog me-2"></i>Dashboard Rekrutmen HR
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <a href="/admin" class="btn btn-light btn-sm fw-semibold me-2">
+          <i class="fas fa-arrow-left me-1"></i>Kembali ke Dashboard
+        </a>
+        <% if (typeof user !== 'undefined' && user) { %>
+          <span class="text-white me-2 small">
+            <i class="fas fa-user-shield me-1"></i><%= user.nama || user.username %> (<%= user.role %>)
+          </span>
+        <% } %>
+        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+
+    <!-- Alert Messages -->
+    <% if (success) { %>
+      <div class="alert alert-success alert-dismissible fade show mb-4 shadow-sm" role="alert">
+        <i class="fas fa-check-circle me-2"></i> <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+    <% if (error) { %>
+      <div class="alert alert-danger alert-dismissible fade show mb-4 shadow-sm" role="alert">
+        <i class="fas fa-exclamation-circle me-2"></i> <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
+    <div class="row g-4">
+      <!-- Create User Card -->
+      <div class="col-lg-4">
+        <div class="card h-100">
+          <div class="card-header bg-white py-3 border-bottom">
+            <h5 class="mb-0 fw-bold text-primary">
+              <i class="fas fa-user-plus me-2"></i>Tambah User Baru
+            </h5>
+          </div>
+          <div class="card-body p-4">
+            <form action="/admin/users/create" method="POST">
+              <div class="mb-3">
+                <label for="username" class="form-label fw-semibold small">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="nama" class="form-label fw-semibold small">Nama Lengkap</label>
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama pengguna" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label fw-semibold small">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
+              </div>
+
+              <div class="mb-4">
+                <label for="role" class="form-label fw-semibold small">Role / Hak Akses</label>
+                <select class="form-select" id="role" name="role" required>
+                  <option value="admin" selected>Admin HR (Kelola Candidates)</option>
+                  <option value="superadmin">Super Admin (Kelola Candidates & Users)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 fw-semibold">
+                <i class="fas fa-save me-2"></i>Simpan User Baru
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users List Table Card -->
+      <div class="col-lg-8">
+        <div class="card h-100">
+          <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold text-secondary">
+              <i class="fas fa-users me-2"></i>Daftar Pengguna Sistem (<%= users.length %>)
+            </h5>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th class="ps-4">ID</th>
+                    <th>Username</th>
+                    <th>Nama Lengkap</th>
+                    <th>Role</th>
+                    <th>Tgl Dibuat</th>
+                    <th class="text-center pe-4">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% users.forEach(u => { %>
+                    <tr>
+                      <td class="ps-4 fw-bold">#<%= u.id %></td>
+                      <td class="fw-semibold text-dark">@<%= u.username %></td>
+                      <td><%= u.nama || '-' %></td>
+                      <td>
+                        <span class="badge <%= u.role === 'superadmin' ? 'badge-superadmin' : 'badge-admin' %> px-2 py-1">
+                          <i class="fas <%= u.role === 'superadmin' ? 'fa-crown' : 'fa-user-tag' %> me-1"></i>
+                          <%= u.role === 'superadmin' ? 'Super Admin' : 'Admin HR' %>
+                        </span>
+                      </td>
+                      <td class="small text-muted"><%= new Date(u.created_at).toLocaleString('id-ID') %></td>
+                      <td class="text-center pe-4">
+                        <% if (u.id === user.id) { %>
+                          <span class="badge bg-light text-muted border px-2 py-1 small">Akun Anda</span>
+                        <% } else { %>
+                          <form action="/admin/users/delete/<%= u.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus user @<%= u.username %>?')" class="d-inline">
+                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Hapus User">
+                              <i class="fas fa-trash-alt me-1"></i>Hapus
+                            </button>
+                          </form>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Rekrutmen Candidates</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar { background: linear-gradient(135deg, #1f4e78 0%, #2f5597 100%); }
+    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .badge-status-Diterima { background-color: #10b981; color: white; }
+    .badge-status-Dipertimbangkan { background-color: #f59e0b; color: white; }
+    .badge-status-Ditolak { background-color: #ef4444; color: white; }
+    .badge-status-Belum { background-color: #6b7280; color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="/admin">
+        <i class="fas fa-users-cog me-2"></i>Dashboard Rekrutmen HR
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <% if (typeof user !== 'undefined' && user) { %>
+          <span class="text-white me-2 small">
+            <i class="fas fa-user-circle me-1"></i><%= user.nama || user.username %>
+          </span>
+          <% if (user.role === 'superadmin') { %>
+            <a href="/admin/users" class="btn btn-warning btn-sm fw-semibold me-1">
+              <i class="fas fa-user-gear me-1"></i>Kelola User
+            </a>
+          <% } %>
+        <% } %>
+        <button class="btn btn-light btn-sm fw-semibold" onclick="copyShareLink()">
+          <i class="fas fa-link me-1 text-primary"></i>Copy Share Link Form
+        </button>
+        <a href="/api/export/excel" class="btn btn-success btn-sm fw-semibold">
+          <i class="fas fa-file-excel me-1"></i>Export All to Excel
+        </a>
+        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold ms-2">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid px-4 py-4">
+
+    <!-- Share Link Alert Banner -->
+    <div class="alert alert-primary d-flex align-items-center justify-content-between rounded-3 mb-4 shadow-sm" role="alert">
+      <div>
+        <i class="fas fa-share-alt me-2 fs-5"></i>
+        <strong>Link Form Kandidat:</strong> <span id="shareUrl" class="user-select-all fw-mono">http://localhost:3000/</span>
+      </div>
+      <button class="btn btn-sm btn-primary px-3" onclick="copyShareLink()">
+        <i class="fas fa-copy me-1"></i>Salin Link
+      </button>
+    </div>
+
+    <!-- Candidate List Table Card -->
+    <div class="card">
+      <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold text-secondary">
+          <i class="fas fa-list me-2"></i>Daftar Record Pelamar Kerja (<%= candidates.length %>)
+        </h5>
+        <div class="w-25">
+          <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Cari nama, email, posisi..." onkeyup="filterTable()">
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" id="candidateTable">
+            <thead class="table-light">
+              <tr>
+                <th class="ps-4">ID</th>
+                <th>Tanggal Submit</th>
+                <th>Nama Pelamar</th>
+                <th>Posisi Dilamar</th>
+                <th>Email / No. HP</th>
+                <th>Domisili</th>
+                <th>Status Rekrutmen</th>
+                <th class="text-center pe-4">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (candidates.length === 0) { %>
+                <tr>
+                  <td colspan="8" class="text-center py-5 text-muted">
+                    <i class="fas fa-folder-open fa-3x mb-3 d-block opacity-50"></i>
+                    Belum ada data pelamar yang masuk.
+                  </td>
+                </tr>
+              <% } %>
+              <% candidates.forEach(c => { %>
+                <tr>
+                  <td class="ps-4 fw-bold">#<%= c.id %></td>
+                  <td class="small text-muted"><%= new Date(c.created_at).toLocaleString('id-ID') %></td>
+                  <td>
+                    <div class="fw-bold"><%= c.nama_lengkap %></div>
+                    <div class="small text-muted"><%= c.nama_panggilan ? '(' + c.nama_panggilan + ')' : '' %></div>
+                  </td>
+                  <td><span class="badge bg-secondary bg-opacity-10 text-dark border px-2 py-1"><%= c.posisi_dilamar %></span></td>
+                  <td>
+                    <div><i class="fas fa-envelope me-1 text-muted small"></i><%= c.email %></div>
+                    <div class="small text-muted"><i class="fas fa-phone me-1"></i><%= c.no_hp %></div>
+                  </td>
+                  <td><%= c.kota_domisili || '-' %></td>
+                  <td>
+                    <% const statusClass = 'badge-status-' + (c.kesimpulan_status || 'Belum'); %>
+                    <span class="badge <%= statusClass %> px-2 py-1">
+                      <%= c.kesimpulan_status || 'Belum Diproses' %>
+                    </span>
+                  </td>
+                  <td class="text-center pe-4">
+                    <div class="btn-group btn-group-sm">
+                      <a href="/admin/candidate/<%= c.id %>" class="btn btn-outline-primary" title="Edit Catatan Pewawancara / Detail">
+                        <i class="fas fa-edit me-1"></i>Detail / Interview
+                      </a>
+                      <a href="/api/export/pdf/<%= c.id %>" target="_blank" class="btn btn-outline-danger" title="Export 5-Page PDF">
+                        <i class="fas fa-file-pdf me-1"></i>PDF
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Set actual window host to shareUrl
+    document.getElementById('shareUrl').innerText = window.location.origin + '/';
+
+    function copyShareLink() {
+      const url = window.location.origin + '/';
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Link form berhasil disalin: ' + url);
+      });
+    }
+
+    function filterTable() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('#candidateTable tbody tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
