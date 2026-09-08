@@ -1,9 +1,0 @@
-[phases.setup]
-nixPkgs = ["nodejs_20", "gcc", "gnumake", "python3", "chromium", "nss", "freetype", "harfbuzz", "ca-certificates", "ttf-freefont"]
-
-[phases.build]
-cmds = ["npm rebuild better-sqlite3 --build-from-source"]
-
-[variables]
-PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
-PUPPETEER_EXECUTABLE_PATH = "/usr/bin/chromium"

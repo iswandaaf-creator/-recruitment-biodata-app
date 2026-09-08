@@ -1,4 +1,11 @@
 const express = require('express');
+
+process.on('uncaughtException', (err) => {
+  console.error('CRITICAL UNCAUGHT EXCEPTION:', err);
+});
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('CRITICAL UNHANDLED REJECTION:', reason);
+});
 const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
