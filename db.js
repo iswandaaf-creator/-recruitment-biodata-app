@@ -1,4 +1,4 @@
-const sqlite3 = require('sqlite3').verbose();
+const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
@@ -8,8 +8,60 @@ if (!fs.existsSync(dbDir)) {
 }
 
 const dbPath = path.join(dbDir, 'database.sqlite');
-const db = new sqlite3.Database(dbPath);
+const sqlite = new Database(dbPath);
 
+// Async Callback Wrapper for better-sqlite3 (100% compatible with sqlite3 API)
+const db = {
+  serialize: function(fn) {
+    if (fn) fn();
+  },
+  run: function(sql, params = [], callback) {
+    if (typeof params === 'function') {
+      callback = params;
+      params = [];
+    }
+    try {
+      const stmt = sqlite.prepare(sql);
+      const info = stmt.run(...(Array.isArray(params) ? params : [params]));
+      if (callback) {
+        callback.call({ lastID: Number(info.lastInsertRowid), changes: info.changes }, null);
+      }
+    } catch (err) {
+      if (callback) callback(err);
+      else console.error('DB Run Error:', err);
+    }
+  },
+  get: function(sql, params = [], callback) {
+    if (typeof params === 'function') {
+      callback = params;
+      params = [];
+    }
+    try {
+      const stmt = sqlite.prepare(sql);
+      const row = stmt.get(...(Array.isArray(params) ? params : [params]));
+      if (callback) callback(null, row);
+    } catch (err) {
+      if (callback) callback(err);
+      else console.error('DB Get Error:', err);
+    }
+  },
+  all: function(sql, params = [], callback) {
+    if (typeof params === 'function') {
+      callback = params;
+      params = [];
+    }
+    try {
+      const stmt = sqlite.prepare(sql);
+      const rows = stmt.all(...(Array.isArray(params) ? params : [params]));
+      if (callback) callback(null, rows);
+    } catch (err) {
+      if (callback) callback(err);
+      else console.error('DB All Error:', err);
+    }
+  }
+};
+
+// Initialize Tables
 db.serialize(() => {
   // Candidate Submissions Table
   db.run(`
@@ -112,8 +164,7 @@ db.serialize(() => {
             }
           );
         } else {
-          // Ensure admin user has superadmin role
-          db.run('UPDATE users SET role = "superadmin" WHERE username = "admin"');
+          db.run("UPDATE users SET role = 'superadmin' WHERE username = 'admin'");
         }
       });
     }
