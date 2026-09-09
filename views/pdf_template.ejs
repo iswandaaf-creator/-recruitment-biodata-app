@@ -168,7 +168,13 @@
         </tr>
         <tr>
           <td class="bold">Nomor KTP</td>
-          <td colspan="3">: <%= candidate.nomor_ktp || '' %></td>
+          <td>: <%= candidate.nomor_ktp || '' %></td>
+          <td class="bold">Nomor KK</td>
+          <td>: <%= candidate.nomor_kk || '' %></td>
+        </tr>
+        <tr>
+          <td class="bold">No. Rekening Bank</td>
+          <td colspan="3">: <%= candidate.no_rekening || '' %></td>
         </tr>
         <tr>
           <td class="bold">Alamat Sesuai KTP</td>
@@ -576,6 +582,25 @@
           </td>
         </tr>
         <% }); %>
+      </table>
+
+      <!-- DATA KEPEGAWAIAN & FINANSIAL -->
+      <table>
+        <tr>
+          <th colspan="4" class="section-header">DATA KEPEGAWAIAN & FINANSIAL (HR)</th>
+        </tr>
+        <tr>
+          <td style="width: 25%;" class="bold">Gaji Pokok</td>
+          <td style="width: 25%;">: <%= candidate.gaji_pokok || '-' %></td>
+          <td style="width: 25%;" class="bold">Produktivitas</td>
+          <td style="width: 25%;">: <%= candidate.produktivitas || '-' %></td>
+        </tr>
+        <tr>
+          <td class="bold">Tanggal Join</td>
+          <td>: <%= candidate.tgl_join || '-' %></td>
+          <td class="bold">Tanggal Resign</td>
+          <td>: <%= candidate.tgl_resign || '-' %></td>
+        </tr>
       </table>
 
       <!-- KESIMPULAN -->

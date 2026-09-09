@@ -138,21 +138,31 @@ db.serialize(() => {
       tanggal_ttd TEXT,
       signature_data TEXT,
 
-      -- Diisi Oleh Pewawancara (Page 5)
+      -- Diisi Oleh Pewawancara (Page 5) & HR Kepegawaian
       catatan_wawancara_1 TEXT,
       catatan_wawancara_2 TEXT,
       catatan_wawancara_3 TEXT,
       kesimpulan_status TEXT,
       kesimpulan_catatan TEXT,
-      share_token TEXT
+      share_token TEXT,
+
+      -- Kolom Kepegawaian & Finansial Baru
+      nomor_kk TEXT,
+      gaji_pokok TEXT,
+      produktivitas TEXT,
+      tgl_join TEXT,
+      tgl_resign TEXT,
+      no_rekening TEXT
     )
   `);
 
-  try {
-    sqlite.exec("ALTER TABLE candidates ADD COLUMN share_token TEXT");
-  } catch (e) {
-    // Column already exists
-  }
+  ['share_token', 'nomor_kk', 'gaji_pokok', 'produktivitas', 'tgl_join', 'tgl_resign', 'no_rekening'].forEach(col => {
+    try {
+      sqlite.exec(`ALTER TABLE candidates ADD COLUMN ${col} TEXT`);
+    } catch (e) {
+      // Column already exists
+    }
+  });
 
   // Admin Users Table
   db.run(`

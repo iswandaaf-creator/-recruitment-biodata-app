@@ -261,8 +261,9 @@ app.post('/api/submit', (req, res) => {
       keluarga_kandung, keluarga_menikah, pendidikan_formal, pendidikan_non_formal,
       referensi, riwayat_pekerjaan, alasan_rekrutmen, minat_passion, rencana_3_5_tahun,
       prestasi, melamar_perusahaan_lain, social_media, riwayat_kesehatan,
-      perkiraan_bergabung, gaji_diharapkan, kota_ttd, tanggal_ttd, signature_data, share_token
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      perkiraan_bergabung, gaji_diharapkan, kota_ttd, tanggal_ttd, signature_data, share_token,
+      nomor_kk, gaji_pokok, produktivitas, tgl_join, tgl_resign, no_rekening
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const params = [
@@ -276,7 +277,8 @@ app.post('/api/submit', (req, res) => {
     body.alasan_rekrutmen || '', body.minat_passion || '', body.rencana_3_5_tahun || '', body.prestasi || '',
     body.melamar_perusahaan_lain || '', JSON.stringify(social_media), body.riwayat_kesehatan || '',
     body.perkiraan_bergabung || '', body.gaji_diharapkan || '', body.kota_ttd || '', body.tanggal_ttd || '', body.signature_data || '',
-    body.share_token || body.ref || body.token || ''
+    body.share_token || body.ref || body.token || '',
+    body.nomor_kk || '', body.gaji_pokok || '', body.produktivitas || '', body.tgl_join || '', body.tgl_resign || '', body.no_rekening || ''
   ];
 
   db.run(sql, params, function (err) {
@@ -418,11 +420,30 @@ app.post('/admin/candidate/:id/interview', requireAuth, (req, res) => {
       catatan_wawancara_3 = ?,
       kesimpulan_status = ?,
       kesimpulan_catatan = ?,
+      nomor_kk = ?,
+      gaji_pokok = ?,
+      produktivitas = ?,
+      tgl_join = ?,
+      tgl_resign = ?,
+      no_rekening = ?,
       updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
   `;
 
-  db.run(sql, [cw1, cw2, cw3, body.kesimpulan_status, body.kesimpulan_catatan, req.params.id], (err) => {
+  const params = [
+    cw1, cw2, cw3,
+    body.kesimpulan_status || '',
+    body.kesimpulan_catatan || '',
+    body.nomor_kk || '',
+    body.gaji_pokok || '',
+    body.produktivitas || '',
+    body.tgl_join || '',
+    body.tgl_resign || '',
+    body.no_rekening || '',
+    req.params.id
+  ];
+
+  db.run(sql, params, (err) => {
     if (err) return res.status(500).send(err.message);
     res.redirect(`/admin/candidate/${req.params.id}`);
   });

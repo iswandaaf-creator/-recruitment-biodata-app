@@ -84,7 +84,7 @@
             <!-- Search Box -->
             <div class="input-group input-group-sm" style="width: 250px;">
               <span class="input-group-text bg-light"><i class="fas fa-search"></i></span>
-              <input type="text" class="form-control" id="searchInput" placeholder="Cari nama, email, KTP..." onkeyup="applyFilterAndSort()">
+              <input type="text" class="form-control" id="searchInput" placeholder="Cari nama, KTP, KK, Rek..." onkeyup="applyFilterAndSort()">
             </div>
 
             <!-- Sort Select -->
@@ -168,6 +168,8 @@
                     <div class="small text-muted">
                       <%= c.nama_panggilan ? '(' + c.nama_panggilan + ')' : '' %>
                       <% if (c.nomor_ktp) { %> <span class="ms-1 border-start ps-1">KTP: <%= c.nomor_ktp %></span> <% } %>
+                      <% if (c.nomor_kk) { %> <span class="ms-1 border-start ps-1">KK: <%= c.nomor_kk %></span> <% } %>
+                      <% if (c.no_rekening) { %> <span class="ms-1 border-start ps-1">Rek: <%= c.no_rekening %></span> <% } %>
                     </div>
                   </td>
                   <td><span class="badge bg-secondary bg-opacity-10 text-dark border px-2 py-1"><%= c.posisi_dilamar %></span></td>

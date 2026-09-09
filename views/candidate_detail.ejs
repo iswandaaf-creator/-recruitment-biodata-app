@@ -174,7 +174,35 @@
 
           <hr class="my-4">
 
-          <h6 class="fw-bold text-primary mb-3">4. Kesimpulan Akhir HR</h6>
+          <h6 class="fw-bold text-primary mb-3"><i class="fas fa-id-card-clip me-2"></i>4. Data Kepegawaian & Finansial HR</h6>
+          <div class="row g-3 mb-4 p-3 bg-light rounded border">
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Nomor KK (Kartu Keluarga)</label>
+              <input type="text" class="form-control form-control-sm" name="nomor_kk" value="<%= candidate.nomor_kk || '' %>" placeholder="16 digit Nomor KK">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">No. Rekening Bank</label>
+              <input type="text" class="form-control form-control-sm" name="no_rekening" value="<%= candidate.no_rekening || '' %>" placeholder="Bank & No. Rekening">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Gaji Pokok</label>
+              <input type="text" class="form-control form-control-sm" name="gaji_pokok" value="<%= candidate.gaji_pokok || '' %>" placeholder="Nominal Gaji Pokok">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Produktivitas / Evaluasi</label>
+              <input type="text" class="form-control form-control-sm" name="produktivitas" value="<%= candidate.produktivitas || '' %>" placeholder="Skor / Keterangan produktivitas">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Tanggal Join</label>
+              <input type="date" class="form-control form-control-sm" name="tgl_join" value="<%= candidate.tgl_join || '' %>">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-bold">Tanggal Resign</label>
+              <input type="date" class="form-control form-control-sm" name="tgl_resign" value="<%= candidate.tgl_resign || '' %>">
+            </div>
+          </div>
+
+          <h6 class="fw-bold text-primary mb-3">5. Kesimpulan Akhir HR</h6>
           <div class="row g-3 mb-3">
             <div class="col-md-4">
               <label class="form-label fw-bold">Keputusan Rekrutmen <span class="text-danger">*</span></label>
@@ -193,7 +221,7 @@
 
           <div class="text-end">
             <button type="submit" class="btn btn-primary px-4">
-              <i class="fas fa-save me-1"></i>Simpan Catatan & Update Status
+              <i class="fas fa-save me-1"></i>Simpan Catatan & Data HR
             </button>
           </div>
 
@@ -213,7 +241,13 @@
           <div class="col-md-4"><strong>Jenis Kelamin:</strong> <%= candidate.jenis_kelamin %></div>
           <div class="col-md-4"><strong>TTL:</strong> <%= candidate.tempat_lahir %>, <%= candidate.tanggal_lahir %></div>
           <div class="col-md-4"><strong>No KTP:</strong> <%= candidate.nomor_ktp || '-' %></div>
+          <div class="col-md-4"><strong>Nomor KK:</strong> <%= candidate.nomor_kk || '-' %></div>
+          <div class="col-md-4"><strong>No Rekening:</strong> <%= candidate.no_rekening || '-' %></div>
           <div class="col-md-4"><strong>Status Nikah:</strong> <%= candidate.status_perkawinan %></div>
+          <div class="col-md-4"><strong>Gaji Pokok:</strong> <%= candidate.gaji_pokok || '-' %></div>
+          <div class="col-md-4"><strong>Produktivitas:</strong> <%= candidate.produktivitas || '-' %></div>
+          <div class="col-md-4"><strong>Tgl Join:</strong> <%= candidate.tgl_join || '-' %></div>
+          <div class="col-md-4"><strong>Tgl Resign:</strong> <%= candidate.tgl_resign || '-' %></div>
           <div class="col-md-6"><strong>Alamat KTP:</strong> <%= candidate.alamat_ktp %> (<%= candidate.kota_ktp %>)</div>
           <div class="col-md-6"><strong>Alamat Domisili:</strong> <%= candidate.alamat_domisili %> (<%= candidate.kota_domisili %>)</div>
           <div class="col-md-6"><strong>Alasan Rekrutmen:</strong> <%= candidate.alasan_rekrutmen || '-' %></div>
