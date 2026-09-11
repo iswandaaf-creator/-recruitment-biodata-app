@@ -152,11 +152,12 @@ db.serialize(() => {
       produktivitas TEXT,
       tgl_join TEXT,
       tgl_resign TEXT,
-      no_rekening TEXT
+      no_rekening TEXT,
+      foto_kandidat TEXT
     )
   `);
 
-  ['share_token', 'nomor_kk', 'gaji_pokok', 'produktivitas', 'tgl_join', 'tgl_resign', 'no_rekening'].forEach(col => {
+  ['share_token', 'nomor_kk', 'gaji_pokok', 'produktivitas', 'tgl_join', 'tgl_resign', 'no_rekening', 'foto_kandidat'].forEach(col => {
     try {
       sqlite.exec(`ALTER TABLE candidates ADD COLUMN ${col} TEXT`);
     } catch (e) {

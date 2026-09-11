@@ -164,12 +164,23 @@
                   <td class="ps-4 fw-bold">#<%= c.id %></td>
                   <td class="small text-muted"><%= new Date(c.created_at).toLocaleString('id-ID') %></td>
                   <td>
-                    <div class="fw-bold"><%= c.nama_lengkap %></div>
-                    <div class="small text-muted">
-                      <%= c.nama_panggilan ? '(' + c.nama_panggilan + ')' : '' %>
-                      <% if (c.nomor_ktp) { %> <span class="ms-1 border-start ps-1">KTP: <%= c.nomor_ktp %></span> <% } %>
-                      <% if (c.nomor_kk) { %> <span class="ms-1 border-start ps-1">KK: <%= c.nomor_kk %></span> <% } %>
-                      <% if (c.no_rekening) { %> <span class="ms-1 border-start ps-1">Rek: <%= c.no_rekening %></span> <% } %>
+                    <div class="d-flex align-items-center gap-2">
+                      <% if (c.foto_kandidat) { %>
+                        <img src="<%= c.foto_kandidat %>" class="rounded-circle border shadow-sm flex-shrink-0" style="width: 36px; height: 36px; object-fit: cover;">
+                      <% } else { %>
+                        <div class="rounded-circle bg-light border d-flex align-items-center justify-content-center text-secondary fw-bold flex-shrink-0" style="width: 36px; height: 36px; font-size: 13px;">
+                          <%= c.nama_lengkap ? c.nama_lengkap.charAt(0).toUpperCase() : 'P' %>
+                        </div>
+                      <% } %>
+                      <div>
+                        <div class="fw-bold"><%= c.nama_lengkap %></div>
+                        <div class="small text-muted">
+                          <%= c.nama_panggilan ? '(' + c.nama_panggilan + ')' : '' %>
+                          <% if (c.nomor_ktp) { %> <span class="ms-1 border-start ps-1">KTP: <%= c.nomor_ktp %></span> <% } %>
+                          <% if (c.nomor_kk) { %> <span class="ms-1 border-start ps-1">KK: <%= c.nomor_kk %></span> <% } %>
+                          <% if (c.no_rekening) { %> <span class="ms-1 border-start ps-1">Rek: <%= c.no_rekening %></span> <% } %>
+                        </div>
+                      </div>
                     </div>
                   </td>
                   <td><span class="badge bg-secondary bg-opacity-10 text-dark border px-2 py-1"><%= c.posisi_dilamar %></span></td>

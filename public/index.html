@@ -121,11 +121,33 @@
 
       <!-- SECTION 1: IDENTITAS DIRI -->
       <div class="card">
-        <div class="card-header">
-          <i class="fas fa-id-card me-2 text-primary"></i>Identitas Diri
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span><i class="fas fa-id-card me-2 text-primary"></i>Identitas Diri</span>
+          <span class="badge bg-primary bg-opacity-10 text-primary border">Pasfoto / Photo Candidate</span>
         </div>
         <div class="card-body">
           <div class="row g-3">
+
+            <!-- Candidate Photo Upload Field -->
+            <div class="col-md-12 p-3 bg-light rounded border mb-2">
+              <label class="form-label fw-bold text-primary mb-2">
+                <i class="fas fa-camera me-1"></i>Unggah Pasfoto Formal (JPG/PNG)
+              </label>
+              <div class="d-flex align-items-center gap-3 flex-wrap">
+                <div id="photoPreviewBox" class="border rounded text-center d-flex flex-column align-items-center justify-content-center bg-white shadow-sm" style="width: 100px; height: 125px; overflow: hidden; border: 2px dashed #cbd5e1 !important;">
+                  <i class="fas fa-user-circle fa-3x text-secondary mb-1 opacity-50"></i>
+                  <span class="text-muted" style="font-size: 10px;">Pasfoto 3x4</span>
+                </div>
+                <div class="flex-grow-1" style="max-width: 450px;">
+                  <input type="file" class="form-control form-control-sm mb-1" id="fotoFileInput" accept="image/*" onchange="previewCandidatePhoto(this)">
+                  <input type="hidden" name="foto_kandidat" id="fotoKandidatBase64">
+                  <div class="form-text text-muted" style="font-size: 11px;">
+                    <i class="fas fa-info-circle me-1"></i>Pilih pasfoto formal berlatar belakang polos (Maks 3MB). Foto ini akan terlampir otomatis di formulir dan dokumen PDF.
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="col-md-8">
               <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
               <input type="text" class="form-control" name="nama_lengkap" required>
@@ -675,6 +697,25 @@
 
     function clearSignature() {
       signaturePad.clear();
+    }
+
+    function previewCandidatePhoto(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        if (file.size > 5 * 1024 * 1024) {
+          alert('Ukuran file foto terlalu besar! Maksimal 5MB.');
+          input.value = '';
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const base64Data = e.target.result;
+          document.getElementById('fotoKandidatBase64').value = base64Data;
+          const previewBox = document.getElementById('photoPreviewBox');
+          previewBox.innerHTML = `<img src="${base64Data}" style="width: 100%; height: 100%; object-fit: cover;">`;
+        };
+        reader.readAsDataURL(file);
+      }
     }
 
     function toggleKerabatInfo(val) {

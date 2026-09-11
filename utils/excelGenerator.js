@@ -96,6 +96,7 @@ async function generateExcel(candidates = []) {
     { header: 'TGL RESIGN', key: 'tgl_resign', width: 14, align: 'center' },
     { header: 'KOTA DOMISILI', key: 'kota_domisili', width: 18, align: 'left' },
     { header: 'GAJI DIHARAPKAN', key: 'gaji_diharapkan', width: 20, align: 'right' },
+    { header: 'ADA FOTO', key: 'foto_kandidat', width: 12, align: 'center' },
     { header: 'STATUS REKRUTMEN', key: 'kesimpulan_status', width: 20, align: 'center' }
   ];
 
@@ -140,6 +141,7 @@ async function generateExcel(candidates = []) {
       c.tgl_resign ? formatDate(c.tgl_resign) : '-',
       c.kota_domisili || '-',
       c.gaji_diharapkan || '-',
+      c.foto_kandidat ? 'Ya' : 'Tidak',
       c.kesimpulan_status || 'Belum Diproses'
     ];
 

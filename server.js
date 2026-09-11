@@ -262,8 +262,8 @@ app.post('/api/submit', (req, res) => {
       referensi, riwayat_pekerjaan, alasan_rekrutmen, minat_passion, rencana_3_5_tahun,
       prestasi, melamar_perusahaan_lain, social_media, riwayat_kesehatan,
       perkiraan_bergabung, gaji_diharapkan, kota_ttd, tanggal_ttd, signature_data, share_token,
-      nomor_kk, gaji_pokok, produktivitas, tgl_join, tgl_resign, no_rekening
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      nomor_kk, gaji_pokok, produktivitas, tgl_join, tgl_resign, no_rekening, foto_kandidat
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const params = [
@@ -278,7 +278,8 @@ app.post('/api/submit', (req, res) => {
     body.melamar_perusahaan_lain || '', JSON.stringify(social_media), body.riwayat_kesehatan || '',
     body.perkiraan_bergabung || '', body.gaji_diharapkan || '', body.kota_ttd || '', body.tanggal_ttd || '', body.signature_data || '',
     body.share_token || body.ref || body.token || '',
-    body.nomor_kk || '', body.gaji_pokok || '', body.produktivitas || '', body.tgl_join || '', body.tgl_resign || '', body.no_rekening || ''
+    body.nomor_kk || '', body.gaji_pokok || '', body.produktivitas || '', body.tgl_join || '', body.tgl_resign || '', body.no_rekening || '',
+    body.foto_kandidat || ''
   ];
 
   db.run(sql, params, function (err) {

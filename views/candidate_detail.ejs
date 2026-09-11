@@ -76,16 +76,29 @@
     <!-- Candidate Main Header Card -->
     <div class="card">
       <div class="card-body p-4">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <h3 class="fw-bold mb-1"><%= candidate.nama_lengkap %></h3>
-            <div class="text-muted fs-6 mb-2">
-              <span class="me-3"><i class="fas fa-briefcase me-1 text-primary"></i><strong>Posisi:</strong> <%= candidate.posisi_dilamar %></span>
-              <span class="me-3"><i class="fas fa-envelope me-1 text-primary"></i><%= candidate.email %></span>
-              <span><i class="fas fa-phone me-1 text-primary"></i><%= candidate.no_hp %></span>
-            </div>
-            <div class="small text-secondary">
-              Submitted at: <%= new Date(candidate.created_at).toLocaleString('id-ID') %> | Ref ID: #<%= candidate.id %>
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <% if (candidate.foto_kandidat) { %>
+              <div class="position-relative">
+                <img src="<%= candidate.foto_kandidat %>" class="rounded border shadow-sm" style="width: 85px; height: 110px; object-fit: cover;">
+                <span class="badge bg-dark position-absolute bottom-0 start-50 translate-middle-x mb-1 opacity-75" style="font-size: 9px;">Pasfoto 3x4</span>
+              </div>
+            <% } else { %>
+              <div class="rounded bg-light border d-flex flex-column align-items-center justify-content-center text-muted" style="width: 85px; height: 110px;">
+                <i class="fas fa-camera fa-2x mb-1 opacity-50"></i>
+                <span style="font-size: 10px;">Tanpa Foto</span>
+              </div>
+            <% } %>
+            <div>
+              <h3 class="fw-bold mb-1"><%= candidate.nama_lengkap %></h3>
+              <div class="text-muted fs-6 mb-2">
+                <span class="me-3"><i class="fas fa-briefcase me-1 text-primary"></i><strong>Posisi:</strong> <%= candidate.posisi_dilamar %></span>
+                <span class="me-3"><i class="fas fa-envelope me-1 text-primary"></i><%= candidate.email %></span>
+                <span><i class="fas fa-phone me-1 text-primary"></i><%= candidate.no_hp %></span>
+              </div>
+              <div class="small text-secondary">
+                Submitted at: <%= new Date(candidate.created_at).toLocaleString('id-ID') %> | Ref ID: #<%= candidate.id %>
+              </div>
             </div>
           </div>
           <div>
