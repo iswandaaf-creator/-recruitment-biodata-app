@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Purchase Order (PO) - Operasional KOV</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar-operasional { background: linear-gradient(135deg, #0f5132 0%, #198754 100%); }
+    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .metric-card { transition: transform 0.2s ease; }
+    .metric-card:hover { transform: translateY(-3px); }
+    .nav-tabs .nav-link { color: #555; font-weight: 600; border: none; padding: 0.75rem 1.25rem; }
+    .nav-tabs .nav-link.active { color: #0f5132; border-bottom: 3px solid #0f5132; background: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-operasional shadow-sm">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional/po">
+        <img src="/logo_kov_hijau.png" alt="KOV Logo" height="34" class="me-2" style="object-fit: contain;">
+        <span>Dashboard Operasional - Purchase Order (PO)</span>
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <% if (typeof user !== 'undefined' && user) { %>
+          <span class="text-white me-2 small">
+            <i class="fas fa-user-circle me-1"></i><%= user.nama || user.username %> (<%= user.role %>)
+          </span>
+          <% if (user.role === 'superadmin') { %>
+            <a href="/admin" class="btn btn-outline-light btn-sm fw-semibold me-1">
+              <i class="fas fa-user-tie me-1"></i>Switch to HR
+            </a>
+          <% } %>
+        <% } %>
+        <a href="/admin/operasional/po/create" class="btn btn-light text-success btn-sm fw-bold">
+          <i class="fas fa-plus me-1"></i>Buat PO Baru
+        </a>
+        <a href="/api/operasional/po/export/excel" class="btn btn-success btn-sm fw-semibold">
+          <i class="fas fa-file-excel me-1"></i>Export All PO to Excel
+        </a>
+        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold ms-2">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid px-4 py-4">
+
+    <!-- Sub-menu Tabs Operasional -->
+    <ul class="nav nav-tabs mb-4 border-bottom">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/operasional">
+          <i class="fas fa-boxes-packing me-2"></i>Berita Acara Pengajuan Barang
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/admin/operasional/po">
+          <i class="fas fa-file-invoice-dollar me-2"></i>Purchase Order (PO) Pengadaan
+        </a>
+      </li>
+    </ul>
+
+    <!-- Metrics Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-3">
+        <div class="card metric-card bg-primary text-white p-3 text-center">
+          <div class="fs-4 fw-bold"><%= records.length %></div>
+          <div class="small">Total Purchase Order</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card metric-card bg-success text-white p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => (r.status_po || '').includes('Approved')).length %>
+          </div>
+          <div class="small">PO Disetujui / Approved</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card metric-card bg-warning text-dark p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => (r.status_po || '').includes('Pending')).length %>
+          </div>
+          <div class="small">PO Pending</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card metric-card bg-dark text-white p-3 text-center">
+          <div class="fs-5 fw-bold">
+            Rp <%= records.reduce((acc, r) => acc + (r.total_netto || 0), 0).toLocaleString('id-ID') %>
+          </div>
+          <div class="small">Total Nilai Netto PO</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Table Card -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-white py-3">
+        <div class="row align-items-center g-2">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-search text-secondary"></i></span>
+              <input type="text" id="searchInput" class="form-control" placeholder="Cari No PO, Nama Vendor, Perihal, Unit Kerja...">
+            </div>
+          </div>
+          <div class="col-md-6 text-end">
+            <a href="/admin/operasional/po/create" class="btn btn-success fw-bold px-3">
+              <i class="fas fa-plus me-1"></i>Buat Purchase Order Baru
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" id="poTable">
+            <thead class="table-light text-secondary small text-uppercase">
+              <tr>
+                <th class="ps-3">No. PO</th>
+                <th>Tanggal PO</th>
+                <th>Penyedia / Vendor (TO)</th>
+                <th>Perihal & Unit Kerja</th>
+                <th class="text-end">Total Netto (Rp)</th>
+                <th class="text-center">Status PO</th>
+                <th class="text-end pe-3">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (records.length === 0) { %>
+                <tr>
+                  <td colspan="7" class="text-center py-5 text-muted">
+                    <i class="fas fa-file-invoice-dollar fs-1 mb-2 d-block text-secondary"></i>
+                    Belum ada Purchase Order (PO) yang diterbitkan.
+                  </td>
+                </tr>
+              <% } else { %>
+                <% records.forEach(item => { %>
+                  <tr>
+                    <td class="ps-3 fw-bold text-dark">
+                      <%= item.no_po || ('PO/KOV/' + item.id) %>
+                    </td>
+                    <td class="small text-secondary"><%= item.tanggal_po || '-' %></td>
+                    <td>
+                      <div class="fw-bold text-dark"><%= item.vendor_nama || '-' %></div>
+                      <div class="small text-muted"><%= item.vendor_nama_dagang || '' %></div>
+                    </td>
+                    <td>
+                      <div class="fw-semibold text-dark"><%= item.perihal || '-' %></div>
+                      <span class="badge bg-light text-dark border small"><%= item.unit_kerja || '-' %></span>
+                    </td>
+                    <td class="text-end fw-bold text-success">
+                      Rp <%= Number(item.total_netto || item.subtotal || 0).toLocaleString('id-ID') %>
+                    </td>
+                    <td class="text-center">
+                      <span class="badge bg-success px-2 py-1"><%= item.status_po || 'Approved' %></span>
+                    </td>
+                    <td class="text-end pe-3">
+                      <div class="btn-group btn-group-sm">
+                        <a href="/admin/operasional/po/detail/<%= item.id %>" class="btn btn-outline-primary" title="Lihat Detail PO">
+                          <i class="fas fa-eye me-1"></i>Detail
+                        </a>
+                        <a href="/api/operasional/po/export/pdf/<%= item.id %>" target="_blank" class="btn btn-outline-danger" title="Download Official PDF PO">
+                          <i class="fas fa-file-pdf"></i>
+                        </a>
+                        <% if (typeof user !== 'undefined' && user && user.role === 'superadmin') { %>
+                          <button class="btn btn-outline-danger" onclick="deletePo(<%= item.id %>, '<%= item.no_po %>')" title="Hapus PO">
+                            <i class="fas fa-trash-can"></i>
+                          </button>
+                        <% } %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <form id="deleteForm" method="POST" style="display: none;"></form>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const tableRows = document.querySelectorAll('#poTable tbody tr');
+
+    searchInput.addEventListener('keyup', function() {
+      const searchVal = this.value.toLowerCase();
+      tableRows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(searchVal) ? '' : 'none';
+      });
+    });
+
+    function deletePo(id, label) {
+      if (confirm(`Apakah Anda yakin ingin menghapus Purchase Order: "${label}"?`)) {
+        const form = document.getElementById('deleteForm');
+        form.action = `/admin/operasional/po/delete/${id}`;
+        form.submit();
+      }
+    }
+  </script>
+</body>
+</html>

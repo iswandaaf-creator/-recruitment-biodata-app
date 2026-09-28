@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Purchase Order - <%= po.no_po || ('PO/KOV/' + po.id) %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar-operasional { background: linear-gradient(135deg, #0f5132 0%, #198754 100%); }
+    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .po-paper { background-color: #ffffff; padding: 2.5rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.04); }
+    .card-box { border: 1.5px solid #0f5132; border-radius: 6px; padding: 12px 15px; height: 100%; }
+    .card-box-header { background-color: #0f5132; color: white; font-weight: bold; font-size: 0.9rem; padding: 4px 10px; margin: -12px -15px 10px -15px; border-radius: 4px 4px 0 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-operasional shadow-sm mb-4">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional/po">
+        <img src="/logo_kov_hijau.png" height="30" class="me-2" alt="Logo">
+        <span>Kembali ke Dashboard PO</span>
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" class="btn btn-danger btn-sm fw-bold">
+          <i class="fas fa-file-pdf me-1"></i>Download Official PDF PO
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container px-4 pb-5">
+    
+    <div class="po-paper mb-4">
+      <!-- Header Section -->
+      <div class="row align-items-top mb-4 border-bottom pb-3">
+        <div class="col-md-6">
+          <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 48px; max-width: 180px; object-fit: contain; margin-bottom: 6px;">
+          <h4 class="fw-bold text-success mb-0">KOV GROUP</h4>
+          <div class="fw-bold text-dark small">Divisi Finance, Accounting & Procurement Operasional</div>
+          <div class="text-muted small">Jl. Wahidin No. 88, Semarang, Jawa Tengah</div>
+        </div>
+        <div class="col-md-6 text-end">
+          <h2 class="fw-bold text-success mb-1">PURCHASE ORDER</h2>
+          <div class="fw-bold text-dark">No. PO : <%= po.no_po || ('PO/KOV/' + po.id) %></div>
+          <div class="text-secondary small">Tanggal : <%= po.tanggal_po || '-' %></div>
+          <div class="mt-2">
+            Status PO: <span class="badge bg-success px-3 py-1 fs-6"><%= po.status_po || 'Reguler / Approved' %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vendor & Shipping Details -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-6">
+          <div class="card-box">
+            <div class="card-box-header">PENYEDIA / VENDOR (TO)</div>
+            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Nama Vendor:</div><div class="fw-bold text-dark" style="width: 65%;"><%= po.vendor_nama || '-' %></div></div>
+            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Nama Dagang:</div><div style="width: 65%;"><%= po.vendor_nama_dagang || '-' %></div></div>
+            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Perihal:</div><div style="width: 65%;"><%= po.perihal || '-' %></div></div>
+            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Unit Kerja:</div><div class="fw-bold text-dark" style="width: 65%;"><%= po.unit_kerja || '-' %></div></div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card-box">
+            <div class="card-box-header">DETAIL PENGIRIMAN & PEMBAYARAN</div>
+            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Lokasi Kirim:</div><div style="width: 65%;"><%= po.lokasi_kirim || '-' %></div></div>
+            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Tgl Pengiriman:</div><div style="width: 65%;"><%= po.tgl_pengiriman || '-' %></div></div>
+            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Termin Bayar:</div><div style="width: 65%;"><%= po.termin_bayar || '-' %></div></div>
+            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Mata Uang:</div><div style="width: 65%;"><%= po.mata_uang || 'IDR (Rupiah)' %></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items Table -->
+      <div class="table-responsive mb-4">
+        <table class="table table-bordered align-middle">
+          <thead class="table-success text-center small text-uppercase">
+            <tr>
+              <th style="width: 5%;">NO</th>
+              <th style="width: 55%; text-align: left;">KODE & SPESIFIKASI DETAIL BARANG</th>
+              <th style="width: 10%;">QTY</th>
+              <th style="width: 15%; text-align: right;">HARGA SATUAN (RP)</th>
+              <th style="width: 15%; text-align: right;">TOTAL HARGA (RP)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% 
+              const items = typeof po.items === 'object' ? po.items : JSON.parse(po.items_json || '[]');
+              if (items.length === 0) {
+            %>
+              <tr><td colspan="5" class="text-center text-muted py-4">Tidak ada barang dalam PO ini.</td></tr>
+            <% } else { %>
+              <% items.forEach((item, idx) => { %>
+                <tr>
+                  <td class="text-center font-bold"><%= idx + 1 %></td>
+                  <td>
+                    <div class="fw-bold text-success"><%= item.nama_kode || item.nama_barang || '-' %></div>
+                    <div class="small text-muted"><%= item.spesifikasi || '-' %></div>
+                  </td>
+                  <td class="text-center fw-bold"><%= item.qty || 1 %> <%= item.satuan || 'PCS' %></td>
+                  <td class="text-end">Rp <%= Number(item.harga_satuan || 0).toLocaleString('id-ID') %></td>
+                  <td class="text-end fw-bold">Rp <%= Number(item.total_harga || (item.qty * item.harga_satuan) || 0).toLocaleString('id-ID') %></td>
+                </tr>
+              <% }); %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Financial Totals Block -->
+      <div class="row justify-content-end mb-4">
+        <div class="col-md-5">
+          <div class="p-3 bg-light rounded border">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="fw-bold">Subtotal:</span>
+              <span class="fw-bold">Rp <%= Number(po.subtotal || 0).toLocaleString('id-ID') %></span>
+            </div>
+            <div class="d-flex justify-content-between mb-2 text-muted small">
+              <span>PPN (<%= po.ppn_persen || 0 %>%):</span>
+              <span>Rp <%= Number(po.ppn_nominal || 0).toLocaleString('id-ID') %></span>
+            </div>
+            <% if (po.diskon_nominal > 0) { %>
+            <div class="d-flex justify-content-between mb-2 text-muted small">
+              <span>Diskon:</span>
+              <span>- Rp <%= Number(po.diskon_nominal || 0).toLocaleString('id-ID') %></span>
+            </div>
+            <% } %>
+            <hr class="my-2">
+            <div class="d-flex justify-content-between fs-5 fw-bold text-success">
+              <span>TOTAL NETTO:</span>
+              <span>Rp <%= Number(po.total_netto || po.subtotal || 0).toLocaleString('id-ID') %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Syarat & Ketentuan -->
+      <div class="p-3 bg-light rounded border mb-4">
+        <h6 class="fw-bold text-success mb-1"><i class="fas fa-file-contract me-1"></i>Syarat & Ketentuan Pengadaan:</h6>
+        <div class="small text-dark style-pre-line"><%= po.catatan_syarat || '-' %></div>
+      </div>
+
+      <!-- Signatures Block -->
+      <div class="row text-center pt-3">
+        <div class="col-md-4">
+          <div class="fw-bold text-success small mb-2">Dibuat Oleh,</div>
+          <div style="height: 60px;" class="d-flex align-items-center justify-content-center">
+            <% if (po.signature_dibuat) { %>
+              <img src="<%= po.signature_dibuat %>" style="max-height: 55px;" alt="TTD">
+            <% } else { %>
+              <span class="badge bg-light text-success border">[ SIGNED DIGITAL ]</span>
+            <% } %>
+          </div>
+          <div class="fw-bold text-decoration-underline mt-2"><%= po.dibuat_oleh_nama || 'ISWANDA ADITYA F.' %></div>
+          <div class="small text-muted"><%= po.dibuat_oleh_jabatan || 'Procurement / Staff IT' %></div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="fw-bold text-success small mb-2">Disetujui Oleh,</div>
+          <div style="height: 60px;" class="d-flex align-items-center justify-content-center">
+            <span class="badge bg-success fs-6">[ APPROVED ]</span>
+          </div>
+          <div class="fw-bold text-decoration-underline mt-2"><%= po.disetujui_oleh_nama || 'KEN' %></div>
+          <div class="small text-muted"><%= po.disetujui_oleh_jabatan || 'Finance Manager' %></div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="fw-bold text-success small mb-2">Konfirmasi Vendor,</div>
+          <div style="height: 60px;" class="d-flex align-items-center justify-content-center">
+            <span class="text-muted italic small">[ Stamp & Sign ]</span>
+          </div>
+          <div class="fw-bold text-decoration-underline mt-2"><%= po.vendor_konfirmasi_nama || po.vendor_nama || 'PT AGRES INFO TEKNOLOGI' %></div>
+          <div class="small text-muted"><%= po.vendor_konfirmasi_jabatan || 'Perwakilan Resmi' %></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

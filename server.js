@@ -15,6 +15,8 @@ const { generatePDF } = require('./utils/pdfGenerator');
 const { generateExcel } = require('./utils/excelGenerator');
 const { generateOperasionalPDF } = require('./utils/operasionalPdfGenerator');
 const { generateOperasionalExcel } = require('./utils/operasionalExcelGenerator');
+const { generatePOPDF } = require('./utils/poPdfGenerator');
+const { generatePOExcel } = require('./utils/poExcelGenerator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -739,6 +741,145 @@ app.get('/api/operasional/export/excel', requireOperasionalAuth, (req, res) => {
     } catch (excelErr) {
       console.error('Operasional Excel Error:', excelErr);
       res.status(500).send('Error generating Operasional Excel: ' + excelErr.message);
+    }
+  });
+});
+
+// =========================================================================
+// OPERASIONAL: PURCHASE ORDER (PO) ROUTES
+// =========================================================================
+
+// PO Admin Dashboard
+app.get('/admin/operasional/po', requireOperasionalAuth, (req, res) => {
+  db.all('SELECT * FROM purchase_orders ORDER BY id DESC', [], (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+    const host = req.headers['x-forwarded-host'] || req.get('host') || 'localhost:3000';
+    const baseUrl = `${protocol}://${host}`;
+    res.render('po_admin', { records: rows || [], user: req.session.user, baseUrl });
+  });
+});
+
+// Create PO Form Page
+app.get('/admin/operasional/po/create', requireOperasionalAuth, (req, res) => {
+  res.render('po_form', { user: req.session.user });
+});
+
+// Submit PO API
+app.post('/api/operasional/po/submit', requireOperasionalAuth, (req, res) => {
+  const body = req.body;
+  const now = new Date();
+  const monthRoman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"][now.getMonth()];
+  const randNum = Math.floor(10 + Math.random() * 90);
+  const generatedNoPo = body.no_po || `PO/WHM/${monthRoman}/${now.getFullYear()}/${randNum}`;
+
+  const subtotal = parseFloat(body.subtotal || 0);
+  const ppnPersen = parseFloat(body.ppn_persen || 0);
+  const ppnNominal = parseFloat(body.ppn_nominal || 0);
+  const diskonNominal = parseFloat(body.diskon_nominal || 0);
+  const totalNetto = parseFloat(body.total_netto || (subtotal + ppnNominal - diskonNominal));
+
+  const sql = `
+    INSERT INTO purchase_orders (
+      no_po, tanggal_po, vendor_nama, vendor_nama_dagang, perihal, unit_kerja, status_po,
+      lokasi_kirim, tgl_pengiriman, termin_bayar, mata_uang, items_json,
+      subtotal, ppn_persen, ppn_nominal, diskon_nominal, total_netto, catatan_syarat,
+      dibuat_oleh_nama, dibuat_oleh_jabatan, signature_dibuat,
+      disetujui_oleh_nama, disetujui_oleh_jabatan,
+      vendor_konfirmasi_nama, vendor_konfirmasi_jabatan, share_token
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const params = [
+    generatedNoPo,
+    body.tanggal_po || new Date().toISOString().split('T')[0],
+    body.vendor_nama || '',
+    body.vendor_nama_dagang || '',
+    body.perihal || '',
+    body.unit_kerja || 'PT SUMBER CITA INDONESIA',
+    body.status_po || 'Reguler / Approved',
+    body.lokasi_kirim || '',
+    body.tgl_pengiriman || '',
+    body.termin_bayar || '',
+    body.mata_uang || 'IDR (Rupiah)',
+    body.items_json || '[]',
+    subtotal,
+    ppnPersen,
+    ppnNominal,
+    diskonNominal,
+    totalNetto,
+    body.catatan_syarat || '',
+    body.dibuat_oleh_nama || 'ISWANDA ADITYA F.',
+    body.dibuat_oleh_jabatan || 'Procurement / Staff IT',
+    body.signature_dibuat || '',
+    body.disetujui_oleh_nama || 'KEN',
+    body.disetujui_oleh_jabatan || 'Finance Manager',
+    body.vendor_konfirmasi_nama || body.vendor_nama || '',
+    body.vendor_konfirmasi_jabatan || 'Perwakilan Resmi',
+    body.share_token || ''
+  ];
+
+  db.run(sql, params, function(err) {
+    if (err) {
+      console.error('Error inserting purchase order:', err);
+      return res.status(500).json({ success: false, error: err.message });
+    }
+    res.json({
+      success: true,
+      id: this.lastID,
+      no_po: generatedNoPo,
+      message: 'Purchase Order berhasil diterbitkan.'
+    });
+  });
+});
+
+// PO Detail View
+app.get('/admin/operasional/po/detail/:id', requireOperasionalAuth, (req, res) => {
+  db.get('SELECT * FROM purchase_orders WHERE id = ?', [req.params.id], (err, row) => {
+    if (err || !row) return res.status(404).send('Purchase Order tidak ditemukan.');
+    res.render('po_detail', { po: row, user: req.session.user });
+  });
+});
+
+// Delete PO (Super Admin Only)
+app.post('/admin/operasional/po/delete/:id', requireAuth, requireSuperAdmin, (req, res) => {
+  db.run('DELETE FROM purchase_orders WHERE id = ?', [req.params.id], (err) => {
+    if (err) return res.status(500).send(err.message);
+    res.redirect('/admin/operasional/po');
+  });
+});
+
+// Export Official PO PDF
+app.get('/api/operasional/po/export/pdf/:id', requireOperasionalAuth, (req, res) => {
+  db.get('SELECT * FROM purchase_orders WHERE id = ?', [req.params.id], async (err, row) => {
+    if (err || !row) return res.status(404).send('Purchase Order tidak ditemukan.');
+
+    try {
+      const pdfBuffer = await generatePOPDF(row);
+      const filename = `PO_${(row.no_po || 'PO_KOV_' + row.id).replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+      res.send(pdfBuffer);
+    } catch (pdfErr) {
+      console.error('PO PDF Error:', pdfErr);
+      res.status(500).send('Error generating PO PDF: ' + pdfErr.message);
+    }
+  });
+});
+
+// Export All POs Excel
+app.get('/api/operasional/po/export/excel', requireOperasionalAuth, (req, res) => {
+  db.all('SELECT * FROM purchase_orders ORDER BY id DESC', [], async (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+
+    try {
+      const buffer = await generatePOExcel(rows);
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', 'attachment; filename="Record_Purchase_Orders_Operasional.xlsx"');
+      res.send(buffer);
+    } catch (excelErr) {
+      console.error('PO Excel Error:', excelErr);
+      res.status(500).send('Error generating PO Excel: ' + excelErr.message);
     }
   });
 });

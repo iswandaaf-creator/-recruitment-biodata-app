@@ -265,6 +265,56 @@ db.serialize(() => {
     )
   `);
 
+  // Operasional: Purchase Orders Table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS purchase_orders (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      no_po TEXT UNIQUE,
+      tanggal_po TEXT,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+      -- Header & Vendor
+      vendor_nama TEXT,
+      vendor_nama_dagang TEXT,
+      perihal TEXT,
+      unit_kerja TEXT,
+      status_po TEXT DEFAULT 'Reguler / Approved',
+
+      -- Detail Pengiriman & Pembayaran
+      lokasi_kirim TEXT,
+      tgl_pengiriman TEXT,
+      termin_bayar TEXT,
+      mata_uang TEXT DEFAULT 'IDR (Rupiah)',
+
+      -- Item Barang (JSON Array)
+      items_json TEXT,
+
+      -- Ringkasan Total
+      subtotal REAL DEFAULT 0,
+      ppn_persen REAL DEFAULT 0,
+      ppn_nominal REAL DEFAULT 0,
+      diskon_nominal REAL DEFAULT 0,
+      total_netto REAL DEFAULT 0,
+
+      -- Syarat & Ketentuan Pengadaan
+      catatan_syarat TEXT,
+
+      -- Lembar Otorisasi
+      dibuat_oleh_nama TEXT DEFAULT 'ISWANDA ADITYA F.',
+      dibuat_oleh_jabatan TEXT DEFAULT 'Procurement / Staff IT',
+      signature_dibuat TEXT,
+
+      disetujui_oleh_nama TEXT DEFAULT 'KEN',
+      disetujui_oleh_jabatan TEXT DEFAULT 'Finance Manager',
+
+      vendor_konfirmasi_nama TEXT DEFAULT 'PT AGRES INFO TEKNOLOGI',
+      vendor_konfirmasi_jabatan TEXT DEFAULT 'Perwakilan Resmi',
+
+      share_token TEXT
+    )
+  `);
+
   // Admin Users Table
   db.run(`
     CREATE TABLE IF NOT EXISTS users (

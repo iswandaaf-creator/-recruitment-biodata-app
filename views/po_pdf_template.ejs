@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Purchase Order - <%= po.no_po || ('PO/KOV/' + po.id) %></title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 10mm 12mm;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10px;
+      color: #111;
+      line-height: 1.35;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    .header-table td {
+      vertical-align: top;
+    }
+    .company-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #0f5132;
+      letter-spacing: 0.5px;
+    }
+    .company-sub {
+      font-size: 11px;
+      font-weight: bold;
+      color: #333;
+    }
+    .company-addr {
+      font-size: 9.5px;
+      color: #555;
+    }
+    .po-title-box {
+      text-align: right;
+    }
+    .po-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #0f5132;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .po-meta {
+      font-size: 10px;
+      font-weight: bold;
+      color: #222;
+    }
+    .grid-box-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+    }
+    .grid-box-table td {
+      width: 50%;
+      vertical-align: top;
+      padding: 0;
+    }
+    .card-box {
+      border: 1.5px solid #0f5132;
+      border-radius: 4px;
+      padding: 8px 10px;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    .card-box-header {
+      background-color: #0f5132;
+      color: white;
+      font-weight: bold;
+      font-size: 10.5px;
+      padding: 4px 8px;
+      border-radius: 2px 2px 0 0;
+      margin: -8px -10px 6px -10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .info-row {
+      margin-bottom: 3px;
+      display: flex;
+    }
+    .info-label {
+      width: 35%;
+      font-weight: bold;
+      color: #444;
+    }
+    .info-val {
+      width: 65%;
+      color: #111;
+    }
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+    }
+    .items-table th {
+      background-color: #0f5132;
+      color: white;
+      font-weight: bold;
+      font-size: 10px;
+      padding: 6px 6px;
+      border: 1px solid #0f5132;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .items-table td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      vertical-align: top;
+      font-size: 10px;
+    }
+    .item-title {
+      font-weight: bold;
+      color: #0f5132;
+      font-size: 10.5px;
+    }
+    .item-spec {
+      font-size: 9.5px;
+      color: #555;
+      margin-top: 2px;
+    }
+    .summary-table {
+      width: 45%;
+      margin-left: auto;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    .summary-table td {
+      padding: 4px 8px;
+      font-size: 10.5px;
+    }
+    .summary-table td.label {
+      font-weight: bold;
+      text-align: right;
+    }
+    .summary-table td.val {
+      text-align: right;
+      font-weight: bold;
+    }
+    .summary-table tr.total-row td {
+      background-color: #e8f5e9;
+      color: #0f5132;
+      font-size: 12px;
+      border-top: 2px solid #0f5132;
+      border-bottom: 2px solid #0f5132;
+    }
+    .terms-box {
+      border: 1px solid #ddd;
+      background-color: #fafafa;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .terms-title {
+      font-weight: bold;
+      color: #0f5132;
+      font-size: 10.5px;
+      margin-bottom: 4px;
+    }
+    .terms-text {
+      font-size: 9.5px;
+      color: #333;
+      white-space: pre-line;
+    }
+    .signature-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .signature-table td {
+      width: 33.33%;
+      vertical-align: top;
+      padding: 6px;
+    }
+    .sig-header {
+      font-weight: bold;
+      font-size: 10px;
+      color: #0f5132;
+      margin-bottom: 5px;
+    }
+    .sig-space {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sig-img {
+      max-height: 52px;
+      max-width: 130px;
+    }
+    .sig-name {
+      font-weight: bold;
+      font-size: 11px;
+      text-decoration: underline;
+    }
+    .sig-role {
+      font-size: 9.5px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <table class="header-table">
+    <tr>
+      <td style="width: 55%;">
+        <% if (typeof logoBase64 !== 'undefined' && logoBase64) { %>
+          <img src="<%= logoBase64 %>" style="height: 42px; max-width: 160px; object-fit: contain; margin-bottom: 4px;">
+        <% } %>
+        <div class="company-title">KOV GROUP</div>
+        <div class="company-sub">Divisi Finance, Accounting & Procurement Operasional</div>
+        <div class="company-addr">Jl. Wahidin No. 88, Semarang, Jawa Tengah</div>
+      </td>
+      <td style="width: 45%;" class="po-title-box">
+        <div class="po-title">PURCHASE ORDER</div>
+        <div class="po-meta">No. PO : <%= po.no_po || ('PO/KOV/' + po.id) %></div>
+        <div class="po-meta">Tanggal : <%= po.tanggal_po || '-' %></div>
+        <div class="po-meta" style="margin-top: 4px;">
+          Status : <span style="color: #0f5132; background: #e8f5e9; padding: 2px 6px; border-radius: 3px;"><%= po.status_po || 'Reguler / Approved' %></span>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Vendor & Delivery Info Grid -->
+  <table class="grid-box-table">
+    <tr>
+      <td style="padding-right: 6px;">
+        <div class="card-box">
+          <div class="card-box-header">PENYEDIA / VENDOR (TO)</div>
+          <div class="info-row">
+            <div class="info-label">Nama Vendor:</div>
+            <div class="info-val"><strong><%= po.vendor_nama || '-' %></strong></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Nama Dagang:</div>
+            <div class="info-val"><%= po.vendor_nama_dagang || '-' %></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Perihal:</div>
+            <div class="info-val"><%= po.perihal || '-' %></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Unit Kerja:</div>
+            <div class="info-val"><strong><%= po.unit_kerja || '-' %></strong></div>
+          </div>
+        </div>
+      </td>
+      <td style="padding-left: 6px;">
+        <div class="card-box">
+          <div class="card-box-header">DETAIL PENGIRIMAN & PEMBAYARAN</div>
+          <div class="info-row">
+            <div class="info-label">Lokasi Kirim:</div>
+            <div class="info-val"><%= po.lokasi_kirim || '-' %></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Tgl Pengiriman:</div>
+            <div class="info-val"><%= po.tgl_pengiriman || '-' %></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Termin Bayar:</div>
+            <div class="info-val"><%= po.termin_bayar || '-' %></div>
+          </div>
+          <div class="info-row">
+            <div class="info-label">Mata Uang:</div>
+            <div class="info-val"><%= po.mata_uang || 'IDR (Rupiah)' %></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Items Table -->
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th style="width: 5%;">NO</th>
+        <th style="width: 55%; text-align: left;">KODE & SPESIFIKASI DETAIL BARANG</th>
+        <th style="width: 12%;">QTY</th>
+        <th style="width: 14%; text-align: right;">HARGA SATUAN (RP)</th>
+        <th style="width: 14%; text-align: right;">TOTAL HARGA (RP)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% 
+        const items = typeof po.items === 'object' ? po.items : JSON.parse(po.items_json || '[]');
+        if (items.length === 0) {
+      %>
+        <tr>
+          <td colspan="5" style="text-align: center; color: #888; padding: 15px;">Tidak ada item barang dalam PO ini.</td>
+        </tr>
+      <% } else { %>
+        <% items.forEach((item, idx) => { %>
+          <tr>
+            <td style="text-align: center;"><%= idx + 1 %></td>
+            <td>
+              <div class="item-title"><%= item.nama_kode || item.nama_barang || '-' %></div>
+              <div class="item-spec"><%= item.spesifikasi || '-' %></div>
+            </td>
+            <td style="text-align: center; font-weight: bold;"><%= item.qty || 1 %> <%= item.satuan || 'PCS' %></td>
+            <td style="text-align: right;"><%= Number(item.harga_satuan || 0).toLocaleString('id-ID') %></td>
+            <td style="text-align: right; font-weight: bold;"><%= Number(item.total_harga || (item.qty * item.harga_satuan) || 0).toLocaleString('id-ID') %></td>
+          </tr>
+        <% }); %>
+      <% } %>
+    </tbody>
+  </table>
+
+  <!-- Summary Financial Totals -->
+  <table class="summary-table">
+    <tr>
+      <td class="label">Subtotal:</td>
+      <td class="val">Rp <%= Number(po.subtotal || 0).toLocaleString('id-ID') %></td>
+    </tr>
+    <% if (po.ppn_nominal > 0 || po.ppn_persen > 0) { %>
+    <tr>
+      <td class="label">PPN (<%= po.ppn_persen || 0 %>%):</td>
+      <td class="val">Rp <%= Number(po.ppn_nominal || 0).toLocaleString('id-ID') %></td>
+    </tr>
+    <% } else { %>
+    <tr>
+      <td class="label">PPN (0% / Non-PKP)*:</td>
+      <td class="val">Rp0</td>
+    </tr>
+    <% } %>
+    <% if (po.diskon_nominal > 0) { %>
+    <tr>
+      <td class="label">Diskon:</td>
+      <td class="val">- Rp <%= Number(po.diskon_nominal || 0).toLocaleString('id-ID') %></td>
+    </tr>
+    <% } %>
+    <tr class="total-row">
+      <td class="label">TOTAL NETTO:</td>
+      <td class="val">Rp <%= Number(po.total_netto || po.subtotal || 0).toLocaleString('id-ID') %></td>
+    </tr>
+  </table>
+
+  <!-- Syarat & Ketentuan Pengadaan -->
+  <div class="terms-box">
+    <div class="terms-title">Syarat & Ketentuan Pengadaan:</div>
+    <div class="terms-text"><%= po.catatan_syarat || 'Seluruh barang dalam keadaan segel baru dan bergaransi resmi pabrikan.\nPengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Terima (BAST).' %></div>
+  </div>
+
+  <!-- Signatures Block -->
+  <table class="signature-table">
+    <tr>
+      <td>
+        <div class="sig-header">Dibuat Oleh,</div>
+        <div class="sig-space">
+          <% if (po.signature_dibuat) { %>
+            <img src="<%= po.signature_dibuat %>" class="sig-img" alt="TTD">
+          <% } else { %>
+            <span style="color: #0f5132; font-weight: bold; font-size: 11px;">[ SIGNED DIGITAL ]</span>
+          <% } %>
+        </div>
+        <div class="sig-name"><%= po.dibuat_oleh_nama || 'ISWANDA ADITYA F.' %></div>
+        <div class="sig-role"><%= po.dibuat_oleh_jabatan || 'Procurement / Staff IT' %></div>
+      </td>
+      <td>
+        <div class="sig-header">Disetujui Oleh,</div>
+        <div class="sig-space">
+          <span style="color: #0f5132; font-weight: bold; font-size: 13px;">[ APPROVED ]</span>
+        </div>
+        <div class="sig-name"><%= po.disetujui_oleh_nama || 'KEN' %></div>
+        <div class="sig-role"><%= po.disetujui_oleh_jabatan || 'Finance Manager' %></div>
+      </td>
+      <td>
+        <div class="sig-header">Konfirmasi Vendor,</div>
+        <div class="sig-space">
+          <span style="color: #666; font-style: italic; font-size: 10px;">[ Official Stamp & Sign ]</span>
+        </div>
+        <div class="sig-name"><%= po.vendor_konfirmasi_nama || po.vendor_nama || 'PT AGRES INFO TEKNOLOGI' %></div>
+        <div class="sig-role"><%= po.vendor_konfirmasi_jabatan || 'Perwakilan Resmi' %></div>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
