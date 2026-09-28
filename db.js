@@ -13,6 +13,12 @@ if (!fs.existsSync(dataDir)) {
 const dbPath = path.join(dataDir, 'database.sqlite');
 console.log('[DATABASE] Connecting to SQLite database at:', dbPath);
 const sqlite = new DatabaseSync(dbPath);
+try {
+  sqlite.exec('PRAGMA journal_mode = WAL;');
+  sqlite.exec('PRAGMA synchronous = NORMAL;');
+} catch (e) {
+  // PRAGMA WAL enabled
+}
 
 // Async Callback Wrapper for better-sqlite3 (100% compatible with sqlite3 API)
 const db = {
