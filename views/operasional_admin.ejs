@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Operasional - Berita Acara Pengajuan Barang</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar-operasional { background: linear-gradient(135deg, #0f5132 0%, #198754 100%); }
+    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .metric-card { transition: transform 0.2s ease; }
+    .metric-card:hover { transform: translateY(-3px); }
+    .badge-status-Menunggu { background-color: #ffc107; color: #212529; }
+    .badge-status-Disetujui { background-color: #198754; color: white; }
+    .badge-status-Ditolak { background-color: #dc3545; color: white; }
+    .badge-status-Proses { background-color: #0d6efd; color: white; }
+    .badge-status-Selesai { background-color: #20c997; color: white; }
+    .badge-priority-Normal { background-color: #0d6efd; }
+    .badge-priority-Urgent { background-color: #fd7e14; }
+    .badge-priority-Critical { background-color: #dc3545; }
+    .sortable-header { cursor: pointer; user-select: none; }
+    .sortable-header:hover { background-color: #e2e8f0; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-operasional shadow-sm">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold" href="/admin/operasional">
+        <i class="fas fa-boxes-stacked me-2"></i>Dashboard Operasional - BA Pengajuan Barang
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <% if (typeof user !== 'undefined' && user) { %>
+          <span class="text-white me-2 small">
+            <i class="fas fa-user-circle me-1"></i><%= user.nama || user.username %> (<%= user.role %>)
+          </span>
+          <% if (user.role === 'superadmin') { %>
+            <a href="/admin" class="btn btn-outline-light btn-sm fw-semibold me-1">
+              <i class="fas fa-user-tie me-1"></i>Switch to Dashboard HR
+            </a>
+            <a href="/admin/users" class="btn btn-warning btn-sm fw-semibold me-1">
+              <i class="fas fa-user-gear me-1"></i>Kelola User
+            </a>
+          <% } %>
+        <% } %>
+        <button class="btn btn-light btn-sm fw-semibold" onclick="generateAndCopyShareLink()">
+          <i class="fas fa-random me-1 text-success"></i>Copy Share Link Form (Acak)
+        </button>
+        <a href="/api/operasional/export/excel" class="btn btn-success btn-sm fw-semibold">
+          <i class="fas fa-file-excel me-1"></i>Export Excel
+        </a>
+        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold ms-2">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid px-4 py-4">
+
+    <!-- Share Link Alert Banner -->
+    <div class="alert alert-success d-flex align-items-center justify-content-between rounded-3 mb-4 shadow-sm" role="alert">
+      <div>
+        <i class="fas fa-share-nodes me-2 fs-5"></i>
+        <strong>Link Form Unik Operasional (Acak):</strong> 
+        <span id="shareUrl" class="user-select-all fw-mono bg-white text-dark px-2 py-1 rounded border ms-1">http://localhost:3000/pengajuan-barang?ref=c-8f3a921d</span>
+      </div>
+      <button class="btn btn-success btn-sm px-3 fw-bold" onclick="copyShareUrl()">
+        <i class="fas fa-copy me-1"></i>Salin Link
+      </button>
+    </div>
+
+    <!-- Summary Metrics Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-2">
+        <div class="card metric-card bg-primary text-white p-3 text-center">
+          <div class="fs-4 fw-bold"><%= records.length %></div>
+          <div class="small">Total Pengajuan</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card metric-card bg-warning text-dark p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %>
+          </div>
+          <div class="small">Menunggu Approval</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card metric-card bg-success text-white p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %>
+          </div>
+          <div class="small">Disetujui</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card metric-card bg-info text-white p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => (r.status_approval || '').includes('Proses')).length %>
+          </div>
+          <div class="small">Dalam Proses</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card metric-card bg-danger text-white p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => (r.status_approval || '') === 'Ditolak').length %>
+          </div>
+          <div class="small">Ditolak</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card metric-card bg-dark text-white p-3 text-center">
+          <div class="fs-6 fw-bold">
+            Rp <%= records.reduce((acc, r) => acc + (r.total_estimasi || 0), 0).toLocaleString('id-ID') %>
+          </div>
+          <div class="small">Total Biaya Estimasi</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Data Table Card -->
+    <div class="card shadow-sm">
+      <div class="card-header bg-white py-3">
+        <div class="row align-items-center g-2">
+          <div class="col-md-4">
+            <div class="input-group">
+              <span class="input-group-text bg-light"><i class="fas fa-search text-secondary"></i></span>
+              <input type="text" id="searchInput" class="form-control" placeholder="Cari No BA, Nama Barang, Outlet, PIC...">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select id="filterStatus" class="form-select">
+              <option value="">-- Semua Status Approval --</option>
+              <option value="Menunggu Approval">Menunggu Approval</option>
+              <option value="Disetujui">Disetujui</option>
+              <option value="Dalam Proses">Dalam Proses</option>
+              <option value="Selesai">Selesai</option>
+              <option value="Ditolak">Ditolak</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select id="filterPrioritas" class="form-select">
+              <option value="">-- Semua Prioritas --</option>
+              <option value="Normal">Normal</option>
+              <option value="Urgent">Urgent</option>
+              <option value="Critical">Critical</option>
+            </select>
+          </div>
+          <div class="col-md-2 text-end">
+            <a href="/pengajuan-barang" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
+              <i class="fas fa-external-link-alt me-1"></i>Buka Form Public
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" id="recordsTable">
+            <thead class="table-light text-secondary small text-uppercase">
+              <tr>
+                <th class="ps-3 sortable-header" onclick="sortTable(0)">No. BA <i class="fas fa-sort text-muted ms-1"></i></th>
+                <th class="sortable-header" onclick="sortTable(1)">Tgl Pengajuan <i class="fas fa-sort text-muted ms-1"></i></th>
+                <th class="sortable-header" onclick="sortTable(2)">Outlet / Divisi <i class="fas fa-sort text-muted ms-1"></i></th>
+                <th class="sortable-header" onclick="sortTable(3)">PIC Pengajuan <i class="fas fa-sort text-muted ms-1"></i></th>
+                <th class="sortable-header" onclick="sortTable(4)">Nama Barang <i class="fas fa-sort text-muted ms-1"></i></th>
+                <th class="sortable-header text-end" onclick="sortTable(5)">Total Estimasi <i class="fas fa-sort text-muted ms-1"></i></th>
+                <th class="text-center sortable-header" onclick="sortTable(6)">Prioritas <i class="fas fa-sort text-muted ms-1"></i></th>
+                <th class="text-center sortable-header" onclick="sortTable(7)">Status Approval <i class="fas fa-sort text-muted ms-1"></i></th>
+                <th class="text-end pe-3">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (records.length === 0) { %>
+                <tr>
+                  <td colspan="9" class="text-center py-5 text-muted">
+                    <i class="fas fa-box-open fs-1 mb-2 d-block text-secondary"></i>
+                    Belum ada Berita Acara Pengajuan Barang yang tercatat.
+                  </td>
+                </tr>
+              <% } else { %>
+                <% records.forEach(item => { %>
+                  <tr>
+                    <td class="ps-3 fw-bold text-dark">
+                      <%= item.no_ba || ('BA/OPS/' + item.id) %>
+                    </td>
+                    <td class="small text-secondary"><%= item.tanggal_pengajuan || '-' %></td>
+                    <td>
+                      <div class="fw-semibold text-dark"><%= item.outlet_divisi || '-' %></div>
+                      <div class="small text-muted"><%= item.departemen || '-' %></div>
+                    </td>
+                    <td>
+                      <span class="fw-semibold text-dark"><%= item.pic_pengajuan || '-' %></span>
+                    </td>
+                    <td>
+                      <div class="fw-bold text-dark"><%= item.nama_barang || '-' %></div>
+                      <span class="badge bg-light text-dark border small"><%= item.status_barang || 'Barang Baru' %></span>
+                    </td>
+                    <td class="text-end fw-bold text-dark">
+                      Rp <%= Number(item.total_estimasi || 0).toLocaleString('id-ID') %>
+                    </td>
+                    <td class="text-center">
+                      <% const p = item.prioritas || 'Normal'; %>
+                      <span class="badge badge-priority-<%= p %> px-2 py-1"><%= p %></span>
+                    </td>
+                    <td class="text-center">
+                      <% 
+                        const st = item.status_approval || 'Menunggu Approval';
+                        let stClass = 'Menunggu';
+                        if (st === 'Disetujui') stClass = 'Disetujui';
+                        else if (st === 'Ditolak') stClass = 'Ditolak';
+                        else if (st.includes('Proses')) stClass = 'Proses';
+                        else if (st === 'Selesai') stClass = 'Selesai';
+                      %>
+                      <span class="badge badge-status-<%= stClass %> px-2 py-1"><%= st %></span>
+                    </td>
+                    <td class="text-end pe-3">
+                      <div class="btn-group btn-group-sm">
+                        <a href="/admin/operasional/detail/<%= item.id %>" class="btn btn-outline-primary" title="Detail & Otorisasi BA">
+                          <i class="fas fa-eye me-1"></i>Detail
+                        </a>
+                        <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" class="btn btn-outline-danger" title="Download Official PDF BA">
+                          <i class="fas fa-file-pdf"></i>
+                        </a>
+                        <% if (typeof user !== 'undefined' && user && user.role === 'superadmin') { %>
+                          <button class="btn btn-outline-danger" onclick="deleteRecord(<%= item.id %>, '<%= item.no_ba || item.nama_barang %>')" title="Hapus BA">
+                            <i class="fas fa-trash-can"></i>
+                          </button>
+                        <% } %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Form -->
+  <form id="deleteForm" method="POST" style="display: none;"></form>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Copy Share Link Functionality
+    function generateRandomToken() {
+      return 'c-' + Math.random().toString(36).substring(2, 10);
+    }
+    function generateAndCopyShareLink() {
+      const newToken = generateRandomToken();
+      const newUrl = `${window.location.origin}/pengajuan-barang?ref=${newToken}`;
+      document.getElementById('shareUrl').innerText = newUrl;
+      navigator.clipboard.writeText(newUrl).then(() => {
+        alert('Link Form Unik Operasional berhasil disalin:\n' + newUrl);
+      });
+    }
+    function copyShareUrl() {
+      const text = document.getElementById('shareUrl').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Link disalin ke clipboard:\n' + text);
+      });
+    }
+
+    // Live Filtering
+    const searchInput = document.getElementById('searchInput');
+    const filterStatus = document.getElementById('filterStatus');
+    const filterPrioritas = document.getElementById('filterPrioritas');
+    const tableRows = document.querySelectorAll('#recordsTable tbody tr');
+
+    function applyFilters() {
+      const searchVal = searchInput.value.toLowerCase();
+      const statusVal = filterStatus.value.toLowerCase();
+      const prioritasVal = filterPrioritas.value.toLowerCase();
+
+      tableRows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const matchSearch = !searchVal || text.includes(searchVal);
+        const matchStatus = !statusVal || text.includes(statusVal);
+        const matchPrioritas = !prioritasVal || text.includes(prioritasVal);
+
+        if (matchSearch && matchStatus && matchPrioritas) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    searchInput.addEventListener('keyup', applyFilters);
+    filterStatus.addEventListener('change', applyFilters);
+    filterPrioritas.addEventListener('change', applyFilters);
+
+    // Delete Record Confirmation
+    function deleteRecord(id, label) {
+      if (confirm(`Apakah Anda yakin ingin menghapus Berita Acara: "${label}"?`)) {
+        const form = document.getElementById('deleteForm');
+        form.action = `/admin/operasional/delete/${id}`;
+        form.submit();
+      }
+    }
+
+    // Simple Table Sorting
+    let sortDirections = {};
+    function sortTable(colIdx) {
+      const table = document.getElementById('recordsTable');
+      const tbody = table.querySelector('tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      
+      sortDirections[colIdx] = !sortDirections[colIdx];
+      const dir = sortDirections[colIdx] ? 1 : -1;
+
+      rows.sort((a, b) => {
+        const aText = a.children[colIdx] ? a.children[colIdx].innerText.trim() : '';
+        const bText = b.children[colIdx] ? b.children[colIdx].innerText.trim() : '';
+        return aText.localeCompare(bText, undefined, { numeric: true }) * dir;
+      });
+
+      rows.forEach(r => tbody.appendChild(r));
+    }
+  </script>
+</body>
+</html>

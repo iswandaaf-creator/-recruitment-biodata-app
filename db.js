@@ -165,6 +165,100 @@ db.serialize(() => {
     }
   });
 
+  // Operasional: Berita Acara Pengajuan Barang Table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS pengajuan_barang (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      no_ba TEXT UNIQUE,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+      -- A. IDENTITAS PENGAJUAN
+      tanggal_pengajuan TEXT,
+      outlet_divisi TEXT,
+      departemen TEXT,
+      pic_pengajuan TEXT,
+      prioritas TEXT DEFAULT 'Normal',
+      barang_dibutuhkan_paling_lambat TEXT,
+
+      -- B. INFORMASI BARANG
+      nama_barang TEXT,
+      status_barang TEXT,
+      kategori_barang TEXT,
+      merk_tipe_model TEXT,
+      spesifikasi TEXT,
+      lokasi_penempatan TEXT,
+      pic_pengguna TEXT,
+      jumlah INTEGER DEFAULT 1,
+      satuan TEXT,
+      harga_satuan_estimasi REAL DEFAULT 0,
+      total_estimasi REAL DEFAULT 0,
+      link_quotation TEXT,
+
+      -- C. KEBUTUHAN & JUSTIFIKASI PENGAJUAN
+      tujuan_kebutuhan TEXT,
+      alasan_pengajuan TEXT,
+      dampak_operasional TEXT,
+      alternatif_dipertimbangkan TEXT,
+
+      -- D. KHUSUS BARANG RUSAK
+      kronologi_kerusakan TEXT,
+      tgl_kerusakan TEXT,
+      jam_kerusakan TEXT,
+      diketahui_oleh TEXT,
+      kondisi_barang_saat_ini TEXT,
+      dampak_kerusakan TEXT,
+      tindakan_awal TEXT,
+      analisa_penyebab TEXT,
+      keterangan_kerusakan TEXT,
+
+      -- E. EVALUASI REPAIR VS REPLACEMENT
+      riwayat_repair_status TEXT,
+      riwayat_repair_kali TEXT,
+      estimasi_biaya_repair REAL DEFAULT 0,
+      estimasi_biaya_replacement REAL DEFAULT 0,
+      kondisi_umur_barang TEXT,
+      rekomendasi TEXT,
+      alasan_rekomendasi TEXT,
+
+      -- F. INFORMASI VENDOR & ANGGARAN
+      vendor_pembelian TEXT,
+      pic_vendor TEXT,
+      no_quotation TEXT,
+      sumber_budget TEXT,
+      ketersediaan_budget TEXT,
+      estimasi_waktu_pengadaan TEXT,
+
+      -- G. TREATMENT / TINDAK LANJUT
+      treatment TEXT,
+      vendor_service TEXT,
+      estimasi_harga_service REAL DEFAULT 0,
+      target_penyelesaian TEXT,
+      keterangan_tindak_lanjut TEXT,
+
+      -- H. DOKUMENTASI & DOKUMEN PENDUKUNG
+      lampiran_foto INTEGER DEFAULT 0,
+      lampiran_quotation INTEGER DEFAULT 0,
+      lampiran_spesifikasi INTEGER DEFAULT 0,
+      lampiran_dokumen_lain INTEGER DEFAULT 0,
+      link_dokumen_pendukung TEXT,
+      catatan_dokumentasi TEXT,
+
+      -- I. PERSETUJUAN / APPROVAL
+      dibuat_oleh TEXT,
+      signature_dibuat TEXT,
+      menyetujui_1 TEXT DEFAULT 'Christian Octo',
+      status_approval_1 TEXT DEFAULT 'Pending',
+      tgl_approval_1 TEXT,
+      menyetujui_2 TEXT DEFAULT 'Aldo Widarta',
+      status_approval_2 TEXT DEFAULT 'Pending',
+      tgl_approval_2 TEXT,
+      status_approval TEXT DEFAULT 'Menunggu Approval',
+      catatan_approval TEXT,
+      share_token TEXT
+    )
+  `);
+
   // Admin Users Table
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
@@ -190,6 +284,20 @@ db.serialize(() => {
           );
         } else {
           db.run("UPDATE users SET role = 'superadmin' WHERE username = 'admin'");
+        }
+      });
+      // Seed default operasional user if not exists
+      db.get('SELECT id FROM users WHERE username = ?', ['operasional'], (err, row) => {
+        if (!row) {
+          const bcrypt = require('bcryptjs');
+          const opsHash = bcrypt.hashSync('operasional123', 10);
+          db.run('INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)',
+            ['operasional', opsHash, 'Admin Operasional', 'operasional'],
+            (err) => {
+              if (err) console.error('Error seeding operasional admin:', err);
+              else console.log('Default operasional account created (username: operasional, pass: operasional123)');
+            }
+          );
         }
       });
     }

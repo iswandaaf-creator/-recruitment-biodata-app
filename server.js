@@ -13,6 +13,8 @@ const bcrypt = require('bcryptjs');
 const db = require('./db');
 const { generatePDF } = require('./utils/pdfGenerator');
 const { generateExcel } = require('./utils/excelGenerator');
+const { generateOperasionalPDF } = require('./utils/operasionalPdfGenerator');
+const { generateOperasionalExcel } = require('./utils/operasionalExcelGenerator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -40,6 +42,17 @@ function requireAuth(req, res, next) {
   res.redirect('/admin/login');
 }
 
+// Operasional Authorization Middleware
+function requireOperasionalAuth(req, res, next) {
+  if (req.session && req.session.user) {
+    const role = req.session.user.role;
+    if (role === 'superadmin' || role === 'operasional' || role === 'admin_operasional') {
+      return next();
+    }
+  }
+  res.redirect('/admin/login');
+}
+
 // Super Admin Authorization Middleware
 function requireSuperAdmin(req, res, next) {
   if (req.session && req.session.user && req.session.user.role === 'superadmin') {
@@ -48,14 +61,22 @@ function requireSuperAdmin(req, res, next) {
   res.status(403).send('<h3>Forbidden 403: Akses ditolak. Hanya Super Admin yang dapat mengakses kelola user.</h3><a href="/admin">Kembali ke Dashboard</a>');
 }
 
-// Candidate Form Page (Public)
+// Candidate Form Page (Public HR)
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// BA Pengajuan Barang Form Page (Public Operasional)
+app.get('/pengajuan-barang', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
 });
 
 // Admin Login Page
 app.get('/admin/login', (req, res) => {
   if (req.session && req.session.user) {
+    if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
+      return res.redirect('/admin/operasional');
+    }
     return res.redirect('/admin');
   }
   res.render('login', { error: null });
@@ -88,6 +109,9 @@ app.post('/admin/login', (req, res) => {
       nama: user.nama,
       role: user.role
     };
+    if (user.role === 'operasional' || user.role === 'admin_operasional') {
+      return res.redirect('/admin/operasional');
+    }
     res.redirect('/admin');
   });
 });
@@ -486,11 +510,219 @@ app.get('/api/export/excel', requireAuth, (req, res) => {
   });
 });
 
+// =========================================================================
+// DIVISI OPERASIONAL: BERITA ACARA PENGAJUAN BARANG ROUTES
+// =========================================================================
+
+// Public API: Submit BA Pengajuan Barang
+app.post('/api/operasional/submit', (req, res) => {
+  const body = req.body;
+  
+  // Generate No BA automatically: BA/OPS/YYYYMM/XXXX
+  const dateObj = new Date();
+  const yyyymm = dateObj.getFullYear().toString() + String(dateObj.getMonth() + 1).padStart(2, '0');
+  const randomCode = Math.floor(1000 + Math.random() * 9000);
+  const generatedNoBa = body.no_ba || `BA/OPS/${yyyymm}/${randomCode}`;
+
+  const jumlah = parseInt(body.jumlah || 1, 10);
+  const hargaSatuan = parseFloat(body.harga_satuan_estimasi || 0);
+  const totalEstimasi = parseFloat(body.total_estimasi || (jumlah * hargaSatuan));
+
+  const sql = `
+    INSERT INTO pengajuan_barang (
+      no_ba, tanggal_pengajuan, outlet_divisi, departemen, pic_pengajuan, prioritas, barang_dibutuhkan_paling_lambat,
+      nama_barang, status_barang, kategori_barang, merk_tipe_model, spesifikasi, lokasi_penempatan, pic_pengguna,
+      jumlah, satuan, harga_satuan_estimasi, total_estimasi, link_quotation,
+      tujuan_kebutuhan, alasan_pengajuan, dampak_operasional, alternatif_dipertimbangkan,
+      kronologi_kerusakan, tgl_kerusakan, jam_kerusakan, diketahui_oleh, kondisi_barang_saat_ini, dampak_kerusakan, tindakan_awal, analisa_penyebab, keterangan_kerusakan,
+      riwayat_repair_status, riwayat_repair_kali, estimasi_biaya_repair, estimasi_biaya_replacement, kondisi_umur_barang, rekomendasi, alasan_rekomendasi,
+      vendor_pembelian, pic_vendor, no_quotation, sumber_budget, ketersediaan_budget, estimasi_waktu_pengadaan,
+      treatment, vendor_service, estimasi_harga_service, target_penyelesaian, keterangan_tindak_lanjut,
+      lampiran_foto, lampiran_quotation, lampiran_spesifikasi, lampiran_dokumen_lain, link_dokumen_pendukung, catatan_dokumentasi,
+      dibuat_oleh, signature_dibuat, menyetujui_1, menyetujui_2, status_approval, share_token
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const params = [
+    generatedNoBa,
+    body.tanggal_pengajuan || new Date().toISOString().split('T')[0],
+    body.outlet_divisi || '',
+    body.departemen || '',
+    body.pic_pengajuan || '',
+    body.prioritas || 'Normal',
+    body.barang_dibutuhkan_paling_lambat || '',
+    body.nama_barang || '',
+    body.status_barang || 'Barang Baru',
+    body.kategori_barang || '',
+    body.merk_tipe_model || '',
+    body.spesifikasi || '',
+    body.lokasi_penempatan || '',
+    body.pic_pengguna || '',
+    jumlah,
+    body.satuan || 'Pcs',
+    hargaSatuan,
+    totalEstimasi,
+    body.link_quotation || '',
+    body.tujuan_kebutuhan || '',
+    body.alasan_pengajuan || '',
+    body.dampak_operasional || '',
+    body.alternatif_dipertimbangkan || '',
+    body.kronologi_kerusakan || '',
+    body.tgl_kerusakan || '',
+    body.jam_kerusakan || '',
+    body.diketahui_oleh || '',
+    body.kondisi_barang_saat_ini || '',
+    body.dampak_kerusakan || '',
+    body.tindakan_awal || '',
+    body.analisa_penyebab || 'Normal Wear & Tear',
+    body.keterangan_kerusakan || '',
+    body.riwayat_repair_status || 'Tidak Pernah',
+    body.riwayat_repair_kali || '0',
+    parseFloat(body.estimasi_biaya_repair || 0),
+    parseFloat(body.estimasi_biaya_replacement || 0),
+    body.kondisi_umur_barang || '',
+    body.rekomendasi || 'Repair',
+    body.alasan_rekomendasi || '',
+    body.vendor_pembelian || '',
+    body.pic_vendor || '',
+    body.no_quotation || '',
+    body.sumber_budget || '',
+    body.ketersediaan_budget || 'Tersedia',
+    body.estimasi_waktu_pengadaan || '',
+    body.treatment || 'Menunggu Approval',
+    body.vendor_service || '',
+    parseFloat(body.estimasi_harga_service || 0),
+    body.target_penyelesaian || '',
+    body.keterangan_tindak_lanjut || '',
+    body.lampiran_foto ? 1 : 0,
+    body.lampiran_quotation ? 1 : 0,
+    body.lampiran_spesifikasi ? 1 : 0,
+    body.lampiran_dokumen_lain ? 1 : 0,
+    body.link_dokumen_pendukung || '',
+    body.catatan_dokumentasi || '',
+    body.pic_pengajuan || '',
+    body.signature_dibuat || '',
+    'Christian Octo',
+    'Aldo Widarta',
+    'Menunggu Approval',
+    body.share_token || body.ref || ''
+  ];
+
+  db.run(sql, params, function (err) {
+    if (err) {
+      console.error('Error inserting pengajuan_barang:', err);
+      return res.status(500).json({ success: false, error: err.message });
+    }
+    res.json({
+      success: true,
+      id: this.lastID,
+      no_ba: generatedNoBa,
+      message: 'Berita Acara Pengajuan Barang berhasil terkirim.'
+    });
+  });
+});
+
+// Admin Operasional Dashboard (Protected)
+app.get('/admin/operasional', requireOperasionalAuth, (req, res) => {
+  db.all('SELECT * FROM pengajuan_barang ORDER BY id DESC', [], (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+    res.render('operasional_admin', { records: rows || [], user: req.session.user });
+  });
+});
+
+// Admin Operasional Detail View (Protected)
+app.get('/admin/operasional/detail/:id', requireOperasionalAuth, (req, res) => {
+  db.get('SELECT * FROM pengajuan_barang WHERE id = ?', [req.params.id], (err, row) => {
+    if (err || !row) return res.status(404).send('Berita Acara tidak ditemukan.');
+    res.render('operasional_detail', { item: row, user: req.session.user });
+  });
+});
+
+// Admin Operasional Update Status & Treatment (Protected)
+app.post('/admin/operasional/update/:id', requireOperasionalAuth, (req, res) => {
+  const body = req.body;
+  const sql = `
+    UPDATE pengajuan_barang SET
+      status_approval = ?,
+      treatment = ?,
+      vendor_service = ?,
+      estimasi_harga_service = ?,
+      target_penyelesaian = ?,
+      menyetujui_1 = ?,
+      menyetujui_2 = ?,
+      catatan_approval = ?,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+  `;
+
+  const params = [
+    body.status_approval || 'Menunggu Approval',
+    body.treatment || 'Menunggu Approval',
+    body.vendor_service || '',
+    parseFloat(body.estimasi_harga_service || 0),
+    body.target_penyelesaian || '',
+    body.menyetujui_1 || 'Christian Octo',
+    body.menyetujui_2 || 'Aldo Widarta',
+    body.catatan_approval || '',
+    req.params.id
+  ];
+
+  db.run(sql, params, (err) => {
+    if (err) return res.status(500).send(err.message);
+    res.redirect(`/admin/operasional/detail/${req.params.id}`);
+  });
+});
+
+// Admin Operasional Delete Record (Super Admin Only)
+app.post('/admin/operasional/delete/:id', requireAuth, requireSuperAdmin, (req, res) => {
+  db.run('DELETE FROM pengajuan_barang WHERE id = ?', [req.params.id], (err) => {
+    if (err) return res.status(500).send(err.message);
+    res.redirect('/admin/operasional');
+  });
+});
+
+// Export Operasional PDF Single BA (Protected)
+app.get('/api/operasional/export/pdf/:id', requireOperasionalAuth, (req, res) => {
+  db.get('SELECT * FROM pengajuan_barang WHERE id = ?', [req.params.id], async (err, row) => {
+    if (err || !row) return res.status(404).send('Berita Acara tidak ditemukan.');
+
+    try {
+      const pdfBuffer = await generateOperasionalPDF(row);
+      const filename = `BA_Pengajuan_${(row.no_ba || 'BA_OPS_' + row.id).replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+      res.send(pdfBuffer);
+    } catch (pdfErr) {
+      console.error('Operasional PDF Error:', pdfErr);
+      res.status(500).send('Error generating Operasional PDF: ' + pdfErr.message);
+    }
+  });
+});
+
+// Export Operasional Excel All BA (Protected)
+app.get('/api/operasional/export/excel', requireOperasionalAuth, (req, res) => {
+  db.all('SELECT * FROM pengajuan_barang ORDER BY id DESC', [], async (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+
+    try {
+      const buffer = await generateOperasionalExcel(rows);
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', 'attachment; filename="Record_BA_Pengajuan_Barang_Operasional.xlsx"');
+      res.send(buffer);
+    } catch (excelErr) {
+      console.error('Operasional Excel Error:', excelErr);
+      res.status(500).send('Error generating Operasional Excel: ' + excelErr.message);
+    }
+  });
+});
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`==================================================`);
   console.log(`Server running on http://localhost:${PORT}`);
-  console.log(`Candidate Form: http://localhost:${PORT}/`);
+  console.log(`HR Candidate Form: http://localhost:${PORT}/`);
   console.log(`HR Admin Dashboard: http://localhost:${PORT}/admin`);
+  console.log(`Operasional Form: http://localhost:${PORT}/pengajuan-barang`);
+  console.log(`Operasional Dashboard: http://localhost:${PORT}/admin/operasional`);
   console.log(`Admin Login: http://localhost:${PORT}/admin/login`);
   console.log(`User Management (Super Admin): http://localhost:${PORT}/admin/users`);
   console.log(`==================================================`);

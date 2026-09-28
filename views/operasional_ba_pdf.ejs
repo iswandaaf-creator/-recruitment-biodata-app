@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Berita Acara Pengajuan Barang - <%= ba.no_ba || ('BA/OPS/' + ba.id) %></title>
+  <style>
+    @page {
+      size: A4;
+      margin: 10mm 12mm;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      color: #111;
+      line-height: 1.4;
+      background: #fff;
+    }
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+    }
+    .header-table td {
+      vertical-align: middle;
+    }
+    .title-box {
+      text-align: center;
+      padding: 6px;
+      background-color: #0f5132;
+      color: white;
+      border-radius: 4px;
+    }
+    .title-box h2 {
+      margin: 0;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .title-box p {
+      margin: 2px 0 0 0;
+      font-size: 11px;
+      font-weight: bold;
+    }
+    .section-header {
+      background-color: #e8f5e9;
+      color: #0f5132;
+      font-weight: bold;
+      font-size: 11px;
+      padding: 5px 8px;
+      border: 1px solid #198754;
+      border-left: 4px solid #0f5132;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+    .content-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 6px;
+    }
+    .content-table td, .content-table th {
+      border: 1px solid #ccc;
+      padding: 5px 8px;
+      vertical-align: top;
+    }
+    .content-table td.label {
+      width: 32%;
+      background-color: #f9f9f9;
+      font-weight: bold;
+      color: #333;
+    }
+    .content-table td.value {
+      width: 68%;
+    }
+    .checkbox-item {
+      display: inline-block;
+      margin-right: 15px;
+    }
+    .checkbox-box {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 1px solid #333;
+      text-align: center;
+      line-height: 10px;
+      font-size: 10px;
+      font-weight: bold;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .checked {
+      background-color: #0f5132;
+      color: white;
+    }
+    .signature-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      text-align: center;
+    }
+    .signature-table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      width: 33.33%;
+      vertical-align: top;
+    }
+    .signature-box {
+      height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .signature-img {
+      max-height: 55px;
+      max-width: 140px;
+    }
+    .footer-note {
+      margin-top: 12px;
+      font-size: 9.5px;
+      color: #666;
+      font-style: italic;
+      border-top: 1px dashed #bbb;
+      padding-top: 4px;
+    }
+    .badge-priority {
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: bold;
+      color: white;
+    }
+    .bg-normal { background-color: #0d6efd; }
+    .bg-urgent { background-color: #fd7e14; }
+    .bg-critical { background-color: #dc3545; }
+  </style>
+</head>
+<body>
+
+  <!-- Header Document -->
+  <table class="header-table">
+    <tr>
+      <td>
+        <div class="title-box">
+          <h2>BERITA ACARA PENGAJUAN BARANG</h2>
+          <p>No. BA : <%= ba.no_ba || ('BA/OPS/' + String(ba.id).padStart(5, '0')) %></p>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- A. IDENTITAS PENGAJUAN -->
+  <div class="section-header">A. IDENTITAS PENGAJUAN</div>
+  <table class="content-table">
+    <tr>
+      <td class="label">Tanggal Pengajuan</td>
+      <td class="value"><%= ba.tanggal_pengajuan || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Outlet / Divisi</td>
+      <td class="value"><%= ba.outlet_divisi || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Departemen</td>
+      <td class="value"><%= ba.departemen || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">PIC Pengajuan</td>
+      <td class="value"><%= ba.pic_pengajuan || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Prioritas</td>
+      <td class="value">
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.prioritas === 'Normal' ? 'checked' : '' %>"><%= ba.prioritas === 'Normal' ? '✓' : '' %></span> Normal</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.prioritas === 'Urgent' ? 'checked' : '' %>"><%= ba.prioritas === 'Urgent' ? '✓' : '' %></span> Urgent</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.prioritas === 'Critical' ? 'checked' : '' %>"><%= ba.prioritas === 'Critical' ? '✓' : '' %></span> Critical</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Barang Dibutuhkan Paling Lambat</td>
+      <td class="value"><%= ba.barang_dibutuhkan_paling_lambat || '-' %></td>
+    </tr>
+  </table>
+
+  <!-- B. INFORMASI BARANG -->
+  <div class="section-header">B. INFORMASI BARANG / EQUIPMENT</div>
+  <table class="content-table">
+    <tr>
+      <td class="label">Nama Barang / Equipment</td>
+      <td class="value"><strong><%= ba.nama_barang || '-' %></strong></td>
+    </tr>
+    <tr>
+      <td class="label">Status Pengajuan</td>
+      <td class="value">
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.status_barang === 'Barang Baru' ? 'checked' : '' %>"><%= ba.status_barang === 'Barang Baru' ? '✓' : '' %></span> Barang Baru</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.status_barang === 'Penggantian' ? 'checked' : '' %>"><%= ba.status_barang === 'Penggantian' ? '✓' : '' %></span> Penggantian</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.status_barang === 'Kerusakan' ? 'checked' : '' %>"><%= ba.status_barang === 'Kerusakan' ? '✓' : '' %></span> Kerusakan</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Kategori Barang</td>
+      <td class="value"><%= ba.kategori_barang || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Merk / Tipe / Model</td>
+      <td class="value"><%= ba.merk_tipe_model || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Spesifikasi</td>
+      <td class="value"><%= ba.spesifikasi || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Lokasi Penempatan & PIC Pengguna</td>
+      <td class="value">Lokasi: <%= ba.lokasi_penempatan || '-' %> | PIC: <%= ba.pic_pengguna || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Jumlah & Satuan</td>
+      <td class="value"><%= ba.jumlah || 1 %> <%= ba.satuan || 'Pcs' %></td>
+    </tr>
+    <tr>
+      <td class="label">Harga Satuan Estimasi</td>
+      <td class="value">Rp <%= Number(ba.harga_satuan_estimasi || 0).toLocaleString('id-ID') %></td>
+    </tr>
+    <tr>
+      <td class="label">Total Estimasi Biaya</td>
+      <td class="value"><strong>Rp <%= Number(ba.total_estimasi || 0).toLocaleString('id-ID') %></strong></td>
+    </tr>
+    <% if (ba.link_quotation) { %>
+    <tr>
+      <td class="label">Link Quotation / Penawaran</td>
+      <td class="value"><a href="<%= ba.link_quotation %>" target="_blank"><%= ba.link_quotation %></a></td>
+    </tr>
+    <% } %>
+  </table>
+
+  <!-- C. KEBUTUHAN & JUSTIFIKASI PENGAJUAN -->
+  <div class="section-header">C. KEBUTUHAN & JUSTIFIKASI PENGAJUAN</div>
+  <table class="content-table">
+    <tr>
+      <td class="label">Tujuan / Kebutuhan Barang</td>
+      <td class="value"><%= ba.tujuan_kebutuhan || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Alasan Pengajuan</td>
+      <td class="value"><%= ba.alasan_pengajuan || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Dampak Operasional Apabila Tidak Dipenuhi</td>
+      <td class="value"><%= ba.dampak_operasional || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Alternatif yang Sudah Dipertimbangkan</td>
+      <td class="value"><%= ba.alternatif_dipertimbangkan || '-' %></td>
+    </tr>
+  </table>
+
+  <!-- D. KHUSUS BARANG RUSAK -->
+  <% if (ba.status_barang === 'Kerusakan' || ba.kronologi_kerusakan) { %>
+  <div class="section-header">D. KHUSUS BARANG RUSAK</div>
+  <table class="content-table">
+    <tr>
+      <td class="label">Kronologi Kerusakan</td>
+      <td class="value"><%= ba.kronologi_kerusakan || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Waktu Kerusakan & Diketahui Oleh</td>
+      <td class="value">Tgl: <%= ba.tgl_kerusakan || '-' %> Jam: <%= ba.jam_kerusakan || '-' %> | Diketahui Oleh: <%= ba.diketahui_oleh || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Kondisi Barang & Dampak</td>
+      <td class="value">Kondisi: <%= ba.kondisi_barang_saat_ini || '-' %> | Dampak: <%= ba.dampak_kerusakan || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Tindakan Awal & Analisa Penyebab</td>
+      <td class="value">
+        Tindakan: <%= ba.tindakan_awal || '-' %><br>
+        Analisa Penyebab: 
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.analisa_penyebab === 'Kelalaian (Human Error)' ? 'checked' : '' %>"><%= ba.analisa_penyebab === 'Kelalaian (Human Error)' ? '✓' : '' %></span> Kelalaian (Human Error)</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.analisa_penyebab === 'Normal Wear & Tear' ? 'checked' : '' %>"><%= ba.analisa_penyebab === 'Normal Wear & Tear' ? '✓' : '' %></span> Normal Wear & Tear</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.analisa_penyebab === 'Belum Diketahui' ? 'checked' : '' %>"><%= ba.analisa_penyebab === 'Belum Diketahui' ? '✓' : '' %></span> Belum Diketahui</span>
+      </td>
+    </tr>
+  </table>
+  <% } %>
+
+  <!-- E. EVALUASI REPAIR VS REPLACEMENT -->
+  <div class="section-header">E. EVALUASI REPAIR VS REPLACEMENT</div>
+  <table class="content-table">
+    <tr>
+      <td class="label">Riwayat Repair</td>
+      <td class="value"><%= ba.riwayat_repair_status || 'Tidak Pernah' %> <%= ba.riwayat_repair_kali ? ('(' + ba.riwayat_repair_kali + ' kali)') : '' %></td>
+    </tr>
+    <tr>
+      <td class="label">Estimasi Biaya Repair vs Replacement</td>
+      <td class="value">Repair: Rp <%= Number(ba.estimasi_biaya_repair || 0).toLocaleString('id-ID') %> | Replacement: Rp <%= Number(ba.estimasi_biaya_replacement || 0).toLocaleString('id-ID') %></td>
+    </tr>
+    <tr>
+      <td class="label">Rekomendasi</td>
+      <td class="value">
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.rekomendasi === 'Repair' ? 'checked' : '' %>"><%= ba.rekomendasi === 'Repair' ? '✓' : '' %></span> Repair</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.rekomendasi === 'Replacement' ? 'checked' : '' %>"><%= ba.rekomendasi === 'Replacement' ? '✓' : '' %></span> Replacement</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.rekomendasi === 'Warranty / Retur' ? 'checked' : '' %>"><%= ba.rekomendasi === 'Warranty / Retur' ? '✓' : '' %></span> Warranty / Retur</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.rekomendasi === 'Disposal' ? 'checked' : '' %>"><%= ba.rekomendasi === 'Disposal' ? '✓' : '' %></span> Disposal</span>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Alasan Rekomendasi</td>
+      <td class="value"><%= ba.alasan_rekomendasi || '-' %></td>
+    </tr>
+  </table>
+
+  <!-- F. INFORMASI VENDOR & ANGGARAN -->
+  <div class="section-header">F. INFORMASI VENDOR & ANGGARAN</div>
+  <table class="content-table">
+    <tr>
+      <td class="label">Vendor Pembelian / Service</td>
+      <td class="value"><%= ba.vendor_pembelian || '-' %> (PIC: <%= ba.pic_vendor || '-' %>)</td>
+    </tr>
+    <tr>
+      <td class="label">No Quotation & Sumber Budget</td>
+      <td class="value">No. Quotation: <%= ba.no_quotation || '-' %> | Cost Center: <%= ba.sumber_budget || '-' %></td>
+    </tr>
+    <tr>
+      <td class="label">Ketersediaan Budget</td>
+      <td class="value">
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.ketersediaan_budget === 'Tersedia' ? 'checked' : '' %>"><%= ba.ketersediaan_budget === 'Tersedia' ? '✓' : '' %></span> Tersedia</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.ketersediaan_budget === 'Tidak Tersedia' ? 'checked' : '' %>"><%= ba.ketersediaan_budget === 'Tidak Tersedia' ? '✓' : '' %></span> Tidak Tersedia</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.ketersediaan_budget === 'Perlu Konfirmasi' ? 'checked' : '' %>"><%= ba.ketersediaan_budget === 'Perlu Konfirmasi' ? '✓' : '' %></span> Perlu Konfirmasi</span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- G. TREATMENT / TINDAK LANJUT -->
+  <div class="section-header">G. TREATMENT / TINDAK LANJUT</div>
+  <table class="content-table">
+    <tr>
+      <td class="label">Treatment Status</td>
+      <td class="value"><strong><%= ba.treatment || ba.status_approval || 'Menunggu Approval' %></strong></td>
+    </tr>
+    <tr>
+      <td class="label">Vendor Service & Estimasi Harga</td>
+      <td class="value">Vendor: <%= ba.vendor_service || '-' %> | Biaya: Rp <%= Number(ba.estimasi_harga_service || 0).toLocaleString('id-ID') %></td>
+    </tr>
+    <tr>
+      <td class="label">Target Penyelesaian & Catatan</td>
+      <td class="value">Target: <%= ba.target_penyelesaian || '-' %> | Keterangan: <%= ba.keterangan_tindak_lanjut || '-' %></td>
+    </tr>
+  </table>
+
+  <!-- H. DOKUMENTASI PENDUKUNG -->
+  <div class="section-header">H. DOKUMENTASI & DOKUMEN PENDUKUNG</div>
+  <table class="content-table">
+    <tr>
+      <td class="label">Lampiran Dokumen</td>
+      <td class="value">
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.lampiran_foto ? 'checked' : '' %>"><%= ba.lampiran_foto ? '✓' : '' %></span> Foto Barang/Kerusakan</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.lampiran_quotation ? 'checked' : '' %>"><%= ba.lampiran_quotation ? '✓' : '' %></span> Quotation/Penawaran</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.lampiran_spesifikasi ? 'checked' : '' %>"><%= ba.lampiran_spesifikasi ? '✓' : '' %></span> Spesifikasi Barang</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= ba.lampiran_dokumen_lain ? 'checked' : '' %>"><%= ba.lampiran_dokumen_lain ? '✓' : '' %></span> Pendukung Lainnya</span>
+      </td>
+    </tr>
+    <% if (ba.link_dokumen_pendukung || ba.catatan_dokumentasi) { %>
+    <tr>
+      <td class="label">Link / Catatan Dokumentasi</td>
+      <td class="value">
+        Link: <%= ba.link_dokumen_pendukung || '-' %><br>
+        Catatan: <%= ba.catatan_dokumentasi || '-' %>
+      </td>
+    </tr>
+    <% } %>
+  </table>
+
+  <!-- I. PERSETUJUAN -->
+  <div class="section-header">I. PERSETUJUAN & LEMBAR OTORISASI</div>
+  <table class="signature-table">
+    <tr>
+      <th>Dibuat Oleh</th>
+      <th>Menyetujui (1)</th>
+      <th>Menyetujui (2)</th>
+    </tr>
+    <tr>
+      <td>
+        <div class="signature-box">
+          <% if (ba.signature_dibuat) { %>
+            <img src="<%= ba.signature_dibuat %>" class="signature-img" alt="TTD Dibuat">
+          <% } else { %>
+            <span style="color: #888; font-style: italic;">[ Terkonfirmasi Digital ]</span>
+          <% } %>
+        </div>
+        <strong><%= ba.pic_pengajuan || ba.dibuat_oleh || 'PIC Pengajuan' %></strong><br>
+        <small>PIC Pengajuan / Outlet Operasional</small>
+      </td>
+      <td>
+        <div class="signature-box">
+          <% if (ba.status_approval_1 === 'Disetujui' || ba.status_approval === 'Disetujui' || ba.status_approval === 'Selesai') { %>
+            <span style="color: #0f5132; font-weight: bold; font-size: 14px;">[ APPROVED ]</span>
+          <% } else if (ba.status_approval_1 === 'Ditolak' || ba.status_approval === 'Ditolak') { %>
+            <span style="color: #dc3545; font-weight: bold; font-size: 14px;">[ REJECTED ]</span>
+          <% } else { %>
+            <span style="color: #888; font-style: italic;">[ Pending Approval ]</span>
+          <% } %>
+        </div>
+        <strong><%= ba.menyetujui_1 || 'Christian Octo' %></strong><br>
+        <small>Operational Manager / Controller</small>
+      </td>
+      <td>
+        <div class="signature-box">
+          <% if (ba.status_approval_2 === 'Disetujui' || ba.status_approval === 'Disetujui' || ba.status_approval === 'Selesai') { %>
+            <span style="color: #0f5132; font-weight: bold; font-size: 14px;">[ APPROVED ]</span>
+          <% } else if (ba.status_approval_2 === 'Ditolak' || ba.status_approval === 'Ditolak') { %>
+            <span style="color: #dc3545; font-weight: bold; font-size: 14px;">[ REJECTED ]</span>
+          <% } else { %>
+            <span style="color: #888; font-style: italic;">[ Pending Approval ]</span>
+          <% } %>
+        </div>
+        <strong><%= ba.menyetujui_2 || 'Aldo Widarta' %></strong><br>
+        <small>General Manager / Management</small>
+      </td>
+    </tr>
+  </table>
+
+  <div class="footer-note">
+    * Catatan: Berita Acara ini menjadi dokumen resmi pendukung pengajuan pembelian, repair, replacement, warranty/retur, atau tindakan operasional lain sesuai hasil evaluasi dan persetujuan manajemen KOV.
+  </div>
+
+</body>
+</html>

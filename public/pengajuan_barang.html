@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulir Berita Acara Pengajuan Barang - Divisi Operasional</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .form-header {
+      background: linear-gradient(135deg, #0f5132 0%, #198754 100%);
+      color: white;
+      padding: 2.5rem 1rem;
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+    }
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-bottom: 1.8rem;
+    }
+    .card-header {
+      background-color: #ffffff;
+      border-bottom: 2px solid #e8f5e9;
+      font-weight: 700;
+      color: #0f5132;
+      font-size: 1.1rem;
+      padding: 1.2rem 1.5rem;
+    }
+    .section-badge {
+      background-color: #0f5132;
+      color: white;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      margin-right: 10px;
+      font-size: 0.9rem;
+    }
+    .form-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #333;
+    }
+    .btn-success-custom {
+      background-color: #0f5132;
+      border-color: #0f5132;
+      color: white;
+      padding: 0.75rem 2.5rem;
+      font-weight: 700;
+      border-radius: 8px;
+      font-size: 1.05rem;
+    }
+    .btn-success-custom:hover {
+      background-color: #0b3d26;
+      border-color: #0b3d26;
+      color: white;
+    }
+    .signature-container {
+      border: 2px dashed #a3cfbb;
+      border-radius: 8px;
+      background-color: #fafafa;
+      position: relative;
+      width: 100%;
+      height: 180px;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header Banner -->
+  <div class="form-header text-center mb-4">
+    <div class="container">
+      <h2 class="fw-bold mb-1"><i class="fas fa-boxes-packing me-2"></i>BERITA ACARA PENGAJUAN BARANG</h2>
+      <p class="mb-0 opacity-90">Formulir Pengajuan Pembelian, Repair, Replacement & Retur Barang - Divisi Operasional</p>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <form id="pengajuanForm">
+      <input type="hidden" name="share_token" id="shareToken">
+
+      <!-- SECTION A: IDENTITAS PENGAJUAN -->
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <span class="section-badge">A</span> IDENTITAS PENGAJUAN
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Tanggal Pengajuan <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" name="tanggal_pengajuan" id="tanggal_pengajuan" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Outlet / Divisi <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="outlet_divisi" placeholder="Contoh: KOV Detampot / Operasional Bar" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Departemen <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="departemen" placeholder="Contoh: Kitchen / Service / Engineering" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">PIC Pengajuan <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="pic_pengajuan" placeholder="Nama Lengkap Penanggung Jawab" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Prioritas <span class="text-danger">*</span></label>
+              <select class="form-select" name="prioritas" required>
+                <option value="Normal" selected>Normal</option>
+                <option value="Urgent">Urgent</option>
+                <option value="Critical">Critical</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Barang Dibutuhkan Paling Lambat</label>
+              <input type="date" class="form-control" name="barang_dibutuhkan_paling_lambat">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION B: INFORMASI BARANG -->
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <span class="section-badge">B</span> INFORMASI BARANG / EQUIPMENT
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Nama Barang / Equipment <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="nama_barang" placeholder="Nama barang yang diajukan" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Status Barang <span class="text-danger">*</span></label>
+              <select class="form-select" name="status_barang" id="status_barang" required>
+                <option value="Barang Baru" selected>Barang Baru</option>
+                <option value="Penggantian">Penggantian</option>
+                <option value="Kerusakan">Kerusakan</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Kategori Barang</label>
+              <input type="text" class="form-control" name="kategori_barang" placeholder="Contoh: Kitchen Equipment / Chillers / IT">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Merk / Tipe / Model</label>
+              <input type="text" class="form-control" name="merk_tipe_model" placeholder="Contoh: GEA / M-RW6T2HH">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Spesifikasi</label>
+              <input type="text" class="form-control" name="spesifikasi" placeholder="Ukuran, daya listrik, kapasitas, dll">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Lokasi Penempatan</label>
+              <input type="text" class="form-control" name="lokasi_penempatan" placeholder="Area Kitchen Utama / Barista Counter">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">PIC Pengguna / Operator</label>
+              <input type="text" class="form-control" name="pic_pengguna" placeholder="Staff / Operator pengguna barang">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Jumlah <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" name="jumlah" id="jumlah" min="1" value="1" required>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Satuan <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="satuan" value="Pcs" required>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Harga Satuan Estimasi (Rp)</label>
+              <input type="number" class="form-control" name="harga_satuan_estimasi" id="harga_satuan_estimasi" min="0" value="0">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Total Estimasi (Rp)</label>
+              <input type="number" class="form-control bg-light" name="total_estimasi" id="total_estimasi" value="0" readonly>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Link Quotation / Penawaran / Pembelian</label>
+              <input type="url" class="form-control" name="link_quotation" placeholder="https://tokopedia.com/... atau link dokumen penawaran">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION C: KEBUTUHAN & JUSTIFIKASI -->
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <span class="section-badge">C</span> KEBUTUHAN & JUSTIFIKASI PENGAJUAN
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Tujuan / Kebutuhan Barang <span class="text-danger">*</span></label>
+              <textarea class="form-control" name="tujuan_kebutuhan" rows="3" placeholder="Jelaskan tujuan dan fungsi pengajuan barang ini..." required></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Alasan Pengajuan <span class="text-danger">*</span></label>
+              <textarea class="form-control" name="alasan_pengajuan" rows="3" placeholder="Mengapa barang ini penting diajukan..." required></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Dampak Operasional Apabila Tidak Dipenuhi</label>
+              <textarea class="form-control" name="dampak_operasional" rows="2" placeholder="Potensi gangguan operasional jika pengajuan ditunda..."></textarea>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Alternatif yang Sudah Dipertimbangkan</label>
+              <textarea class="form-control" name="alternatif_dipertimbangkan" rows="2" placeholder="Solusi alternatif lain jika ada..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION D: KHUSUS BARANG RUSAK (CONDITIONAL) -->
+      <div class="card" id="sectionKerusakan" style="display: none;">
+        <div class="card-header d-flex align-items-center text-danger border-danger">
+          <span class="section-badge bg-danger">D</span> KHUSUS BARANG RUSAK
+        </div>
+        <div class="card-body p-4 bg-light-subtle">
+          <div class="row g-3">
+            <div class="col-md-12">
+              <label class="form-label">Kronologi Kerusakan</label>
+              <textarea class="form-control" name="kronologi_kerusakan" rows="3" placeholder="Ceritakan bagaimana dan kapan barang mulai mengalami kerusakan..."></textarea>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Tanggal Kerusakan Diketahui</label>
+              <input type="date" class="form-control" name="tgl_kerusakan">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Jam Kerusakan Diketahui</label>
+              <input type="time" class="form-control" name="jam_kerusakan">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Diketahui Oleh</label>
+              <input type="text" class="form-control" name="diketahui_oleh" placeholder="Nama staff yang mengetahui pertama kali">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Kondisi Barang Saat Ini</label>
+              <input type="text" class="form-control" name="kondisi_barang_saat_ini" placeholder="Mati total / Rusak sebagian / Kompresor lemah">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Tindakan Awal yang Sudah Dilakukan</label>
+              <input type="text" class="form-control" name="tindakan_awal" placeholder="Contoh: Dimatikan arus listrik / Dipindahkan ke gudang">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Analisa Awal Penyebab Kerusakan</label>
+              <select class="form-select" name="analisa_penyebab">
+                <option value="Normal Wear & Tear" selected>Normal Wear & Tear (Umur Pakai)</option>
+                <option value="Kelalaian (Human Error)">Kelalaian (Human Error)</option>
+                <option value="Belum Diketahui">Belum Diketahui</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Keterangan Kerusakan Tambahan</label>
+              <input type="text" class="form-control" name="keterangan_kerusakan" placeholder="Catatan tambahan teknisi / pengguna">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION E: EVALUASI REPAIR VS REPLACEMENT -->
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <span class="section-badge">E</span> EVALUASI REPAIR VS REPLACEMENT
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Riwayat Repair Sebelum Ini</label>
+              <select class="form-select" name="riwayat_repair_status">
+                <option value="Tidak Pernah" selected>Tidak Pernah</option>
+                <option value="Pernah">Pernah</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">Jumlah Kali Repair</label>
+              <input type="number" class="form-control" name="riwayat_repair_kali" min="0" value="0">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Estimasi Biaya Repair (Rp)</label>
+              <input type="number" class="form-control" name="estimasi_biaya_repair" min="0" value="0">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Estimasi Biaya Replacement (Rp)</label>
+              <input type="number" class="form-control" name="estimasi_biaya_replacement" min="0" value="0">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Kondisi / Umur Barang</label>
+              <input type="text" class="form-control" name="kondisi_umur_barang" placeholder="Contoh: Pemakaian 2 Tahun / Kondisi 70%">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Rekomendasi Tindakan <span class="text-danger">*</span></label>
+              <select class="form-select" name="rekomendasi" required>
+                <option value="Repair" selected>Repair (Perbaikan)</option>
+                <option value="Replacement">Replacement (Penggantian Baru)</option>
+                <option value="Warranty / Retur">Warranty / Retur Garansi</option>
+                <option value="Disposal">Disposal (Afkir / Pembuangan)</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Alasan Rekomendasi</label>
+              <input type="text" class="form-control" name="alasan_rekomendasi" placeholder="Penjelasan singkat pertimbangan rekomendasi">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION F & G: VENDOR, ANGGARAN & DOKUMENTASI -->
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <span class="section-badge">F</span> VENDOR, ANGGARAN & DOKUMENTASI PENDUKUNG
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Vendor Pembelian / Service</label>
+              <input type="text" class="form-control" name="vendor_pembelian" placeholder="Nama Toko / Vendor Service">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">PIC Vendor / Kontak</label>
+              <input type="text" class="form-control" name="pic_vendor" placeholder="Nama PIC & No HP Vendor">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">No. Quotation / Penawaran</label>
+              <input type="text" class="form-control" name="no_quotation" placeholder="Nomor Surat Penawaran">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Sumber Budget / Cost Center</label>
+              <input type="text" class="form-control" name="sumber_budget" placeholder="Budget Operasional Outlet / CAPEX">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Ketersediaan Budget</label>
+              <select class="form-select" name="ketersediaan_budget">
+                <option value="Tersedia" selected>Tersedia</option>
+                <option value="Tidak Tersedia">Tidak Tersedia</option>
+                <option value="Perlu Konfirmasi">Perlu Konfirmasi</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Estimasi Waktu Pengadaan / Service</label>
+              <input type="text" class="form-control" name="estimasi_waktu_pengadaan" placeholder="3 - 5 Hari Kerja">
+            </div>
+
+            <!-- Checkboxes Lampiran Dokumen -->
+            <div class="col-md-12 mt-4">
+              <label class="form-label d-block fw-bold">Lampiran Dokumen Pendukung:</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="lampiran_foto" value="1" id="chkFoto">
+                <label class="form-check-label" for="chkFoto">Foto Barang / Kerusakan</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="lampiran_quotation" value="1" id="chkQuotation">
+                <label class="form-check-label" for="chkQuotation">Quotation / Penawaran</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="lampiran_spesifikasi" value="1" id="chkSpec">
+                <label class="form-check-label" for="chkSpec">Spesifikasi Barang</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="lampiran_dokumen_lain" value="1" id="chkLain">
+                <label class="form-check-label" for="chkLain">Dokumen Pendukung Lainnya</label>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt-3">
+              <label class="form-label">Link Dokumen Pendukung (Google Drive / Cloud)</label>
+              <input type="url" class="form-control" name="link_dokumen_pendukung" placeholder="https://drive.google.com/...">
+            </div>
+            <div class="col-md-6 mt-3">
+              <label class="form-label">Catatan Tambahan</label>
+              <input type="text" class="form-control" name="catatan_dokumentasi" placeholder="Catatan penting untuk manajemen">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION I: TANDA TANGAN -->
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <span class="section-badge">I</span> TANDA TANGAN DIGITALLY CONFIRMED
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Tanda Tangan Digital (Gunakan Mouse / Layar Sentuh):</label>
+              <div class="signature-container">
+                <canvas id="sigCanvas"></canvas>
+              </div>
+              <div class="mt-2 text-end">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="btnClearSig">
+                  <i class="fas fa-eraser me-1"></i>Hapus Tanda Tangan
+                </button>
+              </div>
+              <input type="hidden" name="signature_dibuat" id="signature_dibuat">
+            </div>
+            <div class="col-md-6 d-flex flex-column justify-content-center border-start ps-4">
+              <h6 class="fw-bold text-success"><i class="fas fa-user-check me-2"></i>Verifikasi Pengajuan:</h6>
+              <p class="small text-muted mb-2">Dengan mengirimkan Berita Acara ini, PIC pengajuan mengonfirmasi bahwa data yang diisikan adalah benar dan sesuai dengan kondisi operasional di lapangan.</p>
+              <div class="p-3 bg-light rounded border">
+                <div class="small fw-bold text-dark">Persetujuan Otorisasi Manajemen:</div>
+                <ul class="small mb-0 ps-3 text-secondary">
+                  <li><strong>Christian Octo</strong> (Operational Controller)</li>
+                  <li><strong>Aldo Widarta</strong> (General Manager / Executive)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success-custom shadow" id="btnSubmit">
+          <i class="fas fa-paper-plane me-2"></i>Kirim Berita Acara Pengajuan
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center p-4 border-0 shadow-lg">
+        <div class="modal-body">
+          <div class="text-success mb-3" style="font-size: 4rem;">
+            <i class="fas fa-circle-check"></i>
+          </div>
+          <h4 class="fw-bold text-dark mb-2">Pengajuan Berhasil Terkirim!</h4>
+          <p class="text-muted mb-3" id="successMessage">Berita Acara Pengajuan Barang telah dicatat dalam sistem Operasional.</p>
+          <div class="p-3 bg-light rounded mb-4 text-start small">
+            <div><strong>No. BA:</strong> <span id="resNoBa" class="fw-bold text-primary"></span></div>
+            <div><strong>Status:</strong> <span class="badge bg-warning text-dark">Menunggu Approval</span></div>
+          </div>
+          <button type="button" class="btn btn-success px-4 fw-bold" onclick="window.location.reload()">
+            <i class="fas fa-plus me-1"></i>Buat Pengajuan Baru
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Set default date to today
+    document.getElementById('tanggal_pengajuan').valueAsDate = new Date();
+
+    // Parse URL params for share token
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('ref') || urlParams.get('token') || '';
+    document.getElementById('shareToken').value = token;
+
+    // Toggle Section D (Kerusakan)
+    const statusSelect = document.getElementById('status_barang');
+    const sectionKerusakan = document.getElementById('sectionKerusakan');
+
+    statusSelect.addEventListener('change', function() {
+      if (this.value === 'Kerusakan') {
+        sectionKerusakan.style.display = 'block';
+      } else {
+        sectionKerusakan.style.display = 'none';
+      }
+    });
+
+    // Auto calculate Total Estimasi
+    const jumlahInput = document.getElementById('jumlah');
+    const hargaInput = document.getElementById('harga_satuan_estimasi');
+    const totalInput = document.getElementById('total_estimasi');
+
+    function calcTotal() {
+      const j = parseFloat(jumlahInput.value) || 0;
+      const h = parseFloat(hargaInput.value) || 0;
+      totalInput.value = j * h;
+    }
+    jumlahInput.addEventListener('input', calcTotal);
+    hargaInput.addEventListener('input', calcTotal);
+
+    // Canvas Signature Setup
+    const canvas = document.getElementById('sigCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+
+    function resizeCanvas() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#0f5132';
+    }
+    window.addEventListener('load', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+      };
+    }
+
+    canvas.addEventListener('mousedown', (e) => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+    canvas.addEventListener('mousemove', (e) => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+    canvas.addEventListener('mouseup', () => { isDrawing = false; });
+    canvas.addEventListener('mouseleave', () => { isDrawing = false; });
+
+    canvas.addEventListener('touchstart', (e) => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); });
+    canvas.addEventListener('touchmove', (e) => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); });
+    canvas.addEventListener('touchend', () => { isDrawing = false; });
+
+    document.getElementById('btnClearSig').addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    // Form Submit
+    document.getElementById('pengajuanForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const btnSubmit = document.getElementById('btnSubmit');
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mengirimkan...';
+
+      // Capture signature data URL if drawn
+      const blankCanvas = document.createElement('canvas');
+      blankCanvas.width = canvas.width;
+      blankCanvas.height = canvas.height;
+      if (canvas.toDataURL() !== blankCanvas.toDataURL()) {
+        document.getElementById('signature_dibuat').value = canvas.toDataURL('image/png');
+      }
+
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/api/operasional/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const res = await response.json();
+        if (res.success) {
+          document.getElementById('resNoBa').innerText = res.no_ba || 'BA/OPS/NEW';
+          const modal = new bootstrap.Modal(document.getElementById('successModal'));
+          modal.show();
+        } else {
+          alert('Gagal mengirimkan pengajuan: ' + (res.error || 'Terjadi kesalahan'));
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Kirim Berita Acara Pengajuan';
+        }
+      } catch (err) {
+        alert('Terjadi kesalahan jaringan/server: ' + err.message);
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Kirim Berita Acara Pengajuan';
+      }
+    });
+  </script>
+</body>
+</html>
