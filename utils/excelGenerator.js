@@ -1,4 +1,6 @@
 const ExcelJS = require('exceljs');
+const path = require('path');
+const fs = require('fs');
 
 async function generateExcel(candidates = []) {
   const workbook = new ExcelJS.Workbook();
@@ -51,10 +53,23 @@ async function generateExcel(candidates = []) {
   const summarySheet = workbook.addWorksheet('Daftar Kandidat');
   summarySheet.views = [{ showGridLines: true }];
 
+  // Embed KOV Logo Image if exists
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  if (fs.existsSync(logoPath)) {
+    const logoId = workbook.addImage({
+      buffer: fs.readFileSync(logoPath),
+      extension: 'png',
+    });
+    summarySheet.addImage(logoId, {
+      tl: { col: 0, row: 0 },
+      ext: { width: 140, height: 35 }
+    });
+  }
+
   // 1. Title Banner
   summarySheet.mergeCells('A1:R1');
   const titleCell = summarySheet.getCell('A1');
-  titleCell.value = 'REKAPITULASI DATA REKRUTMEN PELAMAR KARYAWAN';
+  titleCell.value = '       REKAPITULASI DATA REKRUTMEN PELAMAR KARYAWAN';
   titleCell.font = { name: 'Segoe UI', size: 14, bold: true, color: { argb: COLORS.WHITE } };
   titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.NAVY_PRIMARY } };
   titleCell.alignment = { vertical: 'middle', horizontal: 'center' };

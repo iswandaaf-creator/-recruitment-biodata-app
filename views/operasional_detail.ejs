@@ -20,8 +20,9 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark navbar-operasional shadow-sm mb-4">
     <div class="container-fluid px-4">
-      <a class="navbar-brand fw-bold" href="/admin/operasional">
-        <i class="fas fa-arrow-left me-2"></i>Kembali ke Dashboard Operasional
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional">
+        <img src="/logo_kov_hijau.png" alt="KOV Logo" height="30" class="me-2" style="object-fit: contain;">
+        <span>Kembali ke Dashboard Operasional</span>
       </a>
       <div class="d-flex align-items-center gap-2">
         <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" class="btn btn-danger btn-sm fw-bold">

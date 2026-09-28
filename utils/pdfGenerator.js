@@ -21,7 +21,14 @@ async function generatePDF(candidateData) {
     catatan_wawancara_3: typeof candidateData.catatan_wawancara_3 === 'string' ? JSON.parse(candidateData.catatan_wawancara_3 || '{}') : candidateData.catatan_wawancara_3
   };
 
-  const html = await ejs.renderFile(templatePath, { candidate });
+  // Read KOV Logo as Base64
+  let logoBase64 = '';
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  if (fs.existsSync(logoPath)) {
+    logoBase64 = 'data:image/png;base64,' + fs.readFileSync(logoPath).toString('base64');
+  }
+
+  const html = await ejs.renderFile(templatePath, { candidate, logoBase64 });
 
   let launchOptions = {
     headless: true,

@@ -1,11 +1,45 @@
 const ExcelJS = require('exceljs');
+const path = require('path');
+const fs = require('fs');
 
 async function generateOperasionalExcel(records) {
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('BA Pengajuan Barang');
 
-  // Define Columns
-  worksheet.columns = [
+  // Embed KOV Logo Image if exists
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  if (fs.existsSync(logoPath)) {
+    const logoId = workbook.addImage({
+      buffer: fs.readFileSync(logoPath),
+      extension: 'png',
+    });
+    worksheet.addImage(logoId, {
+      tl: { col: 0, row: 0 },
+      ext: { width: 160, height: 50 }
+    });
+  }
+
+  // Row 1: Space for Logo
+  worksheet.getRow(1).height = 40;
+
+  // Row 2 & 3: Document Title Header
+  worksheet.mergeCells('C1:V1');
+  const titleCell = worksheet.getCell('C1');
+  titleCell.value = 'BERITA ACARA PENGAJUAN BARANG - DIVISI OPERASIONAL';
+  titleCell.font = { name: 'Segoe UI', size: 14, bold: true, color: { argb: '0F5132' } };
+  titleCell.alignment = { vertical: 'middle', horizontal: 'left' };
+
+  worksheet.mergeCells('C2:V2');
+  const subTitleCell = worksheet.getCell('C2');
+  subTitleCell.value = `Exported Date: ${new Date().toLocaleDateString('id-ID')} | Total Records: ${records.length}`;
+  subTitleCell.font = { name: 'Segoe UI', size: 10, italic: true, color: { argb: '555555' } };
+  subTitleCell.alignment = { vertical: 'middle', horizontal: 'left' };
+
+  // Empty Spacer Row 3
+  worksheet.getRow(3).height = 10;
+
+  // Row 4: Column Headers
+  const columns = [
     { header: 'No. BA', key: 'no_ba', width: 22 },
     { header: 'Tgl Pengajuan', key: 'tanggal_pengajuan', width: 15 },
     { header: 'Outlet / Divisi', key: 'outlet_divisi', width: 20 },
@@ -30,17 +64,18 @@ async function generateOperasionalExcel(records) {
     { header: 'Tgl Dibuat', key: 'created_at', width: 20 }
   ];
 
-  // Styling Header Row
-  const headerRow = worksheet.getRow(1);
-  headerRow.font = { bold: true, color: { argb: 'FFFFFF' } };
-  headerRow.fill = {
-    type: 'pattern',
-    pattern: 'solid',
-    fgColor: { argb: '0F5132' } // Dark Green Operasional Theme
-  };
-  headerRow.alignment = { vertical: 'middle', horizontal: 'center' };
+  const headerRow = worksheet.getRow(4);
+  columns.forEach((col, idx) => {
+    const cell = headerRow.getCell(idx + 1);
+    cell.value = col.header;
+    cell.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: 'FFFFFF' } };
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '0F5132' } };
+    cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    worksheet.getColumn(idx + 1).width = col.width;
+  });
+  headerRow.height = 28;
 
-  // Add Data Rows
+  // Add Data Rows starting at Row 5
   records.forEach(item => {
     const row = worksheet.addRow({
       no_ba: item.no_ba || `BA/OPS/${item.id}`,
@@ -67,9 +102,8 @@ async function generateOperasionalExcel(records) {
       created_at: item.created_at || ''
     });
 
-    // Formatting numbers
-    row.getCell('harga_satuan_estimasi').numFmt = '#,##0';
-    row.getCell('total_estimasi').numFmt = '#,##0';
+    row.getCell(13).numFmt = '#,##0'; // harga_satuan_estimasi
+    row.getCell(14).numFmt = '#,##0'; // total_estimasi
   });
 
   const buffer = await workbook.xlsx.writeBuffer();

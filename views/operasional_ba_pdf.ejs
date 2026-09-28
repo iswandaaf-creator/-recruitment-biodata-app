@@ -141,6 +141,11 @@
     <tr>
       <td>
         <div class="title-box">
+          <% if (typeof logoBase64 !== 'undefined' && logoBase64) { %>
+            <div style="margin-bottom: 4px;">
+              <img src="<%= logoBase64 %>" style="height: 38px; max-width: 160px; object-fit: contain;">
+            </div>
+          <% } %>
           <h2>BERITA ACARA PENGAJUAN BARANG</h2>
           <p>No. BA : <%= ba.no_ba || ('BA/OPS/' + String(ba.id).padStart(5, '0')) %></p>
         </div>

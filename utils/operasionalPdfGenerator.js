@@ -6,7 +6,14 @@ const fs = require('fs');
 async function generateOperasionalPDF(baData) {
   const templatePath = path.join(__dirname, '..', 'views', 'operasional_ba_pdf.ejs');
 
-  const html = await ejs.renderFile(templatePath, { ba: baData });
+  // Read KOV Logo as Base64
+  let logoBase64 = '';
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  if (fs.existsSync(logoPath)) {
+    logoBase64 = 'data:image/png;base64,' + fs.readFileSync(logoPath).toString('base64');
+  }
+
+  const html = await ejs.renderFile(templatePath, { ba: baData, logoBase64 });
 
   let launchOptions = {
     headless: true,
