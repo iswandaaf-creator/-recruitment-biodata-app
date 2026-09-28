@@ -3,5 +3,8 @@ node_modules/
 .DS_Store
 test_*.pdf
 test_*.xlsx
-db/*.sqlite
-*.sqlite
+db/*.sqlite*
+*.sqlite*
+*.sqlite-wal
+*.sqlite-shm
+
