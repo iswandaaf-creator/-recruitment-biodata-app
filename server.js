@@ -61,13 +61,33 @@ function requireSuperAdmin(req, res, next) {
   res.status(403).send('<h3>Forbidden 403: Akses ditolak. Hanya Super Admin yang dapat mengakses kelola user.</h3><a href="/admin">Kembali ke Dashboard</a>');
 }
 
-// Candidate Form Page (Public HR)
+// Candidate Form Page (Requires Login or Share Token)
 app.get('/', (req, res) => {
+  if (!req.session || !req.session.user) {
+    if (req.query.ref || req.query.token) {
+      return res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    }
+    return res.redirect('/admin/login');
+  }
+  if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
+    return res.redirect('/admin/operasional');
+  }
+  return res.redirect('/admin');
+});
+
+// Explicit Public Form Page for HR Candidate (for logged in admins or share links)
+app.get('/form-kandidat', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// BA Pengajuan Barang Form Page (Public Operasional)
+// BA Pengajuan Barang Form Page (Requires Login or Share Token)
 app.get('/pengajuan-barang', (req, res) => {
+  if (!req.session || !req.session.user) {
+    if (req.query.ref || req.query.token) {
+      return res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
+    }
+    return res.redirect('/admin/login');
+  }
   res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
 });
 
