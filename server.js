@@ -407,7 +407,11 @@ app.get('/admin', requireAuth, (req, res) => {
       };
     });
 
-    res.render('admin', { candidates, user: req.session.user });
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+    const host = req.headers['x-forwarded-host'] || req.get('host') || 'localhost:3000';
+    const baseUrl = `${protocol}://${host}`;
+
+    res.render('admin', { candidates, user: req.session.user, baseUrl });
   });
 });
 
@@ -646,7 +650,10 @@ app.post('/api/operasional/submit', (req, res) => {
 app.get('/admin/operasional', requireOperasionalAuth, (req, res) => {
   db.all('SELECT * FROM pengajuan_barang ORDER BY id DESC', [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
-    res.render('operasional_admin', { records: rows || [], user: req.session.user });
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+    const host = req.headers['x-forwarded-host'] || req.get('host') || 'localhost:3000';
+    const baseUrl = `${protocol}://${host}`;
+    res.render('operasional_admin', { records: rows || [], user: req.session.user, baseUrl });
   });
 });
 

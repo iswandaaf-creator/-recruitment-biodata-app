@@ -67,7 +67,7 @@
       <div>
         <i class="fas fa-share-nodes me-2 fs-5"></i>
         <strong>Link Form Unik Operasional (Acak):</strong> 
-        <span id="shareUrl" class="user-select-all fw-mono bg-white text-dark px-2 py-1 rounded border ms-1">http://localhost:3000/pengajuan-barang?ref=c-8f3a921d</span>
+        <span id="shareUrl" class="user-select-all fw-mono bg-white text-dark px-2 py-1 rounded border ms-1"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/pengajuan-barang?ref=c-8f3a921d</span>
       </div>
       <button class="btn btn-success btn-sm px-3 fw-bold" onclick="copyShareUrl()">
         <i class="fas fa-copy me-1"></i>Salin Link
@@ -251,6 +251,11 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     // Copy Share Link Functionality
+    window.addEventListener('DOMContentLoaded', () => {
+      const initialUrl = `${window.location.origin}/pengajuan-barang?ref=${generateRandomToken()}`;
+      document.getElementById('shareUrl').innerText = initialUrl;
+    });
+
     function generateRandomToken() {
       return 'c-' + Math.random().toString(36).substring(2, 10);
     }
