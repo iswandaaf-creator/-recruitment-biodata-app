@@ -82,14 +82,8 @@ app.get('/form-kandidat', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// BA Pengajuan Barang Form Page (Requires Login or Share Token)
+// BA Pengajuan Barang Form Page
 app.get('/pengajuan-barang', (req, res) => {
-  if (!req.session || !req.session.user) {
-    if (req.query.ref || req.query.token) {
-      return res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
-    }
-    return res.redirect('/admin/login');
-  }
   res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
 });
 
