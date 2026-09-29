@@ -441,7 +441,7 @@
         </div>
       </div>
 
-      <!-- SECTION I: TANDA TANGAN & OTORISASI -->
+      <!-- SECTION I: TANDA TANGAN & OTORISASI (MANUAL INPUT SIGNERS) -->
       <div class="card">
         <div class="card-header d-flex align-items-center">
           <span class="section-badge">I</span> PERSETUJUAN & OTORISASI MANAJEMEN
@@ -461,29 +461,39 @@
               <input type="hidden" name="signature_dibuat" id="signature_dibuat">
             </div>
             <div class="col-md-6 border-start ps-4">
-              <h6 class="fw-bold text-success mb-2"><i class="fas fa-users-gear me-2"></i>Alur Otorisasi Persetujuan:</h6>
-              <p class="small text-muted mb-3">Dokumen Berita Acara ini secara resmi memerlukan persetujuan dan otorisasi dari:</p>
+              <h6 class="fw-bold text-success mb-2"><i class="fas fa-users-gear me-2"></i>Alur Otorisasi Persetujuan (Isi Nama Pejabat):</h6>
+              <p class="small text-muted mb-2">Tentukan nama otorisator/pejabat yang mengetahui dan menyetujui pengajuan ini:</p>
               
               <div class="p-3 bg-light rounded border">
-                <ol class="small mb-0 ps-3 fw-semibold text-dark">
-                  <li class="mb-1"><strong>Andre Antariza</strong> <span class="badge bg-secondary ms-1">Mengetahui</span></li>
-                  <li class="mb-1"><strong>Chusnaeni M</strong> <span class="badge bg-secondary ms-1">Mengetahui</span></li>
-                  <li class="mb-1"><strong>Setyo Adhi P</strong> <span class="badge bg-secondary ms-1">Mengetahui</span></li>
-                  <li><strong>Owner</strong> <span class="badge bg-success ms-1">Menyetujui</span></li>
-                </ol>
-              </div>
-              <div class="mt-3 text-muted small">
-                <i class="fas fa-shield-halved text-success me-1"></i>Status otorisasi akan terverifikasi secara digital setelah pengajuan dikirimkan.
+                <div class="mb-2">
+                  <label class="form-label small fw-bold mb-1">Mengetahui (1):</label>
+                  <input type="text" class="form-control form-control-sm" name="mengetahui_1" value="Andre Antariza" placeholder="Nama Pejabat Mengetahui 1" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold mb-1">Mengetahui (2):</label>
+                  <input type="text" class="form-control form-control-sm" name="mengetahui_2" value="Chusnaeni M" placeholder="Nama Pejabat Mengetahui 2" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold mb-1">Mengetahui (3):</label>
+                  <input type="text" class="form-control form-control-sm" name="mengetahui_3" value="Setyo Adhi P" placeholder="Nama Pejabat Mengetahui 3" required>
+                </div>
+                <div>
+                  <label class="form-label small fw-bold text-success mb-1">Menyetujui (Owner / Direksi):</label>
+                  <input type="text" class="form-control form-control-sm border-success" name="menyetujui_owner" value="Owner" placeholder="Nama Penyetujui / Owner" required>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Submit Button -->
-      <div class="text-center mt-4">
+      <!-- Action Buttons: Kirim & Download/Print PDF -->
+      <div class="text-center mt-4 d-flex justify-content-center align-items-center flex-wrap gap-2">
         <button type="submit" class="btn btn-success-custom shadow" id="btnSubmit">
           <i class="fas fa-paper-plane me-2"></i>Kirim Berita Acara Pengajuan
+        </button>
+        <button type="button" class="btn btn-outline-danger shadow py-2 px-4 fw-bold" id="btnDownloadPDFNav" onclick="handleDirectDownloadPDF()">
+          <i class="fas fa-file-pdf me-2"></i>Download PDF / Print
         </button>
       </div>
 
@@ -504,9 +514,14 @@
             <div><strong>No. BA:</strong> <span id="resNoBa" class="fw-bold text-primary"></span></div>
             <div><strong>Status:</strong> <span class="badge bg-warning text-dark">Menunggu Approval</span></div>
           </div>
-          <button type="button" class="btn btn-success px-4 fw-bold" onclick="window.location.reload()">
-            <i class="fas fa-plus me-1"></i>Buat Pengajuan Baru
-          </button>
+          <div class="d-flex justify-content-center gap-2">
+            <button type="button" class="btn btn-danger px-3 py-2 fw-bold" onclick="printCreatedPDF()">
+              <i class="fas fa-file-pdf me-1"></i>Download PDF / Cetak
+            </button>
+            <button type="button" class="btn btn-outline-secondary px-3 py-2 fw-bold" onclick="window.location.reload()">
+              <i class="fas fa-plus me-1"></i>Buat Pengajuan Baru
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -819,6 +834,17 @@
     window.printCreatedPDF = function() {
       if (createdBaId) {
         window.open('/api/operasional/export/pdf/' + createdBaId, '_blank');
+      } else {
+        window.print();
+      }
+    };
+
+    window.handleDirectDownloadPDF = function() {
+      if (createdBaId) {
+        window.open('/api/operasional/export/pdf/' + createdBaId, '_blank');
+      } else {
+        alert('Silakan klik "Kirim Berita Acara Pengajuan" terlebih dahulu untuk membuat dokumen PDF resmi, atau Anda dapat langsung mencetak pratinjau formulir ini.');
+        window.print();
       }
     };
   </script>
