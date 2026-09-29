@@ -136,7 +136,13 @@
 </head>
 <body>
 
-  <!-- Header Document -->
+  <!-- Header Document & Print Bar -->
+  <div style="text-align: right; margin-bottom: 8px;" class="no-print">
+    <button onclick="window.print()" style="background-color: #0f5132; color: white; border: none; padding: 6px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 11px;">
+      <i class="fas fa-print" style="margin-right: 4px;"></i> Cetak / Print Dokumen PDF
+    </button>
+  </div>
+
   <table class="header-table">
     <tr>
       <td>
@@ -186,15 +192,21 @@
     </tr>
   </table>
 
-  <!-- B. INFORMASI BARANG -->
+  <!-- B. INFORMASI BARANG (MULTI-ITEM SUPPORT) -->
   <div class="section-header">B. INFORMASI BARANG / EQUIPMENT</div>
-  <table class="content-table">
+
+  <% 
+    let items = [];
+    if (ba.items_json) {
+      try {
+        items = typeof ba.items_json === 'string' ? JSON.parse(ba.items_json) : ba.items_json;
+      } catch(e) { items = []; }
+    }
+  %>
+
+  <table class="content-table" style="margin-bottom: 6px;">
     <tr>
-      <td class="label">Nama Barang / Equipment</td>
-      <td class="value"><strong><%= ba.nama_barang || '-' %></strong></td>
-    </tr>
-    <tr>
-      <td class="label">Status Pengajuan</td>
+      <td class="label">Status Pengajuan Barang</td>
       <td class="value">
         <span class="checkbox-item"><span class="checkbox-box <%= ba.status_barang === 'Barang Baru' ? 'checked' : '' %>"><%= ba.status_barang === 'Barang Baru' ? '✓' : '' %></span> Barang Baru</span>
         <span class="checkbox-item"><span class="checkbox-box <%= ba.status_barang === 'Penggantian' ? 'checked' : '' %>"><%= ba.status_barang === 'Penggantian' ? '✓' : '' %></span> Penggantian</span>
@@ -202,32 +214,8 @@
       </td>
     </tr>
     <tr>
-      <td class="label">Kategori Barang</td>
-      <td class="value"><%= ba.kategori_barang || '-' %></td>
-    </tr>
-    <tr>
-      <td class="label">Merk / Tipe / Model</td>
-      <td class="value"><%= ba.merk_tipe_model || '-' %></td>
-    </tr>
-    <tr>
-      <td class="label">Spesifikasi</td>
-      <td class="value"><%= ba.spesifikasi || '-' %></td>
-    </tr>
-    <tr>
       <td class="label">Lokasi Penempatan & PIC Pengguna</td>
       <td class="value">Lokasi: <%= ba.lokasi_penempatan || '-' %> | PIC: <%= ba.pic_pengguna || '-' %></td>
-    </tr>
-    <tr>
-      <td class="label">Jumlah & Satuan</td>
-      <td class="value"><%= ba.jumlah || 1 %> <%= ba.satuan || 'Pcs' %></td>
-    </tr>
-    <tr>
-      <td class="label">Harga Satuan Estimasi</td>
-      <td class="value">Rp <%= Number(ba.harga_satuan_estimasi || 0).toLocaleString('id-ID') %></td>
-    </tr>
-    <tr>
-      <td class="label">Total Estimasi Biaya</td>
-      <td class="value"><strong>Rp <%= Number(ba.total_estimasi || 0).toLocaleString('id-ID') %></strong></td>
     </tr>
     <% if (ba.link_quotation) { %>
     <tr>
@@ -236,6 +224,73 @@
     </tr>
     <% } %>
   </table>
+
+  <% if (items && items.length > 0) { %>
+    <!-- Multi Items Table -->
+    <table class="content-table" style="text-align: center;">
+      <thead>
+        <tr style="background-color: #f4f4f4; color: #0f5132; font-weight: bold;">
+          <th style="width: 5%;">No</th>
+          <th style="width: 30%; text-align: left;">Nama Barang / Equipment</th>
+          <th style="width: 25%; text-align: left;">Merk / Spesifikasi</th>
+          <th style="width: 12%;">Qty & Satuan</th>
+          <th style="width: 13%; text-align: right;">Harga Satuan</th>
+          <th style="width: 15%; text-align: right;">Subtotal Estimasi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% items.forEach((it, idx) => { %>
+          <tr>
+            <td><%= idx + 1 %></td>
+            <td style="text-align: left;"><strong><%= it.nama_barang || '-' %></strong></td>
+            <td style="text-align: left;">
+              <%= it.kategori_barang ? ('[' + it.kategori_barang + '] ') : '' %>
+              <%= it.merk_tipe_model || it.spesifikasi || '-' %>
+            </td>
+            <td><%= it.jumlah || 1 %> <%= it.satuan || 'Pcs' %></td>
+            <td style="text-align: right;">Rp <%= Number(it.harga_satuan_estimasi || 0).toLocaleString('id-ID') %></td>
+            <td style="text-align: right;"><strong>Rp <%= Number(it.total_estimasi || (it.jumlah * it.harga_satuan_estimasi) || 0).toLocaleString('id-ID') %></strong></td>
+          </tr>
+        <% }); %>
+        <tr style="background-color: #e8f5e9; font-weight: bold;">
+          <td colspan="5" style="text-align: right; color: #0f5132;">TOTAL ESTIMASI KESELURUHAN BIAYA:</td>
+          <td style="text-align: right; color: #0f5132; font-size: 11.5px;">Rp <%= Number(ba.total_estimasi || 0).toLocaleString('id-ID') %></td>
+        </tr>
+      </tbody>
+    </table>
+  <% } else { %>
+    <!-- Fallback Legacy Single Item Table -->
+    <table class="content-table">
+      <tr>
+        <td class="label">Nama Barang / Equipment</td>
+        <td class="value"><strong><%= ba.nama_barang || '-' %></strong></td>
+      </tr>
+      <tr>
+        <td class="label">Kategori Barang</td>
+        <td class="value"><%= ba.kategori_barang || '-' %></td>
+      </tr>
+      <tr>
+        <td class="label">Merk / Tipe / Model</td>
+        <td class="value"><%= ba.merk_tipe_model || '-' %></td>
+      </tr>
+      <tr>
+        <td class="label">Spesifikasi</td>
+        <td class="value"><%= ba.spesifikasi || '-' %></td>
+      </tr>
+      <tr>
+        <td class="label">Jumlah & Satuan</td>
+        <td class="value"><%= ba.jumlah || 1 %> <%= ba.satuan || 'Pcs' %></td>
+      </tr>
+      <tr>
+        <td class="label">Harga Satuan Estimasi</td>
+        <td class="value">Rp <%= Number(ba.harga_satuan_estimasi || 0).toLocaleString('id-ID') %></td>
+      </tr>
+      <tr>
+        <td class="label">Total Estimasi Biaya</td>
+        <td class="value"><strong>Rp <%= Number(ba.total_estimasi || 0).toLocaleString('id-ID') %></strong></td>
+      </tr>
+    </table>
+  <% } %>
 
   <!-- C. KEBUTUHAN & JUSTIFIKASI PENGAJUAN -->
   <div class="section-header">C. KEBUTUHAN & JUSTIFIKASI PENGAJUAN</div>
@@ -351,13 +406,13 @@
     </tr>
   </table>
 
-  <!-- H. DOKUMENTASI PENDUKUNG -->
+  <!-- H. DOKUMENTASI PENDUKUNG (MULTI-FOTO SUPPORT) -->
   <div class="section-header">H. DOKUMENTASI & DOKUMEN PENDUKUNG</div>
   <table class="content-table">
     <tr>
       <td class="label">Lampiran Dokumen</td>
       <td class="value">
-        <span class="checkbox-item"><span class="checkbox-box <%= ba.lampiran_foto ? 'checked' : '' %>"><%= ba.lampiran_foto ? '✓' : '' %></span> Foto Barang/Kerusakan</span>
+        <span class="checkbox-item"><span class="checkbox-box <%= (ba.lampiran_foto || ba.foto_list) ? 'checked' : '' %>"><%= (ba.lampiran_foto || ba.foto_list) ? '✓' : '' %></span> Foto Barang/Kerusakan</span>
         <span class="checkbox-item"><span class="checkbox-box <%= ba.lampiran_quotation ? 'checked' : '' %>"><%= ba.lampiran_quotation ? '✓' : '' %></span> Quotation/Penawaran</span>
         <span class="checkbox-item"><span class="checkbox-box <%= ba.lampiran_spesifikasi ? 'checked' : '' %>"><%= ba.lampiran_spesifikasi ? '✓' : '' %></span> Spesifikasi Barang</span>
         <span class="checkbox-item"><span class="checkbox-box <%= ba.lampiran_dokumen_lain ? 'checked' : '' %>"><%= ba.lampiran_dokumen_lain ? '✓' : '' %></span> Pendukung Lainnya</span>
@@ -374,51 +429,109 @@
     <% } %>
   </table>
 
-  <!-- I. PERSETUJUAN -->
+  <% 
+    let fotos = [];
+    if (ba.foto_list) {
+      try {
+        fotos = typeof ba.foto_list === 'string' ? JSON.parse(ba.foto_list) : ba.foto_list;
+      } catch(e) { fotos = []; }
+    }
+  %>
+
+  <% if (fotos && fotos.length > 0) { %>
+    <div style="margin-top: 8px; margin-bottom: 12px;">
+      <div style="font-weight: bold; font-size: 10px; color: #0f5132; margin-bottom: 4px; text-transform: uppercase;">
+        Lampiran Foto Barang / Kerusakan (<%= fotos.length %> Foto):
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <% fotos.forEach((foto, i) => { %>
+          <div style="border: 1px solid #ccc; padding: 4px; border-radius: 4px; text-align: center; background: #fafafa;">
+            <img src="<%= foto %>" style="max-width: 180px; max-height: 130px; object-fit: contain;">
+            <div style="font-size: 8.5px; color: #555; margin-top: 2px;">Foto #<%= i + 1 %></div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+  <% } %>
+
+  <!-- I. PERSETUJUAN & OTORISASI (4 OTORISATOR) -->
   <div class="section-header">I. PERSETUJUAN & LEMBAR OTORISASI</div>
-  <table class="signature-table">
+  <table class="signature-table" style="font-size: 9.5px;">
     <tr>
-      <th>Dibuat Oleh</th>
-      <th>Menyetujui (1)</th>
-      <th>Menyetujui (2)</th>
+      <th style="width: 20%;">Dibuat Oleh</th>
+      <th style="width: 20%;">Mengetahui (1)</th>
+      <th style="width: 20%;">Mengetahui (2)</th>
+      <th style="width: 20%;">Mengetahui (3)</th>
+      <th style="width: 20%;">Menyetujui</th>
     </tr>
     <tr>
+      <!-- Dibuat Oleh -->
       <td>
         <div class="signature-box">
           <% if (ba.signature_dibuat) { %>
             <img src="<%= ba.signature_dibuat %>" class="signature-img" alt="TTD Dibuat">
           <% } else { %>
-            <span style="color: #888; font-style: italic;">[ Terkonfirmasi Digital ]</span>
+            <span style="color: #0f5132; font-weight: bold; font-size: 11px;">[ SUBMITTED ]</span>
           <% } %>
         </div>
         <strong><%= ba.pic_pengajuan || ba.dibuat_oleh || 'PIC Pengajuan' %></strong><br>
-        <small>PIC Pengajuan / Outlet Operasional</small>
+        <small style="color: #666;">PIC Pengajuan / Outlet</small>
       </td>
+      <!-- Mengetahui 1 -->
       <td>
         <div class="signature-box">
-          <% if (ba.status_approval_1 === 'Disetujui' || ba.status_approval === 'Disetujui' || ba.status_approval === 'Selesai') { %>
-            <span style="color: #0f5132; font-weight: bold; font-size: 14px;">[ APPROVED ]</span>
-          <% } else if (ba.status_approval_1 === 'Ditolak' || ba.status_approval === 'Ditolak') { %>
-            <span style="color: #dc3545; font-weight: bold; font-size: 14px;">[ REJECTED ]</span>
+          <% if (ba.status_mengetahui_1 === 'Disetujui' || ba.status_approval === 'Disetujui' || ba.status_approval === 'Selesai') { %>
+            <span style="color: #0f5132; font-weight: bold; font-size: 12px;">[ CONFIRMED ]</span>
+          <% } else if (ba.status_mengetahui_1 === 'Ditolak' || ba.status_approval === 'Ditolak') { %>
+            <span style="color: #dc3545; font-weight: bold; font-size: 12px;">[ REJECTED ]</span>
+          <% } else { %>
+            <span style="color: #888; font-style: italic;">[ Pending ]</span>
+          <% } %>
+        </div>
+        <strong><%= ba.mengetahui_1 || 'Andre Antariza' %></strong><br>
+        <small style="color: #666;">Mengetahui</small>
+      </td>
+      <!-- Mengetahui 2 -->
+      <td>
+        <div class="signature-box">
+          <% if (ba.status_mengetahui_2 === 'Disetujui' || ba.status_approval === 'Disetujui' || ba.status_approval === 'Selesai') { %>
+            <span style="color: #0f5132; font-weight: bold; font-size: 12px;">[ CONFIRMED ]</span>
+          <% } else if (ba.status_mengetahui_2 === 'Ditolak' || ba.status_approval === 'Ditolak') { %>
+            <span style="color: #dc3545; font-weight: bold; font-size: 12px;">[ REJECTED ]</span>
+          <% } else { %>
+            <span style="color: #888; font-style: italic;">[ Pending ]</span>
+          <% } %>
+        </div>
+        <strong><%= ba.mengetahui_2 || 'Chusnaeni M' %></strong><br>
+        <small style="color: #666;">Mengetahui</small>
+      </td>
+      <!-- Mengetahui 3 -->
+      <td>
+        <div class="signature-box">
+          <% if (ba.status_mengetahui_3 === 'Disetujui' || ba.status_approval === 'Disetujui' || ba.status_approval === 'Selesai') { %>
+            <span style="color: #0f5132; font-weight: bold; font-size: 12px;">[ CONFIRMED ]</span>
+          <% } else if (ba.status_mengetahui_3 === 'Ditolak' || ba.status_approval === 'Ditolak') { %>
+            <span style="color: #dc3545; font-weight: bold; font-size: 12px;">[ REJECTED ]</span>
+          <% } else { %>
+            <span style="color: #888; font-style: italic;">[ Pending ]</span>
+          <% } %>
+        </div>
+        <strong><%= ba.mengetahui_3 || 'Setyo Adhi P' %></strong><br>
+        <small style="color: #666;">Mengetahui</small>
+      </td>
+      <!-- Menyetujui (Owner) -->
+      <td>
+        <div class="signature-box">
+          <% if (ba.status_menyetujui_owner === 'Disetujui' || ba.status_approval === 'Disetujui' || ba.status_approval === 'Selesai') { %>
+            <span style="color: #0f5132; font-weight: bold; font-size: 12px;">[ APPROVED ]</span>
+          <% } else if (ba.status_menyetujui_owner === 'Ditolak' || ba.status_approval === 'Ditolak') { %>
+            <span style="color: #dc3545; font-weight: bold; font-size: 12px;">[ REJECTED ]</span>
           <% } else { %>
             <span style="color: #888; font-style: italic;">[ Pending Approval ]</span>
           <% } %>
         </div>
-        <strong><%= ba.menyetujui_1 || 'Christian Octo' %></strong><br>
-        <small>Operational Manager / Controller</small>
-      </td>
-      <td>
-        <div class="signature-box">
-          <% if (ba.status_approval_2 === 'Disetujui' || ba.status_approval === 'Disetujui' || ba.status_approval === 'Selesai') { %>
-            <span style="color: #0f5132; font-weight: bold; font-size: 14px;">[ APPROVED ]</span>
-          <% } else if (ba.status_approval_2 === 'Ditolak' || ba.status_approval === 'Ditolak') { %>
-            <span style="color: #dc3545; font-weight: bold; font-size: 14px;">[ REJECTED ]</span>
-          <% } else { %>
-            <span style="color: #888; font-style: italic;">[ Pending Approval ]</span>
-          <% } %>
-        </div>
-        <strong><%= ba.menyetujui_2 || 'Aldo Widarta' %></strong><br>
-        <small>General Manager / Management</small>
+        <strong><%= ba.menyetujui_owner || 'Owner' %></strong><br>
+        <small style="color: #666;">Menyetujui / Owner</small>
       </td>
     </tr>
   </table>

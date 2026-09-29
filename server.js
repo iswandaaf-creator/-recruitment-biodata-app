@@ -554,6 +554,20 @@ app.post('/api/operasional/submit', (req, res) => {
   const hargaSatuan = parseFloat(body.harga_satuan_estimasi || 0);
   const totalEstimasi = parseFloat(body.total_estimasi || (jumlah * hargaSatuan));
 
+  let itemsJsonStr = '';
+  if (typeof body.items_json === 'string' && body.items_json) {
+    itemsJsonStr = body.items_json;
+  } else if (body.items_json || body.items) {
+    itemsJsonStr = JSON.stringify(body.items_json || body.items);
+  }
+
+  let fotoListStr = '';
+  if (typeof body.foto_list === 'string' && body.foto_list) {
+    fotoListStr = body.foto_list;
+  } else if (body.foto_list) {
+    fotoListStr = JSON.stringify(body.foto_list);
+  }
+
   const sql = `
     INSERT INTO pengajuan_barang (
       no_ba, tanggal_pengajuan, outlet_divisi, departemen, pic_pengajuan, prioritas, barang_dibutuhkan_paling_lambat,
@@ -565,8 +579,14 @@ app.post('/api/operasional/submit', (req, res) => {
       vendor_pembelian, pic_vendor, no_quotation, sumber_budget, ketersediaan_budget, estimasi_waktu_pengadaan,
       treatment, vendor_service, estimasi_harga_service, target_penyelesaian, keterangan_tindak_lanjut,
       lampiran_foto, lampiran_quotation, lampiran_spesifikasi, lampiran_dokumen_lain, link_dokumen_pendukung, catatan_dokumentasi,
-      dibuat_oleh, signature_dibuat, menyetujui_1, menyetujui_2, status_approval, share_token
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      foto_list, items_json,
+      dibuat_oleh, signature_dibuat,
+      mengetahui_1, status_mengetahui_1,
+      mengetahui_2, status_mengetahui_2,
+      mengetahui_3, status_mengetahui_3,
+      menyetujui_owner, status_menyetujui_owner,
+      menyetujui_1, menyetujui_2, status_approval, share_token
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const params = [
@@ -620,17 +640,27 @@ app.post('/api/operasional/submit', (req, res) => {
     parseFloat(body.estimasi_harga_service || 0),
     body.target_penyelesaian || '',
     body.keterangan_tindak_lanjut || '',
-    body.lampiran_foto ? 1 : 0,
+    (body.lampiran_foto || fotoListStr) ? 1 : 0,
     body.lampiran_quotation ? 1 : 0,
     body.lampiran_spesifikasi ? 1 : 0,
     body.lampiran_dokumen_lain ? 1 : 0,
     body.link_dokumen_pendukung || '',
     body.catatan_dokumentasi || '',
+    fotoListStr,
+    itemsJsonStr,
     body.pic_pengajuan || '',
     body.signature_dibuat || '',
+    body.mengetahui_1 || 'Andre Antariza',
+    body.status_mengetahui_1 || 'Pending',
+    body.mengetahui_2 || 'Chusnaeni M',
+    body.status_mengetahui_2 || 'Pending',
+    body.mengetahui_3 || 'Setyo Adhi P',
+    body.status_mengetahui_3 || 'Pending',
+    body.menyetujui_owner || 'Owner',
+    body.status_menyetujui_owner || 'Pending',
     'Christian Octo',
     'Aldo Widarta',
-    'Menunggu Approval',
+    body.status_approval || 'Menunggu Approval',
     body.share_token || body.ref || ''
   ];
 
@@ -677,6 +707,14 @@ app.post('/admin/operasional/update/:id', requireOperasionalAuth, (req, res) => 
       vendor_service = ?,
       estimasi_harga_service = ?,
       target_penyelesaian = ?,
+      mengetahui_1 = ?,
+      status_mengetahui_1 = ?,
+      mengetahui_2 = ?,
+      status_mengetahui_2 = ?,
+      mengetahui_3 = ?,
+      status_mengetahui_3 = ?,
+      menyetujui_owner = ?,
+      status_menyetujui_owner = ?,
       menyetujui_1 = ?,
       menyetujui_2 = ?,
       catatan_approval = ?,
@@ -690,6 +728,14 @@ app.post('/admin/operasional/update/:id', requireOperasionalAuth, (req, res) => 
     body.vendor_service || '',
     parseFloat(body.estimasi_harga_service || 0),
     body.target_penyelesaian || '',
+    body.mengetahui_1 || 'Andre Antariza',
+    body.status_mengetahui_1 || 'Pending',
+    body.mengetahui_2 || 'Chusnaeni M',
+    body.status_mengetahui_2 || 'Pending',
+    body.mengetahui_3 || 'Setyo Adhi P',
+    body.status_mengetahui_3 || 'Pending',
+    body.menyetujui_owner || 'Owner',
+    body.status_menyetujui_owner || 'Pending',
     body.menyetujui_1 || 'Christian Octo',
     body.menyetujui_2 || 'Aldo Widarta',
     body.catatan_approval || '',

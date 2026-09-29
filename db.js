@@ -249,10 +249,24 @@ db.serialize(() => {
       lampiran_dokumen_lain INTEGER DEFAULT 0,
       link_dokumen_pendukung TEXT,
       catatan_dokumentasi TEXT,
+      foto_list TEXT,
+      items_json TEXT,
 
-      -- I. PERSETUJUAN / APPROVAL
+      -- I. PERSETUJUAN / APPROVAL (4 OTORISATOR)
       dibuat_oleh TEXT,
       signature_dibuat TEXT,
+      mengetahui_1 TEXT DEFAULT 'Andre Antariza',
+      status_mengetahui_1 TEXT DEFAULT 'Pending',
+      tgl_mengetahui_1 TEXT,
+      mengetahui_2 TEXT DEFAULT 'Chusnaeni M',
+      status_mengetahui_2 TEXT DEFAULT 'Pending',
+      tgl_mengetahui_2 TEXT,
+      mengetahui_3 TEXT DEFAULT 'Setyo Adhi P',
+      status_mengetahui_3 TEXT DEFAULT 'Pending',
+      tgl_mengetahui_3 TEXT,
+      menyetujui_owner TEXT DEFAULT 'Owner',
+      status_menyetujui_owner TEXT DEFAULT 'Pending',
+      tgl_menyetujui_owner TEXT,
       menyetujui_1 TEXT DEFAULT 'Christian Octo',
       status_approval_1 TEXT DEFAULT 'Pending',
       tgl_approval_1 TEXT,
@@ -263,7 +277,26 @@ db.serialize(() => {
       catatan_approval TEXT,
       share_token TEXT
     )
-  `);
+  `, () => {
+    // Add columns dynamically for existing databases
+    const columns = [
+      "ALTER TABLE pengajuan_barang ADD COLUMN foto_list TEXT",
+      "ALTER TABLE pengajuan_barang ADD COLUMN items_json TEXT",
+      "ALTER TABLE pengajuan_barang ADD COLUMN mengetahui_1 TEXT DEFAULT 'Andre Antariza'",
+      "ALTER TABLE pengajuan_barang ADD COLUMN status_mengetahui_1 TEXT DEFAULT 'Pending'",
+      "ALTER TABLE pengajuan_barang ADD COLUMN tgl_mengetahui_1 TEXT",
+      "ALTER TABLE pengajuan_barang ADD COLUMN mengetahui_2 TEXT DEFAULT 'Chusnaeni M'",
+      "ALTER TABLE pengajuan_barang ADD COLUMN status_mengetahui_2 TEXT DEFAULT 'Pending'",
+      "ALTER TABLE pengajuan_barang ADD COLUMN tgl_mengetahui_2 TEXT",
+      "ALTER TABLE pengajuan_barang ADD COLUMN mengetahui_3 TEXT DEFAULT 'Setyo Adhi P'",
+      "ALTER TABLE pengajuan_barang ADD COLUMN status_mengetahui_3 TEXT DEFAULT 'Pending'",
+      "ALTER TABLE pengajuan_barang ADD COLUMN tgl_mengetahui_3 TEXT",
+      "ALTER TABLE pengajuan_barang ADD COLUMN menyetujui_owner TEXT DEFAULT 'Owner'",
+      "ALTER TABLE pengajuan_barang ADD COLUMN status_menyetujui_owner TEXT DEFAULT 'Pending'",
+      "ALTER TABLE pengajuan_barang ADD COLUMN tgl_menyetujui_owner TEXT"
+    ];
+    columns.forEach(sql => db.run(sql, () => {}));
+  });
 
   // Operasional: Purchase Orders Table
   db.run(`

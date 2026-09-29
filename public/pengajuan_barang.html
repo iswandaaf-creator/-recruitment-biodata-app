@@ -134,18 +134,19 @@
         </div>
       </div>
 
-      <!-- SECTION B: INFORMASI BARANG -->
+      <!-- SECTION B: INFORMASI BARANG (MULTI-ITEM) -->
       <div class="card">
-        <div class="card-header d-flex align-items-center">
-          <span class="section-badge">B</span> INFORMASI BARANG / EQUIPMENT
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <span class="section-badge">B</span> INFORMASI BARANG / EQUIPMENT (BISA LEBIH DARI 1 ITEM)
+          </div>
+          <button type="button" class="btn btn-sm btn-success fw-bold" id="btnAddItemRow">
+            <i class="fas fa-plus me-1"></i>Tambah Item Barang
+          </button>
         </div>
         <div class="card-body p-4">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label">Nama Barang / Equipment <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="nama_barang" placeholder="Nama barang yang diajukan" required>
-            </div>
-            <div class="col-md-6">
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
               <label class="form-label">Status Barang <span class="text-danger">*</span></label>
               <select class="form-select" name="status_barang" id="status_barang" required>
                 <option value="Barang Baru" selected>Barang Baru</option>
@@ -154,45 +155,85 @@
               </select>
             </div>
             <div class="col-md-4">
-              <label class="form-label">Kategori Barang</label>
-              <input type="text" class="form-control" name="kategori_barang" placeholder="Contoh: Kitchen Equipment / Chillers / IT">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Merk / Tipe / Model</label>
-              <input type="text" class="form-control" name="merk_tipe_model" placeholder="Contoh: GEA / M-RW6T2HH">
-            </div>
-            <div class="col-md-4">
-              <label class="form-label">Spesifikasi</label>
-              <input type="text" class="form-control" name="spesifikasi" placeholder="Ukuran, daya listrik, kapasitas, dll">
-            </div>
-            <div class="col-md-6">
               <label class="form-label">Lokasi Penempatan</label>
               <input type="text" class="form-control" name="lokasi_penempatan" placeholder="Area Kitchen Utama / Barista Counter">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <label class="form-label">PIC Pengguna / Operator</label>
               <input type="text" class="form-control" name="pic_pengguna" placeholder="Staff / Operator pengguna barang">
             </div>
-            <div class="col-md-3">
-              <label class="form-label">Jumlah <span class="text-danger">*</span></label>
-              <input type="number" class="form-control" name="jumlah" id="jumlah" min="1" value="1" required>
+          </div>
+
+          <h6 class="fw-bold text-success border-bottom pb-2 mb-3">
+            <i class="fas fa-list-check me-2"></i>Daftar Item / Barang yang Diajukan:
+          </h6>
+
+          <div id="itemsContainer">
+            <!-- Item Row 1 (Default) -->
+            <div class="item-row card card-body bg-light mb-3 border">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-bold text-dark item-number">Item #1</span>
+                <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item" style="display: none;">
+                  <i class="fas fa-trash me-1"></i>Hapus Item
+                </button>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nama Barang / Equipment <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control item-nama" placeholder="Contoh: Blender Commercial Heavy Duty" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Kategori Barang</label>
+                  <input type="text" class="form-control item-kategori" placeholder="Kitchen Equipment / Bar Equipment">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Merk / Tipe / Model</label>
+                  <input type="text" class="form-control item-merk" placeholder="Contoh: GEA / OMNI-800">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Spesifikasi Detail</label>
+                  <input type="text" class="form-control item-spesifikasi" placeholder="Ukuran, kapasitas, konsumsi daya...">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Jumlah <span class="text-danger">*</span></label>
+                  <input type="number" class="form-control item-jumlah" min="1" value="1" required>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Satuan <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control item-satuan" value="Pcs" required>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Harga Satuan Estimasi (Rp)</label>
+                  <input type="number" class="form-control item-harga" min="0" value="0">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Total Subtotal (Rp)</label>
+                  <input type="number" class="form-control bg-white fw-bold item-total" value="0" readonly>
+                </div>
+              </div>
             </div>
-            <div class="col-md-3">
-              <label class="form-label">Satuan <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="satuan" value="Pcs" required>
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Harga Satuan Estimasi (Rp)</label>
-              <input type="number" class="form-control" name="harga_satuan_estimasi" id="harga_satuan_estimasi" min="0" value="0">
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Total Estimasi (Rp)</label>
-              <input type="number" class="form-control bg-light" name="total_estimasi" id="total_estimasi" value="0" readonly>
-            </div>
-            <div class="col-md-12">
-              <label class="form-label">Link Quotation / Penawaran / Pembelian</label>
-              <input type="url" class="form-control" name="link_quotation" placeholder="https://tokopedia.com/... atau link dokumen penawaran">
-            </div>
+          </div>
+
+          <!-- Hidden inputs for single-field compatibility -->
+          <input type="hidden" name="nama_barang" id="legacy_nama_barang">
+          <input type="hidden" name="kategori_barang" id="legacy_kategori_barang">
+          <input type="hidden" name="merk_tipe_model" id="legacy_merk_tipe_model">
+          <input type="hidden" name="spesifikasi" id="legacy_spesifikasi">
+          <input type="hidden" name="jumlah" id="legacy_jumlah">
+          <input type="hidden" name="satuan" id="legacy_satuan">
+          <input type="hidden" name="harga_satuan_estimasi" id="legacy_harga_satuan_estimasi">
+          <input type="hidden" name="total_estimasi" id="legacy_total_estimasi">
+          <input type="hidden" name="items_json" id="itemsJsonHidden">
+
+          <!-- Grand Total Display Card -->
+          <div class="p-3 bg-success bg-opacity-10 border border-success rounded d-flex justify-content-between align-items-center">
+            <span class="fw-bold text-success fs-6"><i class="fas fa-calculator me-2"></i>TOTAL ESTIMASI KESELURUHAN BIAYA:</span>
+            <span class="fw-bold text-success fs-5" id="grandTotalDisplay">Rp 0</span>
+          </div>
+
+          <div class="mt-3">
+            <label class="form-label">Link Quotation / Penawaran / Pembelian (Semua Item)</label>
+            <input type="url" class="form-control" name="link_quotation" placeholder="https://tokopedia.com/... atau link penawaran vendor">
           </div>
         </div>
       </div>
@@ -354,11 +395,24 @@
               <input type="text" class="form-control" name="estimasi_waktu_pengadaan" placeholder="3 - 5 Hari Kerja">
             </div>
 
-            <!-- Checkboxes Lampiran Dokumen -->
+            <!-- Upload Foto Lebih Dari 1 -->
             <div class="col-md-12 mt-4">
-              <label class="form-label d-block fw-bold">Lampiran Dokumen Pendukung:</label>
+              <label class="form-label d-block fw-bold text-success">
+                <i class="fas fa-images me-2"></i>Upload Foto Barang / Kerusakan (Bisa Lebih Dari 1 Foto):
+              </label>
+              <input type="file" id="fotoFiles" multiple accept="image/*" class="form-control">
+              <div class="form-text">Pilih satu atau beberapa file foto langsung dari galeri/kamera hp/laptop.</div>
+              
+              <!-- Container Preview Foto -->
+              <div id="photoPreviewGrid" class="d-flex flex-wrap gap-2 mt-3"></div>
+              <input type="hidden" name="foto_list" id="fotoListHidden">
+            </div>
+
+            <!-- Checkboxes Lampiran Dokumen -->
+            <div class="col-md-12 mt-3">
+              <label class="form-label d-block fw-bold">Checklist Dokumen Pendukung:</label>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="lampiran_foto" value="1" id="chkFoto">
+                <input class="form-check-input" type="checkbox" name="lampiran_foto" value="1" id="chkFoto" checked>
                 <label class="form-check-label" for="chkFoto">Foto Barang / Kerusakan</label>
               </div>
               <div class="form-check form-check-inline">
@@ -387,15 +441,15 @@
         </div>
       </div>
 
-      <!-- SECTION I: TANDA TANGAN -->
+      <!-- SECTION I: TANDA TANGAN & OTORISASI -->
       <div class="card">
         <div class="card-header d-flex align-items-center">
-          <span class="section-badge">I</span> TANDA TANGAN DIGITALLY CONFIRMED
+          <span class="section-badge">I</span> PERSETUJUAN & OTORISASI MANAJEMEN
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Tanda Tangan Digital (Gunakan Mouse / Layar Sentuh):</label>
+              <label class="form-label fw-bold">Tanda Tangan Digital Pembuat Pengajuan (Mouse / Layar Sentuh):</label>
               <div class="signature-container">
                 <canvas id="sigCanvas"></canvas>
               </div>
@@ -406,15 +460,20 @@
               </div>
               <input type="hidden" name="signature_dibuat" id="signature_dibuat">
             </div>
-            <div class="col-md-6 d-flex flex-column justify-content-center border-start ps-4">
-              <h6 class="fw-bold text-success"><i class="fas fa-user-check me-2"></i>Verifikasi Pengajuan:</h6>
-              <p class="small text-muted mb-2">Dengan mengirimkan Berita Acara ini, PIC pengajuan mengonfirmasi bahwa data yang diisikan adalah benar dan sesuai dengan kondisi operasional di lapangan.</p>
+            <div class="col-md-6 border-start ps-4">
+              <h6 class="fw-bold text-success mb-2"><i class="fas fa-users-gear me-2"></i>Alur Otorisasi Persetujuan:</h6>
+              <p class="small text-muted mb-3">Dokumen Berita Acara ini secara resmi memerlukan persetujuan dan otorisasi dari:</p>
+              
               <div class="p-3 bg-light rounded border">
-                <div class="small fw-bold text-dark">Persetujuan Otorisasi Manajemen:</div>
-                <ul class="small mb-0 ps-3 text-secondary">
-                  <li><strong>Christian Octo</strong> (Operational Controller)</li>
-                  <li><strong>Aldo Widarta</strong> (General Manager / Executive)</li>
-                </ul>
+                <ol class="small mb-0 ps-3 fw-semibold text-dark">
+                  <li class="mb-1"><strong>Andre Antariza</strong> <span class="badge bg-secondary ms-1">Mengetahui</span></li>
+                  <li class="mb-1"><strong>Chusnaeni M</strong> <span class="badge bg-secondary ms-1">Mengetahui</span></li>
+                  <li class="mb-1"><strong>Setyo Adhi P</strong> <span class="badge bg-secondary ms-1">Mengetahui</span></li>
+                  <li><strong>Owner</strong> <span class="badge bg-success ms-1">Menyetujui</span></li>
+                </ol>
+              </div>
+              <div class="mt-3 text-muted small">
+                <i class="fas fa-shield-halved text-success me-1"></i>Status otorisasi akan terverifikasi secara digital setelah pengajuan dikirimkan.
               </div>
             </div>
           </div>
@@ -476,20 +535,164 @@
       }
     });
 
-    // Auto calculate Total Estimasi
-    const jumlahInput = document.getElementById('jumlah');
-    const hargaInput = document.getElementById('harga_satuan_estimasi');
-    const totalInput = document.getElementById('total_estimasi');
+    // ==========================================
+    // DYNAMIC MULTI-ITEM MANAGEMENT
+    // ==========================================
+    const itemsContainer = document.getElementById('itemsContainer');
+    const btnAddItemRow = document.getElementById('btnAddItemRow');
+    const grandTotalDisplay = document.getElementById('grandTotalDisplay');
 
-    function calcTotal() {
-      const j = parseFloat(jumlahInput.value) || 0;
-      const h = parseFloat(hargaInput.value) || 0;
-      totalInput.value = j * h;
+    function updateItemNumbersAndTotals() {
+      const rows = itemsContainer.querySelectorAll('.item-row');
+      let grandTotal = 0;
+
+      rows.forEach((row, index) => {
+        // Update number label
+        row.querySelector('.item-number').innerText = `Item #${index + 1}`;
+        
+        // Show/hide remove button
+        const btnRemove = row.querySelector('.btn-remove-item');
+        if (rows.length > 1) {
+          btnRemove.style.display = 'inline-block';
+        } else {
+          btnRemove.style.display = 'none';
+        }
+
+        // Calculate subtotal
+        const j = parseFloat(row.querySelector('.item-jumlah').value) || 0;
+        const h = parseFloat(row.querySelector('.item-harga').value) || 0;
+        const subtotal = j * h;
+        row.querySelector('.item-total').value = subtotal;
+
+        grandTotal += subtotal;
+      });
+
+      grandTotalDisplay.innerText = 'Rp ' + grandTotal.toLocaleString('id-ID');
     }
-    jumlahInput.addEventListener('input', calcTotal);
-    hargaInput.addEventListener('input', calcTotal);
 
-    // Canvas Signature Setup
+    function attachRowEvents(row) {
+      const jumlahInp = row.querySelector('.item-jumlah');
+      const hargaInp = row.querySelector('.item-harga');
+      const btnRemove = row.querySelector('.btn-remove-item');
+
+      jumlahInp.addEventListener('input', updateItemNumbersAndTotals);
+      hargaInp.addEventListener('input', updateItemNumbersAndTotals);
+
+      btnRemove.addEventListener('click', function() {
+        if (itemsContainer.querySelectorAll('.item-row').length > 1) {
+          row.remove();
+          updateItemNumbersAndTotals();
+        }
+      });
+    }
+
+    // Attach events to default item row #1
+    attachRowEvents(itemsContainer.querySelector('.item-row'));
+
+    // Add new item row
+    btnAddItemRow.addEventListener('click', function() {
+      const count = itemsContainer.querySelectorAll('.item-row').length + 1;
+      const newRow = document.createElement('div');
+      newRow.className = 'item-row card card-body bg-light mb-3 border';
+      newRow.innerHTML = `
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="fw-bold text-dark item-number">Item #${count}</span>
+          <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item">
+            <i class="fas fa-trash me-1"></i>Hapus Item
+          </button>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nama Barang / Equipment <span class="text-danger">*</span></label>
+            <input type="text" class="form-control item-nama" placeholder="Nama barang yang diajukan" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Kategori Barang</label>
+            <input type="text" class="form-control item-kategori" placeholder="Kategori barang">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Merk / Tipe / Model</label>
+            <input type="text" class="form-control item-merk" placeholder="Merk & Model">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Spesifikasi Detail</label>
+            <input type="text" class="form-control item-spesifikasi" placeholder="Spesifikasi teknis">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Jumlah <span class="text-danger">*</span></label>
+            <input type="number" class="form-control item-jumlah" min="1" value="1" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Satuan <span class="text-danger">*</span></label>
+            <input type="text" class="form-control item-satuan" value="Pcs" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Harga Satuan Estimasi (Rp)</label>
+            <input type="number" class="form-control item-harga" min="0" value="0">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Total Subtotal (Rp)</label>
+            <input type="number" class="form-control bg-white fw-bold item-total" value="0" readonly>
+          </div>
+        </div>
+      `;
+      itemsContainer.appendChild(newRow);
+      attachRowEvents(newRow);
+      updateItemNumbersAndTotals();
+    });
+
+    // ==========================================
+    // MULTI-PHOTO UPLOAD & PREVIEW
+    // ==========================================
+    const fotoFilesInput = document.getElementById('fotoFiles');
+    const photoPreviewGrid = document.getElementById('photoPreviewGrid');
+    const fotoListHidden = document.getElementById('fotoListHidden');
+    let photoDataUrls = [];
+
+    fotoFilesInput.addEventListener('change', function() {
+      const files = Array.from(this.files);
+      if (!files || files.length === 0) return;
+
+      files.forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const dataUrl = e.target.result;
+          photoDataUrls.push(dataUrl);
+          renderPhotoPreviews();
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    function renderPhotoPreviews() {
+      photoPreviewGrid.innerHTML = '';
+      photoDataUrls.forEach((url, idx) => {
+        const item = document.createElement('div');
+        item.className = 'position-relative border rounded p-1 bg-white shadow-sm';
+        item.style.width = '110px';
+        item.style.height = '110px';
+        item.innerHTML = `
+          <img src="${url}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+          <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0 p-0 rounded-circle" 
+                  style="width: 22px; height: 22px; line-height: 20px; font-size: 11px; transform: translate(30%, -30%);" 
+                  onclick="removePhoto(${idx})">
+            &times;
+          </button>
+        `;
+        photoPreviewGrid.appendChild(item);
+      });
+      fotoListHidden.value = JSON.stringify(photoDataUrls);
+    }
+
+    window.removePhoto = function(index) {
+      photoDataUrls.splice(index, 1);
+      renderPhotoPreviews();
+    };
+
+    // ==========================================
+    // CANVAS SIGNATURE SETUP
+    // ==========================================
     const canvas = document.getElementById('sigCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
@@ -528,7 +731,11 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
 
-    // Form Submit
+    // ==========================================
+    // FORM SUBMIT HANDLER
+    // ==========================================
+    let createdBaId = null;
+
     document.getElementById('pengajuanForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
@@ -544,6 +751,43 @@
         document.getElementById('signature_dibuat').value = canvas.toDataURL('image/png');
       }
 
+      // Collect all Items into Array & JSON
+      const itemRows = itemsContainer.querySelectorAll('.item-row');
+      const itemsList = [];
+      let totalQtySum = 0;
+      let grandTotalSum = 0;
+
+      itemRows.forEach(row => {
+        const itemObj = {
+          nama_barang: row.querySelector('.item-nama').value,
+          kategori_barang: row.querySelector('.item-kategori').value,
+          merk_tipe_model: row.querySelector('.item-merk').value,
+          spesifikasi: row.querySelector('.item-spesifikasi').value,
+          jumlah: parseInt(row.querySelector('.item-jumlah').value || 1, 10),
+          satuan: row.querySelector('.item-satuan').value || 'Pcs',
+          harga_satuan_estimasi: parseFloat(row.querySelector('.item-harga').value || 0),
+          total_estimasi: parseFloat(row.querySelector('.item-total').value || 0)
+        };
+        itemsList.push(itemObj);
+
+        totalQtySum += itemObj.jumlah;
+        grandTotalSum += itemObj.total_estimasi;
+      });
+
+      document.getElementById('itemsJsonHidden').value = JSON.stringify(itemsList);
+
+      // Populate legacy single-field summary for compatibility
+      if (itemsList.length > 0) {
+        document.getElementById('legacy_nama_barang').value = itemsList.length === 1 ? itemsList[0].nama_barang : `${itemsList[0].nama_barang} (+${itemsList.length - 1} item lainnya)`;
+        document.getElementById('legacy_kategori_barang').value = itemsList[0].kategori_barang || '';
+        document.getElementById('legacy_merk_tipe_model').value = itemsList[0].merk_tipe_model || '';
+        document.getElementById('legacy_spesifikasi').value = itemsList[0].spesifikasi || '';
+        document.getElementById('legacy_jumlah').value = totalQtySum;
+        document.getElementById('legacy_satuan').value = itemsList[0].satuan || 'Pcs';
+        document.getElementById('legacy_harga_satuan_estimasi').value = itemsList[0].harga_satuan_estimasi;
+        document.getElementById('legacy_total_estimasi').value = grandTotalSum;
+      }
+
       const formData = new FormData(this);
       const data = Object.fromEntries(formData.entries());
 
@@ -556,6 +800,7 @@
 
         const res = await response.json();
         if (res.success) {
+          createdBaId = res.id;
           document.getElementById('resNoBa').innerText = res.no_ba || 'BA/OPS/NEW';
           const modal = new bootstrap.Modal(document.getElementById('successModal'));
           modal.show();
@@ -570,6 +815,12 @@
         btnSubmit.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Kirim Berita Acara Pengajuan';
       }
     });
+
+    window.printCreatedPDF = function() {
+      if (createdBaId) {
+        window.open('/api/operasional/export/pdf/' + createdBaId, '_blank');
+      }
+    };
   </script>
 </body>
 </html>

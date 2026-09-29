@@ -13,6 +13,13 @@
     .card-header { background-color: #fff; border-bottom: 2px solid #e8f5e9; font-weight: 700; color: #0f5132; }
     .table-detail td { padding: 0.6rem 0.8rem; }
     .table-detail td.label-col { width: 30%; background-color: #f8fafc; font-weight: 600; color: #495057; }
+
+    @media print {
+      .navbar-operasional, .no-print, .col-lg-4 { display: none !important; }
+      .col-lg-8 { width: 100% !important; }
+      body { background-color: #fff; }
+      .card { box-shadow: none; border: 1px solid #ccc; }
+    }
   </style>
 </head>
 <body>
@@ -25,6 +32,9 @@
         <span>Kembali ke Dashboard Operasional</span>
       </a>
       <div class="d-flex align-items-center gap-2">
+        <button onclick="window.print()" class="btn btn-outline-light btn-sm fw-bold">
+          <i class="fas fa-print me-1"></i>Cetak / Print Direct
+        </button>
         <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" class="btn btn-danger btn-sm fw-bold">
           <i class="fas fa-file-pdf me-1"></i>Export PDF Resmi
         </a>
@@ -63,7 +73,7 @@
       <!-- Left Column: Document Contents -->
       <div class="col-lg-8">
         
-        <!-- Section A & B: Identitas & Barang -->
+        <!-- Section A & B: Identitas & Informasi Barang -->
         <div class="card">
           <div class="card-header"><i class="fas fa-info-circle me-2"></i>A & B. Identitas & Informasi Barang</div>
           <div class="card-body p-0">
@@ -77,32 +87,12 @@
                 <td><span class="badge bg-secondary"><%= item.prioritas || 'Normal' %></span></td>
               </tr>
               <tr>
-                <td class="label-col">Nama Barang / Equipment</td>
-                <td><strong class="text-success fs-6"><%= item.nama_barang || '-' %></strong></td>
-              </tr>
-              <tr>
                 <td class="label-col">Status Pengajuan</td>
                 <td><span class="badge bg-light text-dark border"><%= item.status_barang || 'Barang Baru' %></span></td>
               </tr>
               <tr>
-                <td class="label-col">Kategori & Merk/Model</td>
-                <td>Kategori: <%= item.kategori_barang || '-' %> | Merk: <%= item.merk_tipe_model || '-' %></td>
-              </tr>
-              <tr>
-                <td class="label-col">Spesifikasi</td>
-                <td><%= item.spesifikasi || '-' %></td>
-              </tr>
-              <tr>
-                <td class="label-col">Jumlah & Satuan</td>
-                <td><%= item.jumlah || 1 %> <%= item.satuan || 'Pcs' %></td>
-              </tr>
-              <tr>
-                <td class="label-col">Harga Satuan Estimasi</td>
-                <td>Rp <%= Number(item.harga_satuan_estimasi || 0).toLocaleString('id-ID') %></td>
-              </tr>
-              <tr>
-                <td class="label-col">Total Estimasi Biaya</td>
-                <td><strong class="text-dark fs-6">Rp <%= Number(item.total_estimasi || 0).toLocaleString('id-ID') %></strong></td>
+                <td class="label-col">Lokasi Penempatan & PIC Pengguna</td>
+                <td>Lokasi: <%= item.lokasi_penempatan || '-' %> | PIC: <%= item.pic_pengguna || '-' %></td>
               </tr>
               <% if (item.link_quotation) { %>
               <tr>
@@ -111,6 +101,79 @@
               </tr>
               <% } %>
             </table>
+
+            <% 
+              let itemsList = [];
+              if (item.items_json) {
+                try {
+                  itemsList = typeof item.items_json === 'string' ? JSON.parse(item.items_json) : item.items_json;
+                } catch(e) { itemsList = []; }
+              }
+            %>
+
+            <% if (itemsList && itemsList.length > 0) { %>
+              <!-- Multi Items Table -->
+              <div class="p-3 bg-light border-top">
+                <h6 class="fw-bold text-success mb-2"><i class="fas fa-boxes-stacked me-1"></i>Rincian Multi-Item Barang (<%= itemsList.length %> Item):</h6>
+                <div class="table-responsive">
+                  <table class="table table-sm table-bordered bg-white mb-0 small">
+                    <thead class="table-success">
+                      <tr>
+                        <th>No</th>
+                        <th>Nama Barang</th>
+                        <th>Merk / Tipe / Spesifikasi</th>
+                        <th class="text-center">Qty & Satuan</th>
+                        <th class="text-end">Harga Satuan</th>
+                        <th class="text-end">Subtotal Estimasi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% itemsList.forEach((it, idx) => { %>
+                        <tr>
+                          <td><%= idx + 1 %></td>
+                          <td><strong><%= it.nama_barang %></strong></td>
+                          <td><%= it.kategori_barang ? ('['+it.kategori_barang+'] ') : '' %><%= it.merk_tipe_model || it.spesifikasi || '-' %></td>
+                          <td class="text-center"><%= it.jumlah %> <%= it.satuan %></td>
+                          <td class="text-end">Rp <%= Number(it.harga_satuan_estimasi || 0).toLocaleString('id-ID') %></td>
+                          <td class="text-end"><strong>Rp <%= Number(it.total_estimasi || (it.jumlah * it.harga_satuan_estimasi) || 0).toLocaleString('id-ID') %></strong></td>
+                        </tr>
+                      <% }); %>
+                      <tr class="table-light fw-bold">
+                        <td colspan="5" class="text-end text-success">TOTAL ESTIMASI KESELURUHAN:</td>
+                        <td class="text-end text-success fs-6">Rp <%= Number(item.total_estimasi || 0).toLocaleString('id-ID') %></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            <% } else { %>
+              <table class="table table-bordered table-detail mb-0 border-top">
+                <tr>
+                  <td class="label-col">Nama Barang / Equipment</td>
+                  <td><strong class="text-success fs-6"><%= item.nama_barang || '-' %></strong></td>
+                </tr>
+                <tr>
+                  <td class="label-col">Kategori & Merk/Model</td>
+                  <td>Kategori: <%= item.kategori_barang || '-' %> | Merk: <%= item.merk_tipe_model || '-' %></td>
+                </tr>
+                <tr>
+                  <td class="label-col">Spesifikasi</td>
+                  <td><%= item.spesifikasi || '-' %></td>
+                </tr>
+                <tr>
+                  <td class="label-col">Jumlah & Satuan</td>
+                  <td><%= item.jumlah || 1 %> <%= item.satuan || 'Pcs' %></td>
+                </tr>
+                <tr>
+                  <td class="label-col">Harga Satuan Estimasi</td>
+                  <td>Rp <%= Number(item.harga_satuan_estimasi || 0).toLocaleString('id-ID') %></td>
+                </tr>
+                <tr>
+                  <td class="label-col">Total Estimasi Biaya</td>
+                  <td><strong class="text-dark fs-6">Rp <%= Number(item.total_estimasi || 0).toLocaleString('id-ID') %></strong></td>
+                </tr>
+              </table>
+            <% } %>
           </div>
         </div>
 
@@ -188,24 +251,51 @@
                 <td><strong><%= item.treatment || '-' %></strong></td>
               </tr>
             </table>
+
+            <!-- Multi Photo Preview Gallery -->
+            <% 
+              let fotoGallery = [];
+              if (item.foto_list) {
+                try {
+                  fotoGallery = typeof item.foto_list === 'string' ? JSON.parse(item.foto_list) : item.foto_list;
+                } catch(e) { fotoGallery = []; }
+              }
+            %>
+
+            <% if (fotoGallery && fotoGallery.length > 0) { %>
+              <div class="p-3 bg-light border-top">
+                <h6 class="fw-bold text-success mb-2"><i class="fas fa-images me-1"></i>Lampiran Foto Barang / Kerusakan (<%= fotoGallery.length %> Foto):</h6>
+                <div class="d-flex flex-wrap gap-2">
+                  <% fotoGallery.forEach((imgSrc, fIdx) => { %>
+                    <div class="border rounded p-1 bg-white shadow-sm" style="width: 120px; text-align: center;">
+                      <a href="<%= imgSrc %>" target="_blank">
+                        <img src="<%= imgSrc %>" style="width: 100%; height: 90px; object-fit: contain;">
+                      </a>
+                      <div class="small text-muted mt-1" style="font-size: 10px;">Foto #<%= fIdx + 1 %></div>
+                    </div>
+                  <% }); %>
+                </div>
+              </div>
+            <% } %>
+
           </div>
         </div>
 
       </div>
 
-      <!-- Right Column: Otorisasi & Form Approval Management -->
-      <div class="col-lg-4">
+      <!-- Right Column: Otorisasi (4 Signers) & Form Approval Management -->
+      <div class="col-lg-4 no-print">
         
         <!-- Otorisasi & Approval Form -->
         <div class="card border-success shadow-sm">
           <div class="card-header bg-success text-white">
-            <i class="fas fa-file-signature me-2"></i>Lembar Otorisasi & Status BA
+            <i class="fas fa-file-signature me-2"></i>Lembar Otorisasi & Status Approval (4 Otorisator)
           </div>
           <div class="card-body p-4">
             <form action="/admin/operasional/update/<%= item.id %>" method="POST">
               
               <div class="mb-3">
-                <label class="form-label fw-bold">Status Approval Manajemen</label>
+                <label class="form-label fw-bold text-success">Status Approval Keseluruhan</label>
                 <select name="status_approval" class="form-select fw-bold">
                   <option value="Menunggu Approval" <%= item.status_approval === 'Menunggu Approval' ? 'selected' : '' %>>Menunggu Approval</option>
                   <option value="Disetujui" <%= item.status_approval === 'Disetujui' ? 'selected' : '' %>>Disetujui (Approved)</option>
@@ -226,6 +316,55 @@
                 </select>
               </div>
 
+              <!-- 4 Otorisator Status Controls -->
+              <h6 class="fw-bold text-dark border-bottom pb-2 mt-4 mb-3">
+                <i class="fas fa-user-check me-1"></i>Otorisasi 4 Pejabat:
+              </h6>
+
+              <!-- Otorisator 1: Andre Antariza -->
+              <div class="mb-3 bg-light p-2 border rounded">
+                <label class="form-label small fw-bold mb-1">1. Andre Antariza (Mengetahui)</label>
+                <input type="hidden" name="mengetahui_1" value="<%= item.mengetahui_1 || 'Andre Antariza' %>">
+                <select name="status_mengetahui_1" class="form-select form-select-sm">
+                  <option value="Pending" <%= (item.status_mengetahui_1 || 'Pending') === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Disetujui" <%= item.status_mengetahui_1 === 'Disetujui' ? 'selected' : '' %>>Disetujui (Confirmed)</option>
+                  <option value="Ditolak" <%= item.status_mengetahui_1 === 'Ditolak' ? 'selected' : '' %>>Ditolak (Rejected)</option>
+                </select>
+              </div>
+
+              <!-- Otorisator 2: Chusnaeni M -->
+              <div class="mb-3 bg-light p-2 border rounded">
+                <label class="form-label small fw-bold mb-1">2. Chusnaeni M (Mengetahui)</label>
+                <input type="hidden" name="mengetahui_2" value="<%= item.mengetahui_2 || 'Chusnaeni M' %>">
+                <select name="status_mengetahui_2" class="form-select form-select-sm">
+                  <option value="Pending" <%= (item.status_mengetahui_2 || 'Pending') === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Disetujui" <%= item.status_mengetahui_2 === 'Disetujui' ? 'selected' : '' %>>Disetujui (Confirmed)</option>
+                  <option value="Ditolak" <%= item.status_mengetahui_2 === 'Ditolak' ? 'selected' : '' %>>Ditolak (Rejected)</option>
+                </select>
+              </div>
+
+              <!-- Otorisator 3: Setyo Adhi P -->
+              <div class="mb-3 bg-light p-2 border rounded">
+                <label class="form-label small fw-bold mb-1">3. Setyo Adhi P (Mengetahui)</label>
+                <input type="hidden" name="mengetahui_3" value="<%= item.mengetahui_3 || 'Setyo Adhi P' %>">
+                <select name="status_mengetahui_3" class="form-select form-select-sm">
+                  <option value="Pending" <%= (item.status_mengetahui_3 || 'Pending') === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Disetujui" <%= item.status_mengetahui_3 === 'Disetujui' ? 'selected' : '' %>>Disetujui (Confirmed)</option>
+                  <option value="Ditolak" <%= item.status_mengetahui_3 === 'Ditolak' ? 'selected' : '' %>>Ditolak (Rejected)</option>
+                </select>
+              </div>
+
+              <!-- Otorisator 4: Owner -->
+              <div class="mb-3 bg-light p-2 border rounded border-success">
+                <label class="form-label small fw-bold mb-1 text-success">4. Owner (Menyetujui)</label>
+                <input type="hidden" name="menyetujui_owner" value="<%= item.menyetujui_owner || 'Owner' %>">
+                <select name="status_menyetujui_owner" class="form-select form-select-sm fw-bold">
+                  <option value="Pending" <%= (item.status_menyetujui_owner || 'Pending') === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Disetujui" <%= item.status_menyetujui_owner === 'Disetujui' ? 'selected' : '' %>>Disetujui (Approved)</option>
+                  <option value="Ditolak" <%= item.status_menyetujui_owner === 'Ditolak' ? 'selected' : '' %>>Ditolak (Rejected)</option>
+                </select>
+              </div>
+
               <div class="mb-3">
                 <label class="form-label">Vendor Service (Jika Perbaikan)</label>
                 <input type="text" name="vendor_service" class="form-control" value="<%= item.vendor_service || '' %>" placeholder="Nama vendor perbaikan">
@@ -239,16 +378,6 @@
               <div class="mb-3">
                 <label class="form-label">Target Penyelesaian</label>
                 <input type="text" name="target_penyelesaian" class="form-control" value="<%= item.target_penyelesaian || '' %>" placeholder="Contoh: 30 September 2026">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Nama Otorisator 1</label>
-                <input type="text" name="menyetujui_1" class="form-control" value="<%= item.menyetujui_1 || 'Christian Octo' %>">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Nama Otorisator 2</label>
-                <input type="text" name="menyetujui_2" class="form-control" value="<%= item.menyetujui_2 || 'Aldo Widarta' %>">
               </div>
 
               <div class="mb-3">
