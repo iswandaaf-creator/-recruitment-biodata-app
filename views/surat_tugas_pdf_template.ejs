@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Surat Tugas - <%= st.no_surat || ('ST/KOV/' + st.id) %></title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 15mm 12mm 15mm;
+    }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      color: #111;
+      line-height: 1.45;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #0f5132;
+      padding-bottom: 8px;
+    }
+    .header-table td {
+      vertical-align: middle;
+    }
+    .company-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #0f5132;
+      letter-spacing: 0.5px;
+    }
+    .company-sub {
+      font-size: 11px;
+      font-weight: bold;
+      color: #333;
+    }
+    .company-addr {
+      font-size: 9px;
+      color: #555;
+    }
+    .doc-title-box {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .doc-title {
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: underline;
+      letter-spacing: 0.8px;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+    .doc-number {
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .section-p {
+      margin: 6px 0;
+      font-size: 11px;
+    }
+    .identity-table {
+      width: 100%;
+      margin: 4px 0 10px 0;
+      border-collapse: collapse;
+    }
+    .identity-table td {
+      padding: 2px 4px;
+      vertical-align: top;
+      font-size: 11px;
+    }
+    .grid-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+    }
+    .grid-table th, .grid-table td {
+      border: 1px solid #333;
+      padding: 5px 8px;
+      font-size: 10.5px;
+    }
+    .grid-table th {
+      background-color: #f0f3f1;
+      font-weight: bold;
+      text-align: center;
+    }
+    .clause-text {
+      font-size: 10.5px;
+      text-align: justify;
+      margin: 8px 0;
+      line-height: 1.4;
+    }
+    .sign-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+    .sign-table th, .sign-table td {
+      border: 1px solid #333;
+      padding: 4px 8px;
+      text-align: center;
+      font-size: 10.5px;
+    }
+    .sign-table th {
+      background-color: #f0f3f1;
+      font-weight: bold;
+    }
+    .sign-box {
+      height: 65px;
+      vertical-align: bottom;
+      padding-bottom: 6px;
+    }
+    .sign-img {
+      max-height: 48px;
+      max-width: 120px;
+      object-fit: contain;
+    }
+    .tembusan-box {
+      margin-top: 12px;
+      font-size: 10px;
+    }
+    .tembusan-box ol {
+      margin: 2px 0 0 18px;
+      padding: 0;
+    }
+    .badge-status {
+      display: inline-block;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 9.5px;
+      font-weight: bold;
+    }
+    .badge-approved { background-color: #d1e7dd; color: #0f5132; }
+    .badge-pending { background-color: #fff3cd; color: #664d03; }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- HALAMAN 1: SURAT TUGAS -->
+  <!-- ========================================== -->
+  <div class="page-content">
+    <!-- Header Kop Surat -->
+    <table class="header-table">
+      <tr>
+        <td style="width: 25%;">
+          <% if (typeof logoBase64 !== 'undefined' && logoBase64) { %>
+            <img src="<%= logoBase64 %>" alt="KOV Logo" style="height: 52px; object-fit: contain;">
+          <% } else { %>
+            <div style="font-weight: bold; color: #0f5132; font-size: 20px;">KOV KOFFIE</div>
+          <% } %>
+        </td>
+        <td style="width: 75%; text-align: right;">
+          <div class="company-title">PT SUMBER CITA INDONESIA</div>
+          <div class="company-sub">KOV KOFFIE & EATERY</div>
+          <div class="company-addr">Head Office: Jl. Dr. Wahidin No. 88, Candisari, Semarang, Jawa Tengah</div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Judul Dokumen -->
+    <div class="doc-title-box">
+      <div class="doc-title">SURAT TUGAS</div>
+      <div class="doc-number">Nomor : <%= st.no_surat || ('ST/KOV/' + (st.id || '001')) %></div>
+    </div>
+
+    <div class="section-p">Yang bertanda tangan di bawah ini :</div>
+    <table class="identity-table">
+      <tr>
+        <td style="width: 110px; font-weight: 600;">Nama</td>
+        <td style="width: 15px;">:</td>
+        <td><%= st.pemberi_tugas_nama || st.user_pembuat_nama || '-' %></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 600;">Jabatan</td>
+        <td>:</td>
+        <td><%= st.pemberi_tugas_jabatan || st.user_pembuat_jabatan || 'KA Outlet' %></td>
+      </tr>
+    </table>
+
+    <div class="section-p">Dengan ini memberikan tugas kepada :</div>
+    <table class="grid-table">
+      <thead>
+        <tr>
+          <th style="width: 35px;">No</th>
+          <th>Nama</th>
+          <th style="width: 30%;">Jabatan</th>
+          <th style="width: 25%;">Divisi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (st.petugas && st.petugas.length > 0) { %>
+          <% st.petugas.forEach((p, idx) => { %>
+            <tr>
+              <td style="text-align: center;"><%= idx + 1 %></td>
+              <td><strong><%= p.nama || '-' %></strong></td>
+              <td><%= p.jabatan || '-' %></td>
+              <td><%= p.divisi || '-' %></td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td style="text-align: center;">1</td>
+            <td><strong><%= st.lpj_nama || '-' %></strong></td>
+            <td><%= st.lpj_jabatan_divisi || '-' %></td>
+            <td><%= st.divisi_terkait || '-' %></td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+
+    <div class="section-p">Untuk melaksanakan perjalanan dinas / penugasan luar kota dengan rincian sebagai berikut:</div>
+    <table class="identity-table" style="margin-left: 6px;">
+      <tr>
+        <td style="width: 150px; font-weight: 600;">Lokasi / Tujuan</td>
+        <td style="width: 15px;">:</td>
+        <td><%= st.lokasi_tujuan || '-' %></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 600;">Kota</td>
+        <td>:</td>
+        <td><%= st.kota_tujuan || '-' %></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 600;">Tanggal Berangkat</td>
+        <td>:</td>
+        <td><%= st.tanggal_berangkat || '-' %></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 600;">Tanggal Kembali</td>
+        <td>:</td>
+        <td><%= st.tanggal_kembali || '-' %></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 600;">Keperluan</td>
+        <td>:</td>
+        <td><%= st.keperluan || '-' %></td>
+      </tr>
+    </table>
+
+    <div class="clause-text">
+      Selama melaksanakan tugas tersebut, yang bersangkutan wajib menjalankan tugas dan tanggung jawab dengan sebaik – baiknya serta menjaga nama baik KOV Koffie.
+    </div>
+    <div class="clause-text">
+      Biaya yang timbul sehubungan dengan pelaksanaan tugas mengikuti ketentuan perjalanan dinas yang berlaku di perusahaan dan dipertanggungjawabkan sesuai prosedur yang ditetapkan.
+    </div>
+    <div class="clause-text">
+      Demikian Surat Tugas ini dibuat untuk dapat dipergunakan sebagaimana mestinya.
+    </div>
+
+    <!-- Tanggal & Tanda Tangan -->
+    <div style="text-align: right; margin-top: 10px; font-weight: 600;">
+      <%= st.kota_surat || 'Semarang' %>, <%= st.tanggal_surat || new Date().toLocaleDateString('id-ID') %>
+    </div>
+
+    <table class="sign-table">
+      <thead>
+        <tr>
+          <th style="width: 33.3%;">Dibuat Oleh</th>
+          <th style="width: 33.3%;">Diperiksa Oleh</th>
+          <th style="width: 33.3%;">Disetujui Oleh</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sign-box">
+            <% if (st.signature_pembuat) { %>
+              <img src="<%= st.signature_pembuat %>" class="sign-img" alt="TTD"><br>
+            <% } else { %>
+              <div style="height: 38px;"></div>
+            <% } %>
+            <strong><%= st.user_pembuat_nama || 'User' %></strong><br>
+            <span style="font-size: 9.5px; color: #555;"><%= st.user_pembuat_jabatan || 'KA Outlet' %></span>
+          </td>
+          <td class="sign-box">
+            <div style="height: 38px; display: flex; align-items: center; justify-content: center;">
+              <% if (st.status_gm === 'Disetujui') { %>
+                <span class="badge-status badge-approved">✓ DISETUJUI</span>
+              <% } else { %>
+                <span class="badge-status badge-pending">PENDING</span>
+              <% } %>
+            </div>
+            <strong><%= st.gm_nama || 'Aldo Widarta - GM' %></strong><br>
+            <span style="font-size: 9.5px; color: #555;">General Manager</span>
+          </td>
+          <td class="sign-box">
+            <div style="height: 38px; display: flex; align-items: center; justify-content: center;">
+              <% if (st.status_ka_divisi === 'Disetujui') { %>
+                <span class="badge-status badge-approved">✓ DISETUJUI</span>
+              <% } else { %>
+                <span class="badge-status badge-pending">PENDING</span>
+              <% } %>
+            </div>
+            <strong><%= st.ka_divisi_nama || 'KA Divisi' %></strong><br>
+            <span style="font-size: 9.5px; color: #555;"><%= st.ka_divisi_jabatan || ('Penyetuju / KA Divisi ' + (st.divisi_terkait || '')) %></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tembusan-box">
+      <strong>Tembusan :</strong>
+      <ol>
+        <li>Owner</li>
+        <li>FAT</li>
+        <li>HRD</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ======================================================== -->
+  <!-- HALAMAN 2: FORM PERTANGGUNGJAWABAN PERJALANAN DINAS (LPJ) -->
+  <!-- ======================================================== -->
+  <div class="page-content">
+    <!-- Header Kop Surat -->
+    <table class="header-table">
+      <tr>
+        <td style="width: 25%;">
+          <% if (typeof logoBase64 !== 'undefined' && logoBase64) { %>
+            <img src="<%= logoBase64 %>" alt="KOV Logo" style="height: 52px; object-fit: contain;">
+          <% } else { %>
+            <div style="font-weight: bold; color: #0f5132; font-size: 20px;">KOV KOFFIE</div>
+          <% } %>
+        </td>
+        <td style="width: 75%; text-align: right;">
+          <div class="company-title">PT SUMBER CITA INDONESIA</div>
+          <div class="company-sub">KOV KOFFIE & EATERY</div>
+          <div class="company-addr">Head Office: Jl. Dr. Wahidin No. 88, Candisari, Semarang, Jawa Tengah</div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Judul Dokumen -->
+    <div class="doc-title-box">
+      <div class="doc-title">FORM PERTANGGUNGJAWABAN PERJALANAN DINAS</div>
+      <div class="doc-number">No. Surat Tugas : <%= st.no_surat || '-' %></div>
+    </div>
+
+    <table class="identity-table" style="margin-bottom: 8px;">
+      <tr>
+        <td style="width: 140px; font-weight: 600;">Nama Pelapor</td>
+        <td style="width: 15px;">:</td>
+        <td><strong><%= st.lpj_nama || (st.petugas && st.petugas[0] ? st.petugas[0].nama : st.user_pembuat_nama) || '-' %></strong></td>
+      </tr>
+      <tr>
+        <td style="font-weight: 600;">Jabatan / Divisi</td>
+        <td>:</td>
+        <td><%= st.lpj_jabatan_divisi || (st.petugas && st.petugas[0] ? (st.petugas[0].jabatan + ' / ' + st.petugas[0].divisi) : st.user_pembuat_jabatan) || '-' %></td>
+      </tr>
+    </table>
+
+    <!-- A. REALISASI PERJALANAN -->
+    <div style="font-weight: bold; font-size: 11px; margin-top: 6px; color: #0f5132;">A. REALISASI PERJALANAN</div>
+    <table class="grid-table" style="margin-top: 4px;">
+      <thead>
+        <tr>
+          <th style="width: 45%; text-align: left;">Keterangan</th>
+          <th style="text-align: left;">Realisasi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tanggal Berangkat</td>
+          <td><strong><%= st.realisasi_tgl_berangkat || st.tanggal_berangkat || '-' %></strong></td>
+        </tr>
+        <tr>
+          <td>Jam Berangkat</td>
+          <td><%= st.realisasi_jam_berangkat || '-' %> WIB</td>
+        </tr>
+        <tr>
+          <td>Tanggal Kembali</td>
+          <td><strong><%= st.realisasi_tgl_kembali || st.tanggal_kembali || '-' %></strong></td>
+        </tr>
+        <tr>
+          <td>Jam Kembali</td>
+          <td><%= st.realisasi_jam_kembali || '-' %> WIB</td>
+        </tr>
+        <tr style="background-color: #fafafa;">
+          <td><strong>Jumlah Hari</strong></td>
+          <td><strong><%= st.realisasi_jumlah_hari || 0 %> hari</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- B. PELAKSANAAN TUGAS -->
+    <div style="font-weight: bold; font-size: 11px; margin-top: 8px; color: #0f5132;">B. PELAKSANAAN TUGAS</div>
+    <table class="grid-table" style="margin-top: 4px;">
+      <thead>
+        <tr>
+          <th style="width: 40%; text-align: left;">Keperluan / Tugas</th>
+          <th style="width: 40%; text-align: left;">Hasil Pelaksanaan</th>
+          <th style="width: 20%; text-align: center;">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (st.pelaksanaan_tugas && st.pelaksanaan_tugas.length > 0) { %>
+          <% st.pelaksanaan_tugas.forEach((pt) => { %>
+            <tr>
+              <td><%= pt.tugas || '-' %></td>
+              <td><%= pt.hasil || '-' %></td>
+              <td style="text-align: center;">
+                <% if ((pt.status || '').toLowerCase() === 'selesai') { %>
+                  ☑ Selesai &nbsp; ☐ Belum
+                <% } else { %>
+                  ☐ Selesai &nbsp; ☑ Belum
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td><%= st.keperluan || '-' %></td>
+            <td><%= st.bukti_dokumen_keterangan || 'Tugas telah dilaksanakan sesuai arahan.' %></td>
+            <td style="text-align: center;">☑ Selesai &nbsp; ☐ Belum</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <div style="font-size: 10px; margin-bottom: 8px;">
+      <em>Lampirkan Bukti / dokumen hasil pelaksanaan:</em>
+      <strong><%= st.bukti_dokumen_keterangan || st.bukti_dokumen_link || 'Terlampir dalam sistem' %></strong>
+    </div>
+
+    <!-- C. PERHITUNGAN BIAYA -->
+    <div style="font-weight: bold; font-size: 11px; margin-top: 6px; color: #0f5132;">C. PERHITUNGAN BIAYA</div>
+    <table class="grid-table" style="margin-top: 4px;">
+      <thead>
+        <tr>
+          <th style="width: 35%; text-align: left;">Komponen</th>
+          <th style="width: 35%; text-align: left;">Dasar Perhitungan</th>
+          <th style="width: 30%; text-align: right;">Jumlah (Rp)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Uang Dinas</td>
+          <td>Rp50.000 × <%= st.uang_dinas_hari || 0 %> hari</td>
+          <td style="text-align: right;">Rp <%= (st.uang_dinas_total || 0).toLocaleString('id-ID') %></td>
+        </tr>
+        <tr>
+          <td>Uang Menginap</td>
+          <td>Rp25.000 × <%= st.uang_menginap_malam || 0 %> malam</td>
+          <td style="text-align: right;">Rp <%= (st.uang_menginap_total || 0).toLocaleString('id-ID') %></td>
+        </tr>
+        <tr>
+          <td>Transportasi</td>
+          <td>Sesuai bukti / realisasi</td>
+          <td style="text-align: right;">Rp <%= (st.biaya_transportasi || 0).toLocaleString('id-ID') %></td>
+        </tr>
+        <tr>
+          <td>Penginapan</td>
+          <td>Sesuai bukti / realisasi</td>
+          <td style="text-align: right;">Rp <%= (st.biaya_penginapan || 0).toLocaleString('id-ID') %></td>
+        </tr>
+        <tr>
+          <td>Biaya lainnya</td>
+          <td><%= st.keterangan_biaya_lain ? st.keterangan_biaya_lain : 'Sesuai ketentuan' %></td>
+          <td style="text-align: right;">Rp <%= (st.biaya_lainnya || 0).toLocaleString('id-ID') %></td>
+        </tr>
+        <tr style="background-color: #e8f5e9; font-weight: bold; font-size: 11px;">
+          <td colspan="2" style="text-align: right; text-transform: uppercase;">TOTAL PERTANGGUNGJAWABAN</td>
+          <td style="text-align: right; color: #0f5132;">Rp <%= (st.total_biaya || 0).toLocaleString('id-ID') %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Tanggal & Tanda Tangan LPJ -->
+    <div style="text-align: right; margin-top: 10px; font-weight: 600;">
+      <%= st.kota_surat || 'Semarang' %>, <%= st.tanggal_surat || new Date().toLocaleDateString('id-ID') %>
+    </div>
+
+    <table class="sign-table">
+      <thead>
+        <tr>
+          <th style="width: 33.3%;">Dibuat Oleh</th>
+          <th style="width: 33.3%;">Diperiksa Oleh</th>
+          <th style="width: 33.3%;">Disetujui Oleh</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sign-box">
+            <% if (st.signature_pembuat) { %>
+              <img src="<%= st.signature_pembuat %>" class="sign-img" alt="TTD"><br>
+            <% } else { %>
+              <div style="height: 38px;"></div>
+            <% } %>
+            <strong><%= st.user_pembuat_nama || 'User' %></strong><br>
+            <span style="font-size: 9.5px; color: #555;"><%= st.user_pembuat_jabatan || 'KA Outlet' %></span>
+          </td>
+          <td class="sign-box">
+            <div style="height: 38px; display: flex; align-items: center; justify-content: center;">
+              <% if (st.status_gm === 'Disetujui') { %>
+                <span class="badge-status badge-approved">✓ DISETUJUI</span>
+              <% } else { %>
+                <span class="badge-status badge-pending">PENDING</span>
+              <% } %>
+            </div>
+            <strong><%= st.gm_nama || 'Aldo Widarta - GM' %></strong><br>
+            <span style="font-size: 9.5px; color: #555;">General Manager</span>
+          </td>
+          <td class="sign-box">
+            <div style="height: 38px; display: flex; align-items: center; justify-content: center;">
+              <% if (st.status_ka_divisi === 'Disetujui') { %>
+                <span class="badge-status badge-approved">✓ DISETUJUI</span>
+              <% } else { %>
+                <span class="badge-status badge-pending">PENDING</span>
+              <% } %>
+            </div>
+            <strong><%= st.ka_divisi_nama || 'KA Divisi' %></strong><br>
+            <span style="font-size: 9.5px; color: #555;"><%= st.ka_divisi_jabatan || ('Penyetuju / KA Divisi ' + (st.divisi_terkait || '')) %></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="tembusan-box">
+      <strong>Tembusan :</strong>
+      <ol>
+        <li>Owner</li>
+        <li>FAT</li>
+        <li>HRD</li>
+      </ol>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -348,6 +348,85 @@ db.serialize(() => {
     )
   `);
 
+  // Operasional: Surat Tugas & Form Pertanggungjawaban Table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS surat_tugas (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      no_surat TEXT UNIQUE,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+      -- Header Surat Tugas
+      tanggal_surat TEXT,
+      kota_surat TEXT DEFAULT 'Semarang',
+      pemberi_tugas_nama TEXT,
+      pemberi_tugas_jabatan TEXT,
+
+      -- Petugas (JSON Array: [{ no: 1, nama: '', jabatan: '', divisi: '' }])
+      petugas_json TEXT,
+      divisi_terkait TEXT,
+
+      -- Rincian Penugasan Luar Kota
+      lokasi_tujuan TEXT,
+      kota_tujuan TEXT,
+      tanggal_berangkat TEXT,
+      tanggal_kembali TEXT,
+      keperluan TEXT,
+
+      -- Otorisasi Pembuat (User: KA Outlet)
+      user_pembuat_nama TEXT,
+      user_pembuat_jabatan TEXT,
+      signature_pembuat TEXT,
+
+      -- Otorisasi Pemeriksa (KA Divisi)
+      ka_divisi_nama TEXT,
+      ka_divisi_jabatan TEXT,
+      status_ka_divisi TEXT DEFAULT 'Pending',
+      tgl_ka_divisi TEXT,
+      catatan_ka_divisi TEXT,
+
+      -- Otorisasi Penyetuju (GM)
+      gm_nama TEXT DEFAULT 'Aldo Widarta - GM',
+      status_gm TEXT DEFAULT 'Pending',
+      tgl_gm TEXT,
+      catatan_gm TEXT,
+
+      -- Status Keseluruhan Surat Tugas
+      status_surat TEXT DEFAULT 'Menunggu Approval',
+
+      -- Form Pertanggungjawaban Perjalanan Dinas (LPJ)
+      lpj_diisi INTEGER DEFAULT 0,
+      lpj_nama TEXT,
+      lpj_jabatan_divisi TEXT,
+      realisasi_tgl_berangkat TEXT,
+      realisasi_jam_berangkat TEXT,
+      realisasi_tgl_kembali TEXT,
+      realisasi_jam_kembali TEXT,
+      realisasi_jumlah_hari INTEGER DEFAULT 0,
+      
+      -- Pelaksanaan Tugas (JSON Array: [{ tugas: '', hasil: '', status: 'Selesai' }])
+      pelaksanaan_tugas_json TEXT,
+      bukti_dokumen_keterangan TEXT,
+      bukti_dokumen_link TEXT,
+
+      -- Perhitungan Biaya
+      uang_dinas_hari INTEGER DEFAULT 0,
+      uang_dinas_total REAL DEFAULT 0,
+      uang_menginap_malam INTEGER DEFAULT 0,
+      uang_menginap_total REAL DEFAULT 0,
+      biaya_transportasi REAL DEFAULT 0,
+      biaya_penginapan REAL DEFAULT 0,
+      biaya_lainnya REAL DEFAULT 0,
+      keterangan_biaya_lain TEXT,
+      total_biaya REAL DEFAULT 0,
+
+      -- Status LPJ
+      status_lpj TEXT DEFAULT 'Draft',
+
+      share_token TEXT
+    )
+  `);
+
   // Admin Users Table
   db.run(`
     CREATE TABLE IF NOT EXISTS users (

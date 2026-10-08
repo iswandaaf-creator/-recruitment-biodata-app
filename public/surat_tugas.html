@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Surat Tugas & Pertanggungjawaban Perjalanan Dinas - KOV Koffie</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --kov-green: #0f5132;
+      --kov-green-light: #198754;
+      --kov-gold: #c5a059;
+    }
+    body {
+      background-color: #f4f6f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #2b2f32;
+    }
+    .form-header {
+      background: linear-gradient(135deg, #0a3d24 0%, #0f5132 50%, #198754 100%);
+      color: white;
+      padding: 2.2rem 1rem;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 20px rgba(10, 61, 36, 0.25);
+    }
+    .card-kov {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      margin-bottom: 1.8rem;
+      background: #fff;
+    }
+    .card-header-kov {
+      background-color: #ffffff;
+      border-bottom: 2px solid #e8f5e9;
+      font-weight: 700;
+      color: var(--kov-green);
+      font-size: 1.05rem;
+      padding: 1rem 1.25rem;
+    }
+    .form-label {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: #374151;
+      margin-bottom: 0.35rem;
+    }
+    .signature-container {
+      border: 2px dashed #a3cfbb;
+      border-radius: 8px;
+      background-color: #fafafa;
+      width: 100%;
+      height: 160px;
+      position: relative;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+    .btn-kov {
+      background-color: var(--kov-green);
+      border-color: var(--kov-green);
+      color: white;
+      font-weight: 700;
+      padding: 0.75rem 2.2rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    .btn-kov:hover {
+      background-color: #0b3d26;
+      border-color: #0b3d26;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(15, 81, 50, 0.3);
+    }
+    .clause-box {
+      background-color: #f8fafc;
+      border-left: 4px solid var(--kov-green);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .badge-kov {
+      background-color: #e8f5e9;
+      color: var(--kov-green);
+      font-weight: 600;
+    }
+    .nav-pills .nav-link.active {
+      background-color: var(--kov-green);
+    }
+    .nav-pills .nav-link {
+      color: #4b5563;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2">
+    <div class="container px-4">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional/surat-tugas">
+        <img src="/logo_kov_hijau.png" height="32" class="me-2" alt="Logo">
+        <span>Operasional KOV Koffie</span>
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <a href="/admin/operasional/surat-tugas" class="btn btn-outline-light btn-sm fw-semibold">
+          <i class="fas fa-table-columns me-1"></i>Dashboard Admin
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Banner Header -->
+  <div class="form-header text-center mb-4">
+    <div class="container">
+      <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 60px; max-width: 190px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));">
+      <h3 class="fw-bold mb-1"><i class="fas fa-file-signature me-2"></i>SURAT TUGAS & FORM PERTANGGUNGJAWABAN</h3>
+      <p class="mb-0 opacity-90 small">Perjalanan Dinas / Penugasan Luar Kota — PT Sumber Cita Indonesia (KOV Koffie)</p>
+    </div>
+  </div>
+
+  <div class="container pb-5">
+    <form id="suratTugasForm">
+
+      <!-- ======================================================== -->
+      <!-- BAGIAN 1: SURAT TUGAS (HALAMAN 1)                         -->
+      <!-- ======================================================== -->
+      
+      <!-- Card 1: Header Surat & Pemberi Tugas -->
+      <div class="card-kov">
+        <div class="card-header-kov d-flex align-items-center justify-content-between">
+          <span><i class="fas fa-file-alt me-2"></i>1. HEADER SURAT TUGAS & PEMBERI TUGAS</span>
+          <span class="badge badge-kov px-3 py-1">Bagian 1: Surat Tugas</span>
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Nomor Surat Tugas <span class="text-danger">*</span></label>
+              <input type="text" class="form-control fw-bold text-success" name="no_surat" id="no_surat" required readonly>
+              <small class="text-muted">Nomor surat dibuat otomatis</small>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Kota Pembuatan Surat <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="kota_surat" value="Semarang" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Tanggal Surat <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" name="tanggal_surat" id="tanggal_surat" required>
+            </div>
+
+            <div class="col-12"><hr class="my-2"></div>
+            <div class="col-12">
+              <div class="fw-bold text-success mb-2"><i class="fas fa-user-check me-1"></i>Yang bertanda tangan di bawah ini (Pemberi Tugas / KA Outlet) :</div>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label">Nama Pemberi Tugas (User) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="pemberi_tugas_nama" id="pemberi_tugas_nama" placeholder="Nama Lengkap User / KA Outlet" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Jabatan (KA Outlet) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="pemberi_tugas_jabatan" id="pemberi_tugas_jabatan" list="jabatanList" placeholder="Pilih atau ketik jabatan..." required>
+              <datalist id="jabatanList">
+                <option value="Head Bar"></option>
+                <option value="SPV FAT"></option>
+                <option value="SPV Operasional"></option>
+                <option value="Public Relation (PR)"></option>
+                <option value="Head Kitchen"></option>
+                <option value="Head Pastry"></option>
+                <option value="SPV ME & Maintenance"></option>
+                <option value="Store Manager / KA Outlet"></option>
+              </datalist>
+              <small class="text-muted">Semua Divisi paling tinggi di Outlet (Head Bar, SPV FAT, Operasional, PR)</small>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Divisi Penugasan Terkait <span class="text-danger">*</span></label>
+              <select class="form-select fw-semibold" name="divisi_terkait" id="divisi_terkait" required onchange="handleDivisiChange()">
+                <option value="">-- Pilih Divisi Terkait --</option>
+                <option value="Barista">Barista (Disetujui oleh: Pak Octo)</option>
+                <option value="Kitchen">Kitchen (Disetujui oleh: Pak Morgane)</option>
+                <option value="Pastry">Pastry (Disetujui oleh: Pak Tono)</option>
+                <option value="Operasional, OB dan Security">Operasional, OB dan Security (Disetujui oleh: Pak Andrie)</option>
+                <option value="ME (termasuk Proyek)">ME / Proyek (Disetujui oleh: Pak Adhi)</option>
+                <option value="HRD">HRD (Disetujui oleh: Bu Yuni)</option>
+                <option value="PR/Marketing">PR / Marketing (Disetujui oleh: Bu Yuni)</option>
+                <option value="Finance">Finance (Disetujui oleh: Mba Ridha)</option>
+                <option value="FAT">FAT (Khusus FAT disetujui oleh: Bu Novy)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Daftar Penerima Tugas (Dynamic Table) -->
+      <div class="card-kov">
+        <div class="card-header-kov d-flex align-items-center justify-content-between">
+          <span><i class="fas fa-users me-2"></i>2. DAFTAR PENERIMA TUGAS (DIBERIKAN TUGAS KEPADA)</span>
+          <button type="button" class="btn btn-sm btn-outline-success fw-bold" onclick="addPetugasRow()">
+            <i class="fas fa-plus me-1"></i>Tambah Anggota
+          </button>
+        </div>
+        <div class="card-body p-4">
+          <p class="small text-muted mb-3">Masukkan nama karyawan/staf yang ditugaskan untuk dinas luar kota:</p>
+          <div class="table-responsive">
+            <table class="table table-bordered align-middle" id="tablePetugas">
+              <thead class="table-light">
+                <tr class="text-center">
+                  <th style="width: 50px;">No</th>
+                  <th>Nama Karyawan</th>
+                  <th style="width: 30%;">Jabatan</th>
+                  <th style="width: 25%;">Divisi</th>
+                  <th style="width: 60px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="petugasBody">
+                <tr>
+                  <td class="text-center fw-bold row-number">1</td>
+                  <td><input type="text" class="form-control petugas-nama" placeholder="Nama Lengkap" required></td>
+                  <td><input type="text" class="form-control petugas-jabatan" placeholder="Jabatan"></td>
+                  <td><input type="text" class="form-control petugas-divisi" placeholder="Divisi"></td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePetugasRow(this)" disabled>
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Rincian Perjalanan Dinas -->
+      <div class="card-kov">
+        <div class="card-header-kov"><i class="fas fa-route me-2"></i>3. RINCIAN PERJALANAN DINAS / PENUGASAN LUAR KOTA</div>
+        <div class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Lokasi / Tujuan <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="lokasi_tujuan" placeholder="Contoh: KOV Outlet Solo / KOV Pekalongan" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Kota Tujuan <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="kota_tujuan" placeholder="Contoh: Solo, Pekalongan, Purwokerto" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Tanggal Berangkat <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" name="tanggal_berangkat" id="tanggal_berangkat" required onchange="calculateDays()">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Tanggal Kembali <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" name="tanggal_kembali" id="tanggal_kembali" required onchange="calculateDays()">
+            </div>
+            <div class="col-12">
+              <label class="form-label">Keperluan Penugasan <span class="text-danger">*</span></label>
+              <textarea class="form-control" name="keperluan" id="keperluan" rows="3" placeholder="Tuliskan secara jelas keperluan penugasan luar kota..." required></textarea>
+            </div>
+            <div class="col-12">
+              <div class="clause-box mt-2">
+                <strong><i class="fas fa-info-circle me-1 text-success"></i>Ketentuan & Tanggung Jawab:</strong>
+                <p class="mb-1 mt-1 small">1. Selama melaksanakan tugas tersebut, yang bersangkutan wajib menjalankan tugas dan tanggung jawab dengan sebaik–baiknya serta menjaga nama baik KOV Koffie.</p>
+                <p class="mb-0 small">2. Biaya yang timbul sehubungan dengan pelaksanaan tugas mengikuti ketentuan perjalanan dinas yang berlaku di perusahaan dan dipertanggungjawabkan sesuai prosedur yang ditetapkan.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Lembar Otorisasi & Tanda Tangan -->
+      <div class="card-kov">
+        <div class="card-header-kov"><i class="fas fa-stamp me-2"></i>4. LEMBAR OTORISASI & TANDA TANGAN</div>
+        <div class="card-body p-4">
+          <div class="row g-4">
+            
+            <!-- Dibuat Oleh (User / KA Outlet) -->
+            <div class="col-md-4">
+              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between">
+                <div>
+                  <div class="badge bg-secondary mb-2">Dibuat Oleh</div>
+                  <h6 class="fw-bold mb-1" id="preview_user_nama">User (KA Outlet)</h6>
+                  <p class="small text-muted mb-2" id="preview_user_jabatan">KA Outlet</p>
+                  <label class="form-label small text-muted mb-1">Tanda Tangan Digital (Pembuat):</label>
+                  <div class="signature-container mb-2">
+                    <canvas id="signaturePad"></canvas>
+                  </div>
+                  <button type="button" class="btn btn-outline-secondary btn-sm" onclick="clearSignature()">
+                    <i class="fas fa-eraser me-1"></i>Hapus Tanda Tangan
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Diperiksa Oleh (Pemeriksa / GM) -->
+            <div class="col-md-4">
+              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between">
+                <div>
+                  <div class="badge bg-primary mb-2">Diperiksa Oleh</div>
+                  <h6 class="fw-bold mb-1">Aldo Widarta - GM</h6>
+                  <p class="small text-muted mb-2">General Manager</p>
+                  <div class="mt-4 pt-3">
+                    <img src="/logo_kov_hijau.png" height="35" style="opacity: 0.7;" alt="KOV">
+                    <div class="small text-muted mt-2">Pemeriksaan Manajemen Pusat</div>
+                  </div>
+                </div>
+                <div class="small text-muted mt-2 border-top pt-2">
+                  <i class="fas fa-clock me-1 text-warning"></i>Status: Pending Review
+                </div>
+              </div>
+            </div>
+
+            <!-- Disetujui Oleh (Menyetujui: Nama-Nama yang Di Atas) -->
+            <div class="col-md-4">
+              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between border-success">
+                <div>
+                  <div class="badge bg-success mb-2">Disetujui Oleh (Menyetujui)</div>
+                  <h6 class="fw-bold mb-1 text-success fs-5" id="display_ka_divisi_nama">Pilih Divisi di atas</h6>
+                  <p class="small text-muted mb-2" id="display_ka_divisi_jabatan">Penyetuju (KA Divisi)</p>
+                  
+                  <div class="text-start mt-3">
+                    <label class="form-label small">Nama Pejabat Menyetujui:</label>
+                    <input type="text" class="form-control form-control-sm mb-2 fw-bold text-success" name="ka_divisi_nama" id="ka_divisi_nama" readonly required>
+                    <label class="form-label small">Jabatan Penyetuju:</label>
+                    <input type="text" class="form-control form-control-sm" name="ka_divisi_jabatan" id="ka_divisi_jabatan" readonly>
+                  </div>
+                </div>
+                <div class="small text-muted mt-2 border-top pt-2">
+                  <i class="fas fa-check-double me-1 text-success"></i>Otoritas Persetujuan Divisi
+                </div>
+              </div>
+            </div>
+
+            <!-- Tembusan -->
+            <div class="col-12">
+              <div class="p-2 border rounded bg-white small">
+                <strong><i class="fas fa-paper-plane me-1 text-success"></i>Tembusan :</strong> 1. Owner &nbsp;|&nbsp; 2. FAT &nbsp;|&nbsp; 3. HRD
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======================================================== -->
+      <!-- BAGIAN 2: FORM PERTANGGUNGJAWABAN PERJALANAN DINAS (LPJ)  -->
+      <!-- ======================================================== -->
+
+      <div class="card-kov">
+        <div class="card-header-kov d-flex align-items-center justify-content-between">
+          <span><i class="fas fa-receipt me-2"></i>BAGIAN 2: FORM PERTANGGUNGJAWABAN PERJALANAN DINAS (LPJ)</span>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input" type="checkbox" id="toggleLPJ" onchange="handleLpjToggle()">
+            <label class="form-check-label fw-bold text-success" for="toggleLPJ">Isi LPJ Sekarang</label>
+          </div>
+        </div>
+        <div class="card-body p-4" id="lpjSection" style="display: none;">
+          <div class="alert alert-info py-2 small mb-4">
+            <i class="fas fa-info-circle me-1"></i>Bagian ini dapat diisi saat perjalanan dinas telah terlaksana atau jika ingin melaporkan realisasi dan perhitungan biaya.
+          </div>
+
+          <!-- A. Realisasi Perjalanan -->
+          <h6 class="fw-bold text-success mb-3"><i class="fas fa-calendar-check me-2"></i>A. REALISASI PERJALANAN</h6>
+          <div class="row g-3 mb-4">
+            <div class="col-md-3">
+              <label class="form-label">Tanggal Berangkat Realisasi</label>
+              <input type="date" class="form-control" name="realisasi_tgl_berangkat" id="realisasi_tgl_berangkat" onchange="syncLpjDays()">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Jam Berangkat</label>
+              <input type="time" class="form-control" name="realisasi_jam_berangkat" id="realisasi_jam_berangkat" value="08:00">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Tanggal Kembali Realisasi</label>
+              <input type="date" class="form-control" name="realisasi_tgl_kembali" id="realisasi_tgl_kembali" onchange="syncLpjDays()">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Jam Kembali</label>
+              <input type="time" class="form-control" name="realisasi_jam_kembali" id="realisasi_jam_kembali" value="18:00">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Jumlah Hari Realisasi</label>
+              <div class="input-group">
+                <input type="number" class="form-control fw-bold text-success" name="realisasi_jumlah_hari" id="realisasi_jumlah_hari" value="1" min="1" onchange="calculateLpjCost()">
+                <span class="input-group-text">Hari</span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Nama Pelapor / Penanggung Jawab LPJ</label>
+              <input type="text" class="form-control" name="lpj_nama" id="lpj_nama" placeholder="Nama yang mempertanggungjawabkan">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Jabatan / Divisi Pelapor</label>
+              <input type="text" class="form-control" name="lpj_jabatan_divisi" id="lpj_jabatan_divisi" placeholder="Jabatan / Divisi">
+            </div>
+          </div>
+
+          <!-- B. Pelaksanaan Tugas -->
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h6 class="fw-bold text-success m-0"><i class="fas fa-list-check me-2"></i>B. PELAKSANAAN TUGAS</h6>
+            <button type="button" class="btn btn-sm btn-outline-success fw-bold" onclick="addTugasRow()">
+              <i class="fas fa-plus me-1"></i>Tambah Baris Tugas
+            </button>
+          </div>
+          <div class="table-responsive mb-3">
+            <table class="table table-bordered align-middle" id="tableTugas">
+              <thead class="table-light">
+                <tr class="text-center">
+                  <th style="width: 40%;">Keperluan / Tugas</th>
+                  <th style="width: 40%;">Hasil Pelaksanaan</th>
+                  <th style="width: 15%;">Status</th>
+                  <th style="width: 50px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tugasBody">
+                <tr>
+                  <td><textarea class="form-control tugas-item" rows="2" placeholder="Keperluan tugas..."></textarea></td>
+                  <td><textarea class="form-control tugas-hasil" rows="2" placeholder="Hasil pelaksanaan..."></textarea></td>
+                  <td class="text-center">
+                    <select class="form-select form-select-sm tugas-status">
+                      <option value="Selesai" selected>Selesai</option>
+                      <option value="Belum Selesai">Belum Selesai</option>
+                    </select>
+                  </td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeTugasRow(this)" disabled>
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label">Keterangan Bukti / Dokumen Hasil Pelaksanaan</label>
+              <input type="text" class="form-control" name="bukti_dokumen_keterangan" placeholder="Contoh: Terlampir foto dokumentasi & berita acara serah terima">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Link Bukti / Google Drive (Opsional)</label>
+              <input type="url" class="form-control" name="bukti_dokumen_link" placeholder="https://drive.google.com/...">
+            </div>
+          </div>
+
+          <!-- C. Perhitungan Biaya -->
+          <h6 class="fw-bold text-success mb-3"><i class="fas fa-calculator me-2"></i>C. PERHITUNGAN BIAYA</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 25%;">Komponen Biaya</th>
+                  <th style="width: 45%;">Dasar Perhitungan</th>
+                  <th style="width: 30%;" class="text-end">Jumlah (Rp)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="fw-semibold">Uang Dinas</td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span>Rp 50.000 × </span>
+                      <input type="number" class="form-control form-control-sm text-center" style="width: 80px;" name="uang_dinas_hari" id="uang_dinas_hari" value="1" min="0" onchange="calculateLpjCost()">
+                      <span>hari</span>
+                    </div>
+                  </td>
+                  <td class="text-end fw-bold text-success" id="txt_uang_dinas_total">Rp 50.000</td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Uang Menginap</td>
+                  <td>
+                    <div class="d-flex align-items-center gap-2">
+                      <span>Rp 25.000 × </span>
+                      <input type="number" class="form-control form-control-sm text-center" style="width: 80px;" name="uang_menginap_malam" id="uang_menginap_malam" value="0" min="0" onchange="calculateLpjCost()">
+                      <span>malam</span>
+                    </div>
+                  </td>
+                  <td class="text-end fw-bold text-success" id="txt_uang_menginap_total">Rp 0</td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Transportasi</td>
+                  <td><span class="text-muted small">Sesuai bukti / realisasi (bensin, tol, tiket)</span></td>
+                  <td>
+                    <input type="number" class="form-control form-control-sm text-end" name="biaya_transportasi" id="biaya_transportasi" value="0" min="0" oninput="calculateLpjCost()">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Penginapan</td>
+                  <td><span class="text-muted small">Sesuai bukti / realisasi hotel / mess</span></td>
+                  <td>
+                    <input type="number" class="form-control form-control-sm text-end" name="biaya_penginapan" id="biaya_penginapan" value="0" min="0" oninput="calculateLpjCost()">
+                  </td>
+                </tr>
+                <tr>
+                  <td class="fw-semibold">Biaya lainnya</td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" name="keterangan_biaya_lain" placeholder="Keterangan biaya lain (parkir, retribusi, dll)">
+                  </td>
+                  <td>
+                    <input type="number" class="form-control form-control-sm text-end" name="biaya_lainnya" id="biaya_lainnya" value="0" min="0" oninput="calculateLpjCost()">
+                  </td>
+                </tr>
+                <tr class="table-success fw-bold fs-6">
+                  <td colspan="2" class="text-end text-uppercase">TOTAL PERTANGGUNGJAWABAN</td>
+                  <td class="text-end text-success fs-5" id="txt_total_biaya">Rp 50.000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex align-items-center justify-content-between p-3 bg-white rounded-3 shadow-sm">
+        <a href="/admin/operasional/surat-tugas" class="btn btn-outline-secondary fw-semibold">
+          <i class="fas fa-times me-1"></i>Batal
+        </a>
+        <button type="submit" class="btn btn-kov btn-lg px-5 shadow" id="btnSubmit">
+          <i class="fas fa-paper-plane me-2"></i>KIRIM PENGAJUAN SURAT TUGAS
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Signature Pad Setup
+    const canvas = document.getElementById('signaturePad');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let hasSignature = false;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#0f5132';
+    }
+    window.addEventListener('resize', resizeCanvas);
+    setTimeout(resizeCanvas, 300);
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top };
+    }
+
+    function startDraw(e) {
+      isDrawing = true;
+      hasSignature = true;
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      e.preventDefault();
+    }
+    function draw(e) {
+      if (!isDrawing) return;
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      e.preventDefault();
+    }
+    function stopDraw() { isDrawing = false; }
+
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    window.addEventListener('mouseup', stopDraw);
+    canvas.addEventListener('touchstart', startDraw, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    window.addEventListener('touchend', stopDraw);
+
+    function clearSignature() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasSignature = false;
+    }
+
+    // Auto-generate No Surat on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const now = new Date();
+      const yyyy = now.getFullYear();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const rand = Math.floor(100 + Math.random() * 900);
+      document.getElementById('no_surat').value = `ST/KOV/${yyyy}${mm}/${rand}`;
+      document.getElementById('tanggal_surat').value = now.toISOString().split('T')[0];
+      document.getElementById('tanggal_berangkat').value = now.toISOString().split('T')[0];
+      document.getElementById('tanggal_kembali').value = now.toISOString().split('T')[0];
+      
+      // Sync preview nama pembuat
+      document.getElementById('pemberi_tugas_nama').addEventListener('input', (e) => {
+        document.getElementById('preview_user_nama').innerText = e.target.value || 'User (KA Outlet)';
+        if (!document.getElementById('lpj_nama').value) {
+          document.getElementById('lpj_nama').value = e.target.value;
+        }
+      });
+      document.getElementById('pemberi_tugas_jabatan').addEventListener('input', (e) => {
+        document.getElementById('preview_user_jabatan').innerText = e.target.value || 'KA Outlet';
+        if (!document.getElementById('lpj_jabatan_divisi').value) {
+          document.getElementById('lpj_jabatan_divisi').value = e.target.value;
+        }
+      });
+    });
+
+    // KA Divisi Mapping based on User requirements
+    const KA_DIVISI_MAPPING = {
+      'Barista': { nama: 'Pak Octo', jabatan: 'KA Divisi Barista' },
+      'Kitchen': { nama: 'Pak Morgane', jabatan: 'KA Divisi Kitchen' },
+      'Pastry': { nama: 'Pak Tono', jabatan: 'KA Divisi Pastry' },
+      'Operasional, OB dan Security': { nama: 'Pak Andrie', jabatan: 'KA Divisi Operasional, OB & Security' },
+      'ME (termasuk Proyek)': { nama: 'Pak Adhi', jabatan: 'KA Divisi ME & Proyek' },
+      'HRD': { nama: 'Bu Yuni', jabatan: 'KA Divisi HRD' },
+      'PR/Marketing': { nama: 'Bu Yuni', jabatan: 'KA Divisi PR & Marketing' },
+      'Finance': { nama: 'Mba Ridha', jabatan: 'KA Divisi Finance' },
+      'FAT': { nama: 'Bu Novy', jabatan: 'KA Divisi FAT (Finance, Accounting & Tax)' }
+    };
+
+    function handleDivisiChange() {
+      const select = document.getElementById('divisi_terkait');
+      const val = select.value;
+      const displayNama = document.getElementById('display_ka_divisi_nama');
+      const displayJabatan = document.getElementById('display_ka_divisi_jabatan');
+      const inputNama = document.getElementById('ka_divisi_nama');
+      const inputJabatan = document.getElementById('ka_divisi_jabatan');
+
+      if (KA_DIVISI_MAPPING[val]) {
+        const item = KA_DIVISI_MAPPING[val];
+        displayNama.innerText = item.nama;
+        displayJabatan.innerText = item.jabatan;
+        inputNama.value = item.nama;
+        inputJabatan.value = item.jabatan;
+      } else {
+        displayNama.innerText = 'Pilih Divisi di atas';
+        displayJabatan.innerText = 'KA Divisi';
+        inputNama.value = '';
+        inputJabatan.value = '';
+      }
+    }
+
+    // Dynamic Petugas Table
+    function addPetugasRow() {
+      const tbody = document.getElementById('petugasBody');
+      const rowCount = tbody.querySelectorAll('tr').length + 1;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="text-center fw-bold row-number">${rowCount}</td>
+        <td><input type="text" class="form-control petugas-nama" placeholder="Nama Lengkap" required></td>
+        <td><input type="text" class="form-control petugas-jabatan" placeholder="Jabatan"></td>
+        <td><input type="text" class="form-control petugas-divisi" placeholder="Divisi"></td>
+        <td class="text-center">
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePetugasRow(this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      updatePetugasNumbering();
+    }
+
+    function removePetugasRow(btn) {
+      const tbody = document.getElementById('petugasBody');
+      if (tbody.querySelectorAll('tr').length > 1) {
+        btn.closest('tr').remove();
+        updatePetugasNumbering();
+      }
+    }
+
+    function updatePetugasNumbering() {
+      const rows = document.querySelectorAll('#petugasBody tr');
+      rows.forEach((row, idx) => {
+        row.querySelector('.row-number').innerText = idx + 1;
+        const deleteBtn = row.querySelector('button');
+        if (deleteBtn) deleteBtn.disabled = (rows.length === 1);
+      });
+    }
+
+    // Dynamic Tugas Table
+    function addTugasRow() {
+      const tbody = document.getElementById('tugasBody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><textarea class="form-control tugas-item" rows="2" placeholder="Keperluan tugas..."></textarea></td>
+        <td><textarea class="form-control tugas-hasil" rows="2" placeholder="Hasil pelaksanaan..."></textarea></td>
+        <td class="text-center">
+          <select class="form-select form-select-sm tugas-status">
+            <option value="Selesai" selected>Selesai</option>
+            <option value="Belum Selesai">Belum Selesai</option>
+          </select>
+        </td>
+        <td class="text-center">
+          <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeTugasRow(this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+      updateTugasButtons();
+    }
+
+    function removeTugasRow(btn) {
+      const tbody = document.getElementById('tugasBody');
+      if (tbody.querySelectorAll('tr').length > 1) {
+        btn.closest('tr').remove();
+        updateTugasButtons();
+      }
+    }
+
+    function updateTugasButtons() {
+      const rows = document.querySelectorAll('#tugasBody tr');
+      rows.forEach((row) => {
+        const deleteBtn = row.querySelector('button');
+        if (deleteBtn) deleteBtn.disabled = (rows.length === 1);
+      });
+    }
+
+    // Days Calculation
+    function calculateDays() {
+      const tgl1 = document.getElementById('tanggal_berangkat').value;
+      const tgl2 = document.getElementById('tanggal_kembali').value;
+      if (tgl1 && tgl2) {
+        const d1 = new Date(tgl1);
+        const d2 = new Date(tgl2);
+        const diffTime = d2 - d1;
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        if (diffDays < 1) diffDays = 1;
+        document.getElementById('realisasi_jumlah_hari').value = diffDays;
+        document.getElementById('uang_dinas_hari').value = diffDays;
+        document.getElementById('uang_menginap_malam').value = Math.max(0, diffDays - 1);
+        calculateLpjCost();
+      }
+    }
+
+    // Toggle LPJ Section
+    function handleLpjToggle() {
+      const isChecked = document.getElementById('toggleLPJ').checked;
+      const section = document.getElementById('lpjSection');
+      section.style.display = isChecked ? 'block' : 'none';
+      if (isChecked) {
+        syncLpjDays();
+        // prefill keperluan if empty
+        const kep = document.getElementById('keperluan').value;
+        const firstTugas = document.querySelector('#tugasBody .tugas-item');
+        if (firstTugas && !firstTugas.value) {
+          firstTugas.value = kep;
+        }
+      }
+    }
+
+    function syncLpjDays() {
+      const rb = document.getElementById('realisasi_tgl_berangkat').value || document.getElementById('tanggal_berangkat').value;
+      const rk = document.getElementById('realisasi_tgl_kembali').value || document.getElementById('tanggal_kembali').value;
+      if (!document.getElementById('realisasi_tgl_berangkat').value) {
+        document.getElementById('realisasi_tgl_berangkat').value = rb;
+      }
+      if (!document.getElementById('realisasi_tgl_kembali').value) {
+        document.getElementById('realisasi_tgl_kembali').value = rk;
+      }
+      if (rb && rk) {
+        const d1 = new Date(rb);
+        const d2 = new Date(rk);
+        const diffTime = d2 - d1;
+        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        if (diffDays < 1) diffDays = 1;
+        document.getElementById('realisasi_jumlah_hari').value = diffDays;
+        document.getElementById('uang_dinas_hari').value = diffDays;
+        document.getElementById('uang_menginap_malam').value = Math.max(0, diffDays - 1);
+      }
+      calculateLpjCost();
+    }
+
+    // Calculate LPJ Costs
+    function calculateLpjCost() {
+      const hari = parseInt(document.getElementById('uang_dinas_hari').value || 0, 10);
+      const malam = parseInt(document.getElementById('uang_menginap_malam').value || 0, 10);
+      const transport = parseFloat(document.getElementById('biaya_transportasi').value || 0);
+      const penginapan = parseFloat(document.getElementById('biaya_penginapan').value || 0);
+      const lain = parseFloat(document.getElementById('biaya_lainnya').value || 0);
+
+      const uangDinasTotal = hari * 50000;
+      const uangMenginapTotal = malam * 25000;
+      const total = uangDinasTotal + uangMenginapTotal + transport + penginapan + lain;
+
+      document.getElementById('txt_uang_dinas_total').innerText = 'Rp ' + uangDinasTotal.toLocaleString('id-ID');
+      document.getElementById('txt_uang_menginap_total').innerText = 'Rp ' + uangMenginapTotal.toLocaleString('id-ID');
+      document.getElementById('txt_total_biaya').innerText = 'Rp ' + total.toLocaleString('id-ID');
+    }
+
+    // Form Submit
+    document.getElementById('suratTugasForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Menyimpan Surat Tugas...';
+
+      // Gather Petugas Array
+      const petugas = [];
+      document.querySelectorAll('#petugasBody tr').forEach((tr) => {
+        const nama = tr.querySelector('.petugas-nama').value.trim();
+        const jabatan = tr.querySelector('.petugas-jabatan').value.trim();
+        const divisi = tr.querySelector('.petugas-divisi').value.trim();
+        if (nama) {
+          petugas.push({ nama, jabatan, divisi });
+        }
+      });
+
+      // Gather Pelaksanaan Tugas Array
+      const isLpj = document.getElementById('toggleLPJ').checked;
+      const pelaksanaan_tugas = [];
+      if (isLpj) {
+        document.querySelectorAll('#tugasBody tr').forEach((tr) => {
+          const tugas = tr.querySelector('.tugas-item').value.trim();
+          const hasil = tr.querySelector('.tugas-hasil').value.trim();
+          const status = tr.querySelector('.tugas-status').value;
+          if (tugas || hasil) {
+            pelaksanaan_tugas.push({ tugas, hasil, status });
+          }
+        });
+      }
+
+      // Digital Signature
+      const signatureData = hasSignature ? canvas.toDataURL('image/png') : '';
+
+      // Costs
+      const hari = parseInt(document.getElementById('uang_dinas_hari').value || 0, 10);
+      const malam = parseInt(document.getElementById('uang_menginap_malam').value || 0, 10);
+      const transport = parseFloat(document.getElementById('biaya_transportasi').value || 0);
+      const penginapan = parseFloat(document.getElementById('biaya_penginapan').value || 0);
+      const lain = parseFloat(document.getElementById('biaya_lainnya').value || 0);
+      const uangDinasTotal = hari * 50000;
+      const uangMenginapTotal = malam * 25000;
+      const totalBiaya = uangDinasTotal + uangMenginapTotal + transport + penginapan + lain;
+
+      const payload = {
+        no_surat: document.getElementById('no_surat').value,
+        kota_surat: document.querySelector('input[name="kota_surat"]').value,
+        tanggal_surat: document.getElementById('tanggal_surat').value,
+        pemberi_tugas_nama: document.getElementById('pemberi_tugas_nama').value,
+        pemberi_tugas_jabatan: document.getElementById('pemberi_tugas_jabatan').value,
+        user_pembuat_nama: document.getElementById('pemberi_tugas_nama').value,
+        user_pembuat_jabatan: document.getElementById('pemberi_tugas_jabatan').value,
+        divisi_terkait: document.getElementById('divisi_terkait').value,
+        petugas: petugas,
+        lokasi_tujuan: document.querySelector('input[name="lokasi_tujuan"]').value,
+        kota_tujuan: document.querySelector('input[name="kota_tujuan"]').value,
+        tanggal_berangkat: document.getElementById('tanggal_berangkat').value,
+        tanggal_kembali: document.getElementById('tanggal_kembali').value,
+        keperluan: document.getElementById('keperluan').value,
+        signature_pembuat: signatureData,
+        ka_divisi_nama: document.getElementById('ka_divisi_nama').value,
+        ka_divisi_jabatan: document.getElementById('ka_divisi_jabatan').value,
+        
+        // LPJ Fields
+        lpj_diisi: isLpj ? 1 : 0,
+        lpj_nama: document.getElementById('lpj_nama').value || document.getElementById('pemberi_tugas_nama').value,
+        lpj_jabatan_divisi: document.getElementById('lpj_jabatan_divisi').value || document.getElementById('pemberi_tugas_jabatan').value,
+        realisasi_tgl_berangkat: document.getElementById('realisasi_tgl_berangkat').value,
+        realisasi_jam_berangkat: document.getElementById('realisasi_jam_berangkat').value,
+        realisasi_tgl_kembali: document.getElementById('realisasi_tgl_kembali').value,
+        realisasi_jam_kembali: document.getElementById('realisasi_jam_kembali').value,
+        realisasi_jumlah_hari: parseInt(document.getElementById('realisasi_jumlah_hari').value || 1, 10),
+        pelaksanaan_tugas: pelaksanaan_tugas,
+        bukti_dokumen_keterangan: document.querySelector('input[name="bukti_dokumen_keterangan"]').value,
+        bukti_dokumen_link: document.querySelector('input[name="bukti_dokumen_link"]').value,
+        uang_dinas_hari: hari,
+        uang_dinas_total: uangDinasTotal,
+        uang_menginap_malam: malam,
+        uang_menginap_total: uangMenginapTotal,
+        biaya_transportasi: transport,
+        biaya_penginapan: penginapan,
+        biaya_lainnya: lain,
+        keterangan_biaya_lain: document.querySelector('input[name="keterangan_biaya_lain"]').value,
+        total_biaya: totalBiaya,
+        status_lpj: isLpj ? 'Menunggu Approval LPJ' : 'Draft'
+      };
+
+      try {
+        const resp = await fetch('/api/operasional/surat-tugas/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const res = await resp.json();
+
+        if (res.success) {
+          alert('Berhasil! Surat Tugas ' + res.no_surat + ' berhasil dibuat.');
+          window.location.href = '/admin/operasional/surat-tugas/detail/' + res.id;
+        } else {
+          alert('Gagal: ' + (res.error || 'Terjadi kesalahan sistem'));
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>KIRIM PENGAJUAN SURAT TUGAS';
+        }
+      } catch (err) {
+        alert('Terjadi kesalahan koneksi server: ' + err.message);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>KIRIM PENGAJUAN SURAT TUGAS';
+      }
+    });
+  </script>
+</body>
+</html>

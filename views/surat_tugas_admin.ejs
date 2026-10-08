@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Surat Tugas & LPJ - Operasional KOV</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .navbar-operasional { background: linear-gradient(135deg, #0f5132 0%, #198754 100%); }
+    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .metric-card { transition: transform 0.2s ease; }
+    .metric-card:hover { transform: translateY(-3px); }
+    .nav-tabs .nav-link { color: #555; font-weight: 600; border: none; padding: 0.75rem 1.25rem; }
+    .nav-tabs .nav-link.active { color: #0f5132; border-bottom: 3px solid #0f5132; background: none; }
+    .badge-status-Menunggu { background-color: #ffc107; color: #212529; }
+    .badge-status-Disetujui { background-color: #198754; color: white; }
+    .badge-status-Ditolak { background-color: #dc3545; color: white; }
+    .badge-status-Draft { background-color: #6c757d; color: white; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-operasional shadow-sm">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional/surat-tugas">
+        <img src="/logo_kov_hijau.png" alt="KOV Logo" height="34" class="me-2" style="object-fit: contain;">
+        <span>Dashboard Operasional - Surat Tugas & LPJ</span>
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <% if (typeof user !== 'undefined' && user) { %>
+          <span class="text-white me-2 small">
+            <i class="fas fa-user-circle me-1"></i><%= user.nama || user.username %> (<%= user.role %>)
+          </span>
+          <% if (user.role === 'superadmin') { %>
+            <a href="/admin" class="btn btn-outline-light btn-sm fw-semibold me-1">
+              <i class="fas fa-user-tie me-1"></i>Switch to HR
+            </a>
+            <a href="/admin/users" class="btn btn-warning btn-sm fw-semibold me-1">
+              <i class="fas fa-user-gear me-1"></i>Kelola User
+            </a>
+          <% } %>
+        <% } %>
+        <a href="/admin/operasional/surat-tugas/create" class="btn btn-light text-success btn-sm fw-bold">
+          <i class="fas fa-plus me-1"></i>Buat Surat Tugas Baru
+        </a>
+        <a href="/api/operasional/surat-tugas/export/excel" class="btn btn-success btn-sm fw-semibold">
+          <i class="fas fa-file-excel me-1"></i>Export All to Excel
+        </a>
+        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold ms-2">
+          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid px-4 py-4">
+
+    <!-- Sub-menu Tabs Operasional (3 Modul Lengkap) -->
+    <ul class="nav nav-tabs mb-4 border-bottom">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/operasional">
+          <i class="fas fa-boxes-packing me-2"></i>Berita Acara Pengajuan Barang
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/operasional/po">
+          <i class="fas fa-file-invoice-dollar me-2"></i>Purchase Order (PO) Pengadaan
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="/admin/operasional/surat-tugas">
+          <i class="fas fa-file-signature me-2"></i>Surat Tugas & LPJ Perjalanan Dinas
+        </a>
+      </li>
+    </ul>
+
+    <!-- Share Link Alert Banner -->
+    <div class="alert alert-success d-flex align-items-center justify-content-between rounded-3 mb-4 shadow-sm" role="alert">
+      <div>
+        <i class="fas fa-share-nodes me-2 fs-5"></i>
+        <strong>Link Form Publik Surat Tugas:</strong> 
+        <span id="shareUrl" class="user-select-all fw-mono bg-white text-dark px-2 py-1 rounded border ms-1"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/surat-tugas</span>
+      </div>
+      <div>
+        <button class="btn btn-success btn-sm px-3 fw-bold me-2" onclick="copyShareUrl()">
+          <i class="fas fa-copy me-1"></i>Salin Link Form
+        </button>
+        <a href="/surat-tugas" target="_blank" class="btn btn-outline-success btn-sm px-3 fw-bold">
+          <i class="fas fa-external-link-alt me-1"></i>Buka Form
+        </a>
+      </div>
+    </div>
+
+    <!-- Metrics Cards -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-2">
+        <div class="card metric-card bg-primary text-white p-3 text-center">
+          <div class="fs-4 fw-bold"><%= records.length %></div>
+          <div class="small">Total Surat Tugas</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card metric-card bg-warning text-dark p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => (r.status_surat || '').includes('Menunggu')).length %>
+          </div>
+          <div class="small">Menunggu Approval</div>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="card metric-card bg-success text-white p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => (r.status_surat || '').includes('Disetujui')).length %>
+          </div>
+          <div class="small">Surat Disetujui</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card metric-card bg-info text-white p-3 text-center">
+          <div class="fs-4 fw-bold">
+            <%= records.filter(r => r.lpj_diisi === 1).length %>
+          </div>
+          <div class="small">LPJ Terisi & Dilaporkan</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card metric-card bg-dark text-white p-3 text-center">
+          <div class="fs-5 fw-bold">
+            Rp <%= records.reduce((acc, r) => acc + (r.total_biaya || 0), 0).toLocaleString('id-ID') %>
+          </div>
+          <div class="small">Total Realisasi Biaya LPJ</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Toolbar -->
+    <div class="card p-3 mb-4">
+      <div class="row g-2 align-items-center">
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
+            <input type="text" id="searchInput" class="form-control" placeholder="Cari No. Surat, Pembuat, Divisi, Tujuan...">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select id="filterDivisi" class="form-select">
+            <option value="">Semua Divisi</option>
+            <option value="Barista">Barista</option>
+            <option value="Kitchen">Kitchen</option>
+            <option value="Pastry">Pastry</option>
+            <option value="Operasional">Operasional, OB & Security</option>
+            <option value="ME">ME / Proyek</option>
+            <option value="HRD">HRD / Marketing</option>
+            <option value="Finance">Finance</option>
+            <option value="FAT">FAT</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select id="filterStatus" class="form-select">
+            <option value="">Semua Status Approval</option>
+            <option value="Menunggu">Menunggu Approval</option>
+            <option value="Disetujui">Disetujui</option>
+            <option value="Ditolak">Ditolak</option>
+          </select>
+        </div>
+        <div class="col-md-2 text-end">
+          <button class="btn btn-outline-secondary w-100" onclick="resetFilters()">
+            <i class="fas fa-rotate-right me-1"></i>Reset
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table Records -->
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0" id="recordsTable">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 140px;">No. Surat</th>
+                <th>Tanggal</th>
+                <th>Pembuat (KA Outlet)</th>
+                <th>Divisi & Pejabat Menyetujui</th>
+                <th>Tujuan & Kota</th>
+                <th>Jadwal Dinas</th>
+                <th>Status Surat</th>
+                <th>LPJ & Biaya</th>
+                <th style="width: 130px;" class="text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (records && records.length > 0) { %>
+                <% records.forEach(st => { %>
+                  <tr>
+                    <td>
+                      <a href="/admin/operasional/surat-tugas/detail/<%= st.id %>" class="fw-bold text-success text-decoration-none">
+                        <%= st.no_surat || ('ST/KOV/' + st.id) %>
+                      </a>
+                    </td>
+                    <td class="small text-muted"><%= st.tanggal_surat || '-' %></td>
+                    <td>
+                      <div class="fw-bold"><%= st.user_pembuat_nama || '-' %></div>
+                      <div class="small text-muted"><%= st.user_pembuat_jabatan || 'KA Outlet' %></div>
+                    </td>
+                    <td>
+                      <span class="badge bg-secondary mb-1"><%= st.divisi_terkait || 'Operasional' %></span>
+                      <div class="small text-muted">Menyetujui: <strong class="text-success"><%= st.ka_divisi_nama || '-' %></strong></div>
+                    </td>
+                    <td>
+                      <div class="fw-semibold"><%= st.lokasi_tujuan || '-' %></div>
+                      <div class="small text-muted"><i class="fas fa-map-marker-alt me-1 text-danger"></i><%= st.kota_tujuan || '-' %></div>
+                    </td>
+                    <td class="small">
+                      <div><%= st.tanggal_berangkat || '-' %> s/d</div>
+                      <div><%= st.tanggal_kembali || '-' %></div>
+                    </td>
+                    <td>
+                      <% if ((st.status_surat || '').includes('Disetujui')) { %>
+                        <span class="badge badge-status-Disetujui">Disetujui</span>
+                      <% } else if ((st.status_surat || '').includes('Ditolak')) { %>
+                        <span class="badge badge-status-Ditolak">Ditolak</span>
+                      <% } else { %>
+                        <span class="badge badge-status-Menunggu">Menunggu Approval</span>
+                      <% } %>
+                      <div class="small text-muted mt-1">
+                        Penyetuju: <%= st.status_ka_divisi || 'Pending' %> | GM: <%= st.status_gm || 'Pending' %>
+                      </div>
+                    </td>
+                    <td>
+                      <% if (st.lpj_diisi === 1) { %>
+                        <span class="badge bg-info text-dark mb-1"><i class="fas fa-check-circle me-1"></i>LPJ Terisi</span>
+                        <div class="fw-bold text-success small">Rp <%= (st.total_biaya || 0).toLocaleString('id-ID') %></div>
+                      <% } else { %>
+                        <span class="badge bg-light text-muted border">Belum Ada LPJ</span>
+                      <% } %>
+                    </td>
+                    <td class="text-center">
+                      <div class="btn-group btn-group-sm">
+                        <a href="/admin/operasional/surat-tugas/detail/<%= st.id %>" class="btn btn-outline-primary" title="Lihat Detail & Approval">
+                          <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="/api/operasional/surat-tugas/export/pdf/<%= st.id %>" class="btn btn-outline-danger" title="Download PDF Resmi" target="_blank">
+                          <i class="fas fa-file-pdf"></i>
+                        </a>
+                        <% if (typeof user !== 'undefined' && user && user.role === 'superadmin') { %>
+                          <form action="/admin/operasional/surat-tugas/delete/<%= st.id %>" method="POST" onsubmit="return confirm('Hapus Surat Tugas ini secara permanen?');" class="d-inline">
+                            <button type="submit" class="btn btn-outline-secondary" title="Hapus">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </form>
+                        <% } %>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td colspan="9" class="text-center py-5 text-muted">
+                    <i class="fas fa-folder-open fs-1 mb-3 text-secondary opacity-50"></i>
+                    <p class="mb-2">Belum ada data Surat Tugas atau Form Pertanggungjawaban.</p>
+                    <a href="/admin/operasional/surat-tugas/create" class="btn btn-success btn-sm">
+                      <i class="fas fa-plus me-1"></i>Buat Surat Tugas Pertama
+                    </a>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function copyShareUrl() {
+      const urlText = document.getElementById('shareUrl').innerText.trim();
+      navigator.clipboard.writeText(urlText).then(() => {
+        alert('Link Form Publik berhasil disalin:\n' + urlText);
+      });
+    }
+
+    // Filter table records
+    const searchInput = document.getElementById('searchInput');
+    const filterDivisi = document.getElementById('filterDivisi');
+    const filterStatus = document.getElementById('filterStatus');
+
+    function applyFilters() {
+      const search = searchInput.value.toLowerCase();
+      const divVal = filterDivisi.value.toLowerCase();
+      const statVal = filterStatus.value.toLowerCase();
+      const rows = document.querySelectorAll('#recordsTable tbody tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const matchSearch = !search || text.includes(search);
+        const matchDiv = !divVal || text.includes(divVal);
+        const matchStat = !statVal || text.includes(statVal);
+        row.style.display = (matchSearch && matchDiv && matchStat) ? '' : 'none';
+      });
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    filterDivisi.addEventListener('change', applyFilters);
+    filterStatus.addEventListener('change', applyFilters);
+
+    function resetFilters() {
+      searchInput.value = '';
+      filterDivisi.value = '';
+      filterStatus.value = '';
+      applyFilters();
+    }
+  </script>
+</body>
+</html>

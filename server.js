@@ -17,6 +17,8 @@ const { generateOperasionalPDF } = require('./utils/operasionalPdfGenerator');
 const { generateOperasionalExcel } = require('./utils/operasionalExcelGenerator');
 const { generatePOPDF } = require('./utils/poPdfGenerator');
 const { generatePOExcel } = require('./utils/poExcelGenerator');
+const { generateSuratTugasPDF } = require('./utils/suratTugasPdfGenerator');
+const { generateSuratTugasExcel } = require('./utils/suratTugasExcelGenerator');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -85,6 +87,14 @@ app.get('/form-kandidat', (req, res) => {
 // BA Pengajuan Barang Form Page
 app.get('/pengajuan-barang', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
+});
+
+// Surat Tugas & LPJ Form Page (Public Access)
+app.get('/surat-tugas', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'surat_tugas.html'));
+});
+app.get('/form-surat-tugas', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'surat_tugas.html'));
 });
 
 // Admin Login Page
@@ -924,13 +934,276 @@ app.get('/api/operasional/po/export/excel', requireOperasionalAuth, (req, res) =
   });
 });
 
+// =========================================================================
+// OPERASIONAL: SURAT TUGAS & FORM PERTANGGUNGJAWABAN (LPJ) ROUTES
+// =========================================================================
+
+// Public API: Submit Surat Tugas & LPJ
+app.post('/api/operasional/surat-tugas/submit', (req, res) => {
+  const body = req.body;
+  const now = new Date();
+  const yyyymm = now.getFullYear().toString() + String(now.getMonth() + 1).padStart(2, '0');
+  const randNum = Math.floor(100 + Math.random() * 900);
+  const generatedNoSurat = body.no_surat || `ST/KOV/${yyyymm}/${randNum}`;
+
+  let petugasJsonStr = '[]';
+  if (typeof body.petugas === 'string') {
+    petugasJsonStr = body.petugas;
+  } else if (Array.isArray(body.petugas)) {
+    petugasJsonStr = JSON.stringify(body.petugas);
+  }
+
+  let pelaksanaanJsonStr = '[]';
+  if (typeof body.pelaksanaan_tugas === 'string') {
+    pelaksanaanJsonStr = body.pelaksanaan_tugas;
+  } else if (Array.isArray(body.pelaksanaan_tugas)) {
+    pelaksanaanJsonStr = JSON.stringify(body.pelaksanaan_tugas);
+  }
+
+  const uangDinasHari = parseInt(body.uang_dinas_hari || 0, 10);
+  const uangDinasTotal = parseFloat(body.uang_dinas_total || (uangDinasHari * 50000));
+  const uangMenginapMalam = parseInt(body.uang_menginap_malam || 0, 10);
+  const uangMenginapTotal = parseFloat(body.uang_menginap_total || (uangMenginapMalam * 25000));
+  const biayaTransport = parseFloat(body.biaya_transportasi || 0);
+  const biayaInap = parseFloat(body.biaya_penginapan || 0);
+  const biayaLain = parseFloat(body.biaya_lainnya || 0);
+  const totalBiaya = parseFloat(body.total_biaya || (uangDinasTotal + uangMenginapTotal + biayaTransport + biayaInap + biayaLain));
+
+  const sql = `
+    INSERT INTO surat_tugas (
+      no_surat, tanggal_surat, kota_surat,
+      pemberi_tugas_nama, pemberi_tugas_jabatan,
+      petugas_json, divisi_terkait,
+      lokasi_tujuan, kota_tujuan,
+      tanggal_berangkat, tanggal_kembali, keperluan,
+      user_pembuat_nama, user_pembuat_jabatan, signature_pembuat,
+      ka_divisi_nama, ka_divisi_jabatan, status_ka_divisi,
+      gm_nama, status_gm, status_surat,
+      lpj_diisi, lpj_nama, lpj_jabatan_divisi,
+      realisasi_tgl_berangkat, realisasi_jam_berangkat,
+      realisasi_tgl_kembali, realisasi_jam_kembali,
+      realisasi_jumlah_hari, pelaksanaan_tugas_json,
+      bukti_dokumen_keterangan, bukti_dokumen_link,
+      uang_dinas_hari, uang_dinas_total,
+      uang_menginap_malam, uang_menginap_total,
+      biaya_transportasi, biaya_penginapan, biaya_lainnya,
+      keterangan_biaya_lain, total_biaya,
+      status_lpj, share_token
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const params = [
+    generatedNoSurat,
+    body.tanggal_surat || now.toISOString().split('T')[0],
+    body.kota_surat || 'Semarang',
+    body.pemberi_tugas_nama || body.user_pembuat_nama || '',
+    body.pemberi_tugas_jabatan || body.user_pembuat_jabatan || 'KA Outlet',
+    petugasJsonStr,
+    body.divisi_terkait || '',
+    body.lokasi_tujuan || '',
+    body.kota_tujuan || '',
+    body.tanggal_berangkat || '',
+    body.tanggal_kembali || '',
+    body.keperluan || '',
+    body.user_pembuat_nama || body.pemberi_tugas_nama || '',
+    body.user_pembuat_jabatan || body.pemberi_tugas_jabatan || 'KA Outlet',
+    body.signature_pembuat || '',
+    body.ka_divisi_nama || '',
+    body.ka_divisi_jabatan || '',
+    body.status_ka_divisi || 'Pending',
+    body.gm_nama || 'Aldo Widarta - GM',
+    body.status_gm || 'Pending',
+    body.status_surat || 'Menunggu Approval',
+    body.lpj_diisi ? 1 : 0,
+    body.lpj_nama || body.user_pembuat_nama || '',
+    body.lpj_jabatan_divisi || body.user_pembuat_jabatan || '',
+    body.realisasi_tgl_berangkat || '',
+    body.realisasi_jam_berangkat || '',
+    body.realisasi_tgl_kembali || '',
+    body.realisasi_jam_kembali || '',
+    parseInt(body.realisasi_jumlah_hari || 0, 10),
+    pelaksanaanJsonStr,
+    body.bukti_dokumen_keterangan || '',
+    body.bukti_dokumen_link || '',
+    uangDinasHari,
+    uangDinasTotal,
+    uangMenginapMalam,
+    uangMenginapTotal,
+    biayaTransport,
+    biayaInap,
+    biayaLain,
+    body.keterangan_biaya_lain || '',
+    totalBiaya,
+    body.status_lpj || 'Draft',
+    body.share_token || ''
+  ];
+
+  db.run(sql, params, function(err) {
+    if (err) {
+      console.error('Error inserting surat_tugas:', err);
+      return res.status(500).json({ success: false, error: err.message });
+    }
+    res.json({
+      success: true,
+      id: this.lastID,
+      no_surat: generatedNoSurat,
+      message: 'Surat Tugas & Form Pertanggungjawaban berhasil tersimpan.'
+    });
+  });
+});
+
+// Admin Dashboard: Surat Tugas & LPJ List
+app.get('/admin/operasional/surat-tugas', requireOperasionalAuth, (req, res) => {
+  db.all('SELECT * FROM surat_tugas ORDER BY id DESC', [], (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+    const host = req.headers['x-forwarded-host'] || req.get('host') || 'localhost:3000';
+    const baseUrl = `${protocol}://${host}`;
+    res.render('surat_tugas_admin', { records: rows || [], user: req.session.user, baseUrl });
+  });
+});
+
+// Admin Create Surat Tugas Form Page
+app.get('/admin/operasional/surat-tugas/create', requireOperasionalAuth, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'surat_tugas.html'));
+});
+
+// Admin Detail & Approval Page
+app.get('/admin/operasional/surat-tugas/detail/:id', requireOperasionalAuth, (req, res) => {
+  db.get('SELECT * FROM surat_tugas WHERE id = ?', [req.params.id], (err, row) => {
+    if (err || !row) return res.status(404).send('Surat Tugas tidak ditemukan.');
+    res.render('surat_tugas_detail', { item: row, user: req.session.user });
+  });
+});
+
+// Admin Update Approval & LPJ
+app.post('/admin/operasional/surat-tugas/update/:id', requireOperasionalAuth, (req, res) => {
+  const body = req.body;
+  const now = new Date().toISOString().split('T')[0];
+
+  const uangDinasHari = parseInt(body.uang_dinas_hari || 0, 10);
+  const uangDinasTotal = uangDinasHari * 50000;
+  const uangMenginapMalam = parseInt(body.uang_menginap_malam || 0, 10);
+  const uangMenginapTotal = uangMenginapMalam * 25000;
+  const biayaTransport = parseFloat(body.biaya_transportasi || 0);
+  const biayaInap = parseFloat(body.biaya_penginapan || 0);
+  const biayaLain = parseFloat(body.biaya_lainnya || 0);
+  const totalBiaya = uangDinasTotal + uangMenginapTotal + biayaTransport + biayaInap + biayaLain;
+
+  const sql = `
+    UPDATE surat_tugas SET
+      status_ka_divisi = ?,
+      tgl_ka_divisi = CASE WHEN ? = 'Disetujui' THEN ? ELSE tgl_ka_divisi END,
+      catatan_ka_divisi = ?,
+      status_gm = ?,
+      tgl_gm = CASE WHEN ? = 'Disetujui' THEN ? ELSE tgl_gm END,
+      status_surat = ?,
+      realisasi_tgl_berangkat = ?,
+      realisasi_jam_berangkat = ?,
+      realisasi_tgl_kembali = ?,
+      realisasi_jam_kembali = ?,
+      realisasi_jumlah_hari = ?,
+      uang_dinas_hari = ?,
+      uang_dinas_total = ?,
+      uang_menginap_malam = ?,
+      uang_menginap_total = ?,
+      biaya_transportasi = ?,
+      biaya_penginapan = ?,
+      biaya_lainnya = ?,
+      keterangan_biaya_lain = ?,
+      total_biaya = ?,
+      bukti_dokumen_keterangan = ?,
+      status_lpj = ?,
+      lpj_diisi = CASE WHEN ? > 0 OR ? != 'Draft' THEN 1 ELSE lpj_diisi END,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+  `;
+
+  const params = [
+    body.status_ka_divisi || 'Pending',
+    body.status_ka_divisi, now,
+    body.catatan_ka_divisi || '',
+    body.status_gm || 'Pending',
+    body.status_gm, now,
+    body.status_surat || 'Menunggu Approval',
+    body.realisasi_tgl_berangkat || '',
+    body.realisasi_jam_berangkat || '',
+    body.realisasi_tgl_kembali || '',
+    body.realisasi_jam_kembali || '',
+    uangDinasHari,
+    uangDinasHari,
+    uangDinasTotal,
+    uangMenginapMalam,
+    uangMenginapTotal,
+    biayaTransport,
+    biayaInap,
+    biayaLain,
+    body.keterangan_biaya_lain || '',
+    totalBiaya,
+    body.bukti_dokumen_keterangan || '',
+    body.status_lpj || 'Draft',
+    totalBiaya, body.status_lpj || 'Draft',
+    req.params.id
+  ];
+
+  db.run(sql, params, (err) => {
+    if (err) return res.status(500).send(err.message);
+    res.redirect(`/admin/operasional/surat-tugas/detail/${req.params.id}`);
+  });
+});
+
+// Admin Delete Surat Tugas (Super Admin Only)
+app.post('/admin/operasional/surat-tugas/delete/:id', requireAuth, requireSuperAdmin, (req, res) => {
+  db.run('DELETE FROM surat_tugas WHERE id = ?', [req.params.id], (err) => {
+    if (err) return res.status(500).send(err.message);
+    res.redirect('/admin/operasional/surat-tugas');
+  });
+});
+
+// Export PDF Single Surat Tugas & LPJ (Protected)
+app.get('/api/operasional/surat-tugas/export/pdf/:id', requireOperasionalAuth, (req, res) => {
+  db.get('SELECT * FROM surat_tugas WHERE id = ?', [req.params.id], async (err, row) => {
+    if (err || !row) return res.status(404).send('Surat Tugas tidak ditemukan.');
+
+    try {
+      const pdfBuffer = await generateSuratTugasPDF(row);
+      const filename = `Surat_Tugas_${(row.no_surat || 'ST_KOV_' + row.id).replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+      res.send(pdfBuffer);
+    } catch (pdfErr) {
+      console.error('Surat Tugas PDF Error:', pdfErr);
+      res.status(500).send('Error generating Surat Tugas PDF: ' + pdfErr.message);
+    }
+  });
+});
+
+// Export All Surat Tugas Excel (Protected)
+app.get('/api/operasional/surat-tugas/export/excel', requireOperasionalAuth, (req, res) => {
+  db.all('SELECT * FROM surat_tugas ORDER BY id DESC', [], async (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+
+    try {
+      const buffer = await generateSuratTugasExcel(rows);
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', 'attachment; filename="Record_Surat_Tugas_dan_LPJ_Operasional.xlsx"');
+      res.send(buffer);
+    } catch (excelErr) {
+      console.error('Surat Tugas Excel Error:', excelErr);
+      res.status(500).send('Error generating Surat Tugas Excel: ' + excelErr.message);
+    }
+  });
+});
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`==================================================`);
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`HR Candidate Form: http://localhost:${PORT}/`);
   console.log(`HR Admin Dashboard: http://localhost:${PORT}/admin`);
-  console.log(`Operasional Form: http://localhost:${PORT}/pengajuan-barang`);
+  console.log(`Operasional BA Form: http://localhost:${PORT}/pengajuan-barang`);
+  console.log(`Operasional Surat Tugas Form: http://localhost:${PORT}/surat-tugas`);
   console.log(`Operasional Dashboard: http://localhost:${PORT}/admin/operasional`);
+  console.log(`Surat Tugas Dashboard: http://localhost:${PORT}/admin/operasional/surat-tugas`);
   console.log(`Admin Login: http://localhost:${PORT}/admin/login`);
   console.log(`User Management (Super Admin): http://localhost:${PORT}/admin/users`);
   console.log(`==================================================`);

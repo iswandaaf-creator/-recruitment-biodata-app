@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Surat Tugas - <%= item.no_surat %></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); margin-bottom: 1.5rem; }
+    .card-header { background-color: #fff; border-bottom: 2px solid #e8f5e9; font-weight: 700; color: #0f5132; }
+    .badge-status-Menunggu { background-color: #ffc107; color: #212529; }
+    .badge-status-Disetujui { background-color: #198754; color: white; }
+    .badge-status-Ditolak { background-color: #dc3545; color: white; }
+    
+    @media print {
+      body { background-color: #fff; font-size: 11px; }
+      .no-print { display: none !important; }
+      .print-page { page-break-after: always; break-after: page; box-shadow: none !important; border: none !important; }
+      .card { box-shadow: none !important; border: 1px solid #ccc !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar (no-print) -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm no-print">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional/surat-tugas">
+        <img src="/logo_kov_hijau.png" height="30" class="me-2" alt="Logo">
+        <span>Detail Surat Tugas & LPJ</span>
+      </a>
+      <div class="d-flex align-items-center gap-2">
+        <a href="/admin/operasional/surat-tugas" class="btn btn-outline-light btn-sm fw-semibold">
+          <i class="fas fa-arrow-left me-1"></i>Kembali ke Dashboard
+        </a>
+        <button class="btn btn-light btn-sm fw-bold text-success" onclick="window.print()">
+          <i class="fas fa-print me-1"></i>Cetak Halaman (Print)
+        </button>
+        <a href="/api/operasional/surat-tugas/export/pdf/<%= item.id %>" class="btn btn-danger btn-sm fw-bold" target="_blank">
+          <i class="fas fa-file-pdf me-1"></i>Download PDF Resmi
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+
+    <!-- Header Status Card -->
+    <div class="card p-3 mb-4">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div>
+          <span class="text-muted small">Nomor Surat Tugas:</span>
+          <h4 class="fw-bold text-success m-0"><%= item.no_surat %></h4>
+          <span class="small text-muted"><i class="fas fa-calendar-day me-1"></i><%= item.kota_surat || 'Semarang' %>, <%= item.tanggal_surat %></span>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div class="text-end">
+            <div class="small text-muted">Status Surat:</div>
+            <% if ((item.status_surat || '').includes('Disetujui')) { %>
+              <span class="badge badge-status-Disetujui fs-6 px-3 py-2">✓ Disetujui</span>
+            <% } else if ((item.status_surat || '').includes('Ditolak')) { %>
+              <span class="badge badge-status-Ditolak fs-6 px-3 py-2">✕ Ditolak</span>
+            <% } else { %>
+              <span class="badge badge-status-Menunggu fs-6 px-3 py-2">⏳ Menunggu Approval</span>
+            <% } %>
+          </div>
+          <div class="text-end border-start ps-3">
+            <div class="small text-muted">Status LPJ:</div>
+            <% if (item.lpj_diisi === 1) { %>
+              <span class="badge bg-info text-dark fs-6 px-3 py-2">LPJ Terisi</span>
+            <% } else { %>
+              <span class="badge bg-secondary fs-6 px-3 py-2">Belum Ada LPJ</span>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HALAMAN 1: SURAT TUGAS -->
+    <div class="card print-page mb-4">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <span><i class="fas fa-file-contract me-2"></i>HALAMAN 1: SURAT TUGAS</span>
+        <span class="badge bg-success">Resmi KOV Koffie</span>
+      </div>
+      <div class="card-body p-4">
+        
+        <!-- Identitas Pemberi Tugas -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label class="text-muted small">Nama Pemberi Tugas (User / KA Outlet):</label>
+            <div class="fw-bold fs-6"><%= item.user_pembuat_nama || item.pemberi_tugas_nama || '-' %></div>
+          </div>
+          <div class="col-md-4">
+            <label class="text-muted small">Jabatan (KA Outlet):</label>
+            <div class="fw-bold fs-6"><%= item.user_pembuat_jabatan || item.pemberi_tugas_jabatan || '-' %></div>
+          </div>
+          <div class="col-md-4">
+            <label class="text-muted small">Divisi Terkait:</label>
+            <div><span class="badge bg-secondary fs-6"><%= item.divisi_terkait || '-' %></span></div>
+          </div>
+        </div>
+
+        <!-- Tabel Petugas / Penerima Tugas -->
+        <h6 class="fw-bold text-success mb-2"><i class="fas fa-users me-2"></i>Daftar Penerima Tugas:</h6>
+        <div class="table-responsive mb-4">
+          <table class="table table-bordered align-middle">
+            <thead class="table-light">
+              <tr class="text-center">
+                <th style="width: 50px;">No</th>
+                <th>Nama Karyawan</th>
+                <th style="width: 35%;">Jabatan</th>
+                <th style="width: 25%;">Divisi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% 
+                let petugasArr = [];
+                try {
+                  petugasArr = typeof item.petugas_json === 'string' ? JSON.parse(item.petugas_json || '[]') : (item.petugas || []);
+                } catch(e) { petugasArr = []; }
+              %>
+              <% if (petugasArr && petugasArr.length > 0) { %>
+                <% petugasArr.forEach((p, idx) => { %>
+                  <tr>
+                    <td class="text-center fw-bold"><%= idx + 1 %></td>
+                    <td><strong><%= p.nama || '-' %></strong></td>
+                    <td><%= p.jabatan || '-' %></td>
+                    <td><%= p.divisi || '-' %></td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td class="text-center fw-bold">1</td>
+                  <td><strong><%= item.lpj_nama || item.user_pembuat_nama || '-' %></strong></td>
+                  <td><%= item.lpj_jabatan_divisi || item.user_pembuat_jabatan || '-' %></td>
+                  <td><%= item.divisi_terkait || '-' %></td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Rincian Penugasan -->
+        <h6 class="fw-bold text-success mb-2"><i class="fas fa-map-location-dot me-2"></i>Rincian Penugasan Luar Kota:</h6>
+        <div class="row g-3 mb-4 p-3 bg-light rounded-3">
+          <div class="col-md-6">
+            <label class="text-muted small">Lokasi / Tujuan:</label>
+            <div class="fw-bold"><%= item.lokasi_tujuan || '-' %></div>
+          </div>
+          <div class="col-md-6">
+            <label class="text-muted small">Kota Tujuan:</label>
+            <div class="fw-bold"><%= item.kota_tujuan || '-' %></div>
+          </div>
+          <div class="col-md-6">
+            <label class="text-muted small">Jadwal Perjalanan:</label>
+            <div class="fw-bold text-primary">
+              <i class="fas fa-calendar-alt me-1"></i><%= item.tanggal_berangkat || '-' %> s/d <%= item.tanggal_kembali || '-' %>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="text-muted small">Keperluan Tugas:</label>
+            <div class="fw-semibold"><%= item.keperluan || '-' %></div>
+          </div>
+        </div>
+
+        <!-- Klausul Resmi -->
+        <div class="p-3 bg-white border-start border-4 border-success rounded small mb-4">
+          <p class="mb-1"><strong>Klausul:</strong> Selama melaksanakan tugas tersebut, yang bersangkutan wajib menjalankan tugas dan tanggung jawab dengan sebaik–baiknya serta menjaga nama baik KOV Koffie.</p>
+          <p class="mb-0">Biaya yang timbul sehubungan dengan pelaksanaan tugas mengikuti ketentuan perjalanan dinas yang berlaku di perusahaan dan dipertanggungjawabkan sesuai prosedur yang ditetapkan.</p>
+        </div>
+
+        <!-- Lembar Otorisasi 3 Pihak -->
+        <div class="row g-3 text-center">
+          <div class="col-md-4">
+            <div class="p-3 border rounded-3 bg-light h-100">
+              <div class="badge bg-secondary mb-2">Dibuat Oleh</div>
+              <div class="fw-bold"><%= item.user_pembuat_nama || 'User' %></div>
+              <div class="small text-muted mb-2"><%= item.user_pembuat_jabatan || 'KA Outlet' %></div>
+              <% if (item.signature_pembuat) { %>
+                <img src="<%= item.signature_pembuat %>" style="max-height: 50px; max-width: 140px; object-fit: contain;" alt="TTD">
+              <% } else { %>
+                <div class="text-muted small py-3"><em>(Tanda tangan tercatat)</em></div>
+              <% } %>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 border rounded-3 bg-light h-100">
+              <div class="badge bg-primary mb-2">Diperiksa Oleh</div>
+              <div class="fw-bold"><%= item.gm_nama || 'Aldo Widarta - GM' %></div>
+              <div class="small text-muted mb-2">General Manager</div>
+              <div class="mt-2">
+                <% if (item.status_gm === 'Disetujui') { %>
+                  <span class="badge bg-success px-3 py-2">✓ DISETUJUI</span>
+                  <div class="small text-muted mt-1"><%= item.tgl_gm || '' %></div>
+                <% } else if (item.status_gm === 'Ditolak') { %>
+                  <span class="badge bg-danger px-3 py-2">✕ DITOLAK</span>
+                <% } else { %>
+                  <span class="badge bg-warning text-dark px-3 py-2">⏳ PENDING</span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 border rounded-3 bg-light h-100 border-success">
+              <div class="badge bg-success mb-2">Disetujui Oleh (Menyetujui)</div>
+              <div class="fw-bold text-success fs-6"><%= item.ka_divisi_nama || 'KA Divisi' %></div>
+              <div class="small text-muted mb-2"><%= item.ka_divisi_jabatan || ('Penyetuju / KA Divisi ' + (item.divisi_terkait || '')) %></div>
+              <div class="mt-2">
+                <% if (item.status_ka_divisi === 'Disetujui') { %>
+                  <span class="badge bg-success px-3 py-2">✓ DISETUJUI</span>
+                  <div class="small text-muted mt-1"><%= item.tgl_ka_divisi || '' %></div>
+                <% } else if (item.status_ka_divisi === 'Ditolak') { %>
+                  <span class="badge bg-danger px-3 py-2">✕ DITOLAK</span>
+                <% } else { %>
+                  <span class="badge bg-warning text-dark px-3 py-2">⏳ PENDING</span>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 text-start">
+            <div class="small text-muted"><strong>Tembusan :</strong> 1. Owner &nbsp;|&nbsp; 2. FAT &nbsp;|&nbsp; 3. HRD</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- HALAMAN 2: FORM PERTANGGUNGJAWABAN (LPJ) -->
+    <div class="card print-page mb-4">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <span><i class="fas fa-receipt me-2"></i>HALAMAN 2: FORM PERTANGGUNGJAWABAN PERJALANAN DINAS (LPJ)</span>
+        <% if (item.lpj_diisi === 1) { %>
+          <span class="badge bg-info text-dark">Laporan Realisasi Terlampir</span>
+        <% } else { %>
+          <span class="badge bg-warning text-dark">Belum Diisi / Masih Draft</span>
+        <% } %>
+      </div>
+      <div class="card-body p-4">
+
+        <% if (item.lpj_diisi === 1) { %>
+          
+          <!-- A. Realisasi Perjalanan -->
+          <h6 class="fw-bold text-success mb-2"><i class="fas fa-clock-rotate-left me-2"></i>A. REALISASI PERJALANAN</h6>
+          <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 50%;">Keterangan</th>
+                  <th>Realisasi Pelaksanaan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tanggal Berangkat</td>
+                  <td class="fw-bold"><%= item.realisasi_tgl_berangkat || item.tanggal_berangkat || '-' %></td>
+                </tr>
+                <tr>
+                  <td>Jam Berangkat</td>
+                  <td><%= item.realisasi_jam_berangkat || '-' %> WIB</td>
+                </tr>
+                <tr>
+                  <td>Tanggal Kembali</td>
+                  <td class="fw-bold"><%= item.realisasi_tgl_kembali || item.tanggal_kembali || '-' %></td>
+                </tr>
+                <tr>
+                  <td>Jam Kembali</td>
+                  <td><%= item.realisasi_jam_kembali || '-' %> WIB</td>
+                </tr>
+                <tr class="table-light">
+                  <td><strong>Jumlah Hari Dinas</strong></td>
+                  <td><strong class="text-success"><%= item.realisasi_jumlah_hari || 0 %> hari</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- B. Pelaksanaan Tugas -->
+          <h6 class="fw-bold text-success mb-2"><i class="fas fa-tasks me-2"></i>B. PELAKSANAAN TUGAS</h6>
+          <div class="table-responsive mb-3">
+            <table class="table table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 40%;">Keperluan / Tugas</th>
+                  <th style="width: 40%;">Hasil Pelaksanaan</th>
+                  <th style="width: 20%;" class="text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% 
+                  let tugasArr = [];
+                  try {
+                    tugasArr = typeof item.pelaksanaan_tugas_json === 'string' ? JSON.parse(item.pelaksanaan_tugas_json || '[]') : (item.pelaksanaan_tugas || []);
+                  } catch(e) { tugasArr = []; }
+                %>
+                <% if (tugasArr && tugasArr.length > 0) { %>
+                  <% tugasArr.forEach(t => { %>
+                    <tr>
+                      <td><%= t.tugas || '-' %></td>
+                      <td><%= t.hasil || '-' %></td>
+                      <td class="text-center">
+                        <% if ((t.status || '').toLowerCase() === 'selesai') { %>
+                          <span class="badge bg-success">✓ Selesai</span>
+                        <% } else { %>
+                          <span class="badge bg-warning text-dark">Belum Selesai</span>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr>
+                    <td><%= item.keperluan || '-' %></td>
+                    <td>Tugas telah dilaksanakan sesuai arahan.</td>
+                    <td class="text-center"><span class="badge bg-success">✓ Selesai</span></td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <div class="small text-muted mb-4 p-2 bg-light rounded">
+            <strong>Bukti Dokumen Pendukung:</strong> <%= item.bukti_dokumen_keterangan || '-' %>
+            <% if (item.bukti_dokumen_link) { %>
+              &nbsp;|&nbsp; <a href="<%= item.bukti_dokumen_link %>" target="_blank" class="fw-bold text-success"><i class="fas fa-link me-1"></i>Buka Tautan Lampiran</a>
+            <% } %>
+          </div>
+
+          <!-- C. Perhitungan Biaya -->
+          <h6 class="fw-bold text-success mb-2"><i class="fas fa-calculator me-2"></i>C. PERHITUNGAN BIAYA</h6>
+          <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 30%;">Komponen</th>
+                  <th style="width: 40%;">Dasar Perhitungan</th>
+                  <th style="width: 30%;" class="text-end">Jumlah (Rp)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Uang Dinas</td>
+                  <td>Rp 50.000 × <%= item.uang_dinas_hari || 0 %> hari</td>
+                  <td class="text-end fw-semibold">Rp <%= (item.uang_dinas_total || 0).toLocaleString('id-ID') %></td>
+                </tr>
+                <tr>
+                  <td>Uang Menginap</td>
+                  <td>Rp 25.000 × <%= item.uang_menginap_malam || 0 %> malam</td>
+                  <td class="text-end fw-semibold">Rp <%= (item.uang_menginap_total || 0).toLocaleString('id-ID') %></td>
+                </tr>
+                <tr>
+                  <td>Transportasi</td>
+                  <td>Sesuai bukti / realisasi</td>
+                  <td class="text-end fw-semibold">Rp <%= (item.biaya_transportasi || 0).toLocaleString('id-ID') %></td>
+                </tr>
+                <tr>
+                  <td>Penginapan</td>
+                  <td>Sesuai bukti / realisasi</td>
+                  <td class="text-end fw-semibold">Rp <%= (item.biaya_penginapan || 0).toLocaleString('id-ID') %></td>
+                </tr>
+                <tr>
+                  <td>Biaya lainnya</td>
+                  <td><%= item.keterangan_biaya_lain ? item.keterangan_biaya_lain : 'Sesuai ketentuan' %></td>
+                  <td class="text-end fw-semibold">Rp <%= (item.biaya_lainnya || 0).toLocaleString('id-ID') %></td>
+                </tr>
+                <tr class="table-success fw-bold fs-6">
+                  <td colspan="2" class="text-end text-uppercase">TOTAL PERTANGGUNGJAWABAN</td>
+                  <td class="text-end text-success fs-5">Rp <%= (item.total_biaya || 0).toLocaleString('id-ID') %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        <% } else { %>
+          <div class="text-center py-4 bg-light rounded-3 mb-3">
+            <i class="fas fa-file-circle-exclamation fs-2 text-warning mb-2"></i>
+            <h6 class="fw-bold">Form Pertanggungjawaban (LPJ) Belum Dilaporkan</h6>
+            <p class="text-muted small mb-0">Silakan gunakan form input di bawah untuk mengisi realisasi dan rincian biaya setelah dinas selesai.</p>
+          </div>
+        <% } %>
+
+      </div>
+    </div>
+
+    <!-- UPDATE / APPROVAL FORM (NO PRINT) -->
+    <div class="card no-print">
+      <div class="card-header bg-white"><i class="fas fa-pen-to-square me-2"></i>UPDATE APPROVAL & PERTANGGUNGJAWABAN (LPJ)</div>
+      <div class="card-body p-4">
+        <form action="/admin/operasional/surat-tugas/update/<%= item.id %>" method="POST">
+          
+          <div class="row g-3 mb-4">
+            <!-- Approval Pemeriksa (GM) -->
+            <div class="col-md-6 border-end pe-md-4">
+              <h6 class="fw-bold text-primary mb-3"><i class="fas fa-user-check me-2"></i>1. Otorisasi Pemeriksa (Aldo Widarta - GM)</h6>
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Status Pemeriksa (GM):</label>
+                <select class="form-select" name="status_gm">
+                  <option value="Pending" <%= item.status_gm === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Disetujui" <%= item.status_gm === 'Disetujui' ? 'selected' : '' %>>Selesai Diperiksa / Disetujui</option>
+                  <option value="Ditolak" <%= item.status_gm === 'Ditolak' ? 'selected' : '' %>>Ditolak</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Catatan Pemeriksa (GM):</label>
+                <textarea class="form-control" name="catatan_gm" rows="2" placeholder="Catatan atau masukan dari General Manager..."><%= item.catatan_gm || '' %></textarea>
+              </div>
+            </div>
+
+            <!-- Approval Penyetuju (KA Divisi) -->
+            <div class="col-md-6 ps-md-4">
+              <h6 class="fw-bold text-success mb-3"><i class="fas fa-stamp me-2"></i>2. Otorisasi Menyetujui (<%= item.ka_divisi_nama || 'KA Divisi' %>)</h6>
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Status Penyetuju (<%= item.ka_divisi_nama %>):</label>
+                <select class="form-select" name="status_ka_divisi">
+                  <option value="Pending" <%= item.status_ka_divisi === 'Pending' ? 'selected' : '' %>>Pending</option>
+                  <option value="Disetujui" <%= item.status_ka_divisi === 'Disetujui' ? 'selected' : '' %>>Disetujui (Approved)</option>
+                  <option value="Ditolak" <%= item.status_ka_divisi === 'Ditolak' ? 'selected' : '' %>>Ditolak</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Catatan Penyetuju:</label>
+                <textarea class="form-control" name="catatan_ka_divisi" rows="2" placeholder="Catatan persetujuan dari KA Divisi..."><%= item.catatan_ka_divisi || '' %></textarea>
+              </div>
+              <div class="mb-3">
+                <label class="form-label small fw-semibold">Status Keseluruhan Surat Tugas:</label>
+                <select class="form-select fw-bold text-success" name="status_surat">
+                  <option value="Menunggu Approval" <%= item.status_surat === 'Menunggu Approval' ? 'selected' : '' %>>Menunggu Approval</option>
+                  <option value="Disetujui" <%= item.status_surat === 'Disetujui' ? 'selected' : '' %>>Disetujui</option>
+                  <option value="Ditolak" <%= item.status_surat === 'Ditolak' ? 'selected' : '' %>>Ditolak</option>
+                  <option value="Selesai" <%= item.status_surat === 'Selesai' ? 'selected' : '' %>>Selesai & LPJ Closed</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <!-- Form Edit Realisasi Biaya LPJ -->
+          <h6 class="fw-bold text-success mb-3"><i class="fas fa-coins me-2"></i>Update / Input Rincian LPJ Biaya</h6>
+          <div class="row g-3">
+            <div class="col-md-3">
+              <label class="form-label small">Tgl Berangkat Realisasi:</label>
+              <input type="date" class="form-control" name="realisasi_tgl_berangkat" value="<%= item.realisasi_tgl_berangkat || item.tanggal_berangkat || '' %>">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small">Jam Berangkat:</label>
+              <input type="time" class="form-control" name="realisasi_jam_berangkat" value="<%= item.realisasi_jam_berangkat || '08:00' %>">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small">Tgl Kembali Realisasi:</label>
+              <input type="date" class="form-control" name="realisasi_tgl_kembali" value="<%= item.realisasi_tgl_kembali || item.tanggal_kembali || '' %>">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small">Jam Kembali:</label>
+              <input type="time" class="form-control" name="realisasi_jam_kembali" value="<%= item.realisasi_jam_kembali || '18:00' %>">
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label small">Jumlah Hari (Uang Dinas Rp 50k):</label>
+              <input type="number" class="form-control" name="uang_dinas_hari" value="<%= item.uang_dinas_hari || item.realisasi_jumlah_hari || 1 %>">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small">Jumlah Malam (Uang Inap Rp 25k):</label>
+              <input type="number" class="form-control" name="uang_menginap_malam" value="<%= item.uang_menginap_malam || 0 %>">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small">Transportasi (Rp):</label>
+              <input type="number" class="form-control" name="biaya_transportasi" value="<%= item.biaya_transportasi || 0 %>">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small">Penginapan / Hotel (Rp):</label>
+              <input type="number" class="form-control" name="biaya_penginapan" value="<%= item.biaya_penginapan || 0 %>">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label small">Keterangan Biaya Lainnya:</label>
+              <input type="text" class="form-control" name="keterangan_biaya_lain" value="<%= item.keterangan_biaya_lain || '' %>" placeholder="Parkir, tol, dll">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small">Biaya Lainnya (Rp):</label>
+              <input type="number" class="form-control" name="biaya_lainnya" value="<%= item.biaya_lainnya || 0 %>">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small">Status LPJ:</label>
+              <select class="form-select" name="status_lpj">
+                <option value="Draft" <%= item.status_lpj === 'Draft' ? 'selected' : '' %>>Draft</option>
+                <option value="Menunggu Approval LPJ" <%= item.status_lpj === 'Menunggu Approval LPJ' ? 'selected' : '' %>>Menunggu Approval LPJ</option>
+                <option value="Disetujui LPJ" <%= item.status_lpj === 'Disetujui LPJ' ? 'selected' : '' %>>Disetujui LPJ</option>
+              </select>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label small">Bukti Dokumen / Catatan Hasil Tugas:</label>
+              <input type="text" class="form-control" name="bukti_dokumen_keterangan" value="<%= item.bukti_dokumen_keterangan || '' %>" placeholder="Keterangan dokumen hasil penugasan...">
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <button type="submit" class="btn btn-success fw-bold px-4">
+              <i class="fas fa-save me-1"></i>Simpan Perubahan & Approval
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
