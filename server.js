@@ -26,14 +26,42 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(session({
   secret: 'hr_recruitment_secret_key_2026',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 Hours
 }));
+
+// Global Auth Guard: Semua form & halaman di dalam aplikasi WAJIB login terlebih dahulu
+app.use((req, res, next) => {
+  // 1. Izinkan file asset statis (logo, gambar, css, js, fonts) agar login page tampil sempurna
+  if (req.path.startsWith('/logo') || req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff|woff2|ttf)$/i)) {
+    return next();
+  }
+
+  // 2. Izinkan rute halaman login & logout
+  if (req.path === '/admin/login' || req.path === '/admin/logout') {
+    return next();
+  }
+
+  // 3. Untuk SEMUA form (HR, BA, Surat Tugas), halaman admin, maupun API: Wajib Login
+  if (!req.session || !req.session.user) {
+    if (req.path.startsWith('/api/')) {
+      return res.status(401).json({ success: false, error: 'Akses ditolak: Anda wajib login terlebih dahulu untuk mengakses sistem ini.' });
+    }
+    // Simpan URL form yang sedang dituju agar otomatis redirect setelah login berhasil
+    if (req.method === 'GET') {
+      req.session.returnTo = req.originalUrl;
+    }
+    return res.redirect('/admin/login');
+  }
+
+  next();
+});
+
+// Static files (dilindungi di bawah auth guard untuk file HTML)
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -42,6 +70,9 @@ app.set('views', path.join(__dirname, 'views'));
 function requireAuth(req, res, next) {
   if (req.session && req.session.user) {
     return next();
+  }
+  if (req.method === 'GET') {
+    req.session.returnTo = req.originalUrl;
   }
   res.redirect('/admin/login');
 }
@@ -54,6 +85,9 @@ function requireOperasionalAuth(req, res, next) {
       return next();
     }
   }
+  if (req.method === 'GET') {
+    req.session.returnTo = req.originalUrl;
+  }
   res.redirect('/admin/login');
 }
 
@@ -65,41 +99,40 @@ function requireSuperAdmin(req, res, next) {
   res.status(403).send('<h3>Forbidden 403: Akses ditolak. Hanya Super Admin yang dapat mengakses kelola user.</h3><a href="/admin">Kembali ke Dashboard</a>');
 }
 
-// Candidate Form Page (Requires Login or Share Token)
-app.get('/', (req, res) => {
-  if (!req.session || !req.session.user) {
-    if (req.query.ref || req.query.token) {
-      return res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    }
-    return res.redirect('/admin/login');
-  }
+// Root Page (Requires Login)
+app.get('/', requireAuth, (req, res) => {
   if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
     return res.redirect('/admin/operasional');
   }
   return res.redirect('/admin');
 });
 
-// Explicit Public Form Page for HR Candidate (for logged in admins or share links)
-app.get('/form-kandidat', (req, res) => {
+// HR Candidate Form (Requires Login)
+app.get('/form-kandidat', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// BA Pengajuan Barang Form Page
-app.get('/pengajuan-barang', (req, res) => {
+// BA Pengajuan Barang Form (Requires Login)
+app.get('/pengajuan-barang', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
 });
 
-// Surat Tugas & LPJ Form Page (Public Access)
-app.get('/surat-tugas', (req, res) => {
+// Surat Tugas & LPJ Form (Requires Login)
+app.get('/surat-tugas', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'surat_tugas.html'));
 });
-app.get('/form-surat-tugas', (req, res) => {
+app.get('/form-surat-tugas', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'surat_tugas.html'));
 });
 
 // Admin Login Page
 app.get('/admin/login', (req, res) => {
   if (req.session && req.session.user) {
+    const returnTo = req.session.returnTo;
+    if (returnTo && returnTo !== '/' && returnTo !== '/admin/login') {
+      delete req.session.returnTo;
+      return res.redirect(returnTo);
+    }
     if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
     }
@@ -135,6 +168,14 @@ app.post('/admin/login', (req, res) => {
       nama: user.nama,
       role: user.role
     };
+
+    // Arahkan ke URL form tujuan jika sebelumnya dicegat oleh auth guard
+    const returnTo = req.session.returnTo;
+    if (returnTo && returnTo !== '/' && returnTo !== '/admin/login') {
+      delete req.session.returnTo;
+      return res.redirect(returnTo);
+    }
+
     if (user.role === 'operasional' || user.role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
     }
