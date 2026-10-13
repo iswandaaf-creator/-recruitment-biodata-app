@@ -150,7 +150,7 @@
                     <td class="ps-3 fw-bold text-dark">
                       <%= item.no_po || ('PO/KOV/' + item.id) %>
                     </td>
-                    <td class="small text-secondary"><%= item.tanggal_po || '-' %></td>
+                    <td class="small text-secondary"><%= formatDate(item.tanggal_po) %></td>
                     <td>
                       <div class="fw-bold text-dark"><%= item.vendor_nama || '-' %></div>
                       <div class="small text-muted"><%= item.vendor_nama_dagang || '' %></div>

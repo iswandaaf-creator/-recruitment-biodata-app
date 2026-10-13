@@ -209,7 +209,7 @@
                     <td class="ps-3 fw-bold text-dark">
                       <%= item.no_ba || ('BA/OPS/' + item.id) %>
                     </td>
-                    <td class="small text-secondary"><%= item.tanggal_pengajuan || '-' %></td>
+                    <td class="small text-secondary"><%= formatDate(item.tanggal_pengajuan) %></td>
                     <td>
                       <div class="fw-semibold text-dark"><%= item.outlet_divisi || '-' %></div>
                       <div class="small text-muted"><%= item.departemen || '-' %></div>

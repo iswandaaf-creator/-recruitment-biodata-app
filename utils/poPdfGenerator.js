@@ -3,6 +3,8 @@ const ejs = require('ejs');
 const path = require('path');
 const fs = require('fs');
 
+const { formatDate, formatDateTime } = require('./dateFormatter');
+
 async function generatePOPDF(poData) {
   const templatePath = path.join(__dirname, '..', 'views', 'po_pdf_template.ejs');
 
@@ -19,7 +21,7 @@ async function generatePOPDF(poData) {
     items: typeof poData.items_json === 'string' ? JSON.parse(poData.items_json || '[]') : (poData.items || [])
   };
 
-  const html = await ejs.renderFile(templatePath, { po, logoBase64 });
+  const html = await ejs.renderFile(templatePath, { po, logoBase64, formatDate, formatDateTime });
 
   let launchOptions = {
     headless: true,

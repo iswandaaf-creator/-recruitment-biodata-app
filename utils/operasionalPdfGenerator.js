@@ -3,6 +3,8 @@ const ejs = require('ejs');
 const path = require('path');
 const fs = require('fs');
 
+const { formatDate, formatDateTime } = require('./dateFormatter');
+
 async function generateOperasionalPDF(baData) {
   const templatePath = path.join(__dirname, '..', 'views', 'operasional_ba_pdf.ejs');
 
@@ -13,7 +15,7 @@ async function generateOperasionalPDF(baData) {
     logoBase64 = 'data:image/png;base64,' + fs.readFileSync(logoPath).toString('base64');
   }
 
-  const html = await ejs.renderFile(templatePath, { ba: baData, logoBase64 });
+  const html = await ejs.renderFile(templatePath, { ba: baData, logoBase64, formatDate, formatDateTime });
 
   let launchOptions = {
     headless: true,

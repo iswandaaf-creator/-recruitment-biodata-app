@@ -201,7 +201,7 @@
                         <%= st.no_surat || ('ST/KOV/' + st.id) %>
                       </a>
                     </td>
-                    <td class="small text-muted"><%= st.tanggal_surat || '-' %></td>
+                    <td class="small text-muted"><%= formatDate(st.tanggal_surat) %></td>
                     <td>
                       <div class="fw-bold"><%= st.user_pembuat_nama || '-' %></div>
                       <div class="small text-muted"><%= st.user_pembuat_jabatan || 'KA Outlet' %></div>
@@ -215,8 +215,8 @@
                       <div class="small text-muted"><i class="fas fa-map-marker-alt me-1 text-danger"></i><%= st.kota_tujuan || '-' %></div>
                     </td>
                     <td class="small">
-                      <div><%= st.tanggal_berangkat || '-' %> s/d</div>
-                      <div><%= st.tanggal_kembali || '-' %></div>
+                      <div><%= formatDate(st.tanggal_berangkat) %> s/d</div>
+                      <div><%= formatDate(st.tanggal_kembali) %></div>
                     </td>
                     <td>
                       <% if ((st.status_surat || '').includes('Disetujui')) { %>

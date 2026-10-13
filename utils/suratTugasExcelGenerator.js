@@ -1,6 +1,7 @@
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+const { formatDate, formatDateTime } = require('./dateFormatter');
 
 async function generateSuratTugasExcel(records) {
   const workbook = new ExcelJS.Workbook();
@@ -31,7 +32,7 @@ async function generateSuratTugasExcel(records) {
 
   worksheet.mergeCells('C2:P2');
   const subTitleCell = worksheet.getCell('C2');
-  subTitleCell.value = `Exported: ${new Date().toLocaleDateString('id-ID')} | Total Dokumen: ${records.length}`;
+  subTitleCell.value = `Exported: ${formatDateTime(new Date())} | Total Dokumen: ${records.length}`;
   subTitleCell.font = { name: 'Segoe UI', size: 10, italic: true, color: { argb: '555555' } };
   subTitleCell.alignment = { vertical: 'middle', horizontal: 'left' };
 
@@ -101,15 +102,15 @@ async function generateSuratTugasExcel(records) {
 
     const rowData = [
       rec.no_surat || `ST/KOV/${rec.id}`,
-      rec.tanggal_surat || '',
+      formatDate(rec.tanggal_surat),
       rec.user_pembuat_nama || '',
       rec.user_pembuat_jabatan || '',
       rec.divisi_terkait || '',
       petugasStr,
       rec.lokasi_tujuan || '',
       rec.kota_tujuan || '',
-      rec.tanggal_berangkat || '',
-      rec.tanggal_kembali || '',
+      formatDate(rec.tanggal_berangkat),
+      formatDate(rec.tanggal_kembali),
       rec.keperluan || '',
       rec.ka_divisi_nama || '',
       rec.status_ka_divisi || 'Pending',

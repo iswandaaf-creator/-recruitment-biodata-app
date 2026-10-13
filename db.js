@@ -468,6 +468,62 @@ db.serialize(() => {
           );
         }
       });
+      // Seed single IT user if not exists (Hanya 1 akun khusus IT)
+      db.get('SELECT id FROM users WHERE role = ? OR username = ?', ['it', 'it'], (err, row) => {
+        if (!row) {
+          const bcrypt = require('bcryptjs');
+          const itHash = bcrypt.hashSync('it123', 10);
+          db.run('INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)',
+            ['it', itHash, 'Staff Khusus IT', 'it'],
+            (err) => {
+              if (err) console.error('Error seeding single it user:', err);
+              else console.log('Single IT account created (username: it, pass: it123)');
+            }
+          );
+        }
+      });
+    }
+  });
+
+  // System Settings Table (for API keys, global configurations)
+  db.run(`
+    CREATE TABLE IF NOT EXISTS system_settings (
+      key TEXT PRIMARY KEY,
+      value TEXT,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Rekap Pembelanjaan Khusus IT Table (Mendukung Multi-Item per Pembelian & Berbasis Outlet)
+  db.run(`
+    CREATE TABLE IF NOT EXISTS it_expenses (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      no_transaksi TEXT UNIQUE,
+      tanggal TEXT NOT NULL,
+      nama_barang TEXT NOT NULL,
+      kategori TEXT NOT NULL,
+      unit_outlet TEXT DEFAULT 'Kantor Pusat Semarang',
+      qty INTEGER DEFAULT 1,
+      satuan TEXT DEFAULT 'Unit',
+      harga_satuan REAL DEFAULT 0,
+      total_biaya REAL DEFAULT 0,
+      vendor_toko TEXT,
+      metode_bayar TEXT DEFAULT 'Transfer Bank',
+      status_bayar TEXT DEFAULT 'Lunas',
+      keterangan TEXT,
+      bukti_transaksi TEXT,
+      items_json TEXT,
+      created_by TEXT DEFAULT 'IT',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `, (err) => {
+    if (!err) {
+      try {
+        sqlite.exec('ALTER TABLE it_expenses ADD COLUMN items_json TEXT;');
+      } catch (e) {
+        // column already exists
+      }
     }
   });
 });

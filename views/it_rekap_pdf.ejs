@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Rekap Pembelanjaan IT - <%= outletName %></title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 12mm 15mm 15mm 15mm;
+    }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #1e293b;
+      margin: 0;
+      padding: 0;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+    .header-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      border-bottom: 2px solid #0f5132;
+      padding-bottom: 8px;
+    }
+    .logo-img {
+      height: 48px;
+      object-fit: contain;
+    }
+    .company-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f5132;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+    .doc-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      margin: 2px 0 0 0;
+      text-transform: uppercase;
+    }
+    .meta-box {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .meta-item {
+      font-size: 10.5px;
+    }
+    .meta-label {
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 9px;
+    }
+    .meta-value {
+      font-weight: bold;
+      color: #0f172a;
+      font-size: 12px;
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    table.data-table th {
+      background-color: #0f5132;
+      color: #ffffff;
+      font-size: 9.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 7px 8px;
+      border: 1px solid #0f5132;
+      text-align: center;
+    }
+    table.data-table td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 8px;
+      font-size: 10px;
+      vertical-align: middle;
+    }
+    table.data-table tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+    .text-left { text-align: left; }
+    .fw-bold { font-weight: bold; }
+    .badge-kat {
+      display: inline-block;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 8.5px;
+      background-color: #e2e8f0;
+      color: #334155;
+    }
+    .badge-status {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 8.5px;
+    }
+    .status-lunas { background-color: #d1e7dd; color: #0f5132; }
+    .status-pending { background-color: #fff3cd; color: #856404; }
+    .status-reimburse { background-color: #ede9fe; color: #5b21b6; }
+    .total-row td {
+      background-color: #f1f5f9 !important;
+      font-weight: bold;
+      border-top: 2px solid #334155 !important;
+      font-size: 11px;
+    }
+    .signatures-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      page-break-inside: avoid;
+    }
+    .sig-box {
+      width: 33.33%;
+      text-align: center;
+      vertical-align: top;
+      padding: 0 10px;
+    }
+    .sig-role {
+      font-size: 10px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 50px;
+    }
+    .sig-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 2px;
+      display: inline-block;
+      min-width: 160px;
+    }
+    .sig-job {
+      font-size: 9.5px;
+      color: #64748b;
+      margin-top: 3px;
+    }
+    .footer-note {
+      margin-top: 12px;
+      font-size: 8.5px;
+      color: #94a3b8;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Dokumen Resmi KOV -->
+  <table class="header-table">
+    <tr>
+      <td style="width: 15%; vertical-align: middle;">
+        <% if (logoBase64) { %>
+          <img src="<%= logoBase64 %>" class="logo-img" alt="KOV Logo">
+        <% } %>
+      </td>
+      <td style="width: 85%; vertical-align: middle; padding-left: 10px;">
+        <h1 class="company-title">PT PUTRI SERUPUT INDONESIA / KOV GROUP</h1>
+        <h2 class="doc-title">REKAPITULASI PEMBELANJAAN TEKNOLOGI INFORMASI (IT)</h2>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Meta Info Summary Box -->
+  <table style="width: 100%; margin-bottom: 12px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; border-collapse: separate; border-spacing: 0;">
+    <tr>
+      <td style="width: 20%; padding: 4px 6px; vertical-align: top;">
+        <div class="meta-label">UNIT / OUTLET</div>
+        <div class="meta-value" style="color: #0f5132;"><%= outletName %></div>
+      </td>
+      <td style="width: 20%; padding: 4px 6px; vertical-align: top;">
+        <div class="meta-label">VENDOR / TOKO</div>
+        <div class="meta-value" style="color: #1e293b;"><%= typeof vendorLabel !== 'undefined' ? vendorLabel : 'Semua Vendor' %></div>
+      </td>
+      <td style="width: 20%; padding: 4px 6px; vertical-align: top;">
+        <div class="meta-label">PERIODE TANGGAL</div>
+        <div class="meta-value" style="color: #1e293b;"><%= periodeLabel %></div>
+      </td>
+      <td style="width: 20%; padding: 4px 6px; vertical-align: top;">
+        <div class="meta-label">FILTER ITEM / KATEGORI</div>
+        <div class="meta-value" style="color: #1e293b;"><%= filterItemLabel %></div>
+      </td>
+      <td style="width: 20%; padding: 4px 6px; vertical-align: top; text-align: right;">
+        <div class="meta-label">TOTAL PENGELUARAN</div>
+        <div class="meta-value" style="color: #0f5132; font-size: 13px;">Rp <%= totalBiaya.toLocaleString('id-ID') %></div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" style="padding: 4px 6px; border-top: 1px dashed #e2e8f0; font-size: 9.5px; color: #64748b;">
+        <i class="fas fa-receipt"></i> <strong>Jumlah Data:</strong> <%= records.length %> Nota Transaksi (<%= flatItems.length %> Rincian Item)
+      </td>
+      <td colspan="2" style="padding: 4px 6px; border-top: 1px dashed #e2e8f0; font-size: 9.5px; color: #64748b; text-align: right;">
+        <strong>Tanggal Export:</strong> <%= formatDate(new Date()) %>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Data Table Rincian Belanja -->
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th style="width: 4%;">NO</th>
+        <th style="width: 12%;">TGL & NO TRANSAKSI</th>
+        <th style="width: 14%;">OUTLET</th>
+        <th style="width: 15%;">VENDOR / TOKO</th>
+        <th style="width: 25%;">RINCIAN BARANG IT</th>
+        <th style="width: 6%;">QTY</th>
+        <th style="width: 10%;">HARGA SATUAN</th>
+        <th style="width: 12%;">SUBTOTAL (RP)</th>
+        <th style="width: 8%;">STATUS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (flatItems.length === 0) { %>
+        <tr>
+          <td colspan="9" class="text-center" style="padding: 20px; color: #94a3b8;">
+            Tidak ada transaksi pembelanjaan IT yang tercatat untuk outlet ini.
+          </td>
+        </tr>
+      <% } %>
+
+      <% flatItems.forEach((item, index) => { %>
+        <tr>
+          <td class="text-center"><%= index + 1 %></td>
+          <td class="text-center">
+            <strong><%= formatDate(item.tanggal) %></strong><br>
+            <span style="color: #0369a1; font-size: 9px;"><%= item.no_transaksi %></span>
+          </td>
+          <td><strong><%= item.unit_outlet %></strong></td>
+          <td>
+            <strong><%= item.vendor_toko %></strong><br>
+            <span style="color: #64748b; font-size: 9px;"><%= item.metode_bayar %></span>
+          </td>
+          <td>
+            <strong><%= item.nama_barang %></strong><br>
+            <span class="badge-kat"><%= item.kategori %></span>
+            <% if (item.bukti_transaksi) { %>
+              <span style="color: #64748b; font-size: 8.5px; margin-left: 4px;">[Nota: <%= item.bukti_transaksi %>]</span>
+            <% } %>
+          </td>
+          <td class="text-center"><%= item.qty %> <%= item.satuan %></td>
+          <td class="text-right">Rp <%= Number(item.harga_satuan).toLocaleString('id-ID') %></td>
+          <td class="text-right fw-bold" style="color: #0f5132;">Rp <%= Number(item.subtotal).toLocaleString('id-ID') %></td>
+          <td class="text-center">
+            <% if (item.status_bayar === 'Lunas') { %>
+              <span class="badge-status status-lunas">Lunas</span>
+            <% } else if (item.status_bayar === 'Reimburse') { %>
+              <span class="badge-status status-reimburse">Reimburse</span>
+            <% } else { %>
+              <span class="badge-status status-pending">Pending</span>
+            <% } %>
+          </td>
+        </tr>
+      <% }); %>
+
+      <!-- Total Row -->
+      <tr class="total-row">
+        <td colspan="7" class="text-right">TOTAL PENGELUARAN BELANJA IT:</td>
+        <td class="text-right" style="color: #0f5132; font-size: 12px;">Rp <%= totalBiaya.toLocaleString('id-ID') %></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Lembar Otorisasi & Tanda Tangan -->
+  <table class="signatures-table">
+    <tr>
+      <td class="sig-box">
+        <div class="sig-role">Dibuat Oleh (Staff IT)</div>
+        <div class="sig-name">ISWANDA ADITYA F.</div>
+        <div class="sig-job">Staff IT / Procurement IT</div>
+      </td>
+      <td class="sig-box">
+        <div class="sig-role">Diperiksa Oleh</div>
+        <div class="sig-name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+        <div class="sig-job">Kepala Outlet / Supervisor</div>
+      </td>
+      <td class="sig-box">
+        <div class="sig-role">Disetujui Oleh (Finance)</div>
+        <div class="sig-name">KEN</div>
+        <div class="sig-job">Finance Manager / Management</div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="footer-note">
+    Dokumen ini dicetak secara otomatis melalui Sistem Portal KOV IT Management &bull; Halaman 1 dari 1
+  </div>
+
+</body>
+</html>

@@ -3,6 +3,8 @@ const ejs = require('ejs');
 const path = require('path');
 const fs = require('fs');
 
+const { formatDate, formatDateTime } = require('./dateFormatter');
+
 async function generatePDF(candidateData) {
   const templatePath = path.join(__dirname, '..', 'views', 'pdf_template.ejs');
   
@@ -28,7 +30,7 @@ async function generatePDF(candidateData) {
     logoBase64 = 'data:image/png;base64,' + fs.readFileSync(logoPath).toString('base64');
   }
 
-  const html = await ejs.renderFile(templatePath, { candidate, logoBase64 });
+  const html = await ejs.renderFile(templatePath, { candidate, logoBase64, formatDate, formatDateTime });
 
   let launchOptions = {
     headless: true,

@@ -1,6 +1,7 @@
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+const { formatDate, formatDateTime } = require('./dateFormatter');
 
 async function generateExcel(candidates = []) {
   const workbook = new ExcelJS.Workbook();
@@ -33,18 +34,6 @@ async function generateExcel(candidates = []) {
     left: { style: 'thin', color: { argb: COLORS.BORDER_GRAY } },
     bottom: { style: 'thin', color: { argb: COLORS.BORDER_GRAY } },
     right: { style: 'thin', color: { argb: COLORS.BORDER_GRAY } }
-  };
-
-  // Helper: Format Date string
-  const formatDate = (dateStr) => {
-    if (!dateStr) return '-';
-    try {
-      const d = new Date(dateStr);
-      if (isNaN(d.getTime())) return dateStr;
-      return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-    } catch (e) {
-      return dateStr;
-    }
   };
 
   // =========================================================================
@@ -84,7 +73,7 @@ async function generateExcel(candidates = []) {
   const countDitolak = candidates.filter(c => c.kesimpulan_status === 'Ditolak').length;
   const countBelum = totalCount - (countDiterima + countDipertimbangkan + countDitolak);
 
-  subCell.value = `Tanggal Ekspor: ${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}  |  Total Pelamar: ${totalCount} Orang  [ Diterima: ${countDiterima} | Dipertimbangkan: ${countDipertimbangkan} | Ditolak: ${countDitolak} | Belum Diproses: ${countBelum} ]`;
+  subCell.value = `Tanggal Ekspor: ${formatDateTime(new Date())}  |  Total Pelamar: ${totalCount} Orang  [ Diterima: ${countDiterima} | Dipertimbangkan: ${countDipertimbangkan} | Ditolak: ${countDitolak} | Belum Diproses: ${countBelum} ]`;
   subCell.font = { name: 'Segoe UI', size: 9, italic: true, color: { argb: '595959' } };
   subCell.alignment = { vertical: 'middle', horizontal: 'left' };
   summarySheet.getRow(2).height = 22;

@@ -53,7 +53,7 @@
         <div>
           <span class="text-muted small">Nomor Surat Tugas:</span>
           <h4 class="fw-bold text-success m-0"><%= item.no_surat %></h4>
-          <span class="small text-muted"><i class="fas fa-calendar-day me-1"></i><%= item.kota_surat || 'Semarang' %>, <%= item.tanggal_surat %></span>
+          <span class="small text-muted"><i class="fas fa-calendar-day me-1"></i><%= item.kota_surat || 'Semarang' %>, <%= formatDate(item.tanggal_surat) %></span>
         </div>
         <div class="d-flex align-items-center gap-3">
           <div class="text-end">
@@ -156,7 +156,7 @@
           <div class="col-md-6">
             <label class="text-muted small">Jadwal Perjalanan:</label>
             <div class="fw-bold text-primary">
-              <i class="fas fa-calendar-alt me-1"></i><%= item.tanggal_berangkat || '-' %> s/d <%= item.tanggal_kembali || '-' %>
+              <i class="fas fa-calendar-alt me-1"></i><%= formatDate(item.tanggal_berangkat) %> s/d <%= formatDate(item.tanggal_kembali) %>
             </div>
           </div>
           <div class="col-md-6">
@@ -254,7 +254,7 @@
               <tbody>
                 <tr>
                   <td>Tanggal Berangkat</td>
-                  <td class="fw-bold"><%= item.realisasi_tgl_berangkat || item.tanggal_berangkat || '-' %></td>
+                  <td class="fw-bold"><%= formatDate(item.realisasi_tgl_berangkat || item.tanggal_berangkat) %></td>
                 </tr>
                 <tr>
                   <td>Jam Berangkat</td>
@@ -262,7 +262,7 @@
                 </tr>
                 <tr>
                   <td>Tanggal Kembali</td>
-                  <td class="fw-bold"><%= item.realisasi_tgl_kembali || item.tanggal_kembali || '-' %></td>
+                  <td class="fw-bold"><%= formatDate(item.realisasi_tgl_kembali || item.tanggal_kembali) %></td>
                 </tr>
                 <tr>
                   <td>Jam Kembali</td>

@@ -84,7 +84,9 @@
                 <label for="role" class="form-label fw-semibold small">Role / Hak Akses</label>
                 <select class="form-select" id="role" name="role" required>
                   <option value="admin" selected>Admin HR (Kelola Candidates)</option>
-                  <option value="superadmin">Super Admin (Kelola Candidates & Users)</option>
+                  <option value="operasional">Admin Operasional (BA, PO & Surat Tugas)</option>
+                  <option value="it">Khusus IT (Rekap Pembelanjaan - Maks 1 Akun)</option>
+                  <option value="superadmin">Super Admin (Kelola Seluruh Sistem & Users)</option>
                 </select>
               </div>
 
@@ -124,12 +126,17 @@
                       <td class="fw-semibold text-dark">@<%= u.username %></td>
                       <td><%= u.nama || '-' %></td>
                       <td>
-                        <span class="badge <%= u.role === 'superadmin' ? 'badge-superadmin' : 'badge-admin' %> px-2 py-1">
-                          <i class="fas <%= u.role === 'superadmin' ? 'fa-crown' : 'fa-user-tag' %> me-1"></i>
-                          <%= u.role === 'superadmin' ? 'Super Admin' : 'Admin HR' %>
-                        </span>
+                        <% if (u.role === 'superadmin') { %>
+                          <span class="badge badge-superadmin px-2 py-1"><i class="fas fa-crown me-1"></i>Super Admin</span>
+                        <% } else if (u.role === 'operasional' || u.role === 'admin_operasional') { %>
+                          <span class="badge bg-success px-2 py-1"><i class="fas fa-truck-ramp-box me-1"></i>Operasional</span>
+                        <% } else if (u.role === 'it') { %>
+                          <span class="badge bg-dark border border-info text-info px-2 py-1"><i class="fas fa-laptop-code me-1"></i>Khusus IT (1 Akun)</span>
+                        <% } else { %>
+                          <span class="badge badge-admin px-2 py-1"><i class="fas fa-user-tag me-1"></i>Admin HR</span>
+                        <% } %>
                       </td>
-                      <td class="small text-muted"><%= new Date(u.created_at).toLocaleString('id-ID') %></td>
+                      <td class="small text-muted"><%= formatDate(u.created_at, true) %></td>
                       <td class="text-center pe-4">
                         <% if (u.id === user.id) { %>
                           <span class="badge bg-light text-muted border px-2 py-1 small">Akun Anda</span>

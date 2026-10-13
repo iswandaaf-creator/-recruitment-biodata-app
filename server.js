@@ -19,9 +19,40 @@ const { generatePOPDF } = require('./utils/poPdfGenerator');
 const { generatePOExcel } = require('./utils/poExcelGenerator');
 const { generateSuratTugasPDF } = require('./utils/suratTugasPdfGenerator');
 const { generateSuratTugasExcel } = require('./utils/suratTugasExcelGenerator');
+const { generateITExcel } = require('./utils/itExcelGenerator');
+const { generateITPDF } = require('./utils/itPdfGenerator');
+const { formatDate, formatDateTime } = require('./utils/dateFormatter');
+const fs = require('fs');
+const multer = require('multer');
+const { scanInvoiceDocument } = require('./services/invoiceScannerService');
+
+// Invoices upload folder setup
+const invoiceUploadDir = path.join(__dirname, 'public', 'uploads', 'invoices');
+if (!fs.existsSync(invoiceUploadDir)) {
+  fs.mkdirSync(invoiceUploadDir, { recursive: true });
+}
+
+const invoiceStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, invoiceUploadDir);
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, 'inv-' + unique + ext);
+  }
+});
+
+const uploadInvoice = multer({
+  storage: invoiceStorage,
+  limits: { fileSize: 25 * 1024 * 1024 } // 25MB
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.locals.formatDate = formatDate;
+app.locals.formatDateTime = formatDateTime;
 
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
@@ -35,8 +66,8 @@ app.use(session({
 
 // Global Auth Guard: Semua form & halaman di dalam aplikasi WAJIB login terlebih dahulu
 app.use((req, res, next) => {
-  // 1. Izinkan file asset statis (logo, gambar, css, js, fonts) agar login page tampil sempurna
-  if (req.path.startsWith('/logo') || req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff|woff2|ttf)$/i)) {
+  // 1. Izinkan file asset statis (logo, uploads, gambar, css, js, fonts) agar login page tampil sempurna
+  if (req.path.startsWith('/logo') || req.path.startsWith('/uploads/') || req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff|woff2|ttf|pdf)$/i)) {
     return next();
   }
 
@@ -77,6 +108,41 @@ function requireAuth(req, res, next) {
   res.redirect('/admin/login');
 }
 
+// IT Authorization Middleware (Hanya 1 akun khusus IT yang berhak mengakses)
+function requireITAuth(req, res, next) {
+  if (req.session && req.session.user) {
+    const role = req.session.user.role;
+    if (role === 'it') {
+      return next();
+    }
+  }
+  if (req.method === 'GET') {
+    req.session.returnTo = req.originalUrl;
+  }
+  res.status(403).send(`
+    <!DOCTYPE html>
+    <html lang="id">
+    <head>
+      <meta charset="UTF-8">
+      <title>403 - Akses Ditolak</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    </head>
+    <body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+      <div class="card shadow p-4 text-center border-0" style="max-width: 480px; border-radius: 16px;">
+        <div class="text-danger mb-3" style="font-size: 3.5rem;"><i class="fas fa-user-lock"></i></div>
+        <h4 class="fw-bold text-dark mb-2">Akses Ditolak (403 Forbidden)</h4>
+        <p class="text-muted small mb-4">Modul <strong>Rekap Pembelanjaan IT</strong> bersifat rahasia dan hanya dapat diakses oleh <strong>1 akun khusus IT</strong>.</p>
+        <div class="d-grid gap-2">
+          <a href="/admin/login" class="btn btn-primary fw-semibold"><i class="fas fa-sign-in-alt me-1"></i>Login dengan Akun IT</a>
+          <a href="javascript:history.back()" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-1"></i>Kembali</a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `);
+}
+
 // Operasional Authorization Middleware
 function requireOperasionalAuth(req, res, next) {
   if (req.session && req.session.user) {
@@ -103,6 +169,9 @@ function requireSuperAdmin(req, res, next) {
 app.get('/', requireAuth, (req, res) => {
   if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
     return res.redirect('/admin/operasional');
+  }
+  if (req.session.user.role === 'it') {
+    return res.redirect('/admin/it');
   }
   return res.redirect('/admin');
 });
@@ -135,6 +204,9 @@ app.get('/admin/login', (req, res) => {
     }
     if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
+    }
+    if (req.session.user.role === 'it') {
+      return res.redirect('/admin/it');
     }
     return res.redirect('/admin');
   }
@@ -179,6 +251,9 @@ app.post('/admin/login', (req, res) => {
     if (user.role === 'operasional' || user.role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
     }
+    if (user.role === 'it') {
+      return res.redirect('/admin/it');
+    }
     res.redirect('/admin');
   });
 });
@@ -211,23 +286,38 @@ app.post('/admin/users/create', requireAuth, requireSuperAdmin, (req, res) => {
     return res.redirect('/admin/users?error=Semua+field+wajib+diisi!');
   }
 
-  // Check if username already exists
-  db.get('SELECT id FROM users WHERE username = ?', [username], (err, existing) => {
-    if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
-    if (existing) {
-      return res.redirect('/admin/users?error=' + encodeURIComponent(`Username @${username} sudah digunakan!`));
-    }
-
-    const hash = bcrypt.hashSync(password, 10);
-    db.run(
-      'INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)',
-      [username, hash, nama, role],
-      (err) => {
-        if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
-        res.redirect('/admin/users?success=' + encodeURIComponent(`User @${username} (${role}) berhasil dibuat!`));
+  // Khusus role 'it': Hanya boleh ada tepat 1 akun di seluruh sistem
+  if (role === 'it') {
+    db.get("SELECT id, username FROM users WHERE role = 'it'", [], (err, itUser) => {
+      if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
+      if (itUser) {
+        return res.redirect('/admin/users?error=' + encodeURIComponent(`Gagal: Hanya diperbolehkan tepat 1 akun khusus IT di sistem! (Akun IT saat ini: @${itUser.username})`));
       }
-    );
-  });
+      insertUser();
+    });
+  } else {
+    insertUser();
+  }
+
+  function insertUser() {
+    // Check if username already exists
+    db.get('SELECT id FROM users WHERE username = ?', [username], (err, existing) => {
+      if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
+      if (existing) {
+        return res.redirect('/admin/users?error=' + encodeURIComponent(`Username @${username} sudah digunakan!`));
+      }
+
+      const hash = bcrypt.hashSync(password, 10);
+      db.run(
+        'INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)',
+        [username, hash, nama, role],
+        (err) => {
+          if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
+          res.redirect('/admin/users?success=' + encodeURIComponent(`User @${username} (${role}) berhasil dibuat!`));
+        }
+      );
+    });
+  }
 });
 
 // User Management: Delete User (Super Admin Only)
@@ -1236,6 +1326,453 @@ app.get('/api/operasional/surat-tugas/export/excel', requireOperasionalAuth, (re
   });
 });
 
+// ==========================================
+// MODUL REKAP PEMBELANJAAN KHUSUS IT
+// (Eksklusif & hanya tersedia 1 akun khusus IT)
+// ==========================================
+
+// Dashboard Rekap Pembelanjaan IT (Mendukung Multi-Item per Vendor & Berbasis Outlet)
+app.get('/admin/it', requireAuth, requireITAuth, (req, res) => {
+  db.all('SELECT * FROM it_expenses ORDER BY tanggal DESC, id DESC', [], async (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+
+    const expenses = (rows || []).map(row => {
+      let parsedItems = [];
+      if (row.items_json) {
+        try {
+          parsedItems = JSON.parse(row.items_json);
+        } catch (e) {
+          parsedItems = [];
+        }
+      }
+      if (!parsedItems || parsedItems.length === 0) {
+        parsedItems = [{
+          nama: row.nama_barang || '-',
+          kategori: row.kategori || 'Operasional & Lainnya',
+          qty: Number(row.qty || 1),
+          satuan: row.satuan || 'Unit',
+          harga: Number(row.harga_satuan || 0),
+          subtotal: Number(row.total_biaya || 0)
+        }];
+      }
+      return {
+        ...row,
+        parsedItems
+      };
+    });
+
+    let totalPengeluaran = 0;
+    let pengeluaranBulanIni = 0;
+    let totalPending = 0;
+    const currentYearMonth = new Date().toISOString().slice(0, 7); // 'YYYY-MM'
+
+    const outletStats = {};
+    const kategoriStats = {};
+
+    expenses.forEach(item => {
+      const biaya = Number(item.total_biaya || 0);
+      totalPengeluaran += biaya;
+      if (item.tanggal && item.tanggal.startsWith(currentYearMonth)) {
+        pengeluaranBulanIni += biaya;
+      }
+      if (item.status_bayar !== 'Lunas') {
+        totalPending++;
+      }
+
+      // Outlet stats
+      const outlet = item.unit_outlet || 'Kantor Pusat Semarang';
+      if (!outletStats[outlet]) {
+        outletStats[outlet] = { count: 0, total: 0 };
+      }
+      outletStats[outlet].count++;
+      outletStats[outlet].total += biaya;
+
+      // Kategori stats from item components
+      item.parsedItems.forEach(it => {
+        const kat = it.kategori || 'Operasional & Lainnya';
+        if (!kategoriStats[kat]) {
+          kategoriStats[kat] = { count: 0, total: 0 };
+        }
+        kategoriStats[kat].count++;
+        kategoriStats[kat].total += Number(it.subtotal || 0);
+      });
+    });
+
+    function getBadgeKat(kat) {
+      switch (kat) {
+        case 'Hardware & Komputer': return 'badge-kat-hardware';
+        case 'Jaringan & Network': return 'badge-kat-jaringan';
+        case 'CCTV & Keamanan': return 'badge-kat-cctv';
+        case 'Software & Lisensi': return 'badge-kat-software';
+        case 'Perawatan & Service': return 'badge-kat-service';
+        case 'Aksesoris & Peripheral': return 'badge-kat-aksesoris';
+        default: return 'badge-kat-lainnya';
+      }
+    }
+
+    const vendorList = Array.from(new Set(expenses.map(e => (e.vendor_toko || '').trim()).filter(Boolean))).sort();
+    let geminiKey = '';
+    try {
+      geminiKey = await getGeminiApiKey();
+    } catch (e) {
+      geminiKey = '';
+    }
+
+    res.render('it_admin', {
+      user: req.session.user,
+      expenses,
+      totalPengeluaran,
+      pengeluaranBulanIni,
+      totalPending,
+      outletStats,
+      kategoriStats,
+      outletList: Object.keys(outletStats),
+      vendorList,
+      hasGeminiKey: !!(geminiKey && geminiKey.trim() !== ''),
+      geminiKeyPreview: geminiKey ? (geminiKey.slice(0, 6) + '...' + geminiKey.slice(-4)) : '',
+      getBadgeKat,
+      success: req.query.success || null,
+      error: req.query.error || null
+    });
+  });
+});
+
+// API: Tambah Belanja IT Baru (Multi-Item per Nota)
+app.post('/api/it/expenses', requireAuth, requireITAuth, (req, res) => {
+  const body = req.body;
+  let {
+    tanggal, no_transaksi, unit_outlet,
+    vendor_toko, metode_bayar, status_bayar, bukti_transaksi, keterangan, items_json
+  } = body;
+
+  let items = [];
+  if (items_json) {
+    try {
+      items = typeof items_json === 'string' ? JSON.parse(items_json) : items_json;
+    } catch (e) {
+      items = [];
+    }
+  }
+
+  // Fallback if submitted without items_json
+  if (!items || items.length === 0) {
+    const q = parseInt(body.qty, 10) || 1;
+    const h = parseFloat(body.harga_satuan) || 0;
+    items = [{
+      nama: body.nama_barang || 'Kebutuhan IT',
+      kategori: body.kategori || 'Jaringan & Network',
+      qty: q,
+      satuan: body.satuan || 'Unit',
+      harga: h,
+      subtotal: q * h
+    }];
+  }
+
+  let totalBiaya = 0;
+  let totalQty = 0;
+  items.forEach(it => {
+    it.qty = parseInt(it.qty, 10) || 1;
+    it.harga = parseFloat(it.harga) || 0;
+    it.subtotal = it.qty * it.harga;
+    totalBiaya += it.subtotal;
+    totalQty += it.qty;
+  });
+
+  const mainNama = items.length > 1
+    ? `${items[0].nama} (dan ${items.length - 1} item lainnya)`
+    : (items[0] ? items[0].nama : 'Kebutuhan IT');
+  const mainKat = items[0] ? items[0].kategori : 'Jaringan & Network';
+
+  function saveItem(finalNo) {
+    db.run(`
+      INSERT INTO it_expenses (
+        no_transaksi, tanggal, nama_barang, kategori, unit_outlet,
+        qty, satuan, harga_satuan, total_biaya,
+        vendor_toko, metode_bayar, status_bayar, bukti_transaksi, keterangan, items_json, created_by
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `, [
+      finalNo, tanggal || new Date().toISOString().slice(0, 10), mainNama, mainKat, unit_outlet || 'Kantor Pusat Semarang',
+      totalQty, 'Item', items[0] ? items[0].harga : totalBiaya, totalBiaya,
+      vendor_toko || '', metode_bayar || 'Transfer Bank', status_bayar || 'Lunas',
+      bukti_transaksi || '', keterangan || '', JSON.stringify(items), req.session.user.username || 'it'
+    ], (err) => {
+      if (err) {
+        console.error('Error insert IT expense:', err);
+        return res.redirect('/admin/it?error=' + encodeURIComponent('Gagal menyimpan pembelanjaan: ' + err.message));
+      }
+      res.redirect('/admin/it?success=' + encodeURIComponent(`Catatan belanja ${finalNo} (${unit_outlet}) berhasil disimpan!`));
+    });
+  }
+
+  if (!no_transaksi || no_transaksi.trim() === '') {
+    const ym = (tanggal || new Date().toISOString().slice(0, 10)).slice(0, 7).replace('-', '');
+    db.get('SELECT COUNT(*) as cnt FROM it_expenses WHERE no_transaksi LIKE ?', [`IT-${ym}-%`], (err, row) => {
+      const nextNum = (row ? row.cnt : 0) + 1;
+      const autoNo = `IT-${ym}-${String(nextNum).padStart(3, '0')}`;
+      saveItem(autoNo);
+    });
+  } else {
+    saveItem(no_transaksi.trim());
+  }
+});
+
+// API: Update Belanja IT (Multi-Item per Nota)
+app.post('/api/it/expenses/update/:id', requireAuth, requireITAuth, (req, res) => {
+  const targetId = parseInt(req.params.id, 10);
+  const body = req.body;
+  let {
+    tanggal, no_transaksi, unit_outlet,
+    vendor_toko, metode_bayar, status_bayar, bukti_transaksi, keterangan, items_json
+  } = body;
+
+  let items = [];
+  if (items_json) {
+    try {
+      items = typeof items_json === 'string' ? JSON.parse(items_json) : items_json;
+    } catch (e) {
+      items = [];
+    }
+  }
+
+  if (!items || items.length === 0) {
+    const q = parseInt(body.qty, 10) || 1;
+    const h = parseFloat(body.harga_satuan) || 0;
+    items = [{
+      nama: body.nama_barang || 'Kebutuhan IT',
+      kategori: body.kategori || 'Jaringan & Network',
+      qty: q,
+      satuan: body.satuan || 'Unit',
+      harga: h,
+      subtotal: q * h
+    }];
+  }
+
+  let totalBiaya = 0;
+  let totalQty = 0;
+  items.forEach(it => {
+    it.qty = parseInt(it.qty, 10) || 1;
+    it.harga = parseFloat(it.harga) || 0;
+    it.subtotal = it.qty * it.harga;
+    totalBiaya += it.subtotal;
+    totalQty += it.qty;
+  });
+
+  const mainNama = items.length > 1
+    ? `${items[0].nama} (dan ${items.length - 1} item lainnya)`
+    : (items[0] ? items[0].nama : 'Kebutuhan IT');
+  const mainKat = items[0] ? items[0].kategori : 'Jaringan & Network';
+
+  db.run(`
+    UPDATE it_expenses SET
+      no_transaksi = ?, tanggal = ?, nama_barang = ?, kategori = ?, unit_outlet = ?,
+      qty = ?, satuan = ?, harga_satuan = ?, total_biaya = ?,
+      vendor_toko = ?, metode_bayar = ?, status_bayar = ?, bukti_transaksi = ?,
+      keterangan = ?, items_json = ?, updated_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+  `, [
+    no_transaksi, tanggal, mainNama, mainKat, unit_outlet,
+    totalQty, 'Item', items[0] ? items[0].harga : totalBiaya, totalBiaya,
+    vendor_toko, metode_bayar, status_bayar, bukti_transaksi,
+    keterangan, JSON.stringify(items), targetId
+  ], (err) => {
+    if (err) {
+      console.error('Error update IT expense:', err);
+      return res.redirect('/admin/it?error=' + encodeURIComponent('Gagal memperbarui: ' + err.message));
+    }
+    res.redirect('/admin/it?success=' + encodeURIComponent(`Transaksi #${targetId} (${unit_outlet}) berhasil diperbarui!`));
+  });
+});
+
+// API: Delete Belanja IT
+app.post('/api/it/expenses/delete/:id', requireAuth, requireITAuth, (req, res) => {
+  const targetId = parseInt(req.params.id, 10);
+  db.run('DELETE FROM it_expenses WHERE id = ?', [targetId], (err) => {
+    if (err) {
+      return res.redirect('/admin/it?error=' + encodeURIComponent('Gagal menghapus: ' + err.message));
+    }
+    res.redirect('/admin/it?success=' + encodeURIComponent('Data transaksi pembelanjaan berhasil dihapus!'));
+  });
+});
+
+// ==========================================
+// GOOGLE GEMINI AI - INVOICE SCANNER & OCR
+// ==========================================
+
+// API: Cek Status API Key Gemini
+app.get('/api/it/ai/status', requireAuth, requireITAuth, async (req, res) => {
+  try {
+    const key = await getGeminiApiKey();
+    res.json({
+      success: true,
+      hasKey: !!(key && key.trim() !== ''),
+      keyPreview: key ? (key.slice(0, 6) + '...' + key.slice(-4)) : ''
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// API: Simpan / Perbarui Gemini API Key
+app.post('/api/it/ai/save-key', requireAuth, requireITAuth, async (req, res) => {
+  try {
+    const { api_key } = req.body;
+    if (!api_key || api_key.trim() === '') {
+      return res.status(400).json({ success: false, error: 'Google Gemini API Key tidak boleh kosong!' });
+    }
+    await saveGeminiApiKey(api_key.trim());
+    res.json({
+      success: true,
+      message: 'Google Gemini API Key berhasil disimpan dan siap digunakan!'
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// API: Upload & Scan Invoice secara langsung dengan AI OCR Otomatis (Tanpa API Key)
+app.post('/api/it/ai/scan-invoice', requireAuth, requireITAuth, uploadInvoice.single('invoice_file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: 'Silakan pilih file foto invoice / nota (JPG, PNG, atau PDF) terlebih dahulu.' });
+    }
+
+    const fileUrl = '/uploads/invoices/' + req.file.filename;
+
+    const extractedData = await scanInvoiceDocument(req.file.path, req.file.mimetype, req.file.originalname);
+
+    res.json({
+      success: true,
+      data: extractedData,
+      fileUrl: fileUrl,
+      filename: req.file.originalname
+    });
+  } catch (err) {
+    console.error('[AI Invoice Scan Error]:', err);
+    res.status(500).json({
+      success: false,
+      error: err.message || 'Terjadi kesalahan saat membaca invoice dengan AI Scanner.'
+    });
+  }
+});
+
+// Helper for IT filter query
+function buildITFilterQuery(query) {
+  const selectedOutlet = query.outlet;
+  const selectedVendor = query.vendor;
+  const startDate = query.start_date;
+  const endDate = query.end_date;
+  const keyword = query.keyword || query.item || query.search;
+  const kategori = query.kategori;
+
+  let sql = 'SELECT * FROM it_expenses WHERE 1=1';
+  let params = [];
+
+  if (selectedOutlet && selectedOutlet !== 'ALL' && selectedOutlet !== 'Semua Outlet') {
+    sql += ' AND unit_outlet = ?';
+    params.push(selectedOutlet);
+  }
+
+  if (selectedVendor && selectedVendor !== 'ALL' && selectedVendor !== 'Semua Vendor' && selectedVendor.trim() !== '') {
+    sql += ' AND vendor_toko LIKE ?';
+    params.push(`%${selectedVendor.trim()}%`);
+  }
+
+  if (startDate) {
+    sql += ' AND tanggal >= ?';
+    params.push(startDate);
+  }
+
+  if (endDate) {
+    sql += ' AND tanggal <= ?';
+    params.push(endDate);
+  }
+
+  if (keyword && keyword.trim() !== '') {
+    const kw = `%${keyword.trim()}%`;
+    sql += ' AND (nama_barang LIKE ? OR items_json LIKE ? OR vendor_toko LIKE ? OR no_transaksi LIKE ?)';
+    params.push(kw, kw, kw, kw);
+  }
+
+  if (kategori && kategori !== 'ALL' && kategori !== 'Semua Kategori' && kategori.trim() !== '') {
+    sql += ' AND (kategori = ? OR items_json LIKE ?)';
+    params.push(kategori, `%${kategori}%`);
+  }
+
+  sql += ' ORDER BY tanggal ASC, id ASC';
+
+  const filterOptions = {
+    outlet: (selectedOutlet && selectedOutlet !== 'ALL') ? selectedOutlet : 'Semua Outlet',
+    vendor: (selectedVendor && selectedVendor !== 'ALL' && selectedVendor !== 'Semua Vendor') ? selectedVendor.trim() : '',
+    start_date: startDate || '',
+    end_date: endDate || '',
+    keyword: keyword ? keyword.trim() : '',
+    kategori: (kategori && kategori !== 'ALL' && kategori !== 'Semua Kategori') ? kategori : ''
+  };
+
+  return { sql, params, filterOptions };
+}
+
+// API: Export Rekap Pembelanjaan IT to Excel (Mendukung Filter per Outlet, Tanggal, Item)
+app.get('/api/it/export/excel', requireAuth, requireITAuth, (req, res) => {
+  const { sql, params, filterOptions } = buildITFilterQuery(req.query);
+
+  db.all(sql, params, async (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+
+    try {
+      const buffer = await generateITExcel(rows || [], filterOptions);
+      const cleanOutletName = (filterOptions.outlet || 'Semua_Outlet').replace(/[^a-zA-Z0-9]/g, '_');
+      const filename = `Rekap_Belanja_IT_${cleanOutletName}_${new Date().toISOString().slice(0, 10)}.xlsx`;
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(buffer);
+    } catch (excelErr) {
+      console.error('IT Excel Error:', excelErr);
+      res.status(500).send('Error generating IT Excel: ' + excelErr.message);
+    }
+  });
+});
+
+// API: Export Rekap Pembelanjaan IT to PDF (Mendukung Filter per Outlet, Tanggal, Item)
+app.get('/api/it/export/pdf', requireAuth, requireITAuth, (req, res) => {
+  const { sql, params, filterOptions } = buildITFilterQuery(req.query);
+
+  db.all(sql, params, async (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+
+    try {
+      const pdfBuffer = await generateITPDF(rows || [], filterOptions);
+      const cleanOutletName = (filterOptions.outlet || 'Semua_Outlet').replace(/[^a-zA-Z0-9]/g, '_');
+      const filename = `Rekap_Belanja_IT_${cleanOutletName}_${new Date().toISOString().slice(0, 10)}.pdf`;
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+      res.send(pdfBuffer);
+    } catch (pdfErr) {
+      console.error('IT PDF Error:', pdfErr);
+      res.status(500).send('Error generating IT PDF: ' + pdfErr.message);
+    }
+  });
+});
+
+// API: Ganti Password Akun Khusus IT
+app.post('/api/it/change-password', requireAuth, requireITAuth, (req, res) => {
+  const { new_password, confirm_password } = req.body;
+  if (!new_password || new_password.trim() === '') {
+    return res.redirect('/admin/it?error=' + encodeURIComponent('Password baru tidak boleh kosong!'));
+  }
+  if (new_password !== confirm_password) {
+    return res.redirect('/admin/it?error=' + encodeURIComponent('Konfirmasi password tidak cocok!'));
+  }
+
+  const hash = bcrypt.hashSync(new_password, 10);
+  db.run('UPDATE users SET password = ? WHERE id = ?', [hash, req.session.user.id], (err) => {
+    if (err) {
+      return res.redirect('/admin/it?error=' + encodeURIComponent('Gagal mengubah password: ' + err.message));
+    }
+    res.redirect('/admin/it?success=' + encodeURIComponent('Password akun khusus IT berhasil diperbarui!'));
+  });
+});
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`==================================================`);
   console.log(`Server running on http://localhost:${PORT}`);
@@ -1245,6 +1782,7 @@ app.listen(PORT, '0.0.0.0', () => {
   console.log(`Operasional Surat Tugas Form: http://localhost:${PORT}/surat-tugas`);
   console.log(`Operasional Dashboard: http://localhost:${PORT}/admin/operasional`);
   console.log(`Surat Tugas Dashboard: http://localhost:${PORT}/admin/operasional/surat-tugas`);
+  console.log(`Rekap Pembelanjaan IT (Khusus 1 Akun IT): http://localhost:${PORT}/admin/it`);
   console.log(`Admin Login: http://localhost:${PORT}/admin/login`);
   console.log(`User Management (Super Admin): http://localhost:${PORT}/admin/users`);
   console.log(`==================================================`);

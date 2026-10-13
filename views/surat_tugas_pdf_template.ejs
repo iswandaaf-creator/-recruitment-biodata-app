@@ -231,12 +231,12 @@
       <tr>
         <td style="font-weight: 600;">Tanggal Berangkat</td>
         <td>:</td>
-        <td><%= st.tanggal_berangkat || '-' %></td>
+        <td><%= formatDate(st.tanggal_berangkat) %></td>
       </tr>
       <tr>
         <td style="font-weight: 600;">Tanggal Kembali</td>
         <td>:</td>
-        <td><%= st.tanggal_kembali || '-' %></td>
+        <td><%= formatDate(st.tanggal_kembali) %></td>
       </tr>
       <tr>
         <td style="font-weight: 600;">Keperluan</td>
@@ -257,7 +257,7 @@
 
     <!-- Tanggal & Tanda Tangan -->
     <div style="text-align: right; margin-top: 10px; font-weight: 600;">
-      <%= st.kota_surat || 'Semarang' %>, <%= st.tanggal_surat || new Date().toLocaleDateString('id-ID') %>
+      <%= st.kota_surat || 'Semarang' %>, <%= formatDate(st.tanggal_surat || new Date()) %>
     </div>
 
     <table class="sign-table">
@@ -370,7 +370,7 @@
       <tbody>
         <tr>
           <td>Tanggal Berangkat</td>
-          <td><strong><%= st.realisasi_tgl_berangkat || st.tanggal_berangkat || '-' %></strong></td>
+          <td><strong><%= formatDate(st.realisasi_tgl_berangkat || st.tanggal_berangkat) %></strong></td>
         </tr>
         <tr>
           <td>Jam Berangkat</td>
@@ -378,7 +378,7 @@
         </tr>
         <tr>
           <td>Tanggal Kembali</td>
-          <td><strong><%= st.realisasi_tgl_kembali || st.tanggal_kembali || '-' %></strong></td>
+          <td><strong><%= formatDate(st.realisasi_tgl_kembali || st.tanggal_kembali) %></strong></td>
         </tr>
         <tr>
           <td>Jam Kembali</td>
@@ -475,7 +475,7 @@
 
     <!-- Tanggal & Tanda Tangan LPJ -->
     <div style="text-align: right; margin-top: 10px; font-weight: 600;">
-      <%= st.kota_surat || 'Semarang' %>, <%= st.tanggal_surat || new Date().toLocaleDateString('id-ID') %>
+      <%= st.kota_surat || 'Semarang' %>, <%= formatDate(st.tanggal_surat || new Date()) %>
     </div>
 
     <table class="sign-table">

@@ -371,14 +371,8 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
     document.getElementById('ppn_persen').addEventListener('input', recalculateAll);
     document.getElementById('diskon_nominal').addEventListener('input', recalculateAll);
 
-    // Initial default item sample
-    addItemRow({
-      nama: 'ZYREX D-TECH (R5-3500-8GB-256-W11-BLUE)',
-      spec: 'Ryzen 5 3500 / RAM 8GB / SSD 256GB / Windows 11 / Blue / No Bag',
-      qty: 1,
-      satuan: 'PCS',
-      harga: 6400000
-    });
+    // Initial clean item row
+    addItemRow();
 
     // Signature Pad
     const canvas = document.getElementById('sigCanvas');

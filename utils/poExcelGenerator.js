@@ -1,6 +1,7 @@
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+const { formatDate, formatDateTime } = require('./dateFormatter');
 
 async function generatePOExcel(records) {
   const workbook = new ExcelJS.Workbook();
@@ -31,7 +32,7 @@ async function generatePOExcel(records) {
 
   worksheet.mergeCells('C2:N2');
   const subTitleCell = worksheet.getCell('C2');
-  subTitleCell.value = `Exported Date: ${new Date().toLocaleDateString('id-ID')} | Total PO: ${records.length}`;
+  subTitleCell.value = `Exported Date: ${formatDateTime(new Date())} | Total PO: ${records.length}`;
   subTitleCell.font = { name: 'Segoe UI', size: 10, italic: true, color: { argb: '555555' } };
   subTitleCell.alignment = { vertical: 'middle', horizontal: 'left' };
 
@@ -70,7 +71,7 @@ async function generatePOExcel(records) {
   records.forEach(item => {
     const row = worksheet.addRow({
       no_po: item.no_po || `PO/KOV/${item.id}`,
-      tanggal_po: item.tanggal_po || '',
+      tanggal_po: formatDate(item.tanggal_po),
       vendor_nama: item.vendor_nama || '',
       vendor_nama_dagang: item.vendor_nama_dagang || '',
       perihal: item.perihal || '',

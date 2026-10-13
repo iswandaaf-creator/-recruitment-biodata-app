@@ -1,6 +1,7 @@
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+const { formatDate, formatDateTime } = require('./dateFormatter');
 
 async function generateOperasionalExcel(records) {
   const workbook = new ExcelJS.Workbook();
@@ -31,7 +32,7 @@ async function generateOperasionalExcel(records) {
 
   worksheet.mergeCells('C2:V2');
   const subTitleCell = worksheet.getCell('C2');
-  subTitleCell.value = `Exported Date: ${new Date().toLocaleDateString('id-ID')} | Total Records: ${records.length}`;
+  subTitleCell.value = `Exported Date: ${formatDateTime(new Date())} | Total Records: ${records.length}`;
   subTitleCell.font = { name: 'Segoe UI', size: 10, italic: true, color: { argb: '555555' } };
   subTitleCell.alignment = { vertical: 'middle', horizontal: 'left' };
 
@@ -79,7 +80,7 @@ async function generateOperasionalExcel(records) {
   records.forEach(item => {
     const row = worksheet.addRow({
       no_ba: item.no_ba || `BA/OPS/${item.id}`,
-      tanggal_pengajuan: item.tanggal_pengajuan || '',
+      tanggal_pengajuan: formatDate(item.tanggal_pengajuan),
       outlet_divisi: item.outlet_divisi || '',
       departemen: item.departemen || '',
       pic_pengajuan: item.pic_pengajuan || '',
@@ -99,7 +100,7 @@ async function generateOperasionalExcel(records) {
       sumber_budget: item.sumber_budget || '',
       treatment: item.treatment || '',
       status_approval: item.status_approval || 'Menunggu Approval',
-      created_at: item.created_at || ''
+      created_at: formatDateTime(item.created_at)
     });
 
     row.getCell(13).numFmt = '#,##0'; // harga_satuan_estimasi

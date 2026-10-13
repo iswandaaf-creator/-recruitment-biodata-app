@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const ejs = require('ejs');
 const path = require('path');
 const fs = require('fs');
+const { formatDate, formatDateTime } = require('./dateFormatter');
 
 async function generateSuratTugasPDF(stData) {
   const templatePath = path.join(__dirname, '..', 'views', 'surat_tugas_pdf_template.ejs');
@@ -34,7 +35,7 @@ async function generateSuratTugasPDF(stData) {
     pelaksanaan_tugas
   };
 
-  const html = await ejs.renderFile(templatePath, { st, logoBase64 });
+  const html = await ejs.renderFile(templatePath, { st, logoBase64, formatDate, formatDateTime });
 
   let launchOptions = {
     headless: true,

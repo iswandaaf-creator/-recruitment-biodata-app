@@ -177,7 +177,7 @@
         </tr>
         <tr>
           <td class="bold">Tempat/Tanggal Lahir</td>
-          <td>: <%= candidate.tempat_lahir || '' %>, <%= candidate.tanggal_lahir || '' %></td>
+          <td>: <%= candidate.tempat_lahir || '' %>, <%= formatDate(candidate.tanggal_lahir) %></td>
           <td class="bold">Agama</td>
           <td>: <%= candidate.agama || '' %> &nbsp; <b>Gol. Darah:</b> <%= candidate.golongan_darah || '' %></td>
         </tr>
@@ -544,7 +544,7 @@
       </div>
 
       <div style="margin-top: 10px; width: 220px; float: right; text-align: center;">
-        <div><%= candidate.kota_ttd || 'Semarang' %>, <%= candidate.tanggal_ttd || '' %></div>
+        <div><%= candidate.kota_ttd || 'Semarang' %>, <%= formatDate(candidate.tanggal_ttd) %></div>
         <div style="height: 50px; margin: 4px 0;">
           <% if (candidate.signature_data) { %>
             <img src="<%= candidate.signature_data %>" style="max-height: 48px; max-width: 180px;">
@@ -591,7 +591,7 @@
                 <td style="border: none; border-top: 1px solid #000;">Jabatan : <%= cw.jabatan || '' %></td>
               </tr>
               <tr>
-                <td style="border: none; border-top: 1px solid #000;">Tanggal : <%= cw.tanggal || '' %></td>
+                <td style="border: none; border-top: 1px solid #000;">Tanggal : <%= formatDate(cw.tanggal) %></td>
               </tr>
             </table>
           </td>
@@ -612,9 +612,9 @@
         </tr>
         <tr>
           <td class="bold">Tanggal Join</td>
-          <td>: <%= candidate.tgl_join || '-' %></td>
+          <td>: <%= formatDate(candidate.tgl_join) %></td>
           <td class="bold">Tanggal Resign</td>
-          <td>: <%= candidate.tgl_resign || '-' %></td>
+          <td>: <%= formatDate(candidate.tgl_resign) %></td>
         </tr>
       </table>
 

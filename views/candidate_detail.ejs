@@ -61,7 +61,7 @@
                 <% duplicates.forEach(dup => { %>
                   <a href="/admin/candidate/<%= dup.id %>" class="btn btn-sm <%= dup.id === candidate.id ? 'btn-warning fw-bold border-dark' : 'btn-outline-secondary' %> py-1 px-2 text-start">
                     <i class="fas <%= dup.id === candidate.id ? 'fa-check-circle' : 'fa-history' %> me-1"></i>
-                    ID #<%= dup.id %> (<%= new Date(dup.created_at).toLocaleDateString('id-ID') %>)
+                    ID #<%= dup.id %> (<%= formatDate(dup.created_at) %>)
                     <span class="badge bg-dark bg-opacity-75 ms-1"><%= dup.kesimpulan_status || 'Belum Diproses' %></span>
                     <% if (dup.id === candidate.id) { %> <span class="badge bg-danger ms-1">Sedang Dibuka</span> <% } %>
                   </a>
@@ -97,7 +97,7 @@
                 <span><i class="fas fa-phone me-1 text-primary"></i><%= candidate.no_hp %></span>
               </div>
               <div class="small text-secondary">
-                Submitted at: <%= new Date(candidate.created_at).toLocaleString('id-ID') %> | Ref ID: #<%= candidate.id %>
+                Submitted at: <%= formatDate(candidate.created_at, true) %> | Ref ID: #<%= candidate.id %>
               </div>
             </div>
           </div>
@@ -252,15 +252,15 @@
           <div class="col-md-4"><strong>Nama Lengkap:</strong> <%= candidate.nama_lengkap %></div>
           <div class="col-md-4"><strong>Nama Panggilan:</strong> <%= candidate.nama_panggilan || '-' %></div>
           <div class="col-md-4"><strong>Jenis Kelamin:</strong> <%= candidate.jenis_kelamin %></div>
-          <div class="col-md-4"><strong>TTL:</strong> <%= candidate.tempat_lahir %>, <%= candidate.tanggal_lahir %></div>
+          <div class="col-md-4"><strong>TTL:</strong> <%= candidate.tempat_lahir %>, <%= formatDate(candidate.tanggal_lahir) %></div>
           <div class="col-md-4"><strong>No KTP:</strong> <%= candidate.nomor_ktp || '-' %></div>
           <div class="col-md-4"><strong>Nomor KK:</strong> <%= candidate.nomor_kk || '-' %></div>
           <div class="col-md-4"><strong>No Rekening:</strong> <%= candidate.no_rekening || '-' %></div>
           <div class="col-md-4"><strong>Status Nikah:</strong> <%= candidate.status_perkawinan %></div>
           <div class="col-md-4"><strong>Gaji Pokok:</strong> <%= candidate.gaji_pokok || '-' %></div>
           <div class="col-md-4"><strong>Produktivitas:</strong> <%= candidate.produktivitas || '-' %></div>
-          <div class="col-md-4"><strong>Tgl Join:</strong> <%= candidate.tgl_join || '-' %></div>
-          <div class="col-md-4"><strong>Tgl Resign:</strong> <%= candidate.tgl_resign || '-' %></div>
+          <div class="col-md-4"><strong>Tgl Join:</strong> <%= formatDate(candidate.tgl_join) %></div>
+          <div class="col-md-4"><strong>Tgl Resign:</strong> <%= formatDate(candidate.tgl_resign) %></div>
           <div class="col-md-6"><strong>Alamat KTP:</strong> <%= candidate.alamat_ktp %> (<%= candidate.kota_ktp %>)</div>
           <div class="col-md-6"><strong>Alamat Domisili:</strong> <%= candidate.alamat_domisili %> (<%= candidate.kota_domisili %>)</div>
           <div class="col-md-6"><strong>Alasan Rekrutmen:</strong> <%= candidate.alasan_rekrutmen || '-' %></div>

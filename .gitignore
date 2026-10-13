@@ -7,4 +7,5 @@ db/*.sqlite*
 *.sqlite*
 *.sqlite-wal
 *.sqlite-shm
-
+public/uploads/*
+!public/uploads/**/.gitkeep
