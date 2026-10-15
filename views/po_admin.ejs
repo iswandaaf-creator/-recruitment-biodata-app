@@ -4,50 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Purchase Order (PO) - Operasional KOV</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .navbar-operasional { background: linear-gradient(135deg, #0f5132 0%, #198754 100%); }
-    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .metric-card { transition: transform 0.2s ease; }
-    .metric-card:hover { transform: translateY(-3px); }
-    .nav-tabs .nav-link { color: #555; font-weight: 600; border: none; padding: 0.75rem 1.25rem; }
-    .nav-tabs .nav-link.active { color: #0f5132; border-bottom: 3px solid #0f5132; background: none; }
+    :root {
+      --kov-emerald: #059669;
+      --kov-slate-900: #0f172a;
+      --kov-slate-800: #1e293b;
+      --kov-border: #e2e8f0;
+    }
+    * {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body { background-color: #f8fafc; color: #1e293b; }
+    .top-navbar-operasional {
+      background: #064e3b;
+      border-bottom: 1px solid #065f46;
+      padding: 0.75rem 1.5rem;
+    }
+    .card {
+      border: 1px solid var(--kov-border);
+      border-radius: 14px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+      background: #ffffff;
+    }
+    .nav-btn {
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
   </style>
 </head>
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-operasional shadow-sm">
-    <div class="container-fluid px-4">
-      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional/po">
-        <img src="/logo_kov_hijau.png" alt="KOV Logo" height="34" class="me-2" style="object-fit: contain;">
-        <span>Dashboard Operasional - Purchase Order (PO)</span>
+  <header class="top-navbar-operasional shadow-sm">
+    <div class="container-fluid px-2 d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <a class="d-flex align-items-center text-decoration-none text-white" href="/admin/operasional/po">
+        <div class="bg-white p-1 rounded-3 me-2 d-flex align-items-center justify-content-center" style="height: 38px; width: 38px;">
+          <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 28px; width: auto; object-fit: contain;">
+        </div>
+        <div>
+          <div class="fw-bold fs-6">Dashboard Operasional - Purchase Order (PO)</div>
+          <div class="text-white-50" style="font-size: 0.75rem;">Sistem Pengadaan & Penerbitan PO</div>
+        </div>
       </a>
-      <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
         <% if (typeof user !== 'undefined' && user) { %>
-          <span class="text-white me-2 small">
-            <i class="fas fa-user-circle me-1"></i><%= user.nama || user.username %> (<%= user.role %>)
+          <span class="text-white px-2 py-1 rounded small" style="background: rgba(255,255,255,0.12);">
+            <i class="fas fa-circle-user me-1 text-light"></i><%= user.nama || user.username %> (<%= user.role %>)
           </span>
           <% if (user.role === 'superadmin') { %>
-            <a href="/admin" class="btn btn-outline-light btn-sm fw-semibold me-1">
-              <i class="fas fa-user-tie me-1"></i>Switch to HR
+            <a href="/admin" class="btn btn-outline-light nav-btn">
+              <i class="fas fa-user-tie"></i> Switch to HR
             </a>
           <% } %>
         <% } %>
-        <a href="/admin/operasional/po/create" class="btn btn-light text-success btn-sm fw-bold">
-          <i class="fas fa-plus me-1"></i>Buat PO Baru
+        <a href="/admin/operasional/po/create" class="btn btn-warning nav-btn text-dark fw-bold">
+          <i class="fas fa-plus"></i> Buat PO Baru
         </a>
-        <a href="/api/operasional/po/export/excel" class="btn btn-success btn-sm fw-semibold">
-          <i class="fas fa-file-excel me-1"></i>Export All PO to Excel
+        <a href="/api/operasional/po/export/excel" class="btn btn-success nav-btn" style="background-color: #10b981; border-color: #10b981;">
+          <i class="fas fa-file-excel"></i> Export Excel
         </a>
-        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold ms-2">
-          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        <a href="/admin/logout" class="btn btn-outline-danger nav-btn text-white border-light border-opacity-25 ms-2">
+          <i class="fas fa-arrow-right-from-bracket"></i> Logout
         </a>
       </div>
     </div>
-  </nav>
+  </header>
 
   <div class="container-fluid px-4 py-4">
 

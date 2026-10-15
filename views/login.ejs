@@ -3,88 +3,219 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login HR Admin - Rekrutmen Candidates</title>
+  <title>Login - KOV Management Portal</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
+    :root {
+      --kov-emerald: #059669;
+      --kov-emerald-dark: #065f46;
+      --kov-emerald-light: #ecfdf5;
+      --kov-slate-900: #0f172a;
+      --kov-slate-800: #1e293b;
+      --kov-slate-100: #f1f5f9;
+      --kov-slate-50: #f8fafc;
+      --kov-border: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
     body {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      background: radial-gradient(circle at 15% 15%, rgba(5, 150, 105, 0.15) 0%, transparent 40%),
+                  radial-gradient(circle at 85% 85%, rgba(15, 23, 42, 0.1) 0%, transparent 40%),
+                  #0b1324;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 1.5rem;
+      color: #334155;
     }
-    .login-card {
+
+    .auth-card {
       width: 100%;
-      max-width: 420px;
-      border: none;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
       overflow: hidden;
+      animation: fadeIn 0.4s ease-out;
     }
-    .login-header {
-      background: linear-gradient(135deg, #1f4e78 0%, #2f5597 100%);
-      color: white;
-      padding: 30px 20px;
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .auth-header {
+      padding: 2.5rem 2rem 1.5rem;
       text-align: center;
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--kov-border);
     }
-    .login-header i {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
+
+    .brand-logo-wrap {
+      width: 76px;
+      height: 76px;
+      background: #ffffff;
+      border-radius: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 16px rgba(5, 150, 105, 0.12), 0 0 0 1px rgba(226, 232, 240, 0.8);
+      margin-bottom: 1rem;
+      padding: 8px;
     }
+
+    .brand-logo-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .auth-body {
+      padding: 2rem;
+    }
+
+    .form-control {
+      font-size: 0.925rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      color: #1e293b;
+      transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--kov-emerald);
+      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+    }
+
+    .input-group-text {
+      background-color: #f8fafc;
+      border-color: #cbd5e1;
+      border-radius: 10px 0 0 10px;
+      color: #64748b;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .input-group .form-control:not(:first-child) {
+      border-left: none;
+    }
+
+    .input-group:focus-within .input-group-text {
+      border-color: var(--kov-emerald);
+      color: var(--kov-emerald);
+    }
+
     .btn-login {
-      background: linear-gradient(135deg, #1f4e78 0%, #2f5597 100%);
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
       border: none;
-      padding: 12px;
+      color: #ffffff;
       font-weight: 600;
-      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      padding: 0.85rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+      transition: all 0.2s ease;
     }
+
     .btn-login:hover {
-      opacity: 0.9;
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
       transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.35);
+      color: #ffffff;
+    }
+
+    .portal-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: #ecfdf5;
+      color: #065f46;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .portal-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+
+    .footer-note {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 1.5rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="card login-card">
-    <div class="login-header">
-      <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 60px; max-width: 180px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));">
-      <h4 class="fw-bold mb-1">KOV Management Portal</h4>
-      <p class="small text-white-50 mb-0">Masuk untuk mengakses Form & Dashboard (HR, Operasional & Rekap IT)</p>
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="brand-logo-wrap">
+        <img src="/logo_kov_hijau.png" alt="KOV Logo">
+      </div>
+      <div>
+        <div class="portal-pill">
+          <span class="dot"></span> Internal Management System
+        </div>
+      </div>
+      <h4 class="fw-bold text-dark mb-1">KOV Management Portal</h4>
+      <p class="text-muted small mb-0">Masuk untuk mengelola HR, Operasional, PO & Rekap IT</p>
     </div>
-    <div class="card-body p-4 bg-white">
+
+    <div class="auth-body">
       <% if (error) { %>
-        <div class="alert alert-danger alert-dismissible fade show text-center py-2 small mb-4" role="alert">
-          <i class="fas fa-exclamation-circle me-1"></i> <%= error %>
-          <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="alert alert-danger d-flex align-items-center rounded-3 py-2 px-3 small mb-4" role="alert">
+          <i class="fas fa-circle-exclamation me-2 fs-6"></i>
+          <div><%= error %></div>
+          <button type="button" class="btn-close ms-auto py-1" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
       <% } %>
 
       <form action="/admin/login" method="POST">
         <div class="mb-3">
-          <label for="username" class="form-label text-secondary fw-semibold small">Username</label>
+          <label for="username" class="form-label text-dark fw-semibold small mb-1">Username</label>
           <div class="input-group">
-            <span class="input-group-text bg-light"><i class="fas fa-user text-muted"></i></span>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username" required autofocus>
+            <span class="input-group-text"><i class="fas fa-user-shield"></i></span>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username admin" required autofocus>
           </div>
         </div>
 
         <div class="mb-4">
-          <label for="password" class="form-label text-secondary fw-semibold small">Password</label>
+          <label for="password" class="form-label text-dark fw-semibold small mb-1">Password</label>
           <div class="input-group">
-            <span class="input-group-text bg-light"><i class="fas fa-lock text-muted"></i></span>
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
             <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
-            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-              <i class="fas fa-eye" id="eyeIcon"></i>
+            <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border-color: #cbd5e1; border-left: none; background: #fff;">
+              <i class="fas fa-eye text-muted" id="eyeIcon"></i>
             </button>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-login w-100 mb-0">
-          <i class="fas fa-sign-in-alt me-2"></i>Masuk Ke Dashboard
+        <button type="submit" class="btn btn-login w-100 mb-2">
+          <i class="fas fa-arrow-right-to-bracket me-2"></i>Masuk ke Portal
         </button>
+
+        <div class="footer-note">
+          &copy; <%= new Date().getFullYear() %> KOV Group. Akses terbatas untuk staf berwenang.
+        </div>
       </form>
     </div>
   </div>

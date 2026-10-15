@@ -4,22 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Operasional - Berita Acara Pengajuan Barang</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .navbar-operasional { background: linear-gradient(135deg, #0f5132 0%, #198754 100%); }
-    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .metric-card { transition: transform 0.2s ease; }
-    .metric-card:hover { transform: translateY(-3px); }
-    .badge-status-Menunggu { background-color: #ffc107; color: #212529; }
-    .badge-status-Disetujui { background-color: #198754; color: white; }
-    .badge-status-Ditolak { background-color: #dc3545; color: white; }
-    .badge-status-Proses { background-color: #0d6efd; color: white; }
-    .badge-status-Selesai { background-color: #20c997; color: white; }
-    .badge-priority-Normal { background-color: #0d6efd; }
-    .badge-priority-Urgent { background-color: #fd7e14; }
-    .badge-priority-Critical { background-color: #dc3545; }
+    :root {
+      --kov-emerald: #059669;
+      --kov-slate-900: #0f172a;
+      --kov-slate-800: #1e293b;
+      --kov-border: #e2e8f0;
+    }
+    * {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body { background-color: #f8fafc; color: #1e293b; }
+    
+    .top-navbar-operasional {
+      background: #064e3b;
+      border-bottom: 1px solid #065f46;
+      padding: 0.75rem 1.5rem;
+    }
+    
+    .nav-btn {
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 0.45rem 0.9rem;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card {
+      border: 1px solid var(--kov-border);
+      border-radius: 14px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+      background: #ffffff;
+    }
+
+    .metric-card-modern {
+      background: #ffffff;
+      border: 1px solid var(--kov-border);
+      border-radius: 14px;
+      padding: 1.2rem;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .metric-card-modern:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.06);
+    }
+    .metric-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    
+    .badge-status-Menunggu { background-color: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .badge-status-Disetujui { background-color: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .badge-status-Ditolak { background-color: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .badge-status-Proses { background-color: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+    .badge-status-Selesai { background-color: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    
     .sortable-header { cursor: pointer; user-select: none; }
     .sortable-header:hover { background-color: #e2e8f0; }
   </style>
@@ -27,45 +81,50 @@
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-operasional shadow-sm">
-    <div class="container-fluid px-4">
-      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional">
-        <img src="/logo_kov_hijau.png" alt="KOV Logo" height="34" class="me-2" style="object-fit: contain;">
-        <span>Dashboard Operasional - BA Pengajuan Barang</span>
+  <header class="top-navbar-operasional shadow-sm">
+    <div class="container-fluid px-2 d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <a class="d-flex align-items-center text-decoration-none text-white" href="/admin/operasional">
+        <div class="bg-white p-1 rounded-3 me-2 d-flex align-items-center justify-content-center" style="height: 38px; width: 38px;">
+          <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 28px; width: auto; object-fit: contain;">
+        </div>
+        <div>
+          <div class="fw-bold fs-6">Dashboard Operasional</div>
+          <div class="text-white-50" style="font-size: 0.75rem;">Berita Acara Pengadaan & Surat Tugas</div>
+        </div>
       </a>
-      <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
         <% if (typeof user !== 'undefined' && user) { %>
-          <span class="text-white me-2 small">
-            <i class="fas fa-user-circle me-1"></i><%= user.nama || user.username %> (<%= user.role %>)
+          <span class="text-white px-2 py-1 rounded small" style="background: rgba(255,255,255,0.12);">
+            <i class="fas fa-circle-user me-1 text-light"></i><%= user.nama || user.username %> (<%= user.role %>)
           </span>
           <% if (user.role === 'superadmin') { %>
-            <a href="/admin" class="btn btn-outline-light btn-sm fw-semibold me-1">
-              <i class="fas fa-user-tie me-1"></i>Switch to Dashboard HR
+            <a href="/admin" class="btn btn-outline-light nav-btn">
+              <i class="fas fa-user-tie"></i> Switch to HR
             </a>
-            <a href="/admin/users" class="btn btn-warning btn-sm fw-semibold me-1">
-              <i class="fas fa-user-gear me-1"></i>Kelola User
+            <a href="/admin/users" class="btn btn-warning nav-btn text-dark">
+              <i class="fas fa-users-gear"></i> Kelola User
             </a>
           <% } %>
         <% } %>
-        <button class="btn btn-light btn-sm fw-semibold" onclick="generateAndCopyShareLink()">
-          <i class="fas fa-random me-1 text-success"></i>Copy Share Link Form (Acak)
+        <button class="btn btn-light nav-btn" onclick="generateAndCopyShareLink()">
+          <i class="fas fa-shuffle text-success"></i> Salin Link Acak
         </button>
-        <a href="/api/operasional/export/excel" class="btn btn-success btn-sm fw-semibold">
-          <i class="fas fa-file-excel me-1"></i>Export Excel
+        <a href="/api/operasional/export/excel" class="btn btn-success nav-btn" style="background-color: #10b981; border-color: #10b981;">
+          <i class="fas fa-file-excel"></i> Export Excel
         </a>
-        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold ms-2">
-          <i class="fas fa-sign-out-alt me-1"></i>Logout
+        <a href="/admin/logout" class="btn btn-outline-danger nav-btn text-white border-light border-opacity-25 ms-2">
+          <i class="fas fa-arrow-right-from-bracket"></i> Logout
         </a>
       </div>
     </div>
-  </nav>
+  </header>
 
   <div class="container-fluid px-4 py-4">
 
     <!-- Sub-menu Tabs Operasional -->
-    <ul class="nav nav-tabs mb-4 border-bottom" style="border-bottom: 2px solid #dee2e6;">
+    <ul class="nav nav-pills mb-4 gap-2 bg-white p-2 rounded-3 border">
       <li class="nav-item">
-        <a class="nav-link active fw-bold text-success border-bottom border-success border-3" href="/admin/operasional">
+        <a class="nav-link active fw-bold bg-success" style="background-color: #059669 !important;" href="/admin/operasional">
           <i class="fas fa-boxes-packing me-2"></i>Berita Acara Pengajuan Barang
         </a>
       </li>
@@ -82,62 +141,108 @@
     </ul>
 
     <!-- Share Link Alert Banner -->
-    <div class="alert alert-success d-flex align-items-center justify-content-between rounded-3 mb-4 shadow-sm" role="alert">
+    <div class="alert alert-success d-flex align-items-center justify-content-between rounded-3 mb-4 shadow-sm bg-white border border-success-subtle" role="alert">
       <div>
-        <i class="fas fa-share-nodes me-2 fs-5"></i>
+        <i class="fas fa-share-nodes text-success me-2 fs-5"></i>
         <strong>Link Form Unik Operasional (Acak):</strong> 
-        <span id="shareUrl" class="user-select-all fw-mono bg-white text-dark px-2 py-1 rounded border ms-1"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/pengajuan-barang?ref=c-8f3a921d</span>
+        <span id="shareUrl" class="user-select-all fw-mono bg-light text-dark px-2 py-1 rounded border ms-1"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/pengajuan-barang?ref=c-8f3a921d</span>
       </div>
-      <button class="btn btn-success btn-sm px-3 fw-bold" onclick="copyShareUrl()">
+      <button class="btn btn-success btn-sm px-3 fw-bold" style="background-color: #059669; border-color: #059669;" onclick="copyShareUrl()">
         <i class="fas fa-copy me-1"></i>Salin Link
       </button>
     </div>
 
-    <!-- Summary Metrics Cards -->
+    <!-- Summary Metrics Cards (Bento Style) -->
     <div class="row g-3 mb-4">
       <div class="col-md-2">
-        <div class="card metric-card bg-primary text-white p-3 text-center">
-          <div class="fs-4 fw-bold"><%= records.length %></div>
-          <div class="small">Total Pengajuan</div>
+        <div class="metric-card-modern">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small fw-bold text-uppercase">Total Pengajuan</div>
+              <div class="fs-4 fw-bold text-dark"><%= records.length %></div>
+            </div>
+            <div class="metric-icon-box" style="background: #eff6ff; color: #2563eb;">
+              <i class="fas fa-boxes-stacked"></i>
+            </div>
+          </div>
         </div>
       </div>
       <div class="col-md-2">
-        <div class="card metric-card bg-warning text-dark p-3 text-center">
-          <div class="fs-4 fw-bold">
-            <%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %>
+        <div class="metric-card-modern">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small fw-bold text-uppercase">Menunggu</div>
+              <div class="fs-4 fw-bold text-warning" style="color: #d97706 !important;">
+                <%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %>
+              </div>
+            </div>
+            <div class="metric-icon-box" style="background: #fffbeb; color: #d97706;">
+              <i class="fas fa-clock"></i>
+            </div>
           </div>
-          <div class="small">Menunggu Approval</div>
         </div>
       </div>
       <div class="col-md-2">
-        <div class="card metric-card bg-success text-white p-3 text-center">
-          <div class="fs-4 fw-bold">
-            <%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %>
+        <div class="metric-card-modern">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small fw-bold text-uppercase">Disetujui</div>
+              <div class="fs-4 fw-bold text-success" style="color: #059669 !important;">
+                <%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %>
+              </div>
+            </div>
+            <div class="metric-icon-box" style="background: #ecfdf5; color: #059669;">
+              <i class="fas fa-circle-check"></i>
+            </div>
           </div>
-          <div class="small">Disetujui</div>
         </div>
       </div>
       <div class="col-md-2">
-        <div class="card metric-card bg-info text-white p-3 text-center">
-          <div class="fs-4 fw-bold">
-            <%= records.filter(r => (r.status_approval || '').includes('Proses')).length %>
+        <div class="metric-card-modern">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small fw-bold text-uppercase">Dalam Proses</div>
+              <div class="fs-4 fw-bold text-primary">
+                <%= records.filter(r => (r.status_approval || '').includes('Proses')).length %>
+              </div>
+            </div>
+            <div class="metric-icon-box" style="background: #eff6ff; color: #3b82f6;">
+              <i class="fas fa-spinner"></i>
+            </div>
           </div>
-          <div class="small">Dalam Proses</div>
         </div>
       </div>
       <div class="col-md-2">
-        <div class="card metric-card bg-danger text-white p-3 text-center">
-          <div class="fs-4 fw-bold">
-            <%= records.filter(r => (r.status_approval || '') === 'Ditolak').length %>
+        <div class="metric-card-modern">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small fw-bold text-uppercase">Ditolak</div>
+              <div class="fs-4 fw-bold text-danger">
+                <%= records.filter(r => (r.status_approval || '') === 'Ditolak').length %>
+              </div>
+            </div>
+            <div class="metric-icon-box" style="background: #fef2f2; color: #ef4444;">
+              <i class="fas fa-circle-xmark"></i>
+            </div>
           </div>
-          <div class="small">Ditolak</div>
         </div>
       </div>
       <div class="col-md-2">
-        <div class="card metric-card bg-dark text-white p-3 text-center">
-          <div class="fs-6 fw-bold">
-            Rp <%= records.reduce((acc, r) => acc + (r.total_estimasi || 0), 0).toLocaleString('id-ID') %>
+        <div class="metric-card-modern">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <div class="text-muted small fw-bold text-uppercase">Estimasi Biaya</div>
+              <div class="fs-6 fw-bold text-dark mt-1">
+                Rp <%= records.reduce((acc, r) => acc + (r.total_estimasi || 0), 0).toLocaleString('id-ID') %>
+              </div>
+            </div>
+            <div class="metric-icon-box" style="background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0;">
+              <i class="fas fa-wallet"></i>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
           <div class="small">Total Biaya Estimasi</div>
         </div>
       </div>
