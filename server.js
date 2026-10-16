@@ -64,9 +64,9 @@ app.use(session({
   cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 Hours
 }));
 
-// Global Auth Guard: Semua form & halaman di dalam aplikasi WAJIB login terlebih dahulu
+// Global Auth Guard: Rute publik untuk form pelamar ber-token, login, dan asset; rute internal wajib login
 app.use((req, res, next) => {
-  // 1. Izinkan file asset statis (logo, uploads, gambar, css, js, fonts) agar login page tampil sempurna
+  // 1. Izinkan file asset statis (logo, uploads, gambar, css, js, fonts)
   if (req.path.startsWith('/logo') || req.path.startsWith('/uploads/') || req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff|woff2|ttf|pdf)$/i)) {
     return next();
   }
@@ -76,12 +76,47 @@ app.use((req, res, next) => {
     return next();
   }
 
-  // 3. Untuk SEMUA form (HR, BA, Surat Tugas), halaman admin, maupun API: Wajib Login
+  // 3. Akses Formulir Pelamar Kerja: HANYA jika diberikan link oleh HRD (ada parameter ?ref= atau ?token=)
+  if (req.path === '/' || req.path === '/index.html' || req.path === '/form-kandidat' || req.path === '/apply') {
+    const token = req.query.ref || req.query.token || req.query.ref_code;
+    if (token && token.trim().length > 0) {
+      // Dibuka menggunakan link resmi dari HRD
+      return res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    }
+
+    // Jika tanpa link dari HRD dan user sudah login sebagai staf, arahkan ke dashboard rolenya:
+    if (req.session && req.session.user) {
+      if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
+        return res.redirect('/admin/operasional');
+      }
+      if (req.session.user.role === 'it') {
+        return res.redirect('/admin/it');
+      }
+      return res.redirect('/admin');
+    }
+
+    // Jika tanpa link dari HRD dan belum login, langsung diarahkan ke halaman login admin
+    return res.redirect('/admin/login');
+  }
+
+  // 4. Pengiriman form biodata pelamar (/api/submit): izinkan jika membawa token dari HRD
+  if (req.path === '/api/submit' && req.method === 'POST') {
+    if (req.body && (req.body.share_token || req.body.ref || req.body.token)) {
+      return next();
+    }
+    return res.status(403).json({ success: false, error: 'Akses ditolak: Formulir pendaftaran pelamar wajib melalui tautan resmi yang diberikan oleh HRD.' });
+  }
+
+  // 5. Halaman sukses pelamar
+  if (req.path === '/success.html') {
+    return res.sendFile(path.join(__dirname, 'public', 'success.html'));
+  }
+
+  // 6. Rute internal lainnya (Admin, BA Operasional, PO, Surat Tugas, IT) WAJIB login
   if (!req.session || !req.session.user) {
     if (req.path.startsWith('/api/')) {
       return res.status(401).json({ success: false, error: 'Akses ditolak: Anda wajib login terlebih dahulu untuk mengakses sistem ini.' });
     }
-    // Simpan URL form yang sedang dituju agar otomatis redirect setelah login berhasil
     if (req.method === 'GET') {
       req.session.returnTo = req.originalUrl;
     }
@@ -91,13 +126,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Static files (dilindungi di bawah auth guard untuk file HTML)
+// Static files (dilindungi di bawah auth guard)
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Authentication Middleware
+// Authentication Middleware Umum
 function requireAuth(req, res, next) {
   if (req.session && req.session.user) {
     return next();
@@ -108,47 +143,58 @@ function requireAuth(req, res, next) {
   res.redirect('/admin/login');
 }
 
-// IT Authorization Middleware (Hanya 1 akun khusus IT yang berhak mengakses)
-function requireITAuth(req, res, next) {
+// HR Authorization Middleware (Otomatis arahkan sesuai role akun)
+function requireHRAuth(req, res, next) {
   if (req.session && req.session.user) {
     const role = req.session.user.role;
-    if (role === 'it') {
+    if (role === 'superadmin' || role === 'hr') {
       return next();
+    }
+    if (role === 'operasional' || role === 'admin_operasional') {
+      return res.redirect('/admin/operasional');
+    }
+    if (role === 'it') {
+      return res.redirect('/admin/it');
     }
   }
   if (req.method === 'GET') {
     req.session.returnTo = req.originalUrl;
   }
-  res.status(403).send(`
-    <!DOCTYPE html>
-    <html lang="id">
-    <head>
-      <meta charset="UTF-8">
-      <title>403 - Akses Ditolak</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    </head>
-    <body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-      <div class="card shadow p-4 text-center border-0" style="max-width: 480px; border-radius: 16px;">
-        <div class="text-danger mb-3" style="font-size: 3.5rem;"><i class="fas fa-user-lock"></i></div>
-        <h4 class="fw-bold text-dark mb-2">Akses Ditolak (403 Forbidden)</h4>
-        <p class="text-muted small mb-4">Modul <strong>Rekap Pembelanjaan IT</strong> bersifat rahasia dan hanya dapat diakses oleh <strong>1 akun khusus IT</strong>.</p>
-        <div class="d-grid gap-2">
-          <a href="/admin/login" class="btn btn-primary fw-semibold"><i class="fas fa-sign-in-alt me-1"></i>Login dengan Akun IT</a>
-          <a href="javascript:history.back()" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-1"></i>Kembali</a>
-        </div>
-      </div>
-    </body>
-    </html>
-  `);
+  res.redirect('/admin/login');
 }
 
-// Operasional Authorization Middleware
+// Operasional Authorization Middleware (Otomatis arahkan sesuai role akun)
 function requireOperasionalAuth(req, res, next) {
   if (req.session && req.session.user) {
     const role = req.session.user.role;
     if (role === 'superadmin' || role === 'operasional' || role === 'admin_operasional') {
       return next();
+    }
+    if (role === 'it') {
+      return res.redirect('/admin/it');
+    }
+    if (role === 'hr') {
+      return res.redirect('/admin');
+    }
+  }
+  if (req.method === 'GET') {
+    req.session.returnTo = req.originalUrl;
+  }
+  res.redirect('/admin/login');
+}
+
+// IT Authorization Middleware (Otomatis arahkan sesuai role akun)
+function requireITAuth(req, res, next) {
+  if (req.session && req.session.user) {
+    const role = req.session.user.role;
+    if (role === 'superadmin' || role === 'it') {
+      return next();
+    }
+    if (role === 'operasional' || role === 'admin_operasional') {
+      return res.redirect('/admin/operasional');
+    }
+    if (role === 'hr') {
+      return res.redirect('/admin');
     }
   }
   if (req.method === 'GET') {
@@ -165,15 +211,22 @@ function requireSuperAdmin(req, res, next) {
   res.status(403).send('<h3>Forbidden 403: Akses ditolak. Hanya Super Admin yang dapat mengakses kelola user.</h3><a href="/admin">Kembali ke Dashboard</a>');
 }
 
-// Root Page (Requires Login)
-app.get('/', requireAuth, (req, res) => {
-  if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
-    return res.redirect('/admin/operasional');
+// Root Page
+app.get('/', (req, res) => {
+  const token = req.query.ref || req.query.token || req.query.ref_code;
+  if (token && token.trim().length > 0) {
+    return res.sendFile(path.join(__dirname, 'public', 'index.html'));
   }
-  if (req.session.user.role === 'it') {
-    return res.redirect('/admin/it');
+  if (req.session && req.session.user) {
+    if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
+      return res.redirect('/admin/operasional');
+    }
+    if (req.session.user.role === 'it') {
+      return res.redirect('/admin/it');
+    }
+    return res.redirect('/admin');
   }
-  return res.redirect('/admin');
+  return res.redirect('/admin/login');
 });
 
 // HR Candidate Form (Requires Login)
@@ -485,8 +538,8 @@ app.post('/api/submit', (req, res) => {
   });
 });
 
-// Admin Dashboard (Protected)
-app.get('/admin', requireAuth, (req, res) => {
+// Admin Dashboard (Protected - HR & Superadmin only)
+app.get('/admin', requireHRAuth, (req, res) => {
   db.all('SELECT * FROM candidates ORDER BY id DESC', [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
 
@@ -552,8 +605,8 @@ app.get('/admin', requireAuth, (req, res) => {
   });
 });
 
-// Candidate Detail & Interview Notes Page (Protected)
-app.get('/admin/candidate/:id', requireAuth, (req, res) => {
+// Candidate Detail & Interview Notes Page (Protected - HR & Superadmin only)
+app.get('/admin/candidate/:id', requireHRAuth, (req, res) => {
   db.get('SELECT * FROM candidates WHERE id = ?', [req.params.id], (err, row) => {
     if (err || !row) return res.status(404).send('Candidate not found');
 
@@ -592,8 +645,8 @@ app.get('/admin/candidate/:id', requireAuth, (req, res) => {
   });
 });
 
-// Save Interview Notes (Page 5) (Protected)
-app.post('/admin/candidate/:id/interview', requireAuth, (req, res) => {
+// Save Interview Notes (Page 5) (Protected - HR & Superadmin only)
+app.post('/admin/candidate/:id/interview', requireHRAuth, (req, res) => {
   const body = req.body;
   const cw1 = JSON.stringify({ catatan: body.cw1_catatan, nama: body.cw1_nama, jabatan: body.cw1_jabatan, tanggal: body.cw1_tanggal });
   const cw2 = JSON.stringify({ catatan: body.cw2_catatan, nama: body.cw2_nama, jabatan: body.cw2_jabatan, tanggal: body.cw2_tanggal });
