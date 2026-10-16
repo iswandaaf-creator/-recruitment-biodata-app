@@ -59,18 +59,54 @@ app.set('trust proxy', 1);
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+const SESSION_TIMEOUT_MS = 2 * 60 * 60 * 1000; // 2 Jam (7,200,000 ms)
+
 app.use(session({
   name: 'kov_portal_session_id',
   secret: 'kov_portal_secret_key_2026_secured',
   resave: false,
   saveUninitialized: false,
+  rolling: true, // Reset batas kedaluwarsa cookie pada setiap request baru (aktivitas aktif)
   cookie: { 
-    maxAge: 24 * 60 * 60 * 1000,
+    maxAge: SESSION_TIMEOUT_MS,
     httpOnly: true,
     sameSite: 'lax',
     secure: false
   }
 }));
+
+// Auto-Logout Inactivity Guard: Logout otomatis jika tidak ada aktivitas selama 2 jam
+app.use((req, res, next) => {
+  if (req.session && req.session.user) {
+    const now = Date.now();
+    if (req.session.lastActivity && (now - req.session.lastActivity > SESSION_TIMEOUT_MS)) {
+      return req.session.destroy(() => {
+        res.clearCookie('kov_portal_session_id');
+        res.clearCookie('connect.sid');
+        if (req.path.startsWith('/api/')) {
+          return res.status(401).json({
+            success: false,
+            error: 'Sesi Anda telah berakhir karena tidak ada aktivitas selama 2 jam. Silakan login kembali.'
+          });
+        }
+        return res.redirect('/admin/login?expired=1');
+      });
+    }
+    // Perbarui waktu aktivitas terakhir
+    req.session.lastActivity = now;
+  }
+  next();
+});
+
+// Endpoint keep-alive untuk sinkronisasi aktivitas dari browser
+app.get('/api/keep-alive', (req, res) => {
+  if (req.session && req.session.user) {
+    req.session.lastActivity = Date.now();
+    return res.json({ success: true, timestamp: req.session.lastActivity });
+  }
+  return res.status(401).json({ success: false, error: 'Unauthorized' });
+});
+
 
 // Global Auth Guard: Rute publik untuk form pelamar ber-token, login, dan asset; rute internal wajib login
 app.use((req, res, next) => {
@@ -223,15 +259,20 @@ app.get('/', (req, res) => {
     return res.sendFile(path.join(__dirname, 'public', 'index.html'));
   }
   if (req.session && req.session.user) {
-    if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
+    const role = (req.session.user.role || '').toLowerCase().trim();
+    if (role === 'operasional' || role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
     }
-    if (req.session.user.role === 'it') {
+    if (role === 'it') {
       return res.redirect('/admin/it');
     }
-    return res.redirect('/admin');
+    if (role === 'superadmin' || role === 'admin' || role === 'hr') {
+      return res.redirect('/admin');
+    }
+    delete req.session.user;
   }
-  return res.render('login', { error: null });
+  const errorMsg = req.query.expired ? 'Sesi login Anda telah berakhir karena tidak ada aktivitas selama 2 jam. Silakan login kembali.' : null;
+  return res.render('login', { error: errorMsg });
 });
 
 // HR Candidate Form (Requires Login)
@@ -268,7 +309,8 @@ app.get('/admin/login', (req, res) => {
     // Jika ada session dengan role rusak/tidak valid, bersihkan agar bisa render form login
     delete req.session.user;
   }
-  res.render('login', { error: null });
+  const errorMsg = req.query.expired ? 'Sesi login Anda telah berakhir karena tidak ada aktivitas selama 2 jam. Silakan login kembali.' : null;
+  res.render('login', { error: errorMsg });
 });
 
 // Admin Login Process
@@ -300,6 +342,7 @@ app.post('/admin/login', (req, res) => {
       nama: user.nama,
       role: cleanRole
     };
+    req.session.lastActivity = Date.now();
 
     delete req.session.returnTo;
 
