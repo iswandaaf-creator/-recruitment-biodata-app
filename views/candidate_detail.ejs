@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
+  <script>
+    (function() {
+      try {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, document.title, '/');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail & Interview Note - <%= candidate.nama_lengkap %></title>
@@ -55,7 +67,7 @@
           <span class="text-white-50 me-2 small">
             <i class="fas fa-circle-user me-1 text-light"></i><%= user.nama || user.username %>
           </span>
-          <% if (user.role === 'superadmin') { %>
+          <% if (user.role === 'superadmin' || user.role === 'admin') { %>
             <a href="/admin/users" class="btn btn-warning btn-sm fw-semibold me-1">
               <i class="fas fa-users-gear me-1"></i>Kelola User
             </a>
@@ -64,7 +76,7 @@
         <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn btn-danger btn-sm fw-semibold">
           <i class="fas fa-file-pdf me-1"></i>Download 5-Page PDF
         </a>
-        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold ms-2">
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-light btn-sm fw-semibold ms-2">
           <i class="fas fa-arrow-right-from-bracket me-1"></i>Logout
         </a>
       </div>

@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
+  <script>
+    (function() {
+      try {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, document.title, '/');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Rekrutmen HR - KOV Portal</title>
@@ -295,19 +307,19 @@
             <span class="text-white-50 ms-1">(<%= user.role %>)</span>
           </div>
 
-          <% if (user.role === 'superadmin' || user.role === 'operasional') { %>
+          <% if (user.role === 'superadmin' || user.role === 'admin' || user.role === 'operasional') { %>
             <a href="/admin/operasional" class="btn btn-outline-light nav-btn">
               <i class="fas fa-boxes-stacked text-warning"></i> Operasional & PO
             </a>
           <% } %>
 
-          <% if (user.role === 'superadmin' || user.role === 'it') { %>
+          <% if (user.role === 'superadmin' || user.role === 'admin' || user.role === 'it') { %>
             <a href="/admin/it" class="btn btn-outline-light nav-btn">
               <i class="fas fa-laptop-code text-info"></i> Rekap IT
             </a>
           <% } %>
 
-          <% if (user.role === 'superadmin') { %>
+          <% if (user.role === 'superadmin' || user.role === 'admin') { %>
             <a href="/admin/users" class="btn btn-warning nav-btn text-dark">
               <i class="fas fa-users-gear"></i> Kelola User
             </a>
@@ -318,7 +330,7 @@
           <i class="fas fa-file-excel"></i> Export Excel
         </a>
 
-        <a href="/admin/logout" class="btn btn-outline-danger nav-btn text-white border-secondary">
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-danger nav-btn text-white border-secondary">
           <i class="fas fa-arrow-right-from-bracket"></i> Logout
         </a>
       </div>

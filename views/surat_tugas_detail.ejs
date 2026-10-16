@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
+  <script>
+    (function() {
+      try {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, document.title, '/');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail Surat Tugas - <%= item.no_surat %></title>

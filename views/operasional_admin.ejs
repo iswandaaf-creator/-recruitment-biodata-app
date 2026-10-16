@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
+  <script>
+    (function() {
+      try {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, document.title, '/');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Operasional - Berita Acara Pengajuan Barang</title>
@@ -97,7 +109,7 @@
           <span class="text-white px-2 py-1 rounded small" style="background: rgba(255,255,255,0.12);">
             <i class="fas fa-circle-user me-1 text-light"></i><%= user.nama || user.username %> (<%= user.role %>)
           </span>
-          <% if (user.role === 'superadmin') { %>
+          <% if (user.role === 'superadmin' || user.role === 'admin') { %>
             <a href="/admin" class="btn btn-outline-light nav-btn">
               <i class="fas fa-user-tie"></i> Switch to HR
             </a>
@@ -112,7 +124,7 @@
         <a href="/api/operasional/export/excel" class="btn btn-success nav-btn" style="background-color: #10b981; border-color: #10b981;">
           <i class="fas fa-file-excel"></i> Export Excel
         </a>
-        <a href="/admin/logout" class="btn btn-outline-danger nav-btn text-white border-light border-opacity-25 ms-2">
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-danger nav-btn text-white border-light border-opacity-25 ms-2">
           <i class="fas fa-arrow-right-from-bracket"></i> Logout
         </a>
       </div>
@@ -352,7 +364,7 @@
                         <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" class="btn btn-outline-danger" title="Download Official PDF BA">
                           <i class="fas fa-file-pdf"></i>
                         </a>
-                        <% if (typeof user !== 'undefined' && user && user.role === 'superadmin') { %>
+                        <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
                           <button class="btn btn-outline-danger" onclick="deleteRecord(<%= item.id %>, '<%= item.no_ba || item.nama_barang %>')" title="Hapus BA">
                             <i class="fas fa-trash-can"></i>
                           </button>

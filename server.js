@@ -54,14 +54,22 @@ const PORT = process.env.PORT || 3000;
 app.locals.formatDate = formatDate;
 app.locals.formatDateTime = formatDateTime;
 
+app.set('trust proxy', 1);
+
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(session({
-  secret: 'hr_recruitment_secret_key_2026',
+  name: 'kov_portal_session_id',
+  secret: 'kov_portal_secret_key_2026_secured',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 Hours
+  cookie: { 
+    maxAge: 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: false
+  }
 }));
 
 // Global Auth Guard: Rute publik untuk form pelamar ber-token, login, dan asset; rute internal wajib login
@@ -86,17 +94,22 @@ app.use((req, res, next) => {
 
     // Jika tanpa link dari HRD dan user sudah login sebagai staf, arahkan ke dashboard rolenya:
     if (req.session && req.session.user) {
-      if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
+      const role = (req.session.user.role || '').toLowerCase().trim();
+      if (role === 'operasional' || role === 'admin_operasional') {
         return res.redirect('/admin/operasional');
       }
-      if (req.session.user.role === 'it') {
+      if (role === 'it') {
         return res.redirect('/admin/it');
       }
-      return res.redirect('/admin');
+      if (role === 'superadmin' || role === 'admin' || role === 'hr') {
+        return res.redirect('/admin');
+      }
+      // Role tidak dikenali: bersihkan user agar tidak loop
+      delete req.session.user;
     }
 
-    // Jika tanpa link dari HRD dan belum login, langsung diarahkan ke halaman login admin
-    return res.redirect('/admin/login');
+    // Jika tanpa link dari HRD dan belum login, tampilkan halaman login langsung (URL address bar tetap bersih di '/')
+    return res.render('login', { error: null });
   }
 
   // 4. Pengiriman form biodata pelamar (/api/submit): izinkan jika membawa token dari HRD
@@ -117,9 +130,6 @@ app.use((req, res, next) => {
     if (req.path.startsWith('/api/')) {
       return res.status(401).json({ success: false, error: 'Akses ditolak: Anda wajib login terlebih dahulu untuk mengakses sistem ini.' });
     }
-    if (req.method === 'GET') {
-      req.session.returnTo = req.originalUrl;
-    }
     return res.redirect('/admin/login');
   }
 
@@ -137,17 +147,14 @@ function requireAuth(req, res, next) {
   if (req.session && req.session.user) {
     return next();
   }
-  if (req.method === 'GET') {
-    req.session.returnTo = req.originalUrl;
-  }
   res.redirect('/admin/login');
 }
 
 // HR Authorization Middleware (Otomatis arahkan sesuai role akun)
 function requireHRAuth(req, res, next) {
   if (req.session && req.session.user) {
-    const role = req.session.user.role;
-    if (role === 'superadmin' || role === 'hr') {
+    const role = (req.session.user.role || '').toLowerCase().trim();
+    if (role === 'superadmin' || role === 'admin' || role === 'hr') {
       return next();
     }
     if (role === 'operasional' || role === 'admin_operasional') {
@@ -156,9 +163,8 @@ function requireHRAuth(req, res, next) {
     if (role === 'it') {
       return res.redirect('/admin/it');
     }
-  }
-  if (req.method === 'GET') {
-    req.session.returnTo = req.originalUrl;
+    // Unknown role: hapus agar tidak redirect loop
+    delete req.session.user;
   }
   res.redirect('/admin/login');
 }
@@ -166,8 +172,8 @@ function requireHRAuth(req, res, next) {
 // Operasional Authorization Middleware (Otomatis arahkan sesuai role akun)
 function requireOperasionalAuth(req, res, next) {
   if (req.session && req.session.user) {
-    const role = req.session.user.role;
-    if (role === 'superadmin' || role === 'operasional' || role === 'admin_operasional') {
+    const role = (req.session.user.role || '').toLowerCase().trim();
+    if (role === 'superadmin' || role === 'admin' || role === 'operasional' || role === 'admin_operasional') {
       return next();
     }
     if (role === 'it') {
@@ -176,9 +182,7 @@ function requireOperasionalAuth(req, res, next) {
     if (role === 'hr') {
       return res.redirect('/admin');
     }
-  }
-  if (req.method === 'GET') {
-    req.session.returnTo = req.originalUrl;
+    delete req.session.user;
   }
   res.redirect('/admin/login');
 }
@@ -186,8 +190,8 @@ function requireOperasionalAuth(req, res, next) {
 // IT Authorization Middleware (Otomatis arahkan sesuai role akun)
 function requireITAuth(req, res, next) {
   if (req.session && req.session.user) {
-    const role = req.session.user.role;
-    if (role === 'superadmin' || role === 'it') {
+    const role = (req.session.user.role || '').toLowerCase().trim();
+    if (role === 'superadmin' || role === 'admin' || role === 'it') {
       return next();
     }
     if (role === 'operasional' || role === 'admin_operasional') {
@@ -196,17 +200,18 @@ function requireITAuth(req, res, next) {
     if (role === 'hr') {
       return res.redirect('/admin');
     }
-  }
-  if (req.method === 'GET') {
-    req.session.returnTo = req.originalUrl;
+    delete req.session.user;
   }
   res.redirect('/admin/login');
 }
 
-// Super Admin Authorization Middleware
+// Super Admin & Admin Authorization Middleware
 function requireSuperAdmin(req, res, next) {
-  if (req.session && req.session.user && req.session.user.role === 'superadmin') {
-    return next();
+  if (req.session && req.session.user) {
+    const role = (req.session.user.role || '').toLowerCase().trim();
+    if (role === 'superadmin' || role === 'admin') {
+      return next();
+    }
   }
   res.status(403).send('<h3>Forbidden 403: Akses ditolak. Hanya Super Admin yang dapat mengakses kelola user.</h3><a href="/admin">Kembali ke Dashboard</a>');
 }
@@ -226,7 +231,7 @@ app.get('/', (req, res) => {
     }
     return res.redirect('/admin');
   }
-  return res.redirect('/admin/login');
+  return res.render('login', { error: null });
 });
 
 // HR Candidate Form (Requires Login)
@@ -250,18 +255,18 @@ app.get('/form-surat-tugas', requireAuth, (req, res) => {
 // Admin Login Page
 app.get('/admin/login', (req, res) => {
   if (req.session && req.session.user) {
-    const returnTo = req.session.returnTo;
-    if (returnTo && returnTo !== '/' && returnTo !== '/admin/login') {
-      delete req.session.returnTo;
-      return res.redirect(returnTo);
-    }
-    if (req.session.user.role === 'operasional' || req.session.user.role === 'admin_operasional') {
+    const role = (req.session.user.role || '').toLowerCase().trim();
+    if (role === 'operasional' || role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
     }
-    if (req.session.user.role === 'it') {
+    if (role === 'it') {
       return res.redirect('/admin/it');
     }
-    return res.redirect('/admin');
+    if (role === 'superadmin' || role === 'admin' || role === 'hr') {
+      return res.redirect('/admin');
+    }
+    // Jika ada session dengan role rusak/tidak valid, bersihkan agar bisa render form login
+    delete req.session.user;
   }
   res.render('login', { error: null });
 });
@@ -287,33 +292,36 @@ app.post('/admin/login', (req, res) => {
       return res.render('login', { error: 'Username atau password salah!' });
     }
 
+    const cleanRole = (user.role || '').toLowerCase().trim();
+
     req.session.user = {
       id: user.id,
       username: user.username,
       nama: user.nama,
-      role: user.role
+      role: cleanRole
     };
 
-    // Arahkan ke URL form tujuan jika sebelumnya dicegat oleh auth guard
-    const returnTo = req.session.returnTo;
-    if (returnTo && returnTo !== '/' && returnTo !== '/admin/login') {
-      delete req.session.returnTo;
-      return res.redirect(returnTo);
-    }
+    delete req.session.returnTo;
 
-    if (user.role === 'operasional' || user.role === 'admin_operasional') {
-      return res.redirect('/admin/operasional');
-    }
-    if (user.role === 'it') {
-      return res.redirect('/admin/it');
-    }
-    res.redirect('/admin');
+    req.session.save((saveErr) => {
+      if (saveErr) console.error('Session save error:', saveErr);
+
+      if (cleanRole === 'operasional' || cleanRole === 'admin_operasional') {
+        return res.redirect('/admin/operasional');
+      }
+      if (cleanRole === 'it') {
+        return res.redirect('/admin/it');
+      }
+      return res.redirect('/admin');
+    });
   });
 });
 
 // Admin Logout
 app.get('/admin/logout', (req, res) => {
   req.session.destroy(() => {
+    res.clearCookie('kov_portal_session_id');
+    res.clearCookie('connect.sid');
     res.redirect('/admin/login');
   });
 });

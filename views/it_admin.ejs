@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
+  <script>
+    (function() {
+      try {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, document.title, '/');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rekap Pembelanjaan IT per Outlet - KOV Group</title>
@@ -181,7 +193,7 @@
           <i class="fas fa-key me-1"></i>Ganti Password
         </button>
 
-        <a href="/admin/logout" class="btn btn-outline-light btn-sm fw-semibold ms-2">
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-light btn-sm fw-semibold ms-2">
           <i class="fas fa-sign-out-alt me-1"></i>Logout
         </a>
       </div>
