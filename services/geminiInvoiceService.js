@@ -60,7 +60,7 @@ async function parseInvoiceWithGemini(filePath, mimeType, customApiKey = '') {
   const ai = new GoogleGenAI({ apiKey });
 
   const prompt = `
-Anda adalah AI asisten akuntansi & IT KOV Group (PT PUTRI SERUPUT INDONESIA).
+Anda adalah AI asisten akuntansi & IT KOV Group.
 Tugas Anda adalah membaca, menganalisis, dan mengekstrak data dari foto/dokumen nota belanja, invoice, faktur, kwitansi, atau resi pembelian IT ini secara teliti dan akurat.
 
 Keluarkan hasil HANYA dalam format JSON valid (tanpa markdown wrap, tanpa teks lain) dengan skema berikut:
