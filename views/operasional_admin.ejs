@@ -118,6 +118,9 @@
             </a>
           <% } %>
         <% } %>
+        <a href="/pengajuan-barang" target="_blank" class="btn btn-warning nav-btn text-dark fw-bold">
+          <i class="fas fa-plus"></i> Buat Form BA
+        </a>
         <button class="btn btn-light nav-btn" onclick="generateAndCopyShareLink()">
           <i class="fas fa-shuffle text-success"></i> Salin Link Acak
         </button>
@@ -152,16 +155,21 @@
       </li>
     </ul>
 
-    <!-- Share Link Alert Banner -->
-    <div class="alert alert-success d-flex align-items-center justify-content-between rounded-3 mb-4 shadow-sm bg-white border border-success-subtle" role="alert">
+    <!-- Share Link Alert Banner (Untuk Dibagikan ke Karyawan / PIC Outlet) -->
+    <div class="alert alert-success d-flex align-items-center justify-content-between rounded-3 mb-4 shadow-sm bg-white border border-success-subtle flex-wrap gap-2" role="alert">
       <div>
         <i class="fas fa-share-nodes text-success me-2 fs-5"></i>
-        <strong>Link Form Unik Operasional (Acak):</strong> 
-        <span id="shareUrl" class="user-select-all fw-mono bg-light text-dark px-2 py-1 rounded border ms-1"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/pengajuan-barang?ref=c-8f3a921d</span>
+        <strong>Link Form Publik Berita Acara (Untuk PIC Outlet / Karyawan):</strong> 
+        <span id="shareUrl" class="user-select-all fw-mono bg-light text-dark px-2 py-1 rounded border ms-1"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/pengajuan-barang</span>
       </div>
-      <button class="btn btn-success btn-sm px-3 fw-bold" style="background-color: #059669; border-color: #059669;" onclick="copyShareUrl()">
-        <i class="fas fa-copy me-1"></i>Salin Link
-      </button>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-success btn-sm px-3 fw-bold" style="background-color: #059669; border-color: #059669;" onclick="copyShareUrl()">
+          <i class="fas fa-copy me-1"></i>Salin Link Form
+        </button>
+        <a href="/pengajuan-barang" id="openFormBtn" target="_blank" class="btn btn-outline-success btn-sm px-3 fw-bold bg-white text-success border-success">
+          <i class="fas fa-external-link-alt me-1"></i>Buka Form
+        </a>
+      </div>
     </div>
 
     <!-- Summary Metrics Cards (Bento Style) -->
@@ -289,8 +297,8 @@
             </select>
           </div>
           <div class="col-md-2 text-end">
-            <a href="/pengajuan-barang?ref=admin" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
-              <i class="fas fa-external-link-alt me-1"></i>Buka Form Public
+            <a href="/pengajuan-barang" target="_blank" class="btn btn-success btn-sm fw-bold">
+              <i class="fas fa-file-circle-plus me-1"></i>Buat Form BA
             </a>
           </div>
         </div>
@@ -390,23 +398,27 @@
     window.addEventListener('DOMContentLoaded', () => {
       const initialUrl = `${window.location.origin}/pengajuan-barang?ref=${generateRandomToken()}`;
       document.getElementById('shareUrl').innerText = initialUrl;
+      const openBtn = document.getElementById('openFormBtn');
+      if (openBtn) openBtn.href = initialUrl;
     });
 
     function generateRandomToken() {
-      return 'c-' + Math.random().toString(36).substring(2, 10);
+      return 'ops-' + Math.random().toString(36).substring(2, 10);
     }
     function generateAndCopyShareLink() {
       const newToken = generateRandomToken();
       const newUrl = `${window.location.origin}/pengajuan-barang?ref=${newToken}`;
       document.getElementById('shareUrl').innerText = newUrl;
+      const openBtn = document.getElementById('openFormBtn');
+      if (openBtn) openBtn.href = newUrl;
       navigator.clipboard.writeText(newUrl).then(() => {
-        alert('Link Form Unik Operasional berhasil disalin:\n' + newUrl);
+        alert('Link Form Berita Acara untuk Karyawan/PIC berhasil disalin:\n' + newUrl);
       });
     }
     function copyShareUrl() {
       const text = document.getElementById('shareUrl').innerText;
       navigator.clipboard.writeText(text).then(() => {
-        alert('Link disalin ke clipboard:\n' + text);
+        alert('Link Form berhasil disalin ke clipboard:\n' + text + '\n\nSilakan kirimkan ke Karyawan / PIC Outlet terkait (Dapat diisi langsung tanpa perlu akun login).');
       });
     }
 

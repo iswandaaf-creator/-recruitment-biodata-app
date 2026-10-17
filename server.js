@@ -161,7 +161,28 @@ app.use((req, res, next) => {
     return res.sendFile(path.join(__dirname, 'public', 'success.html'));
   }
 
-  // 6. Rute internal lainnya (Admin, BA Operasional, PO, Surat Tugas, IT) WAJIB login
+  // 6. Formulir Operasional Publik (BA Pengajuan Barang & Surat Tugas) untuk Karyawan/PIC outlet tanpa akun login
+  if (
+    req.path === '/pengajuan-barang' || 
+    req.path === '/pengajuan_barang.html' || 
+    req.path === '/surat-tugas' || 
+    req.path === '/form-surat-tugas' || 
+    req.path === '/surat_tugas.html'
+  ) {
+    return next();
+  }
+
+  // 7. API Submit & Download PDF Tunggal Formulir Publik Operasional (Pengajuan Barang & Surat Tugas)
+  if (
+    (req.path === '/api/operasional/submit' && req.method === 'POST') ||
+    (req.path === '/api/operasional/surat-tugas/submit' && req.method === 'POST') ||
+    req.path.startsWith('/api/operasional/export/pdf/') ||
+    req.path.startsWith('/api/operasional/surat-tugas/export/pdf/')
+  ) {
+    return next();
+  }
+
+  // 8. Rute internal lainnya (Admin HR, BA Operasional Dashboard, PO, IT, User Management) WAJIB login
   if (!req.session || !req.session.user) {
     if (req.path.startsWith('/api/')) {
       return res.status(401).json({ success: false, error: 'Akses ditolak: Anda wajib login terlebih dahulu untuk mengakses sistem ini.' });
@@ -280,16 +301,19 @@ app.get('/form-kandidat', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// BA Pengajuan Barang Form (Requires Login)
-app.get('/pengajuan-barang', requireAuth, (req, res) => {
+// BA Pengajuan Barang Form (Publik untuk PIC Outlet & Karyawan)
+app.get('/pengajuan-barang', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
+});
+app.get('/admin/operasional/create', requireOperasionalAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pengajuan_barang.html'));
 });
 
-// Surat Tugas & LPJ Form (Requires Login)
-app.get('/surat-tugas', requireAuth, (req, res) => {
+// Surat Tugas & LPJ Form (Publik untuk Karyawan Dinas Luar Kota)
+app.get('/surat-tugas', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'surat_tugas.html'));
 });
-app.get('/form-surat-tugas', requireAuth, (req, res) => {
+app.get('/form-surat-tugas', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'surat_tugas.html'));
 });
 
@@ -995,8 +1019,8 @@ app.post('/admin/operasional/delete/:id', requireAuth, requireSuperAdmin, (req, 
   });
 });
 
-// Export Operasional PDF Single BA (Protected)
-app.get('/api/operasional/export/pdf/:id', requireOperasionalAuth, (req, res) => {
+// Export Operasional PDF Single BA
+app.get('/api/operasional/export/pdf/:id', (req, res) => {
   db.get('SELECT * FROM pengajuan_barang WHERE id = ?', [req.params.id], async (err, row) => {
     if (err || !row) return res.status(404).send('Berita Acara tidak ditemukan.');
 
@@ -1395,8 +1419,8 @@ app.post('/admin/operasional/surat-tugas/delete/:id', requireAuth, requireSuperA
   });
 });
 
-// Export PDF Single Surat Tugas & LPJ (Protected)
-app.get('/api/operasional/surat-tugas/export/pdf/:id', requireOperasionalAuth, (req, res) => {
+// Export PDF Single Surat Tugas & LPJ
+app.get('/api/operasional/surat-tugas/export/pdf/:id', (req, res) => {
   db.get('SELECT * FROM surat_tugas WHERE id = ?', [req.params.id], async (err, row) => {
     if (err || !row) return res.status(404).send('Surat Tugas tidak ditemukan.');
 
