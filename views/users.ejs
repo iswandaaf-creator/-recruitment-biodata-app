@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
   <script>
@@ -10,10 +12,9 @@
     })();
   </script>
 
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kelola User - KOV Portal</title>
+  <title>Kelola User & Hak Akses Reviewer - KOV Portal</title>
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,6 +47,24 @@
     .badge-admin { background-color: #0284c7; color: white; }
     .badge-operasional { background-color: #059669; color: white; }
     .badge-it { background-color: #0891b2; color: white; }
+    .badge-user { background-color: #ea580c; color: white; }
+    
+    .div-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .div-kitchen { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
+    .div-barista { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .div-operasional { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .div-hr { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+    .div-teknisi { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .div-fat { background: #ede9fe; color: #5b21b6; border: 1px solid #ddd6fe; }
+    .div-it { background: #cffafe; color: #0e7490; border: 1px solid #a5f3fc; }
   </style>
 </head>
 <body>
@@ -57,8 +76,11 @@
         <a href="/admin" class="btn btn-outline-light btn-sm fw-semibold">
           <i class="fas fa-arrow-left me-1"></i> Dashboard HR
         </a>
+        <a href="/reviewer" class="btn btn-outline-info btn-sm fw-semibold">
+          <i class="fas fa-clipboard-check me-1"></i> Portal Reviewer
+        </a>
         <span class="text-white fw-bold fs-6 ms-2">
-          <i class="fas fa-users-gear text-warning me-2"></i>Kelola User & Hak Akses
+          <i class="fas fa-users-gear text-warning me-2"></i>Kelola User & Hak Akses Reviewer
         </span>
       </div>
       <div class="d-flex align-items-center gap-2">
@@ -74,7 +96,7 @@
     </div>
   </nav>
 
-  <div class="container py-4">
+  <div class="container-fluid px-4 py-4">
 
     <!-- Alert Messages -->
     <% if (success) { %>
@@ -92,42 +114,81 @@
 
     <div class="row g-4">
       <!-- Create User Card -->
-      <div class="col-lg-4">
+      <div class="col-xl-4 col-lg-5">
         <div class="card h-100">
           <div class="card-header bg-white py-3 border-bottom">
             <h5 class="mb-0 fw-bold text-primary">
-              <i class="fas fa-user-plus me-2"></i>Tambah User Baru
+              <i class="fas fa-user-plus me-2"></i>Tambah Pengguna Baru
             </h5>
+            <small class="text-muted">Buat akun staf, reviewer divisi, atau admin sistem</small>
           </div>
           <div class="card-body p-4">
-            <form action="/admin/users/create" method="POST">
+            <form action="/admin/users/create" method="POST" id="createForm">
               <div class="mb-3">
-                <label for="username" class="form-label fw-semibold small">Username</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username" required>
+                <label for="username" class="form-label fw-semibold small">Username <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="fas fa-at text-muted"></i></span>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="contoh: reviewer_kitchen" required>
+                </div>
               </div>
 
               <div class="mb-3">
-                <label for="nama" class="form-label fw-semibold small">Nama Lengkap</label>
-                <input type="text" class="form-control" id="nama" name="nama" placeholder="Masukkan nama pengguna" required>
+                <label for="nama" class="form-label fw-semibold small">Nama Lengkap & Gelar / Posisi <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="nama" name="nama" placeholder="contoh: Chef Budi Santoso (Head Kitchen)" required>
               </div>
 
               <div class="mb-3">
-                <label for="password" class="form-label fw-semibold small">Password</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
+                <label for="password" class="form-label fw-semibold small">Password <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text bg-light"><i class="fas fa-key text-muted"></i></span>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password kuat" required>
+                </div>
               </div>
 
-              <div class="mb-4">
-                <label for="role" class="form-label fw-semibold small">Role / Hak Akses</label>
-                <select class="form-select" id="role" name="role" required>
-                  <option value="admin" selected>Admin HR (Kelola Candidates)</option>
+              <div class="mb-3">
+                <label for="role" class="form-label fw-semibold small">Role Akun Utama <span class="text-danger">*</span></label>
+                <select class="form-select" id="role" name="role" required onchange="handleRoleChange(this.value, 'create')">
+                  <option value="user" selected>USER (Reviewer Pelamar Sesuai Divisi)</option>
+                  <option value="admin">Admin HR (Kelola Pelamar & Rekrutmen Penuh)</option>
                   <option value="operasional">Admin Operasional (BA, PO & Surat Tugas)</option>
-                  <option value="it">Khusus IT (Rekap Pembelanjaan - Maks 1 Akun)</option>
-                  <option value="superadmin">Super Admin (Kelola Seluruh Sistem & Users)</option>
+                  <option value="it">Khusus IT (Rekap Pembelanjaan IT - Maks 1 Akun)</option>
+                  <option value="superadmin">Super Admin (Kelola Seluruh Sistem & Pengguna)</option>
                 </select>
+                <div class="form-text small" id="roleHelpText">
+                  <i class="fas fa-info-circle me-1"></i>Role USER hanya dapat mereview dan memberi catatan pada pelamar sesuai divisi yang dicentang di bawah.
+                </div>
               </div>
 
-              <button type="submit" class="btn btn-primary w-100 fw-semibold">
-                <i class="fas fa-save me-2"></i>Simpan User Baru
+              <!-- Division Access Checkboxes (Bisa ditempelkan ke USER maupun Admin HR) -->
+              <div class="mb-4 p-3 bg-light rounded border" id="divisionBoxCreate">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <label class="form-label fw-bold small mb-0 text-dark">
+                    <i class="fas fa-layer-group text-primary me-1"></i>Hak Akses Divisi Reviewer
+                  </label>
+                  <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none" style="font-size: 0.75rem;" onclick="toggleAllDivisions('createForm')">
+                    Pilih Semua / Batal
+                  </button>
+                </div>
+                <div class="text-muted small mb-2" style="font-size: 0.76rem;">
+                  Pilih divisi pelamar yang berhak direview oleh akun ini:
+                </div>
+                <div class="row g-2">
+                  <% const standardDivs = ['Kitchen', 'Barista', 'Operasional', 'HR', 'Teknisi', 'FAT', 'IT']; %>
+                  <% standardDivs.forEach(div => { %>
+                    <div class="col-6">
+                      <div class="form-check">
+                        <input class="form-check-input div-check-create" type="checkbox" name="reviewer_divisions" value="<%= div %>" id="div_create_<%= div %>">
+                        <label class="form-check-label small fw-semibold" for="div_create_<%= div %>">
+                          <%= div === 'FAT' ? 'FAT (Finance)' : div %>
+                        </label>
+                      </div>
+                    </div>
+                  <% }); %>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 fw-semibold py-2">
+                <i class="fas fa-save me-2"></i>Simpan Pengguna Baru
               </button>
             </form>
           </div>
@@ -135,56 +196,177 @@
       </div>
 
       <!-- Users List Table Card -->
-      <div class="col-lg-8">
+      <div class="col-xl-8 col-lg-7">
         <div class="card h-100">
-          <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 fw-bold text-secondary">
-              <i class="fas fa-users me-2"></i>Daftar Pengguna Sistem (<%= users.length %>)
-            </h5>
+          <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+              <h5 class="mb-0 fw-bold text-dark">
+                <i class="fas fa-users-gear me-2 text-primary"></i>Daftar Pengguna & Hak Akses Reviewer (<%= users.length %>)
+              </h5>
+              <small class="text-muted">Kelola akun, tempelkan hak akses reviewer divisi, atau ubah kredensial</small>
+            </div>
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
               <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                   <tr>
-                    <th class="ps-4">ID</th>
-                    <th>Username</th>
-                    <th>Nama Lengkap</th>
-                    <th>Role</th>
+                    <th class="ps-4" style="width: 60px;">ID</th>
+                    <th>User & Identitas</th>
+                    <th>Role Utama</th>
+                    <th>Hak Reviewer Divisi</th>
                     <th>Tgl Dibuat</th>
-                    <th class="text-center pe-4">Aksi</th>
+                    <th class="text-center pe-4" style="min-width: 140px;">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <% users.forEach(u => { %>
+                  <% users.forEach(u => { 
+                    const uDivs = (u.reviewer_divisions || '').split(',').map(s => s.trim()).filter(Boolean);
+                  %>
                     <tr>
-                      <td class="ps-4 fw-bold">#<%= u.id %></td>
-                      <td class="fw-semibold text-dark">@<%= u.username %></td>
-                      <td><%= u.nama || '-' %></td>
+                      <td class="ps-4 fw-bold text-muted">#<%= u.id %></td>
+                      <td>
+                        <div class="fw-bold text-dark">@<%= u.username %></div>
+                        <div class="small text-muted"><%= u.nama || '-' %></div>
+                      </td>
                       <td>
                         <% if (u.role === 'superadmin') { %>
                           <span class="badge badge-superadmin px-2 py-1"><i class="fas fa-crown me-1"></i>Super Admin</span>
                         <% } else if (u.role === 'operasional' || u.role === 'admin_operasional') { %>
-                          <span class="badge bg-success px-2 py-1"><i class="fas fa-truck-ramp-box me-1"></i>Operasional</span>
+                          <span class="badge badge-operasional px-2 py-1"><i class="fas fa-truck-ramp-box me-1"></i>Operasional</span>
                         <% } else if (u.role === 'it') { %>
-                          <span class="badge bg-dark border border-info text-info px-2 py-1"><i class="fas fa-laptop-code me-1"></i>Khusus IT (1 Akun)</span>
+                          <span class="badge badge-it px-2 py-1"><i class="fas fa-laptop-code me-1"></i>Khusus IT</span>
+                        <% } else if (u.role === 'user') { %>
+                          <span class="badge badge-user px-2 py-1"><i class="fas fa-user-check me-1"></i>Reviewer USER</span>
                         <% } else { %>
-                          <span class="badge badge-admin px-2 py-1"><i class="fas fa-user-tag me-1"></i>Admin HR</span>
+                          <span class="badge badge-admin px-2 py-1"><i class="fas fa-user-tie me-1"></i>Admin HR</span>
+                        <% } %>
+                      </td>
+                      <td>
+                        <% if (u.role === 'superadmin') { %>
+                          <span class="badge bg-purple-subtle text-dark border px-2 py-1 small">
+                            <i class="fas fa-shield-halved text-primary me-1"></i>Akses Semua Divisi
+                          </span>
+                        <% } else if (uDivs.length > 0) { %>
+                          <div class="d-flex flex-wrap gap-1">
+                            <% uDivs.forEach(d => { 
+                              const dLow = d.toLowerCase();
+                              let cls = 'div-operasional';
+                              if (dLow.includes('kitchen')) cls = 'div-kitchen';
+                              else if (dLow.includes('barista')) cls = 'div-barista';
+                              else if (dLow.includes('hr')) cls = 'div-hr';
+                              else if (dLow.includes('teknisi')) cls = 'div-teknisi';
+                              else if (dLow.includes('fat') || dLow.includes('finance')) cls = 'div-fat';
+                              else if (dLow.includes('it')) cls = 'div-it';
+                            %>
+                              <span class="div-badge <%= cls %>"><%= d %></span>
+                            <% }); %>
+                          </div>
+                        <% } else { %>
+                          <span class="text-muted small fst-italic">Belum ditempelkan</span>
                         <% } %>
                       </td>
                       <td class="small text-muted"><%= formatDate(u.created_at, true) %></td>
                       <td class="text-center pe-4">
-                        <% if (u.id === user.id) { %>
-                          <span class="badge bg-light text-muted border px-2 py-1 small">Akun Anda</span>
-                        <% } else { %>
-                          <form action="/admin/users/delete/<%= u.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus user @<%= u.username %>?')" class="d-inline">
-                            <button type="submit" class="btn btn-outline-danger btn-sm" title="Hapus User">
-                              <i class="fas fa-trash-alt me-1"></i>Hapus
-                            </button>
-                          </form>
-                        <% } %>
+                        <div class="d-inline-flex gap-1">
+                          <!-- Edit Modal Trigger Button -->
+                          <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<%= u.id %>" title="Edit Pengguna & Hak Akses">
+                            <i class="fas fa-pen-to-square me-1"></i>Edit
+                          </button>
+
+                          <% if (u.id === user.id) { %>
+                            <span class="badge bg-light text-muted border px-2 py-1 small align-self-center">Anda</span>
+                          <% } else { %>
+                            <form action="/admin/users/delete/<%= u.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna @<%= u.username %>?')" class="d-inline">
+                              <button type="submit" class="btn btn-outline-danger btn-sm" title="Hapus User">
+                                <i class="fas fa-trash-alt"></i>
+                              </button>
+                            </form>
+                          <% } %>
+                        </div>
                       </td>
                     </tr>
+
+                    <!-- EDIT USER MODAL -->
+                    <div class="modal fade text-start" id="editModal<%= u.id %>" tabindex="-1" aria-labelledby="editModalLabel<%= u.id %>" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content border-0 shadow">
+                          <form action="/admin/users/edit/<%= u.id %>" method="POST" id="editForm<%= u.id %>">
+                            <div class="modal-header bg-slate-900 text-white" style="background-color: #0f172a;">
+                              <h5 class="modal-title fw-bold" id="editModalLabel<%= u.id %>">
+                                <i class="fas fa-user-pen text-warning me-2"></i>Edit Pengguna & Hak Akses: @<%= u.username %>
+                              </h5>
+                              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                              <div class="mb-3">
+                                <label class="form-label fw-semibold small">Username</label>
+                                <input type="text" class="form-control bg-light" value="@<%= u.username %>" disabled>
+                                <div class="form-text small">Username permanen tidak dapat diubah.</div>
+                              </div>
+
+                              <div class="mb-3">
+                                <label class="form-label fw-semibold small">Nama Lengkap & Jabatan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="nama" value="<%= u.nama || '' %>" required>
+                              </div>
+
+                              <div class="mb-3">
+                                <label class="form-label fw-semibold small">Role Utama Sistem <span class="text-danger">*</span></label>
+                                <select class="form-select" name="role" required>
+                                  <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>USER: Reviewer Pelamar Sesuai Divisi</option>
+                                  <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>Admin HR (Kelola Pelamar Penuh)</option>
+                                  <option value="operasional" <%= (u.role === 'operasional' || u.role === 'admin_operasional') ? 'selected' : '' %>>Admin Operasional</option>
+                                  <option value="it" <%= u.role === 'it' ? 'selected' : '' %>>Khusus IT</option>
+                                  <option value="superadmin" <%= u.role === 'superadmin' ? 'selected' : '' %>>Super Admin</option>
+                                </select>
+                              </div>
+
+                              <div class="mb-3">
+                                <label class="form-label fw-semibold small">Password Baru (Opsional)</label>
+                                <input type="password" class="form-control" name="password" placeholder="Biarkan kosong jika password tidak diubah">
+                              </div>
+
+                              <!-- Hak Akses Divisi Reviewer (Ditempelkan atau Dihapus) -->
+                              <div class="p-3 bg-light rounded border mb-2">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                  <label class="form-label fw-bold small mb-0 text-dark">
+                                    <i class="fas fa-layer-group text-primary me-1"></i>Tempelkan Hak Reviewer Divisi
+                                  </label>
+                                  <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none" style="font-size: 0.75rem;" onclick="toggleAllDivisions('editForm<%= u.id %>')">
+                                    Pilih Semua / Batal
+                                  </button>
+                                </div>
+                                <div class="text-muted small mb-2" style="font-size: 0.76rem;">
+                                  Centang divisi yang boleh direview & diberi catatan oleh akun ini:
+                                </div>
+                                <div class="row g-2">
+                                  <% standardDivs.forEach(div => { 
+                                    const isChecked = uDivs.some(d => d.toLowerCase() === div.toLowerCase());
+                                  %>
+                                    <div class="col-6">
+                                      <div class="form-check">
+                                        <input class="form-check-input div-check-editForm<%= u.id %>" type="checkbox" name="reviewer_divisions" value="<%= div %>" id="div_edit_<%= u.id %>_<%= div %>" <%= isChecked ? 'checked' : '' %>>
+                                        <label class="form-check-label small fw-semibold" for="div_edit_<%= u.id %>_<%= div %>">
+                                          <%= div === 'FAT' ? 'FAT (Finance)' : div %>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  <% }); %>
+                                </div>
+                              </div>
+
+                            </div>
+                            <div class="modal-footer bg-light py-2">
+                              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+                              <button type="submit" class="btn btn-primary btn-sm px-3 fw-semibold">
+                                <i class="fas fa-save me-1"></i>Simpan Perubahan Hak Akses
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
                   <% }); %>
                 </tbody>
               </table>
@@ -197,6 +379,28 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleAllDivisions(formId) {
+      const form = document.getElementById(formId);
+      if (!form) return;
+      const checkboxes = form.querySelectorAll('input[name="reviewer_divisions"]');
+      const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+      checkboxes.forEach(cb => { cb.checked = !allChecked; });
+    }
+
+    function handleRoleChange(roleVal, prefix) {
+      const help = document.getElementById('roleHelpText');
+      if (roleVal === 'user') {
+        help.innerHTML = '<i class="fas fa-info-circle me-1 text-warning"></i>Role USER hanya dapat mereview dan memberi catatan pada pelamar sesuai divisi yang dicentang di bawah.';
+      } else if (roleVal === 'admin') {
+        help.innerHTML = '<i class="fas fa-info-circle me-1 text-info"></i>Admin HR memiliki akses penuh rekrutmen, dan juga dapat diberikan divisi review khusus di bawah.';
+      } else if (roleVal === 'superadmin') {
+        help.innerHTML = '<i class="fas fa-info-circle me-1 text-purple"></i>Super Admin dapat mengelola seluruh menu, setting user, dan mereview seluruh divisi.';
+      } else {
+        help.innerHTML = '<i class="fas fa-info-circle me-1"></i>Akses menu operasional/IT dan dapat ditempelkan hak reviewer pelamar jika diperlukan.';
+      }
+    }
+  </script>
   <!-- Inactivity Auto-Logout (2 Jam) -->
   <script src="/idle-timer.js"></script>
 </body>

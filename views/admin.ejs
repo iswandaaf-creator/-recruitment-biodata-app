@@ -324,6 +324,10 @@
               <i class="fas fa-users-gear"></i> Kelola User
             </a>
           <% } %>
+
+          <a href="/reviewer" class="btn btn-outline-info nav-btn text-white">
+            <i class="fas fa-clipboard-check text-warning"></i> Portal Reviewer
+          </a>
         <% } %>
 
         <a href="/api/export/excel" class="btn btn-success nav-btn" style="background-color: #059669; border-color: #059669;">
@@ -493,13 +497,28 @@
           
           <div class="d-flex flex-wrap align-items-center gap-2">
             <!-- Search Box -->
-            <div class="input-group input-group-sm" style="width: 260px;">
+            <div class="input-group input-group-sm" style="width: 240px;">
               <span class="input-group-text bg-light border-end-0"><i class="fas fa-magnifying-glass text-muted"></i></span>
               <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Cari nama, NIK, Rekening..." onkeyup="applyFilterAndSort()">
             </div>
 
+            <!-- Divisi Filter -->
+            <div class="input-group input-group-sm" style="width: 190px;">
+              <span class="input-group-text bg-light"><i class="fas fa-layer-group text-muted"></i></span>
+              <select class="form-select" id="divisiSelect" onchange="applyFilterAndSort()">
+                <option value="all" selected>Semua Divisi</option>
+                <option value="kitchen">Kitchen</option>
+                <option value="barista">Barista</option>
+                <option value="operasional">Operasional</option>
+                <option value="hr">HR</option>
+                <option value="teknisi">Teknisi</option>
+                <option value="fat">FAT (Finance)</option>
+                <option value="it">IT</option>
+              </select>
+            </div>
+
             <!-- Sort Select -->
-            <div class="input-group input-group-sm" style="width: 220px;">
+            <div class="input-group input-group-sm" style="width: 200px;">
               <span class="input-group-text bg-light"><i class="fas fa-arrow-down-short-wide text-muted"></i></span>
               <select class="form-select" id="sortSelect" onchange="applyFilterAndSort()">
                 <option value="date-desc" selected>Tanggal (Terbaru)</option>
@@ -575,11 +594,23 @@
                 </td>
               </tr>
             <% } %>
-            <% candidates.forEach(c => { %>
+            <% candidates.forEach(c => { 
+              const cDiv = c.divisi || 'Operasional';
+              const dLow = cDiv.toLowerCase();
+              let divCls = 'bg-slate-100 text-dark';
+              if (dLow.includes('kitchen')) divCls = 'bg-warning text-dark';
+              else if (dLow.includes('barista')) divCls = 'bg-warning-subtle text-warning-emphasis border border-warning';
+              else if (dLow.includes('hr')) divCls = 'bg-purple text-white';
+              else if (dLow.includes('teknisi')) divCls = 'bg-info text-dark';
+              else if (dLow.includes('fat') || dLow.includes('finance')) divCls = 'bg-primary text-white';
+              else if (dLow.includes('it')) divCls = 'bg-dark text-info border border-info';
+              else divCls = 'bg-success text-white';
+            %>
               <tr data-id="<%= c.id %>"
                   data-date="<%= new Date(c.created_at).getTime() %>"
                   data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
                   data-status="<%= c.kesimpulan_status || 'Belum Diproses' %>"
+                  data-divisi="<%= dLow %>"
                   data-duplicate="<%= c.is_duplicate ? 'true' : 'false' %>">
                 <td class="ps-4 fw-bold text-muted">#<%= c.id %></td>
                 <td class="small text-secondary fw-semibold">
@@ -605,7 +636,12 @@
                   </div>
                 </td>
                 <td>
-                  <span class="badge bg-slate-100 text-dark border px-2 py-1" style="background-color: #f1f5f9; font-weight: 600;">
+                  <div class="mb-1">
+                    <span class="badge <%= divCls %> px-2 py-1" style="font-size: 0.72rem;">
+                      <i class="fas fa-layer-group me-1"></i><%= cDiv %>
+                    </span>
+                  </div>
+                  <span class="fw-semibold text-dark small">
                     <%= c.posisi_dilamar %>
                   </span>
                 </td>
@@ -635,6 +671,13 @@
                     <span class="badge bg-light text-secondary border px-2 py-1">
                       <i class="fas fa-shield-check text-success me-1"></i>Unik
                     </span>
+                  <% } %>
+                  <% if (c.review_count && c.review_count > 0) { %>
+                    <div class="mt-1">
+                      <span class="badge bg-info-subtle text-info-emphasis border border-info px-2 py-1" style="font-size: 0.72rem;" title="Catatan Reviewer: <%= c.catatan_reviewer || '' %>">
+                        <i class="fas fa-comments text-info me-1"></i><%= c.review_count %> Reviewer
+                      </span>
+                    </div>
                   <% } %>
                   <% if (c.share_token) { %>
                     <div class="mt-1"><span class="badge bg-light text-muted font-monospace border" style="font-size: 0.7rem;" title="Token Unik Link saat melamar"><%= c.share_token %></span></div>
@@ -725,6 +768,7 @@
     function applyFilterAndSort() {
       const searchVal = document.getElementById('searchInput').value.toLowerCase();
       const sortVal = document.getElementById('sortSelect').value;
+      const divisiVal = (document.getElementById('divisiSelect') ? document.getElementById('divisiSelect').value : 'all').toLowerCase();
       const tbody = document.getElementById('candidateTableBody');
       const rows = Array.from(tbody.querySelectorAll('tr[data-id]'));
 
@@ -733,6 +777,7 @@
       rows.forEach(row => {
         const rowText = row.innerText.toLowerCase();
         const rowStatus = row.getAttribute('data-status');
+        const rowDivisi = (row.getAttribute('data-divisi') || '').toLowerCase();
         const isDuplicate = row.getAttribute('data-duplicate') === 'true';
 
         let matchesSearch = rowText.includes(searchVal);
@@ -744,7 +789,9 @@
           matchesFilter = (rowStatus === activeFilter);
         }
 
-        if (matchesSearch && matchesFilter) {
+        let matchesDivisi = (divisiVal === 'all' || rowDivisi.includes(divisiVal));
+
+        if (matchesSearch && matchesFilter && matchesDivisi) {
           row.style.display = '';
           visibleCount++;
         } else {

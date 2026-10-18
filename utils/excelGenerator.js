@@ -88,6 +88,7 @@ async function generateExcel(candidates = []) {
     { header: 'TANGGAL SUBMIT', key: 'created_at', width: 18, align: 'center' },
     { header: 'NAMA LENGKAP', key: 'nama_lengkap', width: 28, align: 'left' },
     { header: 'NAMA PANGGILAN', key: 'nama_panggilan', width: 16, align: 'left' },
+    { header: 'DIVISI', key: 'divisi', width: 16, align: 'center' },
     { header: 'POSISI DILAMAR', key: 'posisi_dilamar', width: 24, align: 'left' },
     { header: 'EMAIL', key: 'email', width: 26, align: 'left' },
     { header: 'NO. HANDPHONE', key: 'no_hp', width: 17, align: 'center' },
@@ -101,7 +102,8 @@ async function generateExcel(candidates = []) {
     { header: 'KOTA DOMISILI', key: 'kota_domisili', width: 18, align: 'left' },
     { header: 'GAJI DIHARAPKAN', key: 'gaji_diharapkan', width: 20, align: 'right' },
     { header: 'ADA FOTO', key: 'foto_kandidat', width: 12, align: 'center' },
-    { header: 'STATUS REKRUTMEN', key: 'kesimpulan_status', width: 20, align: 'center' }
+    { header: 'STATUS REKRUTMEN', key: 'kesimpulan_status', width: 20, align: 'center' },
+    { header: 'CATATAN REVIEWER', key: 'catatan_reviewer', width: 35, align: 'left' }
   ];
 
   // Set Header Row on Row 4
@@ -133,6 +135,7 @@ async function generateExcel(candidates = []) {
       formatDate(c.created_at),
       c.nama_lengkap || '-',
       c.nama_panggilan || '-',
+      c.divisi || '-',
       c.posisi_dilamar || '-',
       c.email || '-',
       c.no_hp || '-',
@@ -146,7 +149,8 @@ async function generateExcel(candidates = []) {
       c.kota_domisili || '-',
       c.gaji_diharapkan || '-',
       c.foto_kandidat ? 'Ya' : 'Tidak',
-      c.kesimpulan_status || 'Belum Diproses'
+      c.kesimpulan_status || 'Belum Diproses',
+      c.catatan_reviewer || '-'
     ];
 
     rowData.forEach((val, i) => {

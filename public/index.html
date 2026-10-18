@@ -132,12 +132,25 @@
         <div class="card-body">
           <div class="row g-3">
             <div class="col-md-6">
+              <label class="form-label">Divisi / Departemen Lowongan <span class="text-danger">*</span></label>
+              <select class="form-select" name="divisi" required>
+                <option value="" disabled selected>-- Pilih Divisi Yang Dilamar --</option>
+                <option value="Kitchen">Kitchen (Cook, Kitchen Helper, Pastry, Chef)</option>
+                <option value="Barista">Barista (Barista, Cashier Bar, Beverage)</option>
+                <option value="Operasional">Operasional (Supervisor Outlet, Store Manager, Crew Outlet, Kasir, Steward)</option>
+                <option value="HR">HR (Human Resources, Recruitment, Personalia, GA)</option>
+                <option value="Teknisi">Teknisi (Maintenance, Listrik, ME, Teknisi Mesin)</option>
+                <option value="FAT">FAT (Finance, Akunting, Tax / Perpajakan)</option>
+                <option value="IT">IT (Information Technology, Support, Developer, Networking)</option>
+              </select>
+            </div>
+            <div class="col-md-6">
               <label class="form-label">Posisi Yang Dilamar <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="posisi_dilamar" required placeholder="Contoh: Software Engineer">
+              <input type="text" class="form-control" name="posisi_dilamar" required placeholder="Contoh: Barista Staff / Cook Helper">
             </div>
             <div class="col-md-6">
               <label class="form-label">Posisi Lain Yang Diminati</label>
-              <input type="text" class="form-control" name="posisi_lain" placeholder="Contoh: Technical Lead">
+              <input type="text" class="form-control" name="posisi_lain" placeholder="Contoh: Kasir Outlet / Service">
             </div>
             <div class="col-md-6">
               <label class="form-label">Sumber Informasi Lowongan</label>

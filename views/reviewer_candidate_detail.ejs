@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
+  <script>
+    (function() {
+      try {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, document.title, '/');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Review Pelamar - <%= candidate.nama_lengkap %> (<%= candidate.divisi || candidate.posisi_dilamar %>)</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --kov-emerald: #059669;
+      --kov-slate-900: #0f172a;
+      --kov-slate-800: #1e293b;
+      --kov-border: #e2e8f0;
+      --kov-primary: #2563eb;
+    }
+    * {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body { background-color: #f8fafc; color: #1e293b; min-height: 100vh; }
+    .top-navbar {
+      background: #0f172a;
+      border-bottom: 1px solid #1e293b;
+      padding: 0.75rem 1.5rem;
+    }
+    .card {
+      border: 1px solid var(--kov-border);
+      border-radius: 14px;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+      margin-bottom: 1.5rem;
+      background: #ffffff;
+    }
+    .card-header {
+      background-color: #ffffff;
+      border-bottom: 1px solid var(--kov-border);
+      font-weight: 700;
+      color: #0f172a;
+      padding: 1rem 1.25rem;
+    }
+    .div-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.35rem 0.7rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .div-kitchen { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
+    .div-barista { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .div-operasional { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .div-hr { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+    .div-teknisi { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .div-fat { background: #ede9fe; color: #5b21b6; border: 1px solid #ddd6fe; }
+    .div-it { background: #cffafe; color: #0e7490; border: 1px solid #a5f3fc; }
+
+    .review-timeline-item {
+      position: relative;
+      padding-left: 2rem;
+      padding-bottom: 1.5rem;
+      border-left: 2px solid #e2e8f0;
+    }
+    .review-timeline-item:last-child {
+      border-left: 2px solid transparent;
+      padding-bottom: 0;
+    }
+    .review-timeline-dot {
+      position: absolute;
+      left: -9px;
+      top: 0;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2563eb;
+      border: 3px solid #ffffff;
+      box-shadow: 0 0 0 1px #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <nav class="top-navbar shadow-sm">
+    <div class="container-fluid px-2 d-flex flex-wrap align-items-center justify-content-between gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <a class="btn btn-outline-light btn-sm fw-semibold" href="/reviewer">
+          <i class="fas fa-arrow-left me-1"></i> Kembali ke Daftar Pelamar
+        </a>
+        <span class="text-white-50 small ms-2 d-none d-md-inline">
+          Review Kandidat: <strong class="text-white"><%= candidate.nama_lengkap %></strong>
+        </span>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn btn-danger btn-sm fw-semibold">
+          <i class="fas fa-file-pdf me-1"></i> Download PDF Biodata 5 Halaman
+        </a>
+
+        <% if (user.role === 'superadmin' || user.role === 'admin') { %>
+          <a href="/admin/candidate/<%= candidate.id %>" class="btn btn-outline-warning btn-sm fw-semibold">
+            <i class="fas fa-user-gear me-1"></i> Mode HR Penuh
+          </a>
+        <% } %>
+
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-light btn-sm fw-semibold ms-2">
+          <i class="fas fa-arrow-right-from-bracket me-1"></i> Logout
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+
+    <!-- Flash message -->
+    <% if (typeof success !== 'undefined' && success) { %>
+      <div class="alert alert-success alert-dismissible fade show mb-4 shadow-sm" role="alert">
+        <i class="fas fa-circle-check me-2"></i> <%= success %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="alert alert-danger alert-dismissible fade show mb-4 shadow-sm" role="alert">
+        <i class="fas fa-circle-exclamation me-2"></i> <%= error %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
+    <!-- Candidate Main Header Card -->
+    <% 
+      const dLow = (candidate.divisi || 'operasional').toLowerCase();
+      let divCls = 'div-operasional';
+      if (dLow.includes('kitchen')) divCls = 'div-kitchen';
+      else if (dLow.includes('barista')) divCls = 'div-barista';
+      else if (dLow.includes('hr')) divCls = 'div-hr';
+      else if (dLow.includes('teknisi')) divCls = 'div-teknisi';
+      else if (dLow.includes('fat') || dLow.includes('finance')) divCls = 'div-fat';
+      else if (dLow.includes('it')) divCls = 'div-it';
+    %>
+    <div class="card mb-4 border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <% if (candidate.foto_kandidat) { %>
+              <div class="position-relative">
+                <img src="<%= candidate.foto_kandidat %>" class="rounded border shadow-sm" style="width: 90px; height: 115px; object-fit: cover;">
+                <span class="badge bg-dark position-absolute bottom-0 start-50 translate-middle-x mb-1 opacity-75" style="font-size: 9px;">Pasfoto</span>
+              </div>
+            <% } else { %>
+              <div class="rounded bg-light border d-flex flex-column align-items-center justify-content-center text-muted" style="width: 90px; height: 115px;">
+                <i class="fas fa-camera fa-2x mb-1 opacity-50"></i>
+                <span style="font-size: 10px;">Tanpa Foto</span>
+              </div>
+            <% } %>
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <h3 class="fw-bold mb-0 text-dark"><%= candidate.nama_lengkap %></h3>
+                <span class="div-badge <%= divCls %>">
+                  <i class="fas fa-briefcase me-1"></i>Divisi: <%= candidate.divisi || 'Operasional' %>
+                </span>
+              </div>
+              <div class="text-muted fs-6 mb-2">
+                <span class="me-3 fw-semibold text-dark"><i class="fas fa-tag me-1 text-primary"></i>Posisi Dilamar: <%= candidate.posisi_dilamar %></span>
+                <% if (candidate.posisi_lain) { %>
+                  <span class="me-3 small text-muted">(Alternatif: <%= candidate.posisi_lain %>)</span>
+                <% } %>
+              </div>
+              <div class="d-flex flex-wrap gap-3 text-secondary small">
+                <span><i class="fas fa-envelope text-primary me-1"></i><%= candidate.email %></span>
+                <span><i class="fas fa-phone text-primary me-1"></i><%= candidate.no_hp %></span>
+                <span><i class="fas fa-location-dot text-primary me-1"></i><%= candidate.kota_domisili || candidate.kota_ktp || '-' %></span>
+                <span><i class="fas fa-calendar text-primary me-1"></i>Melamar: <%= formatDate(candidate.created_at, true) %></span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <span class="badge bg-light text-dark border px-3 py-2 fs-6">
+              Ref ID Pelamar: #<%= candidate.id %>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORM INPUT CATATAN REVIEWER (DEDIKASI UTAMA UNTUK ROLE USER) -->
+    <div class="card border-primary border-2 shadow-sm mb-4">
+      <div class="card-header bg-primary text-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h5 class="mb-0 fw-bold">
+          <i class="fas fa-pen-to-square me-2"></i>Beri Catatan & Evaluasi Reviewer Divisi
+        </h5>
+        <span class="badge bg-white text-primary fw-bold px-2 py-1 small">
+          Reviewer: <%= user.nama || user.username %> (<%= user.role %>)
+        </span>
+      </div>
+      <div class="card-body p-4">
+        <form action="/reviewer/candidate/<%= candidate.id %>/review" method="POST">
+          <div class="row g-3">
+            
+            <!-- Pilih Divisi Evaluasi -->
+            <div class="col-md-4">
+              <label class="form-label fw-bold small">Divisi Evaluasi Anda <span class="text-danger">*</span></label>
+              <select class="form-select" name="divisi" required>
+                <% if (allowedDivisions.length > 0) { %>
+                  <% allowedDivisions.forEach(div => { %>
+                    <option value="<%= div %>" <%= (candidate.divisi && candidate.divisi.toLowerCase() === div.toLowerCase()) ? 'selected' : '' %>>
+                      <%= div %>
+                    </option>
+                  <% }); %>
+                <% } else { %>
+                  <option value="<%= candidate.divisi || 'Operasional' %>"><%= candidate.divisi || 'Operasional' %></option>
+                <% } %>
+              </select>
+              <div class="form-text small">Divisi asal penilaian catatan Anda.</div>
+            </div>
+
+            <!-- Rekomendasi Seleksi -->
+            <div class="col-md-8">
+              <label class="form-label fw-bold small">Rekomendasi Seleksi Dari Reviewer <span class="text-danger">*</span></label>
+              <div class="d-flex flex-wrap gap-2">
+                <div class="form-check form-check-inline border rounded p-2 px-3 bg-light">
+                  <input class="form-check-input" type="radio" name="rekomendasi" id="rek_lolos" value="Direkomendasikan Lolos" required checked>
+                  <label class="form-check-label text-success fw-bold small" for="rek_lolos">
+                    <i class="fas fa-circle-check me-1"></i>Direkomendasikan Lolos Wawancara
+                  </label>
+                </div>
+                <div class="form-check form-check-inline border rounded p-2 px-3 bg-light">
+                  <input class="form-check-input" type="radio" name="rekomendasi" id="rek_hold" value="Dipertimbangkan / Cadangan">
+                  <label class="form-check-label text-warning-emphasis fw-bold small" for="rek_hold">
+                    <i class="fas fa-hourglass-half me-1"></i>Dipertimbangkan / Cadangan
+                  </label>
+                </div>
+                <div class="form-check form-check-inline border rounded p-2 px-3 bg-light">
+                  <input class="form-check-input" type="radio" name="rekomendasi" id="rek_tolak" value="Tidak Direkomendasikan">
+                  <label class="form-check-label text-danger fw-bold small" for="rek_tolak">
+                    <i class="fas fa-circle-xmark me-1"></i>Tidak Direkomendasikan
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Catatan Evaluasi Reviewer -->
+            <div class="col-12">
+              <label class="form-label fw-bold small">Catatan & Ulasan Reviewer Terhadap Pelamar <span class="text-danger">*</span></label>
+              <textarea class="form-control" name="catatan" rows="4" placeholder="Tuliskan ulasan detail kualifikasi pelamar: keahlian teknis, riwayat pengalaman, attitude/sikap, kecocokan posisi di outlet/divisi, dan saran untuk tim HR..." required></textarea>
+              <div class="form-text small">
+                <i class="fas fa-info-circle me-1"></i>Catatan ini akan tersimpan permanen dalam riwayat rekrutmen dan dapat dilihat oleh Tim HR & Super Admin untuk pertimbangan seleksi akhir.
+              </div>
+            </div>
+
+            <div class="col-12 text-end mt-3">
+              <button type="submit" class="btn btn-primary fw-semibold px-4 py-2">
+                <i class="fas fa-paper-plane me-2"></i>Simpan & Kirim Catatan Review
+              </button>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- RIWAYAT CATATAN REVIEWER YANG SUDAH MASUK -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold text-dark">
+          <i class="fas fa-comments text-primary me-2"></i>Riwayat Catatan Reviewer Pelamar Ini (<%= reviews.length %>)
+        </h5>
+        <span class="badge bg-light text-secondary border">Timeline Diskusi Review</span>
+      </div>
+      <div class="card-body p-4">
+        <% if (reviews.length === 0) { %>
+          <div class="text-center py-4 text-muted">
+            <i class="fas fa-comment-slash fa-2x mb-2 opacity-50"></i>
+            <p class="mb-0 small">Belum ada catatan review untuk pelamar ini. Jadilah yang pertama memberikan catatan evaluasi di atas!</p>
+          </div>
+        <% } else { %>
+          <div class="review-timeline">
+            <% reviews.forEach(r => { 
+              let rekBadge = 'bg-secondary';
+              if ((r.rekomendasi || '').includes('Direkomendasikan Lolos')) rekBadge = 'bg-success';
+              else if ((r.rekomendasi || '').includes('Dipertimbangkan')) rekBadge = 'bg-warning text-dark';
+              else if ((r.rekomendasi || '').includes('Tidak')) rekBadge = 'bg-danger';
+            %>
+              <div class="review-timeline-item">
+                <div class="review-timeline-dot"></div>
+                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-1">
+                  <div>
+                    <strong class="text-dark"><%= r.reviewer_name || r.reviewer_username %></strong>
+                    <span class="badge bg-light text-dark border ms-1 small">Divisi: <%= r.divisi || 'Umum' %></span>
+                    <span class="badge bg-slate-100 text-muted border ms-1 small">@<%= r.reviewer_username %></span>
+                  </div>
+                  <div>
+                    <span class="badge <%= rekBadge %> px-2 py-1 me-2"><%= r.rekomendasi || 'Catatan' %></span>
+                    <span class="small text-muted"><i class="fas fa-clock me-1"></i><%= formatDate(r.created_at, true) %></span>
+                  </div>
+                </div>
+                <div class="p-3 bg-light rounded border text-dark mt-2" style="white-space: pre-line; line-height: 1.5;">
+                  <%= r.catatan %>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- DETAIL BIODATA LENGKAP PELAMAR -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-header bg-white py-3">
+        <h5 class="mb-0 fw-bold text-dark">
+          <i class="fas fa-id-card text-primary me-2"></i>Informasi Lengkap Biodata Pelamar
+        </h5>
+      </div>
+      <div class="card-body p-4">
+        
+        <!-- Identitas Diri -->
+        <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">1. Identitas Diri</h6>
+        <div class="row g-3 mb-4">
+          <div class="col-md-4"><strong>Nama Lengkap:</strong> <%= candidate.nama_lengkap %></div>
+          <div class="col-md-4"><strong>Nama Panggilan:</strong> <%= candidate.nama_panggilan || '-' %></div>
+          <div class="col-md-4"><strong>Jenis Kelamin:</strong> <%= candidate.jenis_kelamin %></div>
+          <div class="col-md-4"><strong>Tempat, Tgl Lahir:</strong> <%= candidate.tempat_lahir %>, <%= formatDate(candidate.tanggal_lahir) %></div>
+          <div class="col-md-4"><strong>Agama:</strong> <%= candidate.agama || '-' %></div>
+          <div class="col-md-4"><strong>Status Pernikahan:</strong> <%= candidate.status_perkawinan || '-' %></div>
+          <div class="col-md-4"><strong>Golongan Darah:</strong> <%= candidate.golongan_darah || '-' %></div>
+          <div class="col-md-4"><strong>Suku / Bangsa:</strong> <%= candidate.suku || '-' %> / <%= candidate.kewarganegaraan || '-' %></div>
+          <div class="col-md-4"><strong>Hobby / Minat:</strong> <%= candidate.hobby || '-' %></div>
+          <div class="col-md-6"><strong>Alamat KTP:</strong> <%= candidate.alamat_ktp %> (<%= candidate.kota_ktp || '-' %>)</div>
+          <div class="col-md-6"><strong>Alamat Domisili:</strong> <%= candidate.alamat_domisili %> (<%= candidate.kota_domisili || '-' %>)</div>
+        </div>
+
+        <!-- Riwayat Pendidikan Formal -->
+        <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">2. Riwayat Pendidikan Formal</h6>
+        <% 
+          let pendFormal = [];
+          try {
+            pendFormal = typeof candidate.pendidikan_formal === 'string' ? JSON.parse(candidate.pendidikan_formal || '[]') : (candidate.pendidikan_formal || []);
+          } catch(e) {}
+        %>
+        <% if (pendFormal.length > 0) { %>
+          <div class="table-responsive mb-4">
+            <table class="table table-bordered table-sm align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Tingkat</th>
+                  <th>Nama Sekolah / Universitas</th>
+                  <th>Jurusan</th>
+                  <th>Tahun Lulus</th>
+                  <th>Nilai / IPK</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% pendFormal.forEach(p => { %>
+                  <% if (p.sekolah || p.jurusan) { %>
+                    <tr>
+                      <td class="fw-semibold"><%= p.tingkat || '-' %></td>
+                      <td><%= p.sekolah || '-' %></td>
+                      <td><%= p.jurusan || '-' %></td>
+                      <td><%= p.tahun_lulus || '-' %></td>
+                      <td><%= p.ipk || '-' %></td>
+                    </tr>
+                  <% } %>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p class="text-muted small mb-4">Tidak ada data pendidikan formal tercatat.</p>
+        <% } %>
+
+        <!-- Riwayat Pekerjaan / Pengalaman Kerja -->
+        <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">3. Riwayat Pengalaman Kerja</h6>
+        <% 
+          let riwayatKerja = [];
+          try {
+            riwayatKerja = typeof candidate.riwayat_pekerjaan === 'string' ? JSON.parse(candidate.riwayat_pekerjaan || '[]') : (candidate.riwayat_pekerjaan || []);
+          } catch(e) {}
+        %>
+        <% if (riwayatKerja.length > 0 && riwayatKerja.some(r => r.nama_perusahaan)) { %>
+          <div class="row g-3 mb-4">
+            <% riwayatKerja.forEach((r, idx) => { %>
+              <% if (r.nama_perusahaan) { %>
+                <div class="col-md-6">
+                  <div class="p-3 bg-light rounded border h-100">
+                    <div class="fw-bold text-dark fs-6"><%= r.jabatan || 'Staf' %> - <%= r.nama_perusahaan %></div>
+                    <div class="text-muted small mb-2"><i class="fas fa-calendar-alt me-1"></i>Periode: <%= r.periode || '-' %></div>
+                    <div class="small mb-1"><strong>Gaji Terakhir:</strong> <%= r.gaji || '-' %></div>
+                    <div class="small mb-1"><strong>Alasan Berhenti:</strong> <%= r.alasan_resign || '-' %></div>
+                    <div class="small mb-1"><strong>Tugas & Tanggung Jawab:</strong></div>
+                    <p class="small text-secondary mb-0 bg-white p-2 rounded border"><%= r.tugas || '-' %></p>
+                  </div>
+                </div>
+              <% } %>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p class="text-muted small mb-4">Tidak ada riwayat pekerjaan / pelamar lulusan baru (Fresh Graduate).</p>
+        <% } %>
+
+        <!-- Informasi Tambahan & Minat -->
+        <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">4. Motivasi & Informasi Tambahan</h6>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <strong>Alasan Melamar di Perusahaan:</strong>
+            <div class="p-2 bg-light rounded border small mt-1"><%= candidate.alasan_rekrutmen || '-' %></div>
+          </div>
+          <div class="col-md-6">
+            <strong>Minat / Passion Khusus:</strong>
+            <div class="p-2 bg-light rounded border small mt-1"><%= candidate.minat_passion || '-' %></div>
+          </div>
+          <div class="col-md-6">
+            <strong>Rencana 3-5 Tahun Ke Depan:</strong>
+            <div class="p-2 bg-light rounded border small mt-1"><%= candidate.rencana_3_5_tahun || '-' %></div>
+          </div>
+          <div class="col-md-6">
+            <strong>Prestasi Yang Pernah Diraih:</strong>
+            <div class="p-2 bg-light rounded border small mt-1"><%= candidate.prestasi || '-' %></div>
+          </div>
+          <div class="col-md-4">
+            <strong>Perkiraan Kesiapan Bergabung:</strong>
+            <div class="p-2 bg-light rounded border small mt-1"><%= candidate.perkiraan_bergabung || '-' %></div>
+          </div>
+          <div class="col-md-4">
+            <strong>Gaji Yang Diharapkan:</strong>
+            <div class="p-2 bg-light rounded border small mt-1"><%= candidate.gaji_diharapkan || '-' %></div>
+          </div>
+          <div class="col-md-4">
+            <strong>Memiliki Kerabat di Perusahaan:</strong>
+            <div class="p-2 bg-light rounded border small mt-1"><%= candidate.punya_kerabat || 'Tidak' %> <%= candidate.nama_kerabat_posisi ? '(' + candidate.nama_kerabat_posisi + ')' : '' %></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Inactivity Auto-Logout (2 Jam) -->
+  <script src="/idle-timer.js"></script>
+</body>
+</html>

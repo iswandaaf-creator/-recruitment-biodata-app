@@ -159,11 +159,13 @@ db.serialize(() => {
       tgl_join TEXT,
       tgl_resign TEXT,
       no_rekening TEXT,
-      foto_kandidat TEXT
+      foto_kandidat TEXT,
+      divisi TEXT,
+      catatan_reviewer TEXT
     )
   `);
 
-  ['share_token', 'nomor_kk', 'gaji_pokok', 'produktivitas', 'tgl_join', 'tgl_resign', 'no_rekening', 'foto_kandidat'].forEach(col => {
+  ['share_token', 'nomor_kk', 'gaji_pokok', 'produktivitas', 'tgl_join', 'tgl_resign', 'no_rekening', 'foto_kandidat', 'divisi', 'catatan_reviewer'].forEach(col => {
     try {
       sqlite.exec(`ALTER TABLE candidates ADD COLUMN ${col} TEXT`);
     } catch (e) {
@@ -435,16 +437,23 @@ db.serialize(() => {
       password TEXT NOT NULL,
       nama TEXT,
       role TEXT DEFAULT 'admin',
+      reviewer_divisions TEXT DEFAULT '',
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `, (err) => {
+    try {
+      sqlite.exec(`ALTER TABLE users ADD COLUMN reviewer_divisions TEXT DEFAULT ''`);
+    } catch (e) {
+      // Column already exists
+    }
+
     if (!err) {
       db.get('SELECT id FROM users WHERE username = ?', ['admin'], (err, row) => {
         if (!row) {
           const bcrypt = require('bcryptjs');
           const defaultHash = bcrypt.hashSync('admin123', 10);
-          db.run('INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)',
-            ['admin', defaultHash, 'Super Administrator', 'superadmin'],
+          db.run('INSERT INTO users (username, password, nama, role, reviewer_divisions) VALUES (?, ?, ?, ?, ?)',
+            ['admin', defaultHash, 'Super Administrator', 'superadmin', 'Kitchen, Barista, Operasional, HR, Teknisi, FAT, IT'],
             (err) => {
               if (err) console.error('Error seeding default admin:', err);
               else console.log('Default superadmin account created (username: admin, pass: admin123)');
@@ -459,8 +468,8 @@ db.serialize(() => {
         if (!row) {
           const bcrypt = require('bcryptjs');
           const opsHash = bcrypt.hashSync('operasional123', 10);
-          db.run('INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)',
-            ['operasional', opsHash, 'Admin Operasional', 'operasional'],
+          db.run('INSERT INTO users (username, password, nama, role, reviewer_divisions) VALUES (?, ?, ?, ?, ?)',
+            ['operasional', opsHash, 'Admin Operasional', 'operasional', 'Operasional'],
             (err) => {
               if (err) console.error('Error seeding operasional admin:', err);
               else console.log('Default operasional account created (username: operasional, pass: operasional123)');
@@ -473,8 +482,8 @@ db.serialize(() => {
         if (!row) {
           const bcrypt = require('bcryptjs');
           const itHash = bcrypt.hashSync('it123', 10);
-          db.run('INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)',
-            ['it', itHash, 'Staff Khusus IT', 'it'],
+          db.run('INSERT INTO users (username, password, nama, role, reviewer_divisions) VALUES (?, ?, ?, ?, ?)',
+            ['it', itHash, 'Staff Khusus IT', 'it', 'IT'],
             (err) => {
               if (err) console.error('Error seeding single it user:', err);
               else console.log('Single IT account created (username: it, pass: it123)');
@@ -484,6 +493,23 @@ db.serialize(() => {
       });
     }
   });
+
+  // Candidate Reviews / Catatan Evaluasi Reviewer per Divisi
+  db.run(`
+    CREATE TABLE IF NOT EXISTS candidate_reviews (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      candidate_id INTEGER NOT NULL,
+      user_id INTEGER,
+      reviewer_name TEXT,
+      reviewer_username TEXT,
+      reviewer_role TEXT,
+      divisi TEXT,
+      rekomendasi TEXT,
+      catatan TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (candidate_id) REFERENCES candidates (id) ON DELETE CASCADE
+    )
+  `);
 
   // System Settings Table (for API keys, global configurations)
   db.run(`

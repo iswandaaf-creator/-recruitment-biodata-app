@@ -72,6 +72,9 @@
               <i class="fas fa-users-gear me-1"></i>Kelola User
             </a>
           <% } %>
+          <a href="/reviewer" class="btn btn-outline-info btn-sm fw-semibold me-1">
+            <i class="fas fa-clipboard-check me-1"></i>Portal Reviewer
+          </a>
         <% } %>
         <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn btn-danger btn-sm fw-semibold">
           <i class="fas fa-file-pdf me-1"></i>Download 5-Page PDF
@@ -132,7 +135,24 @@
               </div>
             <% } %>
             <div>
-              <h3 class="fw-bold mb-1"><%= candidate.nama_lengkap %></h3>
+              <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                <h3 class="fw-bold mb-0 text-dark"><%= candidate.nama_lengkap %></h3>
+                <% 
+                  const dLow = (candidate.divisi || 'operasional').toLowerCase();
+                  let divCls = 'bg-secondary';
+                  if (dLow.includes('kitchen')) divCls = 'bg-warning text-dark';
+                  else if (dLow.includes('barista')) divCls = 'bg-warning-subtle text-warning-emphasis border border-warning';
+                  else if (dLow.includes('hr')) divCls = 'bg-purple text-white';
+                  else if (dLow.includes('teknisi')) divCls = 'bg-info text-dark';
+                  else if (dLow.includes('fat') || dLow.includes('finance')) divCls = 'bg-primary text-white';
+                  else if (dLow.includes('it')) divCls = 'bg-dark text-info border border-info';
+                  else divCls = 'bg-success text-white';
+                %>
+                <span class="badge <%= divCls %> px-2 py-1"><i class="fas fa-layer-group me-1"></i>Divisi: <%= candidate.divisi || 'Operasional' %></span>
+                <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" style="font-size: 0.75rem;" data-bs-toggle="modal" data-bs-target="#modalChangeDivisi">
+                  <i class="fas fa-pen me-1"></i>Ubah Divisi
+                </button>
+              </div>
               <div class="text-muted fs-6 mb-2">
                 <span class="me-3"><i class="fas fa-briefcase me-1 text-primary"></i><strong>Posisi:</strong> <%= candidate.posisi_dilamar %></span>
                 <span class="me-3"><i class="fas fa-envelope me-1 text-primary"></i><%= candidate.email %></span>
@@ -150,6 +170,50 @@
             </span>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- CATATAN & EVALUASI REVIEWER DIVISI (KITCHEN, BARISTA, OPERASIONAL, HR, TEKNISI, FAT, IT) -->
+    <div class="card border-info border-2 shadow-sm mb-4">
+      <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h5 class="mb-0 fw-bold text-dark">
+          <i class="fas fa-comments text-primary me-2"></i>Catatan & Evaluasi Reviewer Divisi (<%= (typeof reviews !== 'undefined' ? reviews.length : 0) %>)
+        </h5>
+        <a href="/reviewer/candidate/<%= candidate.id %>" class="btn btn-primary btn-sm fw-semibold">
+          <i class="fas fa-pen-to-square me-1"></i>Beri Catatan Sebagai Reviewer
+        </a>
+      </div>
+      <div class="card-body p-4">
+        <% if (typeof reviews !== 'undefined' && reviews.length > 0) { %>
+          <div class="row g-3">
+            <% reviews.forEach(r => { 
+              let rekBadge = 'bg-secondary';
+              if ((r.rekomendasi || '').includes('Direkomendasikan Lolos')) rekBadge = 'bg-success';
+              else if ((r.rekomendasi || '').includes('Dipertimbangkan')) rekBadge = 'bg-warning text-dark';
+              else if ((r.rekomendasi || '').includes('Tidak')) rekBadge = 'bg-danger';
+            %>
+              <div class="col-md-6">
+                <div class="p-3 bg-light rounded border h-100">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                      <strong class="text-dark"><%= r.reviewer_name || r.reviewer_username %></strong>
+                      <span class="badge bg-white text-dark border ms-1 small">Divisi: <%= r.divisi || '-' %></span>
+                    </div>
+                    <span class="badge <%= rekBadge %> small"><%= r.rekomendasi || 'Catatan' %></span>
+                  </div>
+                  <p class="small text-dark mb-2 bg-white p-2 rounded border" style="white-space: pre-line;"><%= r.catatan %></p>
+                  <div class="small text-muted" style="font-size: 0.72rem;">
+                    <i class="fas fa-clock me-1"></i><%= formatDate(r.created_at, true) %> (@<%= r.reviewer_username %>)
+                  </div>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <div class="text-muted small py-2">
+            <i class="fas fa-info-circle me-1 text-info"></i>Belum ada catatan evaluasi dari user/reviewer divisi untuk kandidat ini. Tim reviewer divisi (Kitchen, Barista, FAT, IT, dll.) dapat masuk melalui Portal Reviewer untuk memberikan penilaian.
+          </div>
+        <% } %>
       </div>
     </div>
 
@@ -315,6 +379,45 @@
 
   </div>
 
+  <!-- Modal Ubah Divisi Pelamar -->
+  <div class="modal fade" id="modalChangeDivisi" tabindex="-1" aria-labelledby="modalChangeDivisiLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <form action="/admin/candidate/<%= candidate.id %>/update-division" method="POST">
+          <div class="modal-header bg-slate-900 text-white" style="background-color: #0f172a;">
+            <h5 class="modal-title fw-bold" id="modalChangeDivisiLabel">
+              <i class="fas fa-layer-group text-warning me-2"></i>Ubah Divisi Pelamar
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <p class="small text-muted mb-3">
+              Pilih divisi tujuan untuk pelamar <strong><%= candidate.nama_lengkap %></strong>. Pelamar akan otomatis muncul di Portal Reviewer divisi yang dipilih.
+            </p>
+            <div class="mb-3">
+              <label class="form-label fw-bold small">Pilih Divisi Lowongan <span class="text-danger">*</span></label>
+              <% const divsList = ['Kitchen', 'Barista', 'Operasional', 'HR', 'Teknisi', 'FAT', 'IT']; %>
+              <select class="form-select" name="divisi" required>
+                <% divsList.forEach(div => { %>
+                  <option value="<%= div %>" <%= (candidate.divisi && candidate.divisi.toLowerCase() === div.toLowerCase()) ? 'selected' : '' %>>
+                    <%= div === 'FAT' ? 'FAT (Finance, Akunting, Tax)' : div %>
+                  </option>
+                <% }); %>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer bg-light py-2">
+            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary btn-sm px-3 fw-semibold">
+              <i class="fas fa-save me-1"></i>Simpan Divisi Baru
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Inactivity Auto-Logout (2 Jam) -->
   <script src="/idle-timer.js"></script>
 </body>

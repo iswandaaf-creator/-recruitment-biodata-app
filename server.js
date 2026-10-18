@@ -137,6 +137,9 @@ app.use((req, res, next) => {
       if (role === 'it') {
         return res.redirect('/admin/it');
       }
+      if (role === 'user') {
+        return res.redirect('/reviewer');
+      }
       if (role === 'superadmin' || role === 'admin' || role === 'hr') {
         return res.redirect('/admin');
       }
@@ -207,12 +210,42 @@ function requireAuth(req, res, next) {
   res.redirect('/admin/login');
 }
 
+// Helper: Infer candidate division from applied position if not explicitly set
+function inferDivisi(posisi) {
+  if (!posisi) return 'Operasional';
+  const p = posisi.toLowerCase();
+  if (p.includes('kitchen') || p.includes('cook') || p.includes('koki') || p.includes('chef') || p.includes('pastry') || p.includes('baker') || p.includes('steward')) return 'Kitchen';
+  if (p.includes('barista') || p.includes('bartender') || p.includes('beverage') || p.includes('kopi')) return 'Barista';
+  if (p.includes('teknisi') || p.includes('technician') || p.includes('maintenance') || p.includes('listrik') || p.includes('mekanik') || p.includes('me')) return 'Teknisi';
+  if (p.includes('finance') || p.includes('akunting') || p.includes('accounting') || p.includes('tax') || p.includes('pajak') || p.includes('fat') || p.includes('keuangan')) return 'FAT';
+  if (p.includes('it') || p.includes('programmer') || p.includes('developer') || p.includes('software') || p.includes('edp') || p.includes('network') || p.includes('komputer')) return 'IT';
+  if (p.includes('hr') || p.includes('recruitment') || p.includes('personalia') || p.includes('hrd') || p.includes('ga') || p.includes('general affair')) return 'HR';
+  return 'Operasional';
+}
+
+// Helper: Get user's permitted reviewer divisions
+function getUserReviewerDivisions(user) {
+  if (!user) return [];
+  const role = (user.role || '').toLowerCase().trim();
+  const raw = user.reviewer_divisions || '';
+  if (raw && raw.trim().length > 0) {
+    return raw.split(',').map(s => s.trim()).filter(Boolean);
+  }
+  if (role === 'superadmin' || role === 'admin') {
+    return ['Kitchen', 'Barista', 'Operasional', 'HR', 'Teknisi', 'FAT', 'IT'];
+  }
+  return [];
+}
+
 // HR Authorization Middleware (Otomatis arahkan sesuai role akun)
 function requireHRAuth(req, res, next) {
   if (req.session && req.session.user) {
     const role = (req.session.user.role || '').toLowerCase().trim();
     if (role === 'superadmin' || role === 'admin' || role === 'hr') {
       return next();
+    }
+    if (role === 'user') {
+      return res.redirect('/reviewer');
     }
     if (role === 'operasional' || role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
@@ -226,12 +259,37 @@ function requireHRAuth(req, res, next) {
   res.redirect('/admin/login');
 }
 
+// Reviewer Authorization Middleware (Role USER atau Akun Lain yang Ditempelkan Hak Reviewer)
+function requireReviewerAuth(req, res, next) {
+  if (req.session && req.session.user) {
+    const user = req.session.user;
+    const role = (user.role || '').toLowerCase().trim();
+    if (role === 'superadmin' || role === 'admin' || role === 'user') {
+      return next();
+    }
+    if (user.reviewer_divisions && user.reviewer_divisions.trim().length > 0) {
+      return next();
+    }
+    if (role === 'operasional' || role === 'admin_operasional') {
+      return res.redirect('/admin/operasional');
+    }
+    if (role === 'it') {
+      return res.redirect('/admin/it');
+    }
+    delete req.session.user;
+  }
+  res.redirect('/admin/login');
+}
+
 // Operasional Authorization Middleware (Otomatis arahkan sesuai role akun)
 function requireOperasionalAuth(req, res, next) {
   if (req.session && req.session.user) {
     const role = (req.session.user.role || '').toLowerCase().trim();
     if (role === 'superadmin' || role === 'admin' || role === 'operasional' || role === 'admin_operasional') {
       return next();
+    }
+    if (role === 'user') {
+      return res.redirect('/reviewer');
     }
     if (role === 'it') {
       return res.redirect('/admin/it');
@@ -250,6 +308,9 @@ function requireITAuth(req, res, next) {
     const role = (req.session.user.role || '').toLowerCase().trim();
     if (role === 'superadmin' || role === 'admin' || role === 'it') {
       return next();
+    }
+    if (role === 'user') {
+      return res.redirect('/reviewer');
     }
     if (role === 'operasional' || role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
@@ -281,6 +342,9 @@ app.get('/', (req, res) => {
   }
   if (req.session && req.session.user) {
     const role = (req.session.user.role || '').toLowerCase().trim();
+    if (role === 'user') {
+      return res.redirect('/reviewer');
+    }
     if (role === 'operasional' || role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
     }
@@ -321,6 +385,9 @@ app.get('/form-surat-tugas', (req, res) => {
 app.get('/admin/login', (req, res) => {
   if (req.session && req.session.user) {
     const role = (req.session.user.role || '').toLowerCase().trim();
+    if (role === 'user') {
+      return res.redirect('/reviewer');
+    }
     if (role === 'operasional' || role === 'admin_operasional') {
       return res.redirect('/admin/operasional');
     }
@@ -364,7 +431,8 @@ app.post('/admin/login', (req, res) => {
       id: user.id,
       username: user.username,
       nama: user.nama,
-      role: cleanRole
+      role: cleanRole,
+      reviewer_divisions: user.reviewer_divisions || ''
     };
     req.session.lastActivity = Date.now();
 
@@ -373,6 +441,9 @@ app.post('/admin/login', (req, res) => {
     req.session.save((saveErr) => {
       if (saveErr) console.error('Session save error:', saveErr);
 
+      if (cleanRole === 'user') {
+        return res.redirect('/reviewer');
+      }
       if (cleanRole === 'operasional' || cleanRole === 'admin_operasional') {
         return res.redirect('/admin/operasional');
       }
@@ -395,7 +466,7 @@ app.get('/admin/logout', (req, res) => {
 
 // User Management: List Users (Super Admin Only)
 app.get('/admin/users', requireAuth, requireSuperAdmin, (req, res) => {
-  db.all('SELECT id, username, nama, role, created_at FROM users ORDER BY id ASC', [], (err, rows) => {
+  db.all('SELECT id, username, nama, role, reviewer_divisions, created_at FROM users ORDER BY id ASC', [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
     res.render('users', {
       users: rows,
@@ -409,6 +480,13 @@ app.get('/admin/users', requireAuth, requireSuperAdmin, (req, res) => {
 // User Management: Create User (Super Admin Only)
 app.post('/admin/users/create', requireAuth, requireSuperAdmin, (req, res) => {
   const { username, nama, password, role } = req.body;
+
+  let reviewer_divisions = '';
+  if (Array.isArray(req.body.reviewer_divisions)) {
+    reviewer_divisions = req.body.reviewer_divisions.join(', ');
+  } else if (typeof req.body.reviewer_divisions === 'string') {
+    reviewer_divisions = req.body.reviewer_divisions;
+  }
 
   if (!username || !password || !nama || !role) {
     return res.redirect('/admin/users?error=Semua+field+wajib+diisi!');
@@ -437,14 +515,77 @@ app.post('/admin/users/create', requireAuth, requireSuperAdmin, (req, res) => {
 
       const hash = bcrypt.hashSync(password, 10);
       db.run(
-        'INSERT INTO users (username, password, nama, role) VALUES (?, ?, ?, ?)',
-        [username, hash, nama, role],
+        'INSERT INTO users (username, password, nama, role, reviewer_divisions) VALUES (?, ?, ?, ?, ?)',
+        [username, hash, nama, role, reviewer_divisions],
         (err) => {
           if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
           res.redirect('/admin/users?success=' + encodeURIComponent(`User @${username} (${role}) berhasil dibuat!`));
         }
       );
     });
+  }
+});
+
+// User Management: Edit User & Hak Akses Reviewer (Super Admin Only)
+app.post('/admin/users/edit/:id', requireAuth, requireSuperAdmin, (req, res) => {
+  const targetId = parseInt(req.params.id, 10);
+  const { nama, role, password } = req.body;
+
+  let reviewer_divisions = '';
+  if (Array.isArray(req.body.reviewer_divisions)) {
+    reviewer_divisions = req.body.reviewer_divisions.join(', ');
+  } else if (typeof req.body.reviewer_divisions === 'string') {
+    reviewer_divisions = req.body.reviewer_divisions;
+  }
+
+  if (!nama || !role) {
+    return res.redirect('/admin/users?error=Nama+dan+Role+wajib+diisi!');
+  }
+
+  // Khusus role 'it': Hanya boleh ada tepat 1 akun di seluruh sistem
+  if (role === 'it') {
+    db.get("SELECT id, username FROM users WHERE role = 'it' AND id != ?", [targetId], (err, itUser) => {
+      if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
+      if (itUser) {
+        return res.redirect('/admin/users?error=' + encodeURIComponent(`Gagal: Hanya diperbolehkan tepat 1 akun khusus IT di sistem! (Akun IT saat ini: @${itUser.username})`));
+      }
+      executeUpdate();
+    });
+  } else {
+    executeUpdate();
+  }
+
+  function executeUpdate() {
+    if (password && password.trim().length > 0) {
+      const hash = bcrypt.hashSync(password.trim(), 10);
+      db.run(
+        'UPDATE users SET nama = ?, role = ?, reviewer_divisions = ?, password = ? WHERE id = ?',
+        [nama, role, reviewer_divisions, hash, targetId],
+        (err) => {
+          if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
+          if (req.session.user && req.session.user.id === targetId) {
+            req.session.user.nama = nama;
+            req.session.user.role = role;
+            req.session.user.reviewer_divisions = reviewer_divisions;
+          }
+          res.redirect('/admin/users?success=' + encodeURIComponent(`User ID #${targetId} dan hak akses reviewer berhasil diperbarui!`));
+        }
+      );
+    } else {
+      db.run(
+        'UPDATE users SET nama = ?, role = ?, reviewer_divisions = ? WHERE id = ?',
+        [nama, role, reviewer_divisions, targetId],
+        (err) => {
+          if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
+          if (req.session.user && req.session.user.id === targetId) {
+            req.session.user.nama = nama;
+            req.session.user.role = role;
+            req.session.user.reviewer_divisions = reviewer_divisions;
+          }
+          res.redirect('/admin/users?success=' + encodeURIComponent(`User ID #${targetId} dan hak akses reviewer berhasil diperbarui!`));
+        }
+      );
+    }
   }
 });
 
@@ -571,9 +712,12 @@ app.post('/api/submit', (req, res) => {
       referensi, riwayat_pekerjaan, alasan_rekrutmen, minat_passion, rencana_3_5_tahun,
       prestasi, melamar_perusahaan_lain, social_media, riwayat_kesehatan,
       perkiraan_bergabung, gaji_diharapkan, kota_ttd, tanggal_ttd, signature_data, share_token,
-      nomor_kk, gaji_pokok, produktivitas, tgl_join, tgl_resign, no_rekening, foto_kandidat
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      nomor_kk, gaji_pokok, produktivitas, tgl_join, tgl_resign, no_rekening, foto_kandidat,
+      divisi
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
+
+  const calculatedDivisi = body.divisi || inferDivisi(body.posisi_dilamar) || 'Operasional';
 
   const params = [
     body.posisi_dilamar || '', body.posisi_lain || '', body.sumber_info || '', body.punya_kerabat || '', body.nama_kerabat_posisi || '',
@@ -588,7 +732,8 @@ app.post('/api/submit', (req, res) => {
     body.perkiraan_bergabung || '', body.gaji_diharapkan || '', body.kota_ttd || '', body.tanggal_ttd || '', body.signature_data || '',
     body.share_token || body.ref || body.token || '',
     body.nomor_kk || '', body.gaji_pokok || '', body.produktivitas || '', body.tgl_join || '', body.tgl_resign || '', body.no_rekening || '',
-    body.foto_kandidat || ''
+    body.foto_kandidat || '',
+    calculatedDivisi
   ];
 
   db.run(sql, params, function (err) {
@@ -618,65 +763,74 @@ app.get('/admin', requireHRAuth, (req, res) => {
   db.all('SELECT * FROM candidates ORDER BY id DESC', [], (err, rows) => {
     if (err) return res.status(500).send(err.message);
 
-    const ktpMap = {}, emailMap = {}, hpMap = {}, namaMap = {};
-    rows.forEach(r => {
-      if (r.nomor_ktp && r.nomor_ktp.trim()) {
-        const k = r.nomor_ktp.trim().toLowerCase();
-        ktpMap[k] = (ktpMap[k] || 0) + 1;
-      }
-      if (r.email && r.email.trim()) {
-        const e = r.email.trim().toLowerCase();
-        emailMap[e] = (emailMap[e] || 0) + 1;
-      }
-      if (r.no_hp && r.no_hp.trim()) {
-        const h = r.no_hp.trim().replace(/\D/g, '');
-        if (h.length > 5) hpMap[h] = (hpMap[h] || 0) + 1;
-      }
-      if (r.nama_lengkap && r.nama_lengkap.trim()) {
-        const n = r.nama_lengkap.trim().toLowerCase();
-        namaMap[n] = (namaMap[n] || 0) + 1;
-      }
+    db.all('SELECT candidate_id, COUNT(*) as review_count, MAX(catatan) as last_catatan FROM candidate_reviews GROUP BY candidate_id', [], (revErr, reviewCounts) => {
+      const revMap = {};
+      (reviewCounts || []).forEach(rc => {
+        revMap[rc.candidate_id] = rc.review_count;
+      });
+
+      const ktpMap = {}, emailMap = {}, hpMap = {}, namaMap = {};
+      rows.forEach(r => {
+        if (r.nomor_ktp && r.nomor_ktp.trim()) {
+          const k = r.nomor_ktp.trim().toLowerCase();
+          ktpMap[k] = (ktpMap[k] || 0) + 1;
+        }
+        if (r.email && r.email.trim()) {
+          const e = r.email.trim().toLowerCase();
+          emailMap[e] = (emailMap[e] || 0) + 1;
+        }
+        if (r.no_hp && r.no_hp.trim()) {
+          const h = r.no_hp.trim().replace(/\D/g, '');
+          if (h.length > 5) hpMap[h] = (hpMap[h] || 0) + 1;
+        }
+        if (r.nama_lengkap && r.nama_lengkap.trim()) {
+          const n = r.nama_lengkap.trim().toLowerCase();
+          namaMap[n] = (namaMap[n] || 0) + 1;
+        }
+      });
+
+      const candidates = rows.map(r => {
+        const k = r.nomor_ktp ? r.nomor_ktp.trim().toLowerCase() : '';
+        const e = r.email ? r.email.trim().toLowerCase() : '';
+        const h = r.no_hp ? r.no_hp.trim().replace(/\D/g, '') : '';
+        const n = r.nama_lengkap ? r.nama_lengkap.trim().toLowerCase() : '';
+
+        let dupCount = 1;
+        let reasons = [];
+
+        if (k && ktpMap[k] > 1) {
+          dupCount = Math.max(dupCount, ktpMap[k]);
+          reasons.push('KTP');
+        }
+        if (e && emailMap[e] > 1) {
+          dupCount = Math.max(dupCount, emailMap[e]);
+          reasons.push('Email');
+        }
+        if (h && hpMap[h] > 1) {
+          dupCount = Math.max(dupCount, hpMap[h]);
+          reasons.push('No HP');
+        }
+        if (n && namaMap[n] > 1 && reasons.length === 0) {
+          dupCount = Math.max(dupCount, namaMap[n]);
+          reasons.push('Nama');
+        }
+
+        return {
+          ...r,
+          divisi: r.divisi || inferDivisi(r.posisi_dilamar),
+          review_count: revMap[r.id] || 0,
+          duplicate_count: dupCount,
+          is_duplicate: dupCount > 1,
+          match_reason: reasons.join(', ')
+        };
+      });
+
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+      const host = req.headers['x-forwarded-host'] || req.get('host') || 'localhost:3000';
+      const baseUrl = `${protocol}://${host}`;
+
+      res.render('admin', { candidates, user: req.session.user, baseUrl });
     });
-
-    const candidates = rows.map(r => {
-      const k = r.nomor_ktp ? r.nomor_ktp.trim().toLowerCase() : '';
-      const e = r.email ? r.email.trim().toLowerCase() : '';
-      const h = r.no_hp ? r.no_hp.trim().replace(/\D/g, '') : '';
-      const n = r.nama_lengkap ? r.nama_lengkap.trim().toLowerCase() : '';
-
-      let dupCount = 1;
-      let reasons = [];
-
-      if (k && ktpMap[k] > 1) {
-        dupCount = Math.max(dupCount, ktpMap[k]);
-        reasons.push('KTP');
-      }
-      if (e && emailMap[e] > 1) {
-        dupCount = Math.max(dupCount, emailMap[e]);
-        reasons.push('Email');
-      }
-      if (h && hpMap[h] > 1) {
-        dupCount = Math.max(dupCount, hpMap[h]);
-        reasons.push('No HP');
-      }
-      if (n && namaMap[n] > 1 && reasons.length === 0) {
-        dupCount = Math.max(dupCount, namaMap[n]);
-        reasons.push('Nama');
-      }
-
-      return {
-        ...r,
-        duplicate_count: dupCount,
-        is_duplicate: dupCount > 1,
-        match_reason: reasons.join(', ')
-      };
-    });
-
-    const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
-    const host = req.headers['x-forwarded-host'] || req.get('host') || 'localhost:3000';
-    const baseUrl = `${protocol}://${host}`;
-
-    res.render('admin', { candidates, user: req.session.user, baseUrl });
   });
 });
 
@@ -684,6 +838,8 @@ app.get('/admin', requireHRAuth, (req, res) => {
 app.get('/admin/candidate/:id', requireHRAuth, (req, res) => {
   db.get('SELECT * FROM candidates WHERE id = ?', [req.params.id], (err, row) => {
     if (err || !row) return res.status(404).send('Candidate not found');
+
+    row.divisi = row.divisi || inferDivisi(row.posisi_dilamar);
 
     const k = row.nomor_ktp ? row.nomor_ktp.trim() : '';
     const e = row.email ? row.email.trim().toLowerCase() : '';
@@ -709,14 +865,30 @@ app.get('/admin/candidate/:id', requireHRAuth, (req, res) => {
       const cw2 = typeof row.catatan_wawancara_2 === 'string' ? JSON.parse(row.catatan_wawancara_2 || '{}') : (row.catatan_wawancara_2 || {});
       const cw3 = typeof row.catatan_wawancara_3 === 'string' ? JSON.parse(row.catatan_wawancara_3 || '{}') : (row.catatan_wawancara_3 || {});
 
-      res.render('candidate_detail', {
-        candidate: row,
-        cw1, cw2, cw3,
-        user: req.session.user,
-        duplicates: duplicates,
-        is_duplicate: duplicates.length > 1
+      // Query candidate reviews from department reviewers
+      db.all('SELECT * FROM candidate_reviews WHERE candidate_id = ? ORDER BY id DESC', [req.params.id], (revErr, reviews) => {
+        res.render('candidate_detail', {
+          candidate: row,
+          cw1, cw2, cw3,
+          reviews: reviews || [],
+          user: req.session.user,
+          duplicates: duplicates,
+          is_duplicate: duplicates.length > 1
+        });
       });
     });
+  });
+});
+
+// Update Candidate Division (HR / Super Admin)
+app.post('/admin/candidate/:id/update-division', requireHRAuth, (req, res) => {
+  const candidateId = parseInt(req.params.id, 10);
+  const { divisi } = req.body;
+  if (!divisi) {
+    return res.redirect(`/admin/candidate/${candidateId}`);
+  }
+  db.run('UPDATE candidates SET divisi = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [divisi, candidateId], (err) => {
+    res.redirect(`/admin/candidate/${candidateId}`);
   });
 });
 
@@ -760,6 +932,151 @@ app.post('/admin/candidate/:id/interview', requireHRAuth, (req, res) => {
   db.run(sql, params, (err) => {
     if (err) return res.status(500).send(err.message);
     res.redirect(`/admin/candidate/${req.params.id}`);
+  });
+});
+
+// =========================================================================
+// PORTAL REVIEWER PELAMAR (ROLE USER & ACCOUNTS WITH REVIEWER PERMISSIONS)
+// =========================================================================
+
+// Reviewer Dashboard: List candidates matching reviewer's assigned divisions
+app.get('/reviewer', requireReviewerAuth, (req, res) => {
+  const user = req.session.user;
+  const allowedDivs = getUserReviewerDivisions(user);
+  const isSuperOrAdmin = (user.role || '').toLowerCase().includes('admin');
+
+  db.all('SELECT * FROM candidates ORDER BY id DESC', [], (err, rows) => {
+    if (err) return res.status(500).send(err.message);
+
+    db.all('SELECT * FROM candidate_reviews ORDER BY id DESC', [], (revErr, allReviews) => {
+      const reviewMap = {};
+      (allReviews || []).forEach(r => {
+        if (!reviewMap[r.candidate_id]) {
+          reviewMap[r.candidate_id] = {
+            count: 0,
+            latest_rekomendasi: r.rekomendasi,
+            latest_catatan: r.catatan,
+            latest_reviewer_name: r.reviewer_name,
+            latest_review_date: r.created_at
+          };
+        }
+        reviewMap[r.candidate_id].count++;
+      });
+
+      // Filter candidates based on user's assigned divisions
+      const filtered = rows.filter(c => {
+        if (isSuperOrAdmin && allowedDivs.length >= 7) return true;
+        const candidateDiv = (c.divisi || inferDivisi(c.posisi_dilamar) || '').toLowerCase();
+        return allowedDivs.some(ad => ad.toLowerCase() === candidateDiv);
+      }).map(c => {
+        const rev = reviewMap[c.id] || { count: 0 };
+        return {
+          ...c,
+          divisi: c.divisi || inferDivisi(c.posisi_dilamar),
+          review_count: rev.count,
+          latest_rekomendasi: rev.latest_rekomendasi || null,
+          latest_catatan: rev.latest_catatan || null,
+          latest_reviewer_name: rev.latest_reviewer_name || null,
+          latest_review_date: rev.latest_review_date || null
+        };
+      });
+
+      res.render('reviewer_dashboard', {
+        candidates: filtered,
+        user,
+        allowedDivisions: allowedDivs,
+        success: req.query.success || null,
+        error: req.query.error || null
+      });
+    });
+  });
+});
+
+// Reviewer Candidate Detail: View biodata & submit review note
+app.get('/reviewer/candidate/:id', requireReviewerAuth, (req, res) => {
+  const candidateId = parseInt(req.params.id, 10);
+  const user = req.session.user;
+  const allowedDivs = getUserReviewerDivisions(user);
+  const isSuperOrAdmin = (user.role || '').toLowerCase().includes('admin');
+
+  db.get('SELECT * FROM candidates WHERE id = ?', [candidateId], (err, candidate) => {
+    if (err || !candidate) {
+      return res.status(404).send('Data pelamar tidak ditemukan.');
+    }
+
+    const candidateDiv = candidate.divisi || inferDivisi(candidate.posisi_dilamar);
+    candidate.divisi = candidateDiv;
+
+    // Check permission for division
+    const hasPermission = isSuperOrAdmin || allowedDivs.some(ad => ad.toLowerCase() === candidateDiv.toLowerCase());
+    if (!hasPermission) {
+      return res.status(403).send('<h3>403 Forbidden: Anda tidak memiliki wewenang untuk mereview kandidat divisi ini.</h3><a href="/reviewer">Kembali ke Portal Reviewer</a>');
+    }
+
+    db.all('SELECT * FROM candidate_reviews WHERE candidate_id = ? ORDER BY id DESC', [candidateId], (revErr, reviews) => {
+      res.render('reviewer_candidate_detail', {
+        candidate,
+        reviews: reviews || [],
+        user,
+        allowedDivisions: allowedDivs,
+        success: req.query.success || null,
+        error: req.query.error || null
+      });
+    });
+  });
+});
+
+// Submit Reviewer Note (POST)
+app.post('/reviewer/candidate/:id/review', requireReviewerAuth, (req, res) => {
+  const candidateId = parseInt(req.params.id, 10);
+  const user = req.session.user;
+  const { divisi, rekomendasi, catatan } = req.body;
+
+  if (!catatan || !catatan.trim()) {
+    return res.redirect(`/reviewer/candidate/${candidateId}?error=Catatan+evaluasi+wajib+diisi!`);
+  }
+
+  const allowedDivs = getUserReviewerDivisions(user);
+  const isSuperOrAdmin = (user.role || '').toLowerCase().includes('admin');
+
+  db.get('SELECT id, divisi, posisi_dilamar FROM candidates WHERE id = ?', [candidateId], (err, candidate) => {
+    if (err || !candidate) {
+      return res.status(404).send('Data pelamar tidak ditemukan.');
+    }
+
+    const cDiv = candidate.divisi || inferDivisi(candidate.posisi_dilamar);
+    const hasPermission = isSuperOrAdmin || allowedDivs.some(ad => ad.toLowerCase() === cDiv.toLowerCase());
+    if (!hasPermission) {
+      return res.status(403).send('Akses ditolak: Anda tidak memiliki wewenang pada divisi ini.');
+    }
+
+    const reviewDiv = divisi || cDiv;
+    const reviewerName = user.nama || user.username;
+    const reviewerUsername = user.username;
+    const reviewerRole = user.role || 'user';
+
+    const insertSql = `
+      INSERT INTO candidate_reviews (
+        candidate_id, user_id, reviewer_name, reviewer_username, reviewer_role, divisi, rekomendasi, catatan
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    db.run(insertSql, [
+      candidateId, user.id, reviewerName, reviewerUsername, reviewerRole, reviewDiv, rekomendasi || 'Catatan Review', catatan.trim()
+    ], function(insErr) {
+      if (insErr) {
+        return res.redirect(`/reviewer/candidate/${candidateId}?error=` + encodeURIComponent(insErr.message));
+      }
+
+      // Update summary in candidates table
+      db.run(
+        'UPDATE candidates SET catatan_reviewer = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+        [`[${reviewDiv} - ${rekomendasi}] ${catatan.trim()}`, candidateId],
+        () => {
+          res.redirect(`/reviewer/candidate/${candidateId}?success=` + encodeURIComponent('Catatan evaluasi review berhasil disimpan!'));
+        }
+      );
+    });
   });
 });
 
