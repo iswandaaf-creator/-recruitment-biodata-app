@@ -8,37 +8,50 @@ async function generateSuratTugasExcel(records) {
   const worksheet = workbook.addWorksheet('Surat Tugas & LPJ');
 
   // Embed KOV Logo Image if exists
-  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
-  if (fs.existsSync(logoPath)) {
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_2.jpg');
+  const fallbackLogo = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  const targetLogo = fs.existsSync(logoPath) ? logoPath : fallbackLogo;
+  if (fs.existsSync(targetLogo)) {
+    const ext = targetLogo.endsWith('.png') ? 'png' : 'jpeg';
     const logoId = workbook.addImage({
-      buffer: fs.readFileSync(logoPath),
-      extension: 'png',
+      buffer: fs.readFileSync(targetLogo),
+      extension: ext,
     });
     worksheet.addImage(logoId, {
       tl: { col: 0, row: 0 },
-      ext: { width: 150, height: 46 }
+      ext: { width: 44, height: 44 }
     });
   }
 
-  // Row 1: Space for Logo
-  worksheet.getRow(1).height = 38;
-
-  // Title Headers
-  worksheet.mergeCells('C1:P1');
-  const titleCell = worksheet.getCell('C1');
-  titleCell.value = 'REKAPITULASI SURAT TUGAS & FORM PERTANGGUNGJAWABAN (LPJ) - KOV GROUP';
-  titleCell.font = { name: 'Segoe UI', size: 14, bold: true, color: { argb: '0F5132' } };
+  // Row 1: Document Title Header
+  worksheet.mergeCells('B1:W1');
+  const titleCell = worksheet.getCell('B1');
+  titleCell.value = 'KOV GROUP / KOV KOFFIE — REKAPITULASI SURAT TUGAS & PERTANGGUNGJAWABAN (LPJ)';
+  titleCell.font = { name: 'Segoe UI', size: 13, bold: true, color: { argb: 'FFFFFF' } };
+  titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '0F5132' } };
   titleCell.alignment = { vertical: 'middle', horizontal: 'left' };
+  worksheet.getRow(1).height = 30;
 
-  worksheet.mergeCells('C2:P2');
-  const subTitleCell = worksheet.getCell('C2');
-  subTitleCell.value = `Exported: ${formatDateTime(new Date())} | Total Dokumen: ${records.length}`;
-  subTitleCell.font = { name: 'Segoe UI', size: 10, italic: true, color: { argb: '555555' } };
+  // Row 2: Address Banner
+  worksheet.mergeCells('B2:W2');
+  const addrCell = worksheet.getCell('B2');
+  addrCell.value = 'Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232  |  IG : KOV KOFFIE';
+  addrCell.font = { name: 'Segoe UI', size: 9.5, bold: true, color: { argb: '334155' } };
+  addrCell.alignment = { vertical: 'middle', horizontal: 'left' };
+  worksheet.getRow(2).height = 20;
+
+  // Row 3: Subtitle
+  worksheet.mergeCells('A3:W3');
+  const subTitleCell = worksheet.getCell('A3');
+  subTitleCell.value = `Tanggal Ekspor: ${formatDateTime(new Date())}  |  Total Dokumen: ${records.length}`;
+  subTitleCell.font = { name: 'Segoe UI', size: 9, italic: true, color: { argb: '555555' } };
   subTitleCell.alignment = { vertical: 'middle', horizontal: 'left' };
+  worksheet.getRow(3).height = 20;
 
-  worksheet.getRow(3).height = 10;
+  // Row 4: Spacer Row
+  worksheet.getRow(4).height = 8;
 
-  // Column Headers (Row 4)
+  // Column Headers (Row 5)
   const columns = [
     { header: 'No. Surat', key: 'no_surat', width: 22 },
     { header: 'Tgl Surat', key: 'tanggal_surat', width: 14 },
@@ -65,7 +78,7 @@ async function generateSuratTugasExcel(records) {
     { header: 'Status LPJ', key: 'status_lpj', width: 16 }
   ];
 
-  const headerRow = worksheet.getRow(4);
+  const headerRow = worksheet.getRow(5);
   columns.forEach((col, idx) => {
     const cell = headerRow.getCell(idx + 1);
     cell.value = col.header;
@@ -84,10 +97,10 @@ async function generateSuratTugasExcel(records) {
       right: { style: 'thin', color: { argb: '000000' } }
     };
   });
-  headerRow.height = 26;
+  headerRow.height = 28;
 
   // Data Rows
-  let currentRowIdx = 5;
+  let currentRowIdx = 6;
   records.forEach((rec) => {
     const row = worksheet.getRow(currentRowIdx);
 

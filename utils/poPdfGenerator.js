@@ -10,9 +10,12 @@ async function generatePOPDF(poData) {
 
   // Read KOV Logo as Base64
   let logoBase64 = '';
-  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
-  if (fs.existsSync(logoPath)) {
-    logoBase64 = 'data:image/png;base64,' + fs.readFileSync(logoPath).toString('base64');
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_2.jpg');
+  const fallbackLogo = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  const targetLogo = fs.existsSync(logoPath) ? logoPath : fallbackLogo;
+  if (fs.existsSync(targetLogo)) {
+    const mime = targetLogo.endsWith('.png') ? 'image/png' : 'image/jpeg';
+    logoBase64 = `data:${mime};base64,` + fs.readFileSync(targetLogo).toString('base64');
   }
 
   // Parse items JSON safely if passed as string

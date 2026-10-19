@@ -123,97 +123,97 @@
     <!-- Bento Metric Cards (Statistik Cepat & Responsif) -->
     <div class="bento-grid">
       <!-- Total Pelamar -->
-      <div class="bento-card bento-card-blue">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title">Total Pelamar</div>
-            <div class="bento-metric-value"><%= candidates.length %></div>
-          </div>
-          <div class="bento-icon-box bento-icon-blue">
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title">Total Pelamar</div>
+          <div class="bento-metric-value"><%= candidates.length %></div>
+          <div class="bento-metric-sub">Seluruh berkas pelamar</div>
+        </div>
+        <div class="coinbase-ring coinbase-ring-blue">
+          <div class="coinbase-ring-inner">
             <i class="fas fa-users"></i>
           </div>
         </div>
-        <div class="bento-metric-sub">Seluruh berkas pelamar terdaftar</div>
       </div>
 
       <!-- Belum Diproses / Perlu Review -->
-      <div class="bento-card">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title">Perlu Review</div>
-            <div class="bento-metric-value text-secondary">
-              <%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>
-            </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title">Perlu Review</div>
+          <div class="bento-metric-value text-secondary">
+            <%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>
           </div>
-          <div class="bento-icon-box" style="background: var(--kov-slate-100); color: var(--kov-slate-600);">
+          <div class="bento-metric-sub">Menunggu review HR/User</div>
+        </div>
+        <div class="coinbase-ring" style="background: conic-gradient(#64748b 0% 50%, #f1f5f9 50% 100%);">
+          <div class="coinbase-ring-inner text-secondary">
             <i class="fas fa-inbox"></i>
           </div>
         </div>
-        <div class="bento-metric-sub">Menunggu keputusan HR/User</div>
       </div>
 
       <!-- Diterima -->
-      <div class="bento-card bento-card-emerald">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title">Diterima</div>
-            <div class="bento-metric-value" style="color: var(--kov-primary-600);">
-              <%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>
-            </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title text-success">Diterima</div>
+          <div class="bento-metric-value" style="color: var(--kov-primary-600);">
+            <%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>
           </div>
-          <div class="bento-icon-box bento-icon-emerald">
+          <div class="bento-metric-sub">Lolos interview kerja</div>
+        </div>
+        <div class="coinbase-ring coinbase-ring-emerald">
+          <div class="coinbase-ring-inner">
             <i class="fas fa-circle-check"></i>
           </div>
         </div>
-        <div class="bento-metric-sub">Lolos seleksi interview kerja</div>
       </div>
 
       <!-- Dipertimbangkan -->
-      <div class="bento-card bento-card-amber">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title">Dipertimbangkan</div>
-            <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;">
-              <%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>
-            </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title text-warning">Dipertimbangkan</div>
+          <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;">
+            <%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>
           </div>
-          <div class="bento-icon-box bento-icon-amber">
+          <div class="bento-metric-sub">Kandidat hold / cadangan</div>
+        </div>
+        <div class="coinbase-ring coinbase-ring-amber">
+          <div class="coinbase-ring-inner">
             <i class="fas fa-hourglass-half"></i>
           </div>
         </div>
-        <div class="bento-metric-sub">Kandidat cadangan / hold</div>
       </div>
 
       <!-- Ditolak -->
-      <div class="bento-card bento-card-rose">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title">Ditolak</div>
-            <div class="bento-metric-value text-danger">
-              <%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>
-            </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title text-danger">Ditolak</div>
+          <div class="bento-metric-value text-danger">
+            <%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>
           </div>
-          <div class="bento-icon-box bento-icon-rose">
+          <div class="bento-metric-sub">Belum memenuhi syarat</div>
+        </div>
+        <div class="coinbase-ring coinbase-ring-rose">
+          <div class="coinbase-ring-inner">
             <i class="fas fa-circle-xmark"></i>
           </div>
         </div>
-        <div class="bento-metric-sub">Kualifikasi belum sesuai</div>
       </div>
 
       <!-- Pelamar Duplikat -->
-      <div class="bento-card" style="border-top: 3px solid #f97316;">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title" style="color: #ea580c;">Duplikat</div>
-            <div class="bento-metric-value" style="color: #ea580c;">
-              <%= candidates.filter(c => c.is_duplicate).length %>
-            </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title" style="color: #ea580c;">Duplikat</div>
+          <div class="bento-metric-value" style="color: #ea580c;">
+            <%= candidates.filter(c => c.is_duplicate).length %>
           </div>
-          <div class="bento-icon-box" style="background: #fff7ed; color: #ea580c;">
+          <div class="bento-metric-sub">Terdeteksi mengirim berkas &gt;1x</div>
+        </div>
+        <div class="coinbase-ring" style="background: conic-gradient(#f97316 0% 40%, #ffedd5 40% 100%);">
+          <div class="coinbase-ring-inner" style="color: #ea580c;">
             <i class="fas fa-triangle-exclamation"></i>
           </div>
         </div>
-        <div class="bento-metric-sub">Terdeteksi mengirim berkas &gt;1x</div>
       </div>
     </div>
 

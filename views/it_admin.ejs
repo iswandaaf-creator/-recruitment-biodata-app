@@ -220,17 +220,17 @@
       </div>
     <% } %>
 
-    <!-- Bento Metric Cards (KOV Emerald & Slate Palette) -->
+    <!-- Bento Metric Cards (Coinbase Circular Ring Style) -->
     <div class="row g-3 mb-4">
       <div class="col-6 col-md-3">
-        <div class="bento-card-it card-emerald">
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <div class="text-muted small fw-semibold text-uppercase tracking-wider" style="font-size: 0.72rem;">Total Pengeluaran IT</div>
-              <div class="fs-4 fw-bold text-success mt-1">Rp <%= totalPengeluaran.toLocaleString('id-ID') %></div>
-              <div class="text-secondary small mt-1" style="font-size: 11px;">Akumulasi seluruh outlet</div>
-            </div>
-            <div class="bento-icon-box bg-success bg-opacity-10 text-success">
+        <div class="coinbase-kpi-card h-100">
+          <div>
+            <div class="bento-metric-title">Total Belanja IT</div>
+            <div class="bento-metric-value text-success" style="font-size: 1.45rem;">Rp <%= totalPengeluaran.toLocaleString('id-ID') %></div>
+            <div class="bento-metric-sub">Seluruh outlet KOV</div>
+          </div>
+          <div class="coinbase-ring coinbase-ring-emerald">
+            <div class="coinbase-ring-inner">
               <i class="fas fa-wallet"></i>
             </div>
           </div>
@@ -238,14 +238,14 @@
       </div>
 
       <div class="col-6 col-md-3">
-        <div class="bento-card-it card-blue">
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <div class="text-muted small fw-semibold text-uppercase tracking-wider" style="font-size: 0.72rem;">Bulan Ini</div>
-              <div class="fs-4 fw-bold text-primary mt-1">Rp <%= pengeluaranBulanIni.toLocaleString('id-ID') %></div>
-              <div class="text-secondary small mt-1" style="font-size: 11px;"><%= new Date().toLocaleString('id-ID', { month: 'long', year: 'numeric' }) %></div>
-            </div>
-            <div class="bento-icon-box bg-primary bg-opacity-10 text-primary">
+        <div class="coinbase-kpi-card h-100">
+          <div>
+            <div class="bento-metric-title">Bulan Ini</div>
+            <div class="bento-metric-value text-primary" style="font-size: 1.45rem;">Rp <%= pengeluaranBulanIni.toLocaleString('id-ID') %></div>
+            <div class="bento-metric-sub"><%= new Date().toLocaleString('id-ID', { month: 'short', year: 'numeric' }) %></div>
+          </div>
+          <div class="coinbase-ring coinbase-ring-blue">
+            <div class="coinbase-ring-inner">
               <i class="fas fa-calendar-check"></i>
             </div>
           </div>
@@ -253,14 +253,14 @@
       </div>
 
       <div class="col-6 col-md-3">
-        <div class="bento-card-it card-purple">
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <div class="text-muted small fw-semibold text-uppercase tracking-wider" style="font-size: 0.72rem;">Total Nota / Resi</div>
-              <div class="fs-4 fw-bold text-dark mt-1"><%= expenses.length %> <span class="fs-6 fw-normal text-muted">Nota</span></div>
-              <div class="text-secondary small mt-1" style="font-size: 11px;">Belanja vendor IT</div>
-            </div>
-            <div class="bento-icon-box bg-secondary bg-opacity-10 text-secondary">
+        <div class="coinbase-kpi-card h-100">
+          <div>
+            <div class="bento-metric-title">Total Nota</div>
+            <div class="bento-metric-value"><%= expenses.length %> <span class="fs-6 fw-normal text-muted">Nota</span></div>
+            <div class="bento-metric-sub">Belanja vendor IT</div>
+          </div>
+          <div class="coinbase-ring coinbase-ring-purple">
+            <div class="coinbase-ring-inner">
               <i class="fas fa-receipt"></i>
             </div>
           </div>
@@ -268,14 +268,14 @@
       </div>
 
       <div class="col-6 col-md-3">
-        <div class="bento-card-it card-amber">
-          <div class="d-flex align-items-center justify-content-between">
-            <div>
-              <div class="text-muted small fw-semibold text-uppercase tracking-wider" style="font-size: 0.72rem;">Pending / Reimburse</div>
-              <div class="fs-4 fw-bold text-warning mt-1"><%= totalPending %> <span class="fs-6 fw-normal text-muted">Nota</span></div>
-              <div class="text-secondary small mt-1" style="font-size: 11px;">Perlu verifikasi bayar</div>
-            </div>
-            <div class="bento-icon-box bg-warning bg-opacity-10 text-warning">
+        <div class="coinbase-kpi-card h-100">
+          <div>
+            <div class="bento-metric-title text-warning">Pending</div>
+            <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;"><%= totalPending %> <span class="fs-6 fw-normal text-muted">Nota</span></div>
+            <div class="bento-metric-sub">Perlu verifikasi</div>
+          </div>
+          <div class="coinbase-ring coinbase-ring-amber">
+            <div class="coinbase-ring-inner">
               <i class="fas fa-clock"></i>
             </div>
           </div>

@@ -49,41 +49,57 @@ async function generateITExcel(records, filterOptions = {}) {
   const worksheet = workbook.addWorksheet(sheetName);
 
   // Embed Logo KOV if exists
-  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
-  if (fs.existsSync(logoPath)) {
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_2.jpg');
+  const fallbackLogo = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  const targetLogo = fs.existsSync(logoPath) ? logoPath : fallbackLogo;
+  if (fs.existsSync(targetLogo)) {
+    const ext = targetLogo.endsWith('.png') ? 'png' : 'jpeg';
     const logoId = workbook.addImage({
-      buffer: fs.readFileSync(logoPath),
-      extension: 'png',
+      buffer: fs.readFileSync(targetLogo),
+      extension: ext,
     });
     worksheet.addImage(logoId, {
       tl: { col: 0, row: 0 },
-      ext: { width: 140, height: 42 }
+      ext: { width: 44, height: 44 }
     });
   }
 
   // Header Title
-  worksheet.getRow(1).height = 32;
-  worksheet.mergeCells('C1:N1');
-  const titleCell = worksheet.getCell('C1');
+  worksheet.getRow(1).height = 30;
+  worksheet.mergeCells('B1:N1');
+  const titleCell = worksheet.getCell('B1');
   titleCell.value = (outletName && outletName !== 'ALL' && outletName !== 'Semua Outlet')
-    ? `REKAPITULASI PEMBELANJAAN IT - ${outletName.toUpperCase()} - KOV GROUP`
-    : 'REKAPITULASI PEMBELANJAAN IT PER OUTLET - KOV GROUP';
-  titleCell.font = { name: 'Segoe UI', size: 13, bold: true, color: { argb: '0F5132' } };
+    ? `KOV GROUP / KOV KOFFIE — REKAPITULASI PEMBELANJAAN IT (${outletName.toUpperCase()})`
+    : 'KOV GROUP / KOV KOFFIE — REKAPITULASI PEMBELANJAAN IT PER OUTLET';
+  titleCell.font = { name: 'Segoe UI', size: 13, bold: true, color: { argb: 'FFFFFF' } };
+  titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '0F5132' } };
   titleCell.alignment = { vertical: 'middle', horizontal: 'left' };
 
-  // Subtitle Metadata (Outlet, Vendor, Periode, Filter Item)
+  // Subtitle Address Banner
   worksheet.getRow(2).height = 20;
-  worksheet.mergeCells('C2:N2');
-  const metaCell1 = worksheet.getCell('C2');
+  worksheet.mergeCells('B2:N2');
+  const addrCell = worksheet.getCell('B2');
+  addrCell.value = 'Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232  |  IG : KOV KOFFIE';
+  addrCell.font = { name: 'Segoe UI', size: 9.5, bold: true, color: { argb: '334155' } };
+  addrCell.alignment = { vertical: 'middle', horizontal: 'left' };
+
+  // Subtitle Metadata (Outlet, Vendor, Periode, Filter Item)
+  worksheet.getRow(3).height = 18;
+  worksheet.mergeCells('A3:N3');
+  const metaCell1 = worksheet.getCell('A3');
   metaCell1.value = `Outlet: ${outletName}  |  Vendor: ${vendorLabel}  |  Periode: ${periodeLabel}  |  Filter Item: ${filterItemLabel}`;
-  metaCell1.font = { name: 'Segoe UI', size: 10, bold: true, color: { argb: '334155' } };
+  metaCell1.font = { name: 'Segoe UI', size: 9, bold: true, color: { argb: '475569' } };
   metaCell1.alignment = { vertical: 'middle', horizontal: 'left' };
 
-  worksheet.getRow(3).height = 18;
-  worksheet.mergeCells('C3:N3');
-  const metaCell2 = worksheet.getCell('C3');
+  // Subtitle Metadata 2 (Export Date & Totals placeholder)
+  worksheet.getRow(4).height = 18;
+  worksheet.mergeCells('A4:N4');
+  const metaCell2 = worksheet.getCell('A4');
 
-  // Columns definition
+  // Spacer row 5
+  worksheet.getRow(5).height = 8;
+
+  // Columns definition (Row 6)
   const columns = [
     { header: 'No', key: 'no', width: 6 },
     { header: 'Outlet / Unit', key: 'unit_outlet', width: 24 },
@@ -101,7 +117,7 @@ async function generateITExcel(records, filterOptions = {}) {
     { header: 'Bukti / No. Resi', key: 'bukti_transaksi', width: 22 }
   ];
 
-  const headerRow = worksheet.getRow(5);
+  const headerRow = worksheet.getRow(6);
   headerRow.height = 28;
 
   columns.forEach((col, idx) => {
@@ -123,7 +139,7 @@ async function generateITExcel(records, filterOptions = {}) {
     };
   });
 
-  let currentRow = 6;
+  let currentRow = 7;
   let rowCounter = 1;
   let totalKeseluruhan = 0;
   let totalItemCount = 0;

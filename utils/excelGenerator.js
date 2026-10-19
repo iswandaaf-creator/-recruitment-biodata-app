@@ -43,30 +43,41 @@ async function generateExcel(candidates = []) {
   summarySheet.views = [{ showGridLines: true }];
 
   // Embed KOV Logo Image if exists
-  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
-  if (fs.existsSync(logoPath)) {
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_2.jpg');
+  const fallbackLogo = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  const targetLogo = fs.existsSync(logoPath) ? logoPath : fallbackLogo;
+  if (fs.existsSync(targetLogo)) {
+    const ext = targetLogo.endsWith('.png') ? 'png' : 'jpeg';
     const logoId = workbook.addImage({
-      buffer: fs.readFileSync(logoPath),
-      extension: 'png',
+      buffer: fs.readFileSync(targetLogo),
+      extension: ext,
     });
     summarySheet.addImage(logoId, {
       tl: { col: 0, row: 0 },
-      ext: { width: 140, height: 35 }
+      ext: { width: 44, height: 44 }
     });
   }
 
   // 1. Title Banner
-  summarySheet.mergeCells('A1:R1');
-  const titleCell = summarySheet.getCell('A1');
-  titleCell.value = '       REKAPITULASI DATA REKRUTMEN PELAMAR KARYAWAN';
-  titleCell.font = { name: 'Segoe UI', size: 14, bold: true, color: { argb: COLORS.WHITE } };
+  summarySheet.mergeCells('B1:R1');
+  const titleCell = summarySheet.getCell('B1');
+  titleCell.value = 'KOV GROUP / KOV KOFFIE — REKAPITULASI DATA REKRUTMEN PELAMAR';
+  titleCell.font = { name: 'Segoe UI', size: 13, bold: true, color: { argb: COLORS.WHITE } };
   titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.NAVY_PRIMARY } };
-  titleCell.alignment = { vertical: 'middle', horizontal: 'center' };
-  summarySheet.getRow(1).height = 36;
+  titleCell.alignment = { vertical: 'middle', horizontal: 'left' };
+  summarySheet.getRow(1).height = 30;
+
+  // 1b. Address Banner
+  summarySheet.mergeCells('B2:R2');
+  const addrCell = summarySheet.getCell('B2');
+  addrCell.value = 'Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232  |  IG : KOV KOFFIE';
+  addrCell.font = { name: 'Segoe UI', size: 9.5, bold: true, color: { argb: '334155' } };
+  addrCell.alignment = { vertical: 'middle', horizontal: 'left' };
+  summarySheet.getRow(2).height = 20;
 
   // 2. Subtitle / Metadata Info
-  summarySheet.mergeCells('A2:R2');
-  const subCell = summarySheet.getCell('A2');
+  summarySheet.mergeCells('A3:R3');
+  const subCell = summarySheet.getCell('A3');
   const totalCount = candidates.length;
   const countDiterima = candidates.filter(c => c.kesimpulan_status === 'Diterima').length;
   const countDipertimbangkan = candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length;
@@ -76,10 +87,10 @@ async function generateExcel(candidates = []) {
   subCell.value = `Tanggal Ekspor: ${formatDateTime(new Date())}  |  Total Pelamar: ${totalCount} Orang  [ Diterima: ${countDiterima} | Dipertimbangkan: ${countDipertimbangkan} | Ditolak: ${countDitolak} | Belum Diproses: ${countBelum} ]`;
   subCell.font = { name: 'Segoe UI', size: 9, italic: true, color: { argb: '595959' } };
   subCell.alignment = { vertical: 'middle', horizontal: 'left' };
-  summarySheet.getRow(2).height = 22;
+  summarySheet.getRow(3).height = 20;
 
   // Empty row for spacing
-  summarySheet.getRow(3).height = 10;
+  summarySheet.getRow(4).height = 10;
 
   // 3. Table Column Definitions
   const summaryColumns = [
@@ -106,8 +117,8 @@ async function generateExcel(candidates = []) {
     { header: 'CATATAN REVIEWER', key: 'catatan_reviewer', width: 35, align: 'left' }
   ];
 
-  // Set Header Row on Row 4
-  const headerRowIndex = 4;
+  // Set Header Row on Row 5
+  const headerRowIndex = 5;
   const summaryHeaderRow = summarySheet.getRow(headerRowIndex);
   summaryHeaderRow.height = 28;
 
@@ -195,11 +206,22 @@ async function generateExcel(candidates = []) {
   // 1. Title Banner Sheet 2
   detailSheet.mergeCells('A1:AC1');
   const titleCell2 = detailSheet.getCell('A1');
-  titleCell2.value = 'DETAIL LENGKAP BIODATA & RIWAYAT PELAMAR';
-  titleCell2.font = { name: 'Segoe UI', size: 14, bold: true, color: { argb: COLORS.WHITE } };
+  titleCell2.value = 'KOV GROUP / KOV KOFFIE — DETAIL DATA LENGKAP BIODATA & RIWAYAT PELAMAR';
+  titleCell2.font = { name: 'Segoe UI', size: 13, bold: true, color: { argb: COLORS.WHITE } };
   titleCell2.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: COLORS.NAVY_SECONDARY } };
   titleCell2.alignment = { vertical: 'middle', horizontal: 'center' };
-  detailSheet.getRow(1).height = 36;
+  detailSheet.getRow(1).height = 32;
+
+  // 1b. Address Banner Sheet 2
+  detailSheet.mergeCells('A2:AC2');
+  const addrCell2 = detailSheet.getCell('A2');
+  addrCell2.value = 'Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232  |  IG : KOV KOFFIE';
+  addrCell2.font = { name: 'Segoe UI', size: 9.5, bold: true, color: { argb: '334155' } };
+  addrCell2.alignment = { vertical: 'middle', horizontal: 'center' };
+  detailSheet.getRow(2).height = 20;
+
+  // Empty row for spacing
+  detailSheet.getRow(3).height = 10;
 
   // 2. Columns Definition
   const detailColumns = [
@@ -234,8 +256,8 @@ async function generateExcel(candidates = []) {
     { header: 'KESIMPULAN HR', key: 'kesimpulan_status', width: 20, align: 'center' }
   ];
 
-  // Set Header Row on Row 3
-  const detailHeaderRow = detailSheet.getRow(3);
+  // Set Header Row on Row 4
+  const detailHeaderRow = detailSheet.getRow(4);
   detailHeaderRow.height = 28;
 
   detailColumns.forEach((col, i) => {
@@ -249,7 +271,7 @@ async function generateExcel(candidates = []) {
   });
 
   // Data Rows Sheet 2
-  let detailStartRow = 4;
+  let detailStartRow = 5;
   candidates.forEach((c, index) => {
     const row = detailSheet.getRow(detailStartRow);
     row.height = 26;

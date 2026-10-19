@@ -8,37 +8,50 @@ async function generatePOExcel(records) {
   const worksheet = workbook.addWorksheet('Purchase Orders');
 
   // Embed KOV Logo Image if exists
-  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
-  if (fs.existsSync(logoPath)) {
+  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_2.jpg');
+  const fallbackLogo = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
+  const targetLogo = fs.existsSync(logoPath) ? logoPath : fallbackLogo;
+  if (fs.existsSync(targetLogo)) {
+    const ext = targetLogo.endsWith('.png') ? 'png' : 'jpeg';
     const logoId = workbook.addImage({
-      buffer: fs.readFileSync(logoPath),
-      extension: 'png',
+      buffer: fs.readFileSync(targetLogo),
+      extension: ext,
     });
     worksheet.addImage(logoId, {
       tl: { col: 0, row: 0 },
-      ext: { width: 160, height: 50 }
+      ext: { width: 44, height: 44 }
     });
   }
 
-  // Row 1: Space for Logo
-  worksheet.getRow(1).height = 40;
-
-  // Row 2 & 3: Title Header
-  worksheet.mergeCells('C1:N1');
-  const titleCell = worksheet.getCell('C1');
-  titleCell.value = 'REKAPITULASI PURCHASE ORDER (PO) - KOV GROUP OPERASIONAL';
-  titleCell.font = { name: 'Segoe UI', size: 14, bold: true, color: { argb: '0F5132' } };
+  // Row 1: Document Title Header
+  worksheet.mergeCells('B1:N1');
+  const titleCell = worksheet.getCell('B1');
+  titleCell.value = 'KOV GROUP / KOV KOFFIE — REKAPITULASI PURCHASE ORDER (PO)';
+  titleCell.font = { name: 'Segoe UI', size: 13, bold: true, color: { argb: 'FFFFFF' } };
+  titleCell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: '0F5132' } };
   titleCell.alignment = { vertical: 'middle', horizontal: 'left' };
+  worksheet.getRow(1).height = 30;
 
-  worksheet.mergeCells('C2:N2');
-  const subTitleCell = worksheet.getCell('C2');
-  subTitleCell.value = `Exported Date: ${formatDateTime(new Date())} | Total PO: ${records.length}`;
-  subTitleCell.font = { name: 'Segoe UI', size: 10, italic: true, color: { argb: '555555' } };
+  // Row 2: Address Banner
+  worksheet.mergeCells('B2:N2');
+  const addrCell = worksheet.getCell('B2');
+  addrCell.value = 'Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232  |  IG : KOV KOFFIE';
+  addrCell.font = { name: 'Segoe UI', size: 9.5, bold: true, color: { argb: '334155' } };
+  addrCell.alignment = { vertical: 'middle', horizontal: 'left' };
+  worksheet.getRow(2).height = 20;
+
+  // Row 3: Subtitle
+  worksheet.mergeCells('A3:N3');
+  const subTitleCell = worksheet.getCell('A3');
+  subTitleCell.value = `Tanggal Ekspor: ${formatDateTime(new Date())}  |  Total Data: ${records.length} PO`;
+  subTitleCell.font = { name: 'Segoe UI', size: 9, italic: true, color: { argb: '555555' } };
   subTitleCell.alignment = { vertical: 'middle', horizontal: 'left' };
+  worksheet.getRow(3).height = 20;
 
-  worksheet.getRow(3).height = 10;
+  // Row 4: Spacer Row
+  worksheet.getRow(4).height = 8;
 
-  // Column Headers (Row 4)
+  // Column Headers (Row 5)
   const columns = [
     { header: 'No. PO', key: 'no_po', width: 24 },
     { header: 'Tanggal PO', key: 'tanggal_po', width: 15 },
@@ -56,7 +69,7 @@ async function generatePOExcel(records) {
     { header: 'Disetujui Oleh', key: 'disetujui_oleh_nama', width: 20 }
   ];
 
-  const headerRow = worksheet.getRow(4);
+  const headerRow = worksheet.getRow(5);
   columns.forEach((col, idx) => {
     const cell = headerRow.getCell(idx + 1);
     cell.value = col.header;

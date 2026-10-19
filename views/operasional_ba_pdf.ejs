@@ -148,11 +148,14 @@
       <td>
         <div class="title-box">
           <% if (typeof logoBase64 !== 'undefined' && logoBase64) { %>
-            <div style="margin-bottom: 4px;">
-              <img src="<%= logoBase64 %>" style="height: 38px; max-width: 160px; object-fit: contain;">
+            <div style="margin-bottom: 6px;">
+              <img src="<%= logoBase64 %>" style="height: 44px; max-width: 160px; object-fit: contain; border-radius: 6px; background: #fff; padding: 2px;">
             </div>
           <% } %>
           <h2>BERITA ACARA PENGAJUAN BARANG</h2>
+          <div style="font-size: 9.5px; opacity: 0.9; margin: 3px 0;">
+            KOV GROUP / KOV KOFFIE &bull; Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232 &bull; IG : KOV KOFFIE
+          </div>
           <p>No. BA : <%= ba.no_ba || ('BA/OPS/' + String(ba.id).padStart(5, '0')) %></p>
         </div>
       </td>
@@ -536,8 +539,9 @@
     </tr>
   </table>
 
-  <div class="footer-note">
-    * Catatan: Berita Acara ini menjadi dokumen resmi pendukung pengajuan pembelian, repair, replacement, warranty/retur, atau tindakan operasional lain sesuai hasil evaluasi dan persetujuan manajemen KOV.
+  <div class="footer-note" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #bbb; padding-top: 6px; margin-top: 15px;">
+    <span>* Catatan: Berita Acara ini menjadi dokumen resmi pendukung pengajuan operasional KOV.</span>
+    <span>Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232 &bull; IG : KOV KOFFIE</span>
   </div>
 
 </body>
