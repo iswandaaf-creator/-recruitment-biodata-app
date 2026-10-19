@@ -1,22 +1,42 @@
 <!-- Backdrop for mobile sidebar drawer -->
 <div class="kov-sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<!-- Master Sidebar Navigation (Compact & Streamlined) -->
+<!-- Master Sidebar Navigation (Collapsible Mini/Full & Streamlined) -->
 <aside class="kov-sidebar" id="appSidebar">
   
+  <!-- Immediate inline script to prevent layout flicker on reload -->
+  <script>
+    (function() {
+      try {
+        if (localStorage.getItem('kov_sidebar_collapsed') === 'true' && window.innerWidth >= 992) {
+          document.getElementById('appSidebar').classList.add('collapsed');
+          const mc = document.querySelector('.kov-main-content');
+          if (mc) mc.classList.add('collapsed');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Brand Header -->
   <div class="kov-sidebar-brand">
-    <a href="/admin" class="kov-brand-info">
+    <a href="/admin" class="kov-brand-info" title="KOV Koffie Portal">
       <div class="kov-brand-logo">
         <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="border-radius: 8px;">
       </div>
-      <div>
+      <div class="kov-brand-text-group">
         <h1 class="kov-brand-name">KOV Koffie</h1>
         <span class="kov-brand-sub">Management Portal</span>
       </div>
     </a>
+    
+    <!-- Mobile close drawer button (<992px) -->
     <button type="button" class="btn btn-sm text-white-50 p-1 d-lg-none" id="sidebarCloseBtn" aria-label="Close Sidebar">
       <i class="fas fa-times fs-5"></i>
+    </button>
+
+    <!-- Desktop collapse/fold button (>=992px) -->
+    <button type="button" class="kov-sidebar-collapse-btn d-none d-lg-inline-flex" id="sidebarCollapseBtn" onclick="toggleSidebarCollapse()" title="Lipat / Perluas Sidebar" aria-label="Collapse Sidebar">
+      <i class="fas fa-angles-left" id="sidebarCollapseIcon"></i>
     </button>
   </div>
 
@@ -30,20 +50,20 @@
     const canUsers = isSuperOrAdmin;
   %>
 
-  <!-- Navigation Links (Grouped & Streamlined) -->
+  <!-- Navigation Links (Grouped & Streamlined with Tooltips) -->
   <nav class="kov-sidebar-nav">
     
     <!-- Group: HR & Recruitment -->
     <% if (canHR || canReviewer) { %>
       <div class="kov-nav-group-title">Rekrutmen &amp; HR</div>
       <% if (canHR) { %>
-        <a href="/admin" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>">
+        <a href="/admin" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>" data-tooltip="Dashboard HR" title="Dashboard HR">
           <i class="fas fa-users"></i>
           <span>Dashboard HR</span>
         </a>
       <% } %>
       <% if (canReviewer) { %>
-        <a href="/reviewer" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'reviewer') ? 'active' : '' %>">
+        <a href="/reviewer" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'reviewer') ? 'active' : '' %>" data-tooltip="Reviewer Divisi" title="Reviewer Divisi">
           <i class="fas fa-user-check"></i>
           <span>Reviewer Divisi</span>
         </a>
@@ -53,15 +73,15 @@
     <!-- Group: Operasional -->
     <% if (canOperasional) { %>
       <div class="kov-nav-group-title">Operasional</div>
-      <a href="/admin/operasional" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>">
+      <a href="/admin/operasional" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>" data-tooltip="Berita Acara (BA)" title="Berita Acara (BA)">
         <i class="fas fa-boxes-stacked"></i>
         <span>Berita Acara (BA)</span>
       </a>
-      <a href="/admin/operasional/po" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'po') ? 'active' : '' %>">
+      <a href="/admin/operasional/po" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'po') ? 'active' : '' %>" data-tooltip="Purchase Order" title="Purchase Order">
         <i class="fas fa-receipt"></i>
         <span>Purchase Order</span>
       </a>
-      <a href="/admin/operasional/surat-tugas" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'surat_tugas') ? 'active' : '' %>">
+      <a href="/admin/operasional/surat-tugas" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'surat_tugas') ? 'active' : '' %>" data-tooltip="Surat Tugas & LPJ" title="Surat Tugas & LPJ">
         <i class="fas fa-file-signature"></i>
         <span>Surat Tugas &amp; LPJ</span>
       </a>
@@ -70,7 +90,7 @@
     <!-- Group: Infrastruktur & IT -->
     <% if (canIT) { %>
       <div class="kov-nav-group-title">Infrastruktur &amp; IT</div>
-      <a href="/admin/it" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>">
+      <a href="/admin/it" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>" data-tooltip="Rekap Belanja IT" title="Rekap Belanja IT">
         <i class="fas fa-laptop-code"></i>
         <span>Rekap Belanja IT</span>
       </a>
@@ -79,7 +99,7 @@
     <!-- Group: Administrasi & Akun -->
     <% if (canUsers) { %>
       <div class="kov-nav-group-title">Sistem</div>
-      <a href="/admin/users" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>">
+      <a href="/admin/users" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
         <i class="fas fa-user-shield"></i>
         <span>Kelola User &amp; Role</span>
       </a>
@@ -89,7 +109,7 @@
 
   <!-- User Profile & Session Footer -->
   <div class="kov-sidebar-footer">
-    <div class="kov-user-badge-box">
+    <div class="kov-user-badge-box" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'User' %> (<%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Staff' %>)">
       <div class="kov-user-avatar">
         <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'U' %>
       </div>
@@ -104,7 +124,7 @@
         </div>
       </div>
     </div>
-    <a href="/admin/logout" onclick="sessionStorage.clear();" class="kov-logout-link">
+    <a href="/admin/logout" onclick="sessionStorage.clear();" class="kov-logout-link" data-tooltip="Keluar (Logout)" title="Keluar (Logout)">
       <i class="fas fa-sign-out-alt"></i>
       <span>Keluar (Logout)</span>
     </a>
@@ -117,11 +137,57 @@
     const sidebar = document.getElementById('appSidebar');
     const backdrop = document.getElementById('sidebarBackdrop');
     const closeBtn = document.getElementById('sidebarCloseBtn');
+    const collapseIcon = document.getElementById('sidebarCollapseIcon');
+    const appShell = document.querySelector('.kov-app-shell');
+    const mainContent = document.querySelector('.kov-main-content');
+
+    // Apply saved state on DOM ready
+    function applySavedCollapseState() {
+      try {
+        const isCollapsed = localStorage.getItem('kov_sidebar_collapsed') === 'true';
+        if (isCollapsed && window.innerWidth >= 992) {
+          if (sidebar) sidebar.classList.add('collapsed');
+          if (mainContent) mainContent.classList.add('collapsed');
+          if (appShell) appShell.classList.add('sidebar-collapsed');
+          if (collapseIcon) {
+            collapseIcon.classList.remove('fa-angles-left');
+            collapseIcon.classList.add('fa-angles-right');
+          }
+        }
+      } catch (e) {}
+    }
+
+    applySavedCollapseState();
+
+    window.toggleSidebarCollapse = function() {
+      if (!sidebar) return;
+      const willCollapse = !sidebar.classList.contains('collapsed');
+      sidebar.classList.toggle('collapsed', willCollapse);
+      if (mainContent) mainContent.classList.toggle('collapsed', willCollapse);
+      if (appShell) appShell.classList.toggle('sidebar-collapsed', willCollapse);
+      
+      if (collapseIcon) {
+        if (willCollapse) {
+          collapseIcon.classList.remove('fa-angles-left');
+          collapseIcon.classList.add('fa-angles-right');
+        } else {
+          collapseIcon.classList.remove('fa-angles-right');
+          collapseIcon.classList.add('fa-angles-left');
+        }
+      }
+      try {
+        localStorage.setItem('kov_sidebar_collapsed', willCollapse ? 'true' : 'false');
+      } catch (e) {}
+    };
 
     window.toggleKovSidebar = function() {
-      if (sidebar && backdrop) {
-        sidebar.classList.toggle('show');
-        backdrop.classList.toggle('show');
+      if (window.innerWidth >= 992) {
+        window.toggleSidebarCollapse();
+      } else {
+        if (sidebar && backdrop) {
+          sidebar.classList.toggle('show');
+          backdrop.classList.toggle('show');
+        }
       }
     };
 
@@ -143,6 +209,11 @@
       if (window.innerWidth >= 992) {
         if (sidebar) sidebar.classList.remove('show');
         if (backdrop) backdrop.classList.remove('show');
+        applySavedCollapseState();
+      } else {
+        if (sidebar) sidebar.classList.remove('collapsed');
+        if (mainContent) mainContent.classList.remove('collapsed');
+        if (appShell) appShell.classList.remove('sidebar-collapsed');
       }
     });
   })();
