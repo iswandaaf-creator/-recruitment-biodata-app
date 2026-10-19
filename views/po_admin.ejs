@@ -12,7 +12,6 @@
     })();
   </script>
 
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Purchase Order (PO) - Operasional KOV</title>
@@ -22,215 +21,217 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --kov-emerald: #059669;
-      --kov-slate-900: #0f172a;
-      --kov-slate-800: #1e293b;
-      --kov-border: #e2e8f0;
-    }
-    * {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    body { background-color: #f8fafc; color: #1e293b; }
-    .top-navbar-operasional {
-      background: #064e3b;
-      border-bottom: 1px solid #065f46;
-      padding: 0.75rem 1.5rem;
-    }
-    .card {
-      border: 1px solid var(--kov-border);
-      border-radius: 14px;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
-      background: #ffffff;
-    }
-    .nav-btn {
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 0.45rem 0.9rem;
-      border-radius: 8px;
-      transition: all 0.15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-  </style>
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="top-navbar-operasional shadow-sm">
-    <div class="container-fluid px-2 d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <a class="d-flex align-items-center text-decoration-none text-white" href="/admin/operasional/po">
-        <div class="bg-white p-1 rounded-3 me-2 d-flex align-items-center justify-content-center" style="height: 38px; width: 38px;">
-          <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 28px; width: auto; object-fit: contain;">
+  <!-- Top Navigation Bar -->
+  <header class="top-navbar-modern">
+    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <a href="/admin/operasional/po" class="navbar-brand-wrap">
+        <div class="brand-badge-logo">
+          <img src="/logo_kov_hijau.png" alt="KOV Logo">
         </div>
         <div>
-          <div class="fw-bold fs-6">Dashboard Operasional - Purchase Order (PO)</div>
-          <div class="text-white-50" style="font-size: 0.75rem;">Sistem Pengadaan & Penerbitan PO</div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="nav-brand-text">Purchase Order (PO)</span>
+            <span class="status-pill-modern pill-success" style="padding: 2px 8px; font-size: 0.7rem;">
+              <span class="status-dot-pulse"></span> Procurement Active
+            </span>
+          </div>
+          <div class="nav-brand-sub">Sistem Penerbitan &amp; Tracking Purchase Order KOV</div>
         </div>
       </a>
+
       <div class="d-flex align-items-center gap-2 flex-wrap">
         <% if (typeof user !== 'undefined' && user) { %>
-          <span class="text-white px-2 py-1 rounded small" style="background: rgba(255,255,255,0.12);">
-            <i class="fas fa-circle-user me-1 text-light"></i><%= user.nama || user.username %> (<%= user.role %>)
-          </span>
+          <div class="d-flex align-items-center text-white px-2.5 py-1 rounded-3 me-1" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
+            <i class="fas fa-circle-user me-2 text-emerald-400" style="color: #34d399;"></i>
+            <span class="fw-bold"><%= user.nama || user.username %></span>
+            <span class="text-white-50 ms-1">(<%= user.role %>)</span>
+          </div>
           <% if (user.role === 'superadmin' || user.role === 'admin') { %>
-            <a href="/admin" class="btn btn-outline-light nav-btn">
+            <a href="/admin" class="nav-link-modern">
               <i class="fas fa-user-tie"></i> Switch to HR
             </a>
           <% } %>
         <% } %>
-        <a href="/admin/operasional/po/create" class="btn btn-warning nav-btn text-dark fw-bold">
+
+        <a href="/admin/operasional/po/create" class="btn-kov-outline btn-kov-sm" style="border-color: #fde047; color: #fde047 !important;">
           <i class="fas fa-plus"></i> Buat PO Baru
         </a>
-        <a href="/api/operasional/po/export/excel" class="btn btn-success nav-btn" style="background-color: #10b981; border-color: #10b981;">
+
+        <a href="/api/operasional/po/export/excel" class="btn-kov-primary btn-kov-sm">
           <i class="fas fa-file-excel"></i> Export Excel
         </a>
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-danger nav-btn text-white border-light border-opacity-25 ms-2">
-          <i class="fas fa-arrow-right-from-bracket"></i> Logout
+
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger" style="border-color: rgba(239, 68, 68, 0.3);">
+          <i class="fas fa-arrow-right-from-bracket"></i> Keluar
         </a>
       </div>
     </div>
   </header>
 
-  <div class="container-fluid px-4 py-4">
+  <div class="container-fluid px-3 px-md-4 py-4">
 
-    <!-- Sub-menu Tabs Operasional -->
-    <ul class="nav nav-tabs mb-4 border-bottom">
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/operasional">
-          <i class="fas fa-boxes-packing me-2"></i>Berita Acara Pengajuan Barang
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="/admin/operasional/po">
-          <i class="fas fa-file-invoice-dollar me-2"></i>Purchase Order (PO) Pengadaan
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/operasional/surat-tugas">
-          <i class="fas fa-file-signature me-2"></i>Surat Tugas & LPJ Perjalanan Dinas
-        </a>
-      </li>
-    </ul>
+    <!-- Sub-menu Navigation Tabs -->
+    <div class="d-flex gap-2 overflow-x-auto pb-2 mb-4">
+      <a class="nav-link-modern" style="background: white; color: var(--kov-slate-700); border: 1px solid var(--kov-border);" href="/admin/operasional">
+        <i class="fas fa-boxes-packing text-success"></i> Berita Acara Pengajuan Barang
+      </a>
+      <a class="nav-link-modern active" href="/admin/operasional/po">
+        <i class="fas fa-file-invoice-dollar"></i> Purchase Order (PO) Pengadaan
+      </a>
+      <a class="nav-link-modern" style="background: white; color: var(--kov-slate-700); border: 1px solid var(--kov-border);" href="/admin/operasional/surat-tugas">
+        <i class="fas fa-file-signature text-warning"></i> Surat Tugas &amp; Perjalanan Dinas
+      </a>
+    </div>
 
-    <!-- Metrics Cards -->
-    <div class="row g-3 mb-4">
-      <div class="col-md-3">
-        <div class="card metric-card bg-primary text-white p-3 text-center">
-          <div class="fs-4 fw-bold"><%= records.length %></div>
-          <div class="small">Total Purchase Order</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card metric-card bg-success text-white p-3 text-center">
-          <div class="fs-4 fw-bold">
-            <%= records.filter(r => (r.status_po || '').includes('Approved')).length %>
+    <!-- Bento Metric Cards -->
+    <div class="bento-grid">
+      <div class="bento-card bento-card-blue">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title">Total PO Diterbitkan</div>
+            <div class="bento-metric-value text-primary"><%= records.length %></div>
           </div>
-          <div class="small">PO Disetujui / Approved</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card metric-card bg-warning text-dark p-3 text-center">
-          <div class="fs-4 fw-bold">
-            <%= records.filter(r => (r.status_po || '').includes('Pending')).length %>
+          <div class="bento-icon-box bento-icon-blue">
+            <i class="fas fa-file-invoice-dollar"></i>
           </div>
-          <div class="small">PO Pending</div>
         </div>
+        <div class="bento-metric-sub">Seluruh berkas PO resmi</div>
       </div>
-      <div class="col-md-3">
-        <div class="card metric-card bg-dark text-white p-3 text-center">
-          <div class="fs-5 fw-bold">
-            Rp <%= records.reduce((acc, r) => acc + (r.total_netto || 0), 0).toLocaleString('id-ID') %>
+
+      <div class="bento-card bento-card-emerald">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title text-success">PO Approved</div>
+            <div class="bento-metric-value" style="color: var(--kov-primary-600);">
+              <%= records.filter(r => (r.status_po || '').includes('Approved')).length %>
+            </div>
           </div>
-          <div class="small">Total Nilai Netto PO</div>
+          <div class="bento-icon-box bento-icon-emerald">
+            <i class="fas fa-circle-check"></i>
+          </div>
         </div>
+        <div class="bento-metric-sub">Sudah diverifikasi direksi</div>
+      </div>
+
+      <div class="bento-card bento-card-amber">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title text-warning">PO Pending</div>
+            <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;">
+              <%= records.filter(r => (r.status_po || '').includes('Pending')).length %>
+            </div>
+          </div>
+          <div class="bento-icon-box bento-icon-amber">
+            <i class="fas fa-clock"></i>
+          </div>
+        </div>
+        <div class="bento-metric-sub">Menunggu konfirmasi final</div>
+      </div>
+
+      <div class="bento-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title">Total Nilai Netto PO</div>
+            <div class="bento-metric-value text-dark" style="font-size: 1.35rem;">
+              Rp <%= records.reduce((acc, r) => acc + (r.total_netto || 0), 0).toLocaleString('id-ID') %>
+            </div>
+          </div>
+          <div class="bento-icon-box" style="background: var(--kov-slate-100); color: var(--kov-slate-700);">
+            <i class="fas fa-wallet"></i>
+          </div>
+        </div>
+        <div class="bento-metric-sub">Akumulasi pengadaan barang</div>
       </div>
     </div>
 
     <!-- Main Table Card -->
-    <div class="card shadow-sm">
-      <div class="card-header bg-white py-3">
-        <div class="row align-items-center g-2">
-          <div class="col-md-6">
-            <div class="input-group">
-              <span class="input-group-text bg-light"><i class="fas fa-search text-secondary"></i></span>
-              <input type="text" id="searchInput" class="form-control" placeholder="Cari No PO, Nama Vendor, Perihal, Unit Kerja...">
-            </div>
+    <div class="kov-card">
+      <div class="kov-card-header">
+        <div class="d-flex flex-wrap align-items-center gap-2 mobile-w-100">
+          <div class="input-group input-group-sm" style="min-width: 280px;">
+            <span class="input-group-text bg-light"><i class="fas fa-search text-secondary"></i></span>
+            <input type="text" id="searchInput" class="form-control" placeholder="Cari No PO, Nama Vendor, Perihal, Unit Kerja...">
           </div>
-          <div class="col-md-6 text-end">
-            <a href="/admin/operasional/po/create" class="btn btn-success fw-bold px-3">
-              <i class="fas fa-plus me-1"></i>Buat Purchase Order Baru
-            </a>
-          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <a href="/admin/operasional/po/create" class="btn-kov-primary btn-kov-sm">
+            <i class="fas fa-plus"></i> Buat PO Baru
+          </a>
         </div>
       </div>
 
-      <div class="card-body p-0">
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0" id="poTable">
-            <thead class="table-light text-secondary small text-uppercase">
+      <div class="table-responsive-modern">
+        <table class="kov-table" id="poTable">
+          <thead>
+            <tr>
+              <th class="ps-3">No. PO</th>
+              <th>Tanggal PO</th>
+              <th>Penyedia / Vendor (TO)</th>
+              <th>Perihal &amp; Unit Kerja</th>
+              <th class="text-end">Total Netto (Rp)</th>
+              <th class="text-center">Status PO</th>
+              <th class="text-end pe-3">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (records.length === 0) { %>
               <tr>
-                <th class="ps-3">No. PO</th>
-                <th>Tanggal PO</th>
-                <th>Penyedia / Vendor (TO)</th>
-                <th>Perihal & Unit Kerja</th>
-                <th class="text-end">Total Netto (Rp)</th>
-                <th class="text-center">Status PO</th>
-                <th class="text-end pe-3">Aksi</th>
+                <td colspan="7" class="text-center py-5 text-muted">
+                  <div class="py-4">
+                    <i class="fas fa-file-invoice-dollar fa-3x mb-2 text-secondary opacity-50"></i>
+                    <h6 class="fw-bold text-dark">Belum Ada Purchase Order</h6>
+                    <p class="small text-muted mb-0">Klik tombol "Buat PO Baru" di atas untuk menerbitkan PO pertama.</p>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              <% if (records.length === 0) { %>
+            <% } else { %>
+              <% records.forEach(item => { %>
                 <tr>
-                  <td colspan="7" class="text-center py-5 text-muted">
-                    <i class="fas fa-file-invoice-dollar fs-1 mb-2 d-block text-secondary"></i>
-                    Belum ada Purchase Order (PO) yang diterbitkan.
+                  <td class="ps-3 fw-bold text-dark">
+                    <%= item.no_po || ('PO/KOV/' + item.id) %>
+                  </td>
+                  <td class="small text-secondary"><%= formatDate(item.tanggal_po) %></td>
+                  <td>
+                    <div class="fw-bold text-dark"><%= item.vendor_nama || '-' %></div>
+                    <div class="small text-muted"><%= item.vendor_nama_dagang || '' %></div>
+                  </td>
+                  <td>
+                    <div class="fw-semibold text-dark"><%= item.perihal || '-' %></div>
+                    <span class="badge bg-light text-dark border small"><%= item.unit_kerja || '-' %></span>
+                  </td>
+                  <td class="text-end fw-bold text-success">
+                    Rp <%= Number(item.total_netto || item.subtotal || 0).toLocaleString('id-ID') %>
+                  </td>
+                  <td class="text-center">
+                    <span class="status-pill-modern pill-success">
+                      <span class="status-dot-pulse"></span> <%= item.status_po || 'Approved' %>
+                    </span>
+                  </td>
+                  <td class="text-end pe-3">
+                    <div class="d-inline-flex gap-1.5">
+                      <a href="/admin/operasional/po/detail/<%= item.id %>" class="btn-kov-outline btn-kov-sm" title="Lihat Detail PO">
+                        <i class="fas fa-eye"></i> Detail
+                      </a>
+                      <a href="/api/operasional/po/export/pdf/<%= item.id %>" target="_blank" class="btn-kov-secondary btn-kov-sm text-danger" title="Download Official PDF PO">
+                        <i class="fas fa-file-pdf"></i>
+                      </a>
+                      <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
+                        <button class="btn-kov-secondary btn-kov-sm text-danger" onclick="deletePo(<%= item.id %>, '<%= item.no_po %>')" title="Hapus PO">
+                          <i class="fas fa-trash-can"></i>
+                        </button>
+                      <% } %>
+                    </div>
                   </td>
                 </tr>
-              <% } else { %>
-                <% records.forEach(item => { %>
-                  <tr>
-                    <td class="ps-3 fw-bold text-dark">
-                      <%= item.no_po || ('PO/KOV/' + item.id) %>
-                    </td>
-                    <td class="small text-secondary"><%= formatDate(item.tanggal_po) %></td>
-                    <td>
-                      <div class="fw-bold text-dark"><%= item.vendor_nama || '-' %></div>
-                      <div class="small text-muted"><%= item.vendor_nama_dagang || '' %></div>
-                    </td>
-                    <td>
-                      <div class="fw-semibold text-dark"><%= item.perihal || '-' %></div>
-                      <span class="badge bg-light text-dark border small"><%= item.unit_kerja || '-' %></span>
-                    </td>
-                    <td class="text-end fw-bold text-success">
-                      Rp <%= Number(item.total_netto || item.subtotal || 0).toLocaleString('id-ID') %>
-                    </td>
-                    <td class="text-center">
-                      <span class="badge bg-success px-2 py-1"><%= item.status_po || 'Approved' %></span>
-                    </td>
-                    <td class="text-end pe-3">
-                      <div class="btn-group btn-group-sm">
-                        <a href="/admin/operasional/po/detail/<%= item.id %>" class="btn btn-outline-primary" title="Lihat Detail PO">
-                          <i class="fas fa-eye me-1"></i>Detail
-                        </a>
-                        <a href="/api/operasional/po/export/pdf/<%= item.id %>" target="_blank" class="btn btn-outline-danger" title="Download Official PDF PO">
-                          <i class="fas fa-file-pdf"></i>
-                        </a>
-                        <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
-                          <button class="btn btn-outline-danger" onclick="deletePo(<%= item.id %>, '<%= item.no_po %>')" title="Hapus PO">
-                            <i class="fas fa-trash-can"></i>
-                          </button>
-                        <% } %>
-                      </div>
-                    </td>
-                  </tr>
-                <% }); %>
-              <% } %>
-            </tbody>
-          </table>
-        </div>
+              <% }); %>
+            <% } %>
+          </tbody>
+        </table>
       </div>
     </div>
 

@@ -12,7 +12,6 @@
     })();
   </script>
 
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Rekrutmen HR - KOV Portal</title>
@@ -22,556 +21,360 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
   <style>
-    :root {
-      --kov-emerald: #059669;
-      --kov-emerald-dark: #065f46;
-      --kov-emerald-light: #ecfdf5;
-      --kov-slate-900: #0f172a;
-      --kov-slate-800: #1e293b;
-      --kov-slate-700: #334155;
-      --kov-slate-600: #475569;
-      --kov-slate-100: #f1f5f9;
-      --kov-slate-50: #f8fafc;
-      --kov-border: #e2e8f0;
-    }
-
-    * {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    body {
-      background-color: #f8fafc;
-      color: #1e293b;
-      min-height: 100vh;
-    }
-
-    /* Modern Navbar */
-    .top-navbar {
-      background: #0f172a;
-      border-bottom: 1px solid #1e293b;
-      padding: 0.75rem 1.5rem;
-    }
-
-    .nav-brand-title {
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: #ffffff;
-      font-size: 1.05rem;
-    }
-
-    .nav-tag {
-      font-size: 0.7rem;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 9999px;
-      background: rgba(16, 185, 129, 0.2);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .nav-btn {
-      font-size: 0.85rem;
-      font-weight: 600;
-      padding: 0.45rem 0.9rem;
-      border-radius: 8px;
-      transition: all 0.15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* Bento Stat Metric Cards */
-    .metric-card {
-      background: #ffffff;
-      border: 1px solid var(--kov-border);
-      border-radius: 14px;
-      padding: 1.25rem;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .metric-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px -2px rgba(0, 0, 0, 0.06);
-    }
-
-    .metric-icon-wrap {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.15rem;
-    }
-
-    .metric-title {
+    /* Custom page-level enhancements */
+    .filter-pill {
       font-size: 0.8rem;
       font-weight: 600;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.25rem;
-    }
-
-    .metric-value {
-      font-size: 1.75rem;
-      font-weight: 800;
-      color: #0f172a;
-      line-height: 1.2;
-    }
-
-    /* Share Link Widget Banner */
-    .share-banner {
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--kov-radius-pill);
+      border: 1px solid var(--kov-slate-200);
       background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-left: 4px solid var(--kov-emerald);
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-    }
-
-    .share-token-box {
-      background: #f1f5f9;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      padding: 0.35rem 0.75rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.85rem;
-      color: #0f172a;
-      font-weight: 600;
-    }
-
-    /* Card Container */
-    .main-table-card {
-      background: #ffffff;
-      border: 1px solid var(--kov-border);
-      border-radius: 16px;
-      box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.04);
-      overflow: hidden;
-    }
-
-    /* Filter Buttons */
-    .filter-pill {
-      font-size: 0.825rem;
-      font-weight: 600;
-      padding: 0.4rem 0.9rem;
-      border-radius: 9999px;
-      border: 1px solid #cbd5e1;
-      background: #ffffff;
-      color: #475569;
-      transition: all 0.15s ease;
+      color: var(--kov-slate-600);
+      transition: var(--kov-transition);
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
     }
 
     .filter-pill:hover {
-      background: #f1f5f9;
-      color: #0f172a;
+      background: var(--kov-slate-100);
+      color: var(--kov-slate-900);
+      border-color: var(--kov-slate-300);
     }
 
     .filter-pill.active {
-      background: #0f172a;
+      background: var(--kov-slate-900);
       color: #ffffff;
-      border-color: #0f172a;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
+      border-color: var(--kov-slate-900);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2);
     }
 
     .filter-pill.active-warning {
-      background: #d97706 !important;
+      background: var(--kov-amber) !important;
       color: #ffffff !important;
-      border-color: #d97706 !important;
-    }
-
-    /* Modern Table Styling */
-    .modern-table thead th {
-      background-color: #f8fafc;
-      color: #64748b;
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-bottom: 1px solid #e2e8f0;
-      padding: 0.95rem 1rem;
-      vertical-align: middle;
-    }
-
-    .modern-table tbody td {
-      padding: 1rem 1rem;
-      border-bottom: 1px solid #f1f5f9;
-      vertical-align: middle;
-      font-size: 0.875rem;
-    }
-
-    .modern-table tbody tr:hover {
-      background-color: #f8fafc;
+      border-color: var(--kov-amber) !important;
     }
 
     .sortable-header {
       cursor: pointer;
       user-select: none;
-      transition: background 0.15s ease;
+      transition: var(--kov-transition);
     }
 
     .sortable-header:hover {
-      background-color: #e2e8f0;
-      color: #0f172a;
+      background-color: var(--kov-slate-100);
+      color: var(--kov-slate-900);
     }
 
-    /* Status Badges */
-    .status-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 9999px;
-      font-size: 0.78rem;
+    .share-banner-modern {
+      background: #ffffff;
+      border: 1px solid var(--kov-border);
+      border-left: 4px solid var(--kov-primary-500);
+      border-radius: var(--kov-radius-lg);
+      padding: 1rem 1.25rem;
+      box-shadow: var(--kov-shadow-xs);
+    }
+
+    .share-token-box {
+      background: var(--kov-slate-50);
+      border: 1px solid var(--kov-slate-200);
+      border-radius: var(--kov-radius-sm);
+      padding: 0.35rem 0.75rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      color: var(--kov-slate-900);
       font-weight: 600;
-      border: 1px solid transparent;
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-
-    .status-Diterima {
-      background: #ecfdf5;
-      color: #065f46;
-      border-color: #a7f3d0;
-    }
-    .status-Diterima .status-dot { background: #10b981; }
-
-    .status-Dipertimbangkan {
-      background: #fffbeb;
-      color: #92400e;
-      border-color: #fde68a;
-    }
-    .status-Dipertimbangkan .status-dot { background: #f59e0b; }
-
-    .status-Ditolak {
-      background: #fef2f2;
-      color: #991b1b;
-      border-color: #fecaca;
-    }
-    .status-Ditolak .status-dot { background: #ef4444; }
-
-    .status-Belum {
-      background: #f1f5f9;
-      color: #475569;
-      border-color: #cbd5e1;
-    }
-    .status-Belum .status-dot { background: #94a3b8; }
-
-    /* Action Buttons */
-    .btn-action {
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 0.35rem 0.7rem;
-      border-radius: 6px;
-      transition: all 0.15s ease;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Navbar -->
-  <header class="top-navbar">
+  <!-- Modern Top Navigation Bar -->
+  <header class="top-navbar-modern">
     <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
       
       <!-- Brand & Title -->
-      <div class="d-flex align-items-center gap-3">
-        <a href="/admin" class="d-flex align-items-center text-decoration-none">
-          <div class="bg-white p-1 rounded-3 me-2 d-flex align-items-center justify-content-center" style="height: 38px; width: 38px;">
-            <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 28px; width: auto; object-fit: contain;">
+      <a href="/admin" class="navbar-brand-wrap">
+        <div class="brand-badge-logo">
+          <img src="/logo_kov_hijau.png" alt="KOV Logo">
+        </div>
+        <div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="nav-brand-text">HR Recruitment Portal</span>
+            <span class="status-pill-modern pill-success" style="padding: 2px 8px; font-size: 0.7rem;">
+              <span class="status-dot-pulse"></span> HR Active
+            </span>
           </div>
-          <div>
-            <div class="nav-brand-title d-flex align-items-center gap-2">
-              HR Recruitment Portal
-              <span class="nav-tag">HR Dashboard</span>
-            </div>
-            <div class="text-white-50" style="font-size: 0.75rem;">Sistem Manajemen & Rekrutmen Pelamar Kerja</div>
-          </div>
-        </a>
-      </div>
+          <div class="nav-brand-sub">Sistem Manajemen &amp; Seleksi Berkas Pelamar KOV</div>
+        </div>
+      </a>
 
-      <!-- Quick Links & User Info -->
+      <!-- Quick Links & User Navigation -->
       <div class="d-flex align-items-center gap-2 flex-wrap">
         <% if (typeof user !== 'undefined' && user) { %>
-          <div class="d-flex align-items-center text-white px-2 py-1 rounded bg-slate-800 me-2" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
-            <i class="fas fa-circle-user text-emerald-400 me-2" style="color: #34d399;"></i>
-            <span class="fw-semibold"><%= user.nama || user.username %></span>
+          <div class="d-flex align-items-center text-white px-2.5 py-1 rounded-3 me-1" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
+            <i class="fas fa-circle-user me-2 text-emerald-400" style="color: #34d399;"></i>
+            <span class="fw-bold"><%= user.nama || user.username %></span>
             <span class="text-white-50 ms-1">(<%= user.role %>)</span>
           </div>
 
           <% if (user.role === 'superadmin' || user.role === 'admin' || user.role === 'operasional') { %>
-            <a href="/admin/operasional" class="btn btn-outline-light nav-btn">
-              <i class="fas fa-boxes-stacked text-warning"></i> Operasional & PO
+            <a href="/admin/operasional" class="nav-link-modern">
+              <i class="fas fa-boxes-stacked text-warning"></i> Operasional &amp; PO
             </a>
           <% } %>
 
           <% if (user.role === 'superadmin' || user.role === 'admin' || user.role === 'it') { %>
-            <a href="/admin/it" class="btn btn-outline-light nav-btn">
+            <a href="/admin/it" class="nav-link-modern">
               <i class="fas fa-laptop-code text-info"></i> Rekap IT
             </a>
           <% } %>
 
           <% if (user.role === 'superadmin' || user.role === 'admin') { %>
-            <a href="/admin/users" class="btn btn-warning nav-btn text-dark">
+            <a href="/admin/users" class="nav-link-modern" style="color: #fde047;">
               <i class="fas fa-users-gear"></i> Kelola User
             </a>
           <% } %>
 
-          <a href="/reviewer" class="btn btn-outline-info nav-btn text-white">
-            <i class="fas fa-clipboard-check text-warning"></i> Portal Reviewer
+          <a href="/reviewer" class="nav-link-modern">
+            <i class="fas fa-clipboard-check text-warning"></i> Reviewer
           </a>
         <% } %>
 
-        <a href="/api/export/excel" class="btn btn-success nav-btn" style="background-color: #059669; border-color: #059669;">
+        <a href="/api/export/excel" class="btn-kov-primary btn-kov-sm">
           <i class="fas fa-file-excel"></i> Export Excel
         </a>
 
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-danger nav-btn text-white border-secondary">
-          <i class="fas fa-arrow-right-from-bracket"></i> Logout
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger" style="border-color: rgba(239, 68, 68, 0.3);">
+          <i class="fas fa-arrow-right-from-bracket"></i> Keluar
         </a>
       </div>
 
     </div>
   </header>
 
-  <div class="container-fluid px-4 py-4">
+  <div class="container-fluid px-3 px-md-4 py-4">
 
-    <!-- Bento Metric Cards (Statistik Ringkas) -->
-    <div class="row g-3 mb-4">
+    <!-- Bento Metric Cards (Statistik Cepat & Responsif) -->
+    <div class="bento-grid">
       <!-- Total Pelamar -->
-      <div class="col-6 col-md-4 col-xl-2">
-        <div class="metric-card">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <div class="metric-title">Total Pelamar</div>
-              <div class="metric-value"><%= candidates.length %></div>
-            </div>
-            <div class="metric-icon-wrap" style="background: #eff6ff; color: #2563eb;">
-              <i class="fas fa-users"></i>
-            </div>
+      <div class="bento-card bento-card-blue">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title">Total Pelamar</div>
+            <div class="bento-metric-value"><%= candidates.length %></div>
           </div>
-          <div class="mt-2 text-muted" style="font-size: 0.75rem;">Seluruh berkas pelamar</div>
+          <div class="bento-icon-box bento-icon-blue">
+            <i class="fas fa-users"></i>
+          </div>
         </div>
+        <div class="bento-metric-sub">Seluruh berkas pelamar terdaftar</div>
       </div>
 
-      <!-- Belum Diproses -->
-      <div class="col-6 col-md-4 col-xl-2">
-        <div class="metric-card">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <div class="metric-title">Perlu Review</div>
-              <div class="metric-value text-secondary">
-                <%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>
-              </div>
-            </div>
-            <div class="metric-icon-wrap" style="background: #f1f5f9; color: #64748b;">
-              <i class="fas fa-inbox"></i>
+      <!-- Belum Diproses / Perlu Review -->
+      <div class="bento-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title">Perlu Review</div>
+            <div class="bento-metric-value text-secondary">
+              <%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>
             </div>
           </div>
-          <div class="mt-2 text-muted" style="font-size: 0.75rem;">Menunggu keputusan</div>
+          <div class="bento-icon-box" style="background: var(--kov-slate-100); color: var(--kov-slate-600);">
+            <i class="fas fa-inbox"></i>
+          </div>
         </div>
+        <div class="bento-metric-sub">Menunggu keputusan HR/User</div>
       </div>
 
       <!-- Diterima -->
-      <div class="col-6 col-md-4 col-xl-2">
-        <div class="metric-card">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <div class="metric-title">Diterima</div>
-              <div class="metric-value text-success" style="color: #059669 !important;">
-                <%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>
-              </div>
-            </div>
-            <div class="metric-icon-wrap" style="background: #ecfdf5; color: #059669;">
-              <i class="fas fa-circle-check"></i>
+      <div class="bento-card bento-card-emerald">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title">Diterima</div>
+            <div class="bento-metric-value" style="color: var(--kov-primary-600);">
+              <%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>
             </div>
           </div>
-          <div class="mt-2 text-muted" style="font-size: 0.75rem;">Lolos seleksi interview</div>
+          <div class="bento-icon-box bento-icon-emerald">
+            <i class="fas fa-circle-check"></i>
+          </div>
         </div>
+        <div class="bento-metric-sub">Lolos seleksi interview kerja</div>
       </div>
 
       <!-- Dipertimbangkan -->
-      <div class="col-6 col-md-4 col-xl-2">
-        <div class="metric-card">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <div class="metric-title">Dipertimbangkan</div>
-              <div class="metric-value text-warning" style="color: #d97706 !important;">
-                <%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>
-              </div>
-            </div>
-            <div class="metric-icon-wrap" style="background: #fffbeb; color: #d97706;">
-              <i class="fas fa-hourglass-half"></i>
+      <div class="bento-card bento-card-amber">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title">Dipertimbangkan</div>
+            <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;">
+              <%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>
             </div>
           </div>
-          <div class="mt-2 text-muted" style="font-size: 0.75rem;">Kandidat cadangan / hold</div>
+          <div class="bento-icon-box bento-icon-amber">
+            <i class="fas fa-hourglass-half"></i>
+          </div>
         </div>
+        <div class="bento-metric-sub">Kandidat cadangan / hold</div>
       </div>
 
       <!-- Ditolak -->
-      <div class="col-6 col-md-4 col-xl-2">
-        <div class="metric-card">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <div class="metric-title">Ditolak</div>
-              <div class="metric-value text-danger" style="color: #dc2626 !important;">
-                <%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>
-              </div>
-            </div>
-            <div class="metric-icon-wrap" style="background: #fef2f2; color: #dc2626;">
-              <i class="fas fa-circle-xmark"></i>
+      <div class="bento-card bento-card-rose">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title">Ditolak</div>
+            <div class="bento-metric-value text-danger">
+              <%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>
             </div>
           </div>
-          <div class="mt-2 text-muted" style="font-size: 0.75rem;">Tidak memenuhi syarat</div>
+          <div class="bento-icon-box bento-icon-rose">
+            <i class="fas fa-circle-xmark"></i>
+          </div>
         </div>
+        <div class="bento-metric-sub">Kualifikasi belum sesuai</div>
       </div>
 
-      <!-- Pelamar Berulang -->
-      <div class="col-6 col-md-4 col-xl-2">
-        <div class="metric-card" style="border-color: #fed7aa;">
-          <div class="d-flex justify-content-between align-items-start">
-            <div>
-              <div class="metric-title text-warning" style="color: #b45309 !important;">Duplikat</div>
-              <div class="metric-value text-warning" style="color: #b45309 !important;">
-                <%= candidates.filter(c => c.is_duplicate).length %>
-              </div>
-            </div>
-            <div class="metric-icon-wrap" style="background: #fff7ed; color: #ea580c;">
-              <i class="fas fa-triangle-exclamation"></i>
+      <!-- Pelamar Duplikat -->
+      <div class="bento-card" style="border-top: 3px solid #f97316;">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="bento-metric-title" style="color: #ea580c;">Duplikat</div>
+            <div class="bento-metric-value" style="color: #ea580c;">
+              <%= candidates.filter(c => c.is_duplicate).length %>
             </div>
           </div>
-          <div class="mt-2 text-muted" style="font-size: 0.75rem;">Terdeteksi kirim &gt;1x</div>
+          <div class="bento-icon-box" style="background: #fff7ed; color: #ea580c;">
+            <i class="fas fa-triangle-exclamation"></i>
+          </div>
         </div>
+        <div class="bento-metric-sub">Terdeteksi mengirim berkas &gt;1x</div>
       </div>
     </div>
 
-    <!-- Modern Share Link Bar -->
-    <div class="share-banner d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <!-- Modern Share Link Banner -->
+    <div class="share-banner-modern d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
       <div class="d-flex align-items-center gap-3">
-        <div class="metric-icon-wrap" style="background: #ecfdf5; color: #059669; width: 40px; height: 40px;">
+        <div class="bento-icon-box bento-icon-emerald" style="width: 40px; height: 40px;">
           <i class="fas fa-share-nodes"></i>
         </div>
         <div>
-          <div class="fw-bold text-dark" style="font-size: 0.9rem;">
+          <div class="fw-bold text-dark" style="font-size: 0.925rem;">
             Link Formulir Kandidat (Anti-Spam Token Acak)
           </div>
-          <div class="d-flex align-items-center gap-2 mt-1">
+          <div class="d-flex align-items-center gap-2 mt-1 flex-wrap">
             <span id="shareUrl" class="share-token-box user-select-all"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-8f3a921d</span>
-            <span class="badge bg-light text-secondary border">Siap Disebar</span>
+            <span class="status-pill-modern pill-success" style="font-size: 0.72rem;">
+              <span class="status-dot-pulse"></span> Siap Disebar
+            </span>
           </div>
         </div>
       </div>
       <div class="d-flex gap-2">
-        <button class="btn btn-sm btn-outline-secondary fw-semibold px-3" onclick="generateRandomShareLink(false)">
-          <i class="fas fa-rotate me-1 text-primary"></i> Acak Token Baru
+        <button class="btn-kov-secondary btn-kov-sm" onclick="generateRandomShareLink(false)">
+          <i class="fas fa-rotate text-primary"></i> Acak Token Baru
         </button>
-        <button class="btn btn-sm btn-success fw-bold px-3" style="background-color: #059669; border-color: #059669;" onclick="generateAndCopyShareLink()">
-          <i class="fas fa-copy me-1"></i> Salin Link
+        <button class="btn-kov-primary btn-kov-sm" onclick="generateAndCopyShareLink()">
+          <i class="fas fa-copy"></i> Salin Link
         </button>
       </div>
     </div>
 
-    <!-- Candidate List Table Card -->
-    <div class="main-table-card">
+    <!-- Candidate Table Card -->
+    <div class="kov-card">
       
       <!-- Card Filter Header -->
-      <div class="p-3 bg-white border-bottom">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-          <div>
-            <h5 class="mb-0 fw-bold text-dark d-flex align-items-center gap-2">
-              <span>Daftar Pelamar Kerja</span>
-              <span class="badge bg-secondary bg-opacity-10 text-secondary border px-2 py-1" style="font-size: 0.8rem;">
-                <span id="candidateCount"><%= candidates.length %></span> Data
-              </span>
-            </h5>
-            <div class="text-muted" style="font-size: 0.825rem;">Gunakan filter status dan pencarian data untuk mempermudah seleksi HR.</div>
-          </div>
-          
-          <div class="d-flex flex-wrap align-items-center gap-2">
-            <!-- Search Box -->
-            <div class="input-group input-group-sm" style="width: 240px;">
-              <span class="input-group-text bg-light border-end-0"><i class="fas fa-magnifying-glass text-muted"></i></span>
-              <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Cari nama, NIK, Rekening..." onkeyup="applyFilterAndSort()">
-            </div>
-
-            <!-- Divisi Filter -->
-            <div class="input-group input-group-sm" style="width: 190px;">
-              <span class="input-group-text bg-light"><i class="fas fa-layer-group text-muted"></i></span>
-              <select class="form-select" id="divisiSelect" onchange="applyFilterAndSort()">
-                <option value="all" selected>Semua Divisi</option>
-                <option value="kitchen">Kitchen</option>
-                <option value="barista">Barista</option>
-                <option value="operasional">Operasional</option>
-                <option value="hr">HR</option>
-                <option value="teknisi">Teknisi</option>
-                <option value="fat">FAT (Finance)</option>
-                <option value="it">IT</option>
-              </select>
-            </div>
-
-            <!-- Sort Select -->
-            <div class="input-group input-group-sm" style="width: 200px;">
-              <span class="input-group-text bg-light"><i class="fas fa-arrow-down-short-wide text-muted"></i></span>
-              <select class="form-select" id="sortSelect" onchange="applyFilterAndSort()">
-                <option value="date-desc" selected>Tanggal (Terbaru)</option>
-                <option value="date-asc">Tanggal (Terlama)</option>
-                <option value="name-asc">Nama Pelamar (A-Z)</option>
-                <option value="name-desc">Nama Pelamar (Z-A)</option>
-                <option value="status-asc">Status Rekrutmen</option>
-              </select>
-            </div>
-          </div>
+      <div class="kov-card-header">
+        <div>
+          <h5 class="kov-card-title">
+            <span>Daftar Pelamar Kerja</span>
+            <span class="badge bg-light text-secondary border px-2 py-1" style="font-size: 0.8rem;">
+              <span id="candidateCount"><%= candidates.length %></span> Data
+            </span>
+          </h5>
+          <div class="text-muted small mt-1">Gunakan filter status dan pencarian data untuk mempermudah seleksi HR.</div>
         </div>
+        
+        <div class="d-flex flex-wrap align-items-center gap-2 mobile-w-100">
+          <!-- Search Box -->
+          <div class="input-group input-group-sm" style="min-width: 220px;">
+            <span class="input-group-text bg-light border-end-0"><i class="fas fa-magnifying-glass text-muted"></i></span>
+            <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Cari nama, NIK, Rekening..." onkeyup="applyFilterAndSort()">
+          </div>
 
-        <!-- Filter Pills Segmented -->
-        <div class="mt-3 d-flex flex-wrap gap-2 align-items-center pt-2 border-top">
-          <span class="small fw-bold me-1 text-muted"><i class="fas fa-sliders me-1"></i>Status:</span>
-          
-          <button type="button" class="filter-pill active" data-filter="all" onclick="setFilter('all', this)">
-            Semua (<%= candidates.length %>)
-          </button>
-          
-          <button type="button" class="filter-pill" data-filter="Belum Diproses" onclick="setFilter('Belum Diproses', this)">
-            Belum Diproses (<%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>)
-          </button>
-          
-          <button type="button" class="filter-pill" data-filter="Diterima" onclick="setFilter('Diterima', this)">
-            <i class="fas fa-circle-check text-success me-1"></i>Diterima (<%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>)
-          </button>
-          
-          <button type="button" class="filter-pill" data-filter="Dipertimbangkan" onclick="setFilter('Dipertimbangkan', this)">
-            <i class="fas fa-hourglass text-warning me-1"></i>Dipertimbangkan (<%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>)
-          </button>
-          
-          <button type="button" class="filter-pill" data-filter="Ditolak" onclick="setFilter('Ditolak', this)">
-            <i class="fas fa-circle-xmark text-danger me-1"></i>Ditolak (<%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>)
-          </button>
-          
-          <button type="button" class="filter-pill ms-auto" data-filter="duplicate" onclick="setFilter('duplicate', this)" style="border-color: #f59e0b; color: #b45309;">
-            <i class="fas fa-triangle-exclamation text-danger me-1"></i>Duplikat Pelamar (<%= candidates.filter(c => c.is_duplicate).length %>)
-          </button>
+          <!-- Divisi Filter -->
+          <div class="input-group input-group-sm" style="min-width: 170px;">
+            <span class="input-group-text bg-light"><i class="fas fa-layer-group text-muted"></i></span>
+            <select class="form-select" id="divisiSelect" onchange="applyFilterAndSort()">
+              <option value="all" selected>Semua Divisi</option>
+              <option value="kitchen">Kitchen</option>
+              <option value="barista">Barista</option>
+              <option value="operasional">Operasional</option>
+              <option value="hr">HR</option>
+              <option value="teknisi">Teknisi</option>
+              <option value="fat">FAT (Finance)</option>
+              <option value="it">IT</option>
+            </select>
+          </div>
+
+          <!-- Sort Select -->
+          <div class="input-group input-group-sm" style="min-width: 180px;">
+            <span class="input-group-text bg-light"><i class="fas fa-arrow-down-short-wide text-muted"></i></span>
+            <select class="form-select" id="sortSelect" onchange="applyFilterAndSort()">
+              <option value="date-desc" selected>Tanggal (Terbaru)</option>
+              <option value="date-asc">Tanggal (Terlama)</option>
+              <option value="name-asc">Nama Pelamar (A-Z)</option>
+              <option value="name-desc">Nama Pelamar (Z-A)</option>
+              <option value="status-asc">Status Rekrutmen</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <!-- Modern Table -->
-      <div class="table-responsive">
-        <table class="table modern-table mb-0" id="candidateTable">
+      <!-- Segmented Status Filter Tabs -->
+      <div class="px-3 py-2 bg-light border-bottom d-flex flex-wrap gap-2 align-items-center">
+        <span class="small fw-bold me-1 text-muted"><i class="fas fa-sliders me-1"></i>Status:</span>
+        
+        <button type="button" class="filter-pill active" data-filter="all" onclick="setFilter('all', this)">
+          Semua (<%= candidates.length %>)
+        </button>
+        
+        <button type="button" class="filter-pill" data-filter="Belum Diproses" onclick="setFilter('Belum Diproses', this)">
+          Belum Diproses (<%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>)
+        </button>
+        
+        <button type="button" class="filter-pill" data-filter="Diterima" onclick="setFilter('Diterima', this)">
+          <i class="fas fa-circle-check text-success"></i> Diterima (<%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>)
+        </button>
+        
+        <button type="button" class="filter-pill" data-filter="Dipertimbangkan" onclick="setFilter('Dipertimbangkan', this)">
+          <i class="fas fa-hourglass text-warning"></i> Dipertimbangkan (<%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>)
+        </button>
+        
+        <button type="button" class="filter-pill" data-filter="Ditolak" onclick="setFilter('Ditolak', this)">
+          <i class="fas fa-circle-xmark text-danger"></i> Ditolak (<%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>)
+        </button>
+        
+        <button type="button" class="filter-pill ms-auto" data-filter="duplicate" onclick="setFilter('duplicate', this)" style="border-color: #f59e0b; color: #b45309;">
+          <i class="fas fa-triangle-exclamation text-danger"></i> Duplikat (<%= candidates.filter(c => c.is_duplicate).length %>)
+        </button>
+      </div>
+
+      <!-- Modern Table Content -->
+      <div class="table-responsive-modern">
+        <table class="kov-table" id="candidateTable">
           <thead>
             <tr>
-              <th class="ps-4" style="width: 60px;">ID</th>
+              <th class="ps-3" style="width: 60px;">ID</th>
               <th class="sortable-header" onclick="toggleSort('date')" style="min-width: 140px;">
                 Tanggal Submit <i class="fas fa-sort ms-1 text-muted" id="sortIconDate"></i>
               </th>
               <th class="sortable-header" onclick="toggleSort('name')" style="min-width: 250px;">
-                Nama & Identitas <i class="fas fa-sort ms-1 text-muted" id="sortIconName"></i>
+                Nama &amp; Identitas <i class="fas fa-sort ms-1 text-muted" id="sortIconName"></i>
               </th>
               <th style="min-width: 160px;">Posisi Dilamar</th>
               <th style="min-width: 180px;">Kontak</th>
@@ -579,7 +382,7 @@
                 Status Seleksi <i class="fas fa-sort ms-1 text-muted" id="sortIconStatus"></i>
               </th>
               <th style="min-width: 150px;">Indikator</th>
-              <th class="text-center pe-4" style="min-width: 160px;">Aksi</th>
+              <th class="text-center pe-3" style="min-width: 150px;">Aksi</th>
             </tr>
           </thead>
           <tbody id="candidateTableBody">
@@ -597,14 +400,14 @@
             <% candidates.forEach(c => { 
               const cDiv = c.divisi || 'Operasional';
               const dLow = cDiv.toLowerCase();
-              let divCls = 'bg-slate-100 text-dark';
-              if (dLow.includes('kitchen')) divCls = 'bg-warning text-dark';
-              else if (dLow.includes('barista')) divCls = 'bg-warning-subtle text-warning-emphasis border border-warning';
-              else if (dLow.includes('hr')) divCls = 'bg-purple text-white';
-              else if (dLow.includes('teknisi')) divCls = 'bg-info text-dark';
-              else if (dLow.includes('fat') || dLow.includes('finance')) divCls = 'bg-primary text-white';
-              else if (dLow.includes('it')) divCls = 'bg-dark text-info border border-info';
-              else divCls = 'bg-success text-white';
+              let divBadgeClass = 'bg-light text-dark border';
+              if (dLow.includes('kitchen')) divBadgeClass = 'bg-warning-subtle text-warning-emphasis border border-warning';
+              else if (dLow.includes('barista')) divBadgeClass = 'bg-amber-subtle text-amber-emphasis border';
+              else if (dLow.includes('hr')) divBadgeClass = 'bg-primary-subtle text-primary border';
+              else if (dLow.includes('teknisi')) divBadgeClass = 'bg-info-subtle text-info border';
+              else if (dLow.includes('fat') || dLow.includes('finance')) divBadgeClass = 'bg-success-subtle text-success border';
+              else if (dLow.includes('it')) divBadgeClass = 'bg-dark text-info border border-info';
+              else divBadgeClass = 'bg-success-subtle text-success border';
             %>
               <tr data-id="<%= c.id %>"
                   data-date="<%= new Date(c.created_at).getTime() %>"
@@ -612,16 +415,16 @@
                   data-status="<%= c.kesimpulan_status || 'Belum Diproses' %>"
                   data-divisi="<%= dLow %>"
                   data-duplicate="<%= c.is_duplicate ? 'true' : 'false' %>">
-                <td class="ps-4 fw-bold text-muted">#<%= c.id %></td>
+                <td class="ps-3 fw-bold text-muted">#<%= c.id %></td>
                 <td class="small text-secondary fw-semibold">
                   <%= formatDate(c.created_at, true) %>
                 </td>
                 <td>
-                  <div class="d-flex align-items-center gap-2">
+                  <div class="d-flex align-items-center gap-2.5">
                     <% if (c.foto_kandidat) { %>
-                      <img src="<%= c.foto_kandidat %>" class="rounded-circle border shadow-sm flex-shrink-0" style="width: 40px; height: 40px; object-fit: cover;">
+                      <img src="<%= c.foto_kandidat %>" class="rounded-3 border shadow-xs flex-shrink-0" style="width: 38px; height: 38px; object-fit: cover;">
                     <% } else { %>
-                      <div class="rounded-circle d-flex align-items-center justify-content-center text-secondary fw-bold flex-shrink-0" style="width: 40px; height: 40px; font-size: 14px; background: #e2e8f0; color: #475569;">
+                      <div class="user-avatar-initials flex-shrink-0">
                         <%= c.nama_lengkap ? c.nama_lengkap.charAt(0).toUpperCase() : 'P' %>
                       </div>
                     <% } %>
@@ -637,7 +440,7 @@
                 </td>
                 <td>
                   <div class="mb-1">
-                    <span class="badge <%= divCls %> px-2 py-1" style="font-size: 0.72rem;">
+                    <span class="badge <%= divBadgeClass %> px-2 py-1" style="font-size: 0.72rem;">
                       <i class="fas fa-layer-group me-1"></i><%= cDiv %>
                     </span>
                   </div>
@@ -652,13 +455,13 @@
                 <td>
                   <% 
                     const statusName = c.kesimpulan_status || 'Belum Diproses';
-                    let statusClassKey = 'Belum';
-                    if (statusName === 'Diterima') statusClassKey = 'Diterima';
-                    else if (statusName === 'Dipertimbangkan') statusClassKey = 'Dipertimbangkan';
-                    else if (statusName === 'Ditolak') statusClassKey = 'Ditolak';
+                    let pillClass = 'pill-slate';
+                    if (statusName === 'Diterima') pillClass = 'pill-success';
+                    else if (statusName === 'Dipertimbangkan') pillClass = 'pill-warning';
+                    else if (statusName === 'Ditolak') pillClass = 'pill-danger';
                   %>
-                  <span class="status-pill status-<%= statusClassKey %>">
-                    <span class="status-dot"></span>
+                  <span class="status-pill-modern <%= pillClass %>">
+                    <span class="status-dot-pulse"></span>
                     <%= statusName %>
                   </span>
                 </td>
@@ -680,15 +483,15 @@
                     </div>
                   <% } %>
                   <% if (c.share_token) { %>
-                    <div class="mt-1"><span class="badge bg-light text-muted font-monospace border" style="font-size: 0.7rem;" title="Token Unik Link saat melamar"><%= c.share_token %></span></div>
+                    <div class="mt-1"><span class="badge bg-light text-muted font-monospace border" style="font-size: 0.7rem;" title="Token Unik Link"><%= c.share_token %></span></div>
                   <% } %>
                 </td>
-                <td class="text-center pe-4">
-                  <div class="d-inline-flex gap-1">
-                    <a href="/admin/candidate/<%= c.id %>" class="btn btn-sm btn-outline-primary btn-action" title="Edit Catatan Pewawancara / Detail">
-                      <i class="fas fa-user-check me-1"></i>Review
+                <td class="text-center pe-3">
+                  <div class="d-inline-flex gap-1.5">
+                    <a href="/admin/candidate/<%= c.id %>" class="btn-kov-outline btn-kov-sm" title="Edit Catatan Pewawancara / Detail">
+                      <i class="fas fa-user-check"></i> Review
                     </a>
-                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" class="btn btn-sm btn-outline-danger btn-action" title="Export 5-Page PDF">
+                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" class="btn-kov-secondary btn-kov-sm text-danger" title="Export 5-Page PDF">
                       <i class="fas fa-file-pdf"></i>
                     </a>
                   </div>

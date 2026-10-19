@@ -14,100 +14,58 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kelola User & Hak Akses Reviewer - KOV Portal</title>
+  <title>Kelola User &amp; Hak Akses Reviewer - KOV Portal</title>
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --kov-emerald: #059669;
-      --kov-slate-900: #0f172a;
-      --kov-slate-800: #1e293b;
-      --kov-border: #e2e8f0;
-    }
-    * {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    body { background-color: #f8fafc; color: #1e293b; }
-    .top-navbar {
-      background: #0f172a;
-      border-bottom: 1px solid #1e293b;
-      padding: 0.75rem 1.5rem;
-    }
-    .card {
-      border: 1px solid var(--kov-border);
-      border-radius: 14px;
-      box-shadow: 0 1px 3px 0 rgba(0,0,0,0.04);
-      background: #ffffff;
-    }
-    .badge-superadmin { background-color: #7c3aed; color: white; }
-    .badge-admin { background-color: #0284c7; color: white; }
-    .badge-operasional { background-color: #059669; color: white; }
-    .badge-it { background-color: #0891b2; color: white; }
-    .badge-user { background-color: #ea580c; color: white; }
-    
-    .div-badge {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.25rem 0.5rem;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-    .div-kitchen { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
-    .div-barista { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-    .div-operasional { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
-    .div-hr { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
-    .div-teknisi { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
-    .div-fat { background: #ede9fe; color: #5b21b6; border: 1px solid #ddd6fe; }
-    .div-it { background: #cffafe; color: #0e7490; border: 1px solid #a5f3fc; }
-  </style>
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="top-navbar shadow-sm">
-    <div class="container-fluid px-2 d-flex flex-wrap align-items-center justify-content-between gap-2">
-      <div class="d-flex align-items-center gap-2">
-        <a href="/admin" class="btn btn-outline-light btn-sm fw-semibold">
-          <i class="fas fa-arrow-left me-1"></i> Dashboard HR
+  <!-- Top Navigation Bar -->
+  <header class="top-navbar-modern">
+    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <a href="/admin" class="btn-kov-secondary btn-kov-sm">
+          <i class="fas fa-arrow-left"></i> Dashboard HR
         </a>
-        <a href="/reviewer" class="btn btn-outline-info btn-sm fw-semibold">
-          <i class="fas fa-clipboard-check me-1"></i> Portal Reviewer
+        <a href="/reviewer" class="btn-kov-outline btn-kov-sm">
+          <i class="fas fa-clipboard-check"></i> Portal Reviewer
         </a>
-        <span class="text-white fw-bold fs-6 ms-2">
-          <i class="fas fa-users-gear text-warning me-2"></i>Kelola User & Hak Akses Reviewer
+        <span class="text-white fw-bold fs-6 ms-2 d-none d-md-inline">
+          <i class="fas fa-users-gear text-warning me-2"></i>Kelola User &amp; Hak Akses Reviewer
         </span>
       </div>
-      <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
         <% if (typeof user !== 'undefined' && user) { %>
-          <span class="text-white-50 me-2 small">
-            <i class="fas fa-circle-user me-1 text-light"></i><%= user.nama || user.username %> (<%= user.role %>)
-          </span>
+          <div class="d-flex align-items-center text-white px-2.5 py-1 rounded-3 me-1" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
+            <i class="fas fa-circle-user me-2 text-warning"></i>
+            <span class="fw-bold"><%= user.nama || user.username %></span>
+            <span class="text-white-50 ms-1">(<%= user.role %>)</span>
+          </div>
         <% } %>
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-danger btn-sm fw-semibold text-white border-secondary">
-          <i class="fas fa-arrow-right-from-bracket me-1"></i>Logout
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger" style="border-color: rgba(239, 68, 68, 0.3);">
+          <i class="fas fa-arrow-right-from-bracket"></i> Keluar
         </a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <div class="container-fluid px-4 py-4">
+  <div class="container-fluid px-3 px-md-4 py-4">
 
     <!-- Alert Messages -->
     <% if (success) { %>
-      <div class="alert alert-success alert-dismissible fade show mb-4 shadow-sm" role="alert">
-        <i class="fas fa-check-circle me-2"></i> <%= success %>
+      <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
+        <i class="fas fa-circle-check me-2"></i> <%= success %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% } %>
     <% if (error) { %>
-      <div class="alert alert-danger alert-dismissible fade show mb-4 shadow-sm" role="alert">
-        <i class="fas fa-exclamation-circle me-2"></i> <%= error %>
+      <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
+        <i class="fas fa-circle-exclamation me-2"></i> <%= error %>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     <% } %>
@@ -115,17 +73,20 @@
     <div class="row g-4">
       <!-- Create User Card -->
       <div class="col-xl-4 col-lg-5">
-        <div class="card h-100">
-          <div class="card-header bg-white py-3 border-bottom">
-            <h5 class="mb-0 fw-bold text-primary">
-              <i class="fas fa-user-plus me-2"></i>Tambah Pengguna Baru
-            </h5>
-            <small class="text-muted">Buat akun staf, reviewer divisi, atau admin sistem</small>
+        <div class="kov-card h-100" style="border-top: 3px solid var(--kov-primary-500);">
+          <div class="kov-card-header">
+            <div>
+              <h5 class="kov-card-title">
+                <i class="fas fa-user-plus text-success"></i>
+                <span>Tambah Pengguna Baru</span>
+              </h5>
+              <div class="text-muted small mt-1">Buat akun staf, reviewer divisi, atau admin sistem</div>
+            </div>
           </div>
-          <div class="card-body p-4">
+          <div class="kov-card-body p-4">
             <form action="/admin/users/create" method="POST" id="createForm">
               <div class="mb-3">
-                <label for="username" class="form-label fw-semibold small">Username <span class="text-danger">*</span></label>
+                <label for="username" class="kov-label">Username <span class="text-danger">*</span></label>
                 <div class="input-group">
                   <span class="input-group-text bg-light"><i class="fas fa-at text-muted"></i></span>
                   <input type="text" class="form-control" id="username" name="username" placeholder="contoh: reviewer_kitchen" required>
@@ -133,12 +94,12 @@
               </div>
 
               <div class="mb-3">
-                <label for="nama" class="form-label fw-semibold small">Nama Lengkap & Gelar / Posisi <span class="text-danger">*</span></label>
+                <label for="nama" class="kov-label">Nama Lengkap &amp; Posisi <span class="text-danger">*</span></label>
                 <input type="text" class="form-control" id="nama" name="nama" placeholder="contoh: Chef Budi Santoso (Head Kitchen)" required>
               </div>
 
               <div class="mb-3">
-                <label for="password" class="form-label fw-semibold small">Password <span class="text-danger">*</span></label>
+                <label for="password" class="kov-label">Password <span class="text-danger">*</span></label>
                 <div class="input-group">
                   <span class="input-group-text bg-light"><i class="fas fa-key text-muted"></i></span>
                   <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password kuat" required>
@@ -146,23 +107,23 @@
               </div>
 
               <div class="mb-3">
-                <label for="role" class="form-label fw-semibold small">Role Akun Utama <span class="text-danger">*</span></label>
+                <label for="role" class="kov-label">Role Akun Utama <span class="text-danger">*</span></label>
                 <select class="form-select" id="role" name="role" required onchange="handleRoleChange(this.value, 'create')">
                   <option value="user" selected>USER (Reviewer Pelamar Sesuai Divisi)</option>
-                  <option value="admin">Admin HR (Kelola Pelamar & Rekrutmen Penuh)</option>
-                  <option value="operasional">Admin Operasional (BA, PO & Surat Tugas)</option>
-                  <option value="it">Khusus IT (Rekap Pembelanjaan IT - Maks 1 Akun)</option>
-                  <option value="superadmin">Super Admin (Kelola Seluruh Sistem & Pengguna)</option>
+                  <option value="admin">Admin HR (Kelola Pelamar &amp; Rekrutmen Penuh)</option>
+                  <option value="operasional">Admin Operasional (BA, PO &amp; Surat Tugas)</option>
+                  <option value="it">Khusus IT (Rekap Pembelanjaan IT)</option>
+                  <option value="superadmin">Super Admin (Kelola Seluruh Sistem)</option>
                 </select>
                 <div class="form-text small" id="roleHelpText">
                   <i class="fas fa-info-circle me-1"></i>Role USER hanya dapat mereview dan memberi catatan pada pelamar sesuai divisi yang dicentang di bawah.
                 </div>
               </div>
 
-              <!-- Division Access Checkboxes (Bisa ditempelkan ke USER maupun Admin HR) -->
-              <div class="mb-4 p-3 bg-light rounded border" id="divisionBoxCreate">
+              <!-- Division Access Checkboxes -->
+              <div class="mb-4 p-3 bg-light rounded-3 border" id="divisionBoxCreate">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                  <label class="form-label fw-bold small mb-0 text-dark">
+                  <label class="kov-label mb-0 text-dark">
                     <i class="fas fa-layer-group text-primary me-1"></i>Hak Akses Divisi Reviewer
                   </label>
                   <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none" style="font-size: 0.75rem;" onclick="toggleAllDivisions('createForm')">
@@ -187,8 +148,8 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-primary w-100 fw-semibold py-2">
-                <i class="fas fa-save me-2"></i>Simpan Pengguna Baru
+              <button type="submit" class="btn-kov-primary w-100 py-2">
+                <i class="fas fa-save"></i> Simpan Pengguna Baru
               </button>
             </form>
           </div>
@@ -197,180 +158,176 @@
 
       <!-- Users List Table Card -->
       <div class="col-xl-8 col-lg-7">
-        <div class="card h-100">
-          <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div class="kov-card h-100">
+          <div class="kov-card-header">
             <div>
-              <h5 class="mb-0 fw-bold text-dark">
-                <i class="fas fa-users-gear me-2 text-primary"></i>Daftar Pengguna & Hak Akses Reviewer (<%= users.length %>)
+              <h5 class="kov-card-title">
+                <i class="fas fa-users-gear text-primary"></i>
+                <span>Daftar Pengguna &amp; Hak Akses Reviewer (<%= users.length %>)</span>
               </h5>
-              <small class="text-muted">Kelola akun, tempelkan hak akses reviewer divisi, atau ubah kredensial</small>
+              <div class="text-muted small mt-1">Kelola akun, tempelkan hak akses reviewer divisi, atau perbarui kredensial</div>
             </div>
           </div>
-          <div class="card-body p-0">
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
+          <div class="table-responsive-modern">
+            <table class="kov-table">
+              <thead>
+                <tr>
+                  <th class="ps-3" style="width: 60px;">ID</th>
+                  <th>User &amp; Identitas</th>
+                  <th>Role Utama</th>
+                  <th>Hak Reviewer Divisi</th>
+                  <th>Tgl Dibuat</th>
+                  <th class="text-center pe-3" style="min-width: 140px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(u => { 
+                  const uDivs = (u.reviewer_divisions || '').split(',').map(s => s.trim()).filter(Boolean);
+                %>
                   <tr>
-                    <th class="ps-4" style="width: 60px;">ID</th>
-                    <th>User & Identitas</th>
-                    <th>Role Utama</th>
-                    <th>Hak Reviewer Divisi</th>
-                    <th>Tgl Dibuat</th>
-                    <th class="text-center pe-4" style="min-width: 140px;">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% users.forEach(u => { 
-                    const uDivs = (u.reviewer_divisions || '').split(',').map(s => s.trim()).filter(Boolean);
-                  %>
-                    <tr>
-                      <td class="ps-4 fw-bold text-muted">#<%= u.id %></td>
-                      <td>
-                        <div class="fw-bold text-dark">@<%= u.username %></div>
-                        <div class="small text-muted"><%= u.nama || '-' %></div>
-                      </td>
-                      <td>
-                        <% if (u.role === 'superadmin') { %>
-                          <span class="badge badge-superadmin px-2 py-1"><i class="fas fa-crown me-1"></i>Super Admin</span>
-                        <% } else if (u.role === 'operasional' || u.role === 'admin_operasional') { %>
-                          <span class="badge badge-operasional px-2 py-1"><i class="fas fa-truck-ramp-box me-1"></i>Operasional</span>
-                        <% } else if (u.role === 'it') { %>
-                          <span class="badge badge-it px-2 py-1"><i class="fas fa-laptop-code me-1"></i>Khusus IT</span>
-                        <% } else if (u.role === 'user') { %>
-                          <span class="badge badge-user px-2 py-1"><i class="fas fa-user-check me-1"></i>Reviewer USER</span>
-                        <% } else { %>
-                          <span class="badge badge-admin px-2 py-1"><i class="fas fa-user-tie me-1"></i>Admin HR</span>
-                        <% } %>
-                      </td>
-                      <td>
-                        <% if (u.role === 'superadmin') { %>
-                          <span class="badge bg-purple-subtle text-dark border px-2 py-1 small">
-                            <i class="fas fa-shield-halved text-primary me-1"></i>Akses Semua Divisi
-                          </span>
-                        <% } else if (uDivs.length > 0) { %>
-                          <div class="d-flex flex-wrap gap-1">
-                            <% uDivs.forEach(d => { 
-                              const dLow = d.toLowerCase();
-                              let cls = 'div-operasional';
-                              if (dLow.includes('kitchen')) cls = 'div-kitchen';
-                              else if (dLow.includes('barista')) cls = 'div-barista';
-                              else if (dLow.includes('hr')) cls = 'div-hr';
-                              else if (dLow.includes('teknisi')) cls = 'div-teknisi';
-                              else if (dLow.includes('fat') || dLow.includes('finance')) cls = 'div-fat';
-                              else if (dLow.includes('it')) cls = 'div-it';
-                            %>
-                              <span class="div-badge <%= cls %>"><%= d %></span>
-                            <% }); %>
-                          </div>
-                        <% } else { %>
-                          <span class="text-muted small fst-italic">Belum ditempelkan</span>
-                        <% } %>
-                      </td>
-                      <td class="small text-muted"><%= formatDate(u.created_at, true) %></td>
-                      <td class="text-center pe-4">
-                        <div class="d-inline-flex gap-1">
-                          <!-- Edit Modal Trigger Button -->
-                          <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal<%= u.id %>" title="Edit Pengguna & Hak Akses">
-                            <i class="fas fa-pen-to-square me-1"></i>Edit
-                          </button>
-
-                          <% if (u.id === user.id) { %>
-                            <span class="badge bg-light text-muted border px-2 py-1 small align-self-center">Anda</span>
-                          <% } else { %>
-                            <form action="/admin/users/delete/<%= u.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna @<%= u.username %>?')" class="d-inline">
-                              <button type="submit" class="btn btn-outline-danger btn-sm" title="Hapus User">
-                                <i class="fas fa-trash-alt"></i>
-                              </button>
-                            </form>
-                          <% } %>
+                    <td class="ps-3 fw-bold text-muted">#<%= u.id %></td>
+                    <td>
+                      <div class="fw-bold text-dark">@<%= u.username %></div>
+                      <div class="small text-muted"><%= u.nama || '-' %></div>
+                    </td>
+                    <td>
+                      <% if (u.role === 'superadmin') { %>
+                        <span class="status-pill-modern pill-danger"><span class="status-dot-pulse"></span> Super Admin</span>
+                      <% } else if (u.role === 'operasional' || u.role === 'admin_operasional') { %>
+                        <span class="status-pill-modern pill-success"><span class="status-dot-pulse"></span> Operasional</span>
+                      <% } else if (u.role === 'it') { %>
+                        <span class="status-pill-modern pill-info"><span class="status-dot-pulse"></span> Khusus IT</span>
+                      <% } else if (u.role === 'user') { %>
+                        <span class="status-pill-modern pill-warning"><span class="status-dot-pulse"></span> Reviewer USER</span>
+                      <% } else { %>
+                        <span class="status-pill-modern pill-info"><span class="status-dot-pulse"></span> Admin HR</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <% if (u.role === 'superadmin') { %>
+                        <span class="badge bg-purple-subtle text-dark border px-2 py-1 small">
+                          <i class="fas fa-shield-halved text-primary me-1"></i>Akses Semua Divisi
+                        </span>
+                      <% } else if (uDivs.length > 0) { %>
+                        <div class="d-flex flex-wrap gap-1">
+                          <% uDivs.forEach(d => { 
+                            const dLow = d.toLowerCase();
+                            let cls = 'bg-light text-dark border';
+                            if (dLow.includes('kitchen')) cls = 'bg-warning-subtle text-warning-emphasis border border-warning';
+                            else if (dLow.includes('barista')) cls = 'bg-amber-subtle text-amber-emphasis border';
+                            else if (dLow.includes('hr')) cls = 'bg-primary-subtle text-primary border';
+                            else if (dLow.includes('teknisi')) cls = 'bg-info-subtle text-info border';
+                            else if (dLow.includes('fat') || dLow.includes('finance')) cls = 'bg-success-subtle text-success border';
+                            else if (dLow.includes('it')) cls = 'bg-dark text-info border border-info';
+                          %>
+                            <span class="badge <%= cls %>" style="font-size: 0.72rem;"><%= d %></span>
+                          <% }); %>
                         </div>
-                      </td>
-                    </tr>
+                      <% } else { %>
+                        <span class="text-muted small fst-italic">Belum ditempelkan</span>
+                      <% } %>
+                    </td>
+                    <td class="small text-muted"><%= formatDate(u.created_at, true) %></td>
+                    <td class="text-center pe-3">
+                      <div class="d-inline-flex gap-1.5">
+                        <!-- Edit Modal Trigger Button -->
+                        <button type="button" class="btn-kov-outline btn-kov-sm" data-bs-toggle="modal" data-bs-target="#editModal<%= u.id %>" title="Edit Pengguna & Hak Akses">
+                          <i class="fas fa-pen-to-square"></i> Edit
+                        </button>
 
-                    <!-- EDIT USER MODAL -->
-                    <div class="modal fade text-start" id="editModal<%= u.id %>" tabindex="-1" aria-labelledby="editModalLabel<%= u.id %>" aria-hidden="true">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content border-0 shadow">
-                          <form action="/admin/users/edit/<%= u.id %>" method="POST" id="editForm<%= u.id %>">
-                            <div class="modal-header bg-slate-900 text-white" style="background-color: #0f172a;">
-                              <h5 class="modal-title fw-bold" id="editModalLabel<%= u.id %>">
-                                <i class="fas fa-user-pen text-warning me-2"></i>Edit Pengguna & Hak Akses: @<%= u.username %>
-                              </h5>
-                              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body p-4">
-                              <div class="mb-3">
-                                <label class="form-label fw-semibold small">Username</label>
-                                <input type="text" class="form-control bg-light" value="@<%= u.username %>" disabled>
-                                <div class="form-text small">Username permanen tidak dapat diubah.</div>
-                              </div>
-
-                              <div class="mb-3">
-                                <label class="form-label fw-semibold small">Nama Lengkap & Jabatan <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nama" value="<%= u.nama || '' %>" required>
-                              </div>
-
-                              <div class="mb-3">
-                                <label class="form-label fw-semibold small">Role Utama Sistem <span class="text-danger">*</span></label>
-                                <select class="form-select" name="role" required>
-                                  <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>USER: Reviewer Pelamar Sesuai Divisi</option>
-                                  <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>Admin HR (Kelola Pelamar Penuh)</option>
-                                  <option value="operasional" <%= (u.role === 'operasional' || u.role === 'admin_operasional') ? 'selected' : '' %>>Admin Operasional</option>
-                                  <option value="it" <%= u.role === 'it' ? 'selected' : '' %>>Khusus IT</option>
-                                  <option value="superadmin" <%= u.role === 'superadmin' ? 'selected' : '' %>>Super Admin</option>
-                                </select>
-                              </div>
-
-                              <div class="mb-3">
-                                <label class="form-label fw-semibold small">Password Baru (Opsional)</label>
-                                <input type="password" class="form-control" name="password" placeholder="Biarkan kosong jika password tidak diubah">
-                              </div>
-
-                              <!-- Hak Akses Divisi Reviewer (Ditempelkan atau Dihapus) -->
-                              <div class="p-3 bg-light rounded border mb-2">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                  <label class="form-label fw-bold small mb-0 text-dark">
-                                    <i class="fas fa-layer-group text-primary me-1"></i>Tempelkan Hak Reviewer Divisi
-                                  </label>
-                                  <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none" style="font-size: 0.75rem;" onclick="toggleAllDivisions('editForm<%= u.id %>')">
-                                    Pilih Semua / Batal
-                                  </button>
-                                </div>
-                                <div class="text-muted small mb-2" style="font-size: 0.76rem;">
-                                  Centang divisi yang boleh direview & diberi catatan oleh akun ini:
-                                </div>
-                                <div class="row g-2">
-                                  <% standardDivs.forEach(div => { 
-                                    const isChecked = uDivs.some(d => d.toLowerCase() === div.toLowerCase());
-                                  %>
-                                    <div class="col-6">
-                                      <div class="form-check">
-                                        <input class="form-check-input div-check-editForm<%= u.id %>" type="checkbox" name="reviewer_divisions" value="<%= div %>" id="div_edit_<%= u.id %>_<%= div %>" <%= isChecked ? 'checked' : '' %>>
-                                        <label class="form-check-label small fw-semibold" for="div_edit_<%= u.id %>_<%= div %>">
-                                          <%= div === 'FAT' ? 'FAT (Finance)' : div %>
-                                        </label>
-                                      </div>
-                                    </div>
-                                  <% }); %>
-                                </div>
-                              </div>
-
-                            </div>
-                            <div class="modal-footer bg-light py-2">
-                              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-                              <button type="submit" class="btn btn-primary btn-sm px-3 fw-semibold">
-                                <i class="fas fa-save me-1"></i>Simpan Perubahan Hak Akses
-                              </button>
-                            </div>
+                        <% if (u.id === user.id) { %>
+                          <span class="badge bg-light text-muted border px-2 py-1 small align-self-center">Anda</span>
+                        <% } else { %>
+                          <form action="/admin/users/delete/<%= u.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna @<%= u.username %>?')" class="d-inline">
+                            <button type="submit" class="btn-kov-secondary btn-kov-sm text-danger" title="Hapus User">
+                              <i class="fas fa-trash-alt"></i>
+                            </button>
                           </form>
-                        </div>
+                        <% } %>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <!-- EDIT USER MODAL -->
+                  <div class="modal fade text-start" id="editModal<%= u.id %>" tabindex="-1" aria-labelledby="editModalLabel<%= u.id %>" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content border-0 shadow-lg rounded-4">
+                        <form action="/admin/users/edit/<%= u.id %>" method="POST" id="editForm<%= u.id %>">
+                          <div class="modal-header bg-slate-900 text-white rounded-top-4" style="background-color: var(--kov-slate-900);">
+                            <h5 class="modal-title fw-bold" id="editModalLabel<%= u.id %>">
+                              <i class="fas fa-user-pen text-warning me-2"></i>Edit: @<%= u.username %>
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body p-4">
+                            <div class="mb-3">
+                              <label class="kov-label">Username</label>
+                              <input type="text" class="form-control bg-light" value="@<%= u.username %>" disabled>
+                              <div class="form-text small">Username permanen tidak dapat diubah.</div>
+                            </div>
+
+                            <div class="mb-3">
+                              <label class="kov-label">Nama Lengkap &amp; Jabatan <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" name="nama" value="<%= u.nama || '' %>" required>
+                            </div>
+
+                            <div class="mb-3">
+                              <label class="kov-label">Role Utama Sistem <span class="text-danger">*</span></label>
+                              <select class="form-select" name="role" required>
+                                <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>USER: Reviewer Pelamar Sesuai Divisi</option>
+                                <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>Admin HR (Kelola Pelamar Penuh)</option>
+                                <option value="operasional" <%= (u.role === 'operasional' || u.role === 'admin_operasional') ? 'selected' : '' %>>Admin Operasional</option>
+                                <option value="it" <%= u.role === 'it' ? 'selected' : '' %>>Khusus IT</option>
+                                <option value="superadmin" <%= u.role === 'superadmin' ? 'selected' : '' %>>Super Admin</option>
+                              </select>
+                            </div>
+
+                            <div class="mb-3">
+                              <label class="kov-label">Password Baru (Opsional)</label>
+                              <input type="password" class="form-control" name="password" placeholder="Biarkan kosong jika tidak diubah">
+                            </div>
+
+                            <!-- Hak Akses Divisi Reviewer -->
+                            <div class="p-3 bg-light rounded-3 border mb-2">
+                              <div class="d-flex justify-content-between align-items-center mb-2">
+                                <label class="kov-label mb-0 text-dark">
+                                  <i class="fas fa-layer-group text-primary me-1"></i>Hak Reviewer Divisi
+                                </label>
+                                <button type="button" class="btn btn-link btn-sm p-0 text-decoration-none" style="font-size: 0.75rem;" onclick="toggleAllDivisions('editForm<%= u.id %>')">
+                                  Pilih Semua / Batal
+                                </button>
+                              </div>
+                              <div class="row g-2">
+                                <% standardDivs.forEach(div => { 
+                                  const isChecked = uDivs.some(d => d.toLowerCase() === div.toLowerCase());
+                                %>
+                                  <div class="col-6">
+                                    <div class="form-check">
+                                      <input class="form-check-input div-check-editForm<%= u.id %>" type="checkbox" name="reviewer_divisions" value="<%= div %>" id="div_edit_<%= u.id %>_<%= div %>" <%= isChecked ? 'checked' : '' %>>
+                                      <label class="form-check-label small fw-semibold" for="div_edit_<%= u.id %>_<%= div %>">
+                                        <%= div === 'FAT' ? 'FAT (Finance)' : div %>
+                                      </label>
+                                    </div>
+                                  </div>
+                                <% }); %>
+                              </div>
+                            </div>
+
+                          </div>
+                          <div class="modal-footer bg-light py-2">
+                            <button type="button" class="btn-kov-secondary btn-kov-sm" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn-kov-primary btn-kov-sm">
+                              <i class="fas fa-save"></i> Simpan Perubahan
+                            </button>
+                          </div>
+                        </form>
                       </div>
                     </div>
+                  </div>
 
-                  <% }); %>
-                </tbody>
-              </table>
-            </div>
+                <% }); %>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -12,55 +12,89 @@
     })();
   </script>
 
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail Purchase Order - <%= po.no_po || ('PO/KOV/' + po.id) %></title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
   <style>
-    body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .navbar-operasional { background: linear-gradient(135deg, #0f5132 0%, #198754 100%); }
-    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .po-paper { background-color: #ffffff; padding: 2.5rem; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.04); }
-    .card-box { border: 1.5px solid #0f5132; border-radius: 6px; padding: 12px 15px; height: 100%; }
-    .card-box-header { background-color: #0f5132; color: white; font-weight: bold; font-size: 0.9rem; padding: 4px 10px; margin: -12px -15px 10px -15px; border-radius: 4px 4px 0 0; }
+    .po-paper {
+      background-color: #ffffff;
+      padding: 2.25rem;
+      border-radius: var(--kov-radius-lg);
+      border: 1px solid var(--kov-border);
+      box-shadow: var(--kov-shadow-md);
+    }
+    .card-box {
+      border: 1px solid var(--kov-border);
+      border-radius: var(--kov-radius-md);
+      padding: 1rem 1.25rem;
+      height: 100%;
+      background: var(--kov-slate-50);
+    }
+    .card-box-header {
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--kov-primary-700);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+      border-bottom: 1px solid var(--kov-slate-200);
+      padding-bottom: 0.4rem;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-operasional shadow-sm mb-4">
-    <div class="container-fluid px-4">
-      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional/po">
-        <img src="/logo_kov_hijau.png" height="30" class="me-2" alt="Logo">
-        <span>Kembali ke Dashboard PO</span>
-      </a>
+  <!-- Top Navigation Bar -->
+  <header class="top-navbar-modern">
+    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
       <div class="d-flex align-items-center gap-2">
-        <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" class="btn btn-danger btn-sm fw-bold">
-          <i class="fas fa-file-pdf me-1"></i>Download Official PDF PO
+        <a class="btn-kov-secondary btn-kov-sm" href="/admin/operasional/po">
+          <i class="fas fa-arrow-left"></i> Kembali ke Dashboard PO
+        </a>
+        <span class="text-white-50 small ms-2 d-none d-md-inline">
+          PO No: <strong class="text-white"><%= po.no_po || ('PO/KOV/' + po.id) %></strong>
+        </span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+          <i class="fas fa-file-pdf"></i> Download Official PDF PO
         </a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <div class="container px-4 pb-5">
+  <div class="container px-3 px-md-4 py-4">
     
     <div class="po-paper mb-4">
       <!-- Header Section -->
-      <div class="row align-items-top mb-4 border-bottom pb-3">
-        <div class="col-md-6">
-          <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 48px; max-width: 180px; object-fit: contain; margin-bottom: 6px;">
-          <h4 class="fw-bold text-success mb-0">KOV GROUP</h4>
-          <div class="fw-bold text-dark small">Divisi Finance, Accounting & Procurement Operasional</div>
-          <div class="text-muted small">Jl. Wahidin No. 88, Semarang, Jawa Tengah</div>
+      <div class="row align-items-top mb-4 border-bottom pb-4">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <div class="d-flex align-items-center gap-3 mb-2">
+            <div class="brand-badge-logo" style="width: 44px; height: 44px;">
+              <img src="/logo_kov_hijau.png" alt="KOV Logo">
+            </div>
+            <div>
+              <h4 class="fw-bold mb-0 text-dark">KOV GROUP</h4>
+              <div class="small text-muted">Finance, Accounting &amp; Procurement</div>
+            </div>
+          </div>
+          <div class="text-secondary small">Kantor Pusat Operasional KOV Group</div>
         </div>
-        <div class="col-md-6 text-end">
-          <h2 class="fw-bold text-success mb-1">PURCHASE ORDER</h2>
+        <div class="col-md-6 text-md-end">
+          <h2 class="fw-bold text-success mb-1" style="color: var(--kov-primary-600) !important;">PURCHASE ORDER</h2>
           <div class="fw-bold text-dark">No. PO : <%= po.no_po || ('PO/KOV/' + po.id) %></div>
           <div class="text-secondary small">Tanggal : <%= formatDate(po.tanggal_po) %></div>
           <div class="mt-2">
-            Status PO: <span class="badge bg-success px-3 py-1 fs-6"><%= po.status_po || 'Reguler / Approved' %></span>
+            <span class="status-pill-modern pill-success" style="font-size: 0.8rem;">
+              <span class="status-dot-pulse"></span> <%= po.status_po || 'Reguler / Approved' %>
+            </span>
           </div>
         </div>
       </div>
@@ -69,34 +103,34 @@
       <div class="row g-3 mb-4">
         <div class="col-md-6">
           <div class="card-box">
-            <div class="card-box-header">PENYEDIA / VENDOR (TO)</div>
-            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Nama Vendor:</div><div class="fw-bold text-dark" style="width: 65%;"><%= po.vendor_nama || '-' %></div></div>
-            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Nama Dagang:</div><div style="width: 65%;"><%= po.vendor_nama_dagang || '-' %></div></div>
-            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Perihal:</div><div style="width: 65%;"><%= po.perihal || '-' %></div></div>
-            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Unit Kerja:</div><div class="fw-bold text-dark" style="width: 65%;"><%= po.unit_kerja || '-' %></div></div>
+            <div class="card-box-header"><i class="fas fa-truck-field me-1"></i>Penyedia / Vendor (TO)</div>
+            <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Nama Vendor:</div><div class="fw-bold text-dark small" style="width: 65%;"><%= po.vendor_nama || '-' %></div></div>
+            <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Nama Dagang:</div><div class="small" style="width: 65%;"><%= po.vendor_nama_dagang || '-' %></div></div>
+            <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Perihal:</div><div class="small" style="width: 65%;"><%= po.perihal || '-' %></div></div>
+            <div class="d-flex"><div class="fw-bold text-secondary small" style="width: 35%;">Unit Kerja:</div><div class="fw-bold text-dark small" style="width: 65%;"><%= po.unit_kerja || '-' %></div></div>
           </div>
         </div>
         <div class="col-md-6">
           <div class="card-box">
-            <div class="card-box-header">DETAIL PENGIRIMAN & PEMBAYARAN</div>
-            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Lokasi Kirim:</div><div style="width: 65%;"><%= po.lokasi_kirim || '-' %></div></div>
-            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Tgl Pengiriman:</div><div style="width: 65%;"><%= po.tgl_pengiriman || '-' %></div></div>
-            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Termin Bayar:</div><div style="width: 65%;"><%= po.termin_bayar || '-' %></div></div>
-            <div class="d-flex mb-1"><div class="fw-bold text-secondary" style="width: 35%;">Mata Uang:</div><div style="width: 65%;"><%= po.mata_uang || 'IDR (Rupiah)' %></div></div>
+            <div class="card-box-header"><i class="fas fa-location-dot me-1"></i>Detail Pengiriman &amp; Pembayaran</div>
+            <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Lokasi Kirim:</div><div class="small" style="width: 65%;"><%= po.lokasi_kirim || '-' %></div></div>
+            <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Tgl Kirim:</div><div class="small" style="width: 65%;"><%= po.tgl_pengiriman || '-' %></div></div>
+            <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Termin Bayar:</div><div class="small" style="width: 65%;"><%= po.termin_bayar || '-' %></div></div>
+            <div class="d-flex"><div class="fw-bold text-secondary small" style="width: 35%;">Mata Uang:</div><div class="small" style="width: 65%;"><%= po.mata_uang || 'IDR (Rupiah)' %></div></div>
           </div>
         </div>
       </div>
 
       <!-- Items Table -->
-      <div class="table-responsive mb-4">
-        <table class="table table-bordered align-middle">
-          <thead class="table-success text-center small text-uppercase">
+      <div class="table-responsive-modern mb-4">
+        <table class="kov-table">
+          <thead>
             <tr>
-              <th style="width: 5%;">NO</th>
-              <th style="width: 55%; text-align: left;">KODE & SPESIFIKASI DETAIL BARANG</th>
-              <th style="width: 10%;">QTY</th>
-              <th style="width: 15%; text-align: right;">HARGA SATUAN (RP)</th>
-              <th style="width: 15%; text-align: right;">TOTAL HARGA (RP)</th>
+              <th class="ps-3" style="width: 50px;">NO</th>
+              <th style="width: 50%;">KODE &amp; SPESIFIKASI DETAIL BARANG</th>
+              <th class="text-center" style="width: 12%;">QTY</th>
+              <th class="text-end" style="width: 18%;">HARGA SATUAN</th>
+              <th class="text-end pe-3" style="width: 20%;">TOTAL HARGA</th>
             </tr>
           </thead>
           <tbody>
@@ -108,14 +142,14 @@
             <% } else { %>
               <% items.forEach((item, idx) => { %>
                 <tr>
-                  <td class="text-center font-bold"><%= idx + 1 %></td>
+                  <td class="ps-3 fw-bold text-muted"><%= idx + 1 %></td>
                   <td>
-                    <div class="fw-bold text-success"><%= item.nama_kode || item.nama_barang || '-' %></div>
+                    <div class="fw-bold text-dark"><%= item.nama_kode || item.nama_barang || '-' %></div>
                     <div class="small text-muted"><%= item.spesifikasi || '-' %></div>
                   </td>
                   <td class="text-center fw-bold"><%= item.qty || 1 %> <%= item.satuan || 'PCS' %></td>
                   <td class="text-end">Rp <%= Number(item.harga_satuan || 0).toLocaleString('id-ID') %></td>
-                  <td class="text-end fw-bold">Rp <%= Number(item.total_harga || (item.qty * item.harga_satuan) || 0).toLocaleString('id-ID') %></td>
+                  <td class="text-end pe-3 fw-bold text-dark">Rp <%= Number(item.total_harga || (item.qty * item.harga_satuan) || 0).toLocaleString('id-ID') %></td>
                 </tr>
               <% }); %>
             <% } %>
@@ -126,10 +160,10 @@
       <!-- Financial Totals Block -->
       <div class="row justify-content-end mb-4">
         <div class="col-md-5">
-          <div class="p-3 bg-light rounded border">
-            <div class="d-flex justify-content-between mb-2">
-              <span class="fw-bold">Subtotal:</span>
-              <span class="fw-bold">Rp <%= Number(po.subtotal || 0).toLocaleString('id-ID') %></span>
+          <div class="p-3 bg-light rounded-3 border">
+            <div class="d-flex justify-content-between mb-2 small">
+              <span class="fw-bold text-secondary">Subtotal:</span>
+              <span class="fw-bold text-dark">Rp <%= Number(po.subtotal || 0).toLocaleString('id-ID') %></span>
             </div>
             <div class="d-flex justify-content-between mb-2 text-muted small">
               <span>PPN (<%= po.ppn_persen || 0 %>%):</span>
@@ -151,41 +185,41 @@
       </div>
 
       <!-- Syarat & Ketentuan -->
-      <div class="p-3 bg-light rounded border mb-4">
-        <h6 class="fw-bold text-success mb-1"><i class="fas fa-file-contract me-1"></i>Syarat & Ketentuan Pengadaan:</h6>
-        <div class="small text-dark style-pre-line"><%= po.catatan_syarat || '-' %></div>
+      <div class="p-3 bg-light rounded-3 border mb-4">
+        <h6 class="fw-bold text-dark mb-1 small"><i class="fas fa-file-contract text-primary me-1"></i>Syarat &amp; Ketentuan Pengadaan:</h6>
+        <div class="small text-muted style-pre-line"><%= po.catatan_syarat || '-' %></div>
       </div>
 
       <!-- Signatures Block -->
-      <div class="row text-center pt-3">
+      <div class="row text-center pt-3 g-3">
         <div class="col-md-4">
-          <div class="fw-bold text-success small mb-2">Dibuat Oleh,</div>
+          <div class="fw-bold text-secondary small mb-2">Dibuat Oleh,</div>
           <div style="height: 60px;" class="d-flex align-items-center justify-content-center">
             <% if (po.signature_dibuat) { %>
               <img src="<%= po.signature_dibuat %>" style="max-height: 55px;" alt="TTD">
             <% } else { %>
-              <span class="badge bg-light text-success border">[ SIGNED DIGITAL ]</span>
+              <span class="status-pill-modern pill-success" style="font-size: 0.75rem;">[ SIGNED DIGITAL ]</span>
             <% } %>
           </div>
-          <div class="fw-bold text-decoration-underline mt-2"><%= po.dibuat_oleh_nama || 'ISWANDA ADITYA F.' %></div>
+          <div class="fw-bold text-dark mt-2"><%= po.dibuat_oleh_nama || 'ISWANDA ADITYA F.' %></div>
           <div class="small text-muted"><%= po.dibuat_oleh_jabatan || 'Procurement / Staff IT' %></div>
         </div>
 
         <div class="col-md-4">
-          <div class="fw-bold text-success small mb-2">Disetujui Oleh,</div>
+          <div class="fw-bold text-secondary small mb-2">Disetujui Oleh,</div>
           <div style="height: 60px;" class="d-flex align-items-center justify-content-center">
-            <span class="badge bg-success fs-6">[ APPROVED ]</span>
+            <span class="status-pill-modern pill-success" style="font-size: 0.8rem;">[ APPROVED ]</span>
           </div>
-          <div class="fw-bold text-decoration-underline mt-2"><%= po.disetujui_oleh_nama || 'KEN' %></div>
+          <div class="fw-bold text-dark mt-2"><%= po.disetujui_oleh_nama || 'KEN' %></div>
           <div class="small text-muted"><%= po.disetujui_oleh_jabatan || 'Finance Manager' %></div>
         </div>
 
         <div class="col-md-4">
-          <div class="fw-bold text-success small mb-2">Konfirmasi Vendor,</div>
+          <div class="fw-bold text-secondary small mb-2">Konfirmasi Vendor,</div>
           <div style="height: 60px;" class="d-flex align-items-center justify-content-center">
-            <span class="text-muted italic small">[ Stamp & Sign ]</span>
+            <span class="text-muted fst-italic small">[ Stamp &amp; Sign ]</span>
           </div>
-          <div class="fw-bold text-decoration-underline mt-2"><%= po.vendor_konfirmasi_nama || po.vendor_nama || 'PT AGRES INFO TEKNOLOGI' %></div>
+          <div class="fw-bold text-dark mt-2"><%= po.vendor_konfirmasi_nama || po.vendor_nama || 'PT AGRES INFO TEKNOLOGI' %></div>
           <div class="small text-muted"><%= po.vendor_konfirmasi_jabatan || 'Perwakilan Resmi' %></div>
         </div>
       </div>

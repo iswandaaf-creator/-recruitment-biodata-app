@@ -3,114 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulir Berita Acara Pengajuan Barang - Divisi Operasional</title>
-  <!-- Google Fonts: Plus Jakarta Sans -->
+  <title>Formulir Berita Acara Pengajuan Barang — Divisi Operasional</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <!-- Bootstrap 5 CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS & FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FontAwesome Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Figma Design Token System -->
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
+
   <style>
-    :root {
-      --kov-emerald: #059669;
-      --kov-emerald-dark: #064e3b;
-      --kov-border: #e2e8f0;
-    }
-    * {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
     body {
-      background-color: #f8fafc;
-      color: #1e293b;
+      background-color: var(--figma-canvas, #f8fafc);
+      color: var(--figma-neutral-800, #1e293b);
+      font-family: var(--figma-font-sans, 'Plus Jakarta Sans', sans-serif);
+      -webkit-font-smoothing: antialiased;
     }
-    .form-header {
+
+    /* Top Hero Banner */
+    .form-header-modern {
       background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
       color: white;
-      padding: 2.5rem 1rem;
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 10px 25px -5px rgba(5, 150, 105, 0.2);
+      padding: 2.75rem 1.5rem 2.25rem;
+      border-radius: 0 0 28px 28px;
+      box-shadow: 0 12px 30px -6px rgba(5, 150, 105, 0.25);
     }
-    .card {
-      border: 1px solid var(--kov-border);
-      border-radius: 14px;
-      box-shadow: 0 1px 3px 0 rgba(0,0,0,0.04);
-      margin-bottom: 1.8rem;
+
+    /* Section Cards */
+    .card-modern-form {
+      background: #ffffff;
+      border: 1px solid var(--figma-neutral-200, #e2e8f0);
+      border-radius: var(--figma-radius-xl, 16px);
+      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+      margin-bottom: 1.75rem;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .card-header {
-      background-color: #ffffff;
-      border-bottom: 2px solid #e8f5e9;
+    .card-modern-form:focus-within {
+      border-color: rgba(5, 150, 105, 0.4);
+      box-shadow: 0 8px 24px -4px rgba(5, 150, 105, 0.08);
+    }
+    .card-modern-form .card-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--figma-neutral-200, #e2e8f0);
+      padding: 1.15rem 1.5rem;
       font-weight: 700;
-      color: #0f5132;
-      font-size: 1.1rem;
-      padding: 1.2rem 1.5rem;
+      color: #064e3b;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
     }
-    .section-badge {
-      background-color: #0f5132;
-      color: white;
+
+    .section-badge-pill {
       width: 28px;
       height: 28px;
+      background: linear-gradient(135deg, #064e3b, #059669);
+      color: white;
+      border-radius: 8px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: 50%;
-      margin-right: 10px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 700;
     }
+
     .form-label {
       font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--figma-neutral-700, #334155);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-control, .form-select {
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      padding: 0.6rem 0.85rem;
       font-size: 0.9rem;
-      color: #333;
+      transition: all 0.15s ease;
+      background-color: #ffffff;
     }
-    .btn-success-custom {
-      background-color: #0f5132;
-      border-color: #0f5132;
-      color: white;
-      padding: 0.75rem 2.5rem;
-      font-weight: 700;
-      border-radius: 8px;
-      font-size: 1.05rem;
+    .form-control:focus, .form-select:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+      background-color: #ffffff;
     }
-    .btn-success-custom:hover {
-      background-color: #0b3d26;
-      border-color: #0b3d26;
-      color: white;
+
+    .item-card-row {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      transition: all 0.15s ease;
     }
+    .item-card-row:hover {
+      border-color: #cbd5e1;
+      background-color: #f1f5f9;
+    }
+
     .signature-container {
-      border: 2px dashed #a3cfbb;
-      border-radius: 8px;
-      background-color: #fafafa;
+      border: 2px dashed #94a3b8;
+      border-radius: 12px;
+      background-color: #f8fafc;
       position: relative;
       width: 100%;
       height: 180px;
+      touch-action: none;
     }
-    canvas {
+    canvas#sigCanvas {
       width: 100%;
       height: 100%;
       cursor: crosshair;
+      border-radius: 10px;
+    }
+
+    .btn-submit-kov {
+      background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 0.85rem 3rem;
+      font-weight: 700;
+      border-radius: 9999px;
+      box-shadow: 0 10px 25px -4px rgba(5, 150, 105, 0.35);
+      transition: all 0.2s ease;
+      font-size: 1.05rem;
+    }
+    .btn-submit-kov:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -4px rgba(5, 150, 105, 0.45);
+      color: white;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Header Banner -->
-  <div class="form-header text-center mb-4">
-    <div class="container">
-      <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 65px; max-width: 200px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
-      <h2 class="fw-bold mb-1"><i class="fas fa-boxes-packing me-2"></i>BERITA ACARA PENGAJUAN BARANG</h2>
-      <p class="mb-0 opacity-90">Formulir Pengajuan Pembelian, Repair, Replacement & Retur Barang - Divisi Operasional</p>
+  <!-- Top Hero Banner -->
+  <div class="form-header-modern text-center mb-4">
+    <div class="container" style="max-width: 820px;">
+      <div class="bg-white p-2 rounded-4 d-inline-flex align-items-center justify-content-center shadow-sm mb-3" style="width: 72px; height: 72px;">
+        <img src="/logo_kov_hijau.png" alt="KOV Logo" style="max-height: 52px; max-width: 52px; object-fit: contain;">
+      </div>
+      <h2 class="fw-bold mb-1 tracking-tight">Berita Acara Pengajuan Barang</h2>
+      <p class="mb-0 text-white-50" style="font-size: 0.95rem;">
+        Formulir Pengajuan Pembelian, Repair, Replacement & Retur Barang — Divisi Operasional KOV Group
+      </p>
     </div>
   </div>
 
-  <div class="container pb-5">
+  <div class="container pb-5" style="max-width: 980px;">
     <form id="pengajuanForm">
       <input type="hidden" name="share_token" id="shareToken">
 
       <!-- SECTION A: IDENTITAS PENGAJUAN -->
-      <div class="card">
-        <div class="card-header d-flex align-items-center">
-          <span class="section-badge">A</span> IDENTITAS PENGAJUAN
+      <div class="card-modern-form">
+        <div class="card-header">
+          <span class="section-badge-pill">A</span>
+          <span>Identitas Pengajuan Operasional</span>
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
@@ -119,12 +173,12 @@
               <input type="date" class="form-control" name="tanggal_pengajuan" id="tanggal_pengajuan" required>
             </div>
             <div class="col-md-4">
-              <label class="form-label">Outlet / Divisi <span class="text-danger">*</span></label>
+              <label class="form-label">Outlet / Unit Tujuan <span class="text-danger">*</span></label>
               <input type="text" class="form-control" name="outlet_divisi" placeholder="Contoh: KOV Detampot / Operasional Bar" required>
             </div>
             <div class="col-md-4">
               <label class="form-label">Departemen <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="departemen" placeholder="Contoh: Kitchen / Service / Engineering" required>
+              <input type="text" class="form-control" name="departemen" placeholder="Contoh: Kitchen / Service / ME" required>
             </div>
             <div class="col-md-4">
               <label class="form-label">PIC Pengajuan <span class="text-danger">*</span></label>
@@ -147,13 +201,14 @@
       </div>
 
       <!-- SECTION B: INFORMASI BARANG (MULTI-ITEM) -->
-      <div class="card">
+      <div class="card-modern-form">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <span class="section-badge">B</span> INFORMASI BARANG / EQUIPMENT (BISA LEBIH DARI 1 ITEM)
+          <div class="d-flex align-items-center gap-2">
+            <span class="section-badge-pill">B</span>
+            <span>Informasi Barang / Equipment (Multi-Item)</span>
           </div>
-          <button type="button" class="btn btn-sm btn-success fw-bold" id="btnAddItemRow">
-            <i class="fas fa-plus me-1"></i>Tambah Item Barang
+          <button type="button" class="btn btn-sm btn-success fw-bold rounded-pill px-3" id="btnAddItemRow">
+            <i class="fas fa-plus me-1"></i>Tambah Baris Barang
           </button>
         </div>
         <div class="card-body p-4">
@@ -176,17 +231,17 @@
             </div>
           </div>
 
-          <h6 class="fw-bold text-success border-bottom pb-2 mb-3">
+          <h6 class="fw-bold text-success border-bottom pb-2 mb-3 small text-uppercase tracking-wider">
             <i class="fas fa-list-check me-2"></i>Daftar Item / Barang yang Diajukan:
           </h6>
 
           <div id="itemsContainer">
             <!-- Item Row 1 (Default) -->
-            <div class="item-row card card-body bg-light mb-3 border">
+            <div class="item-row item-card-row">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="fw-bold text-dark item-number">Item #1</span>
-                <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item" style="display: none;">
-                  <i class="fas fa-trash me-1"></i>Hapus Item
+                <span class="fw-bold text-dark item-number font-monospace small">Item #1</span>
+                <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item rounded-pill" style="display: none;">
+                  <i class="fas fa-trash me-1"></i>Hapus
                 </button>
               </div>
               <div class="row g-3">
@@ -208,19 +263,19 @@
                 </div>
                 <div class="col-md-3">
                   <label class="form-label">Jumlah <span class="text-danger">*</span></label>
-                  <input type="number" class="form-control item-jumlah" min="1" value="1" required>
+                  <input type="number" class="form-control item-jumlah text-center" min="1" value="1" required>
                 </div>
                 <div class="col-md-3">
                   <label class="form-label">Satuan <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control item-satuan" value="Pcs" required>
+                  <input type="text" class="form-control item-satuan text-center" value="Pcs" required>
                 </div>
                 <div class="col-md-3">
                   <label class="form-label">Harga Satuan Estimasi (Rp)</label>
-                  <input type="number" class="form-control item-harga" min="0" value="0">
+                  <input type="number" class="form-control item-harga text-end" min="0" value="0">
                 </div>
                 <div class="col-md-3">
                   <label class="form-label">Total Subtotal (Rp)</label>
-                  <input type="number" class="form-control bg-white fw-bold item-total" value="0" readonly>
+                  <input type="number" class="form-control bg-white fw-bold item-total text-end font-monospace text-success" value="0" readonly>
                 </div>
               </div>
             </div>
@@ -238,22 +293,25 @@
           <input type="hidden" name="items_json" id="itemsJsonHidden">
 
           <!-- Grand Total Display Card -->
-          <div class="p-3 bg-success bg-opacity-10 border border-success rounded d-flex justify-content-between align-items-center">
-            <span class="fw-bold text-success fs-6"><i class="fas fa-calculator me-2"></i>TOTAL ESTIMASI KESELURUHAN BIAYA:</span>
-            <span class="fw-bold text-success fs-5" id="grandTotalDisplay">Rp 0</span>
+          <div class="p-3 bg-emerald-subtle border border-success border-opacity-25 rounded-3 d-flex justify-content-between align-items-center mb-3">
+            <span class="fw-bold text-emerald-dark small text-uppercase tracking-wider">
+              <i class="fas fa-calculator me-2"></i>Total Estimasi Keseluruhan:
+            </span>
+            <span class="fw-bold text-success fs-5 font-monospace" id="grandTotalDisplay">Rp 0</span>
           </div>
 
-          <div class="mt-3">
-            <label class="form-label">Link Quotation / Penawaran / Pembelian (Semua Item)</label>
+          <div>
+            <label class="form-label">Link Quotation / Penawaran / Referensi Pembelian</label>
             <input type="url" class="form-control" name="link_quotation" placeholder="https://tokopedia.com/... atau link penawaran vendor">
           </div>
         </div>
       </div>
 
       <!-- SECTION C: KEBUTUHAN & JUSTIFIKASI -->
-      <div class="card">
-        <div class="card-header d-flex align-items-center">
-          <span class="section-badge">C</span> KEBUTUHAN & JUSTIFIKASI PENGAJUAN
+      <div class="card-modern-form">
+        <div class="card-header">
+          <span class="section-badge-pill">C</span>
+          <span>Kebutuhan & Justifikasi Pengajuan</span>
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
@@ -278,11 +336,12 @@
       </div>
 
       <!-- SECTION D: KHUSUS BARANG RUSAK (CONDITIONAL) -->
-      <div class="card" id="sectionKerusakan" style="display: none;">
-        <div class="card-header d-flex align-items-center text-danger border-danger">
-          <span class="section-badge bg-danger">D</span> KHUSUS BARANG RUSAK
+      <div class="card-modern-form" id="sectionKerusakan" style="display: none;">
+        <div class="card-header text-danger border-danger">
+          <span class="section-badge-pill bg-danger">D</span>
+          <span>Khusus Kasus Kerusakan Barang</span>
         </div>
-        <div class="card-body p-4 bg-light-subtle">
+        <div class="card-body p-4 bg-danger bg-opacity-10">
           <div class="row g-3">
             <div class="col-md-12">
               <label class="form-label">Kronologi Kerusakan</label>
@@ -325,9 +384,10 @@
       </div>
 
       <!-- SECTION E: EVALUASI REPAIR VS REPLACEMENT -->
-      <div class="card">
-        <div class="card-header d-flex align-items-center">
-          <span class="section-badge">E</span> EVALUASI REPAIR VS REPLACEMENT
+      <div class="card-modern-form">
+        <div class="card-header">
+          <span class="section-badge-pill">E</span>
+          <span>Evaluasi Repair vs Replacement</span>
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
@@ -372,9 +432,10 @@
       </div>
 
       <!-- SECTION F & G: VENDOR, ANGGARAN & DOKUMENTASI -->
-      <div class="card">
-        <div class="card-header d-flex align-items-center">
-          <span class="section-badge">F</span> VENDOR, ANGGARAN & DOKUMENTASI PENDUKUNG
+      <div class="card-modern-form">
+        <div class="card-header">
+          <span class="section-badge-pill">F</span>
+          <span>Vendor, Anggaran & Dokumentasi Pendukung</span>
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
@@ -403,7 +464,7 @@
               </select>
             </div>
             <div class="col-md-4">
-              <label class="form-label">Estimasi Waktu Pengadaan / Service</label>
+              <label class="form-label">Estimasi Waktu Pengadaan</label>
               <input type="text" class="form-control" name="estimasi_waktu_pengadaan" placeholder="3 - 5 Hari Kerja">
             </div>
 
@@ -413,7 +474,7 @@
                 <i class="fas fa-images me-2"></i>Upload Foto Barang / Kerusakan (Bisa Lebih Dari 1 Foto):
               </label>
               <input type="file" id="fotoFiles" multiple accept="image/*" class="form-control">
-              <div class="form-text">Pilih satu atau beberapa file foto langsung dari galeri/kamera hp/laptop.</div>
+              <div class="form-text" style="font-size: 11px;">Pilih foto langsung dari galeri atau kamera handphone/laptop.</div>
               
               <!-- Container Preview Foto -->
               <div id="photoPreviewGrid" class="d-flex flex-wrap gap-2 mt-3"></div>
@@ -425,24 +486,24 @@
               <label class="form-label d-block fw-bold">Checklist Dokumen Pendukung:</label>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="lampiran_foto" value="1" id="chkFoto" checked>
-                <label class="form-check-label" for="chkFoto">Foto Barang / Kerusakan</label>
+                <label class="form-check-label small" for="chkFoto">Foto Barang / Kerusakan</label>
               </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="lampiran_quotation" value="1" id="chkQuotation">
-                <label class="form-check-label" for="chkQuotation">Quotation / Penawaran</label>
+                <label class="form-check-label small" for="chkQuotation">Quotation / Penawaran</label>
               </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="lampiran_spesifikasi" value="1" id="chkSpec">
-                <label class="form-check-label" for="chkSpec">Spesifikasi Barang</label>
+                <label class="form-check-label small" for="chkSpec">Spesifikasi Barang</label>
               </div>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" name="lampiran_dokumen_lain" value="1" id="chkLain">
-                <label class="form-check-label" for="chkLain">Dokumen Pendukung Lainnya</label>
+                <label class="form-check-label small" for="chkLain">Dokumen Lainnya</label>
               </div>
             </div>
 
             <div class="col-md-6 mt-3">
-              <label class="form-label">Link Dokumen Pendukung (Google Drive / Cloud)</label>
+              <label class="form-label">Link Dokumen Pendukung (Cloud / Google Drive)</label>
               <input type="url" class="form-control" name="link_dokumen_pendukung" placeholder="https://drive.google.com/...">
             </div>
             <div class="col-md-6 mt-3">
@@ -453,30 +514,34 @@
         </div>
       </div>
 
-      <!-- SECTION I: TANDA TANGAN & OTORISASI (MANUAL INPUT SIGNERS) -->
-      <div class="card">
-        <div class="card-header d-flex align-items-center">
-          <span class="section-badge">I</span> PERSETUJUAN & OTORISASI MANAJEMEN
+      <!-- SECTION I: TANDA TANGAN & OTORISASI -->
+      <div class="card-modern-form">
+        <div class="card-header">
+          <span class="section-badge-pill">I</span>
+          <span>Persetujuan & Otorisasi Manajemen</span>
         </div>
         <div class="card-body p-4">
-          <div class="row g-3">
+          <div class="row g-4">
             <div class="col-md-6">
-              <label class="form-label fw-bold">Tanda Tangan Digital Pembuat Pengajuan (Mouse / Layar Sentuh):</label>
+              <label class="form-label fw-bold">Tanda Tangan Digital Pembuat Pengajuan: <span class="text-danger">*</span></label>
               <div class="signature-container">
                 <canvas id="sigCanvas"></canvas>
               </div>
               <div class="mt-2 text-end">
-                <button type="button" class="btn btn-sm btn-outline-secondary" id="btnClearSig">
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="btnClearSig">
                   <i class="fas fa-eraser me-1"></i>Hapus Tanda Tangan
                 </button>
               </div>
               <input type="hidden" name="signature_dibuat" id="signature_dibuat">
             </div>
+
             <div class="col-md-6 border-start ps-4">
-              <h6 class="fw-bold text-success mb-2"><i class="fas fa-users-gear me-2"></i>Alur Otorisasi Persetujuan (Isi Nama Pejabat):</h6>
-              <p class="small text-muted mb-2">Tentukan nama otorisator/pejabat yang mengetahui dan menyetujui pengajuan ini:</p>
+              <h6 class="fw-bold text-success mb-2 small text-uppercase tracking-wider">
+                <i class="fas fa-users-gear me-2"></i>Alur Otorisasi Persetujuan:
+              </h6>
+              <p class="small text-muted mb-2">Tentukan nama pejabat penanggung jawab persetujuan pengadaan:</p>
               
-              <div class="p-3 bg-light rounded border">
+              <div class="p-3 bg-light rounded-3 border">
                 <div class="mb-2">
                   <label class="form-label small fw-bold mb-1">Mengetahui (1):</label>
                   <input type="text" class="form-control form-control-sm" name="mengetahui_1" value="Andre Antariza" placeholder="Nama Pejabat Mengetahui 1" required>
@@ -499,13 +564,13 @@
         </div>
       </div>
 
-      <!-- Action Buttons: Kirim & Download/Print PDF -->
-      <div class="text-center mt-4 d-flex justify-content-center align-items-center flex-wrap gap-2">
-        <button type="submit" class="btn btn-success-custom shadow" id="btnSubmit">
+      <!-- Action Buttons -->
+      <div class="text-center mt-4 d-flex justify-content-center align-items-center flex-wrap gap-3">
+        <button type="submit" class="btn-submit-kov" id="btnSubmit">
           <i class="fas fa-paper-plane me-2"></i>Kirim Berita Acara Pengajuan
         </button>
-        <button type="button" class="btn btn-outline-danger shadow py-2 px-4 fw-bold" id="btnDownloadPDFNav" onclick="handleDirectDownloadPDF()">
-          <i class="fas fa-file-pdf me-2"></i>Download PDF / Print
+        <button type="button" class="btn btn-outline-danger fw-bold rounded-pill px-4 py-3" id="btnDownloadPDFNav" onclick="handleDirectDownloadPDF()">
+          <i class="fas fa-file-pdf me-2"></i>Cetak / PDF
         </button>
       </div>
 
@@ -515,23 +580,23 @@
   <!-- Success Modal -->
   <div class="modal fade" id="successModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content text-center p-4 border-0 shadow-lg">
+      <div class="modal-content text-center p-4 border-0 shadow-lg rounded-4">
         <div class="modal-body">
-          <div class="text-success mb-3" style="font-size: 4rem;">
+          <div class="text-success mb-3" style="font-size: 3.5rem;">
             <i class="fas fa-circle-check"></i>
           </div>
           <h4 class="fw-bold text-dark mb-2">Pengajuan Berhasil Terkirim!</h4>
-          <p class="text-muted mb-3" id="successMessage">Berita Acara Pengajuan Barang telah dicatat dalam sistem Operasional.</p>
-          <div class="p-3 bg-light rounded mb-4 text-start small">
-            <div><strong>No. BA:</strong> <span id="resNoBa" class="fw-bold text-primary"></span></div>
-            <div><strong>Status:</strong> <span class="badge bg-warning text-dark">Menunggu Approval</span></div>
+          <p class="text-muted mb-3" id="successMessage">Berita Acara Pengajuan Barang telah tercatat dalam sistem Operasional.</p>
+          <div class="p-3 bg-light rounded-3 mb-4 text-start small border">
+            <div><strong>No. BA:</strong> <span id="resNoBa" class="fw-bold text-primary font-monospace"></span></div>
+            <div class="mt-1"><strong>Status:</strong> <span class="badge bg-warning text-dark rounded-pill">Menunggu Approval</span></div>
           </div>
           <div class="d-flex justify-content-center gap-2">
-            <button type="button" class="btn btn-danger px-3 py-2 fw-bold" onclick="printCreatedPDF()">
-              <i class="fas fa-file-pdf me-1"></i>Download PDF / Cetak
+            <button type="button" class="btn btn-danger px-3 py-2 fw-bold rounded-pill" onclick="printCreatedPDF()">
+              <i class="fas fa-file-pdf me-1"></i>Unduh PDF Resmi
             </button>
-            <button type="button" class="btn btn-outline-secondary px-3 py-2 fw-bold" onclick="window.location.reload()">
-              <i class="fas fa-plus me-1"></i>Buat Pengajuan Baru
+            <button type="button" class="btn btn-outline-secondary px-3 py-2 fw-semibold rounded-pill" onclick="window.location.reload()">
+              <i class="fas fa-plus me-1"></i>Buat Baru
             </button>
           </div>
         </div>
@@ -542,15 +607,12 @@
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Set default date to today
     document.getElementById('tanggal_pengajuan').valueAsDate = new Date();
 
-    // Parse URL params for share token
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('ref') || urlParams.get('token') || '';
     document.getElementById('shareToken').value = token;
 
-    // Toggle Section D (Kerusakan)
     const statusSelect = document.getElementById('status_barang');
     const sectionKerusakan = document.getElementById('sectionKerusakan');
 
@@ -562,9 +624,6 @@
       }
     });
 
-    // ==========================================
-    // DYNAMIC MULTI-ITEM MANAGEMENT
-    // ==========================================
     const itemsContainer = document.getElementById('itemsContainer');
     const btnAddItemRow = document.getElementById('btnAddItemRow');
     const grandTotalDisplay = document.getElementById('grandTotalDisplay');
@@ -574,10 +633,8 @@
       let grandTotal = 0;
 
       rows.forEach((row, index) => {
-        // Update number label
         row.querySelector('.item-number').innerText = `Item #${index + 1}`;
         
-        // Show/hide remove button
         const btnRemove = row.querySelector('.btn-remove-item');
         if (rows.length > 1) {
           btnRemove.style.display = 'inline-block';
@@ -585,7 +642,6 @@
           btnRemove.style.display = 'none';
         }
 
-        // Calculate subtotal
         const j = parseFloat(row.querySelector('.item-jumlah').value) || 0;
         const h = parseFloat(row.querySelector('.item-harga').value) || 0;
         const subtotal = j * h;
@@ -613,19 +669,17 @@
       });
     }
 
-    // Attach events to default item row #1
     attachRowEvents(itemsContainer.querySelector('.item-row'));
 
-    // Add new item row
     btnAddItemRow.addEventListener('click', function() {
       const count = itemsContainer.querySelectorAll('.item-row').length + 1;
       const newRow = document.createElement('div');
-      newRow.className = 'item-row card card-body bg-light mb-3 border';
+      newRow.className = 'item-row item-card-row';
       newRow.innerHTML = `
         <div class="d-flex justify-content-between align-items-center mb-2">
-          <span class="fw-bold text-dark item-number">Item #${count}</span>
-          <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item">
-            <i class="fas fa-trash me-1"></i>Hapus Item
+          <span class="fw-bold text-dark item-number font-monospace small">Item #${count}</span>
+          <button type="button" class="btn btn-sm btn-outline-danger btn-remove-item rounded-pill">
+            <i class="fas fa-trash me-1"></i>Hapus
           </button>
         </div>
         <div class="row g-3">
@@ -647,19 +701,19 @@
           </div>
           <div class="col-md-3">
             <label class="form-label">Jumlah <span class="text-danger">*</span></label>
-            <input type="number" class="form-control item-jumlah" min="1" value="1" required>
+            <input type="number" class="form-control item-jumlah text-center" min="1" value="1" required>
           </div>
           <div class="col-md-3">
             <label class="form-label">Satuan <span class="text-danger">*</span></label>
-            <input type="text" class="form-control item-satuan" value="Pcs" required>
+            <input type="text" class="form-control item-satuan text-center" value="Pcs" required>
           </div>
           <div class="col-md-3">
             <label class="form-label">Harga Satuan Estimasi (Rp)</label>
-            <input type="number" class="form-control item-harga" min="0" value="0">
+            <input type="number" class="form-control item-harga text-end" min="0" value="0">
           </div>
           <div class="col-md-3">
             <label class="form-label">Total Subtotal (Rp)</label>
-            <input type="number" class="form-control bg-white fw-bold item-total" value="0" readonly>
+            <input type="number" class="form-control bg-white fw-bold item-total text-end font-monospace text-success" value="0" readonly>
           </div>
         </div>
       `;
@@ -668,9 +722,6 @@
       updateItemNumbersAndTotals();
     });
 
-    // ==========================================
-    // MULTI-PHOTO UPLOAD & PREVIEW
-    // ==========================================
     const fotoFilesInput = document.getElementById('fotoFiles');
     const photoPreviewGrid = document.getElementById('photoPreviewGrid');
     const fotoListHidden = document.getElementById('fotoListHidden');
@@ -717,9 +768,7 @@
       renderPhotoPreviews();
     };
 
-    // ==========================================
-    // CANVAS SIGNATURE SETUP
-    // ==========================================
+    // Canvas Signature
     const canvas = document.getElementById('sigCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
@@ -730,7 +779,7 @@
       canvas.height = rect.height;
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
-      ctx.strokeStyle = '#0f5132';
+      ctx.strokeStyle = '#064e3b';
     }
     window.addEventListener('load', resizeCanvas);
     window.addEventListener('resize', resizeCanvas);
@@ -758,9 +807,6 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
 
-    // ==========================================
-    // FORM SUBMIT HANDLER
-    // ==========================================
     let createdBaId = null;
 
     document.getElementById('pengajuanForm').addEventListener('submit', async function(e) {
@@ -768,9 +814,8 @@
       
       const btnSubmit = document.getElementById('btnSubmit');
       btnSubmit.disabled = true;
-      btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mengirimkan...';
+      btnSubmit.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengirimkan...';
 
-      // Capture signature data URL if drawn
       const blankCanvas = document.createElement('canvas');
       blankCanvas.width = canvas.width;
       blankCanvas.height = canvas.height;
@@ -778,7 +823,6 @@
         document.getElementById('signature_dibuat').value = canvas.toDataURL('image/png');
       }
 
-      // Collect all Items into Array & JSON
       const itemRows = itemsContainer.querySelectorAll('.item-row');
       const itemsList = [];
       let totalQtySum = 0;
@@ -803,7 +847,6 @@
 
       document.getElementById('itemsJsonHidden').value = JSON.stringify(itemsList);
 
-      // Populate legacy single-field summary for compatibility
       if (itemsList.length > 0) {
         document.getElementById('legacy_nama_barang').value = itemsList.length === 1 ? itemsList[0].nama_barang : `${itemsList[0].nama_barang} (+${itemsList.length - 1} item lainnya)`;
         document.getElementById('legacy_kategori_barang').value = itemsList[0].kategori_barang || '';
@@ -855,12 +898,10 @@
       if (createdBaId) {
         window.open('/api/operasional/export/pdf/' + createdBaId, '_blank');
       } else {
-        alert('Silakan klik "Kirim Berita Acara Pengajuan" terlebih dahulu untuk membuat dokumen PDF resmi, atau Anda dapat langsung mencetak pratinjau formulir ini.');
+        alert('Silakan kirim pengajuan terlebih dahulu untuk mendapatkan dokumen PDF resmi, atau gunakan Cetak Pratinjau.');
         window.print();
       }
     };
   </script>
-  <!-- Inactivity Auto-Logout (2 Jam) -->
-  <script src="/idle-timer.js"></script>
 </body>
 </html>

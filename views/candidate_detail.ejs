@@ -12,75 +12,45 @@
     })();
   </script>
 
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Detail & Interview Note - <%= candidate.nama_lengkap %></title>
+  <title>Detail &amp; Interview Note - <%= candidate.nama_lengkap %></title>
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    :root {
-      --kov-emerald: #059669;
-      --kov-slate-900: #0f172a;
-      --kov-slate-800: #1e293b;
-      --kov-border: #e2e8f0;
-    }
-    * {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    body { background-color: #f8fafc; color: #1e293b; }
-    .card {
-      border: 1px solid var(--kov-border);
-      border-radius: 14px;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
-      margin-bottom: 1.5rem;
-      background: #ffffff;
-    }
-    .card-header {
-      background-color: #ffffff;
-      border-bottom: 1px solid var(--kov-border);
-      font-weight: 700;
-      color: #0f172a;
-      padding: 1rem 1.25rem;
-    }
-    .top-navbar {
-      background: #0f172a;
-      border-bottom: 1px solid #1e293b;
-      padding: 0.75rem 1.5rem;
-    }
-  </style>
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Top Bar -->
-  <nav class="top-navbar shadow-sm">
-    <div class="container-fluid px-2 d-flex flex-wrap align-items-center justify-content-between gap-2">
-      <a class="btn btn-outline-light btn-sm fw-semibold" href="/admin">
-        <i class="fas fa-arrow-left me-1"></i> Kembali ke Dashboard
+  <!-- Modern Top Navigation Bar -->
+  <nav class="top-navbar-modern">
+    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <a class="btn-kov-secondary btn-kov-sm" href="/admin">
+        <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
       </a>
-      <div class="d-flex align-items-center gap-2">
+      <div class="d-flex align-items-center gap-2 flex-wrap">
         <% if (typeof user !== 'undefined' && user) { %>
-          <span class="text-white-50 me-2 small">
-            <i class="fas fa-circle-user me-1 text-light"></i><%= user.nama || user.username %>
-          </span>
+          <div class="d-flex align-items-center text-white px-2.5 py-1 rounded-3 me-1" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
+            <i class="fas fa-circle-user me-2 text-emerald-400" style="color: #34d399;"></i>
+            <span class="fw-bold"><%= user.nama || user.username %></span>
+          </div>
           <% if (user.role === 'superadmin' || user.role === 'admin') { %>
-            <a href="/admin/users" class="btn btn-warning btn-sm fw-semibold me-1">
-              <i class="fas fa-users-gear me-1"></i>Kelola User
+            <a href="/admin/users" class="nav-link-modern" style="color: #fde047;">
+              <i class="fas fa-users-gear"></i> Kelola User
             </a>
           <% } %>
-          <a href="/reviewer" class="btn btn-outline-info btn-sm fw-semibold me-1">
-            <i class="fas fa-clipboard-check me-1"></i>Portal Reviewer
+          <a href="/reviewer" class="nav-link-modern">
+            <i class="fas fa-clipboard-check text-warning"></i> Reviewer
           </a>
         <% } %>
-        <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn btn-danger btn-sm fw-semibold">
-          <i class="fas fa-file-pdf me-1"></i>Download 5-Page PDF
+        <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+          <i class="fas fa-file-pdf"></i> Download 5-Page PDF
         </a>
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn btn-outline-light btn-sm fw-semibold ms-2">
-          <i class="fas fa-arrow-right-from-bracket me-1"></i>Logout
+        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger ms-1" style="border-color: rgba(239, 68, 68, 0.3);">
+          <i class="fas fa-arrow-right-from-bracket"></i> Logout
         </a>
       </div>
     </div>
@@ -90,21 +60,21 @@
 
     <% if (typeof is_duplicate !== 'undefined' && is_duplicate && typeof duplicates !== 'undefined' && duplicates.length > 1) { %>
       <!-- Anti-Redundancy Warning Banner -->
-      <div class="alert alert-warning border-2 border-warning shadow-sm mb-4">
-        <div class="d-flex align-items-start">
-          <i class="fas fa-exclamation-triangle fa-2x text-warning me-3 mt-1"></i>
+      <div class="alert alert-warning border border-warning shadow-xs rounded-4 mb-4">
+        <div class="d-flex align-items-start gap-3">
+          <i class="fas fa-triangle-exclamation fa-2x text-warning mt-1"></i>
           <div class="w-100">
-            <h5 class="alert-heading fw-bold mb-1">
-              ⚠️ Peringatan Anti-Redundansi Data: Pelamar Berulang (<%= duplicates.length %>x Mengisi Form)
-            </h5>
-            <p class="mb-2 text-dark">
-              Kandidat ini terdeteksi telah mengisi formulir biodata sebanyak <strong><%= duplicates.length %> kali</strong> dengan Nomor KTP, Email, No. HP, atau Nama yang sama.
+            <h6 class="alert-heading fw-bold mb-1">
+              Peringatan Data Duplikat: Pelamar Ini Mengisi Form <%= duplicates.length %>x
+            </h6>
+            <p class="small mb-2 text-dark">
+              Kandidat ini terdeteksi memiliki riwayat pengisian formulir lebih dari satu kali dengan kesamaan NIK, Email, No. HP, atau Nama.
             </p>
-            <div class="p-2 bg-white bg-opacity-75 rounded border border-warning-subtle">
+            <div class="p-2 bg-white rounded-3 border border-warning-subtle">
               <div class="fw-bold small text-secondary mb-1">Riwayat Sesi Pengisian Form Pelamar Ini:</div>
               <div class="d-flex flex-wrap gap-2">
                 <% duplicates.forEach(dup => { %>
-                  <a href="/admin/candidate/<%= dup.id %>" class="btn btn-sm <%= dup.id === candidate.id ? 'btn-warning fw-bold border-dark' : 'btn-outline-secondary' %> py-1 px-2 text-start">
+                  <a href="/admin/candidate/<%= dup.id %>" class="btn btn-sm <%= dup.id === candidate.id ? 'btn-warning fw-bold border-dark' : 'btn-outline-secondary' %> py-1 px-2 text-start rounded-pill">
                     <i class="fas <%= dup.id === candidate.id ? 'fa-check-circle' : 'fa-history' %> me-1"></i>
                     ID #<%= dup.id %> (<%= formatDate(dup.created_at) %>)
                     <span class="badge bg-dark bg-opacity-75 ms-1"><%= dup.kesimpulan_status || 'Belum Diproses' %></span>
@@ -119,17 +89,17 @@
     <% } %>
 
     <!-- Candidate Main Header Card -->
-    <div class="card">
-      <div class="card-body p-4">
+    <div class="kov-card mb-4">
+      <div class="kov-card-body p-4">
         <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
-          <div class="d-flex align-items-center gap-3">
+          <div class="d-flex align-items-center gap-3.5 flex-wrap">
             <% if (candidate.foto_kandidat) { %>
               <div class="position-relative">
-                <img src="<%= candidate.foto_kandidat %>" class="rounded border shadow-sm" style="width: 85px; height: 110px; object-fit: cover;">
+                <img src="<%= candidate.foto_kandidat %>" class="rounded-3 border shadow-xs" style="width: 85px; height: 110px; object-fit: cover;">
                 <span class="badge bg-dark position-absolute bottom-0 start-50 translate-middle-x mb-1 opacity-75" style="font-size: 9px;">Pasfoto 3x4</span>
               </div>
             <% } else { %>
-              <div class="rounded bg-light border d-flex flex-column align-items-center justify-content-center text-muted" style="width: 85px; height: 110px;">
+              <div class="rounded-3 bg-light border d-flex flex-column align-items-center justify-content-center text-muted" style="width: 85px; height: 110px;">
                 <i class="fas fa-camera fa-2x mb-1 opacity-50"></i>
                 <span style="font-size: 10px;">Tanpa Foto</span>
               </div>
@@ -140,68 +110,78 @@
                 <% 
                   const dLow = (candidate.divisi || 'operasional').toLowerCase();
                   let divCls = 'bg-secondary';
-                  if (dLow.includes('kitchen')) divCls = 'bg-warning text-dark';
-                  else if (dLow.includes('barista')) divCls = 'bg-warning-subtle text-warning-emphasis border border-warning';
-                  else if (dLow.includes('hr')) divCls = 'bg-purple text-white';
-                  else if (dLow.includes('teknisi')) divCls = 'bg-info text-dark';
-                  else if (dLow.includes('fat') || dLow.includes('finance')) divCls = 'bg-primary text-white';
+                  if (dLow.includes('kitchen')) divCls = 'bg-warning-subtle text-warning-emphasis border border-warning';
+                  else if (dLow.includes('barista')) divCls = 'bg-amber-subtle text-amber-emphasis border';
+                  else if (dLow.includes('hr')) divCls = 'bg-primary-subtle text-primary border';
+                  else if (dLow.includes('teknisi')) divCls = 'bg-info-subtle text-info border';
+                  else if (dLow.includes('fat') || dLow.includes('finance')) divCls = 'bg-success-subtle text-success border';
                   else if (dLow.includes('it')) divCls = 'bg-dark text-info border border-info';
-                  else divCls = 'bg-success text-white';
+                  else divCls = 'bg-success-subtle text-success border';
                 %>
                 <span class="badge <%= divCls %> px-2 py-1"><i class="fas fa-layer-group me-1"></i>Divisi: <%= candidate.divisi || 'Operasional' %></span>
-                <button type="button" class="btn btn-outline-secondary btn-sm py-0 px-2" style="font-size: 0.75rem;" data-bs-toggle="modal" data-bs-target="#modalChangeDivisi">
-                  <i class="fas fa-pen me-1"></i>Ubah Divisi
+                <button type="button" class="btn-kov-outline btn-kov-sm" style="padding: 2px 8px; font-size: 0.75rem;" data-bs-toggle="modal" data-bs-target="#modalChangeDivisi">
+                  <i class="fas fa-pen"></i> Ubah Divisi
                 </button>
               </div>
-              <div class="text-muted fs-6 mb-2">
-                <span class="me-3"><i class="fas fa-briefcase me-1 text-primary"></i><strong>Posisi:</strong> <%= candidate.posisi_dilamar %></span>
-                <span class="me-3"><i class="fas fa-envelope me-1 text-primary"></i><%= candidate.email %></span>
-                <span><i class="fas fa-phone me-1 text-primary"></i><%= candidate.no_hp %></span>
+              <div class="text-muted small mb-2 d-flex flex-wrap gap-3">
+                <span><i class="fas fa-briefcase text-primary me-1"></i><strong>Posisi:</strong> <%= candidate.posisi_dilamar %></span>
+                <span><i class="fas fa-envelope text-primary me-1"></i><%= candidate.email %></span>
+                <span><i class="fas fa-phone text-primary me-1"></i><%= candidate.no_hp %></span>
               </div>
               <div class="small text-secondary">
-                Submitted at: <%= formatDate(candidate.created_at, true) %> | Ref ID: #<%= candidate.id %>
+                Submitted: <%= formatDate(candidate.created_at, true) %> &bull; Ref ID: #<%= candidate.id %>
               </div>
             </div>
           </div>
           <div>
-            <% const statusClass = candidate.kesimpulan_status === 'Diterima' ? 'bg-success' : candidate.kesimpulan_status === 'Dipertimbangkan' ? 'bg-warning text-dark' : candidate.kesimpulan_status === 'Ditolak' ? 'bg-danger' : 'bg-secondary'; %>
-            <span class="badge <%= statusClass %> fs-6 px-3 py-2">
-              Status: <%= candidate.kesimpulan_status || 'Belum Diproses' %>
+            <% 
+              const statusName = candidate.kesimpulan_status || 'Belum Diproses';
+              let pillClass = 'pill-slate';
+              if (statusName === 'Diterima') pillClass = 'pill-success';
+              else if (statusName === 'Dipertimbangkan') pillClass = 'pill-warning';
+              else if (statusName === 'Ditolak') pillClass = 'pill-danger';
+            %>
+            <span class="status-pill-modern <%= pillClass %>" style="padding: 6px 14px; font-size: 0.85rem;">
+              <span class="status-dot-pulse"></span>
+              Status: <%= statusName %>
             </span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- CATATAN & EVALUASI REVIEWER DIVISI (KITCHEN, BARISTA, OPERASIONAL, HR, TEKNISI, FAT, IT) -->
-    <div class="card border-info border-2 shadow-sm mb-4">
-      <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <h5 class="mb-0 fw-bold text-dark">
-          <i class="fas fa-comments text-primary me-2"></i>Catatan & Evaluasi Reviewer Divisi (<%= (typeof reviews !== 'undefined' ? reviews.length : 0) %>)
+    <!-- CATATAN & EVALUASI REVIEWER DIVISI -->
+    <div class="kov-card mb-4" style="border-left: 4px solid var(--kov-blue);">
+      <div class="kov-card-header">
+        <h5 class="kov-card-title">
+          <i class="fas fa-comments text-primary"></i>
+          <span>Catatan &amp; Evaluasi Reviewer Divisi (<%= (typeof reviews !== 'undefined' ? reviews.length : 0) %>)</span>
         </h5>
-        <a href="/reviewer/candidate/<%= candidate.id %>" class="btn btn-primary btn-sm fw-semibold">
-          <i class="fas fa-pen-to-square me-1"></i>Beri Catatan Sebagai Reviewer
+        <a href="/reviewer/candidate/<%= candidate.id %>" class="btn-kov-primary btn-kov-sm">
+          <i class="fas fa-pen-to-square"></i> Beri Catatan Sebagai Reviewer
         </a>
       </div>
-      <div class="card-body p-4">
+      <div class="kov-card-body">
         <% if (typeof reviews !== 'undefined' && reviews.length > 0) { %>
           <div class="row g-3">
             <% reviews.forEach(r => { 
-              let rekBadge = 'bg-secondary';
-              if ((r.rekomendasi || '').includes('Direkomendasikan Lolos')) rekBadge = 'bg-success';
-              else if ((r.rekomendasi || '').includes('Dipertimbangkan')) rekBadge = 'bg-warning text-dark';
-              else if ((r.rekomendasi || '').includes('Tidak')) rekBadge = 'bg-danger';
+              let rekBadge = 'pill-slate';
+              if ((r.rekomendasi || '').includes('Direkomendasikan Lolos')) rekBadge = 'pill-success';
+              else if ((r.rekomendasi || '').includes('Dipertimbangkan')) rekBadge = 'pill-warning';
+              else if ((r.rekomendasi || '').includes('Tidak')) rekBadge = 'pill-danger';
             %>
               <div class="col-md-6">
-                <div class="p-3 bg-light rounded border h-100">
+                <div class="p-3 bg-light rounded-3 border h-100">
                   <div class="d-flex justify-content-between align-items-start mb-2">
                     <div>
                       <strong class="text-dark"><%= r.reviewer_name || r.reviewer_username %></strong>
                       <span class="badge bg-white text-dark border ms-1 small">Divisi: <%= r.divisi || '-' %></span>
                     </div>
-                    <span class="badge <%= rekBadge %> small"><%= r.rekomendasi || 'Catatan' %></span>
+                    <span class="status-pill-modern <%= rekBadge %>" style="font-size: 0.72rem;">
+                      <span class="status-dot-pulse"></span> <%= r.rekomendasi || 'Catatan' %>
+                    </span>
                   </div>
-                  <p class="small text-dark mb-2 bg-white p-2 rounded border" style="white-space: pre-line;"><%= r.catatan %></p>
+                  <p class="small text-dark mb-2 bg-white p-2.5 rounded-3 border" style="white-space: pre-line;"><%= r.catatan %></p>
                   <div class="small text-muted" style="font-size: 0.72rem;">
                     <i class="fas fa-clock me-1"></i><%= formatDate(r.created_at, true) %> (@<%= r.reviewer_username %>)
                   </div>
@@ -211,81 +191,84 @@
           </div>
         <% } else { %>
           <div class="text-muted small py-2">
-            <i class="fas fa-info-circle me-1 text-info"></i>Belum ada catatan evaluasi dari user/reviewer divisi untuk kandidat ini. Tim reviewer divisi (Kitchen, Barista, FAT, IT, dll.) dapat masuk melalui Portal Reviewer untuk memberikan penilaian.
+            <i class="fas fa-info-circle me-1 text-info"></i>Belum ada catatan evaluasi dari user/reviewer divisi untuk kandidat ini.
           </div>
         <% } %>
       </div>
     </div>
 
-    <!-- FORM DIISI OLEH PEWAWANCARA & KESIMPULAN (PAGE 5 EDITOR) -->
-    <div class="card border-primary border-2">
-      <div class="card-header bg-primary text-white py-3">
-        <h5 class="mb-0 fw-bold"><i class="fas fa-user-check me-2"></i>Form Pewawancara & Kesimpulan Rekrutmen (Halaman 5 PDF)</h5>
+    <!-- FORM DIISI OLEH PEWAWANCARA & KESIMPULAN -->
+    <div class="kov-card mb-4" style="border-top: 3px solid var(--kov-primary-500);">
+      <div class="kov-card-header">
+        <h5 class="kov-card-title">
+          <i class="fas fa-user-check text-success"></i>
+          <span>Form Pewawancara &amp; Kesimpulan Rekrutmen (Halaman 5 PDF)</span>
+        </h5>
       </div>
-      <div class="card-body">
+      <div class="kov-card-body">
         <form action="/admin/candidate/<%= candidate.id %>/interview" method="POST">
           
-          <h6 class="fw-bold text-primary mb-3">1. Catatan Wawancara 1</h6>
+          <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-pen me-2 text-primary"></i>1. Catatan Wawancara 1</h6>
           <div class="row g-3 mb-4">
             <div class="col-md-8">
-              <label class="form-label">Catatan Wawancara</label>
+              <label class="kov-label">Catatan Wawancara</label>
               <textarea class="form-control" name="cw1_catatan" rows="3" placeholder="Hasil interview / performa kandidat..."><%= cw1.catatan || '' %></textarea>
             </div>
             <div class="col-md-4">
               <div class="mb-2">
-                <label class="form-label">Nama Pewawancara</label>
+                <label class="kov-label">Nama Pewawancara</label>
                 <input type="text" class="form-control form-control-sm" name="cw1_nama" value="<%= cw1.nama || '' %>">
               </div>
               <div class="mb-2">
-                <label class="form-label">Jabatan</label>
+                <label class="kov-label">Jabatan</label>
                 <input type="text" class="form-control form-control-sm" name="cw1_jabatan" value="<%= cw1.jabatan || '' %>">
               </div>
               <div>
-                <label class="form-label">Tanggal</label>
+                <label class="kov-label">Tanggal</label>
                 <input type="date" class="form-control form-control-sm" name="cw1_tanggal" value="<%= cw1.tanggal || '' %>">
               </div>
             </div>
           </div>
 
-          <h6 class="fw-bold text-primary mb-3">2. Catatan Wawancara 2 (Opsional)</h6>
+          <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-pen me-2 text-primary"></i>2. Catatan Wawancara 2 (Opsional)</h6>
           <div class="row g-3 mb-4">
             <div class="col-md-8">
-              <label class="form-label">Catatan Wawancara</label>
+              <label class="kov-label">Catatan Wawancara</label>
               <textarea class="form-control" name="cw2_catatan" rows="3" placeholder="Hasil interview 2..."><%= cw2.catatan || '' %></textarea>
             </div>
             <div class="col-md-4">
               <div class="mb-2">
-                <label class="form-label">Nama Pewawancara</label>
+                <label class="kov-label">Nama Pewawancara</label>
                 <input type="text" class="form-control form-control-sm" name="cw2_nama" value="<%= cw2.nama || '' %>">
               </div>
               <div class="mb-2">
-                <label class="form-label">Jabatan</label>
+                <label class="kov-label">Jabatan</label>
                 <input type="text" class="form-control form-control-sm" name="cw2_jabatan" value="<%= cw2.jabatan || '' %>">
               </div>
               <div>
-                <label class="form-label">Tanggal</label>
+                <label class="kov-label">Tanggal</label>
                 <input type="date" class="form-control form-control-sm" name="cw2_tanggal" value="<%= cw2.tanggal || '' %>">
               </div>
             </div>
           </div>
 
-          <h6 class="fw-bold text-primary mb-3">3. Catatan Wawancara 3 (Opsional)</h6>
+          <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-pen me-2 text-primary"></i>3. Catatan Wawancara 3 (Opsional)</h6>
           <div class="row g-3 mb-4">
             <div class="col-md-8">
-              <label class="form-label">Catatan Wawancara</label>
+              <label class="kov-label">Catatan Wawancara</label>
               <textarea class="form-control" name="cw3_catatan" rows="3" placeholder="Hasil interview 3..."><%= cw3.catatan || '' %></textarea>
             </div>
             <div class="col-md-4">
               <div class="mb-2">
-                <label class="form-label">Nama Pewawancara</label>
+                <label class="kov-label">Nama Pewawancara</label>
                 <input type="text" class="form-control form-control-sm" name="cw3_nama" value="<%= cw3.nama || '' %>">
               </div>
               <div class="mb-2">
-                <label class="form-label">Jabatan</label>
+                <label class="kov-label">Jabatan</label>
                 <input type="text" class="form-control form-control-sm" name="cw3_jabatan" value="<%= cw3.jabatan || '' %>">
               </div>
               <div>
-                <label class="form-label">Tanggal</label>
+                <label class="kov-label">Tanggal</label>
                 <input type="date" class="form-control form-control-sm" name="cw3_tanggal" value="<%= cw3.tanggal || '' %>">
               </div>
             </div>
@@ -293,38 +276,38 @@
 
           <hr class="my-4">
 
-          <h6 class="fw-bold text-primary mb-3"><i class="fas fa-id-card-clip me-2"></i>4. Data Kepegawaian & Finansial HR</h6>
-          <div class="row g-3 mb-4 p-3 bg-light rounded border">
+          <h6 class="fw-bold text-dark mb-3"><i class="fas fa-id-card-clip me-2 text-primary"></i>4. Data Kepegawaian &amp; Finansial HR</h6>
+          <div class="row g-3 mb-4 p-3 bg-light rounded-3 border">
             <div class="col-md-4">
-              <label class="form-label fw-bold">Nomor KK (Kartu Keluarga)</label>
+              <label class="kov-label">Nomor KK (Kartu Keluarga)</label>
               <input type="text" class="form-control form-control-sm" name="nomor_kk" value="<%= candidate.nomor_kk || '' %>" placeholder="16 digit Nomor KK">
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-bold">No. Rekening Bank</label>
-              <input type="text" class="form-control form-control-sm" name="no_rekening" value="<%= candidate.no_rekening || '' %>" placeholder="Bank & No. Rekening">
+              <label class="kov-label">No. Rekening Bank</label>
+              <input type="text" class="form-control form-control-sm" name="no_rekening" value="<%= candidate.no_rekening || '' %>" placeholder="Bank &amp; No. Rekening">
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-bold">Gaji Pokok</label>
+              <label class="kov-label">Gaji Pokok</label>
               <input type="text" class="form-control form-control-sm" name="gaji_pokok" value="<%= candidate.gaji_pokok || '' %>" placeholder="Nominal Gaji Pokok">
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-bold">Produktivitas / Evaluasi</label>
+              <label class="kov-label">Produktivitas / Evaluasi</label>
               <input type="text" class="form-control form-control-sm" name="produktivitas" value="<%= candidate.produktivitas || '' %>" placeholder="Skor / Keterangan produktivitas">
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-bold">Tanggal Join</label>
+              <label class="kov-label">Tanggal Join</label>
               <input type="date" class="form-control form-control-sm" name="tgl_join" value="<%= candidate.tgl_join || '' %>">
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-bold">Tanggal Resign</label>
+              <label class="kov-label">Tanggal Resign</label>
               <input type="date" class="form-control form-control-sm" name="tgl_resign" value="<%= candidate.tgl_resign || '' %>">
             </div>
           </div>
 
-          <h6 class="fw-bold text-primary mb-3">5. Kesimpulan Akhir HR</h6>
-          <div class="row g-3 mb-3">
+          <h6 class="fw-bold text-dark mb-3"><i class="fas fa-clipboard-check me-2 text-primary"></i>5. Kesimpulan Akhir HR</h6>
+          <div class="row g-3 mb-4">
             <div class="col-md-4">
-              <label class="form-label fw-bold">Keputusan Rekrutmen <span class="text-danger">*</span></label>
+              <label class="kov-label">Keputusan Rekrutmen <span class="text-danger">*</span></label>
               <select class="form-select" name="kesimpulan_status" required>
                 <option value="" <%= !candidate.kesimpulan_status ? 'selected' : '' %>>-- Pilih Status --</option>
                 <option value="Diterima" <%= candidate.kesimpulan_status === 'Diterima' ? 'selected' : '' %>>Diterima</option>
@@ -333,14 +316,14 @@
               </select>
             </div>
             <div class="col-md-8">
-              <label class="form-label">Catatan Tambahan Kesimpulan</label>
+              <label class="kov-label">Catatan Tambahan Kesimpulan</label>
               <input type="text" class="form-control" name="kesimpulan_catatan" value="<%= candidate.kesimpulan_catatan || '' %>" placeholder="Keterangan gaji disetujui, tanggal masuk, atau alasan penolakan...">
             </div>
           </div>
 
           <div class="text-end">
-            <button type="submit" class="btn btn-primary px-4">
-              <i class="fas fa-save me-1"></i>Simpan Catatan & Data HR
+            <button type="submit" class="btn-kov-primary">
+              <i class="fas fa-save"></i> Simpan Catatan &amp; Data HR
             </button>
           </div>
 
@@ -349,12 +332,15 @@
     </div>
 
     <!-- SUMMARY OF CANDIDATE SUBMISSION DATA -->
-    <div class="card">
-      <div class="card-header">
-        <i class="fas fa-address-card me-2"></i>Ringkasan Biodata Pelamar
+    <div class="kov-card">
+      <div class="kov-card-header">
+        <h5 class="kov-card-title">
+          <i class="fas fa-address-card text-muted"></i>
+          <span>Ringkasan Biodata Pelamar</span>
+        </h5>
       </div>
-      <div class="card-body">
-        <div class="row g-3">
+      <div class="kov-card-body">
+        <div class="row g-3 small">
           <div class="col-md-4"><strong>Nama Lengkap:</strong> <%= candidate.nama_lengkap %></div>
           <div class="col-md-4"><strong>Nama Panggilan:</strong> <%= candidate.nama_panggilan || '-' %></div>
           <div class="col-md-4"><strong>Jenis Kelamin:</strong> <%= candidate.jenis_kelamin %></div>
@@ -382,9 +368,9 @@
   <!-- Modal Ubah Divisi Pelamar -->
   <div class="modal fade" id="modalChangeDivisi" tabindex="-1" aria-labelledby="modalChangeDivisiLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow">
+      <div class="modal-content border-0 shadow-lg rounded-4">
         <form action="/admin/candidate/<%= candidate.id %>/update-division" method="POST">
-          <div class="modal-header bg-slate-900 text-white" style="background-color: #0f172a;">
+          <div class="modal-header bg-slate-900 text-white rounded-top-4" style="background-color: var(--kov-slate-900);">
             <h5 class="modal-title fw-bold" id="modalChangeDivisiLabel">
               <i class="fas fa-layer-group text-warning me-2"></i>Ubah Divisi Pelamar
             </h5>
@@ -395,7 +381,7 @@
               Pilih divisi tujuan untuk pelamar <strong><%= candidate.nama_lengkap %></strong>. Pelamar akan otomatis muncul di Portal Reviewer divisi yang dipilih.
             </p>
             <div class="mb-3">
-              <label class="form-label fw-bold small">Pilih Divisi Lowongan <span class="text-danger">*</span></label>
+              <label class="kov-label">Pilih Divisi Lowongan <span class="text-danger">*</span></label>
               <% const divsList = ['Kitchen', 'Barista', 'Operasional', 'HR', 'Teknisi', 'FAT', 'IT']; %>
               <select class="form-select" name="divisi" required>
                 <% divsList.forEach(div => { %>
@@ -407,9 +393,9 @@
             </div>
           </div>
           <div class="modal-footer bg-light py-2">
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn btn-primary btn-sm px-3 fw-semibold">
-              <i class="fas fa-save me-1"></i>Simpan Divisi Baru
+            <button type="button" class="btn-kov-secondary btn-kov-sm" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn-kov-primary btn-kov-sm">
+              <i class="fas fa-save"></i> Simpan Divisi Baru
             </button>
           </div>
         </form>

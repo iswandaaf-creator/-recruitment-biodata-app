@@ -12,62 +12,173 @@
     })();
   </script>
 
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buat Purchase Order (PO) Baru - Divisi Operasional</title>
+  <title>Buat Purchase Order (PO) Baru — KOV Group</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS & FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Figma Design Token System -->
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
+  
   <style>
-    body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    .form-header { background: linear-gradient(135deg, #0f5132 0%, #198754 100%); color: white; padding: 2rem 1rem; border-radius: 0 0 15px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.12); }
-    .card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 1.8rem; }
-    .card-header { background-color: #ffffff; border-bottom: 2px solid #e8f5e9; font-weight: 700; color: #0f5132; font-size: 1.05rem; padding: 1rem 1.25rem; }
-    .form-label { font-weight: 600; font-size: 0.88rem; color: #333; }
-    .btn-success-custom { background-color: #0f5132; border-color: #0f5132; color: white; padding: 0.75rem 2.5rem; font-weight: 700; border-radius: 8px; font-size: 1.05rem; }
-    .btn-success-custom:hover { background-color: #0b3d26; border-color: #0b3d26; color: white; }
-    .signature-container { border: 2px dashed #a3cfbb; border-radius: 8px; background-color: #fafafa; width: 100%; height: 160px; }
-    canvas { width: 100%; height: 100%; cursor: crosshair; }
+    body {
+      background-color: var(--figma-canvas, #f8fafc);
+      color: var(--figma-neutral-800, #1e293b);
+      font-family: var(--figma-font-sans, 'Plus Jakarta Sans', sans-serif);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Glass Navbar */
+    .navbar-po-form {
+      background: rgba(15, 23, 42, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1020;
+    }
+
+    /* Hero Form Banner */
+    .po-header-banner {
+      background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
+      color: white;
+      padding: 2.25rem 1.5rem;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 10px 25px -5px rgba(5, 150, 105, 0.25);
+    }
+
+    /* Bento Form Section Cards */
+    .card-po-section {
+      background: #ffffff;
+      border: 1px solid var(--figma-neutral-200, #e2e8f0);
+      border-radius: var(--figma-radius-xl, 16px);
+      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .card-po-section .card-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--figma-neutral-200, #e2e8f0);
+      padding: 1.1rem 1.5rem;
+      font-weight: 700;
+      color: #064e3b;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-pill-num {
+      width: 26px;
+      height: 26px;
+      background: linear-gradient(135deg, #064e3b, #059669);
+      color: white;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .form-label {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--figma-neutral-700, #334155);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-control, .form-select {
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      padding: 0.55rem 0.8rem;
+      font-size: 0.9rem;
+      transition: all 0.15s ease;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    .signature-container {
+      border: 2px dashed #94a3b8;
+      border-radius: 12px;
+      background-color: #f8fafc;
+      width: 100%;
+      height: 160px;
+      position: relative;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+
+    .totals-summary-box {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      border: 1px solid #e2e8f0;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container-fluid px-4">
-      <a class="navbar-brand fw-bold d-flex align-items-center" href="/admin/operasional/po">
-        <img src="/logo_kov_hijau.png" height="32" class="me-2" alt="Logo">
-        <span>Purchase Order Operasional</span>
+  <!-- Top Glass Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-po-form py-2">
+    <div class="container-fluid px-3 px-lg-4">
+      <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="/admin/operasional/po">
+        <div class="bg-white p-1 rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px;">
+          <img src="/logo_kov_hijau.png" height="26" alt="Logo" style="object-fit: contain;">
+        </div>
+        <div>
+          <span class="fs-6 fw-bold text-white tracking-wide d-block leading-none">Purchase Order Operasional</span>
+          <span class="text-white-50" style="font-size: 11px;">KOV Group &bull; Procurement & Finance</span>
+        </div>
       </a>
-      <div class="d-flex align-items-center gap-2">
-        <a href="/admin/operasional/po" class="btn btn-outline-light btn-sm fw-semibold">
+      <div class="d-flex align-items-center gap-2 ms-auto">
+        <a href="/admin/operasional/po" class="btn btn-outline-light btn-sm fw-semibold rounded-pill px-3">
           <i class="fas fa-arrow-left me-1"></i>Kembali ke Dashboard PO
         </a>
       </div>
     </div>
   </nav>
 
-  <!-- Top Header Banner -->
-  <div class="form-header text-center mb-4">
-    <div class="container">
-      <img src="/logo_kov_hijau.png" alt="KOV Logo" style="height: 60px; max-width: 180px; object-fit: contain; margin-bottom: 10px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
-      <h3 class="fw-bold mb-1"><i class="fas fa-file-invoice-dollar me-2"></i>BUAT PURCHASE ORDER (PO) BARU</h3>
-      <p class="mb-0 opacity-90">Divisi Finance, Accounting & Procurement Operasional KOV Group</p>
+  <!-- Header Banner -->
+  <div class="po-header-banner text-center mb-4">
+    <div class="container" style="max-width: 800px;">
+      <div class="bg-white p-2 rounded-4 d-inline-flex align-items-center justify-content-center shadow-sm mb-3" style="width: 68px; height: 68px;">
+        <img src="/logo_kov_hijau.png" alt="KOV Logo" style="max-height: 50px; max-width: 50px; object-fit: contain;">
+      </div>
+      <h3 class="fw-bold mb-1 tracking-tight">Formulir Penerbitan Purchase Order (PO)</h3>
+      <p class="mb-0 text-white-50" style="font-size: 0.925rem;">Divisi Finance, Accounting & Procurement Operasional KOV Group</p>
     </div>
   </div>
 
-  <div class="container pb-5">
+  <div class="container pb-5" style="max-width: 1040px;">
     <form id="poForm">
       
       <!-- SECTION 1: HEADER & VENDOR -->
-      <div class="card">
-        <div class="card-header"><i class="fas fa-building me-2"></i>1. HEADER & INFORMASI VENDOR (PENYEDIA)</div>
+      <div class="card-po-section">
+        <div class="card-header">
+          <span class="section-pill-num">1</span>
+          <span>Header Dokumen & Informasi Vendor (Penyedia)</span>
+        </div>
         <div class="card-body p-4">
           <div class="row g-3">
             <div class="col-md-4">
               <label class="form-label">Nomor PO <span class="text-danger">*</span></label>
-              <input type="text" class="form-control fw-bold text-success" name="no_po" id="no_po" required readonly>
-              <small class="text-muted">Nomor PO tergenerasi otomatis</small>
+              <input type="text" class="form-control fw-bold text-success font-monospace" name="no_po" id="no_po" required readonly>
+              <small class="text-muted" style="font-size: 11px;">Nomor PO dibuat otomatis oleh sistem</small>
             </div>
             <div class="col-md-4">
               <label class="form-label">Tanggal PO <span class="text-danger">*</span></label>
@@ -88,11 +199,11 @@
             </div>
             <div class="col-md-6">
               <label class="form-label">Nama Dagang / Toko</label>
-              <input type="text" class="form-control" name="vendor_nama_dagang" placeholder="Contoh: AGRES.ID">
+              <input type="text" class="form-control" name="vendor_nama_dagang" placeholder="Contoh: AGRES.ID / Tokopedia Official">
             </div>
             <div class="col-md-6">
               <label class="form-label">Perihal Pengadaan <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="perihal" placeholder="Contoh: Pengadaan Laptop Operasional" required>
+              <input type="text" class="form-control" name="perihal" placeholder="Contoh: Pengadaan Laptop Kasir & Perlengkapan IT" required>
             </div>
             <div class="col-md-6">
               <label class="form-label">Unit Kerja / PT Pembeli <span class="text-danger">*</span></label>
@@ -103,8 +214,11 @@
       </div>
 
       <!-- SECTION 2: PENGIRIMAN & PEMBAYARAN -->
-      <div class="card">
-        <div class="card-header"><i class="fas fa-truck-ramp-box me-2"></i>2. DETAIL PENGIRIMAN & PEMBAYARAN</div>
+      <div class="card-po-section">
+        <div class="card-header">
+          <span class="section-pill-num">2</span>
+          <span>Detail Pengiriman & Ketentuan Pembayaran</span>
+        </div>
         <div class="card-body p-4">
           <div class="row g-3">
             <div class="col-md-6">
@@ -112,7 +226,7 @@
               <input type="text" class="form-control" name="lokasi_kirim" placeholder="Contoh: Office WHIMS Jalan Wahidin No. 88 Semarang" required>
             </div>
             <div class="col-md-6">
-              <label class="form-label">Tgl Pengiriman</label>
+              <label class="form-label">Tanggal Estimasi Pengiriman</label>
               <input type="date" class="form-control" name="tgl_pengiriman" id="tgl_pengiriman">
             </div>
             <div class="col-md-6">
@@ -128,26 +242,29 @@
       </div>
 
       <!-- SECTION 3: TABEL ITEM BARANG (DYNAMIC ROWS) -->
-      <div class="card">
+      <div class="card-po-section">
         <div class="card-header d-flex justify-content-between align-items-center">
-          <span><i class="fas fa-list-check me-2"></i>3. KODE & SPESIFIKASI DETAIL BARANG</span>
-          <button type="button" class="btn btn-success btn-sm fw-bold" onclick="addItemRow()">
-            <i class="fas fa-plus me-1"></i>Tambah Baris Barang
+          <div class="d-flex align-items-center gap-2">
+            <span class="section-pill-num">3</span>
+            <span>Kode, Spesifikasi & Daftar Barang</span>
+          </div>
+          <button type="button" class="btn btn-success btn-sm fw-bold rounded-pill px-3" onclick="addItemRow()">
+            <i class="fas fa-plus me-1"></i>Tambah Baris
           </button>
         </div>
         <div class="card-body p-0">
           <div class="table-responsive">
-            <table class="table table-bordered align-middle mb-0" id="itemsTable">
-              <thead class="table-success small text-uppercase text-center">
+            <table class="table kov-table align-middle mb-0" id="itemsTable">
+              <thead>
                 <tr>
-                  <th style="width: 5%;">NO</th>
-                  <th style="width: 30%;">KODE & NAMA BARANG</th>
-                  <th style="width: 35%;">SPESIFIKASI DETAIL</th>
-                  <th style="width: 8%;">QTY</th>
-                  <th style="width: 7%;">SATUAN</th>
-                  <th style="width: 15%;">HARGA SATUAN (RP)</th>
-                  <th style="width: 15%;">TOTAL HARGA (RP)</th>
-                  <th style="width: 5%;">AKSI</th>
+                  <th style="width: 4%;" class="ps-3 text-center">NO</th>
+                  <th style="width: 28%;">KODE & NAMA BARANG</th>
+                  <th style="width: 30%;">SPESIFIKASI DETAIL</th>
+                  <th style="width: 8%;" class="text-center">QTY</th>
+                  <th style="width: 8%;" class="text-center">SATUAN</th>
+                  <th style="width: 13%;" class="text-end">HARGA (RP)</th>
+                  <th style="width: 14%;" class="text-end">TOTAL (RP)</th>
+                  <th style="width: 5%;" class="text-center pe-3">AKSI</th>
                 </tr>
               </thead>
               <tbody id="itemsTbody">
@@ -159,33 +276,35 @@
           <!-- Summary Totals Block -->
           <div class="p-4 bg-light border-top">
             <div class="row justify-content-end">
-              <div class="col-md-5">
-                <div class="d-flex justify-content-between mb-2">
-                  <span class="fw-bold">Subtotal:</span>
-                  <span class="fw-bold" id="lblSubtotal">Rp 0</span>
-                  <input type="hidden" name="subtotal" id="inputSubtotal" value="0">
-                </div>
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span class="fw-bold">PPN (%):</span>
-                  <div class="input-group input-group-sm style-sm" style="width: 140px;">
-                    <input type="number" class="form-control text-end" name="ppn_persen" id="ppn_persen" min="0" max="100" value="0">
-                    <span class="input-group-text">%</span>
+              <div class="col-md-6 col-lg-5">
+                <div class="totals-summary-box">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-muted small fw-bold">Subtotal:</span>
+                    <span class="fw-bold font-monospace" id="lblSubtotal">Rp 0</span>
+                    <input type="hidden" name="subtotal" id="inputSubtotal" value="0">
                   </div>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                  <span class="text-muted">Nominal PPN:</span>
-                  <span class="text-muted" id="lblPpnNominal">Rp 0</span>
-                  <input type="hidden" name="ppn_nominal" id="inputPpnNominal" value="0">
-                </div>
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <span class="fw-bold">Diskon (Rp):</span>
-                  <input type="number" class="form-control form-control-sm text-end" style="width: 140px;" name="diskon_nominal" id="diskon_nominal" min="0" value="0">
-                </div>
-                <hr>
-                <div class="d-flex justify-content-between fs-5 fw-bold text-success">
-                  <span>TOTAL NETTO:</span>
-                  <span id="lblTotalNetto">Rp 0</span>
-                  <input type="hidden" name="total_netto" id="inputTotalNetto" value="0">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-muted small fw-bold">PPN (%):</span>
+                    <div class="input-group input-group-sm" style="width: 120px;">
+                      <input type="number" class="form-control text-end" name="ppn_persen" id="ppn_persen" min="0" max="100" value="0">
+                      <span class="input-group-text">%</span>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-muted small">Nominal PPN:</span>
+                    <span class="text-muted font-monospace small" id="lblPpnNominal">Rp 0</span>
+                    <input type="hidden" name="ppn_nominal" id="inputPpnNominal" value="0">
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="text-muted small fw-bold">Diskon (Rp):</span>
+                    <input type="number" class="form-control form-control-sm text-end" style="width: 140px;" name="diskon_nominal" id="diskon_nominal" min="0" value="0">
+                  </div>
+                  <hr class="my-2">
+                  <div class="d-flex justify-content-between align-items-center fs-5 fw-bold text-success">
+                    <span style="font-size: 0.95rem;">TOTAL NETTO:</span>
+                    <span id="lblTotalNetto" class="font-monospace">Rp 0</span>
+                    <input type="hidden" name="total_netto" id="inputTotalNetto" value="0">
+                  </div>
                 </div>
               </div>
             </div>
@@ -193,11 +312,14 @@
         </div>
       </div>
 
-      <!-- SECTION 4: SYARAT & KETENTUAN PENGADAAN -->
-      <div class="card">
-        <div class="card-header"><i class="fas fa-file-contract me-2"></i>4. SYARAT & KETENTUAN PENGADAAN</div>
+      <!-- SECTION 4: SYARAT & KETENTUAN -->
+      <div class="card-po-section">
+        <div class="card-header">
+          <span class="section-pill-num">4</span>
+          <span>Syarat & Ketentuan Pengadaan</span>
+        </div>
         <div class="card-body p-4">
-          <div class="mb-3">
+          <div class="mb-0">
             <label class="form-label">Catatan Syarat & Ketentuan</label>
             <textarea class="form-control" name="catatan_syarat" rows="3">Seluruh barang dalam keadaan segel baru dan bergaransi resmi pabrikan.
 DENGAN DOWN PAYMENT 30% DAN PELUNASAN JANGKA WAKTU 2 MINGGU.
@@ -207,12 +329,15 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       </div>
 
       <!-- SECTION 5: OTORISASI & TANDA TANGAN -->
-      <div class="card">
-        <div class="card-header"><i class="fas fa-signature me-2"></i>5. LEMBAR OTORISASI & PEMBUAT PO</div>
+      <div class="card-po-section">
+        <div class="card-header">
+          <span class="section-pill-num">5</span>
+          <span>Lembar Otorisasi & Tanda Tangan Digital</span>
+        </div>
         <div class="card-body p-4">
           <div class="row g-4">
             <div class="col-md-4 border-end">
-              <h6 class="fw-bold text-success mb-2">Dibuat Oleh (Procurement):</h6>
+              <h6 class="fw-bold text-success mb-2 small text-uppercase tracking-wider">Dibuat Oleh (Procurement):</h6>
               <div class="mb-2">
                 <label class="form-label small">Nama Staff</label>
                 <input type="text" class="form-control form-control-sm" name="dibuat_oleh_nama" value="ISWANDA ADITYA F.">
@@ -225,12 +350,14 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
               <div class="signature-container">
                 <canvas id="sigCanvas"></canvas>
               </div>
-              <button type="button" class="btn btn-sm btn-outline-secondary mt-1 float-end" id="btnClearSig">Hapus TTD</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill mt-2 float-end" id="btnClearSig">
+                <i class="fas fa-eraser me-1"></i>Hapus TTD
+              </button>
               <input type="hidden" name="signature_dibuat" id="signature_dibuat">
             </div>
 
             <div class="col-md-4 border-end">
-              <h6 class="fw-bold text-success mb-2">Disetujui Oleh (Finance):</h6>
+              <h6 class="fw-bold text-success mb-2 small text-uppercase tracking-wider">Disetujui Oleh (Finance):</h6>
               <div class="mb-2">
                 <label class="form-label small">Nama Otorisator</label>
                 <input type="text" class="form-control form-control-sm" name="disetujui_oleh_nama" value="KEN">
@@ -239,13 +366,13 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
                 <label class="form-label small">Jabatan</label>
                 <input type="text" class="form-control form-control-sm" name="disetujui_oleh_jabatan" value="Finance Manager">
               </div>
-              <div class="p-3 bg-light rounded text-center text-muted small mt-4">
-                <i class="fas fa-check-double text-success me-1"></i>Otorisasi Digital Otomatis
+              <div class="p-3 bg-light rounded-3 text-center text-muted small mt-4 border">
+                <i class="fas fa-check-double text-success me-1"></i>Otorisasi Digital Otomatis Saat Disetujui
               </div>
             </div>
 
             <div class="col-md-4">
-              <h6 class="fw-bold text-success mb-2">Konfirmasi Vendor:</h6>
+              <h6 class="fw-bold text-success mb-2 small text-uppercase tracking-wider">Konfirmasi Vendor:</h6>
               <div class="mb-2">
                 <label class="form-label small">Nama PT Vendor</label>
                 <input type="text" class="form-control form-control-sm" name="vendor_konfirmasi_nama" value="PT AGRES INFO TEKNOLOGI">
@@ -261,7 +388,7 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
 
       <!-- Submit Button -->
       <div class="text-center mt-4">
-        <button type="submit" class="btn btn-success-custom shadow" id="btnSubmit">
+        <button type="submit" class="btn btn-success fw-bold rounded-pill px-5 py-3 shadow" id="btnSubmit" style="background: linear-gradient(135deg, #064e3b 0%, #059669 100%); border: none;">
           <i class="fas fa-paper-plane me-2"></i>Simpan & Terbitkan Purchase Order
         </button>
       </div>
@@ -294,9 +421,9 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       const hargaVal = defaultData ? defaultData.harga : 0;
 
       tr.innerHTML = `
-        <td class="text-center row-num">${tbody.children.length + 1}</td>
+        <td class="text-center row-num font-monospace small ps-3">${tbody.children.length + 1}</td>
         <td>
-          <input type="text" class="form-control form-control-sm fw-bold" name="item_nama_${itemIndex}" value="${nameVal}" placeholder="Nama & Kode Barang" required>
+          <input type="text" class="form-control form-control-sm fw-semibold" name="item_nama_${itemIndex}" value="${nameVal}" placeholder="Nama & Kode Barang" required>
         </td>
         <td>
           <input type="text" class="form-control form-control-sm" name="item_spec_${itemIndex}" value="${specVal}" placeholder="Spesifikasi Detail">
@@ -310,10 +437,10 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
         <td>
           <input type="number" class="form-control form-control-sm text-end item-harga" name="item_harga_${itemIndex}" min="0" value="${hargaVal}" required>
         </td>
-        <td class="text-end fw-bold item-total-lbl">Rp 0</td>
-        <td class="text-center">
-          <button type="button" class="btn btn-outline-danger btn-sm" onclick="removeRow(${itemIndex})">
-            <i class="fas fa-times"></i>
+        <td class="text-end fw-bold text-success font-monospace item-total-lbl">Rp 0</td>
+        <td class="text-center pe-3">
+          <button type="button" class="btn btn-outline-danger btn-sm rounded-circle py-0 px-2" onclick="removeRow(${itemIndex})">
+            &times;
           </button>
         </td>
       `;
@@ -397,9 +524,10 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       canvas.height = rect.height;
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
-      ctx.strokeStyle = '#0f5132';
+      ctx.strokeStyle = '#064e3b';
     }
     window.addEventListener('load', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
 
     function getPos(e) {
       const rect = canvas.getBoundingClientRect();
@@ -410,6 +538,11 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
     canvas.addEventListener('mousedown', (e) => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
     canvas.addEventListener('mousemove', (e) => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
     canvas.addEventListener('mouseup', () => { isDrawing = false; });
+    
+    canvas.addEventListener('touchstart', (e) => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); });
+    canvas.addEventListener('touchmove', (e) => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); });
+    canvas.addEventListener('touchend', () => { isDrawing = false; });
+
     document.getElementById('btnClearSig').addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); });
 
     // Submit Form

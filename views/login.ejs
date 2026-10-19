@@ -12,7 +12,6 @@
     })();
   </script>
 
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - KOV Management Portal</title>
@@ -22,49 +21,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
   <style>
-    :root {
-      --kov-emerald: #059669;
-      --kov-emerald-dark: #065f46;
-      --kov-emerald-light: #ecfdf5;
-      --kov-slate-900: #0f172a;
-      --kov-slate-800: #1e293b;
-      --kov-slate-100: #f1f5f9;
-      --kov-slate-50: #f8fafc;
-      --kov-border: #e2e8f0;
-    }
-
-    * {
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
     body {
-      background: radial-gradient(circle at 15% 15%, rgba(5, 150, 105, 0.15) 0%, transparent 40%),
-                  radial-gradient(circle at 85% 85%, rgba(15, 23, 42, 0.1) 0%, transparent 40%),
-                  #0b1324;
+      background: radial-gradient(circle at 10% 20%, rgba(5, 150, 105, 0.16) 0%, transparent 45%),
+                  radial-gradient(circle at 90% 80%, rgba(15, 23, 42, 0.12) 0%, transparent 45%),
+                  #090d16;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
-      color: #334155;
+      padding: 1.25rem;
+      color: var(--kov-slate-700);
     }
 
     .auth-card {
       width: 100%;
       max-width: 440px;
       background: #ffffff;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
+      border-radius: var(--kov-radius-xl);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12);
       overflow: hidden;
-      animation: fadeIn 0.4s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      animation: kovFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .auth-header {
@@ -75,16 +54,21 @@
     }
 
     .brand-logo-wrap {
-      width: 76px;
-      height: 76px;
+      width: 78px;
+      height: 78px;
       background: #ffffff;
-      border-radius: 18px;
+      border-radius: 20px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 16px rgba(5, 150, 105, 0.12), 0 0 0 1px rgba(226, 232, 240, 0.8);
-      margin-bottom: 1rem;
-      padding: 8px;
+      box-shadow: 0 10px 24px rgba(5, 150, 105, 0.15), 0 0 0 1px rgba(226, 232, 240, 0.9);
+      margin-bottom: 1.15rem;
+      padding: 10px;
+      transition: var(--kov-transition);
+    }
+
+    .brand-logo-wrap:hover {
+      transform: translateY(-2px) scale(1.03);
     }
 
     .brand-logo-wrap img {
@@ -97,82 +81,87 @@
       padding: 2rem;
     }
 
-    .form-control {
+    .form-control-modern {
       font-size: 0.925rem;
       padding: 0.75rem 1rem;
-      border-radius: 10px;
-      border: 1px solid #cbd5e1;
-      color: #1e293b;
-      transition: all 0.2s ease;
+      border-radius: var(--kov-radius-md);
+      border: 1px solid var(--kov-slate-300);
+      color: var(--kov-slate-800);
+      transition: var(--kov-transition);
     }
 
-    .form-control:focus {
-      border-color: var(--kov-emerald);
-      box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.12);
+    .form-control-modern:focus {
+      border-color: var(--kov-primary-500);
+      box-shadow: 0 0 0 3.5px rgba(16, 185, 129, 0.18);
+      outline: none;
     }
 
-    .input-group-text {
-      background-color: #f8fafc;
-      border-color: #cbd5e1;
-      border-radius: 10px 0 0 10px;
-      color: #64748b;
-      padding-left: 1rem;
-      padding-right: 1rem;
+    .input-group-modern .input-group-text {
+      background-color: var(--kov-slate-50);
+      border-color: var(--kov-slate-300);
+      border-radius: var(--kov-radius-md) 0 0 var(--kov-radius-md);
+      color: var(--kov-slate-500);
+      padding: 0 1rem;
+      display: flex;
+      align-items: center;
     }
 
-    .input-group .form-control:not(:first-child) {
+    .input-group-modern .form-control-modern {
+      border-radius: 0 var(--kov-radius-md) var(--kov-radius-md) 0;
       border-left: none;
     }
 
-    .input-group:focus-within .input-group-text {
-      border-color: var(--kov-emerald);
-      color: var(--kov-emerald);
+    .input-group-modern:focus-within .input-group-text {
+      border-color: var(--kov-primary-500);
+      color: var(--kov-primary-600);
     }
 
-    .btn-login {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      border: none;
+    .input-group-modern:focus-within .form-control-modern {
+      border-color: var(--kov-primary-500);
+    }
+
+    .btn-login-modern {
+      background: linear-gradient(135deg, var(--kov-primary-600) 0%, var(--kov-primary-700) 100%);
+      border: 1px solid var(--kov-primary-800);
       color: #ffffff;
-      font-weight: 600;
+      font-weight: 700;
       font-size: 0.95rem;
       padding: 0.85rem 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
-      transition: all 0.2s ease;
-    }
-
-    .btn-login:hover {
-      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.35);
-      color: #ffffff;
-    }
-
-    .portal-pill {
+      border-radius: var(--kov-radius-md);
+      box-shadow: 0 4px 16px rgba(5, 150, 105, 0.28);
+      transition: var(--kov-transition);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      background: #ecfdf5;
-      color: #065f46;
-      border-radius: 9999px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
     }
 
-    .portal-pill .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #10b981;
+    .btn-login-modern:hover {
+      background: linear-gradient(135deg, var(--kov-primary-700) 0%, var(--kov-primary-800) 100%);
+      transform: translateY(-1.5px);
+      box-shadow: 0 8px 24px rgba(5, 150, 105, 0.4);
+      color: #ffffff;
     }
 
     .footer-note {
       font-size: 0.78rem;
-      color: #94a3b8;
+      color: var(--kov-slate-400);
       text-align: center;
       margin-top: 1.5rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 576px) {
+      .auth-card {
+        border-radius: 18px;
+      }
+      .auth-header {
+        padding: 2rem 1.25rem 1.25rem;
+      }
+      .auth-body {
+        padding: 1.5rem 1.25rem;
+      }
     }
   </style>
 </head>
@@ -184,12 +173,12 @@
         <img src="/logo_kov_hijau.png" alt="KOV Logo">
       </div>
       <div>
-        <div class="portal-pill">
-          <span class="dot"></span> Internal Management System
-        </div>
+        <span class="status-pill-modern pill-success mb-2">
+          <span class="status-dot-pulse"></span> Internal Management System
+        </span>
       </div>
       <h4 class="fw-bold text-dark mb-1">KOV Management Portal</h4>
-      <p class="text-muted small mb-0">Masuk untuk mengelola HR, Operasional, PO & Rekap IT</p>
+      <p class="text-muted small mb-0">Masuk untuk mengelola HR, Operasional, PO &amp; Rekap IT</p>
     </div>
 
     <div class="auth-body">
@@ -203,26 +192,30 @@
 
       <form action="/admin/login" method="POST">
         <div class="mb-3">
-          <label for="username" class="form-label text-dark fw-semibold small mb-1">Username</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-user-shield"></i></span>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username admin" required autofocus>
+          <label for="username" class="kov-label">Username</label>
+          <div class="input-group input-group-modern">
+            <span class="input-group-text">
+              <i class="fas fa-user-shield"></i>
+            </span>
+            <input type="text" class="form-control form-control-modern" id="username" name="username" placeholder="Masukkan username akun" required autofocus>
           </div>
         </div>
 
         <div class="mb-4">
-          <label for="password" class="form-label text-dark fw-semibold small mb-1">Password</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="fas fa-lock"></i></span>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password" required>
-            <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border-color: #cbd5e1; border-left: none; background: #fff;">
+          <label for="password" class="kov-label">Password</label>
+          <div class="input-group input-group-modern">
+            <span class="input-group-text">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input type="password" class="form-control form-control-modern" id="password" name="password" placeholder="Masukkan kata sandi" required>
+            <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border-color: #cbd5e1; border-left: none; background: #fff; border-radius: 0 12px 12px 0;">
               <i class="fas fa-eye text-muted" id="eyeIcon"></i>
             </button>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-login w-100 mb-2">
-          <i class="fas fa-arrow-right-to-bracket me-2"></i>Masuk ke Portal
+        <button type="submit" class="btn btn-login-modern">
+          <i class="fas fa-arrow-right-to-bracket"></i> Masuk ke Portal
         </button>
 
         <div class="footer-note">
