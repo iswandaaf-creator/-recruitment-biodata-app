@@ -133,36 +133,30 @@
 </head>
 <body>
 
-  <!-- Top Glass Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-po-form py-2">
-    <div class="container-fluid px-3 px-lg-4">
-      <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="/admin/operasional/po">
-        <div class="bg-white p-1 rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px;">
-          <img src="/logo_kov_hijau.png" height="26" alt="Logo" style="object-fit: contain;">
-        </div>
-        <div>
-          <span class="fs-6 fw-bold text-white tracking-wide d-block leading-none">Purchase Order Operasional</span>
-          <span class="text-white-50" style="font-size: 11px;">KOV Group &bull; Procurement & Finance</span>
-        </div>
-      </a>
-      <div class="d-flex align-items-center gap-2 ms-auto">
-        <a href="/admin/operasional/po" class="btn btn-outline-light btn-sm fw-semibold rounded-pill px-3">
-          <i class="fas fa-arrow-left me-1"></i>Kembali ke Dashboard PO
-        </a>
-      </div>
-    </div>
-  </nav>
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'po', user: typeof user !== 'undefined' ? user : null }) %>
 
-  <!-- Header Banner -->
-  <div class="po-header-banner text-center mb-4">
-    <div class="container" style="max-width: 800px;">
-      <div class="bg-white p-2 rounded-4 d-inline-flex align-items-center justify-content-center shadow-sm mb-3" style="width: 68px; height: 68px;">
-        <img src="/logo_kov_hijau.png" alt="KOV Logo" style="max-height: 50px; max-width: 50px; object-fit: contain;">
-      </div>
-      <h3 class="fw-bold mb-1 tracking-tight">Formulir Penerbitan Purchase Order (PO)</h3>
-      <p class="mb-0 text-white-50" style="font-size: 0.925rem;">Divisi Finance, Accounting & Procurement Operasional KOV Group</p>
-    </div>
-  </div>
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a class="btn-kov-secondary btn-kov-sm" href="/admin/operasional/po">
+            <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">Kembali</span>
+          </a>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Buat Purchase Order (PO)</h1>
+            <span class="status-pill-modern pill-success d-none d-sm-inline-flex" style="padding: 2px 8px; font-size: 0.7rem;">
+              <span class="status-dot-pulse"></span> Procurement Form
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
 
   <div class="container pb-5" style="max-width: 1040px;">
     <form id="poForm">
@@ -394,6 +388,9 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       </div>
 
     </form>
+  </div>
+      </main>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

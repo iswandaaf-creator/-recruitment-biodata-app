@@ -48,37 +48,38 @@
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
-  <header class="top-navbar-modern">
-    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <div class="d-flex align-items-center gap-2">
-        <a class="btn-kov-secondary btn-kov-sm" href="/reviewer">
-          <i class="fas fa-arrow-left"></i> Kembali ke Daftar Review
-        </a>
-        <span class="text-white-50 small ms-2 d-none d-md-inline">
-          Review Kandidat: <strong class="text-white"><%= candidate.nama_lengkap %></strong>
-        </span>
-      </div>
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'reviewer', user: typeof user !== 'undefined' ? user : null }) %>
 
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
-          <i class="fas fa-file-pdf"></i> Download PDF 5 Halaman
-        </a>
-
-        <% if (user.role === 'superadmin' || user.role === 'admin') { %>
-          <a href="/admin/candidate/<%= candidate.id %>" class="btn-kov-outline btn-kov-sm" style="border-color: #fde047; color: #fde047 !important;">
-            <i class="fas fa-user-gear"></i> Mode HR Penuh
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a class="btn-kov-secondary btn-kov-sm" href="/reviewer">
+            <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">Kembali</span>
           </a>
-        <% } %>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Review Pelamar</h1>
+            <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= candidate.nama_lengkap %></span>
+          </div>
+        </div>
+        <div class="kov-topbar-right">
+          <% if (user && (user.role === 'superadmin' || user.role === 'admin')) { %>
+            <a href="/admin/candidate/<%= candidate.id %>" class="btn-kov-outline btn-kov-sm">
+              <i class="fas fa-user-gear"></i> <span class="d-none d-sm-inline">Mode HR</span>
+            </a>
+          <% } %>
+          <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+            <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF 5 Halaman</span>
+          </a>
+        </div>
+      </header>
 
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger ms-1" style="border-color: rgba(239, 68, 68, 0.3);">
-          <i class="fas fa-arrow-right-from-bracket"></i> Keluar
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <div class="container py-4">
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
 
     <!-- Flash message -->
     <% if (typeof success !== 'undefined' && success) { %>
@@ -406,7 +407,8 @@
 
       </div>
     </div>
-
+      </main>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

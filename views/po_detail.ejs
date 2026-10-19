@@ -51,26 +51,33 @@
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
-  <header class="top-navbar-modern">
-    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <div class="d-flex align-items-center gap-2">
-        <a class="btn-kov-secondary btn-kov-sm" href="/admin/operasional/po">
-          <i class="fas fa-arrow-left"></i> Kembali ke Dashboard PO
-        </a>
-        <span class="text-white-50 small ms-2 d-none d-md-inline">
-          PO No: <strong class="text-white"><%= po.no_po || ('PO/KOV/' + po.id) %></strong>
-        </span>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
-          <i class="fas fa-file-pdf"></i> Download Official PDF PO
-        </a>
-      </div>
-    </div>
-  </header>
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'po', user: typeof user !== 'undefined' ? user : null }) %>
 
-  <div class="container px-3 px-md-4 py-4">
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a class="btn-kov-secondary btn-kov-sm" href="/admin/operasional/po">
+            <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">Kembali</span>
+          </a>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Detail PO</h1>
+            <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= po.no_po || ('PO/KOV/' + po.id) %></span>
+          </div>
+        </div>
+        <div class="kov-topbar-right">
+          <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+            <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">Download PDF PO</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
     
     <div class="po-paper mb-4">
       <!-- Header Section -->
@@ -224,6 +231,7 @@
         </div>
       </div>
 
+      </main>
     </div>
   </div>
 

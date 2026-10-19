@@ -25,36 +25,27 @@
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
-  <header class="top-navbar-modern">
-    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <a href="/admin" class="btn-kov-secondary btn-kov-sm">
-          <i class="fas fa-arrow-left"></i> Dashboard HR
-        </a>
-        <a href="/reviewer" class="btn-kov-outline btn-kov-sm">
-          <i class="fas fa-clipboard-check"></i> Portal Reviewer
-        </a>
-        <span class="text-white fw-bold fs-6 ms-2 d-none d-md-inline">
-          <i class="fas fa-users-gear text-warning me-2"></i>Kelola User &amp; Hak Akses Reviewer
-        </span>
-      </div>
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <% if (typeof user !== 'undefined' && user) { %>
-          <div class="d-flex align-items-center text-white px-2.5 py-1 rounded-3 me-1" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
-            <i class="fas fa-circle-user me-2 text-warning"></i>
-            <span class="fw-bold"><%= user.nama || user.username %></span>
-            <span class="text-white-50 ms-1">(<%= user.role %>)</span>
-          </div>
-        <% } %>
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger" style="border-color: rgba(239, 68, 68, 0.3);">
-          <i class="fas fa-arrow-right-from-bracket"></i> Keluar
-        </a>
-      </div>
-    </div>
-  </header>
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'users', user: typeof user !== 'undefined' ? user : null }) %>
 
-  <div class="container-fluid px-3 px-md-4 py-4">
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Kelola User &amp; Role</h1>
+            <span class="status-pill-modern pill-warning d-none d-sm-inline-flex" style="padding: 2px 8px; font-size: 0.7rem;">
+              <span class="status-dot-pulse"></span> Superadmin &amp; HR
+            </span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
 
     <!-- Alert Messages -->
     <% if (success) { %>
@@ -332,6 +323,7 @@
         </div>
       </div>
 
+      </main>
     </div>
   </div>
 

@@ -25,38 +25,33 @@
 </head>
 <body>
 
-  <!-- Modern Top Navigation Bar -->
-  <nav class="top-navbar-modern">
-    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <a class="btn-kov-secondary btn-kov-sm" href="/admin">
-        <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
-      </a>
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <% if (typeof user !== 'undefined' && user) { %>
-          <div class="d-flex align-items-center text-white px-2.5 py-1 rounded-3 me-1" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
-            <i class="fas fa-circle-user me-2 text-emerald-400" style="color: #34d399;"></i>
-            <span class="fw-bold"><%= user.nama || user.username %></span>
-          </div>
-          <% if (user.role === 'superadmin' || user.role === 'admin') { %>
-            <a href="/admin/users" class="nav-link-modern" style="color: #fde047;">
-              <i class="fas fa-users-gear"></i> Kelola User
-            </a>
-          <% } %>
-          <a href="/reviewer" class="nav-link-modern">
-            <i class="fas fa-clipboard-check text-warning"></i> Reviewer
-          </a>
-        <% } %>
-        <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
-          <i class="fas fa-file-pdf"></i> Download 5-Page PDF
-        </a>
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger ms-1" style="border-color: rgba(239, 68, 68, 0.3);">
-          <i class="fas fa-arrow-right-from-bracket"></i> Logout
-        </a>
-      </div>
-    </div>
-  </nav>
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'hr', user: typeof user !== 'undefined' ? user : null }) %>
 
-  <div class="container py-4">
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a class="btn-kov-secondary btn-kov-sm" href="/admin">
+            <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">Kembali</span>
+          </a>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Detail Pelamar</h1>
+            <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= candidate.nama_lengkap %></span>
+          </div>
+        </div>
+        <div class="kov-topbar-right">
+          <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+            <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF 5 Halaman</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
 
     <% if (typeof is_duplicate !== 'undefined' && is_duplicate && typeof duplicates !== 'undefined' && duplicates.length > 1) { %>
       <!-- Anti-Redundancy Warning Banner -->
@@ -362,7 +357,8 @@
         </div>
       </div>
     </div>
-
+      </main>
+    </div>
   </div>
 
   <!-- Modal Ubah Divisi Pelamar -->

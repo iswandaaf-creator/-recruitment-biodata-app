@@ -33,29 +33,36 @@
 </head>
 <body>
 
-  <!-- Top Navigation Bar (no-print) -->
-  <header class="top-navbar-modern no-print">
-    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <div class="d-flex align-items-center gap-2">
-        <a href="/admin/operasional/surat-tugas" class="btn-kov-secondary btn-kov-sm">
-          <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
-        </a>
-        <span class="text-white-50 small ms-2 d-none d-md-inline">
-          Surat Tugas: <strong class="text-white"><%= item.no_surat %></strong>
-        </span>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <button class="btn-kov-secondary btn-kov-sm text-dark" onclick="window.print()">
-          <i class="fas fa-print"></i> Cetak Direct
-        </button>
-        <a href="/api/operasional/surat-tugas/export/pdf/<%= item.id %>" class="btn-kov-danger btn-kov-sm" target="_blank">
-          <i class="fas fa-file-pdf"></i> Download PDF Resmi
-        </a>
-      </div>
-    </div>
-  </header>
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'surat_tugas', user: typeof user !== 'undefined' ? user : null }) %>
 
-  <div class="container px-3 px-md-4 py-4">
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar (no-print) -->
+      <header class="kov-topbar no-print">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a class="btn-kov-secondary btn-kov-sm" href="/admin/operasional/surat-tugas">
+            <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">Kembali</span>
+          </a>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Detail Surat Tugas</h1>
+            <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= item.no_surat %></span>
+          </div>
+        </div>
+        <div class="kov-topbar-right">
+          <button class="btn-kov-secondary btn-kov-sm text-dark d-none d-sm-inline-flex" onclick="window.print()">
+            <i class="fas fa-print"></i> Cetak
+          </button>
+          <a href="/api/operasional/surat-tugas/export/pdf/<%= item.id %>" class="btn-kov-danger btn-kov-sm" target="_blank">
+            <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF Resmi</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
 
     <!-- Header Status Card -->
     <div class="kov-card mb-4" style="border-left: 4px solid var(--kov-primary-500);">
@@ -528,7 +535,8 @@
         </form>
       </div>
     </div>
-
+      </main>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

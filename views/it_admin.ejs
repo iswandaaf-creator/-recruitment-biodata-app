@@ -171,63 +171,38 @@
   </style>
 </head>
 <body>
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'it', user: typeof user !== 'undefined' ? user : null }) %>
 
-  <!-- Top Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-it-admin py-2">
-    <div class="container-fluid px-3 px-lg-4">
-      <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="/admin/it">
-        <div class="bg-white p-1 rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px;">
-          <img src="/logo_kov_hijau.png" alt="KOV Logo" height="26" style="object-fit: contain;">
-        </div>
-        <div>
-          <span class="fs-6 fw-bold text-white tracking-wide d-block leading-none">Portal Belanja IT</span>
-          <span class="text-white-50" style="font-size: 11px;">KOV Group &bull; Infrastructure & Procurement</span>
-        </div>
-      </a>
-
-      <!-- User Info & Action Toolbar -->
-      <div class="d-flex align-items-center gap-2 ms-auto">
-        <div class="d-none d-md-flex align-items-center gap-2 px-3 py-1 bg-white bg-opacity-10 rounded-pill border border-white border-opacity-10 text-white-50 small">
-          <i class="fas fa-shield-halved text-success"></i>
-          <span><strong class="text-white">@<%= user.username %></strong> (<%= user.nama || 'Staff IT' %>)</span>
-        </div>
-
-        <button class="btn btn-warning btn-sm fw-bold text-dark rounded-pill shadow-sm px-3" onclick="openGeminiScanner()">
-          <i class="fas fa-magic me-1"></i>Scan AI
-        </button>
-
-        <button class="btn btn-success btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalTambah">
-          <i class="fas fa-plus me-1"></i>Catat Belanja
-        </button>
-
-        <button class="btn btn-outline-light btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalExportKustom">
-          <i class="fas fa-file-export me-1 text-warning"></i>Export
-        </button>
-
-        <div class="dropdown">
-          <button class="btn btn-outline-light btn-sm rounded-circle p-2" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Menu Akun">
-            <i class="fas fa-cog"></i>
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
           </button>
-          <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 mt-2">
-            <li><h6 class="dropdown-header text-muted small">Pengaturan Akun</h6></li>
-            <li>
-              <a class="dropdown-item small" href="#" data-bs-toggle="modal" data-bs-target="#modalPassword">
-                <i class="fas fa-key me-2 text-secondary"></i>Ganti Password
-              </a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a class="dropdown-item small text-danger" href="/admin/logout" onclick="sessionStorage.clear();">
-                <i class="fas fa-sign-out-alt me-2"></i>Keluar (Logout)
-              </a>
-            </li>
-          </ul>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Rekap Belanja IT</h1>
+            <span class="status-pill-modern pill-info d-none d-sm-inline-flex" style="padding: 2px 8px; font-size: 0.7rem;">
+              <span class="status-dot-pulse"></span> Infrastructure &amp; IT
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
-  </nav>
+        <div class="kov-topbar-right">
+          <button class="btn btn-warning btn-sm fw-bold text-dark rounded-pill shadow-sm px-3" onclick="openGeminiScanner()">
+            <i class="fas fa-magic me-1"></i><span class="d-none d-sm-inline">Scan AI</span>
+          </button>
+          <button class="btn btn-success btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalTambah">
+            <i class="fas fa-plus me-1"></i><span class="d-none d-sm-inline">Catat Belanja</span>
+          </button>
+          <button class="btn btn-outline-secondary btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalExportKustom">
+            <i class="fas fa-file-export me-1 text-primary"></i><span class="d-none d-sm-inline">Export</span>
+          </button>
+        </div>
+      </header>
 
-  <div class="container-fluid px-3 px-lg-4 py-4">
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
 
     <!-- Flash Alerts -->
     <% if (typeof success !== 'undefined' && success) { %>
@@ -533,7 +508,8 @@
         </table>
       </div>
     </div>
-
+      </main>
+    </div>
   </div>
 
   <!-- MODAL 1: CATAT BELANJA BARU (MULTI-ITEM) -->

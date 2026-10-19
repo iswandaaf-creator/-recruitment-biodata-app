@@ -36,29 +36,36 @@
 </head>
 <body>
 
-  <!-- Top Navigation Bar -->
-  <header class="top-navbar-modern">
-    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <a class="btn-kov-secondary btn-kov-sm" href="/admin/operasional">
-          <i class="fas fa-arrow-left"></i> Kembali ke Operasional
-        </a>
-        <span class="text-white-50 small ms-2 d-none d-md-inline">
-          Detail BA: <strong class="text-white"><%= item.no_ba || ('BA/OPS/' + item.id) %></strong>
-        </span>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <button onclick="window.print()" class="btn-kov-secondary btn-kov-sm text-dark">
-          <i class="fas fa-print"></i> Cetak Direct
-        </button>
-        <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
-          <i class="fas fa-file-pdf"></i> Export PDF Resmi
-        </a>
-      </div>
-    </div>
-  </header>
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'operasional', user: typeof user !== 'undefined' ? user : null }) %>
 
-  <div class="container px-3 px-md-4 py-4">
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a class="btn-kov-secondary btn-kov-sm" href="/admin/operasional">
+            <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">Kembali</span>
+          </a>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Detail Berita Acara</h1>
+            <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= item.no_ba || ('BA/OPS/' + item.id) %></span>
+          </div>
+        </div>
+        <div class="kov-topbar-right">
+          <button onclick="window.print()" class="btn-kov-secondary btn-kov-sm text-dark d-none d-sm-inline-flex">
+            <i class="fas fa-print"></i> Cetak
+          </button>
+          <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+            <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF Resmi</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
     
     <!-- Top Header Summary Card -->
     <div class="kov-card mb-4" style="border-left: 4px solid var(--kov-primary-500);">
@@ -436,7 +443,8 @@
         </div>
       </div>
     </div>
-
+      </main>
+    </div>
   </div>
 
   <!-- Inactivity Auto-Logout (2 Jam) -->

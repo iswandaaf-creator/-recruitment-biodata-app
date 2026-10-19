@@ -93,71 +93,32 @@
 </head>
 <body>
 
-  <!-- Modern Top Navigation Bar -->
-  <header class="top-navbar-modern">
-    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
-      
-      <!-- Brand & Title -->
-      <a href="/admin" class="navbar-brand-wrap">
-        <div class="brand-badge-logo">
-          <img src="/logo_kov_hijau.png" alt="KOV Logo">
-        </div>
-        <div>
-          <div class="d-flex align-items-center gap-2">
-            <span class="nav-brand-text">HR Recruitment Portal</span>
-            <span class="status-pill-modern pill-success" style="padding: 2px 8px; font-size: 0.7rem;">
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'hr', user: typeof user !== 'undefined' ? user : null }) %>
+
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Dashboard Rekrutmen HR</h1>
+            <span class="status-pill-modern pill-success d-none d-sm-inline-flex" style="padding: 2px 8px; font-size: 0.7rem;">
               <span class="status-dot-pulse"></span> HR Active
             </span>
           </div>
-          <div class="nav-brand-sub">Sistem Manajemen &amp; Seleksi Berkas Pelamar KOV</div>
         </div>
-      </a>
-
-      <!-- Quick Links & User Navigation -->
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <% if (typeof user !== 'undefined' && user) { %>
-          <div class="d-flex align-items-center text-white px-2.5 py-1 rounded-3 me-1" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
-            <i class="fas fa-circle-user me-2 text-emerald-400" style="color: #34d399;"></i>
-            <span class="fw-bold"><%= user.nama || user.username %></span>
-            <span class="text-white-50 ms-1">(<%= user.role %>)</span>
-          </div>
-
-          <% if (user.role === 'superadmin' || user.role === 'admin' || user.role === 'operasional') { %>
-            <a href="/admin/operasional" class="nav-link-modern">
-              <i class="fas fa-boxes-stacked text-warning"></i> Operasional &amp; PO
-            </a>
-          <% } %>
-
-          <% if (user.role === 'superadmin' || user.role === 'admin' || user.role === 'it') { %>
-            <a href="/admin/it" class="nav-link-modern">
-              <i class="fas fa-laptop-code text-info"></i> Rekap IT
-            </a>
-          <% } %>
-
-          <% if (user.role === 'superadmin' || user.role === 'admin') { %>
-            <a href="/admin/users" class="nav-link-modern" style="color: #fde047;">
-              <i class="fas fa-users-gear"></i> Kelola User
-            </a>
-          <% } %>
-
-          <a href="/reviewer" class="nav-link-modern">
-            <i class="fas fa-clipboard-check text-warning"></i> Reviewer
+        <div class="kov-topbar-right">
+          <a href="/api/export/excel" class="btn-kov-primary btn-kov-sm">
+            <i class="fas fa-file-excel"></i> <span class="d-none d-sm-inline">Export Excel</span>
           </a>
-        <% } %>
+        </div>
+      </header>
 
-        <a href="/api/export/excel" class="btn-kov-primary btn-kov-sm">
-          <i class="fas fa-file-excel"></i> Export Excel
-        </a>
-
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger" style="border-color: rgba(239, 68, 68, 0.3);">
-          <i class="fas fa-arrow-right-from-bracket"></i> Keluar
-        </a>
-      </div>
-
-    </div>
-  </header>
-
-  <div class="container-fluid px-3 px-md-4 py-4">
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
 
     <!-- Bento Metric Cards (Statistik Cepat & Responsif) -->
     <div class="bento-grid">
@@ -504,6 +465,8 @@
 
     </div>
 
+      </main>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

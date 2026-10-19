@@ -29,57 +29,35 @@
 </head>
 <body>
 
-  <!-- Modern Top Navigation Bar -->
-  <header class="top-navbar-modern">
-    <div class="container-fluid d-flex flex-wrap align-items-center justify-content-between gap-3">
-      <a href="/admin/operasional" class="navbar-brand-wrap">
-        <div class="brand-badge-logo">
-          <img src="/logo_kov_hijau.png" alt="KOV Logo">
-        </div>
-        <div>
-          <div class="d-flex align-items-center gap-2">
-            <span class="nav-brand-text">Dashboard Operasional</span>
-            <span class="status-pill-modern pill-success" style="padding: 2px 8px; font-size: 0.7rem;">
-              <span class="status-dot-pulse"></span> BA &amp; Procurement
+  <div class="kov-app-shell">
+    <%- include('partials/sidebar', { active: 'operasional', user: typeof user !== 'undefined' ? user : null }) %>
+
+    <div class="kov-main-content">
+      <!-- Modern Minimalist Topbar -->
+      <header class="kov-topbar">
+        <div class="kov-topbar-left">
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="kov-topbar-breadcrumb">
+            <h1 class="kov-topbar-title">Berita Acara (BA)</h1>
+            <span class="status-pill-modern pill-success d-none d-sm-inline-flex" style="padding: 2px 8px; font-size: 0.7rem;">
+              <span class="status-dot-pulse"></span> Operasional
             </span>
           </div>
-          <div class="nav-brand-sub">Berita Acara Pengadaan, PO &amp; Surat Tugas KOV Group</div>
         </div>
-      </a>
+        <div class="kov-topbar-right">
+          <a href="/pengajuan-barang" target="_blank" class="btn-kov-outline btn-kov-sm">
+            <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Form Publik BA</span>
+          </a>
+          <a href="/api/operasional/export/excel" class="btn-kov-primary btn-kov-sm">
+            <i class="fas fa-file-excel"></i> <span class="d-none d-sm-inline">Export Excel</span>
+          </a>
+        </div>
+      </header>
 
-      <div class="d-flex align-items-center gap-2 flex-wrap">
-        <% if (typeof user !== 'undefined' && user) { %>
-          <div class="d-flex align-items-center text-white px-2.5 py-1 rounded-3 me-1" style="background: rgba(255,255,255,0.08); font-size: 0.825rem;">
-            <i class="fas fa-circle-user me-2 text-emerald-400" style="color: #34d399;"></i>
-            <span class="fw-bold"><%= user.nama || user.username %></span>
-            <span class="text-white-50 ms-1">(<%= user.role %>)</span>
-          </div>
-          <% if (user.role === 'superadmin' || user.role === 'admin') { %>
-            <a href="/admin" class="nav-link-modern">
-              <i class="fas fa-user-tie"></i> Switch to HR
-            </a>
-            <a href="/admin/users" class="nav-link-modern" style="color: #fde047;">
-              <i class="fas fa-users-gear"></i> Kelola User
-            </a>
-          <% } %>
-        <% } %>
-
-        <a href="/pengajuan-barang" target="_blank" class="btn-kov-outline btn-kov-sm" style="border-color: #fde047; color: #fde047 !important;">
-          <i class="fas fa-plus"></i> Buat Form BA
-        </a>
-
-        <a href="/api/operasional/export/excel" class="btn-kov-primary btn-kov-sm">
-          <i class="fas fa-file-excel"></i> Export Excel
-        </a>
-
-        <a href="/admin/logout" onclick="sessionStorage.clear();" class="btn-kov-secondary btn-kov-sm text-danger" style="border-color: rgba(239, 68, 68, 0.3);">
-          <i class="fas fa-arrow-right-from-bracket"></i> Keluar
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <div class="container-fluid px-3 px-md-4 py-4">
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
 
     <!-- Sub-menu Navigation Tabs -->
     <div class="d-flex gap-2 overflow-x-auto pb-2 mb-4">
@@ -338,6 +316,7 @@
           </tbody>
         </table>
       </div>
+      </main>
     </div>
   </div>
 
