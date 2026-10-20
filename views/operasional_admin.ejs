@@ -329,13 +329,17 @@
       const openBtn = document.getElementById('openFormBtn');
       if (openBtn) openBtn.href = newUrl;
       navigator.clipboard.writeText(newUrl).then(() => {
-        alert('Link Form Berita Acara untuk Karyawan/PIC berhasil disalin:\n' + newUrl);
+        KovToast.success('Tautan Form Berita Acara berhasil disalin ke clipboard:\n' + newUrl, 'Link Form Disalin');
+      }).catch(() => {
+        KovToast.info('Tautan: ' + newUrl, 'Link Formulir');
       });
     }
     function copyShareUrl() {
       const text = document.getElementById('shareUrl').innerText;
       navigator.clipboard.writeText(text).then(() => {
-        alert('Link Form berhasil disalin ke clipboard:\n' + text + '\n\nSilakan kirimkan ke Karyawan / PIC Outlet terkait (Dapat diisi langsung tanpa perlu akun login).');
+        KovToast.success('Tautan Berita Acara disalin. Silakan kirimkan ke Karyawan / PIC Outlet terkait.', 'Tautan Disalin');
+      }).catch(() => {
+        KovToast.info('Tautan: ' + text, 'Link Formulir');
       });
     }
 

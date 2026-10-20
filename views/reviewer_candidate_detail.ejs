@@ -155,7 +155,7 @@
         </span>
       </div>
       <div class="kov-card-body p-4">
-        <form action="/reviewer/candidate/<%= candidate.id %>/review" method="POST">
+        <form action="/reviewer/candidate/<%= candidate.id %>/review" method="POST" data-kov-loading>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="row g-3">
             
@@ -211,8 +211,8 @@
             </div>
 
             <div class="col-12 text-end mt-3">
-              <button type="submit" class="btn-kov-primary">
-                <i class="fas fa-paper-plane"></i> Simpan &amp; Kirim Catatan Review
+              <button type="submit" class="btn-kov-primary" data-loading-text="Menyimpan Review...">
+                <i class="fas fa-paper-plane me-1"></i> Simpan &amp; Kirim Catatan Review
               </button>
             </div>
 

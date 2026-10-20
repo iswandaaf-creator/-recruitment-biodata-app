@@ -191,7 +191,7 @@
         </h5>
       </div>
       <div class="kov-card-body">
-        <form action="/admin/candidate/<%= candidate.id %>/interview" method="POST">
+        <form action="/admin/candidate/<%= candidate.id %>/interview" method="POST" data-kov-loading>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
           <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-pen me-2 text-primary"></i>1. Catatan Wawancara 1</h6>
@@ -308,7 +308,7 @@
           </div>
 
           <div class="text-end">
-            <button type="submit" class="btn-kov-primary">
+            <button type="submit" class="btn-kov-primary" data-loading-text="Menyimpan Evaluasi HR...">
               <i class="fas fa-save"></i> Simpan Catatan &amp; Data HR
             </button>
           </div>
@@ -356,7 +356,7 @@
   <div class="modal fade" id="modalChangeDivisi" tabindex="-1" aria-labelledby="modalChangeDivisiLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4">
-        <form action="/admin/candidate/<%= candidate.id %>/update-division" method="POST">
+        <form action="/admin/candidate/<%= candidate.id %>/update-division" method="POST" data-kov-loading>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header bg-slate-900 text-white rounded-top-4" style="background-color: var(--kov-slate-900);">
             <h5 class="modal-title fw-bold" id="modalChangeDivisiLabel">
@@ -382,7 +382,7 @@
           </div>
           <div class="modal-footer bg-light py-2">
             <button type="button" class="btn-kov-secondary btn-kov-sm" data-bs-dismiss="modal">Batal</button>
-            <button type="submit" class="btn-kov-primary btn-kov-sm">
+            <button type="submit" class="btn-kov-primary btn-kov-sm" data-loading-text="Menyimpan Divisi...">
               <i class="fas fa-save"></i> Simpan Divisi Baru
             </button>
           </div>

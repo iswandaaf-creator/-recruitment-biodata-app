@@ -62,7 +62,7 @@
             </div>
           </div>
           <div class="kov-card-body p-4">
-            <form action="/admin/users/create" method="POST" id="createForm">
+            <form action="/admin/users/create" method="POST" id="createForm" data-kov-loading>
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <div class="mb-3">
                 <label for="username" class="kov-label">Username <span class="text-danger">*</span></label>
@@ -127,8 +127,8 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn-kov-primary w-100 py-2">
-                <i class="fas fa-save"></i> Simpan Pengguna Baru
+              <button type="submit" class="btn-kov-primary w-100 py-2.5" data-loading-text="Menyimpan Pengguna...">
+                <i class="fas fa-save me-1"></i> Simpan Pengguna Baru
               </button>
             </form>
           </div>
@@ -232,7 +232,7 @@
                   <div class="modal fade text-start" id="editModal<%= u.id %>" tabindex="-1" aria-labelledby="editModalLabel<%= u.id %>" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content border-0 shadow-lg rounded-4">
-                        <form action="/admin/users/edit/<%= u.id %>" method="POST" id="editForm<%= u.id %>">
+                        <form action="/admin/users/edit/<%= u.id %>" method="POST" id="editForm<%= u.id %>" data-kov-loading>
                           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           <div class="modal-header bg-slate-900 text-white rounded-top-4" style="background-color: var(--kov-slate-900);">
                             <h5 class="modal-title fw-bold" id="editModalLabel<%= u.id %>">
@@ -297,8 +297,8 @@
                           </div>
                           <div class="modal-footer bg-light py-2">
                             <button type="button" class="btn-kov-secondary btn-kov-sm" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn-kov-primary btn-kov-sm">
-                              <i class="fas fa-save"></i> Simpan Perubahan
+                            <button type="submit" class="btn-kov-primary btn-kov-sm" data-loading-text="Menyimpan...">
+                              <i class="fas fa-save me-1"></i> Simpan Perubahan
                             </button>
                           </div>
                         </form>

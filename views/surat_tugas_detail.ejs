@@ -408,7 +408,7 @@
         </h5>
       </div>
       <div class="kov-card-body p-4">
-        <form action="/admin/operasional/surat-tugas/update/<%= item.id %>" method="POST">
+        <form action="/admin/operasional/surat-tugas/update/<%= item.id %>" method="POST" data-kov-loading>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
           <div class="row g-4 mb-4">
@@ -518,8 +518,8 @@
           </div>
 
           <div class="d-flex justify-content-end mt-4">
-            <button type="submit" class="btn-kov-primary">
-              <i class="fas fa-save"></i> Simpan Perubahan &amp; Approval
+            <button type="submit" class="btn-kov-approve px-4 py-2" data-loading-text="Menyimpan Approval...">
+              <i class="fas fa-circle-check me-1"></i> Simpan Perubahan &amp; Approval
             </button>
           </div>
 

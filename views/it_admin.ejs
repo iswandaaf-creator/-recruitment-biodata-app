@@ -1009,7 +1009,7 @@
     function removeDynamicItemRow(btn, mode) {
       const tbody = document.getElementById(mode === 'tambah' ? 'tbodyItemsTambah' : 'tbodyItemsEdit');
       if (tbody.children.length <= 1) {
-        alert('Minimal harus ada 1 barang dalam catatan belanja!');
+        KovToast.warning('Minimal harus ada 1 barang dalam catatan belanja!', 'Tidak Bisa Dihapus');
         return;
       }
       btn.closest('tr').remove();
@@ -1038,7 +1038,7 @@
       const rows = tbody.querySelectorAll('tr');
 
       if (rows.length === 0) {
-        alert('Tambahkan minimal 1 barang belanja!');
+        KovToast.warning('Tambahkan minimal 1 barang belanja!', 'Daftar Barang Kosong');
         return false;
       }
 
@@ -1049,7 +1049,7 @@
         const satuan = tr.querySelector('.item-satuan').value;
         const harga = parseFloat(tr.querySelector('.item-harga').value) || 0;
         if (!nama) {
-          alert('Nama barang wajib diisi!');
+          KovToast.warning('Nama barang wajib diisi!', 'Data Belum Lengkap');
           return false;
         }
         items.push({

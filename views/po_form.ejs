@@ -539,8 +539,12 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       
       const rows = document.querySelectorAll('#itemsTbody tr');
       if (rows.length === 0) {
-        return alert('Harap isi minimal 1 item barang dalam Purchase Order.');
+        KovToast.warning('Harap isi minimal 1 item barang dalam Purchase Order.', 'Item Kosong');
+        return;
       }
+
+      const btnSubmit = this.querySelector('button[type="submit"]');
+      KovToast.setLoading(btnSubmit, 'Menerbitkan Purchase Order...');
 
       const items = [];
       rows.forEach(r => {
@@ -576,13 +580,21 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
         });
         const json = await res.json();
         if (json.success) {
-          alert('✅ Purchase Order berhasil diterbitkan:\n' + json.no_po);
-          window.location.href = `/admin/operasional/po/detail/${json.id}`;
+          KovToast.approvalFeedback({
+            title: 'Purchase Order Terbit!',
+            message: 'Dokumen ' + (json.no_po || '') + ' berhasil dibuat.',
+            duration: 1800,
+            onComplete: () => {
+              window.location.href = `/admin/operasional/po/detail/${json.id}`;
+            }
+          });
         } else {
-          alert('Gagal menerbitkan PO: ' + (json.error || 'Kesalahan sistem'));
+          KovToast.resetLoading(btnSubmit);
+          KovToast.error(json.error || 'Terjadi kesalahan sistem', 'Gagal Menerbitkan PO');
         }
       } catch (err) {
-        alert('Terjadi kesalahan jaringan: ' + err.message);
+        KovToast.resetLoading(btnSubmit);
+        KovToast.error('Kesalahan jaringan: ' + err.message, 'Gagal Koneksi');
       }
     });
   </script>

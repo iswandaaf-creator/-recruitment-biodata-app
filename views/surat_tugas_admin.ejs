@@ -305,7 +305,9 @@
     function copyShareUrl() {
       const urlText = document.getElementById('shareUrl').innerText.trim();
       navigator.clipboard.writeText(urlText).then(() => {
-        alert('Link Form Publik berhasil disalin:\n' + urlText);
+        KovToast.success('Tautan Form Surat Tugas berhasil disalin ke clipboard:\n' + urlText, 'Link Form Disalin');
+      }).catch(() => {
+        KovToast.info('Tautan: ' + urlText, 'Link Formulir');
       });
     }
 

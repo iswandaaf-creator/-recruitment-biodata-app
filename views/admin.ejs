@@ -477,7 +477,9 @@
 
       if (shouldCopy) {
         navigator.clipboard.writeText(url).then(() => {
-          alert('✅ Link Form Unik Baru Berhasil Disalin!\n\nURL: ' + url + '\n\nKandidat yang mengisi melalui tautan ini akan otomatis terlacak.');
+          KovToast.success('Tautan form rekrutmen berhasil disalin ke clipboard:\n' + url, 'Link Formulir Disalin');
+        }).catch(() => {
+          KovToast.info('Tautan: ' + url, 'Link Formulir');
         });
       }
       return url;

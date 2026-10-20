@@ -34,12 +34,19 @@
     }
 
     .kov-public-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      padding: 4px;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 3px;
       object-fit: contain;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      image-rendering: -webkit-optimize-contrast;
+      transition: transform 0.2s ease;
+    }
+    .kov-public-logo:hover {
+      transform: scale(1.05);
     }
 
     /* Section Cards - Clean Human Layout */
@@ -786,6 +793,8 @@
   <!-- Signature Pad JS & Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+  <!-- Bespoke Toast & Micro-Interaction System -->
+  <script src="/assets/js/kov-toast.js"></script>
 
   <script>
     // Set default date for TTD
@@ -821,7 +830,7 @@
       if (input.files && input.files[0]) {
         const file = input.files[0];
         if (file.size > 5 * 1024 * 1024) {
-          alert('Ukuran file foto terlalu besar! Maksimal 5MB.');
+          KovToast.error('Ukuran file foto terlalu besar! Maksimal 5MB.', 'Foto Terlalu Besar');
           input.value = '';
           return;
         }
@@ -831,6 +840,7 @@
           document.getElementById('fotoKandidatBase64').value = base64Data;
           const previewBox = document.getElementById('photoPreviewBox');
           previewBox.innerHTML = `<img src="${base64Data}" style="width: 100%; height: 100%; object-fit: cover;">`;
+          KovToast.info('Foto pelamar berhasil dimuat.', 'Foto Terpasang');
         };
         reader.readAsDataURL(file);
       }
@@ -858,15 +868,16 @@
       e.preventDefault();
       
       if (!signaturePad || signaturePad.isEmpty()) {
-        alert('Harap masukkan Tanda Tangan Digital Anda sebelum mengirim.');
+        KovToast.warning('Harap bubuhkan tanda tangan digital Anda pada kotak tanda tangan sebelum mengirim biodata.', 'Tanda Tangan Diperlukan');
+        const sigCard = canvas.closest('.card-modern-form');
+        if (sigCard) sigCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
 
       document.getElementById('signatureData').value = signaturePad.toDataURL();
 
       const btn = document.getElementById('btnKirimBiodata');
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Mengirimkan Data...';
+      KovToast.setLoading(btn, 'Mengirimkan Biodata...');
 
       const formData = new FormData(e.target);
       const data = {};
@@ -884,21 +895,26 @@
 
         const res = await response.json();
         if (res.success) {
-          if (res.is_duplicate) {
-            alert('Biodata Anda terkirim! (Sistem mendeteksi pembaruan data yang sudah ada sebelumnya). Terima kasih.');
-          } else {
-            alert('Biodata Anda berhasil terkirim! Terima kasih.');
-          }
-          window.location.href = '/success.html';
+          const title = res.is_duplicate ? 'Biodata Diperbarui!' : 'Biodata Berhasil Terkirim!';
+          const msg = res.is_duplicate 
+            ? 'Sistem mendeteksi pembaruan data yang sudah ada sebelumnya. Terima kasih.' 
+            : 'Terima kasih telah melamar di KOV Koffie. Tim HR kami akan segera meninjau profil Anda.';
+          
+          KovToast.approvalFeedback({
+            title: title,
+            message: msg,
+            duration: 1800,
+            onComplete: () => {
+              window.location.href = '/success.html';
+            }
+          });
         } else {
-          alert('Gagal mengirim biodata: ' + (res.error || 'Terjadi kesalahan sistem'));
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Kirim Biodata Pelamar';
+          KovToast.resetLoading(btn);
+          KovToast.error(res.error || 'Terjadi kesalahan sistem saat menyimpan biodata', 'Gagal Mengirim');
         }
       } catch (err) {
-        alert('Terjadi kesalahan koneksi server: ' + err.message);
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Kirim Biodata Pelamar';
+        KovToast.resetLoading(btn);
+        KovToast.error('Koneksi server terganggu: ' + err.message, 'Kesalahan Jaringan');
       }
     }
 
