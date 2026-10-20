@@ -37,36 +37,21 @@
       z-index: 1020;
     }
 
-    /* Bento Cards */
+    /* Bento Cards - Tactile human card */
     .bento-card-it {
       background: #ffffff;
-      border: 1px solid var(--figma-neutral-200, #e2e8f0);
-      border-radius: var(--figma-radius-xl, 16px);
-      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+      border: 1px solid var(--kov-border, #e2e8f0);
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(24, 24, 27, 0.04);
       padding: 1.25rem 1.4rem;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
-      overflow: hidden;
     }
     .bento-card-it:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.08);
-      border-color: rgba(5, 150, 105, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+      border-color: var(--kov-slate-300, #cbd5e1);
     }
-    .bento-card-it::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: transparent;
-      transition: background 0.2s ease;
-    }
-    .bento-card-it.card-emerald::before { background: linear-gradient(90deg, #059669, #10b981); }
-    .bento-card-it.card-blue::before { background: linear-gradient(90deg, #2563eb, #38bdf8); }
-    .bento-card-it.card-purple::before { background: linear-gradient(90deg, #7c3aed, #a855f7); }
-    .bento-card-it.card-amber::before { background: linear-gradient(90deg, #d97706, #f59e0b); }
 
     .bento-icon-box {
       width: 48px;
