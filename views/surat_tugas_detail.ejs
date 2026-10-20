@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail Surat Tugas - <%= item.no_surat %></title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -55,7 +45,7 @@
           <button class="btn-kov-secondary btn-kov-sm text-dark d-none d-sm-inline-flex" onclick="window.print()">
             <i class="fas fa-print"></i> Cetak
           </button>
-          <a href="/api/operasional/surat-tugas/export/pdf/<%= item.id %>" class="btn-kov-danger btn-kov-sm" target="_blank">
+          <a href="/api/operasional/surat-tugas/export/pdf/<%= item.id %>" class="btn-kov-danger btn-kov-sm" target="_blank" rel="noopener noreferrer">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF Resmi</span>
           </a>
         </div>
@@ -349,7 +339,7 @@
           <div class="small text-muted mb-4 p-2.5 bg-light rounded-3 border">
             <strong>Bukti Dokumen Pendukung:</strong> <%= item.bukti_dokumen_keterangan || '-' %>
             <% if (item.bukti_dokumen_link) { %>
-              &bull; <a href="<%= item.bukti_dokumen_link %>" target="_blank" class="fw-bold text-success"><i class="fas fa-link me-1"></i>Buka Tautan Lampiran</a>
+              &bull; <a href="<%= item.bukti_dokumen_link %>" target="_blank" rel="noopener noreferrer" class="fw-bold text-success"><i class="fas fa-link me-1"></i>Buka Tautan Lampiran</a>
             <% } %>
           </div>
 
@@ -419,6 +409,7 @@
       </div>
       <div class="kov-card-body p-4">
         <form action="/admin/operasional/surat-tugas/update/<%= item.id %>" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
           <div class="row g-4 mb-4">
             <!-- Approval Pemeriksa (GM) -->

@@ -9,3 +9,4 @@ db/*.sqlite*
 *.sqlite-shm
 public/uploads/*
 !public/uploads/**/.gitkeep
+.env

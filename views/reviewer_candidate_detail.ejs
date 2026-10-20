@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Review Pelamar - <%= candidate.nama_lengkap %> (<%= candidate.divisi || candidate.posisi_dilamar %>)</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,7 +62,7 @@
               <i class="fas fa-user-gear"></i> <span class="d-none d-sm-inline">Mode HR</span>
             </a>
           <% } %>
-          <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+          <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF 5 Halaman</span>
           </a>
         </div>
@@ -166,6 +156,7 @@
       </div>
       <div class="kov-card-body p-4">
         <form action="/reviewer/candidate/<%= candidate.id %>/review" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="row g-3">
             
             <!-- Pilih Divisi Evaluasi -->

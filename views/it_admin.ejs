@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rekap Pembelanjaan IT per Outlet — KOV Group</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
   <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -428,7 +418,7 @@
                   <% if (nota.bukti_transaksi) { %>
                     <div class="mt-1">
                       <% if (nota.bukti_transaksi.startsWith('http://') || nota.bukti_transaksi.startsWith('https://')) { %>
-                        <a href="<%= nota.bukti_transaksi %>" target="_blank" class="badge bg-light text-primary border small text-decoration-none">
+                        <a href="<%= nota.bukti_transaksi %>" target="_blank" rel="noopener noreferrer" class="badge bg-light text-primary border small text-decoration-none">
                           <i class="fas fa-external-link-alt me-1"></i>Bukti Nota
                         </a>
                       <% } else { %>
@@ -496,6 +486,7 @@
                       <i class="fas fa-edit"></i>
                     </button>
                     <form action="/api/it/expenses/delete/<%= nota.id %>" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus transaksi <%= nota.no_transaksi %>?');">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                       <button type="submit" class="btn btn-outline-danger btn-sm rounded-end-pill py-1 px-2" title="Hapus">
                         <i class="fas fa-trash-alt"></i>
                       </button>
@@ -517,6 +508,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         <form action="/api/it/expenses" method="POST" onsubmit="return prepareSubmitItems('tambah')">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header bg-dark text-white py-3 px-4">
             <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-cart-plus text-success"></i>Catat Belanja Baru (Multi-Item per Outlet)
@@ -693,6 +685,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         <form id="formEditExpense" method="POST" onsubmit="return prepareSubmitItems('edit')">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header bg-dark text-white py-3 px-4">
             <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-edit text-primary"></i>Edit Catatan Belanja
@@ -820,6 +813,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         <form action="/api/it/change-password" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header bg-dark text-white py-3 px-4">
             <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-key text-warning"></i>Ganti Password Akun IT
@@ -1316,6 +1310,7 @@
       const file = fileInput.files[0];
       const formData = new FormData();
       formData.append('invoice_file', file);
+      formData.append('_csrf', '<%= csrfToken %>');
 
       btnScan.disabled = true;
       btnScan.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Memproses...';
@@ -1324,6 +1319,9 @@
       try {
         const response = await fetch('/api/it/ai/scan-invoice', {
           method: 'POST',
+          headers: {
+            'X-CSRF-Token': '<%= csrfToken %>'
+          },
           body: formData
         });
 

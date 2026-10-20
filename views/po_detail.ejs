@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail Purchase Order - <%= po.no_po || ('PO/KOV/' + po.id) %></title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,7 +60,7 @@
           </div>
         </div>
         <div class="kov-topbar-right">
-          <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+          <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">Download PDF PO</span>
           </a>
         </div>

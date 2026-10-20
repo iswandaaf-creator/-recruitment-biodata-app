@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail &amp; Interview Note - <%= candidate.nama_lengkap %></title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +34,7 @@
           </div>
         </div>
         <div class="kov-topbar-right">
-          <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+          <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF 5 Halaman</span>
           </a>
         </div>
@@ -202,6 +192,7 @@
       </div>
       <div class="kov-card-body">
         <form action="/admin/candidate/<%= candidate.id %>/interview" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
           <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-pen me-2 text-primary"></i>1. Catatan Wawancara 1</h6>
           <div class="row g-3 mb-4">
@@ -366,6 +357,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4">
         <form action="/admin/candidate/<%= candidate.id %>/update-division" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header bg-slate-900 text-white rounded-top-4" style="background-color: var(--kov-slate-900);">
             <h5 class="modal-title fw-bold" id="modalChangeDivisiLabel">
               <i class="fas fa-layer-group text-warning me-2"></i>Ubah Divisi Pelamar

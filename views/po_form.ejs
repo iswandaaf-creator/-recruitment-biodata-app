@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buat Purchase Order (PO) Baru — KOV Group</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
   <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -160,6 +150,7 @@
 
   <div class="container pb-5" style="max-width: 1040px;">
     <form id="poForm">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       
       <!-- SECTION 1: HEADER & VENDOR -->
       <div class="card-po-section">
@@ -577,7 +568,10 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       try {
         const res = await fetch('/api/operasional/po/submit', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '<%= csrfToken %>'
+          },
           body: JSON.stringify(data)
         });
         const json = await res.json();

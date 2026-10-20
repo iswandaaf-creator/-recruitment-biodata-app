@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Surat Tugas &amp; LPJ - Operasional KOV</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -91,7 +81,7 @@
           <button class="btn-kov-primary btn-kov-sm" onclick="copyShareUrl()">
             <i class="fas fa-copy"></i> Salin Link Form
           </button>
-          <a href="/surat-tugas" target="_blank" class="btn-kov-outline btn-kov-sm">
+          <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn-kov-outline btn-kov-sm">
             <i class="fas fa-arrow-up-right-from-square"></i> Buka Form
           </a>
         </div>
@@ -282,11 +272,12 @@
                       <a href="/admin/operasional/surat-tugas/detail/<%= st.id %>" class="btn-kov-outline btn-kov-sm" title="Lihat Detail & Approval">
                         <i class="fas fa-eye"></i>
                       </a>
-                      <a href="/api/operasional/surat-tugas/export/pdf/<%= st.id %>" class="btn-kov-secondary btn-kov-sm text-danger" title="Download PDF Resmi" target="_blank">
+                      <a href="/api/operasional/surat-tugas/export/pdf/<%= st.id %>" class="btn-kov-secondary btn-kov-sm text-danger" title="Download PDF Resmi" target="_blank" rel="noopener noreferrer">
                         <i class="fas fa-file-pdf"></i>
                       </a>
                       <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
                         <form action="/admin/operasional/surat-tugas/delete/<%= st.id %>" method="POST" onsubmit="return confirm('Hapus Surat Tugas ini secara permanen?');" class="d-inline">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           <button type="submit" class="btn-kov-secondary btn-kov-sm text-danger" title="Hapus">
                             <i class="fas fa-trash"></i>
                           </button>

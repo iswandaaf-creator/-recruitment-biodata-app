@@ -1,4 +1,14 @@
 const express = require('express');
+const crypto = require('crypto');
+
+// Load .env configuration natively in Node.js
+if (typeof process.loadEnvFile === 'function') {
+  try {
+    process.loadEnvFile();
+  } catch (err) {
+    // Ignore if .env is missing or in test environment
+  }
+}
 
 process.on('uncaughtException', (err) => {
   console.error('CRITICAL UNCAUGHT EXCEPTION:', err);
@@ -43,9 +53,25 @@ const invoiceStorage = multer.diskStorage({
   }
 });
 
+// Security: Whitelist file upload type (JPG, PNG, WEBP, PDF) to prevent HTML/SVG XSS
+const ALLOWED_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'application/pdf'
+];
+const ALLOWED_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.webp', '.pdf'];
+
 const uploadInvoice = multer({
   storage: invoiceStorage,
-  limits: { fileSize: 25 * 1024 * 1024 } // 25MB
+  limits: { fileSize: 25 * 1024 * 1024 }, // 25MB
+  fileFilter: function (req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (!ALLOWED_EXTENSIONS.includes(ext) || !ALLOWED_MIME_TYPES.includes(file.mimetype)) {
+      return cb(new Error('Tipe file tidak diizinkan! Hanya file dokumen PDF, JPG, PNG, dan WEBP yang diperbolehkan.'));
+    }
+    cb(null, true);
+  }
 });
 
 const app = express();
@@ -55,15 +81,48 @@ app.locals.formatDate = formatDate;
 app.locals.formatDateTime = formatDateTime;
 
 app.set('trust proxy', 1);
+app.disable('x-powered-by');
 
-app.use(cors());
+// Security: HTTP Security Headers
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  if (req.secure || req.headers['x-forwarded-proto'] === 'https') {
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  }
+  next();
+});
+
+// Security: Restricted CORS Whitelist
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'https://internal.kovgroups.com,http://localhost:3000,http://127.0.0.1:3000')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+      callback(null, true);
+    } else {
+      callback(new Error('Blocked by CORS policy'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
 const SESSION_TIMEOUT_MS = 2 * 60 * 60 * 1000; // 2 Jam (7,200,000 ms)
+const SESSION_SECRET = process.env.SESSION_SECRET || 'kov_portal_secret_key_2026_secured_fallback';
+const cookieSecure = process.env.COOKIE_SECURE === 'true' ? true : (process.env.COOKIE_SECURE === 'auto' ? 'auto' : false);
 
 app.use(session({
   name: 'kov_portal_session_id',
-  secret: 'kov_portal_secret_key_2026_secured',
+  secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   rolling: true, // Reset batas kedaluwarsa cookie pada setiap request baru (aktivitas aktif)
@@ -71,9 +130,83 @@ app.use(session({
     maxAge: SESSION_TIMEOUT_MS,
     httpOnly: true,
     sameSite: 'lax',
-    secure: false
+    secure: cookieSecure
   }
 }));
+
+// CSRF Protection Helpers
+function getOrCreateCsrfToken(req) {
+  if (!req.session) return null;
+  if (!req.session.csrfToken) {
+    req.session.csrfToken = crypto.randomBytes(32).toString('hex');
+  }
+  return req.session.csrfToken;
+}
+
+function safeCompare(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
+// Injeksi CSRF token ke res.locals & cookie untuk seluruh view & frontend script
+app.use((req, res, next) => {
+  if (req.session) {
+    const token = getOrCreateCsrfToken(req);
+    res.locals.csrfToken = token;
+    res.cookie('XSRF-TOKEN', token, {
+      httpOnly: false,
+      sameSite: 'lax',
+      secure: cookieSecure === true || (cookieSecure === 'auto' && (req.secure || req.headers['x-forwarded-proto'] === 'https'))
+    });
+  } else {
+    res.locals.csrfToken = '';
+  }
+  next();
+});
+
+// CSRF Verification Guard untuk seluruh request mutasi (POST, PUT, DELETE, PATCH)
+app.use((req, res, next) => {
+  if (req.method === 'GET' || req.method === 'HEAD' || req.method === 'OPTIONS') {
+    return next();
+  }
+
+  // Pengecualian rute publik tanpa sesi (Pelamar form kerja & submit berita acara / surat tugas publik)
+  const publicExemptions = [
+    '/api/submit',
+    '/api/operasional/submit',
+    '/api/operasional/surat-tugas/submit'
+  ];
+  if (publicExemptions.includes(req.path)) {
+    return next();
+  }
+
+  const sessionToken = req.session ? req.session.csrfToken : null;
+  const userToken = (req.body && req.body._csrf) ||
+                    req.headers['x-csrf-token'] ||
+                    req.headers['x-xsrf-token'] ||
+                    req.query._csrf;
+
+  if (!sessionToken || !userToken || !safeCompare(sessionToken, userToken)) {
+    console.warn(`[CSRF Guard] Akses diblokir untuk ${req.method} ${req.path} dari IP ${req.ip} - Token tidak valid atau tidak disertakan.`);
+    if (req.path.startsWith('/api/') || req.xhr || (req.headers.accept && req.headers.accept.includes('application/json'))) {
+      return res.status(403).json({
+        success: false,
+        error: 'Sesi kedaluwarsa atau token keamanan (CSRF) tidak valid. Silakan refresh halaman dan coba kembali.'
+      });
+    }
+    if (req.path === '/admin/login') {
+      return res.status(403).render('login', {
+        error: 'Sesi login telah kedaluwarsa atau token tidak valid. Silakan coba lagi.'
+      });
+    }
+    return res.status(403).send('<h3>403 Forbidden: Validasi keamanan (CSRF) gagal.</h3><p>Sesi form telah kedaluwarsa atau token tidak valid. Silakan kembali dan refresh halaman.</p><a href="javascript:history.back()">Kembali</a>');
+  }
+
+  next();
+});
 
 // Auto-Logout Inactivity Guard: Logout otomatis jika tidak ada aktivitas selama 2 jam
 app.use((req, res, next) => {
@@ -198,6 +331,11 @@ app.use((req, res, next) => {
 
 // Static files (dilindungi di bawah auth guard)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Favicon route (Official KOV Logo)
+app.get('/favicon.ico', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'logo_kov_2.jpg'));
+});
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));

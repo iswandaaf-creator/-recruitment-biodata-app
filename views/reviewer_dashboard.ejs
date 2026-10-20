@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portal Reviewer Pelamar - KOV Management Portal</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -331,7 +321,7 @@
                     <a href="/reviewer/candidate/<%= c.id %>" class="btn-kov-primary btn-kov-sm" title="Buka Detail & Beri Catatan Evaluasi">
                       <i class="fas fa-pen-to-square"></i> Review
                     </a>
-                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" class="btn-kov-secondary btn-kov-sm text-danger" title="Lihat Berkas PDF 5 Halaman">
+                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Lihat Berkas PDF 5 Halaman">
                       <i class="fas fa-file-pdf"></i>
                     </a>
                   </div>

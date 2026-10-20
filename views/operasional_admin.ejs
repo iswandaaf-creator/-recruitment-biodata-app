@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Operasional - Berita Acara Pengajuan Barang</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,7 +37,7 @@
           </div>
         </div>
         <div class="kov-topbar-right">
-          <a href="/pengajuan-barang" target="_blank" class="btn-kov-outline btn-kov-sm">
+          <a href="/pengajuan-barang" target="_blank" rel="noopener noreferrer" class="btn-kov-outline btn-kov-sm">
             <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Form Publik BA</span>
           </a>
           <a href="/api/operasional/export/excel" class="btn-kov-primary btn-kov-sm">
@@ -98,7 +88,7 @@
           <button class="btn-kov-primary btn-kov-sm" onclick="copyShareUrl()">
             <i class="fas fa-copy"></i> Salin Link Form
           </button>
-          <a href="/pengajuan-barang" id="openFormBtn" target="_blank" class="btn-kov-outline btn-kov-sm">
+          <a href="/pengajuan-barang" id="openFormBtn" target="_blank" rel="noopener noreferrer" class="btn-kov-outline btn-kov-sm">
             <i class="fas fa-arrow-up-right-from-square"></i> Buka Form
           </a>
         </div>
@@ -221,7 +211,7 @@
         </div>
 
         <div class="d-flex align-items-center gap-2">
-          <a href="/pengajuan-barang" target="_blank" class="btn-kov-primary btn-kov-sm">
+          <a href="/pengajuan-barang" target="_blank" rel="noopener noreferrer" class="btn-kov-primary btn-kov-sm">
             <i class="fas fa-plus"></i> Buat Form BA
           </a>
         </div>
@@ -300,7 +290,7 @@
                       <a href="/admin/operasional/detail/<%= item.id %>" class="btn-kov-outline btn-kov-sm" title="Detail & Otorisasi BA">
                         <i class="fas fa-eye"></i> Detail
                       </a>
-                      <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" class="btn-kov-secondary btn-kov-sm text-danger" title="Download Official PDF BA">
+                      <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Download Official PDF BA">
                         <i class="fas fa-file-pdf"></i>
                       </a>
                       <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
@@ -321,7 +311,9 @@
   </div>
 
   <!-- Delete Form -->
-  <form id="deleteForm" method="POST" style="display: none;"></form>
+  <form id="deleteForm" method="POST" style="display: none;">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  </form>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>

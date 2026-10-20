@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Detail &amp; Otorisasi Berita Acara - <%= item.no_ba || ('BA/OPS/' + item.id) %></title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +48,7 @@
           <button onclick="window.print()" class="btn-kov-secondary btn-kov-sm text-dark d-none d-sm-inline-flex">
             <i class="fas fa-print"></i> Cetak
           </button>
-          <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" class="btn-kov-danger btn-kov-sm">
+          <a href="/api/operasional/export/pdf/<%= item.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF Resmi</span>
           </a>
         </div>
@@ -130,7 +120,7 @@
               <% if (item.link_quotation) { %>
               <tr>
                 <td class="label-col">Link Quotation</td>
-                <td><a href="<%= item.link_quotation %>" target="_blank" class="text-break"><%= item.link_quotation %></a></td>
+                <td><a href="<%= item.link_quotation %>" target="_blank" rel="noopener noreferrer" class="text-break"><%= item.link_quotation %></a></td>
               </tr>
               <% } %>
             </table>
@@ -316,7 +306,7 @@
                 <div class="d-flex flex-wrap gap-2">
                   <% fotoGallery.forEach((imgSrc, fIdx) => { %>
                     <div class="border rounded-3 p-1 bg-white shadow-xs" style="width: 120px; text-align: center;">
-                      <a href="<%= imgSrc %>" target="_blank">
+                      <a href="<%= imgSrc %>" target="_blank" rel="noopener noreferrer">
                         <img src="<%= imgSrc %>" style="width: 100%; height: 90px; object-fit: contain;">
                       </a>
                       <div class="small text-muted mt-1" style="font-size: 10px;">Foto #<%= fIdx + 1 %></div>
@@ -342,6 +332,7 @@
           </div>
           <div class="kov-card-body p-4">
             <form action="/admin/operasional/update/<%= item.id %>" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               
               <div class="mb-3">
                 <label class="kov-label text-success">Status Approval Keseluruhan</label>

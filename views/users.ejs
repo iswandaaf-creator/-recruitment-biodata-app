@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kelola User &amp; Hak Akses Reviewer - KOV Portal</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,6 +66,7 @@
           </div>
           <div class="kov-card-body p-4">
             <form action="/admin/users/create" method="POST" id="createForm">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <div class="mb-3">
                 <label for="username" class="kov-label">Username <span class="text-danger">*</span></label>
                 <div class="input-group">
@@ -230,6 +221,7 @@
                           <span class="badge bg-light text-muted border px-2 py-1 small align-self-center">Anda</span>
                         <% } else { %>
                           <form action="/admin/users/delete/<%= u.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna @<%= u.username %>?')" class="d-inline">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button type="submit" class="btn-kov-secondary btn-kov-sm text-danger" title="Hapus User">
                               <i class="fas fa-trash-alt"></i>
                             </button>
@@ -244,6 +236,7 @@
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content border-0 shadow-lg rounded-4">
                         <form action="/admin/users/edit/<%= u.id %>" method="POST" id="editForm<%= u.id %>">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           <div class="modal-header bg-slate-900 text-white rounded-top-4" style="background-color: var(--kov-slate-900);">
                             <h5 class="modal-title fw-bold" id="editModalLabel<%= u.id %>">
                               <i class="fas fa-user-pen text-warning me-2"></i>Edit: @<%= u.username %>

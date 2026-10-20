@@ -448,45 +448,27 @@ db.serialize(() => {
     }
 
     if (!err) {
-      db.get('SELECT id FROM users WHERE username = ?', ['admin'], (err, row) => {
-        if (!row) {
+      // Security: Only create initial administrator if the users table is completely empty (zero users)
+      db.get('SELECT COUNT(*) as total FROM users', [], (err, row) => {
+        if (!err && row && row.total === 0) {
           const bcrypt = require('bcryptjs');
-          const defaultHash = bcrypt.hashSync('admin123', 10);
-          db.run('INSERT INTO users (username, password, nama, role, reviewer_divisions) VALUES (?, ?, ?, ?, ?)',
-            ['admin', defaultHash, 'Super Administrator', 'superadmin', 'Kitchen, Barista, Operasional, HR, Teknisi, FAT, IT'],
+          const crypto = require('crypto');
+          const initialPassword = process.env.INITIAL_ADMIN_PASSWORD || (crypto.randomBytes(6).toString('hex') + '@Kov26');
+          const initialHash = bcrypt.hashSync(initialPassword, 12);
+          db.run(
+            'INSERT INTO users (username, password, nama, role, reviewer_divisions) VALUES (?, ?, ?, ?, ?)',
+            ['admin', initialHash, 'Super Administrator', 'superadmin', 'Kitchen, Barista, Operasional, HR, Teknisi, FAT, IT'],
             (err) => {
-              if (err) console.error('Error seeding default admin:', err);
-              else console.log('Default superadmin account created (username: admin, pass: admin123)');
-            }
-          );
-        } else {
-          db.run("UPDATE users SET role = 'superadmin' WHERE username = 'admin'");
-        }
-      });
-      // Seed default operasional user if not exists
-      db.get('SELECT id FROM users WHERE username = ?', ['operasional'], (err, row) => {
-        if (!row) {
-          const bcrypt = require('bcryptjs');
-          const opsHash = bcrypt.hashSync('operasional123', 10);
-          db.run('INSERT INTO users (username, password, nama, role, reviewer_divisions) VALUES (?, ?, ?, ?, ?)',
-            ['operasional', opsHash, 'Admin Operasional', 'operasional', 'Operasional'],
-            (err) => {
-              if (err) console.error('Error seeding operasional admin:', err);
-              else console.log('Default operasional account created (username: operasional, pass: operasional123)');
-            }
-          );
-        }
-      });
-      // Seed single IT user if not exists (Hanya 1 akun khusus IT)
-      db.get('SELECT id FROM users WHERE role = ? OR username = ?', ['it', 'it'], (err, row) => {
-        if (!row) {
-          const bcrypt = require('bcryptjs');
-          const itHash = bcrypt.hashSync('it123', 10);
-          db.run('INSERT INTO users (username, password, nama, role, reviewer_divisions) VALUES (?, ?, ?, ?, ?)',
-            ['it', itHash, 'Staff Khusus IT', 'it', 'IT'],
-            (err) => {
-              if (err) console.error('Error seeding single it user:', err);
-              else console.log('Single IT account created (username: it, pass: it123)');
+              if (err) {
+                console.error('[SECURITY] Error initializing superadmin:', err);
+              } else {
+                console.log('================================================================');
+                console.log('[SECURITY SETUP] Akun Administrator Pertama Dibuat Otomatis:');
+                console.log('Username : admin');
+                console.log('Password : ' + initialPassword);
+                console.log('CATATAN  : Simpan password ini dan segera perbarui di Kelola User.');
+                console.log('================================================================');
+              }
             }
           );
         }

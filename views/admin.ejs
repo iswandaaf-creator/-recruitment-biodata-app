@@ -1,20 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <!-- Security: Masking Address Bar agar direktori internal tidak terekspos -->
-  <script>
-    (function() {
-      try {
-        if (window.history && window.history.replaceState) {
-          window.history.replaceState(null, document.title, '/');
-        }
-      } catch (e) {}
-    })();
-  </script>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Rekrutmen HR - KOV Portal</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -452,7 +442,7 @@
                     <a href="/admin/candidate/<%= c.id %>" class="btn-kov-outline btn-kov-sm" title="Edit Catatan Pewawancara / Detail">
                       <i class="fas fa-user-check"></i> Review
                     </a>
-                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" class="btn-kov-secondary btn-kov-sm text-danger" title="Export 5-Page PDF">
+                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Export 5-Page PDF">
                       <i class="fas fa-file-pdf"></i>
                     </a>
                   </div>

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formulir Biodata Pelamar Kerja — KOV Group</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
   <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -177,7 +178,7 @@
   </div>
 
   <div class="container pb-5" style="max-width: 960px;">
-    <form id="biodataForm" onsubmit="submitForm(event)">
+    <form id="biodataForm">
       <input type="hidden" name="share_token" id="shareTokenInput">
 
       <!-- SECTION 0: INFORMASI LOWONGAN -->
@@ -912,6 +913,11 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('biodataForm');
+      if (form) {
+        form.addEventListener('submit', submitForm);
+      }
+
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get('ref') || urlParams.get('token') || urlParams.get('ref_code');
       if (token) {
