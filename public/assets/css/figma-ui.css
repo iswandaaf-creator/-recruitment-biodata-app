@@ -48,11 +48,24 @@
   --cb-grad-card-purple: linear-gradient(135deg, #2a0845 0%, #6441a5 100%);
 
   /* Warm Artisanal F&B Neutrals & Deep Espresso */
-  --kov-canvas: #faf8f5;
-  --kov-espresso-950: #0c0a09;
-  --kov-espresso-900: #18181b;
-  --kov-espresso-800: #27272a;
-  --kov-espresso-700: #3f3f46;
+  --kov-canvas: #f0f7f4;
+  --kov-espresso-950: #04241d;
+  --kov-espresso-900: #062c24;
+  --kov-espresso-800: #0a3d32;
+  --kov-espresso-700: #1b5346;
+
+  /* KOV Botanical Forest Brand Identity */
+  --kov-botanical-dark: #062c24;
+  --kov-botanical-dark-hover: #0a3d32;
+  --kov-botanical-mint: #00a86b;
+  --kov-botanical-mint-hover: #008f5b;
+  --kov-botanical-mint-light: #e6f9f0;
+  --kov-botanical-canvas: #f0f7f4;
+  --kov-botanical-card: #ffffff;
+  --kov-botanical-card-border: #dcece5;
+  --kov-botanical-text-title: #072b22;
+  --kov-botanical-text-body: #28473e;
+  --kov-botanical-text-muted: #5e8377;
 
   --kov-slate-50: #f8fafc;
   --kov-slate-100: #f1f5f9;
@@ -870,8 +883,11 @@ body {
 
 .kov-sidebar {
   width: 260px;
-  background: #0f172a;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #062c24;
+  background-image: 
+    radial-gradient(circle at 0% 100%, rgba(0, 168, 107, 0.22) 0%, transparent 60%),
+    radial-gradient(circle at 100% 80%, rgba(4, 120, 87, 0.15) 0%, transparent 45%);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
   position: fixed;
   top: 0;
   left: 0;
@@ -924,6 +940,12 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: var(--kov-canvas, #f0f7f4);
+  background-image: 
+    radial-gradient(ellipse 700px 350px at 78% 0%, rgba(167, 243, 208, 0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 550px 280px at 15% 0%, rgba(209, 250, 229, 0.35) 0%, transparent 60%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1203,8 +1225,8 @@ body {
   align-items: center;
   gap: 0.75rem;
   padding: 0.58rem 1rem;
-  border-radius: 9999px; /* Signature Coinbase pill shape */
-  color: #94a3b8;
+  border-radius: 9999px; /* Signature Botanical pill shape */
+  color: #a0c4b8;
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
@@ -1217,9 +1239,9 @@ body {
   transform: translateX(3px);
 }
 .kov-nav-item.active {
-  background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+  background: #00a86b;
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 168, 107, 0.45);
   font-weight: 700;
 }
 .kov-nav-item i {
@@ -1250,8 +1272,8 @@ body {
 .kov-user-avatar {
   width: 36px;
   height: 36px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, #059669, #10b981);
+  border-radius: 50%;
+  background: #00a86b;
   color: white;
   font-weight: 700;
   display: flex;
@@ -1612,10 +1634,10 @@ body {
   border-right: 1px solid rgba(255, 255, 255, 0.07);
 }
 .kov-sidebar-clean .kov-nav-item.active {
-  background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+  background: #00a86b;
   color: #ffffff;
   border-radius: 9999px;
-  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 168, 107, 0.4);
   font-weight: 700;
 }
 
@@ -2145,4 +2167,655 @@ body {
   color: #475569;
   line-height: 1.5;
   margin-bottom: 0;
+}
+
+/* =========================================================================
+   KOV BOTANICAL FOREST & MINT PORCELAIN DESIGN SYSTEM
+   Reverse-Engineered from Figma Community UI Mockup
+   ========================================================================= */
+
+/* Topbar Clock & Profile */
+.kov-topbar-clock {
+  background: #ffffff;
+  border: 1px solid var(--kov-botanical-card-border, #dcece5);
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--kov-botanical-text-body, #28473e);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 4px rgba(7, 43, 34, 0.03);
+}
+
+.kov-topbar-bell-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--kov-botanical-card-border, #dcece5);
+  background: #ffffff;
+  color: var(--kov-botanical-text-body, #28473e);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+.kov-topbar-bell-btn:hover {
+  background: #f0f7f4;
+  border-color: var(--kov-botanical-mint, #00a86b);
+  color: var(--kov-botanical-mint, #00a86b);
+}
+.kov-topbar-bell-dot {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7.5px;
+  height: 7.5px;
+  background: #ea580c;
+  border-radius: 50%;
+  border: 1.5px solid #ffffff;
+}
+
+/* 6-Column KPI Grid */
+.kov-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+@media (max-width: 1400px) {
+  .kov-kpi-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .kov-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+@media (max-width: 480px) {
+  .kov-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* KPI Card */
+.kov-kpi-card {
+  background: #ffffff;
+  border: 1px solid var(--kov-botanical-card-border, #dcece5);
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 16px rgba(7, 43, 34, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.kov-kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(7, 43, 34, 0.09);
+  border-color: #b8dcce;
+}
+.kov-kpi-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.kov-kpi-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+.kov-icon-mint    { background: #e6f7f2; color: #00a86b; border: 1px solid #c8ede0; }
+.kov-icon-blue    { background: #eaf3fd; color: #2563eb; border: 1px solid #cde1fa; }
+.kov-icon-emerald { background: #e6fbf3; color: #059669; border: 1px solid #c1f3df; }
+.kov-icon-success { background: #ecfdf5; color: #10b981; border: 1px solid #cbf7e3; }
+.kov-icon-rose    { background: #fdf2f2; color: #ef4444; border: 1px solid #fbd5d5; }
+.kov-icon-amber   { background: #fffbeb; color: #f59e0b; border: 1px solid #fedf89; }
+.kov-icon-orange  { background: #fff7ed; color: #ea580c; border: 1px solid #fed7aa; }
+
+.kov-kpi-arrow-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f3f8f6;
+  color: #5e8377;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  transition: all 0.2s ease;
+  border: 1px solid #e1efe9;
+}
+.kov-kpi-card:hover .kov-kpi-arrow-btn {
+  background: #00a86b;
+  color: #ffffff;
+  border-color: #00a86b;
+  transform: translateX(2px);
+}
+.kov-kpi-value {
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: #072b22;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.kov-kpi-title {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #28473e;
+  margin-bottom: 2px;
+}
+.kov-kpi-sub {
+  font-size: 0.735rem;
+  color: #5e8377;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Botanical Share Banner */
+.kov-share-banner {
+  background: #ffffff;
+  border: 1px solid var(--kov-botanical-card-border, #dcece5);
+  border-radius: 18px;
+  padding: 20px 26px;
+  box-shadow: 0 4px 16px rgba(7, 43, 34, 0.04);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.kov-share-watermark {
+  position: absolute;
+  right: -20px;
+  top: -10px;
+  bottom: -10px;
+  width: 200px;
+  pointer-events: none;
+  opacity: 0.09;
+  color: #00a86b;
+}
+.kov-share-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+.kov-share-squircle {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: #e6f9f0;
+  border: 1px solid #c9eedc;
+  color: #00a86b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+.kov-share-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #072b22;
+  margin-bottom: 2px;
+}
+.kov-share-subtitle {
+  font-size: 0.8rem;
+  color: #5e8377;
+}
+.kov-share-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+.kov-share-url-pill {
+  background: #f4faf7;
+  border: 1.5px solid #d4eae0;
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.825rem;
+  color: #28473e;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 280px;
+  user-select: all;
+}
+.kov-btn-outline-pill {
+  background: #ffffff;
+  border: 1.5px solid #d4eae0;
+  color: #28473e;
+  border-radius: 9999px;
+  padding: 8px 18px;
+  font-size: 0.825rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.kov-btn-outline-pill:hover {
+  background: #f0f7f4;
+  border-color: #00a86b;
+  color: #072b22;
+}
+.kov-btn-mint-pill {
+  background: #00a86b;
+  border: 1.5px solid #00a86b;
+  color: #ffffff;
+  border-radius: 9999px;
+  padding: 8px 22px;
+  font-size: 0.825rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 168, 107, 0.28);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.kov-btn-mint-pill:hover {
+  background: #008f5b;
+  border-color: #008f5b;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(0, 168, 107, 0.38);
+}
+
+/* Botanical Table Card */
+.kov-table-card {
+  background: #ffffff;
+  border: 1px solid var(--kov-botanical-card-border, #dcece5);
+  border-radius: 20px;
+  box-shadow: 0 4px 18px rgba(7, 43, 34, 0.04);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.kov-table-header-box {
+  padding: 20px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #edf6f1;
+}
+.kov-table-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.kov-table-squircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #e6f9f0;
+  border: 1px solid #c9eedc;
+  color: #00a86b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+.kov-table-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #072b22;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.kov-badge-count {
+  background: #e6f9f0;
+  border: 1px solid #c9eedc;
+  color: #00a86b;
+  border-radius: 9999px;
+  padding: 3px 11px;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+.kov-pill-search-wrap {
+  position: relative;
+  min-width: 220px;
+}
+.kov-pill-search-wrap i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8daea2;
+  font-size: 0.85rem;
+}
+.kov-pill-search {
+  background: #f4faf7;
+  border: 1.5px solid #dcece5;
+  border-radius: 9999px;
+  padding: 7px 16px 7px 36px;
+  font-size: 0.835rem;
+  color: #28473e;
+  outline: none;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+.kov-pill-search:focus {
+  background: #ffffff;
+  border-color: #00a86b;
+  box-shadow: 0 0 0 3px rgba(0, 168, 107, 0.15);
+}
+.kov-pill-select {
+  background: #ffffff;
+  border: 1.5px solid #dcece5;
+  border-radius: 9999px;
+  padding: 7px 16px;
+  font-size: 0.835rem;
+  color: #28473e;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+.kov-pill-select:focus {
+  border-color: #00a86b;
+}
+
+/* Status Filter Segmented Bar */
+.kov-status-filter-bar {
+  padding: 12px 24px;
+  background: #fafdfc;
+  border-bottom: 1px solid #edf6f1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.kov-filter-pill-botanical {
+  border-radius: 9999px;
+  padding: 6px 16px;
+  font-size: 0.815rem;
+  font-weight: 600;
+  border: 1px solid #dcece5;
+  background: #ffffff;
+  color: #28473e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.kov-filter-pill-botanical:hover {
+  background: #f0f7f4;
+  border-color: #b8dcce;
+  color: #072b22;
+}
+.kov-filter-pill-botanical.active {
+  background: #072b22 !important;
+  border-color: #072b22 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(7, 43, 34, 0.25);
+}
+.kov-filter-pill-botanical.warning-pill {
+  border-color: #fed7aa;
+  background: #fff7ed;
+  color: #c2410c;
+}
+.kov-filter-pill-botanical.warning-pill.active {
+  background: #ea580c !important;
+  border-color: #ea580c !important;
+  color: #ffffff !important;
+}
+
+/* Botanical Data Table Rows & Styling */
+.kov-botanical-table-wrap {
+  padding: 0 16px 16px;
+  overflow-x: auto;
+}
+.kov-botanical-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.85rem;
+}
+.kov-botanical-table thead th {
+  background: #edf6f1;
+  color: #4b7367;
+  font-size: 0.735rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 18px;
+  border: none;
+  white-space: nowrap;
+}
+.kov-botanical-table thead th:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.kov-botanical-table thead th:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.kov-botanical-table tbody td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #eef6f2;
+  vertical-align: middle;
+  background: #ffffff;
+}
+.kov-botanical-table tbody tr:hover td {
+  background: #f7fbf9;
+}
+.kov-avatar-monogram {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #e6f9f0;
+  border: 1.5px solid #c9eedc;
+  color: #00a86b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.kov-candidate-name {
+  font-weight: 700;
+  color: #072b22;
+  font-size: 0.925rem;
+  line-height: 1.3;
+}
+.kov-candidate-sub {
+  font-size: 0.76rem;
+  color: #5e8377;
+}
+.kov-divisi-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f4faf7;
+  border: 1px solid #dcece5;
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-size: 0.785rem;
+  font-weight: 600;
+  color: #28473e;
+}
+.kov-action-review-btn {
+  border: 1.5px solid #dcece5;
+  background: #ffffff;
+  color: #072b22;
+  border-radius: 9999px;
+  padding: 5px 14px;
+  font-size: 0.785rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.kov-action-review-btn:hover {
+  background: #00a86b;
+  border-color: #00a86b;
+  color: #ffffff;
+}
+.kov-action-icon-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid #dcece5;
+  background: #ffffff;
+  color: #5e8377;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.kov-action-icon-circle:hover {
+  background: #fdf2f2;
+  border-color: #fecdd3;
+  color: #e11d48;
+}
+
+/* Dark Mode Overrides for Botanical Forest */
+[data-theme="dark"] .kov-topbar-clock {
+  background: #14352d;
+  border-color: #1f4d41;
+  color: #d1fae5;
+}
+[data-theme="dark"] .kov-topbar-bell-btn {
+  background: #14352d;
+  border-color: #1f4d41;
+  color: #d1fae5;
+}
+[data-theme="dark"] .kov-kpi-card {
+  background: #0d2822;
+  border-color: #1b453b;
+}
+[data-theme="dark"] .kov-kpi-card:hover {
+  border-color: #00a86b;
+}
+[data-theme="dark"] .kov-kpi-value {
+  color: #ffffff;
+}
+[data-theme="dark"] .kov-kpi-title {
+  color: #d1fae5;
+}
+[data-theme="dark"] .kov-kpi-sub {
+  color: #8db5a8;
+}
+[data-theme="dark"] .kov-kpi-arrow-btn {
+  background: #143830;
+  border-color: #1f4d41;
+  color: #a7f3d0;
+}
+[data-theme="dark"] .kov-share-banner {
+  background: #0d2822;
+  border-color: #1b453b;
+}
+[data-theme="dark"] .kov-share-title {
+  color: #ffffff;
+}
+[data-theme="dark"] .kov-share-subtitle {
+  color: #8db5a8;
+}
+[data-theme="dark"] .kov-share-url-pill {
+  background: #143830;
+  border-color: #1f4d41;
+  color: #a7f3d0;
+}
+[data-theme="dark"] .kov-btn-outline-pill {
+  background: #143830;
+  border-color: #1f4d41;
+  color: #d1fae5;
+}
+[data-theme="dark"] .kov-table-card {
+  background: #0d2822;
+  border-color: #1b453b;
+}
+[data-theme="dark"] .kov-table-header-box {
+  border-bottom-color: #1b453b;
+}
+[data-theme="dark"] .kov-table-title {
+  color: #ffffff;
+}
+[data-theme="dark"] .kov-status-filter-bar {
+  background: #0a211c;
+  border-bottom-color: #1b453b;
+}
+[data-theme="dark"] .kov-filter-pill-botanical {
+  background: #143830;
+  border-color: #1f4d41;
+  color: #d1fae5;
+}
+[data-theme="dark"] .kov-filter-pill-botanical.active {
+  background: #00a86b !important;
+  border-color: #00a86b !important;
+  color: #ffffff !important;
+}
+[data-theme="dark"] .kov-botanical-table thead th {
+  background: #143830;
+  color: #a7f3d0;
+}
+[data-theme="dark"] .kov-botanical-table tbody td {
+  background: #0d2822;
+  border-bottom-color: #183e35;
+}
+[data-theme="dark"] .kov-botanical-table tbody tr:hover td {
+  background: #133a31;
+}
+[data-theme="dark"] .kov-candidate-name {
+  color: #ffffff;
+}
+[data-theme="dark"] .kov-candidate-sub {
+  color: #8db5a8;
+}
+[data-theme="dark"] .kov-divisi-pill {
+  background: #143830;
+  border-color: #1f4d41;
+  color: #a7f3d0;
+}
+[data-theme="dark"] .kov-action-review-btn {
+  background: #143830;
+  border-color: #1f4d41;
+  color: #ffffff;
+}
+[data-theme="dark"] .kov-action-icon-circle {
+  background: #143830;
+  border-color: #1f4d41;
+  color: #a7f3d0;
 }
