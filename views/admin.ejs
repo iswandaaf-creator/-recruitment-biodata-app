@@ -90,33 +90,50 @@
       <!-- Modern Botanical Topbar -->
       <header class="kov-topbar">
         <div class="kov-topbar-left">
-          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
             <i class="fas fa-bars"></i>
           </button>
           <div class="kov-topbar-breadcrumb">
-            <h1 class="kov-topbar-title">Portal Manajemen KOV</h1>
-            <span class="d-none d-md-inline" style="font-size: 12px; color: var(--kov-botanical-text-muted, #5e8377); margin-left: 8px;">Ringkasan metrik, rekrutmen, dan operasional KOV Koffie</span>
+            <h1 class="kov-topbar-title">Dashboard Rekrutmen HR</h1>
+            <span class="d-none d-md-inline" style="font-size: 12px; color: var(--kov-botanical-text-muted, #5e8377); margin-left: 8px;">Kelola proses rekrutmen dengan lebih mudah dan terorganisir</span>
           </div>
         </div>
         <div class="kov-topbar-right d-flex align-items-center gap-2">
-          <!-- Real-Time Date & Time Widget -->
-          <div class="kov-topbar-clock d-none d-lg-inline-flex">
-            <i class="far fa-calendar-alt text-success"></i>
-            <span id="kovLiveClock">Memuat waktu...</span>
-          </div>
           <!-- Notification Bell -->
           <button type="button" class="kov-topbar-bell-btn" title="Notifikasi" onclick="KovToast.info('Tidak ada notifikasi baru yang tertunda', 'Notifikasi')">
             <i class="far fa-bell"></i>
             <span class="kov-topbar-bell-dot"></span>
           </button>
-          <!-- Coinbase Dual-Theme Switcher -->
+
+          <!-- Real-Time Date & Time Widget -->
+          <div class="kov-topbar-clock d-none d-sm-inline-flex">
+            <i class="far fa-calendar-days text-success fs-6"></i>
+            <div class="d-flex flex-column text-start" style="line-height: 1.15;">
+              <span id="kovLiveDate" style="font-weight: 700; font-size: 0.78rem;">20 Okt 2026</span>
+              <span id="kovLiveTime" style="font-size: 0.68rem; color: #5e8377;">10:24 WIB</span>
+            </div>
+          </div>
+
+          <!-- User Profile Dropdown Pill -->
+          <div class="kov-topbar-user-pill">
+            <div class="kov-avatar-monogram" style="width: 32px; height: 32px; font-size: 0.85rem;">
+              <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
+            </div>
+            <div class="d-none d-md-flex flex-column text-start" style="line-height: 1.15;">
+              <span style="font-size: 0.78rem; font-weight: 700; color: #072b22;">
+                <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %>
+              </span>
+              <span style="font-size: 0.68rem; color: #5e8377;">
+                <%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %>
+              </span>
+            </div>
+            <i class="fas fa-chevron-down ms-1 text-muted" style="font-size: 0.65rem;"></i>
+          </div>
+
+          <!-- Theme Switcher Button -->
           <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
             <i class="fas fa-moon kov-theme-icon"></i>
           </button>
-          <!-- Export Excel Pill -->
-          <a href="/api/export/excel" class="kov-btn-outline-pill">
-            <i class="fas fa-file-excel text-success"></i> <span class="d-none d-sm-inline">Export Excel</span>
-          </a>
         </div>
       </header>
 
@@ -125,93 +142,93 @@
 
         <!-- 6 KPI Metric Cards Grid -->
         <div class="kov-kpi-grid">
-          <!-- Total Pelamar -->
+          <!-- 1. Total Pelamar -->
           <div class="kov-kpi-card" onclick="filterByStatusCard('all')" title="Klik untuk filter: Semua Pelamar">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-mint">
-                <i class="fas fa-users"></i>
+                <i class="fas fa-user-group"></i>
               </div>
-              <div class="kov-kpi-arrow-btn"><i class="fas fa-chevron-right"></i></div>
+              <div class="kov-kpi-arrow-btn" style="color: #00a86b;"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div>
               <div class="kov-kpi-value"><%= candidates.length %></div>
               <div class="kov-kpi-title">Total Pelamar</div>
-              <div class="kov-kpi-sub"><i class="fas fa-arrow-trend-up text-success"></i> Seluruh berkas masuk</div>
+              <div class="kov-kpi-sub">Seluruh berkas pelamar</div>
             </div>
           </div>
 
-          <!-- Pelamar Baru (Belum Diproses) -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('Belum Diproses')" title="Klik untuk filter: Pelamar Baru">
+          <!-- 2. Perlu Review -->
+          <div class="kov-kpi-card" onclick="filterByStatusCard('Belum Diproses')" title="Klik untuk filter: Perlu Review">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-blue">
-                <i class="fas fa-user-plus"></i>
+                <i class="fas fa-file-lines"></i>
               </div>
-              <div class="kov-kpi-arrow-btn"><i class="fas fa-chevron-right"></i></div>
+              <div class="kov-kpi-arrow-btn" style="color: #2563eb;"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div>
-              <div class="kov-kpi-value text-primary"><%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %></div>
-              <div class="kov-kpi-title">Pelamar Baru</div>
-              <div class="kov-kpi-sub"><i class="fas fa-clock text-primary"></i> Menunggu review HR</div>
+              <div class="kov-kpi-value"><%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %></div>
+              <div class="kov-kpi-title">Perlu Review</div>
+              <div class="kov-kpi-sub">Menunggu review HR/User</div>
             </div>
           </div>
 
-          <!-- Tahap Wawancara (Dipertimbangkan) -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('Dipertimbangkan')" title="Klik untuk filter: Dipertimbangkan / Wawancara">
+          <!-- 3. Diterima -->
+          <div class="kov-kpi-card" onclick="filterByStatusCard('Diterima')" title="Klik untuk filter: Diterima">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-emerald">
-                <i class="fas fa-user-clock"></i>
-              </div>
-              <div class="kov-kpi-arrow-btn"><i class="fas fa-chevron-right"></i></div>
-            </div>
-            <div>
-              <div class="kov-kpi-value" style="color: #059669;"><%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %></div>
-              <div class="kov-kpi-title">Tahap Wawancara</div>
-              <div class="kov-kpi-sub"><i class="fas fa-calendar-check text-success"></i> Jadwal interview</div>
-            </div>
-          </div>
-
-          <!-- Kandidat Diterima -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('Diterima')" title="Klik untuk filter: Kandidat Diterima">
-            <div class="kov-kpi-card-top">
-              <div class="kov-kpi-icon-box kov-icon-success">
                 <i class="fas fa-circle-check"></i>
               </div>
-              <div class="kov-kpi-arrow-btn"><i class="fas fa-chevron-right"></i></div>
+              <div class="kov-kpi-arrow-btn" style="color: #059669;"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div>
-              <div class="kov-kpi-value text-success"><%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %></div>
-              <div class="kov-kpi-title">Kandidat Diterima</div>
-              <div class="kov-kpi-sub"><i class="fas fa-check-double text-success"></i> Siap on-boarding</div>
+              <div class="kov-kpi-value"><%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %></div>
+              <div class="kov-kpi-title">Diterima</div>
+              <div class="kov-kpi-sub">Lolos interview kerja</div>
             </div>
           </div>
 
-          <!-- Berkas Ditolak -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('Ditolak')" title="Klik untuk filter: Berkas Ditolak">
+          <!-- 4. Dipertimbangkan -->
+          <div class="kov-kpi-card" onclick="filterByStatusCard('Dipertimbangkan')" title="Klik untuk filter: Dipertimbangkan">
+            <div class="kov-kpi-card-top">
+              <div class="kov-kpi-icon-box kov-icon-amber">
+                <i class="fas fa-hourglass-half"></i>
+              </div>
+              <div class="kov-kpi-arrow-btn" style="color: #f59e0b;"><i class="fas fa-chevron-right"></i></div>
+            </div>
+            <div>
+              <div class="kov-kpi-value"><%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %></div>
+              <div class="kov-kpi-title">Dipertimbangkan</div>
+              <div class="kov-kpi-sub">Kandidat hold / cadangan</div>
+            </div>
+          </div>
+
+          <!-- 5. Ditolak -->
+          <div class="kov-kpi-card" onclick="filterByStatusCard('Ditolak')" title="Klik untuk filter: Ditolak">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-rose">
                 <i class="fas fa-circle-xmark"></i>
               </div>
-              <div class="kov-kpi-arrow-btn"><i class="fas fa-chevron-right"></i></div>
+              <div class="kov-kpi-arrow-btn" style="color: #ef4444;"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div>
-              <div class="kov-kpi-value text-danger"><%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %></div>
-              <div class="kov-kpi-title">Berkas Ditolak</div>
-              <div class="kov-kpi-sub"><i class="fas fa-ban text-danger"></i> Tidak lolos kriteria</div>
+              <div class="kov-kpi-value"><%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %></div>
+              <div class="kov-kpi-title">Ditolak</div>
+              <div class="kov-kpi-sub">Belum memenuhi syarat</div>
             </div>
           </div>
 
-          <!-- Berkas Duplikat -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('duplicate')" title="Klik untuk filter: Berkas Duplikat">
+          <!-- 6. Duplikat -->
+          <div class="kov-kpi-card" onclick="filterByStatusCard('duplicate')" title="Klik untuk filter: Duplikat">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-orange">
                 <i class="fas fa-triangle-exclamation"></i>
               </div>
-              <div class="kov-kpi-arrow-btn"><i class="fas fa-chevron-right"></i></div>
+              <div class="kov-kpi-arrow-btn" style="color: #ea580c;"><i class="fas fa-chevron-right"></i></div>
             </div>
             <div>
-              <div class="kov-kpi-value" style="color: #ea580c;"><%= candidates.filter(c => c.is_duplicate).length %></div>
-              <div class="kov-kpi-title">Berkas Duplikat</div>
-              <div class="kov-kpi-sub"><i class="fas fa-copy text-warning"></i> Kirim form &gt;1x</div>
+              <div class="kov-kpi-value"><%= candidates.filter(c => c.is_duplicate).length %></div>
+              <div class="kov-kpi-title">Duplikat</div>
+              <div class="kov-kpi-sub">Terdeteksi mengirim berkas &gt;1x</div>
             </div>
           </div>
         </div>
@@ -223,24 +240,27 @@
             <path d="M120 40 C145 60, 155 100, 135 130 C120 100, 110 65, 120 40 Z" opacity="0.6"/>
           </svg>
           <div class="kov-share-left">
-            <div class="kov-share-squircle">
-              <i class="fas fa-share-nodes"></i>
+            <div class="kov-share-squircle" style="background: #00a86b; border-color: #00a86b; color: #ffffff;">
+              <i class="fas fa-link"></i>
             </div>
             <div>
               <div class="kov-share-title">Link Formulir Kandidat</div>
-              <div class="kov-share-subtitle">Bagikan tautan ini ke pelamar. Token aktif dan kedaluwarsa otomatis.</div>
+              <div class="kov-share-subtitle d-flex align-items-center gap-2 mt-1 flex-wrap">
+                <div class="kov-share-url-pill">
+                  <span id="shareUrl" class="user-select-all"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
+                  <button type="button" class="kov-url-copy-btn" onclick="generateAndCopyShareLink()" title="Salin URL">
+                    <i class="far fa-copy"></i>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div class="kov-share-right">
-            <div class="kov-share-url-pill">
-              <i class="fas fa-link text-success"></i>
-              <span id="shareUrl" class="user-select-all"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-8f3a921d</span>
-            </div>
             <button type="button" class="kov-btn-outline-pill" onclick="generateRandomShareLink(false)">
-              <i class="fas fa-rotate text-success"></i> Acak Token Baru
+              <i class="fas fa-shuffle me-1 text-success"></i> Acak Token Baru
             </button>
             <button type="button" class="kov-btn-mint-pill" onclick="generateAndCopyShareLink()">
-              <i class="fas fa-copy"></i> Salin Link
+              <i class="fas fa-link me-1"></i> Salin Link
             </button>
           </div>
         </div>
@@ -251,12 +271,17 @@
           <div class="kov-table-header-box">
             <div class="kov-table-title-group">
               <div class="kov-table-squircle">
-                <i class="fas fa-users-viewfinder"></i>
+                <i class="fas fa-user-group"></i>
               </div>
-              <h2 class="kov-table-title">
-                <span>Daftar Pelamar Kerja</span>
-                <span class="kov-badge-count"><span id="candidateCount"><%= candidates.length %></span> Data</span>
-              </h2>
+              <div>
+                <h2 class="kov-table-title">
+                  <span>Daftar Pelamar Kerja</span>
+                  <span class="kov-badge-count"><span id="candidateCount"><%= candidates.length %></span> Data</span>
+                </h2>
+                <div style="font-size: 0.78rem; color: #5e8377; margin-top: 3px;">
+                  Gunakan filter status dan pencarian data untuk mempermudah seleksi HR.
+                </div>
+              </div>
             </div>
 
             <div class="d-flex flex-wrap align-items-center gap-2">
@@ -266,53 +291,68 @@
                 <input type="text" class="kov-pill-search" id="searchInput" placeholder="Cari nama, NIK, Rekening..." onkeyup="applyFilterAndSort()">
               </div>
 
+              <!-- Filter Icon Button -->
+              <button type="button" class="kov-filter-icon-btn" title="Toggle Filter" onclick="document.getElementById('searchInput').focus()">
+                <i class="fas fa-sliders"></i>
+              </button>
+
               <!-- Divisi Filter -->
-              <select class="kov-pill-select" id="divisiSelect" onchange="applyFilterAndSort()">
-                <option value="all" selected>Semua Divisi</option>
-                <option value="kitchen">Kitchen</option>
-                <option value="barista">Barista</option>
-                <option value="operasional">Operasional</option>
-                <option value="hr">HR</option>
-                <option value="teknisi">Teknisi</option>
-                <option value="fat">FAT (Finance)</option>
-                <option value="it">IT</option>
-              </select>
+              <div class="kov-select-wrap">
+                <i class="fas fa-layer-group kov-select-icon"></i>
+                <select class="kov-pill-select" id="divisiSelect" onchange="applyFilterAndSort()">
+                  <option value="all" selected>Semua Divisi</option>
+                  <option value="kitchen">Kitchen</option>
+                  <option value="barista">Barista</option>
+                  <option value="operasional">Operasional</option>
+                  <option value="hr">HR</option>
+                  <option value="teknisi">Teknisi</option>
+                  <option value="fat">FAT (Finance)</option>
+                  <option value="it">IT</option>
+                </select>
+                <i class="fas fa-chevron-down kov-select-chevron"></i>
+              </div>
 
               <!-- Sort Select -->
-              <select class="kov-pill-select" id="sortSelect" onchange="applyFilterAndSort()">
-                <option value="date-desc" selected>Tanggal (Terbaru)</option>
-                <option value="date-asc">Tanggal (Terlama)</option>
-                <option value="name-asc">Nama Pelamar (A-Z)</option>
-                <option value="name-desc">Nama Pelamar (Z-A)</option>
-                <option value="status-asc">Status Rekrutmen</option>
-              </select>
+              <div class="kov-select-wrap">
+                <i class="far fa-calendar-days kov-select-icon"></i>
+                <select class="kov-pill-select" id="sortSelect" onchange="applyFilterAndSort()">
+                  <option value="date-desc" selected>Tanggal (Terbaru)</option>
+                  <option value="date-asc">Tanggal (Terlama)</option>
+                  <option value="name-asc">Nama Pelamar (A-Z)</option>
+                  <option value="name-desc">Nama Pelamar (Z-A)</option>
+                  <option value="status-asc">Status Rekrutmen</option>
+                </select>
+                <i class="fas fa-chevron-down kov-select-chevron"></i>
+              </div>
             </div>
           </div>
 
           <!-- Status Segmented Pills -->
           <div class="kov-status-filter-bar">
+            <span class="small fw-bold text-dark me-1" style="font-size: 0.82rem;">Status:</span>
+
             <button type="button" class="kov-filter-pill-botanical active" data-filter="all" onclick="setFilter('all', this)">
               Semua (<%= candidates.length %>)
             </button>
 
             <button type="button" class="kov-filter-pill-botanical" data-filter="Belum Diproses" onclick="setFilter('Belum Diproses', this)">
-              <span style="color: #2563eb;">●</span> Baru (<%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>)
-            </button>
-
-            <button type="button" class="kov-filter-pill-botanical" data-filter="Dipertimbangkan" onclick="setFilter('Dipertimbangkan', this)">
-              <span style="color: #d97706;">●</span> Wawancara (<%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>)
+              <i class="far fa-circle-dot" style="color: #3b82f6;"></i> Belum Diproses (<%= candidates.filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length %>)
             </button>
 
             <button type="button" class="kov-filter-pill-botanical" data-filter="Diterima" onclick="setFilter('Diterima', this)">
-              <span style="color: #10b981;">●</span> Diterima (<%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>)
+              <i class="fas fa-circle-check" style="color: #10b981;"></i> Diterima (<%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %>)
+            </button>
+
+            <button type="button" class="kov-filter-pill-botanical" data-filter="Dipertimbangkan" onclick="setFilter('Dipertimbangkan', this)">
+              <i class="fas fa-circle-exclamation" style="color: #f59e0b;"></i> Dipertimbangkan (<%= candidates.filter(c => c.kesimpulan_status === 'Dipertimbangkan').length %>)
             </button>
 
             <button type="button" class="kov-filter-pill-botanical" data-filter="Ditolak" onclick="setFilter('Ditolak', this)">
-              <span style="color: #ef4444;">●</span> Ditolak (<%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>)
+              <i class="fas fa-circle-xmark" style="color: #ef4444;"></i> Ditolak (<%= candidates.filter(c => c.kesimpulan_status === 'Ditolak').length %>)
             </button>
 
             <button type="button" class="kov-filter-pill-botanical warning-pill ms-auto" data-filter="duplicate" onclick="setFilter('duplicate', this)">
-              <i class="fas fa-triangle-exclamation"></i> Duplikat (<%= candidates.filter(c => c.is_duplicate).length %>)
+              <i class="far fa-clone" style="color: #ea580c;"></i> Duplikat (<%= candidates.filter(c => c.is_duplicate).length %>)
             </button>
           </div>
 
@@ -323,18 +363,18 @@
                 <tr>
                   <th style="width: 65px;">ID</th>
                   <th class="sortable-header" onclick="toggleSort('date')" style="min-width: 140px; cursor: pointer;">
-                    Tanggal Submit <i class="fas fa-sort ms-1 opacity-50" id="sortIconDate"></i>
+                    TANGGAL SUBMIT <i class="fas fa-sort ms-1 opacity-50" id="sortIconDate"></i>
                   </th>
                   <th class="sortable-header" onclick="toggleSort('name')" style="min-width: 250px; cursor: pointer;">
-                    Nama &amp; Identitas <i class="fas fa-sort ms-1 opacity-50" id="sortIconName"></i>
+                    NAMA &amp; IDENTITAS <i class="fas fa-sort ms-1 opacity-50" id="sortIconName"></i>
                   </th>
-                  <th style="min-width: 160px;">Posisi Dilamar</th>
-                  <th style="min-width: 180px;">Kontak</th>
+                  <th style="min-width: 160px;">POSISI DILAMAR</th>
+                  <th style="min-width: 180px;">KONTAK</th>
                   <th class="sortable-header" onclick="toggleSort('status')" style="min-width: 160px; cursor: pointer;">
-                    Status Seleksi <i class="fas fa-sort ms-1 opacity-50" id="sortIconStatus"></i>
+                    STATUS SELEKSI <i class="fas fa-sort ms-1 opacity-50" id="sortIconStatus"></i>
                   </th>
-                  <th style="min-width: 140px;">Indikator</th>
-                  <th class="text-center" style="min-width: 140px;">Aksi</th>
+                  <th style="min-width: 130px;">INDIKATOR</th>
+                  <th class="text-center" style="min-width: 140px;">AKSI</th>
                 </tr>
               </thead>
               <tbody id="candidateTableBody">
@@ -361,7 +401,7 @@
                       data-duplicate="<%= c.is_duplicate ? 'true' : 'false' %>">
                     <td class="fw-bold text-muted">#<%= c.id %></td>
                     <td class="small fw-semibold text-secondary">
-                      <%= formatDate(c.created_at, true) %>
+                      <i class="far fa-calendar text-muted me-1.5"></i><%= formatDate(c.created_at, true) %>
                     </td>
                     <td>
                       <div class="d-flex align-items-center gap-2.5">
@@ -383,59 +423,90 @@
                       </div>
                     </td>
                     <td>
-                      <div class="mb-1">
-                        <span class="kov-divisi-pill">
-                          <i class="fas fa-layer-group text-success"></i> <%= cDiv %>
+                      <% if (dLow.includes('barista')) { %>
+                        <span class="kov-divisi-pill" style="background: #f8fafc; border-color: #e2e8f0; color: #475569;">
+                          <i class="fas fa-mug-hot me-1 text-muted"></i> Barista
                         </span>
-                      </div>
-                      <span class="fw-semibold text-dark small">
+                      <% } else if (dLow.includes('kitchen')) { %>
+                        <span class="kov-divisi-pill" style="background: #fffbeb; border-color: #fde68a; color: #b45309;">
+                          <i class="fas fa-utensils me-1"></i> Kitchen
+                        </span>
+                      <% } else if (dLow.includes('hr')) { %>
+                        <span class="kov-divisi-pill" style="background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8;">
+                          <i class="fas fa-user-tie me-1"></i> HR
+                        </span>
+                      <% } else if (dLow.includes('it')) { %>
+                        <span class="kov-divisi-pill" style="background: #f1f5f9; border-color: #cbd5e1; color: #0f172a;">
+                          <i class="fas fa-laptop me-1"></i> IT
+                        </span>
+                      <% } else if (dLow.includes('teknisi')) { %>
+                        <span class="kov-divisi-pill" style="background: #ecfeff; border-color: #a5f3fc; color: #0e7490;">
+                          <i class="fas fa-wrench me-1"></i> Teknisi
+                        </span>
+                      <% } else { %>
+                        <span class="kov-divisi-pill" style="background: #e6f9f0; border-color: #c9eedc; color: #00a86b;">
+                          <i class="fas fa-briefcase me-1"></i> <%= cDiv %>
+                        </span>
+                      <% } %>
+                      <div class="fw-semibold text-dark small mt-1">
                         <%= c.posisi_dilamar %>
-                      </span>
+                      </div>
                     </td>
                     <td>
-                      <div class="small fw-semibold text-dark"><i class="fas fa-envelope text-muted me-1"></i><%= c.email %></div>
-                      <div class="kov-candidate-sub"><i class="fas fa-phone text-muted me-1"></i><%= c.no_hp %></div>
+                      <div class="d-flex align-items-center gap-1.5 text-secondary" style="font-size: 0.78rem;">
+                        <i class="fas fa-phone text-muted" style="width: 14px;"></i> <span><%= c.no_hp || '-' %></span>
+                      </div>
+                      <div class="d-flex align-items-center gap-1.5 text-secondary mt-0.5" style="font-size: 0.78rem;">
+                        <i class="far fa-envelope text-muted" style="width: 14px;"></i> <span><%= c.email || '-' %></span>
+                      </div>
                     </td>
                     <td>
                       <% 
                         const statusName = c.kesimpulan_status || 'Belum Diproses';
-                        let pillClass = 'pill-slate';
-                        if (statusName === 'Diterima') pillClass = 'pill-success';
-                        else if (statusName === 'Dipertimbangkan') pillClass = 'pill-warning';
-                        else if (statusName === 'Ditolak') pillClass = 'pill-danger';
+                        let pillBg = '#eff6ff', pillColor = '#1d4ed8', pillBorder = '#dbeafe', dotBg = '#2563eb';
+                        if (statusName === 'Diterima') {
+                          pillBg = '#f0fdf4'; pillColor = '#15803d'; pillBorder = '#bbf7d0'; dotBg = '#16a34a';
+                        } else if (statusName === 'Dipertimbangkan') {
+                          pillBg = '#fffbeb'; pillColor = '#b45309'; pillBorder = '#fef3c7'; dotBg = '#d97706';
+                        } else if (statusName === 'Ditolak') {
+                          pillBg = '#fef2f2'; pillColor = '#b91c1c'; pillBorder = '#fecaca'; dotBg = '#dc2626';
+                        }
                       %>
-                      <span class="status-pill-modern <%= pillClass %>">
-                        <span class="status-dot-pulse"></span>
+                      <span class="status-pill-modern" style="background: <%= pillBg %>; color: <%= pillColor %>; border: 1px solid <%= pillBorder %>;">
+                        <span class="status-dot-pulse" style="background: <%= dotBg %>;"></span>
                         <%= statusName %>
                       </span>
                     </td>
                     <td>
                       <% if (c.is_duplicate) { %>
-                        <span class="badge bg-warning bg-opacity-25 text-warning-emphasis border border-warning px-2 py-1" title="Terdeteksi mengisi form <%= c.duplicate_count %>x dengan <%= c.match_reason %> yang sama">
+                        <span class="badge bg-warning bg-opacity-25 text-warning-emphasis border border-warning px-2 py-1" title="Terdeteksi mengisi form <%= c.duplicate_count %>x">
                           <i class="fas fa-triangle-exclamation text-danger me-1"></i>Melamar <%= c.duplicate_count %>x
                         </span>
                       <% } else { %>
-                        <span class="badge bg-light text-secondary border px-2 py-1">
-                          <i class="fas fa-shield-check text-success me-1"></i>Unik
+                        <span class="badge" style="background: #f8fafc; border: 1px solid #e2e8f0; color: #475569; font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 6px;">
+                          Unik
                         </span>
+                      <% } %>
+                      <% if (c.share_token) { %>
+                        <div class="text-muted font-monospace" style="font-size: 0.7rem; margin-top: 3px;"><%= c.share_token %></div>
                       <% } %>
                       <% if (c.review_count && c.review_count > 0) { %>
                         <div class="mt-1">
-                          <span class="badge bg-info-subtle text-info-emphasis border border-info px-2 py-1" style="font-size: 0.72rem;" title="Catatan Reviewer: <%= c.catatan_reviewer || '' %>">
-                            <i class="fas fa-comments text-info me-1"></i><%= c.review_count %> Reviewer
+                          <span class="badge bg-info-subtle text-info-emphasis border border-info px-2 py-1" style="font-size: 0.7rem;" title="Catatan Reviewer: <%= c.catatan_reviewer || '' %>">
+                            <i class="fas fa-comments text-info me-1"></i><%= c.review_count %> Review
                           </span>
                         </div>
-                      <% } %>
-                      <% if (c.share_token) { %>
-                        <div class="mt-1"><span class="badge bg-light text-muted font-monospace border" style="font-size: 0.7rem;" title="Token Unik Link"><%= c.share_token %></span></div>
                       <% } %>
                     </td>
                     <td class="text-center">
                       <div class="d-inline-flex gap-1.5 align-items-center">
                         <a href="/admin/candidate/<%= c.id %>" class="kov-action-review-btn" title="Review Berkas & Catatan Pewawancara">
-                          <i class="fas fa-user-check"></i> Review
+                          <i class="fas fa-user-check me-1"></i> Review
                         </a>
-                        <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="kov-action-icon-circle" title="Export PDF Biodata">
+                        <button type="button" class="kov-action-icon-circle" title="Detail & Opsi" onclick="window.location.href='/admin/candidate/<%= c.id %>'">
+                          <i class="fas fa-ellipsis-vertical"></i>
+                        </button>
+                        <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="kov-action-icon-circle text-danger" title="Export PDF Biodata">
                           <i class="fas fa-file-pdf"></i>
                         </a>
                       </div>
@@ -490,15 +561,19 @@
 
     // Real-Time Date & Time Clock
     function updateKovLiveClock() {
+      const dateEl = document.getElementById('kovLiveDate');
+      const timeEl = document.getElementById('kovLiveTime');
       const clockEl = document.getElementById('kovLiveClock');
-      if (!clockEl) return;
       try {
         const now = new Date();
-        const options = { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta' };
-        const str = now.toLocaleDateString('id-ID', options).replace(/\./g, ':');
-        clockEl.textContent = str + ' WIB';
+        const dateStr = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Jakarta' });
+        const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta' }).replace(/\./g, ':') + ' WIB';
+        if (dateEl) dateEl.textContent = dateStr;
+        if (timeEl) timeEl.textContent = timeStr;
+        if (clockEl) clockEl.textContent = dateStr + ', ' + timeStr;
       } catch (e) {
-        clockEl.textContent = '21 Okt 2026, 15:00 WIB';
+        if (dateEl) dateEl.textContent = '20 Okt 2026';
+        if (timeEl) timeEl.textContent = '10:24 WIB';
       }
     }
 

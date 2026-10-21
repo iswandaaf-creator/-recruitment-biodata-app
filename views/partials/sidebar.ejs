@@ -62,7 +62,7 @@
       <div class="kov-nav-group-title">Rekrutmen &amp; HR</div>
       <% if (canHR) { %>
         <a href="/admin" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>" data-tooltip="Dashboard HR" title="Dashboard HR">
-          <i class="fas fa-users"></i>
+          <i class="fas fa-house"></i>
           <span>Dashboard HR</span>
         </a>
       <% } %>
@@ -78,11 +78,11 @@
     <% if (canOperasional) { %>
       <div class="kov-nav-group-title">Operasional</div>
       <a href="/admin/operasional" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>" data-tooltip="Berita Acara (BA)" title="Berita Acara (BA)">
-        <i class="fas fa-boxes-stacked"></i>
+        <i class="fas fa-file-lines"></i>
         <span>Berita Acara (BA)</span>
       </a>
       <a href="/admin/operasional/po" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'po') ? 'active' : '' %>" data-tooltip="Purchase Order" title="Purchase Order">
-        <i class="fas fa-receipt"></i>
+        <i class="fas fa-cart-shopping"></i>
         <span>Purchase Order</span>
       </a>
       <a href="/admin/operasional/surat-tugas" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'surat_tugas') ? 'active' : '' %>" data-tooltip="Surat Tugas & LPJ" title="Surat Tugas & LPJ">
@@ -95,7 +95,7 @@
     <% if (canIT) { %>
       <div class="kov-nav-group-title">Infrastruktur &amp; IT</div>
       <a href="/admin/it" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>" data-tooltip="Rekap Belanja IT" title="Rekap Belanja IT">
-        <i class="fas fa-laptop-code"></i>
+        <i class="fas fa-desktop"></i>
         <span>Rekap Belanja IT</span>
       </a>
     <% } %>
@@ -104,7 +104,7 @@
     <% if (canUsers) { %>
       <div class="kov-nav-group-title">Sistem</div>
       <a href="/admin/users" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
-        <i class="fas fa-user-shield"></i>
+        <i class="fas fa-users-gear"></i>
         <span>Kelola User &amp; Role</span>
       </a>
     <% } %>
@@ -121,21 +121,22 @@
 
     <div class="kov-user-badge-box" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'User' %> (<%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Staff' %>)">
       <div class="kov-user-avatar">
-        <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'U' %>
+        <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
       </div>
       <div class="flex-grow-1 min-w-0">
         <div class="text-white small fw-bold text-truncate leading-tight">
-          <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : ((typeof user !== 'undefined' && user && user.username) ? user.username : 'User') %>
+          <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : ((typeof user !== 'undefined' && user && user.username) ? user.username : 'Administrator HR') %>
         </div>
         <div class="text-white-50" style="font-size: 10.5px;">
           <span class="badge bg-success bg-opacity-25 text-success py-0 px-1 border border-success border-opacity-25">
-            <%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Staff' %>
+            <%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %>
           </span>
         </div>
       </div>
+      <i class="fas fa-chevron-right text-white-50 ms-auto" style="font-size: 0.75rem;"></i>
     </div>
     <a href="/admin/logout" onclick="sessionStorage.clear();" class="kov-logout-link" data-tooltip="Keluar (Logout)" title="Keluar (Logout)">
-      <i class="fas fa-sign-out-alt"></i>
+      <i class="fas fa-arrow-right-from-bracket"></i>
       <span>Keluar (Logout)</span>
     </a>
   </div>
