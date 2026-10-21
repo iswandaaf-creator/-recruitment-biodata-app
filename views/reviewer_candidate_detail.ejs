@@ -56,7 +56,11 @@
             <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= candidate.nama_lengkap %></span>
           </div>
         </div>
-        <div class="kov-topbar-right">
+        <div class="kov-topbar-right d-flex align-items-center gap-2">
+          <!-- Coinbase Dual-Theme Switcher -->
+          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
+            <i class="fas fa-moon kov-theme-icon"></i>
+          </button>
           <% if (user && (user.role === 'superadmin' || user.role === 'admin')) { %>
             <a href="/admin/candidate/<%= candidate.id %>" class="btn-kov-outline btn-kov-sm">
               <i class="fas fa-user-gear"></i> <span class="d-none d-sm-inline">Mode HR</span>

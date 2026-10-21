@@ -33,7 +33,11 @@
             <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= candidate.nama_lengkap %></span>
           </div>
         </div>
-        <div class="kov-topbar-right">
+        <div class="kov-topbar-right d-flex align-items-center gap-2">
+          <!-- Coinbase Dual-Theme Switcher -->
+          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
+            <i class="fas fa-moon kov-theme-icon"></i>
+          </button>
           <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF 5 Halaman</span>
           </a>

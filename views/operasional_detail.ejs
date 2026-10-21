@@ -44,7 +44,11 @@
             <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= item.no_ba || ('BA/OPS/' + item.id) %></span>
           </div>
         </div>
-        <div class="kov-topbar-right">
+        <div class="kov-topbar-right d-flex align-items-center gap-2">
+          <!-- Coinbase Dual-Theme Switcher -->
+          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
+            <i class="fas fa-moon kov-theme-icon"></i>
+          </button>
           <button onclick="window.print()" class="btn-kov-secondary btn-kov-sm text-dark d-none d-sm-inline-flex">
             <i class="fas fa-print"></i> Cetak
           </button>

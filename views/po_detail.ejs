@@ -59,7 +59,11 @@
             <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= po.no_po || ('PO/KOV/' + po.id) %></span>
           </div>
         </div>
-        <div class="kov-topbar-right">
+        <div class="kov-topbar-right d-flex align-items-center gap-2">
+          <!-- Coinbase Dual-Theme Switcher -->
+          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
+            <i class="fas fa-moon kov-theme-icon"></i>
+          </button>
           <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">Download PDF PO</span>
           </a>

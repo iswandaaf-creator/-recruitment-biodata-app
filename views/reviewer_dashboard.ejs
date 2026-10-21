@@ -51,6 +51,12 @@
             <h1 class="kov-topbar-title">Portal Reviewer Pelamar</h1>
           </div>
         </div>
+        <div class="kov-topbar-right d-flex align-items-center gap-2">
+          <!-- Coinbase Dual-Theme Switcher -->
+          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
+            <i class="fas fa-moon kov-theme-icon"></i>
+          </button>
+        </div>
       </header>
 
       <!-- Main Content Area -->
@@ -113,57 +119,70 @@
       const sudahDireview = candidates.filter(c => c.review_count && c.review_count > 0).length;
       const direkomendasikan = candidates.filter(c => (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima')).length;
     %>
+    <!-- Bento Metric Cards (Coinbase High-Contrast Sparkline Style) -->
     <div class="bento-grid">
-      <div class="bento-card bento-card-blue">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title">Total Berkas Pelamar</div>
-            <div class="bento-metric-value text-primary"><%= totalKandidat %></div>
-          </div>
-          <div class="bento-icon-box bento-icon-blue">
-            <i class="fas fa-folder-open"></i>
-          </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title">Total Berkas Pelamar</div>
+          <div class="bento-metric-value text-primary"><%= totalKandidat %></div>
+          <div class="bento-metric-sub">Sesuai divisi penugasan Anda</div>
         </div>
-        <div class="bento-metric-sub">Sesuai divisi penugasan Anda</div>
+        <div class="d-flex flex-column align-items-end gap-1">
+          <div class="coinbase-ring coinbase-ring-blue">
+            <div class="coinbase-ring-inner">
+              <i class="fas fa-folder-open"></i>
+            </div>
+          </div>
+          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-blue" d="M2,24 Q25,8 50,18 T98,4"/></svg>
+        </div>
       </div>
 
-      <div class="bento-card bento-card-amber">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title text-warning">Belum Ada Catatan</div>
-            <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;"><%= belumDireview %></div>
-          </div>
-          <div class="bento-icon-box bento-icon-amber">
-            <i class="fas fa-clock"></i>
-          </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title text-warning">Belum Ada Catatan</div>
+          <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;"><%= belumDireview %></div>
+          <div class="bento-metric-sub">Menunggu review dari Anda</div>
         </div>
-        <div class="bento-metric-sub">Menunggu review dari Anda</div>
+        <div class="d-flex flex-column align-items-end gap-1">
+          <div class="coinbase-ring coinbase-ring-amber">
+            <div class="coinbase-ring-inner">
+              <i class="fas fa-clock"></i>
+            </div>
+          </div>
+          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-amber" d="M2,18 Q30,26 55,14 T98,10"/></svg>
+        </div>
       </div>
 
-      <div class="bento-card bento-card-blue">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title text-info">Sudah Direview</div>
-            <div class="bento-metric-value text-info" style="color: #0284c7 !important;"><%= sudahDireview %></div>
-          </div>
-          <div class="bento-icon-box" style="background: #e0f2fe; color: #0284c7;">
-            <i class="fas fa-check-double"></i>
-          </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title text-info">Sudah Direview</div>
+          <div class="bento-metric-value text-info" style="color: #0284c7 !important;"><%= sudahDireview %></div>
+          <div class="bento-metric-sub">Memiliki catatan evaluasi</div>
         </div>
-        <div class="bento-metric-sub">Sudah memiliki catatan evaluasi</div>
+        <div class="d-flex flex-column align-items-end gap-1">
+          <div class="coinbase-ring coinbase-ring-blue">
+            <div class="coinbase-ring-inner" style="color: #0284c7;">
+              <i class="fas fa-check-double"></i>
+            </div>
+          </div>
+          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-blue" d="M2,14 Q30,22 60,8 T98,16"/></svg>
+        </div>
       </div>
 
-      <div class="bento-card bento-card-emerald">
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="bento-metric-title text-success">Direkomendasikan</div>
-            <div class="bento-metric-value" style="color: var(--kov-primary-600);"><%= direkomendasikan %></div>
-          </div>
-          <div class="bento-icon-box bento-icon-emerald">
-            <i class="fas fa-circle-check"></i>
-          </div>
+      <div class="coinbase-kpi-card">
+        <div>
+          <div class="bento-metric-title text-success">Direkomendasikan</div>
+          <div class="bento-metric-value" style="color: var(--kov-primary-600);"><%= direkomendasikan %></div>
+          <div class="bento-metric-sub">Dinilai cocok untuk lanjut proses</div>
         </div>
-        <div class="bento-metric-sub">Dinilai cocok untuk lanjut proses</div>
+        <div class="d-flex flex-column align-items-end gap-1">
+          <div class="coinbase-ring coinbase-ring-emerald">
+            <div class="coinbase-ring-inner">
+              <i class="fas fa-circle-check"></i>
+            </div>
+          </div>
+          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-gain" d="M2,28 Q25,12 55,16 T98,2"/></svg>
+        </div>
       </div>
     </div>
 
