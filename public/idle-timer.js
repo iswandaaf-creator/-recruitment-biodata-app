@@ -49,6 +49,8 @@
 
   // Periksa inaktivitas secara berkala setiap 15 detik
   setInterval(function() {
+    if (document.visibilityState !== 'visible') return;
+
     const idleDuration = Date.now() - lastActive;
     if (idleDuration >= TWO_HOURS_MS && !isCheckingTimeout) {
       isCheckingTimeout = true;
