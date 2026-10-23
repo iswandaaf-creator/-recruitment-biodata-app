@@ -39,12 +39,51 @@ const fs = require('fs');
 const multer = require('multer');
 const { scanInvoiceDocument } = require('./services/invoiceScannerService');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const { getGeminiApiKey, saveGeminiApiKey } = require('./services/geminiInvoiceService');
 
-// Invoices upload folder setup
-const invoiceUploadDir = path.join(__dirname, 'public', 'uploads', 'invoices');
+// Invoices private storage setup
+const invoiceUploadDir = path.join(__dirname, 'storage', 'invoices');
 if (!fs.existsSync(invoiceUploadDir)) {
   fs.mkdirSync(invoiceUploadDir, { recursive: true });
 }
+
+// Rate limiters
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).render('login', {
+      error: 'Terlalu banyak percobaan login gagal dari IP Anda. Silakan coba kembali dalam 15 menit.'
+    });
+  }
+});
+
+const pdfExportLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 15,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, error: 'Terlalu banyak permintaan unduh dokumen PDF.' }
+});
+
+const publicFormLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, error: 'Terlalu banyak pengiriman formulir dari koneksi Anda.' }
+});
+
+const aiScanLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, error: 'Terlalu banyak pemindaian invoice.' }
+});
 
 const invoiceStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -79,6 +118,54 @@ const uploadInvoice = multer({
 });
 
 const app = express();
+
+// Download invoice terlindungi
+app.get('/api/it/invoices/download/:filename', requireAuth, requireITAuth, (req, res) => {
+  const safeFilename = path.basename(req.params.filename);
+  const filePath = path.join(invoiceUploadDir, safeFilename);
+  if (fs.existsSync(filePath)) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    return res.sendFile(filePath);
+  }
+  const fallbackPath = path.join(__dirname, 'public', 'uploads', 'invoices', safeFilename);
+  if (fs.existsSync(fallbackPath)) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    return res.sendFile(fallbackPath);
+  }
+  res.status(404).send('File invoice tidak ditemukan.');
+});
+
+
+// Health check endpoint (SQLite ping & uptime)
+app.get('/health', (req, res) => {
+  db.get('SELECT 1 AS alive', (err, row) => {
+    if (err) {
+      return res.status(503).json({
+        status: 'unhealthy',
+        database: 'disconnected',
+        error: err.message,
+        timestamp: new Date().toISOString()
+      });
+    }
+    res.status(200).json({
+      status: 'ok',
+      database: 'connected',
+      uptime: process.uptime(),
+      timestamp: new Date().toISOString()
+    });
+  });
+});
+
+// Favicon handler to avoid 404
+app.get('/favicon.ico', (req, res) => {
+  const favPath = path.join(__dirname, 'public', 'logo_kov_2.jpg');
+  if (fs.existsSync(favPath)) {
+    res.sendFile(favPath);
+  } else {
+    res.status(204).end();
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.locals.formatDate = formatDate;
@@ -207,8 +294,7 @@ app.use((req, res, next) => {
   const sessionToken = req.session ? req.session.csrfToken : null;
   const userToken = (req.body && req.body._csrf) ||
                     req.headers['x-csrf-token'] ||
-                    req.headers['x-xsrf-token'] ||
-                    req.query._csrf;
+                    req.headers['x-xsrf-token'] ;
 
   if (!sessionToken || !userToken || !safeCompare(sessionToken, userToken)) {
     console.warn(`[CSRF Guard] Akses diblokir untuk ${req.method} ${req.path} dari IP ${req.ip} - Token tidak valid atau tidak disertakan.`);
@@ -564,53 +650,59 @@ app.get('/admin/login', (req, res) => {
 });
 
 // Admin Login Process
-app.post('/admin/login', (req, res) => {
+app.post('/admin/login', loginLimiter, (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
-    return res.render('login', { error: 'Username dan password wajib diisi!' });
+    return res.render('login', { error: 'Username dan kata sandi wajib diisi!' });
   }
 
-  db.get('SELECT * FROM users WHERE username = ?', [username], (err, user) => {
+  const genericError = 'Username atau kata sandi tidak valid.';
+
+  db.get('SELECT * FROM users WHERE username = ?', [username.trim()], async (err, user) => {
     if (err) {
       console.error(err);
       return res.render('login', { error: 'Terjadi kesalahan sistem.' });
     }
     if (!user) {
-      return res.render('login', { error: 'Username atau password tidak ditemukan!' });
+      return res.render('login', { error: genericError });
     }
 
-    const isMatch = bcrypt.compareSync(password, user.password);
-    if (!isMatch) {
-      return res.render('login', { error: 'Username atau password salah!' });
+    try {
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res.render('login', { error: genericError });
+      }
+
+      const cleanRole = (user.role || '').toLowerCase().trim();
+
+      req.session.regenerate((regenErr) => {
+        if (regenErr) {
+          console.error('Session regenerate error:', regenErr);
+          return res.render('login', { error: 'Gagal membuat sesi login yang aman.' });
+        }
+
+        req.session.user = {
+          id: user.id,
+          username: user.username,
+          nama: user.nama,
+          role: cleanRole,
+          reviewer_divisions: user.reviewer_divisions || ''
+        };
+        req.session.lastActivity = Date.now();
+        req.session.csrfToken = crypto.randomBytes(32).toString('hex');
+        delete req.session.returnTo;
+
+                req.session.save(() => {
+          if (cleanRole === 'user') return res.redirect('/reviewer');
+          if (cleanRole === 'operasional' || cleanRole === 'admin_operasional') return res.redirect('/admin/operasional');
+          if (cleanRole === 'it') return res.redirect('/admin/it');
+          return res.redirect('/admin');
+        });
+      });
+    } catch (bcryptErr) {
+      console.error('Bcrypt error:', bcryptErr);
+      return res.render('login', { error: 'Terjadi kesalahan sistem saat verifikasi kata sandi.' });
     }
-
-    const cleanRole = (user.role || '').toLowerCase().trim();
-
-    req.session.user = {
-      id: user.id,
-      username: user.username,
-      nama: user.nama,
-      role: cleanRole,
-      reviewer_divisions: user.reviewer_divisions || ''
-    };
-    req.session.lastActivity = Date.now();
-
-    delete req.session.returnTo;
-
-    req.session.save((saveErr) => {
-      if (saveErr) console.error('Session save error:', saveErr);
-
-      if (cleanRole === 'user') {
-        return res.redirect('/reviewer');
-      }
-      if (cleanRole === 'operasional' || cleanRole === 'admin_operasional') {
-        return res.redirect('/admin/operasional');
-      }
-      if (cleanRole === 'it') {
-        return res.redirect('/admin/it');
-      }
-      return res.redirect('/admin');
-    });
   });
 });
 
@@ -763,7 +855,7 @@ app.post('/admin/users/delete/:id', requireAuth, requireSuperAdmin, (req, res) =
 });
 
 // API: Submit Candidate Biodata (Public)
-app.post('/api/submit', (req, res) => {
+app.post('/api/submit', publicFormLimiter, (req, res) => {
   const body = req.body;
 
   // Process Family Kandung
@@ -1280,7 +1372,7 @@ app.get('/api/export/excel', requireAuth, (req, res) => {
 // =========================================================================
 
 // Public API: Submit BA Pengajuan Barang
-app.post('/api/operasional/submit', (req, res) => {
+app.post('/api/operasional/submit', publicFormLimiter, (req, res) => {
   const body = req.body;
   
   // Generate No BA automatically: BA/OPS/YYYYMM/XXXX
@@ -1390,16 +1482,16 @@ app.post('/api/operasional/submit', (req, res) => {
     body.pic_pengajuan || '',
     body.signature_dibuat || '',
     body.mengetahui_1 || 'Andre Antariza',
-    body.status_mengetahui_1 || 'Pending',
+    'Pending',
     body.mengetahui_2 || 'Chusnaeni M',
-    body.status_mengetahui_2 || 'Pending',
+    'Pending',
     body.mengetahui_3 || 'Setyo Adhi P',
-    body.status_mengetahui_3 || 'Pending',
+    'Pending',
     body.menyetujui_owner || 'Owner',
-    body.status_menyetujui_owner || 'Pending',
+    'Pending',
     'Christian Octo',
     'Aldo Widarta',
-    body.status_approval || 'Menunggu Approval',
+    'Menunggu Approval',
     body.share_token || body.ref || ''
   ];
 
@@ -1462,19 +1554,19 @@ app.post('/admin/operasional/update/:id', requireOperasionalAuth, (req, res) => 
   `;
 
   const params = [
-    body.status_approval || 'Menunggu Approval',
+    'Menunggu Approval',
     body.treatment || 'Menunggu Approval',
     body.vendor_service || '',
     parseFloat(body.estimasi_harga_service || 0),
     body.target_penyelesaian || '',
     body.mengetahui_1 || 'Andre Antariza',
-    body.status_mengetahui_1 || 'Pending',
+    'Pending',
     body.mengetahui_2 || 'Chusnaeni M',
-    body.status_mengetahui_2 || 'Pending',
+    'Pending',
     body.mengetahui_3 || 'Setyo Adhi P',
-    body.status_mengetahui_3 || 'Pending',
+    'Pending',
     body.menyetujui_owner || 'Owner',
-    body.status_menyetujui_owner || 'Pending',
+    'Pending',
     body.menyetujui_1 || 'Christian Octo',
     body.menyetujui_2 || 'Aldo Widarta',
     body.catatan_approval || '',
@@ -1496,7 +1588,7 @@ app.post('/admin/operasional/delete/:id', requireAuth, requireSuperAdmin, (req, 
 });
 
 // Export Operasional PDF Single BA
-app.get('/api/operasional/export/pdf/:id', (req, res) => {
+app.get('/api/operasional/export/pdf/:id', pdfExportLimiter, (req, res) => {
   db.get('SELECT * FROM pengajuan_barang WHERE id = ?', [req.params.id], async (err, row) => {
     if (err || !row) return res.status(404).send('Berita Acara tidak ditemukan.');
 
@@ -1674,7 +1766,7 @@ app.get('/api/operasional/po/export/excel', requireOperasionalAuth, (req, res) =
 // =========================================================================
 
 // Public API: Submit Surat Tugas & LPJ
-app.post('/api/operasional/surat-tugas/submit', (req, res) => {
+app.post('/api/operasional/surat-tugas/submit', publicFormLimiter, (req, res) => {
   const body = req.body;
   const now = new Date();
   const yyyymm = now.getFullYear().toString() + String(now.getMonth() + 1).padStart(2, '0');
@@ -1896,7 +1988,7 @@ app.post('/admin/operasional/surat-tugas/delete/:id', requireAuth, requireSuperA
 });
 
 // Export PDF Single Surat Tugas & LPJ
-app.get('/api/operasional/surat-tugas/export/pdf/:id', (req, res) => {
+app.get('/api/operasional/surat-tugas/export/pdf/:id', pdfExportLimiter, (req, res) => {
   db.get('SELECT * FROM surat_tugas WHERE id = ?', [req.params.id], async (err, row) => {
     if (err || !row) return res.status(404).send('Surat Tugas tidak ditemukan.');
 

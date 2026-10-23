@@ -16,6 +16,7 @@ const sqlite = new DatabaseSync(dbPath);
 try {
   sqlite.exec('PRAGMA journal_mode = WAL;');
   sqlite.exec('PRAGMA synchronous = NORMAL;');
+  sqlite.exec('PRAGMA busy_timeout = 5000;');
 } catch (e) {
   // PRAGMA WAL enabled
 }
