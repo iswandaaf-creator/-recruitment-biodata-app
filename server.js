@@ -35,6 +35,7 @@ const { formatDate, formatDateTime } = require('./utils/dateFormatter');
 const fs = require('fs');
 const multer = require('multer');
 const { scanInvoiceDocument } = require('./services/invoiceScannerService');
+const helmet = require('helmet');
 
 // Invoices upload folder setup
 const invoiceUploadDir = path.join(__dirname, 'public', 'uploads', 'invoices');
@@ -84,6 +85,23 @@ app.set('trust proxy', 1);
 app.disable('x-powered-by');
 
 // Security: HTTP Security Headers
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "blob:"],
+      connectSrc: ["'self'"],
+      fontSrc: ["'self'", "fonts.gstatic.com"],
+      objectSrc: ["'none'"],
+      mediaSrc: ["'self'"],
+      frameSrc: ["'none'"],
+    },
+  },
+}));
+
+// Fallback manual headers to ensure they are sent
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');

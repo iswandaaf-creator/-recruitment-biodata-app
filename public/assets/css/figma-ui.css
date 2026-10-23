@@ -2423,6 +2423,9 @@ body {
   transition: all 0.2s ease;
   text-decoration: none;
 }
+.kov-btn-outline-pill:active {
+  transform: translateY(1px);
+}
 .kov-btn-outline-pill:hover {
   background: #f0f7f4;
   border-color: #00a86b;
@@ -2443,6 +2446,9 @@ body {
   box-shadow: 0 3px 10px rgba(0, 168, 107, 0.28);
   transition: all 0.2s ease;
   text-decoration: none;
+}
+.kov-btn-mint-pill:active {
+  transform: translateY(1px);
 }
 .kov-btn-mint-pill:hover {
   background: #008f5b;
@@ -2686,6 +2692,9 @@ body {
   text-decoration: none;
   transition: all 0.2s ease;
 }
+.kov-action-review-btn:active {
+  transform: translateY(1px);
+}
 .kov-action-review-btn:hover {
   background: #00a86b;
   border-color: #00a86b;
@@ -2704,6 +2713,9 @@ body {
   font-size: 0.8rem;
   text-decoration: none;
   transition: all 0.2s ease;
+}
+.kov-action-icon-circle:active {
+  transform: translateY(1px);
 }
 .kov-action-icon-circle:hover {
   background: #fdf2f2;
@@ -2725,6 +2737,9 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 1rem;
+}
+.kov-mobile-toggle-btn:active {
+  transform: translateY(1px);
 }
 .kov-mobile-toggle-btn:hover {
   background: #00a86b;
@@ -2761,6 +2776,9 @@ body {
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+.kov-filter-icon-btn:active {
+  transform: translateY(1px);
 }
 .kov-filter-icon-btn:hover {
   background: #f0f7f4;
@@ -2810,6 +2828,9 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   margin-left: 8px;
+}
+.kov-url-copy-btn:active {
+  transform: translateY(1px);
 }
 .kov-url-copy-btn:hover {
   background: #008f5b;
