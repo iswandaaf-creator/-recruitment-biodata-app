@@ -7,6 +7,9 @@ if (typeof process.loadEnvFile === 'function') {
     process.loadEnvFile();
   } catch (err) {
     // Ignore if .env is missing or in test environment
+    if (err?.code !== 'ENOENT') {
+      console.warn('Failed to load .env file:', err);
+    }
   }
 }
 
