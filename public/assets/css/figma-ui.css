@@ -213,8 +213,8 @@
 }
 
 [data-theme="dark"] .kov-sidebar {
-  background: #18022d !important;
-  border-right-color: #3a2251 !important;
+  background: linear-gradient(180deg, #05140f 0%, #030d0a 55%, #010504 100%) !important;
+  border-right-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 [data-theme="dark"] .kov-sidebar-brand {
@@ -896,17 +896,15 @@ body {
 .kov-app-shell {
   display: flex;
   min-height: 100vh;
-  background-color: var(--kov-slate-50, #f8fafc);
+  background-color: #ffffff;
   position: relative;
 }
 
 .kov-sidebar {
   width: 260px;
-  background-color: #062c24;
-  background-image: 
-    radial-gradient(circle at 0% 100%, rgba(0, 168, 107, 0.22) 0%, transparent 60%),
-    radial-gradient(circle at 100% 80%, rgba(4, 120, 87, 0.15) 0%, transparent 45%);
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: #04100c;
+  background-image: linear-gradient(180deg, #071a14 0%, #04100c 55%, #020806 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
   position: fixed;
   top: 0;
   left: 0;
@@ -959,10 +957,8 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--kov-canvas, #f0f7f4);
-  background-image: 
-    radial-gradient(ellipse 700px 350px at 78% 0%, rgba(167, 243, 208, 0.45) 0%, transparent 70%),
-    radial-gradient(ellipse 550px 280px at 15% 0%, rgba(209, 250, 229, 0.35) 0%, transparent 60%);
+  background-color: #ffffff;
+  background-image: radial-gradient(circle 750px at 0% 0%, rgba(236, 253, 245, 0.92) 0%, rgba(240, 253, 250, 0.38) 38%, rgba(255, 255, 255, 0) 75%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   transition: margin-left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -3059,4 +3055,51 @@ body {
 }
 [data-theme="dark"] .kov-botanical-table-wrap::-webkit-scrollbar-thumb {
   background: #1e3a31;
+}
+
+
+/* =========================================================================
+   KOV EDITORIAL MINIMALIST THEME RULES:
+   - Sidebar: Hijau tua hampir hitam dengan gradien halus ke bawah (#071a14 -> #020806)
+   - Latar Konten: Putih (#ffffff) dengan semburat hijau sangat pucat di pojok kiri atas
+   - Aksen Utama: Hijau Emerald (#059669) untuk tab aktif, status aktif, dan angka positif
+   - Warna Semantik Hanya untuk Makna:
+     * Hijau (#059669): Diterima, Sukses, Selesai, Angka Positif
+     * Kuning/Amber (#d97706): Dipertimbangkan, Pending, Peringatan
+     * Merah/Rose (#dc2626): Ditolak, Tindakan Destruktif (Hapus/Batal), Bahaya
+     * Biru (#2563eb): Perlu Review/Belum Diproses, Info, Modul Operasional/Surat Tugas
+     * Oranye (#ea580c): Duplikat Terdeteksi
+   ========================================================================= */
+
+/* Tab Aktif & Filter Pills Aktif (Emerald Accent) */
+.kov-filter-pill-botanical.active {
+  background: #059669 !important;
+  border-color: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25) !important;
+}
+
+.nav-tabs .nav-link.active,
+.nav-pills .nav-link.active,
+.kov-nav-tab.active {
+  color: #059669 !important;
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 #a7f3d0 #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* Angka Positif & Metrik Diterima */
+.kov-text-positive,
+.kov-stat-positive,
+.kov-metric-positive,
+.kov-kpi-card[data-kpi="Diterima"] .kov-kpi-value {
+  color: #059669 !important;
+}
+
+/* Nav Item Sidebar Active */
+.kov-nav-item.active {
+  background: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35) !important;
+  font-weight: 700 !important;
 }
