@@ -645,21 +645,20 @@
       if (shareEl) {
         shareEl.innerText = url;
         shareEl.classList.add('bg-warning', 'bg-opacity-25');
-        setTimeout(() => shareEl.classList.remove('bg-warning', 'bg-opacity-25'), 400);
+        setTimeout(() => shareEl.classList.remove('bg-warning', 'bg-opacity-25'), 300);
       }
 
       const btnAcak = document.getElementById('btnAcakToken');
       if (btnAcak) {
-        const origContent = btnAcak.innerHTML;
-        btnAcak.innerHTML = '<i class="fas fa-shuffle fa-spin me-1 text-success"></i> Mengacak...';
-        btnAcak.disabled = true;
-        setTimeout(() => {
-          btnAcak.innerHTML = '<i class="fas fa-check me-1 text-success"></i> Token Baru Aktif!';
-          setTimeout(() => {
-            btnAcak.innerHTML = origContent;
-            btnAcak.disabled = false;
-          }, 1200);
-        }, 200);
+        if (!btnAcak.getAttribute('data-orig-content')) {
+          btnAcak.setAttribute('data-orig-content', btnAcak.innerHTML);
+        }
+        const origContent = btnAcak.getAttribute('data-orig-content');
+        btnAcak.innerHTML = '<i class="fas fa-check me-1 text-success"></i> Token Baru!';
+        clearTimeout(btnAcak._timer);
+        btnAcak._timer = setTimeout(() => {
+          btnAcak.innerHTML = origContent;
+        }, 900);
       }
 
       if (shouldCopy) {
@@ -683,22 +682,27 @@
     function copyTextWithFeedback(text, successMsg) {
       const btnSalin = document.getElementById('btnSalinLink');
       const iconCopy = document.getElementById('iconCopySmall');
-      const origSalinText = btnSalin ? btnSalin.innerHTML : '';
+      if (btnSalin && !btnSalin.getAttribute('data-orig-html')) {
+        btnSalin.setAttribute('data-orig-html', btnSalin.innerHTML);
+      }
+      const origSalinText = btnSalin ? btnSalin.getAttribute('data-orig-html') : '';
 
       function triggerSuccessUI() {
         if (btnSalin) {
           btnSalin.innerHTML = '<i class="fas fa-check me-1"></i> Tersalin!';
           btnSalin.style.background = '#047857';
-          setTimeout(() => {
+          clearTimeout(btnSalin._timer);
+          btnSalin._timer = setTimeout(() => {
             btnSalin.innerHTML = origSalinText;
             btnSalin.style.background = '';
-          }, 2000);
+          }, 1500);
         }
         if (iconCopy) {
           iconCopy.className = 'fas fa-check text-success';
-          setTimeout(() => {
+          clearTimeout(iconCopy._timer);
+          iconCopy._timer = setTimeout(() => {
             iconCopy.className = 'far fa-copy';
-          }, 2000);
+          }, 1500);
         }
         if (window.KovToast && typeof window.KovToast.success === 'function') {
           window.KovToast.success(successMsg || 'Berhasil disalin ke clipboard!', 'Tautan Disalin');
