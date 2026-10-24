@@ -188,8 +188,8 @@
 }
 
 [data-theme="dark"] .filter-pill.active {
-  background: linear-gradient(135deg, #743ab8 0%, #ea6c9f 100%) !important;
-  border-color: #ea6c9f !important;
+  background: #059669 !important;
+  border-color: #059669 !important;
   color: #ffffff !important;
 }
 

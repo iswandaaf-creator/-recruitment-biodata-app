@@ -59,7 +59,7 @@
     
     <!-- Group: HR & Recruitment -->
     <% if (canHR || canReviewer) { %>
-      <div class="kov-nav-group-title">Rekrutmen &amp; HR</div>
+      <div class="kov-nav-group-title">REKRUTMEN &amp; HR</div>
       <% if (canHR) { %>
         <a href="/admin" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>" data-tooltip="Dashboard HR" title="Dashboard HR">
           <i class="fas fa-house"></i>
@@ -76,7 +76,7 @@
 
     <!-- Group: Operasional -->
     <% if (canOperasional) { %>
-      <div class="kov-nav-group-title">Operasional</div>
+      <div class="kov-nav-group-title">OPERASIONAL</div>
       <a href="/admin/operasional" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>" data-tooltip="Berita Acara (BA)" title="Berita Acara (BA)">
         <i class="fas fa-file-lines"></i>
         <span>Berita Acara (BA)</span>
@@ -93,7 +93,7 @@
 
     <!-- Group: Infrastruktur & IT -->
     <% if (canIT) { %>
-      <div class="kov-nav-group-title">Infrastruktur &amp; IT</div>
+      <div class="kov-nav-group-title">INFRASTRUKTUR &amp; IT</div>
       <a href="/admin/it" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>" data-tooltip="Rekap Belanja IT" title="Rekap Belanja IT">
         <i class="fas fa-desktop"></i>
         <span>Rekap Belanja IT</span>
@@ -102,7 +102,7 @@
 
     <!-- Group: Administrasi & Akun -->
     <% if (canUsers) { %>
-      <div class="kov-nav-group-title">Sistem</div>
+      <div class="kov-nav-group-title">SISTEM</div>
       <a href="/admin/users" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
         <i class="fas fa-users-gear"></i>
         <span>Kelola User &amp; Role</span>

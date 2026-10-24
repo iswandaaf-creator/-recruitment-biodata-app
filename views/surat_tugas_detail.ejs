@@ -211,12 +211,12 @@
               <div class="small text-muted mb-2">General Manager</div>
               <div class="mt-2">
                 <% if (item.status_gm === 'Disetujui') { %>
-                  <span class="status-pill-modern pill-success" style="font-size: 0.78rem;">✓ DISETUJUI</span>
+                  <span class="status-pill-modern pill-success" style="font-size: 0.78rem;"><i class="fas fa-circle-check me-1"></i> Disetujui</span>
                   <div class="small text-muted mt-1"><%= item.tgl_gm || '' %></div>
                 <% } else if (item.status_gm === 'Ditolak') { %>
-                  <span class="status-pill-modern pill-danger" style="font-size: 0.78rem;">✕ DITOLAK</span>
+                  <span class="status-pill-modern pill-danger" style="font-size: 0.78rem;"><i class="fas fa-circle-xmark me-1"></i> Ditolak</span>
                 <% } else { %>
-                  <span class="status-pill-modern pill-warning" style="font-size: 0.78rem;">⏳ PENDING</span>
+                  <span class="status-pill-modern pill-warning" style="font-size: 0.78rem;"><i class="fas fa-clock me-1"></i> Menunggu</span>
                 <% } %>
               </div>
             </div>
@@ -228,12 +228,12 @@
               <div class="small text-muted mb-2"><%= item.ka_divisi_jabatan || ('Penyetuju / KA Divisi ' + (item.divisi_terkait || '')) %></div>
               <div class="mt-2">
                 <% if (item.status_ka_divisi === 'Disetujui') { %>
-                  <span class="status-pill-modern pill-success" style="font-size: 0.78rem;">✓ DISETUJUI</span>
+                  <span class="status-pill-modern pill-success" style="font-size: 0.78rem;"><i class="fas fa-circle-check me-1"></i> Disetujui</span>
                   <div class="small text-muted mt-1"><%= item.tgl_ka_divisi || '' %></div>
                 <% } else if (item.status_ka_divisi === 'Ditolak') { %>
-                  <span class="status-pill-modern pill-danger" style="font-size: 0.78rem;">✕ DITOLAK</span>
+                  <span class="status-pill-modern pill-danger" style="font-size: 0.78rem;"><i class="fas fa-circle-xmark me-1"></i> Ditolak</span>
                 <% } else { %>
-                  <span class="status-pill-modern pill-warning" style="font-size: 0.78rem;">⏳ PENDING</span>
+                  <span class="status-pill-modern pill-warning" style="font-size: 0.78rem;"><i class="fas fa-clock me-1"></i> Menunggu</span>
                 <% } %>
               </div>
             </div>
@@ -323,7 +323,7 @@
                       <td><%= t.hasil || '-' %></td>
                       <td class="text-center pe-3">
                         <% if ((t.status || '').toLowerCase() === 'selesai') { %>
-                          <span class="status-pill-modern pill-success" style="font-size: 0.72rem;">✓ Selesai</span>
+                          <span class="status-pill-modern pill-success" style="font-size: 0.72rem;"><i class="fas fa-check me-1"></i> Selesai</span>
                         <% } else { %>
                           <span class="status-pill-modern pill-warning" style="font-size: 0.72rem;">Belum Selesai</span>
                         <% } %>
@@ -334,7 +334,7 @@
                   <tr>
                     <td class="ps-3"><%= item.keperluan || '-' %></td>
                     <td>Tugas telah dilaksanakan sesuai arahan.</td>
-                    <td class="text-center pe-3"><span class="status-pill-modern pill-success" style="font-size: 0.72rem;">✓ Selesai</span></td>
+                    <td class="text-center pe-3"><span class="status-pill-modern pill-success" style="font-size: 0.72rem;"><i class="fas fa-check me-1"></i> Selesai</span></td>
                   </tr>
                 <% } %>
               </tbody>
