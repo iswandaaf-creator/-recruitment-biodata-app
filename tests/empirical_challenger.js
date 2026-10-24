@@ -223,6 +223,11 @@ async function runAllEmpiricalTests() {
     stdio: ['ignore', 'pipe', 'pipe']
   });
 
+  let serverStderr = '';
+  let serverStdout = '';
+  serverProcess.stderr.on('data', d => serverStderr += d.toString());
+  serverProcess.stdout.on('data', d => serverStdout += d.toString());
+
   // Wait for server health endpoint to become ready (up to 20s)
   let serverReady = false;
   for (let i = 0; i < 40; i++) {
@@ -240,7 +245,9 @@ async function runAllEmpiricalTests() {
   }
 
   if (!serverReady) {
-    recordResult('Server startup and /health responsiveness', false, 'Server failed to start on port ' + TEST_PORT);
+    console.error('Server stdout:', serverStdout);
+    console.error('Server stderr:', serverStderr);
+    recordResult('Server startup and /health responsiveness', false, 'Server failed to start on port ' + TEST_PORT + ': ' + serverStderr);
     serverProcess.kill();
     process.exit(1);
   }

@@ -544,7 +544,7 @@
                 </td>
                 <td class="text-center pe-4">
                   <div class="btn-group btn-group-sm">
-                    <button class="btn btn-outline-primary btn-sm rounded-start-pill py-1 px-2" title="Edit Transaksi" onclick='openEditModal(<%= JSON.stringify(nota) %>)'>
+                    <button class="btn btn-outline-primary btn-sm rounded-start-pill py-1 px-2" title="Edit Transaksi" onclick="openEditModal(<%= nota.id %>)">
                       <i class="fas fa-edit"></i>
                     </button>
                     <form action="/api/it/expenses/delete/<%= nota.id %>" method="POST" class="d-inline" onsubmit="return confirm('Yakin hapus transaksi <%= nota.no_transaksi %>?');">

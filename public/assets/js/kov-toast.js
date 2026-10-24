@@ -206,14 +206,17 @@
     approvalFeedback: showApprovalFeedback
   };
 
-  // Auto-bind form submissions with data-kov-loading
+  // Auto-bind form submissions with data-kov-loading (failsafe for validation)
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('form[data-kov-loading]').forEach(form => {
-      form.addEventListener('submit', function() {
+      form.addEventListener('submit', function(e) {
+        if (!form.checkValidity()) {
+          return; // Let browser HTML5 validation show without disabling the button!
+        }
         const submitBtn = this.querySelector('button[type="submit"]');
         if (submitBtn) {
           const text = submitBtn.getAttribute('data-loading-text') || 'Menyimpan...';
-          setButtonLoading(submitBtn, text);
+          setTimeout(() => setButtonLoading(submitBtn, text), 0);
         }
       });
     });

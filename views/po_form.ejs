@@ -507,18 +507,29 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
     // Initial clean item row
     addItemRow();
 
-    // Signature Pad
+    // Signature Pad with Persistent State
     const canvas = document.getElementById('sigCanvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
+    let hasDrawn = false;
 
     function resizeCanvas() {
       const rect = canvas.parentElement.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      let tempImage = null;
+      if (hasDrawn) {
+        tempImage = canvas.toDataURL();
+      }
       canvas.width = rect.width;
       canvas.height = rect.height;
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
       ctx.strokeStyle = '#064e3b';
+      if (tempImage) {
+        const img = new Image();
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        img.src = tempImage;
+      }
     }
     window.addEventListener('load', resizeCanvas);
     window.addEventListener('resize', resizeCanvas);
@@ -529,16 +540,17 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       const clientY = e.touches ? e.touches[0].clientY : e.clientY;
       return { x: clientX - rect.left, y: clientY - rect.top };
     }
-    canvas.addEventListener('mousedown', (e) => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+    canvas.addEventListener('mousedown', (e) => { isDrawing = true; hasDrawn = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
     canvas.addEventListener('mousemove', (e) => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
     canvas.addEventListener('mouseup', () => { isDrawing = false; });
     
-    canvas.addEventListener('touchstart', (e) => { isDrawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); });
+    canvas.addEventListener('touchstart', (e) => { isDrawing = true; hasDrawn = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); e.preventDefault(); });
     canvas.addEventListener('touchmove', (e) => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); });
     canvas.addEventListener('touchend', () => { isDrawing = false; });
 
     document.getElementById('btnClearSig').addEventListener('click', () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      hasDrawn = false;
       const sigInput = document.getElementById('signature_dibuat');
       if (sigInput) sigInput.value = '';
     });

@@ -93,10 +93,53 @@
           <h2 class="fw-bold text-success mb-1" style="color: var(--kov-primary-600) !important;">PURCHASE ORDER</h2>
           <div class="fw-bold text-dark">No. PO : <%= po.no_po || ('PO/KOV/' + po.id) %></div>
           <div class="text-secondary small">Tanggal : <%= formatDate(po.tanggal_po) %></div>
-          <div class="mt-2">
-            <span class="status-pill-modern pill-success" style="font-size: 0.8rem;">
+          <div class="mt-2 d-flex justify-content-md-end align-items-center gap-2">
+            <% 
+              const sLow = (po.status_po || '').toLowerCase();
+              let sPill = 'pill-success';
+              if (sLow.includes('tolak') || sLow.includes('batal')) sPill = 'pill-danger';
+              else if (sLow.includes('pending') || sLow.includes('review')) sPill = 'pill-warning';
+              else if (sLow.includes('selesai')) sPill = 'pill-primary';
+            %>
+            <span class="status-pill-modern <%= sPill %>" style="font-size: 0.8rem;">
               <span class="status-dot-pulse"></span> <%= po.status_po || 'Reguler / Approved' %>
             </span>
+            <div class="dropdown d-inline-block">
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 20px; font-size: 0.75rem; padding: 2px 10px;">
+                <i class="fas fa-pen-to-square me-1"></i>Status PO
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3">
+                <li>
+                  <form action="/api/operasional/po/status/<%= po.id %>" method="POST" class="p-1">
+                    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                    <input type="hidden" name="status_po" value="Reguler / Approved">
+                    <button type="submit" class="dropdown-item rounded-2 small text-success py-1.5"><i class="fas fa-check-circle me-2"></i>Setujui (Approved)</button>
+                  </form>
+                </li>
+                <li>
+                  <form action="/api/operasional/po/status/<%= po.id %>" method="POST" class="p-1">
+                    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                    <input type="hidden" name="status_po" value="Pending / Review">
+                    <button type="submit" class="dropdown-item rounded-2 small text-warning py-1.5"><i class="fas fa-clock me-2"></i>Pending Review</button>
+                  </form>
+                </li>
+                <li>
+                  <form action="/api/operasional/po/status/<%= po.id %>" method="POST" class="p-1">
+                    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                    <input type="hidden" name="status_po" value="Selesai / Terkirim">
+                    <button type="submit" class="dropdown-item rounded-2 small text-primary py-1.5"><i class="fas fa-box-check me-2"></i>Selesai / Terkirim</button>
+                  </form>
+                </li>
+                <li><hr class="dropdown-divider my-1"></li>
+                <li>
+                  <form action="/api/operasional/po/status/<%= po.id %>" method="POST" class="p-1">
+                    <input type="hidden" name="_csrf" value="<%= typeof csrfToken !== 'undefined' ? csrfToken : '' %>">
+                    <input type="hidden" name="status_po" value="Ditolak / Dibatalkan">
+                    <button type="submit" class="dropdown-item rounded-2 small text-danger py-1.5"><i class="fas fa-times-circle me-2"></i>Tolak (Rejected)</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -223,9 +266,9 @@
           </div>
           <div class="fw-bold text-dark mt-2"><%= po.vendor_konfirmasi_nama || po.vendor_nama || 'PT AGRES INFO TEKNOLOGI' %></div>
           <div class="small text-muted"><%= po.vendor_konfirmasi_jabatan || 'Perwakilan Resmi' %></div>
+        </div>
       </div>
     </div>
-  </div>
 
   </main>
     </div>

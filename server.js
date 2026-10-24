@@ -1721,6 +1721,25 @@ app.get('/admin/operasional/po/detail/:id', requireOperasionalAuth, (req, res) =
   });
 });
 
+// Update PO Status (Approve / Reject / Pending / Selesai)
+app.post('/api/operasional/po/status/:id', requireOperasionalAuth, (req, res) => {
+  const { status_po } = req.body;
+  if (!status_po) {
+    return res.status(400).json({ error: 'Status PO diperlukan' });
+  }
+  db.run(
+    'UPDATE purchase_orders SET status_po = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
+    [status_po, req.params.id],
+    function(err) {
+      if (err) return res.status(500).json({ error: err.message });
+      if (req.headers.accept && req.headers.accept.includes('application/json')) {
+        return res.json({ success: true, message: 'Status PO berhasil diperbarui', status_po });
+      }
+      res.redirect('/admin/operasional/po/detail/' + req.params.id);
+    }
+  );
+});
+
 // Delete PO (Super Admin Only)
 app.post('/admin/operasional/po/delete/:id', requireAuth, requireSuperAdmin, (req, res) => {
   db.run('DELETE FROM purchase_orders WHERE id = ?', [req.params.id], (err) => {

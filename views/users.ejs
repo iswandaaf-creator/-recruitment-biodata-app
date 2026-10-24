@@ -234,7 +234,31 @@
                     </td>
                   </tr>
 
-                  <!-- EDIT USER MODAL -->
+                  
+                          <div class="modal-footer bg-light py-2">
+                            <button type="button" class="btn-kov-secondary btn-kov-sm" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn-kov-primary btn-kov-sm" data-loading-text="Menyimpan...">
+                              <i class="fas fa-save me-1"></i> Simpan Perubahan
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- EDIT USER MODALS (Rendered outside table for valid DOM hierarchy & Bootstrap 5 compliance) -->
+  <% users.forEach(u => { 
+    const uDivs = (u.reviewer_divisions || '').split(',').map(d => d.trim()).filter(Boolean);
+  %>
+  <!-- EDIT USER MODAL -->
                   <div class="modal fade text-start" id="editModal<%= u.id %>" tabindex="-1" aria-labelledby="editModalLabel<%= u.id %>" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content border-0 shadow-lg rounded-4">
@@ -301,24 +325,7 @@
                             </div>
 
                           </div>
-                          <div class="modal-footer bg-light py-2">
-                            <button type="button" class="btn-kov-secondary btn-kov-sm" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn-kov-primary btn-kov-sm" data-loading-text="Menyimpan...">
-                              <i class="fas fa-save me-1"></i> Simpan Perubahan
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-
-                <% }); %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+  <% }); %>
 
       </main>
     </div>
