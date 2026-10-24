@@ -622,6 +622,13 @@
 
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
+    function getAppBaseUrl() {
+      if (window.location && window.location.origin && window.location.origin !== 'null') {
+        return window.location.origin;
+      }
+      return 'https://internal.kovgroups.com';
+    }
+
     function getRandomToken() {
       const chars = '23456789abcdefghjkmnpqrstuvwxyz';
       let result = '';
@@ -633,14 +640,12 @@
 
     function generateRandomShareLink(shouldCopy = true) {
       const token = getRandomToken();
-      const url = window.location.origin + '/?ref=' + token;
+      const url = getAppBaseUrl() + '/?ref=' + token;
       const shareEl = document.getElementById('shareUrl');
       if (shareEl) {
-        shareEl.style.opacity = '0.3';
-        setTimeout(() => {
-          shareEl.innerText = url;
-          shareEl.style.opacity = '1';
-        }, 150);
+        shareEl.innerText = url;
+        shareEl.classList.add('bg-warning', 'bg-opacity-25');
+        setTimeout(() => shareEl.classList.remove('bg-warning', 'bg-opacity-25'), 400);
       }
 
       const btnAcak = document.getElementById('btnAcakToken');
@@ -654,7 +659,7 @@
             btnAcak.innerHTML = origContent;
             btnAcak.disabled = false;
           }, 1200);
-        }, 300);
+        }, 200);
       }
 
       if (shouldCopy) {
@@ -667,7 +672,11 @@
 
     function generateAndCopyShareLink() {
       const shareEl = document.getElementById('shareUrl');
-      const url = (shareEl && shareEl.innerText.trim()) ? shareEl.innerText.trim() : (window.location.origin + '/?ref=' + getRandomToken());
+      const url = (shareEl && shareEl.innerText.trim() && !shareEl.innerText.includes('Sysujatg')) 
+        ? shareEl.innerText.trim() 
+        : (getAppBaseUrl() + '/?ref=' + getRandomToken());
+      
+      if (shareEl) shareEl.innerText = url;
       copyTextWithFeedback(url, 'Tautan formulir rekrutmen berhasil disalin:\n' + url);
     }
 
@@ -888,9 +897,70 @@
       rows.forEach(row => tbody.appendChild(row));
     }
 
+    window.getRandomToken = getRandomToken;
+    window.generateRandomShareLink = generateRandomShareLink;
+    window.generateAndCopyShareLink = generateAndCopyShareLink;
+    window.setFilter = setFilter;
+    window.filterByStatusCard = filterByStatusCard;
+    window.toggleSort = toggleSort;
+    window.applyFilterAndSort = applyFilterAndSort;
+
+
     document.addEventListener('DOMContentLoaded', () => {
       updateKovLiveClock();
       setInterval(updateKovLiveClock, 30000);
+      try {
+        generateRandomShareLink(false);
+      } catch (e) {
+        console.warn('Initial token generation notice:', e);
+      }
+
+      // Explicit Event Listeners Binding (Bulletproof against CSP script-src-attr)
+      document.querySelectorAll('.kov-kpi-card').forEach(card => {
+        card.addEventListener('click', function() {
+          const kpi = this.getAttribute('data-kpi');
+          if (kpi) filterByStatusCard(kpi);
+        });
+        card.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const kpi = this.getAttribute('data-kpi');
+            if (kpi) filterByStatusCard(kpi);
+          }
+        });
+      });
+
+      document.querySelectorAll('.kov-filter-pill-botanical').forEach(pill => {
+        pill.addEventListener('click', function() {
+          const filter = this.getAttribute('data-filter');
+          if (filter) setFilter(filter, this);
+        });
+      });
+
+      const btnAcak = document.getElementById('btnAcakToken');
+      if (btnAcak) {
+        btnAcak.addEventListener('click', function(e) {
+          e.preventDefault();
+          generateRandomShareLink(false);
+        });
+      }
+
+      const btnSalin = document.getElementById('btnSalinLink');
+      if (btnSalin) {
+        btnSalin.addEventListener('click', function(e) {
+          e.preventDefault();
+          generateAndCopyShareLink();
+        });
+      }
+
+      const btnIconCopy = document.getElementById('btnIconCopy');
+      if (btnIconCopy) {
+        btnIconCopy.addEventListener('click', function(e) {
+          e.preventDefault();
+          generateAndCopyShareLink();
+        });
+      }
+
       applyFilterAndSort();
     });
   </script>
