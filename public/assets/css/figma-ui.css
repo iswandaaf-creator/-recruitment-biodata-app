@@ -222,7 +222,10 @@
 }
 
 [data-theme="dark"] .kov-sidebar-footer {
-  border-top-color: #3a2251 !important;
+  padding: 1rem 0.85rem 2.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.25);
+  margin-top: auto;
 }
 
 [data-theme="dark"] .kov-nav-group-title {
@@ -2275,6 +2278,20 @@ body {
   cursor: pointer;
   user-select: none;
 }
+
+.kov-kpi-card.active {
+  border-color: #059669 !important;
+  background: #f0fdf4 !important;
+  box-shadow: 0 0 0 2px #059669, 0 8px 24px rgba(5, 150, 105, 0.16) !important;
+  transform: translateY(-2px);
+}
+.kov-kpi-card.active .kov-kpi-arrow-btn {
+  background: #059669 !important;
+  color: #ffffff !important;
+  border-color: #059669 !important;
+  transform: translateX(3px);
+}
+
 .kov-kpi-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 24px rgba(7, 43, 34, 0.09);
@@ -2846,6 +2863,18 @@ body {
   background: #0d2822;
   border-color: #1b453b;
 }
+
+[data-theme="dark"] .kov-kpi-card.active {
+  border-color: #10b981 !important;
+  background: #064e3b !important;
+  box-shadow: 0 0 0 2px #10b981, 0 8px 24px rgba(16, 185, 129, 0.25) !important;
+}
+[data-theme="dark"] .kov-kpi-card.active .kov-kpi-arrow-btn {
+  background: #10b981 !important;
+  color: #090d16 !important;
+  border-color: #10b981 !important;
+}
+
 [data-theme="dark"] .kov-kpi-card:hover {
   border-color: #00a86b;
 }
@@ -3015,4 +3044,19 @@ body {
 }
 [data-theme="dark"] .table-custom-modern tbody tr:hover, [data-theme="dark"] .table-hover tbody tr:hover {
   background-color: rgba(30, 41, 59, 0.5) !important;
+}
+
+
+.kov-botanical-table-wrap::-webkit-scrollbar {
+  height: 6px;
+}
+.kov-botanical-table-wrap::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+.kov-botanical-table-wrap::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+[data-theme="dark"] .kov-botanical-table-wrap::-webkit-scrollbar-thumb {
+  background: #1e3a31;
 }

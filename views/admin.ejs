@@ -12,6 +12,9 @@
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   <link href="/assets/css/figma-ui.css" rel="stylesheet">
+  <!-- Toast & Theme Global Utilities in Head for Immediate Availability -->
+  <script src="/assets/js/kov-toast.js"></script>
+  <script src="/assets/js/kov-theme.js"></script>
   <style>
     /* Custom page-level enhancements */
     .filter-pill {
@@ -43,12 +46,6 @@
       box-shadow: 0 2px 6px rgba(15, 23, 42, 0.2);
     }
 
-    .filter-pill.active-warning {
-      background: var(--kov-amber) !important;
-      color: #ffffff !important;
-      border-color: var(--kov-amber) !important;
-    }
-
     .sortable-header {
       cursor: pointer;
       user-select: none;
@@ -60,24 +57,54 @@
       color: var(--kov-slate-900);
     }
 
-    .share-banner-modern {
-      background: #ffffff;
-      border: 1px solid var(--kov-border);
-      border-left: 4px solid var(--kov-primary-500);
-      border-radius: var(--kov-radius-lg);
-      padding: 1rem 1.25rem;
-      box-shadow: var(--kov-shadow-xs);
+    /* Table row transitions */
+    #candidateTableBody tr {
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .share-token-box {
-      background: var(--kov-slate-50);
-      border: 1px solid var(--kov-slate-200);
-      border-radius: var(--kov-radius-sm);
-      padding: 0.35rem 0.75rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.85rem;
-      color: var(--kov-slate-900);
-      font-weight: 600;
+    /* Topbar Dropdown Polish */
+    .kov-notif-dropdown-menu {
+      min-width: 320px;
+      max-width: 360px;
+      border-radius: 14px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      margin-top: 8px !important;
+    }
+
+    [data-theme="dark"] .kov-notif-dropdown-menu {
+      background: #0f172a;
+      border-color: #1e293b;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    [data-theme="dark"] .kov-notif-dropdown-menu .bg-light {
+      background: #1e293b !important;
+      color: #f1f5f9 !important;
+    }
+
+    .kov-user-dropdown-menu {
+      min-width: 230px;
+      border-radius: 14px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
+      border: 1px solid #e2e8f0;
+      margin-top: 8px !important;
+    }
+
+    [data-theme="dark"] .kov-user-dropdown-menu {
+      background: #0f172a;
+      border-color: #1e293b;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    [data-theme="dark"] .kov-user-dropdown-menu .dropdown-item {
+      color: #cbd5e1;
+    }
+
+    [data-theme="dark"] .kov-user-dropdown-menu .dropdown-item:hover {
+      background: #1e293b;
+      color: #ffffff;
     }
   </style>
 </head>
@@ -98,39 +125,100 @@
             <span class="d-none d-md-inline" style="font-size: 12px; color: var(--kov-botanical-text-muted, #5e8377); margin-left: 8px;">Kelola proses rekrutmen dengan lebih mudah dan terorganisir</span>
           </div>
         </div>
+
         <div class="kov-topbar-right d-flex align-items-center gap-2">
           <% 
             const pendingCandidateCount = (candidates || []).filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length;
+            const duplicateCount = (candidates || []).filter(c => c.is_duplicate).length;
           %>
-          <!-- Notification Bell -->
-          <button type="button" class="kov-topbar-bell-btn" title="Notifikasi Pelamar" aria-label="Notifikasi Pelamar Tertunda" onclick="KovToast.info('<%= pendingCandidateCount > 0 ? pendingCandidateCount + " pelamar menunggu review dan keputusan status." : "Tidak ada berkas pelamar tertunda." %>', 'Notifikasi Pelamar')">
-            <i class="far fa-bell"></i>
-            <% if (pendingCandidateCount > 0) { %>
-              <span class="kov-topbar-bell-dot"></span>
-            <% } %>
-          </button>
+
+          <!-- Notification Bell Dropdown -->
+          <div class="dropdown">
+            <button type="button" class="kov-topbar-bell-btn position-relative" id="notifDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Pusat Notifikasi Rekrutmen" aria-label="Pusat Notifikasi">
+              <i class="far fa-bell"></i>
+              <% if (pendingCandidateCount > 0 || duplicateCount > 0) { %>
+                <span class="kov-topbar-bell-dot"></span>
+              <% } %>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end kov-notif-dropdown-menu p-0" aria-labelledby="notifDropdownBtn">
+              <div class="p-3 bg-light border-bottom d-flex align-items-center justify-content-between">
+                <span class="fw-bold small text-dark"><i class="fas fa-bell me-1.5 text-success"></i> Notifikasi Rekrutmen</span>
+                <span class="badge bg-success bg-opacity-25 text-success border border-success" style="font-size: 0.7rem;"><%= pendingCandidateCount %> Perlu Tindakan</span>
+              </div>
+              <div class="p-2" style="max-height: 280px; overflow-y: auto;">
+                <% if (pendingCandidateCount > 0) { %>
+                  <a href="javascript:void(0)" onclick="filterByStatusCard('Belum Diproses')" class="dropdown-item d-flex align-items-start gap-2.5 p-2 rounded-2">
+                    <div class="rounded-circle bg-warning bg-opacity-25 text-warning d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; font-size: 0.85rem;">
+                      <i class="fas fa-clock text-warning"></i>
+                    </div>
+                    <div class="flex-grow-1 min-w-0">
+                      <div class="fw-bold small leading-tight"><%= pendingCandidateCount %> Berkas Perlu Review</div>
+                      <div class="text-muted" style="font-size: 0.72rem;">Klik untuk menyaring daftar pelamar belum diproses.</div>
+                    </div>
+                  </a>
+                <% } else { %>
+                  <div class="text-center py-3 text-muted small">
+                    <i class="fas fa-circle-check text-success fa-2x mb-2 d-block"></i>
+                    Seluruh berkas pelamar telah diproses
+                  </div>
+                <% } %>
+
+                <% if (duplicateCount > 0) { %>
+                  <a href="javascript:void(0)" onclick="filterByStatusCard('duplicate')" class="dropdown-item d-flex align-items-start gap-2.5 p-2 rounded-2 mt-1">
+                    <div class="rounded-circle bg-danger bg-opacity-25 text-danger d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; font-size: 0.85rem;">
+                      <i class="fas fa-triangle-exclamation text-danger"></i>
+                    </div>
+                    <div class="flex-grow-1 min-w-0">
+                      <div class="fw-bold small leading-tight"><%= duplicateCount %> Berkas Terindikasi Duplikat</div>
+                      <div class="text-muted" style="font-size: 0.72rem;">Klik untuk menyaring pelamar terdeteksi ganda.</div>
+                    </div>
+                  </a>
+                <% } %>
+              </div>
+              <div class="p-2 bg-light border-top text-center">
+                <a href="javascript:void(0)" onclick="filterByStatusCard('all')" class="btn btn-sm btn-link text-success text-decoration-none fw-semibold p-0" style="font-size: 0.75rem;">
+                  Tampilkan Semua Pelamar (<%= candidates.length %>)
+                </a>
+              </div>
+            </div>
+          </div>
 
           <!-- Real-Time Date & Time Widget -->
           <div class="kov-topbar-clock d-none d-sm-inline-flex">
             <i class="far fa-calendar-days text-success fs-6"></i>
             <div class="d-flex flex-column text-start" style="line-height: 1.15;">
-              <span id="kovLiveDate" style="font-weight: 700; font-size: 0.78rem;">20 Okt 2026</span>
-              <span id="kovLiveTime" style="font-size: 0.68rem; color: #5e8377;">10:24 WIB</span>
+              <span id="kovLiveDate" style="font-weight: 700; font-size: 0.78rem;">25 Okt 2026</span>
+              <span id="kovLiveTime" style="font-size: 0.68rem; color: #5e8377;">00:20 WIB</span>
             </div>
           </div>
 
-          <!-- User Profile Pill -->
-          <div class="kov-topbar-user-pill">
-            <div class="kov-avatar-monogram" style="width: 32px; height: 32px; font-size: 0.85rem;">
-              <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
-            </div>
-            <div class="d-none d-md-flex flex-column text-start" style="line-height: 1.15;">
-              <span style="font-size: 0.78rem; font-weight: 700; color: #072b22;">
-                <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %>
-              </span>
-              <span style="font-size: 0.68rem; color: #5e8377;">
-                <%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %>
-              </span>
+          <!-- Interactive User Profile Dropdown -->
+          <div class="dropdown">
+            <button type="button" class="kov-topbar-user-pill border-0 bg-transparent p-0" id="userMenuDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Menu Pengguna" style="cursor: pointer;">
+              <div class="kov-avatar-monogram" style="width: 32px; height: 32px; font-size: 0.85rem;">
+                <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
+              </div>
+              <div class="d-none d-md-flex flex-column text-start" style="line-height: 1.15;">
+                <span style="font-size: 0.78rem; font-weight: 700; color: #072b22;">
+                  <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %>
+                </span>
+                <span style="font-size: 0.68rem; color: #5e8377;">
+                  <%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %>
+                </span>
+              </div>
+              <i class="fas fa-chevron-down ms-1 text-muted" style="font-size: 0.65rem;"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end kov-user-dropdown-menu p-2" aria-labelledby="userMenuDropdownBtn">
+              <div class="px-3 py-2 border-bottom mb-1">
+                <div class="fw-bold text-dark small"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %></div>
+                <div class="text-muted" style="font-size: 0.72rem;"><%= (typeof user !== 'undefined' && user && user.username) ? '@' + user.username : '@admin' %> &bull; <span class="badge bg-success bg-opacity-25 text-success"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %></span></div>
+              </div>
+              <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
+                <a class="dropdown-item rounded-2 py-1.5 small" href="/admin/users"><i class="fas fa-users-gear me-2 text-primary"></i> Kelola User &amp; Role</a>
+              <% } %>
+              <a class="dropdown-item rounded-2 py-1.5 small" href="javascript:void(0)" onclick="toggleKovTheme()"><i class="fas fa-moon me-2 text-warning"></i> Ganti Tema (Gelap/Terang)</a>
+              <div class="dropdown-divider my-1"></div>
+              <a class="dropdown-item rounded-2 py-1.5 small text-danger fw-semibold" href="/admin/logout"><i class="fas fa-arrow-right-from-bracket me-2"></i> Keluar (Logout)</a>
             </div>
           </div>
 
@@ -147,7 +235,7 @@
         <!-- 6 KPI Metric Cards Grid -->
         <div class="kov-kpi-grid">
           <!-- 1. Total Pelamar -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('all')" title="Klik untuk filter: Semua Pelamar">
+          <div class="kov-kpi-card active" data-kpi="all" onclick="filterByStatusCard('all')" title="Klik untuk filter: Semua Pelamar" role="button" tabindex="0">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-mint">
                 <i class="fas fa-user-group"></i>
@@ -162,7 +250,7 @@
           </div>
 
           <!-- 2. Perlu Review -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('Belum Diproses')" title="Klik untuk filter: Perlu Review">
+          <div class="kov-kpi-card" data-kpi="Belum Diproses" onclick="filterByStatusCard('Belum Diproses')" title="Klik untuk filter: Perlu Review" role="button" tabindex="0">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-blue">
                 <i class="fas fa-file-lines"></i>
@@ -177,7 +265,7 @@
           </div>
 
           <!-- 3. Diterima -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('Diterima')" title="Klik untuk filter: Diterima">
+          <div class="kov-kpi-card" data-kpi="Diterima" onclick="filterByStatusCard('Diterima')" title="Klik untuk filter: Diterima" role="button" tabindex="0">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-emerald">
                 <i class="fas fa-circle-check"></i>
@@ -192,7 +280,7 @@
           </div>
 
           <!-- 4. Dipertimbangkan -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('Dipertimbangkan')" title="Klik untuk filter: Dipertimbangkan">
+          <div class="kov-kpi-card" data-kpi="Dipertimbangkan" onclick="filterByStatusCard('Dipertimbangkan')" title="Klik untuk filter: Dipertimbangkan" role="button" tabindex="0">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-amber">
                 <i class="fas fa-hourglass-half"></i>
@@ -207,7 +295,7 @@
           </div>
 
           <!-- 5. Ditolak -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('Ditolak')" title="Klik untuk filter: Ditolak">
+          <div class="kov-kpi-card" data-kpi="Ditolak" onclick="filterByStatusCard('Ditolak')" title="Klik untuk filter: Ditolak" role="button" tabindex="0">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-rose">
                 <i class="fas fa-circle-xmark"></i>
@@ -222,7 +310,7 @@
           </div>
 
           <!-- 6. Duplikat -->
-          <div class="kov-kpi-card" onclick="filterByStatusCard('duplicate')" title="Klik untuk filter: Duplikat">
+          <div class="kov-kpi-card" data-kpi="duplicate" onclick="filterByStatusCard('duplicate')" title="Klik untuk filter: Duplikat" role="button" tabindex="0">
             <div class="kov-kpi-card-top">
               <div class="kov-kpi-icon-box kov-icon-orange">
                 <i class="fas fa-triangle-exclamation"></i>
@@ -251,9 +339,9 @@
               <div class="kov-share-title">Link Formulir Kandidat</div>
               <div class="kov-share-subtitle d-flex align-items-center gap-2 mt-1 flex-wrap">
                 <div class="kov-share-url-pill">
-                  <span id="shareUrl" class="user-select-all"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
-                  <button type="button" class="kov-url-copy-btn" onclick="generateAndCopyShareLink()" title="Salin URL">
-                    <i class="far fa-copy"></i>
+                  <span id="shareUrl" class="user-select-all font-monospace" style="transition: opacity 0.15s ease;"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
+                  <button type="button" class="kov-url-copy-btn" id="btnIconCopy" onclick="generateAndCopyShareLink()" title="Salin URL ke Clipboard" aria-label="Salin URL">
+                    <i class="far fa-copy" id="iconCopySmall"></i>
                   </button>
                 </div>
               </div>
@@ -263,11 +351,11 @@
             <a href="/api/export/excel" class="kov-btn-outline-pill text-decoration-none" title="Download Excel Seluruh Pelamar" aria-label="Export Seluruh Data Pelamar ke Excel">
               <i class="fas fa-file-excel me-1 text-success"></i> Export Excel
             </a>
-            <button type="button" class="kov-btn-outline-pill" onclick="generateRandomShareLink(false)">
-              <i class="fas fa-shuffle me-1 text-success"></i> Acak Token Baru
+            <button type="button" class="kov-btn-outline-pill" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru">
+              <i class="fas fa-shuffle me-1 text-success" id="iconAcak"></i> Acak Token Baru
             </button>
-            <button type="button" class="kov-btn-mint-pill" onclick="generateAndCopyShareLink()">
-              <i class="fas fa-link me-1"></i> Salin Link
+            <button type="button" class="kov-btn-mint-pill" id="btnSalinLink" onclick="generateAndCopyShareLink()" title="Salin tautan formulir pelamar">
+              <i class="fas fa-link me-1" id="iconSalin"></i> Salin Link
             </button>
           </div>
         </div>
@@ -364,20 +452,20 @@
             <table class="kov-botanical-table" id="candidateTable">
               <thead>
                 <tr>
-                  <th style="width: 65px;">ID</th>
-                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('date'); event.preventDefault(); }" style="min-width: 140px; cursor: pointer;">
+                  <th style="width: 50px;">ID</th>
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('date'); event.preventDefault(); }" style="min-width: 120px; cursor: pointer;">
                     TANGGAL SUBMIT <i class="fas fa-sort ms-1 opacity-50" id="sortIconDate"></i>
                   </th>
-                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('name'); event.preventDefault(); }" style="min-width: 250px; cursor: pointer;">
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('name'); event.preventDefault(); }" style="min-width: 200px; cursor: pointer;">
                     NAMA &amp; IDENTITAS <i class="fas fa-sort ms-1 opacity-50" id="sortIconName"></i>
                   </th>
-                  <th style="min-width: 160px;">POSISI DILAMAR</th>
-                  <th style="min-width: 180px;">KONTAK</th>
-                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('status'); event.preventDefault(); }" style="min-width: 160px; cursor: pointer;">
+                  <th style="min-width: 130px;">POSISI DILAMAR</th>
+                  <th style="min-width: 140px;">KONTAK</th>
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('status'); event.preventDefault(); }" style="min-width: 130px; cursor: pointer;">
                     STATUS SELEKSI <i class="fas fa-sort ms-1 opacity-50" id="sortIconStatus"></i>
                   </th>
-                  <th style="min-width: 130px;">INDIKATOR</th>
-                  <th class="text-center" style="min-width: 140px;">AKSI</th>
+                  <th style="min-width: 90px;">INDIKATOR</th>
+                  <th class="text-center" style="min-width: 110px;">AKSI</th>
                 </tr>
               </thead>
               <tbody id="candidateTableBody">
@@ -395,11 +483,12 @@
                 <% candidates.forEach(c => { 
                   const cDiv = c.divisi || 'Operasional';
                   const dLow = cDiv.toLowerCase();
+                  const rawStatus = (c.kesimpulan_status || 'Belum Diproses').trim();
                 %>
                   <tr data-id="<%= c.id %>"
-                      data-date="<%= new Date(c.created_at).getTime() %>"
+                      data-date="<%= c.created_at ? new Date(c.created_at).getTime() : 0 %>"
                       data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
-                      data-status="<%= c.kesimpulan_status || 'Belum Diproses' %>"
+                      data-status="<%= rawStatus %>"
                       data-divisi="<%= dLow %>"
                       data-duplicate="<%= c.is_duplicate ? 'true' : 'false' %>">
                     <td class="fw-bold text-muted">#<%= c.id %></td>
@@ -465,7 +554,7 @@
                     </td>
                     <td>
                       <% 
-                        const statusName = c.kesimpulan_status || 'Belum Diproses';
+                        const statusName = rawStatus;
                         let pillBg = '#eff6ff', pillColor = '#1d4ed8', pillBorder = '#dbeafe', dotBg = '#2563eb';
                         if (statusName === 'Diterima') {
                           pillBg = '#f0fdf4'; pillColor = '#15803d'; pillBorder = '#bbf7d0'; dotBg = '#16a34a';
@@ -533,12 +622,6 @@
 
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const token = getRandomToken();
-      const url = window.location.origin + '/?ref=' + token;
-      document.getElementById('shareUrl').innerText = url;
-    });
-
     function getRandomToken() {
       const chars = '23456789abcdefghjkmnpqrstuvwxyz';
       let result = '';
@@ -551,62 +634,152 @@
     function generateRandomShareLink(shouldCopy = true) {
       const token = getRandomToken();
       const url = window.location.origin + '/?ref=' + token;
-      document.getElementById('shareUrl').innerText = url;
+      const shareEl = document.getElementById('shareUrl');
+      if (shareEl) {
+        shareEl.style.opacity = '0.3';
+        setTimeout(() => {
+          shareEl.innerText = url;
+          shareEl.style.opacity = '1';
+        }, 150);
+      }
+
+      const btnAcak = document.getElementById('btnAcakToken');
+      if (btnAcak) {
+        const origContent = btnAcak.innerHTML;
+        btnAcak.innerHTML = '<i class="fas fa-shuffle fa-spin me-1 text-success"></i> Mengacak...';
+        btnAcak.disabled = true;
+        setTimeout(() => {
+          btnAcak.innerHTML = '<i class="fas fa-check me-1 text-success"></i> Token Baru Aktif!';
+          setTimeout(() => {
+            btnAcak.innerHTML = origContent;
+            btnAcak.disabled = false;
+          }, 1200);
+        }, 300);
+      }
 
       if (shouldCopy) {
-        navigator.clipboard.writeText(url).then(() => {
-          KovToast.success('Tautan form rekrutmen berhasil disalin ke clipboard:\n' + url, 'Link Formulir Disalin');
-        }).catch(() => {
-          KovToast.info('Tautan: ' + url, 'Link Formulir');
-        });
+        copyTextWithFeedback(url, 'Tautan formulir rekrutmen berhasil disalin ke clipboard:\n' + url);
+      } else if (window.KovToast && typeof window.KovToast.info === 'function') {
+        window.KovToast.info('Token baru aktif: ' + token, 'Token Diperbarui');
       }
       return url;
     }
 
     function generateAndCopyShareLink() {
-      generateRandomShareLink(true);
+      const shareEl = document.getElementById('shareUrl');
+      const url = (shareEl && shareEl.innerText.trim()) ? shareEl.innerText.trim() : (window.location.origin + '/?ref=' + getRandomToken());
+      copyTextWithFeedback(url, 'Tautan formulir rekrutmen berhasil disalin:\n' + url);
+    }
+
+    function copyTextWithFeedback(text, successMsg) {
+      const btnSalin = document.getElementById('btnSalinLink');
+      const iconCopy = document.getElementById('iconCopySmall');
+      const origSalinText = btnSalin ? btnSalin.innerHTML : '';
+
+      function triggerSuccessUI() {
+        if (btnSalin) {
+          btnSalin.innerHTML = '<i class="fas fa-check me-1"></i> Tersalin!';
+          btnSalin.style.background = '#047857';
+          setTimeout(() => {
+            btnSalin.innerHTML = origSalinText;
+            btnSalin.style.background = '';
+          }, 2000);
+        }
+        if (iconCopy) {
+          iconCopy.className = 'fas fa-check text-success';
+          setTimeout(() => {
+            iconCopy.className = 'far fa-copy';
+          }, 2000);
+        }
+        if (window.KovToast && typeof window.KovToast.success === 'function') {
+          window.KovToast.success(successMsg || 'Berhasil disalin ke clipboard!', 'Tautan Disalin');
+        }
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(triggerSuccessUI).catch(() => fallbackClipboardCopy(text, triggerSuccessUI));
+      } else {
+        fallbackClipboardCopy(text, triggerSuccessUI);
+      }
+    }
+
+    function fallbackClipboardCopy(text, onSuccess) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.top = '-9999px';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (success && onSuccess) onSuccess();
+        else if (window.KovToast) window.KovToast.info('Tautan: ' + text, 'Salin Manual');
+      } catch (e) {
+        if (window.KovToast) window.KovToast.info('Tautan: ' + text, 'Salin Manual');
+      }
     }
 
     // Real-Time Date & Time Clock
     function updateKovLiveClock() {
       const dateEl = document.getElementById('kovLiveDate');
       const timeEl = document.getElementById('kovLiveTime');
-      const clockEl = document.getElementById('kovLiveClock');
       try {
         const now = new Date();
         const dateStr = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Jakarta' });
         const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta' }).replace(/\./g, ':') + ' WIB';
         if (dateEl) dateEl.textContent = dateStr;
         if (timeEl) timeEl.textContent = timeStr;
-        if (clockEl) clockEl.textContent = dateStr + ', ' + timeStr;
       } catch (e) {
-        if (dateEl) dateEl.textContent = '20 Okt 2026';
-        if (timeEl) timeEl.textContent = '10:24 WIB';
+        if (dateEl) dateEl.textContent = '25 Okt 2026';
+        if (timeEl) timeEl.textContent = '00:20 WIB';
       }
     }
 
     let activeFilter = 'all';
 
+    function normalizeStatus(st) {
+      if (!st) return 'Belum Diproses';
+      const s = String(st).trim().toLowerCase();
+      if (s === 'diterima' || s === 'lolos' || s === 'accepted') return 'Diterima';
+      if (s === 'dipertimbangkan' || s === 'hold' || s === 'cadangan') return 'Dipertimbangkan';
+      if (s === 'ditolak' || s === 'rejected' || s === 'gagal') return 'Ditolak';
+      return 'Belum Diproses';
+    }
+
     function setFilter(filterType, btnElem) {
       activeFilter = filterType;
-      document.querySelectorAll('.kov-filter-pill-botanical, .filter-pill').forEach(btn => {
+
+      // Update segmented pills active state
+      document.querySelectorAll('.kov-filter-pill-botanical').forEach(btn => {
         btn.classList.remove('active');
       });
-      
       if (btnElem) {
         btnElem.classList.add('active');
+      } else {
+        const matchingBtn = document.querySelector(`.kov-filter-pill-botanical[data-filter="${filterType}"]`);
+        if (matchingBtn) matchingBtn.classList.add('active');
       }
+
+      // Synchronize KPI cards active state
+      document.querySelectorAll('.kov-kpi-card').forEach(card => {
+        card.classList.remove('active');
+      });
+      const matchingKpi = document.querySelector(`.kov-kpi-card[data-kpi="${filterType}"]`);
+      if (matchingKpi) {
+        matchingKpi.classList.add('active');
+      }
+
       applyFilterAndSort();
     }
 
     function filterByStatusCard(status) {
-      const targetBtn = document.querySelector(`.kov-filter-pill-botanical[data-filter="${status}"]`);
-      if (targetBtn) {
-        setFilter(status, targetBtn);
-        const tableCard = document.querySelector('.kov-table-card');
-        if (tableCard) {
-          tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+      setFilter(status, null);
+      const tableCard = document.querySelector('.kov-table-card');
+      if (tableCard) {
+        tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
@@ -623,27 +796,29 @@
     }
 
     function applyFilterAndSort() {
-      const searchVal = document.getElementById('searchInput').value.toLowerCase();
-      const sortVal = document.getElementById('sortSelect').value;
+      const searchVal = (document.getElementById('searchInput') ? document.getElementById('searchInput').value : '').toLowerCase().trim();
+      const sortVal = document.getElementById('sortSelect') ? document.getElementById('sortSelect').value : 'date-desc';
       const divisiVal = (document.getElementById('divisiSelect') ? document.getElementById('divisiSelect').value : 'all').toLowerCase();
       const tbody = document.getElementById('candidateTableBody');
-      const rows = Array.from(tbody.querySelectorAll('tr[data-id]'));
+      if (!tbody) return;
 
+      const rows = Array.from(tbody.querySelectorAll('tr[data-id]'));
       let visibleCount = 0;
 
       rows.forEach(row => {
         const rowText = row.innerText.toLowerCase();
-        const rowStatus = row.getAttribute('data-status');
+        const rawStatus = row.getAttribute('data-status') || '';
+        const rowNormStatus = normalizeStatus(rawStatus);
         const rowDivisi = (row.getAttribute('data-divisi') || '').toLowerCase();
         const isDuplicate = row.getAttribute('data-duplicate') === 'true';
 
-        let matchesSearch = rowText.includes(searchVal);
+        let matchesSearch = searchVal === '' || rowText.includes(searchVal);
         let matchesFilter = true;
 
         if (activeFilter === 'duplicate') {
           matchesFilter = isDuplicate;
         } else if (activeFilter !== 'all') {
-          matchesFilter = (rowStatus === activeFilter);
+          matchesFilter = (rowNormStatus === normalizeStatus(activeFilter));
         }
 
         let matchesDivisi = (divisiVal === 'all' || rowDivisi.includes(divisiVal));
@@ -656,22 +831,56 @@
         }
       });
 
-      document.getElementById('candidateCount').innerText = visibleCount;
+      const countEl = document.getElementById('candidateCount');
+      if (countEl) countEl.innerText = visibleCount;
+
+      // Handle Empty State when filtered to 0
+      let emptyRow = document.getElementById('filterEmptyRow');
+      if (visibleCount === 0 && rows.length > 0) {
+        if (!emptyRow) {
+          emptyRow = document.createElement('tr');
+          emptyRow.id = 'filterEmptyRow';
+          emptyRow.innerHTML = `
+            <td colspan="8" class="text-center py-5 text-muted">
+              <div class="py-4">
+                <i class="fas fa-filter-circle-xmark fa-3x mb-3 text-secondary opacity-50"></i>
+                <h6 class="fw-bold text-dark">Tidak Ada Data Pelamar</h6>
+                <p class="small text-muted mb-2">Tidak ditemukan berkas pelamar untuk kriteria filter "${activeFilter}".</p>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 mt-1" onclick="setFilter('all', null)">
+                  <i class="fas fa-rotate-left me-1"></i> Tampilkan Semua Pelamar
+                </button>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(emptyRow);
+        } else {
+          emptyRow.style.display = '';
+        }
+      } else {
+        if (emptyRow) emptyRow.style.display = 'none';
+      }
 
       // Sorting Logic
       rows.sort((a, b) => {
+        const dateA = parseInt(a.getAttribute('data-date')) || 0;
+        const dateB = parseInt(b.getAttribute('data-date')) || 0;
+        const nameA = a.getAttribute('data-name') || '';
+        const nameB = b.getAttribute('data-name') || '';
+        const statusA = a.getAttribute('data-status') || '';
+        const statusB = b.getAttribute('data-status') || '';
+
         if (sortVal === 'date-desc') {
-          return parseInt(b.getAttribute('data-date')) - parseInt(a.getAttribute('data-date'));
+          return dateB - dateA;
         } else if (sortVal === 'date-asc') {
-          return parseInt(a.getAttribute('data-date')) - parseInt(b.getAttribute('data-date'));
+          return dateA - dateB;
         } else if (sortVal === 'name-asc') {
-          return a.getAttribute('data-name').localeCompare(b.getAttribute('data-name'));
+          return nameA.localeCompare(nameB);
         } else if (sortVal === 'name-desc') {
-          return b.getAttribute('data-name').localeCompare(a.getAttribute('data-name'));
+          return nameB.localeCompare(nameA);
         } else if (sortVal === 'status-asc') {
-          return a.getAttribute('data-status').localeCompare(b.getAttribute('data-status'));
+          return statusA.localeCompare(statusB);
         } else if (sortVal === 'status-desc') {
-          return b.getAttribute('data-status').localeCompare(a.getAttribute('data-status'));
+          return statusB.localeCompare(statusA);
         }
         return 0;
       });
@@ -682,7 +891,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       updateKovLiveClock();
       setInterval(updateKovLiveClock, 30000);
-      generateRandomShareLink(false);
       applyFilterAndSort();
     });
   </script>
