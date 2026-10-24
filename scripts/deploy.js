@@ -43,8 +43,13 @@ step(3, 'Checking multi-agent collaboration status', () => {
   execSync('node scripts/agent_bridge.js status', { cwd: projectRoot, stdio: 'inherit' });
 });
 
-// 4. Remote availability check
-step(4, 'Auditing production VPS availability & security headers', () => {
+// 4. Remote VPS automated rollout via SSH
+step(4, 'Executing remote VPS deployment via SSH (103.119.237.21)', () => {
+  execSync('node scripts/remote-deploy.js', { cwd: projectRoot, stdio: 'inherit' });
+});
+
+// 5. Remote availability check
+step(5, 'Auditing production VPS availability & security headers', () => {
   execSync('node scripts/verify-remote.js', { cwd: projectRoot, stdio: 'inherit' });
 });
 
