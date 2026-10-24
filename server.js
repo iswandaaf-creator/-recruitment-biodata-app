@@ -119,21 +119,6 @@ const uploadInvoice = multer({
 
 const app = express();
 
-// Download invoice terlindungi
-app.get('/api/it/invoices/download/:filename', requireAuth, requireITAuth, (req, res) => {
-  const safeFilename = path.basename(req.params.filename);
-  const filePath = path.join(invoiceUploadDir, safeFilename);
-  if (fs.existsSync(filePath)) {
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    return res.sendFile(filePath);
-  }
-  const fallbackPath = path.join(__dirname, 'public', 'uploads', 'invoices', safeFilename);
-  if (fs.existsSync(fallbackPath)) {
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    return res.sendFile(fallbackPath);
-  }
-  res.status(404).send('File invoice tidak ditemukan.');
-});
 
 
 // Health check endpoint (SQLite ping & uptime)
@@ -1142,6 +1127,24 @@ app.post('/admin/candidate/:id/update-division', requireHRAuth, (req, res) => {
     res.redirect(`/admin/candidate/${candidateId}`);
   });
 });
+
+// Delete Candidate (Super Admin & Admin Only)
+app.post('/admin/candidate/delete/:id', requireAuth, requireSuperAdmin, (req, res) => {
+  const candidateId = parseInt(req.params.id, 10);
+  if (!candidateId) return res.status(400).send('Invalid candidate ID');
+
+  db.run('DELETE FROM candidate_reviews WHERE candidate_id = ?', [candidateId], (revErr) => {
+    if (revErr) console.warn('Warning: error deleting candidate reviews:', revErr.message);
+    db.run('DELETE FROM candidates WHERE id = ?', [candidateId], (err) => {
+      if (err) {
+        console.error('Error deleting candidate:', err);
+        return res.status(500).send('Gagal menghapus data kandidat. Silakan coba kembali.');
+      }
+      res.redirect('/admin');
+    });
+  });
+});
+
 
 // Save Interview Notes (Page 5) (Protected - HR & Superadmin only)
 app.post('/admin/candidate/:id/interview', requireHRAuth, (req, res) => {
@@ -2468,6 +2471,23 @@ app.post('/api/it/change-password', requireAuth, requireITAuth, (req, res) => {
     res.redirect('/admin/it?success=' + encodeURIComponent('Password akun khusus IT berhasil diperbarui!'));
   });
 });
+
+// Download invoice terlindungi (Diproteksi Session & IT Auth)
+app.get('/api/it/invoices/download/:filename', requireAuth, requireITAuth, (req, res) => {
+  const safeFilename = path.basename(req.params.filename);
+  const filePath = path.join(invoiceUploadDir, safeFilename);
+  if (fs.existsSync(filePath)) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    return res.sendFile(filePath);
+  }
+  const fallbackPath = path.join(__dirname, 'public', 'uploads', 'invoices', safeFilename);
+  if (fs.existsSync(fallbackPath)) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    return res.sendFile(fallbackPath);
+  }
+  res.status(404).send('File invoice tidak ditemukan.');
+});
+
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`==================================================`);

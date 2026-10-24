@@ -537,7 +537,11 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
     canvas.addEventListener('touchmove', (e) => { if (!isDrawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); e.preventDefault(); });
     canvas.addEventListener('touchend', () => { isDrawing = false; });
 
-    document.getElementById('btnClearSig').addEventListener('click', () => { ctx.clearRect(0, 0, canvas.width, canvas.height); });
+    document.getElementById('btnClearSig').addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const sigInput = document.getElementById('signature_dibuat');
+      if (sigInput) sigInput.value = '';
+    });
 
     // Submit Form
     document.getElementById('poForm').addEventListener('submit', async function(e) {

@@ -143,6 +143,52 @@
       border: 1.5px dashed #059669;
       border-radius: var(--figma-radius-lg, 12px);
     }
+
+    /* Dark Mode Anti-Leak Overrides */
+    [data-theme="dark"] .item-pill-row {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+    }
+    [data-theme="dark"] .item-pill-row:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    [data-theme="dark"] .btn-outlet {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+    }
+    [data-theme="dark"] .btn-outlet:hover {
+      background-color: rgba(5, 150, 105, 0.15);
+      color: #34d399;
+      border-color: rgba(5, 150, 105, 0.3);
+    }
+    [data-theme="dark"] .badge-count {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+    }
+    [data-theme="dark"] .card.bg-white,
+    [data-theme="dark"] .card {
+      background-color: var(--kov-surface, #240b3b) !important;
+      color: var(--kov-text, #f1f5f9) !important;
+      border-color: var(--kov-border, rgba(255, 255, 255, 0.1)) !important;
+    }
+    [data-theme="dark"] .card .border-bottom {
+      border-color: var(--kov-border, rgba(255, 255, 255, 0.1)) !important;
+    }
+    [data-theme="dark"] .modal-content {
+      background-color: var(--kov-surface, #240b3b);
+      color: var(--kov-text, #f1f5f9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    [data-theme="dark"] .modal-footer {
+      background-color: rgba(0, 0, 0, 0.2) !important;
+      border-top-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    [data-theme="dark"] .bento-metric-value.text-warning {
+      color: #fbbf24 !important;
+    }
   </style>
 </head>
 <body>
@@ -165,13 +211,19 @@
           <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
             <i class="fas fa-moon kov-theme-icon"></i>
           </button>
-          <button class="btn btn-warning btn-sm fw-bold text-dark rounded-pill shadow-sm px-3" onclick="openGeminiScanner()">
+          <button class="btn btn-warning btn-sm fw-bold text-dark rounded-pill shadow-sm px-3" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI">
             <i class="fas fa-magic me-1"></i><span class="d-none d-sm-inline">Scan AI</span>
           </button>
-          <button class="btn btn-success btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalTambah">
+          <button class="btn btn-outline-warning btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalGeminiKey" title="Konfigurasi Google Gemini API Key">
+            <i class="fas fa-key text-warning me-1"></i><span class="d-none d-sm-inline">API Key</span>
+          </button>
+          <button class="btn btn-success btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalTambah" title="Catat Pengeluaran Belanja IT">
             <i class="fas fa-plus me-1"></i><span class="d-none d-sm-inline">Catat Belanja</span>
           </button>
-          <button class="btn btn-outline-secondary btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalExportKustom">
+          <button class="btn btn-outline-secondary btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalPassword" title="Ganti Password Akun IT">
+            <i class="fas fa-lock me-1"></i><span class="d-none d-sm-inline">Password</span>
+          </button>
+          <button class="btn btn-outline-secondary btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalExportKustom" title="Export Rekap Belanja">
             <i class="fas fa-file-export me-1 text-primary"></i><span class="d-none d-sm-inline">Export</span>
           </button>
         </div>
@@ -269,11 +321,6 @@
           </div>
         </div>
       </div>
-              <i class="fas fa-clock"></i>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <% 
@@ -327,11 +374,11 @@
           <div class="col-12 col-md-3">
             <div class="input-group input-group-sm">
               <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
-              <input type="text" id="searchInput" class="form-control border-start-0 ps-0" placeholder="Cari barang, nota, vendor...">
+              <input type="text" id="searchInput" class="form-control border-start-0 ps-0" placeholder="Cari barang, nota, vendor..." aria-label="Cari barang, nomor nota, atau vendor">
             </div>
           </div>
           <div class="col-6 col-md-2">
-            <select id="filterVendor" class="form-select form-select-sm">
+            <select id="filterVendor" class="form-select form-select-sm" aria-label="Filter berdasarkan Vendor">
               <option value="">Semua Vendor</option>
               <% if (typeof vendorList !== 'undefined') { %>
                 <% vendorList.forEach(v => { %>
@@ -341,13 +388,13 @@
             </select>
           </div>
           <div class="col-6 col-md-2">
-            <input type="date" id="filterStartDate" class="form-control form-control-sm" title="Dari Tanggal">
+            <input type="date" id="filterStartDate" class="form-control form-control-sm" title="Dari Tanggal" aria-label="Filter mulai dari tanggal">
           </div>
           <div class="col-6 col-md-2">
-            <input type="date" id="filterEndDate" class="form-control form-control-sm" title="Sampai Tanggal">
+            <input type="date" id="filterEndDate" class="form-control form-control-sm" title="Sampai Tanggal" aria-label="Filter sampai dengan tanggal">
           </div>
           <div class="col-6 col-md-2">
-            <select id="filterKategori" class="form-select form-select-sm">
+            <select id="filterKategori" class="form-select form-select-sm" aria-label="Filter berdasarkan Kategori Belanja IT">
               <option value="">Semua Kategori</option>
               <option value="Jaringan & Network">Jaringan & Network</option>
               <option value="Hardware & Komputer">Hardware & Komputer</option>
@@ -359,7 +406,7 @@
             </select>
           </div>
           <div class="col-6 col-md-1">
-            <select id="filterStatus" class="form-select form-select-sm" title="Status Pembayaran">
+            <select id="filterStatus" class="form-select form-select-sm" title="Status Pembayaran" aria-label="Filter berdasarkan Status Pembayaran">
               <option value="">Status</option>
               <option value="Lunas">Lunas</option>
               <option value="Pending">Pending</option>
@@ -420,13 +467,25 @@
                   <div class="text-muted small mt-1"><i class="fas fa-calendar-alt me-1 text-secondary"></i><%= formatDate(nota.tanggal) %></div>
                   <% if (nota.bukti_transaksi) { %>
                     <div class="mt-1">
-                      <% if (nota.bukti_transaksi.startsWith('http://') || nota.bukti_transaksi.startsWith('https://')) { %>
-                        <a href="<%= nota.bukti_transaksi %>" target="_blank" rel="noopener noreferrer" class="badge bg-light text-primary border small text-decoration-none">
-                          <i class="fas fa-external-link-alt me-1"></i>Bukti Nota
+                      <% 
+                        const bt = (nota.bukti_transaksi || '').trim();
+                        let targetLink = '';
+                        if (bt.startsWith('http://') || bt.startsWith('https://')) {
+                          targetLink = bt;
+                        } else if (bt.includes('inv-')) {
+                          const safeFile = bt.split(/[\\/]/).pop();
+                          targetLink = '/api/it/invoices/download/' + encodeURIComponent(safeFile);
+                        } else if (bt.startsWith('/')) {
+                          targetLink = bt;
+                        }
+                      %>
+                      <% if (targetLink) { %>
+                        <a href="<%= targetLink %>" target="_blank" rel="noopener noreferrer" class="badge bg-light text-primary border small text-decoration-none" title="Lihat Bukti Transaksi">
+                          <i class="fas fa-file-invoice text-success me-1"></i>Bukti Nota
                         </a>
                       <% } else { %>
-                        <span class="badge bg-light text-secondary border small" title="<%= nota.bukti_transaksi %>">
-                          <i class="fas fa-receipt me-1"></i><%= nota.bukti_transaksi %>
+                        <span class="badge bg-light text-secondary border small" title="<%= bt %>">
+                          <i class="fas fa-receipt me-1"></i><%= bt %>
                         </span>
                       <% } %>
                     </div>
@@ -804,6 +863,39 @@
             <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Batal</button>
             <button type="submit" class="btn btn-primary fw-bold rounded-pill px-4 shadow-sm">
               <i class="fas fa-save me-1"></i>Simpan Perubahan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: KONFIGURASI GEMINI API KEY -->
+  <div class="modal fade" id="modalGeminiKey" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <form action="/api/it/ai/save-key" method="POST" id="formGeminiKey">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="modal-header bg-dark text-white py-3 px-4">
+            <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
+              <i class="fas fa-key text-warning"></i>Konfigurasi Google Gemini API Key
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body p-4">
+            <p class="text-muted small mb-3">
+              Masukkan Google Gemini API Key untuk meningkatkan akurasi analisis OCR nota secara otomatis.
+            </p>
+            <div class="mb-3">
+              <label for="inputGeminiApiKey" class="form-label small fw-bold text-dark">Google Gemini API Key</label>
+              <input type="password" name="api_key" id="inputGeminiApiKey" class="form-control" placeholder="AIzaSy..." value="<%= typeof geminiKeyPreview !== 'undefined' ? geminiKeyPreview : '' %>" required>
+              <small class="text-muted d-block mt-1">Status saat ini: <strong><%= typeof hasGeminiKey !== 'undefined' && hasGeminiKey ? 'Aktif (' + geminiKeyPreview + ')' : 'Belum Dikonfigurasi (Fallback OCR Otomatis Aktif)' %></strong></small>
+            </div>
+          </div>
+          <div class="modal-footer border-top py-3 px-4 bg-light">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-3" data-bs-dismiss="modal">Tutup</button>
+            <button type="submit" class="btn btn-success rounded-pill fw-bold px-4">
+              <i class="fas fa-save me-1"></i>Simpan API Key
             </button>
           </div>
         </form>

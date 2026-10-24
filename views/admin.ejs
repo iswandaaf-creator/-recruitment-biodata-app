@@ -99,10 +99,15 @@
           </div>
         </div>
         <div class="kov-topbar-right d-flex align-items-center gap-2">
+          <% 
+            const pendingCandidateCount = (candidates || []).filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses').length;
+          %>
           <!-- Notification Bell -->
-          <button type="button" class="kov-topbar-bell-btn" title="Notifikasi" onclick="KovToast.info('Tidak ada notifikasi baru yang tertunda', 'Notifikasi')">
+          <button type="button" class="kov-topbar-bell-btn" title="Notifikasi Pelamar" aria-label="Notifikasi Pelamar Tertunda" onclick="KovToast.info('<%= pendingCandidateCount > 0 ? pendingCandidateCount + " pelamar menunggu review dan keputusan status." : "Tidak ada berkas pelamar tertunda." %>', 'Notifikasi Pelamar')">
             <i class="far fa-bell"></i>
-            <span class="kov-topbar-bell-dot"></span>
+            <% if (pendingCandidateCount > 0) { %>
+              <span class="kov-topbar-bell-dot"></span>
+            <% } %>
           </button>
 
           <!-- Real-Time Date & Time Widget -->
@@ -114,7 +119,7 @@
             </div>
           </div>
 
-          <!-- User Profile Dropdown Pill -->
+          <!-- User Profile Pill -->
           <div class="kov-topbar-user-pill">
             <div class="kov-avatar-monogram" style="width: 32px; height: 32px; font-size: 0.85rem;">
               <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
@@ -127,7 +132,6 @@
                 <%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %>
               </span>
             </div>
-            <i class="fas fa-chevron-down ms-1 text-muted" style="font-size: 0.65rem;"></i>
           </div>
 
           <!-- Theme Switcher Button -->
@@ -255,7 +259,10 @@
               </div>
             </div>
           </div>
-          <div class="kov-share-right">
+          <div class="kov-share-right d-flex align-items-center gap-2 flex-wrap">
+            <a href="/api/export/excel" class="kov-btn-outline-pill text-decoration-none" title="Download Excel Seluruh Pelamar" aria-label="Export Seluruh Data Pelamar ke Excel">
+              <i class="fas fa-file-excel me-1 text-success"></i> Export Excel
+            </a>
             <button type="button" class="kov-btn-outline-pill" onclick="generateRandomShareLink(false)">
               <i class="fas fa-shuffle me-1 text-success"></i> Acak Token Baru
             </button>
@@ -288,18 +295,13 @@
               <!-- Search Box -->
               <div class="kov-pill-search-wrap">
                 <i class="fas fa-magnifying-glass"></i>
-                <input type="text" class="kov-pill-search" id="searchInput" placeholder="Cari nama, NIK, Rekening..." onkeyup="applyFilterAndSort()">
+                <input type="text" class="kov-pill-search" id="searchInput" placeholder="Cari nama, NIK, Rekening..." aria-label="Cari nama pelamar, NIK, atau Rekening" onkeyup="applyFilterAndSort()">
               </div>
-
-              <!-- Filter Icon Button -->
-              <button type="button" class="kov-filter-icon-btn" title="Toggle Filter" onclick="document.getElementById('searchInput').focus()">
-                <i class="fas fa-sliders"></i>
-              </button>
 
               <!-- Divisi Filter -->
               <div class="kov-select-wrap">
                 <i class="fas fa-layer-group kov-select-icon"></i>
-                <select class="kov-pill-select" id="divisiSelect" onchange="applyFilterAndSort()">
+                <select class="kov-pill-select" id="divisiSelect" aria-label="Filter berdasarkan Divisi" onchange="applyFilterAndSort()">
                   <option value="all" selected>Semua Divisi</option>
                   <option value="kitchen">Kitchen</option>
                   <option value="barista">Barista</option>
@@ -315,12 +317,13 @@
               <!-- Sort Select -->
               <div class="kov-select-wrap">
                 <i class="far fa-calendar-days kov-select-icon"></i>
-                <select class="kov-pill-select" id="sortSelect" onchange="applyFilterAndSort()">
+                <select class="kov-pill-select" id="sortSelect" aria-label="Urutkan daftar pelamar" onchange="applyFilterAndSort()">
                   <option value="date-desc" selected>Tanggal (Terbaru)</option>
                   <option value="date-asc">Tanggal (Terlama)</option>
                   <option value="name-asc">Nama Pelamar (A-Z)</option>
                   <option value="name-desc">Nama Pelamar (Z-A)</option>
-                  <option value="status-asc">Status Rekrutmen</option>
+                  <option value="status-asc">Status Rekrutmen (A-Z)</option>
+                  <option value="status-desc">Status Rekrutmen (Z-A)</option>
                 </select>
                 <i class="fas fa-chevron-down kov-select-chevron"></i>
               </div>
@@ -362,15 +365,15 @@
               <thead>
                 <tr>
                   <th style="width: 65px;">ID</th>
-                  <th class="sortable-header" onclick="toggleSort('date')" style="min-width: 140px; cursor: pointer;">
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('date'); event.preventDefault(); }" style="min-width: 140px; cursor: pointer;">
                     TANGGAL SUBMIT <i class="fas fa-sort ms-1 opacity-50" id="sortIconDate"></i>
                   </th>
-                  <th class="sortable-header" onclick="toggleSort('name')" style="min-width: 250px; cursor: pointer;">
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('name'); event.preventDefault(); }" style="min-width: 250px; cursor: pointer;">
                     NAMA &amp; IDENTITAS <i class="fas fa-sort ms-1 opacity-50" id="sortIconName"></i>
                   </th>
                   <th style="min-width: 160px;">POSISI DILAMAR</th>
                   <th style="min-width: 180px;">KONTAK</th>
-                  <th class="sortable-header" onclick="toggleSort('status')" style="min-width: 160px; cursor: pointer;">
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('status'); event.preventDefault(); }" style="min-width: 160px; cursor: pointer;">
                     STATUS SELEKSI <i class="fas fa-sort ms-1 opacity-50" id="sortIconStatus"></i>
                   </th>
                   <th style="min-width: 130px;">INDIKATOR</th>
@@ -503,12 +506,17 @@
                         <a href="/admin/candidate/<%= c.id %>" class="kov-action-review-btn" title="Review Berkas & Catatan Pewawancara">
                           <i class="fas fa-user-check me-1"></i> Review
                         </a>
-                        <button type="button" class="kov-action-icon-circle" title="Detail & Opsi" onclick="window.location.href='/admin/candidate/<%= c.id %>'">
-                          <i class="fas fa-ellipsis-vertical"></i>
-                        </button>
-                        <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="kov-action-icon-circle text-danger" title="Export PDF Biodata">
+                        <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="kov-action-icon-circle text-danger" title="Export PDF Biodata" aria-label="Export PDF Biodata <%= c.nama_lengkap %>">
                           <i class="fas fa-file-pdf"></i>
                         </a>
+                        <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
+                          <form action="/admin/candidate/delete/<%= c.id %>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berkas pelamar <%= c.nama_lengkap %> secara permanen?');">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit" class="kov-action-icon-circle text-danger border-0 bg-transparent" title="Hapus Berkas Pelamar" aria-label="Hapus Berkas Pelamar <%= c.nama_lengkap %>">
+                              <i class="fas fa-trash-can"></i>
+                            </button>
+                          </form>
+                        <% } %>
                       </div>
                     </td>
                   </tr>
@@ -609,7 +617,7 @@
       } else if (type === 'name') {
         select.value = select.value === 'name-asc' ? 'name-desc' : 'name-asc';
       } else if (type === 'status') {
-        select.value = select.value === 'status-asc' ? 'date-desc' : 'status-asc';
+        select.value = select.value === 'status-asc' ? 'status-desc' : 'status-asc';
       }
       applyFilterAndSort();
     }
@@ -662,6 +670,8 @@
           return b.getAttribute('data-name').localeCompare(a.getAttribute('data-name'));
         } else if (sortVal === 'status-asc') {
           return a.getAttribute('data-status').localeCompare(b.getAttribute('data-status'));
+        } else if (sortVal === 'status-desc') {
+          return b.getAttribute('data-status').localeCompare(a.getAttribute('data-status'));
         }
         return 0;
       });

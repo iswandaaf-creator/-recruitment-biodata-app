@@ -55,10 +55,10 @@
       <a class="nav-link-modern active" href="/admin/operasional">
         <i class="fas fa-boxes-packing"></i> Berita Acara Pengajuan Barang
       </a>
-      <a class="nav-link-modern" style="background: white; color: var(--kov-slate-700); border: 1px solid var(--kov-border);" href="/admin/operasional/po">
+      <a class="nav-link-modern" href="/admin/operasional/po">
         <i class="fas fa-file-invoice-dollar text-primary"></i> Purchase Order (PO)
       </a>
-      <a class="nav-link-modern" style="background: white; color: var(--kov-slate-700); border: 1px solid var(--kov-border);" href="/admin/operasional/surat-tugas">
+      <a class="nav-link-modern" href="/admin/operasional/surat-tugas">
         <i class="fas fa-file-signature text-warning"></i> Surat Tugas &amp; Perjalanan Dinas
       </a>
     </div>
@@ -206,10 +206,10 @@
         <div class="d-flex flex-wrap align-items-center gap-2 mobile-w-100">
           <div class="input-group input-group-sm" style="min-width: 240px;">
             <span class="input-group-text bg-light"><i class="fas fa-search text-secondary"></i></span>
-            <input type="text" id="searchInput" class="form-control" placeholder="Cari No BA, Nama Barang, Outlet, PIC...">
+            <input type="text" id="searchInput" class="form-control" placeholder="Cari No BA, Nama Barang, Outlet, PIC..." aria-label="Cari No BA, Nama Barang, Outlet, atau PIC">
           </div>
 
-          <select id="filterStatus" class="form-select form-select-sm" style="min-width: 170px;">
+          <select id="filterStatus" class="form-select form-select-sm" style="min-width: 170px;" aria-label="Filter berdasarkan Status Approval">
             <option value="">Semua Status Approval</option>
             <option value="Menunggu Approval">Menunggu Approval</option>
             <option value="Disetujui">Disetujui</option>
@@ -218,7 +218,7 @@
             <option value="Ditolak">Ditolak</option>
           </select>
 
-          <select id="filterPrioritas" class="form-select form-select-sm" style="min-width: 150px;">
+          <select id="filterPrioritas" class="form-select form-select-sm" style="min-width: 150px;" aria-label="Filter berdasarkan Prioritas">
             <option value="">Semua Prioritas</option>
             <option value="Normal">Normal</option>
             <option value="Urgent">Urgent</option>
@@ -237,14 +237,14 @@
         <table class="kov-table" id="recordsTable">
           <thead>
             <tr>
-              <th class="ps-3 sortable-header" onclick="sortTable(0)">No. BA <i class="fas fa-sort text-muted ms-1"></i></th>
-              <th class="sortable-header" onclick="sortTable(1)">Tgl Pengajuan <i class="fas fa-sort text-muted ms-1"></i></th>
-              <th class="sortable-header" onclick="sortTable(2)">Outlet / Divisi <i class="fas fa-sort text-muted ms-1"></i></th>
-              <th class="sortable-header" onclick="sortTable(3)">PIC Pengajuan <i class="fas fa-sort text-muted ms-1"></i></th>
-              <th class="sortable-header" onclick="sortTable(4)">Nama Barang <i class="fas fa-sort text-muted ms-1"></i></th>
-              <th class="sortable-header text-end" onclick="sortTable(5)">Total Estimasi <i class="fas fa-sort text-muted ms-1"></i></th>
-              <th class="text-center sortable-header" onclick="sortTable(6)">Prioritas <i class="fas fa-sort text-muted ms-1"></i></th>
-              <th class="text-center sortable-header" onclick="sortTable(7)">Status Approval <i class="fas fa-sort text-muted ms-1"></i></th>
+              <th class="ps-3 sortable-header" role="button" tabindex="0" aria-sort="none" onclick="sortTable(0)" onkeydown="if(event.key==='Enter'||event.key===' '){sortTable(0);event.preventDefault();}">No. BA <i class="fas fa-sort text-muted ms-1"></i></th>
+              <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="sortTable(1)" onkeydown="if(event.key==='Enter'||event.key===' '){sortTable(1);event.preventDefault();}">Tgl Pengajuan <i class="fas fa-sort text-muted ms-1"></i></th>
+              <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="sortTable(2)" onkeydown="if(event.key==='Enter'||event.key===' '){sortTable(2);event.preventDefault();}">Outlet / Divisi <i class="fas fa-sort text-muted ms-1"></i></th>
+              <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="sortTable(3)" onkeydown="if(event.key==='Enter'||event.key===' '){sortTable(3);event.preventDefault();}">PIC Pengajuan <i class="fas fa-sort text-muted ms-1"></i></th>
+              <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="sortTable(4)" onkeydown="if(event.key==='Enter'||event.key===' '){sortTable(4);event.preventDefault();}">Nama Barang <i class="fas fa-sort text-muted ms-1"></i></th>
+              <th class="sortable-header text-end" role="button" tabindex="0" aria-sort="none" onclick="sortTable(5)" onkeydown="if(event.key==='Enter'||event.key===' '){sortTable(5);event.preventDefault();}">Total Estimasi <i class="fas fa-sort text-muted ms-1"></i></th>
+              <th class="text-center sortable-header" role="button" tabindex="0" aria-sort="none" onclick="sortTable(6)" onkeydown="if(event.key==='Enter'||event.key===' '){sortTable(6);event.preventDefault();}">Prioritas <i class="fas fa-sort text-muted ms-1"></i></th>
+              <th class="text-center sortable-header" role="button" tabindex="0" aria-sort="none" onclick="sortTable(7)" onkeydown="if(event.key==='Enter'||event.key===' '){sortTable(7);event.preventDefault();}">Status Approval <i class="fas fa-sort text-muted ms-1"></i></th>
               <th class="text-end pe-3">Aksi</th>
             </tr>
           </thead>
@@ -322,7 +322,8 @@
           </tbody>
         </table>
       </div>
-      </main>
+    </div>
+  </main>
     </div>
   </div>
 

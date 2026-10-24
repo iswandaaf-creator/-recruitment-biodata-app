@@ -41,6 +41,14 @@
           <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF 5 Halaman</span>
           </a>
+          <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
+            <form action="/admin/candidate/delete/<%= candidate.id %>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berkas pelamar <%= candidate.nama_lengkap %> secara permanen?');">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button type="submit" class="btn-kov-outline btn-kov-sm text-danger border-danger" title="Hapus Berkas Pelamar" aria-label="Hapus Berkas Pelamar <%= candidate.nama_lengkap %>">
+                <i class="fas fa-trash-can"></i> <span class="d-none d-sm-inline">Hapus</span>
+              </button>
+            </form>
+          <% } %>
         </div>
       </header>
 
@@ -201,65 +209,96 @@
           <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-pen me-2 text-primary"></i>1. Catatan Wawancara 1</h6>
           <div class="row g-3 mb-4">
             <div class="col-md-8">
-              <label class="kov-label">Catatan Wawancara</label>
-              <textarea class="form-control" name="cw1_catatan" rows="3" placeholder="Hasil interview / performa kandidat..."><%= cw1.catatan || '' %></textarea>
+              <label for="cw1_catatan" class="kov-label">Catatan Wawancara 1</label>
+              <textarea id="cw1_catatan" class="form-control" name="cw1_catatan" rows="3" placeholder="Hasil interview / performa kandidat..."><%= cw1.catatan || '' %></textarea>
             </div>
             <div class="col-md-4">
               <div class="mb-2">
-                <label class="kov-label">Nama Pewawancara</label>
-                <input type="text" class="form-control form-control-sm" name="cw1_nama" value="<%= cw1.nama || '' %>">
+                <label for="cw1_nama" class="kov-label">Nama Pewawancara 1</label>
+                <input id="cw1_nama" type="text" class="form-control form-control-sm" name="cw1_nama" value="<%= cw1.nama || '' %>">
               </div>
               <div class="mb-2">
-                <label class="kov-label">Jabatan</label>
-                <input type="text" class="form-control form-control-sm" name="cw1_jabatan" value="<%= cw1.jabatan || '' %>">
+                <label for="cw1_jabatan" class="kov-label">Jabatan</label>
+                <input id="cw1_jabatan" type="text" class="form-control form-control-sm" name="cw1_jabatan" value="<%= cw1.jabatan || '' %>">
               </div>
               <div>
-                <label class="kov-label">Tanggal</label>
-                <input type="date" class="form-control form-control-sm" name="cw1_tanggal" value="<%= cw1.tanggal || '' %>">
+                <label for="cw1_tanggal" class="kov-label">Tanggal</label>
+                <input id="cw1_tanggal" type="date" class="form-control form-control-sm" name="cw1_tanggal" value="<%= cw1.tanggal || '' %>">
               </div>
             </div>
           </div>
 
-          <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-pen me-2 text-primary"></i>2. Catatan Wawancara 2 (Opsional)</h6>
-          <div class="row g-3 mb-4">
-            <div class="col-md-8">
-              <label class="kov-label">Catatan Wawancara</label>
-              <textarea class="form-control" name="cw2_catatan" rows="3" placeholder="Hasil interview 2..."><%= cw2.catatan || '' %></textarea>
+          <!-- Collapsible Accordions for Optional Interviews 2 & 3 -->
+          <div class="accordion mb-4" id="accordionInterview">
+            <!-- Wawancara 2 (Opsional) -->
+            <div class="accordion-item border rounded-3 overflow-hidden mb-3">
+              <h2 class="accordion-header" id="headingCw2">
+                <button class="accordion-button <%= (cw2 && (cw2.catatan || cw2.nama)) ? '' : 'collapsed' %> fw-bold py-2.5 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCw2" aria-expanded="<%= (cw2 && (cw2.catatan || cw2.nama)) ? 'true' : 'false' %>" aria-controls="collapseCw2">
+                  <i class="fas fa-user-pen me-2 text-primary"></i>2. Catatan Wawancara 2 (Opsional)
+                  <% if (cw2 && (cw2.catatan || cw2.nama)) { %>
+                    <span class="badge bg-success ms-2">Terisi</span>
+                  <% } %>
+                </button>
+              </h2>
+              <div id="collapseCw2" class="accordion-collapse collapse <%= (cw2 && (cw2.catatan || cw2.nama)) ? 'show' : '' %>" aria-labelledby="headingCw2" data-bs-parent="#accordionInterview">
+                <div class="accordion-body p-3">
+                  <div class="row g-3">
+                    <div class="col-md-8">
+                      <label for="cw2_catatan" class="kov-label">Catatan Wawancara 2</label>
+                      <textarea id="cw2_catatan" class="form-control" name="cw2_catatan" rows="3" placeholder="Hasil interview 2..."><%= cw2.catatan || '' %></textarea>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="mb-2">
+                        <label for="cw2_nama" class="kov-label">Nama Pewawancara 2</label>
+                        <input id="cw2_nama" type="text" class="form-control form-control-sm" name="cw2_nama" value="<%= cw2.nama || '' %>">
+                      </div>
+                      <div class="mb-2">
+                        <label for="cw2_jabatan" class="kov-label">Jabatan</label>
+                        <input id="cw2_jabatan" type="text" class="form-control form-control-sm" name="cw2_jabatan" value="<%= cw2.jabatan || '' %>">
+                      </div>
+                      <div>
+                        <label for="cw2_tanggal" class="kov-label">Tanggal</label>
+                        <input id="cw2_tanggal" type="date" class="form-control form-control-sm" name="cw2_tanggal" value="<%= cw2.tanggal || '' %>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="col-md-4">
-              <div class="mb-2">
-                <label class="kov-label">Nama Pewawancara</label>
-                <input type="text" class="form-control form-control-sm" name="cw2_nama" value="<%= cw2.nama || '' %>">
-              </div>
-              <div class="mb-2">
-                <label class="kov-label">Jabatan</label>
-                <input type="text" class="form-control form-control-sm" name="cw2_jabatan" value="<%= cw2.jabatan || '' %>">
-              </div>
-              <div>
-                <label class="kov-label">Tanggal</label>
-                <input type="date" class="form-control form-control-sm" name="cw2_tanggal" value="<%= cw2.tanggal || '' %>">
-              </div>
-            </div>
-          </div>
 
-          <h6 class="fw-bold text-dark mb-3"><i class="fas fa-user-pen me-2 text-primary"></i>3. Catatan Wawancara 3 (Opsional)</h6>
-          <div class="row g-3 mb-4">
-            <div class="col-md-8">
-              <label class="kov-label">Catatan Wawancara</label>
-              <textarea class="form-control" name="cw3_catatan" rows="3" placeholder="Hasil interview 3..."><%= cw3.catatan || '' %></textarea>
-            </div>
-            <div class="col-md-4">
-              <div class="mb-2">
-                <label class="kov-label">Nama Pewawancara</label>
-                <input type="text" class="form-control form-control-sm" name="cw3_nama" value="<%= cw3.nama || '' %>">
-              </div>
-              <div class="mb-2">
-                <label class="kov-label">Jabatan</label>
-                <input type="text" class="form-control form-control-sm" name="cw3_jabatan" value="<%= cw3.jabatan || '' %>">
-              </div>
-              <div>
-                <label class="kov-label">Tanggal</label>
-                <input type="date" class="form-control form-control-sm" name="cw3_tanggal" value="<%= cw3.tanggal || '' %>">
+            <!-- Wawancara 3 (Opsional) -->
+            <div class="accordion-item border rounded-3 overflow-hidden">
+              <h2 class="accordion-header" id="headingCw3">
+                <button class="accordion-button <%= (cw3 && (cw3.catatan || cw3.nama)) ? '' : 'collapsed' %> fw-bold py-2.5 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCw3" aria-expanded="<%= (cw3 && (cw3.catatan || cw3.nama)) ? 'true' : 'false' %>" aria-controls="collapseCw3">
+                  <i class="fas fa-user-pen me-2 text-primary"></i>3. Catatan Wawancara 3 (Opsional)
+                  <% if (cw3 && (cw3.catatan || cw3.nama)) { %>
+                    <span class="badge bg-success ms-2">Terisi</span>
+                  <% } %>
+                </button>
+              </h2>
+              <div id="collapseCw3" class="accordion-collapse collapse <%= (cw3 && (cw3.catatan || cw3.nama)) ? 'show' : '' %>" aria-labelledby="headingCw3" data-bs-parent="#accordionInterview">
+                <div class="accordion-body p-3">
+                  <div class="row g-3">
+                    <div class="col-md-8">
+                      <label for="cw3_catatan" class="kov-label">Catatan Wawancara 3</label>
+                      <textarea id="cw3_catatan" class="form-control" name="cw3_catatan" rows="3" placeholder="Hasil interview 3..."><%= cw3.catatan || '' %></textarea>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="mb-2">
+                        <label for="cw3_nama" class="kov-label">Nama Pewawancara 3</label>
+                        <input id="cw3_nama" type="text" class="form-control form-control-sm" name="cw3_nama" value="<%= cw3.nama || '' %>">
+                      </div>
+                      <div class="mb-2">
+                        <label for="cw3_jabatan" class="kov-label">Jabatan</label>
+                        <input id="cw3_jabatan" type="text" class="form-control form-control-sm" name="cw3_jabatan" value="<%= cw3.jabatan || '' %>">
+                      </div>
+                      <div>
+                        <label for="cw3_tanggal" class="kov-label">Tanggal</label>
+                        <input id="cw3_tanggal" type="date" class="form-control form-control-sm" name="cw3_tanggal" value="<%= cw3.tanggal || '' %>">
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -269,45 +308,45 @@
           <h6 class="fw-bold text-dark mb-3"><i class="fas fa-id-card-clip me-2 text-primary"></i>4. Data Kepegawaian &amp; Finansial HR</h6>
           <div class="row g-3 mb-4 p-3 bg-light rounded-3 border">
             <div class="col-md-4">
-              <label class="kov-label">Nomor KK (Kartu Keluarga)</label>
-              <input type="text" class="form-control form-control-sm" name="nomor_kk" value="<%= candidate.nomor_kk || '' %>" placeholder="16 digit Nomor KK">
+              <label for="nomor_kk" class="kov-label">Nomor KK (Kartu Keluarga)</label>
+              <input type="text" id="nomor_kk" class="form-control form-control-sm" name="nomor_kk" value="<%= candidate.nomor_kk || '' %>" placeholder="16 digit Nomor KK">
             </div>
             <div class="col-md-4">
-              <label class="kov-label">No. Rekening Bank</label>
-              <input type="text" class="form-control form-control-sm" name="no_rekening" value="<%= candidate.no_rekening || '' %>" placeholder="Bank &amp; No. Rekening">
+              <label for="no_rekening" class="kov-label">No. Rekening Bank</label>
+              <input type="text" id="no_rekening" class="form-control form-control-sm" name="no_rekening" value="<%= candidate.no_rekening || '' %>" placeholder="Bank &amp; No. Rekening">
             </div>
             <div class="col-md-4">
-              <label class="kov-label">Gaji Pokok</label>
-              <input type="text" class="form-control form-control-sm" name="gaji_pokok" value="<%= candidate.gaji_pokok || '' %>" placeholder="Nominal Gaji Pokok">
+              <label for="gaji_pokok" class="kov-label">Gaji Pokok</label>
+              <input type="text" id="gaji_pokok" class="form-control form-control-sm" name="gaji_pokok" value="<%= candidate.gaji_pokok || '' %>" placeholder="Nominal Gaji Pokok">
             </div>
             <div class="col-md-4">
-              <label class="kov-label">Produktivitas / Evaluasi</label>
-              <input type="text" class="form-control form-control-sm" name="produktivitas" value="<%= candidate.produktivitas || '' %>" placeholder="Skor / Keterangan produktivitas">
+              <label for="produktivitas" class="kov-label">Produktivitas / Evaluasi</label>
+              <input type="text" id="produktivitas" class="form-control form-control-sm" name="produktivitas" value="<%= candidate.produktivitas || '' %>" placeholder="Skor / Keterangan produktivitas">
             </div>
             <div class="col-md-4">
-              <label class="kov-label">Tanggal Join</label>
-              <input type="date" class="form-control form-control-sm" name="tgl_join" value="<%= candidate.tgl_join || '' %>">
+              <label for="tgl_join" class="kov-label">Tanggal Join</label>
+              <input type="date" id="tgl_join" class="form-control form-control-sm" name="tgl_join" value="<%= candidate.tgl_join || '' %>">
             </div>
             <div class="col-md-4">
-              <label class="kov-label">Tanggal Resign</label>
-              <input type="date" class="form-control form-control-sm" name="tgl_resign" value="<%= candidate.tgl_resign || '' %>">
+              <label for="tgl_resign" class="kov-label">Tanggal Resign</label>
+              <input type="date" id="tgl_resign" class="form-control form-control-sm" name="tgl_resign" value="<%= candidate.tgl_resign || '' %>">
             </div>
           </div>
 
           <h6 class="fw-bold text-dark mb-3"><i class="fas fa-clipboard-check me-2 text-primary"></i>5. Kesimpulan Akhir HR</h6>
           <div class="row g-3 mb-4">
             <div class="col-md-4">
-              <label class="kov-label">Keputusan Rekrutmen <span class="text-danger">*</span></label>
-              <select class="form-select" name="kesimpulan_status" required>
-                <option value="" <%= !candidate.kesimpulan_status ? 'selected' : '' %>>-- Pilih Status --</option>
+              <label for="kesimpulan_status" class="kov-label">Keputusan Rekrutmen <span class="text-danger">*</span></label>
+              <select id="kesimpulan_status" class="form-select" name="kesimpulan_status" required>
+                <option value="Belum Diproses" <%= (!candidate.kesimpulan_status || candidate.kesimpulan_status === 'Belum Diproses') ? 'selected' : '' %>>Belum Diproses (Pending Review)</option>
                 <option value="Diterima" <%= candidate.kesimpulan_status === 'Diterima' ? 'selected' : '' %>>Diterima</option>
                 <option value="Dipertimbangkan" <%= candidate.kesimpulan_status === 'Dipertimbangkan' ? 'selected' : '' %>>Dipertimbangkan</option>
                 <option value="Ditolak" <%= candidate.kesimpulan_status === 'Ditolak' ? 'selected' : '' %>>Ditolak</option>
               </select>
             </div>
             <div class="col-md-8">
-              <label class="kov-label">Catatan Tambahan Kesimpulan</label>
-              <input type="text" class="form-control" name="kesimpulan_catatan" value="<%= candidate.kesimpulan_catatan || '' %>" placeholder="Keterangan gaji disetujui, tanggal masuk, atau alasan penolakan...">
+              <label for="kesimpulan_catatan" class="kov-label">Catatan Tambahan Kesimpulan</label>
+              <input type="text" id="kesimpulan_catatan" class="form-control" name="kesimpulan_catatan" value="<%= candidate.kesimpulan_catatan || '' %>" placeholder="Keterangan gaji disetujui, tanggal masuk, atau alasan penolakan...">
             </div>
           </div>
 
