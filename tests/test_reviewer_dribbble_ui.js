@@ -204,8 +204,7 @@ async function runReviewerAudit() {
     report('Input pencarian topbar simetris (Tinggi ~46px)', Math.abs(searchBox.height - 46) <= 2, `Tinggi: ${searchBox.height}px`);
 
     const viewToggle = await page.$('.dd-view-toggle');
-    const toggleBox = await viewToggle.boundingBox();
-    report('View toggle switch hadir dengan tinggi seragam', Math.abs(toggleBox.height - 46) <= 2, `Tinggi: ${toggleBox.height}px`);
+    report('View toggle switch berhasil dihapus bersih', !viewToggle);
 
     const exportBtn = await page.$('.btn-drive-upload');
     const exportBox = await exportBtn.boundingBox();
@@ -269,19 +268,9 @@ async function runReviewerAudit() {
     });
     await new Promise(r => setTimeout(r, 100));
 
-    console.log('\n--- 7. VERIFIKASI TOGGLE VIEW MODE (GRID & SPREADSHEET) ---');
-    // Switch to Spreadsheet mode
-    await page.evaluate(() => document.getElementById('btnViewList').click());
-    await new Promise(r => setTimeout(r, 100));
-    const isGridHidden = await page.$eval('#candidatesGridView', el => el.classList.contains('d-none'));
-    const isListVisible = await page.$eval('#candidatesListView', el => !el.classList.contains('d-none'));
-    report('Toggle ke Tampilan Spreadsheet berhasil', isGridHidden && isListVisible);
-
-    // Switch back to Grid mode
-    await page.evaluate(() => document.getElementById('btnViewGrid').click());
-    await new Promise(r => setTimeout(r, 100));
-    const isGridBack = await page.$eval('#candidatesGridView', el => !el.classList.contains('d-none'));
-    report('Toggle kembali ke Tampilan Grid Kartu berhasil', isGridBack);
+    console.log('\n--- 7. VERIFIKASI PEMBERSIHAN WIDGET STORAGE FAKE ---');
+    const fakeChart = await page.$('.dd-storage-chart-card');
+    report('Widget Chart Kapasitas fake berhasil dihapus bersih dari Right Panel', !fakeChart);
 
     console.log('\n--- 8. VERIFIKASI RIGHT UTILITY PANEL WIDGETS ---');
     const storageGauge = await page.$('.dd-storage-card');

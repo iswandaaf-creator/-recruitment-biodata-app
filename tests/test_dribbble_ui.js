@@ -180,14 +180,19 @@ async function runEmpiricalAudit() {
     report('Sidebar Midnight Navy (#131429) aktif', !!sidebar);
 
     const storageGauge = await page.$('.dd-storage-gauge');
-    const storageText = await page.$eval('.dd-storage-percentage', el => el.textContent.trim());
-    report('Widget Storage Gauge di sidebar hadir', !!storageGauge && storageText === '73%', `Kapasitas: ${storageText}`);
+    report('Widget Storage Gauge fake di sidebar berhasil dihapus bersih', !storageGauge);
 
     const mainCanvas = await page.$('.dd-main-canvas');
     report('Main Workspace Canvas hadir', !!mainCanvas);
 
     const rightPanel = await page.$('.dd-right-panel');
     report('Right Utility Panel hadir', !!rightPanel);
+
+    const viewToggle = await page.$('.dd-view-toggle');
+    report('Tombol dummy View Toggle di Topbar berhasil dihapus bersih', !viewToggle);
+
+    const dupUploadBtn = await page.$('#btnUploadCTA');
+    report('Tombol duplikat Salin Link Form di Topbar berhasil dihapus bersih', !dupUploadBtn);
 
     console.log('\n--- 2. VERIFIKASI HERO WELCOME BANNER ---');
     const heroCard = await page.$('.dd-hero-banner');
@@ -300,10 +305,9 @@ async function runEmpiricalAudit() {
     await page.click('.kov-filter-pill-botanical[data-filter="all"]');
     await new Promise(r => setTimeout(r, 100));
 
-    console.log('\n--- 9. VERIFIKASI STACKED BAR CHART STATISTIK ---');
+    console.log('\n--- 9. VERIFIKASI PEMBERSIHAN WIDGET STORAGE FAKE DARI RIGHT PANEL ---');
     const statsCard = await page.$('.dd-storage-chart-card');
-    const chartBars = await page.$$('.dd-chart-col');
-    report('Grafik Statistik Bulanan (Stacked Bar Chart) hadir dengan 6 pilar', !!statsCard && chartBars.length === 6, `Total bar: ${chartBars.length}`);
+    report('Widget Kapasitas Berkas fake berhasil dihapus bersih dari Right Panel', !statsCard);
 
     console.log('\n--- 10. VERIFIKASI BADGE FORMAT FILE PADA TABEL PELAMAR ---');
     const fileBadges = await page.$$('.dd-file-badge');

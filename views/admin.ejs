@@ -151,17 +151,9 @@
         </div>
 
         <div class="dd-topbar-actions">
-          <div class="dd-view-toggle d-none d-md-flex">
-            <button type="button" class="dd-view-btn active" id="btnViewGrid" title="Tampilan Grid Kartu" onclick="setViewMode('grid')"><i class="fas fa-border-all"></i></button>
-            <button type="button" class="dd-view-btn" id="btnViewList" title="Tampilan Tabel Spreadsheet" onclick="setViewMode('list')"><i class="fas fa-list-ul"></i></button>
-          </div>
           <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" id="btnAcakTokenTopbar" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir publik baru">
             <i class="fas fa-shuffle" style="color: var(--dd-primary, #5a60ea);"></i>
             <span>Acak Token</span>
-          </button>
-          <button type="button" class="btn-drive-upload" onclick="generateAndCopyShareLink()" id="btnUploadCTA" title="Salin Link Formulir Rekrutmen Publik">
-            <i class="fas fa-cloud-arrow-up"></i>
-            <span>Salin Link Form</span>
           </button>
         </div>
       </div>
@@ -898,86 +890,6 @@
               <button type="button" class="btn-dd-add-user" title="Tambah Penilai"><i class="fas fa-plus"></i></button>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- "Storage / Rekrutmen Analytics" Stacked Bar Chart -->
-      <div class="dd-storage-chart-card">
-        <div class="dd-chart-header">
-          <div class="dd-chart-capacity">
-            <span class="dd-chart-sub">Kapasitas Berkas</span>
-            <span class="dd-chart-val">Tersedia 73 GB</span>
-          </div>
-          <button type="button" class="dd-chart-select-pill">
-            <i class="far fa-calendar"></i> Bulan Ini <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i>
-          </button>
-        </div>
-
-        <div class="dd-chart-canvas">
-          <div class="dd-chart-y-axis">
-            <span>100</span>
-            <span>80</span>
-            <span>60</span>
-            <span>40</span>
-            <span>20</span>
-            <span>0</span>
-          </div>
-          <div class="dd-chart-bars-wrap">
-            <div class="dd-chart-col">
-              <div class="dd-chart-bar-pillar" title="Mei: 20 Masuk, 25 Review, 35 Lolos">
-                <div class="dd-bar-segment seg-coral" style="height: 35%;"></div>
-                <div class="dd-bar-segment seg-amber" style="height: 25%;"></div>
-                <div class="dd-bar-segment seg-royal" style="height: 20%;"></div>
-              </div>
-              <span class="dd-chart-month-lbl">Mei</span>
-            </div>
-            <div class="dd-chart-col">
-              <div class="dd-chart-bar-pillar" title="Jun: 15 Masuk, 30 Review, 40 Lolos">
-                <div class="dd-bar-segment seg-coral" style="height: 40%;"></div>
-                <div class="dd-bar-segment seg-amber" style="height: 30%;"></div>
-                <div class="dd-bar-segment seg-royal" style="height: 15%;"></div>
-              </div>
-              <span class="dd-chart-month-lbl">Jun</span>
-            </div>
-            <div class="dd-chart-col">
-              <div class="dd-chart-bar-pillar" title="Jul: 20 Masuk, 20 Review, 50 Lolos">
-                <div class="dd-bar-segment seg-coral" style="height: 50%;"></div>
-                <div class="dd-bar-segment seg-amber" style="height: 20%;"></div>
-                <div class="dd-bar-segment seg-royal" style="height: 20%;"></div>
-              </div>
-              <span class="dd-chart-month-lbl">Jul</span>
-            </div>
-            <div class="dd-chart-col">
-              <div class="dd-chart-bar-pillar" title="Agt: 15 Masuk, 35 Review, 45 Lolos">
-                <div class="dd-bar-segment seg-coral" style="height: 45%;"></div>
-                <div class="dd-bar-segment seg-amber" style="height: 35%;"></div>
-                <div class="dd-bar-segment seg-royal" style="height: 15%;"></div>
-              </div>
-              <span class="dd-chart-month-lbl">Agt</span>
-            </div>
-            <div class="dd-chart-col">
-              <div class="dd-chart-bar-pillar" title="Sep: 15 Masuk, 20 Review, 60 Lolos">
-                <div class="dd-bar-segment seg-coral" style="height: 60%;"></div>
-                <div class="dd-bar-segment seg-amber" style="height: 20%;"></div>
-                <div class="dd-bar-segment seg-royal" style="height: 15%;"></div>
-              </div>
-              <span class="dd-chart-month-lbl">Sep</span>
-            </div>
-            <div class="dd-chart-col">
-              <div class="dd-chart-bar-pillar" title="Okt: 10 Masuk, 15 Review, 70 Lolos">
-                <div class="dd-bar-segment seg-coral" style="height: 70%;"></div>
-                <div class="dd-bar-segment seg-amber" style="height: 15%;"></div>
-                <div class="dd-bar-segment seg-royal" style="height: 10%;"></div>
-              </div>
-              <span class="dd-chart-month-lbl">Okt</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="dd-chart-legend">
-          <div class="dd-legend-item"><span class="dd-legend-dot seg-coral"></span> Berkas Masuk</div>
-          <div class="dd-legend-item"><span class="dd-legend-dot seg-amber"></span> Review</div>
-          <div class="dd-legend-item"><span class="dd-legend-dot seg-royal"></span> Lolos</div>
         </div>
       </div>
 
