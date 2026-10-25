@@ -87,16 +87,16 @@
       cursor: pointer;
     }
     .btn-outlet:hover {
-      background-color: #f0fdf4;
-      color: #064e3b;
-      border-color: #a7f3d0;
+      background-color: rgba(90, 96, 234, 0.08);
+      color: var(--dd-primary, #5a60ea);
+      border-color: rgba(90, 96, 234, 0.3);
     }
     .btn-outlet.active {
-      background: linear-gradient(135deg, #064e3b 0%, #059669 100%) !important;
+      background: var(--dd-primary, #5a60ea) !important;
       color: #ffffff !important;
-      border-color: #064e3b !important;
-      font-weight: 600;
-      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25);
+      border-color: var(--dd-primary, #5a60ea) !important;
+      font-weight: 700;
+      box-shadow: 0 4px 14px var(--dd-primary-glow, rgba(90, 96, 234, 0.35));
     }
     .btn-outlet.active .badge-count {
       background-color: rgba(255, 255, 255, 0.25) !important;
@@ -140,8 +140,8 @@
 
     /* AI Scanner Banner */
     .ai-scanner-panel {
-      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f7fee7 100%);
-      border: 1.5px dashed #059669;
+      background: linear-gradient(135deg, #f5f6ff 0%, #eef2fe 100%);
+      border: 1.5px dashed var(--dd-primary, #5a60ea);
       border-radius: var(--figma-radius-lg, 12px);
     }
 

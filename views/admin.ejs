@@ -308,7 +308,7 @@
                 <span>Berkas Pelamar Terbaru</span>
                 <span class="kov-badge-count"><span id="candidateCount"><%= candidates.length %></span> Data</span>
               </h2>
-              <div style="font-size: 0.78rem; color: #5e8377; margin-top: 3px;">
+              <div style="font-size: 0.78rem; color: var(--dd-text-secondary, #64748b); margin-top: 3px;">
                 Gunakan filter status dan pencarian data untuk mempermudah seleksi HR.
               </div>
             </div>
@@ -556,17 +556,14 @@
                   <td>
                     <% 
                       const statusName = rawStatus;
-                      let pillBg = '#eff6ff', pillColor = '#1d4ed8', pillBorder = '#dbeafe', dotBg = '#2563eb';
-                      if (statusName === 'Diterima') {
-                        pillBg = '#f0fdf4'; pillColor = '#15803d'; pillBorder = '#bbf7d0'; dotBg = '#16a34a';
-                      } else if (statusName === 'Dipertimbangkan') {
-                        pillBg = '#fffbeb'; pillColor = '#b45309'; pillBorder = '#fef3c7'; dotBg = '#d97706';
-                      } else if (statusName === 'Ditolak') {
-                        pillBg = '#fef2f2'; pillColor = '#b91c1c'; pillBorder = '#fecaca'; dotBg = '#dc2626';
-                      }
+                      let pillClass = 'pill-warning';
+                      if (statusName === 'Diterima') pillClass = 'pill-success';
+                      else if (statusName === 'Dipertimbangkan') pillClass = 'pill-warning';
+                      else if (statusName === 'Ditolak') pillClass = 'pill-danger';
+                      else if (statusName === 'Belum Diproses') pillClass = 'pill-info';
                     %>
-                    <span class="status-pill-modern" style="background: <%= pillBg %>; color: <%= pillColor %>; border: 1px solid <%= pillBorder %>;">
-                      <span class="status-dot-pulse" style="background: <%= dotBg %>;"></span>
+                    <span class="status-pill-modern <%= pillClass %>">
+                      <span class="status-dot-pulse"></span>
                       <%= statusName %>
                     </span>
                   </td>
@@ -959,7 +956,7 @@
       function triggerSuccessUI() {
         if (btnSalin) {
           btnSalin.innerHTML = '<i class="fas fa-check me-1"></i> Tersalin!';
-          btnSalin.style.background = '#047857';
+          btnSalin.style.background = '#484ec9';
           clearTimeout(btnSalin._timer);
           btnSalin._timer = setTimeout(() => {
             btnSalin.innerHTML = origSalinText;

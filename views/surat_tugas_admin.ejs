@@ -50,18 +50,24 @@
           <span id="shareUrl" class="d-none"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/surat-tugas</span>
         </div>
       </header>
-        <div class="d-flex align-items-center gap-2">
-          <button class="btn-kov-primary btn-kov-sm" onclick="copyShareUrl()">
-            <i class="fas fa-copy"></i> Salin Link Form
-          </button>
-          <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn-kov-outline btn-kov-sm">
-            <i class="fas fa-arrow-up-right-from-square"></i> Buka Form
+
+      <!-- Main Content Area -->
+      <main class="kov-content-body">
+
+        <!-- Sub-menu Navigation Tabs -->
+        <div class="d-flex gap-2 overflow-x-auto pb-2 mb-4">
+          <a class="nav-link-modern" href="/admin/operasional">
+            <i class="fas fa-boxes-packing"></i> Berita Acara Pengajuan Barang
+          </a>
+          <a class="nav-link-modern" href="/admin/operasional/po">
+            <i class="fas fa-file-invoice-dollar"></i> Purchase Order (PO)
+          </a>
+          <a class="nav-link-modern active" href="/admin/operasional/surat-tugas">
+            <i class="fas fa-file-signature text-primary"></i> Surat Tugas &amp; Perjalanan Dinas
           </a>
         </div>
-      </div>
-    </div>
 
-    <!-- Bento Metric Cards (Coinbase High-Contrast Style) -->
+        <!-- Bento Metric Cards (Coinbase High-Contrast Style) -->
     <div class="bento-grid">
       <div class="coinbase-kpi-card">
         <div>
