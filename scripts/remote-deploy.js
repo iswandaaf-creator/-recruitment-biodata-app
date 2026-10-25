@@ -43,9 +43,18 @@ pm2 restart kov-portal --update-env
 pm2 save
 
 echo ">>> [5/5] Performing local health probe..."
-sleep 2
-curl -s http://127.0.0.1:3000/health
-echo ""
+for i in 1 2 3 4 5 6 7 8 9 10; do
+  if curl -s -f http://127.0.0.1:3000/health > /dev/null 2>&1; then
+    echo "Health check succeeded on attempt $i:"
+    curl -s http://127.0.0.1:3000/health
+    echo ""
+    exit 0
+  fi
+  echo "Waiting for app to initialize (attempt $i/10)..."
+  sleep 2
+done
+echo "Health check failed after 10 attempts."
+exit 1
 `;
 
 conn.on('ready', () => {
