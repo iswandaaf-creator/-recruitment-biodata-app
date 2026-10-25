@@ -285,6 +285,25 @@ async function runReviewerAudit() {
     const nextMonth = await page.$eval('#calMonthDisplay', el => el.textContent.trim());
     report('Navigasi bulan kalender interaktif', nextMonth.includes('November 2026'), `Navigasi: ${nextMonth}`);
 
+    // Switch back to October
+    await page.evaluate(() => window.prevCalPeriod());
+    await new Promise(r => setTimeout(r, 100));
+
+    const calDays = await page.$$('.dd-cal-day');
+    report('Hari-hari kalender reviewer dirender dinamis (minimal 28 hari)', calDays.length >= 28, `${calDays.length} sel hari terpasang`);
+
+    // Click date 25 Oktober 2026
+    await page.evaluate(() => window.selectCalDate('2026-10-25'));
+    await new Promise(r => setTimeout(r, 100));
+    const filteredReviewerCount = await page.$$eval('.candidate-grid-item', items => items.filter(i => i.style.display !== 'none').length);
+    report('Klik tanggal di Kalender Seleksi Reviewer menyaring pelamar tanggal tersebut', filteredReviewerCount === 2, `Visible: ${filteredReviewerCount} pelamar (25 Okt)`);
+
+    // Reset date filter
+    await page.evaluate(() => window.clearCalDateFilter());
+    await new Promise(r => setTimeout(r, 100));
+    const restoredReviewerCount = await page.$$eval('.candidate-grid-item', items => items.filter(i => i.style.display !== 'none').length);
+    report('Hapus filter tanggal mengembalikan seluruh berkas reviewer', restoredReviewerCount === 4, `Visible: ${restoredReviewerCount} pelamar`);
+
     const taskCard = await page.$('.dd-task-card');
     report('Widget "Tindakan Tertunda" tampil dengan accent bar merah', !!taskCard);
 

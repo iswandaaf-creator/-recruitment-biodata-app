@@ -291,6 +291,28 @@ async function runEmpiricalAudit() {
     const isWeekActive = await page.$eval('#calTabWeek', el => el.classList.contains('active'));
     report('Tab periode kalender ("Minggu") aktif saat diklik', isWeekActive);
 
+    // Switch back to Bulan view and October
+    await page.evaluate(() => {
+      document.getElementById('calTabMonth').click();
+      window.prevCalPeriod();
+    });
+    await new Promise(r => setTimeout(r, 100));
+
+    const calDays = await page.$$('.dd-cal-day');
+    report('Hari-hari kalender dirender dinamis (minimal 28 hari)', calDays.length >= 28, `${calDays.length} sel hari terpasang`);
+
+    // Test clicking a date with candidates (2026-10-24)
+    await page.evaluate(() => window.selectCalDate('2026-10-24'));
+    await new Promise(r => setTimeout(r, 100));
+    const filteredByDateCount = await page.$$eval('#candidateTableBody tr[data-id]', rows => rows.filter(r => r.style.display !== 'none').length);
+    report('Klik tanggal di Kalender Seleksi menyaring pelamar tanggal tersebut', filteredByDateCount === 2, `Visible: ${filteredByDateCount} pelamar (24 Okt)`);
+
+    // Reset date filter
+    await page.evaluate(() => window.clearCalDateFilter());
+    await new Promise(r => setTimeout(r, 100));
+    const restoredCount = await page.$$eval('#candidateTableBody tr[data-id]', rows => rows.filter(r => r.style.display !== 'none').length);
+    report('Hapus filter tanggal mengembalikan seluruh data pelamar', restoredCount === 4, `Visible: ${restoredCount} pelamar`);
+
     console.log('\n--- 8. VERIFIKASI "YOUR TASK" / TINDAKAN TERTUNDA ---');
     const taskCard = await page.$('.dd-task-card');
     report('Widget "Tindakan Tertunda" tampil dengan accent bar merah', !!taskCard);

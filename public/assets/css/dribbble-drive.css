@@ -1984,6 +1984,49 @@
 .dd-event-amber { background-color: var(--dd-amber-start); }
 .dd-event-royal { background-color: var(--dd-royal-start); }
 
+/* Today Indicator & Active Dot */
+.dd-cal-day.today {
+  border: 1.5px solid var(--dd-primary, #5a60ea);
+  font-weight: 800;
+}
+
+.dd-cal-day.active .dd-event-dot {
+  background-color: #ffffff !important;
+}
+
+/* Year Grid Selection */
+.dd-year-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.dd-year-month-btn {
+  background: var(--dd-surface-input, rgba(0,0,0,0.03));
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-sm, 8px);
+  padding: 8px 4px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--dd-text-secondary);
+  cursor: pointer;
+  transition: var(--dd-transition);
+  text-align: center;
+}
+
+.dd-year-month-btn:hover {
+  background: var(--dd-surface-hover, rgba(90, 96, 234, 0.08));
+  color: var(--dd-primary, #5a60ea);
+  border-color: var(--dd-primary, #5a60ea);
+}
+
+.dd-year-month-btn.active {
+  background: var(--dd-primary, #5a60ea);
+  color: #ffffff;
+  border-color: var(--dd-primary, #5a60ea);
+}
+
 /* ==========================================================================
    11. "YOUR TASK" WIDGET & ACCENT CARD
    ========================================================================== */

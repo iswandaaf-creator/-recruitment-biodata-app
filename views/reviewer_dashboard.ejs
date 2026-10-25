@@ -377,7 +377,14 @@
           </div>
         </div>
 
-        <!-- Hidden Division Select for programmatic filtering sync -->
+        <!-- Active Calendar Date Filter Alert Chip -->
+        <div id="activeDateBadgeWrap" class="d-none pt-2 pb-1">
+          <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 0.8rem; font-weight: 700;">
+            <i class="far fa-calendar-check"></i>
+            <span id="activeDateBadgeText">Filter Tanggal: 26 Oktober 2026</span>
+            <button type="button" onclick="clearCalDateFilter()" class="btn-close ms-1" style="font-size: 0.6rem; cursor: pointer;" aria-label="Hapus Filter Tanggal" title="Hapus Filter Tanggal"></button>
+          </div>
+        </div>
         <select id="divisionFilter" class="d-none">
           <option value="ALL">Semua</option>
           <option value="barista">Barista</option>
@@ -412,7 +419,8 @@
                  data-divisi="<%= dLow %>"
                  data-hasreview="<%= hasReview ? 'true' : 'false' %>"
                  data-isrecommended="<%= isLolos ? 'true' : 'false' %>"
-                 data-ishold="<%= isHold ? 'true' : 'false' %>">
+                 data-ishold="<%= isHold ? 'true' : 'false' %>"
+                 data-date="<%= c.created_at ? new Date(c.created_at).getTime() : 0 %>">
               <div class="reviewer-grid-card shadow-xs">
                 <div>
                   <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
@@ -515,7 +523,8 @@
                       data-divisi="<%= dLow %>"
                       data-hasreview="<%= hasReview ? 'true' : 'false' %>"
                       data-isrecommended="<%= isLolos ? 'true' : 'false' %>"
-                      data-ishold="<%= isHold ? 'true' : 'false' %>">
+                      data-ishold="<%= isHold ? 'true' : 'false' %>"
+                      data-date="<%= c.created_at ? new Date(c.created_at).getTime() : 0 %>">
                     <td class="ps-3 fw-bold text-muted">#<%= c.id %></td>
                     <td class="small text-secondary fw-semibold">
                       <%= formatDate(c.created_at, true) %>
@@ -643,66 +652,33 @@
         </div>
       </div>
 
-      <!-- Interactive Calendar Widget (Direct Dribbble Design) -->
-      <div class="dd-calendar-widget">
-        <div class="dd-calendar-top">
+      <!-- Interactive Calendar Widget (Direct Dribbble Design - Dynamic Selection Calendar) -->
+      <div class="dd-calendar-widget" id="ddCalendarWidget">
+        <div class="dd-calendar-top" onclick="toggleCalCollapse()" style="cursor: pointer;" title="Sembunyikan / Buka Kalender">
           <h4 class="dd-calendar-title">Kalender Seleksi</h4>
-          <i class="fas fa-chevron-up text-muted" style="font-size: 0.8rem;"></i>
+          <i class="fas fa-chevron-up text-muted" id="calCollapseIcon" style="font-size: 0.8rem; transition: transform 0.2s;"></i>
         </div>
-        <div class="dd-period-toggle">
-          <button type="button" class="dd-period-btn" id="calTabWeek" onclick="switchCalPeriod('week', this)">Minggu</button>
-          <button type="button" class="dd-period-btn active" id="calTabMonth" onclick="switchCalPeriod('month', this)">Bulan</button>
-        </div>
-        <div class="dd-month-nav">
-          <button type="button" class="dd-nav-arrow-btn" id="btnPrevCalMonth" onclick="prevCalMonth()" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
-          <span class="dd-month-label" id="calMonthDisplay">Oktober 2026</span>
-          <button type="button" class="dd-nav-arrow-btn" id="btnNextCalMonth" onclick="nextCalMonth()" title="Bulan Selanjutnya"><i class="fas fa-chevron-right"></i></button>
-        </div>
-        <div class="dd-calendar-grid" id="calGrid">
-          <div class="dd-cal-weekday">Sen</div>
-          <div class="dd-cal-weekday">Sel</div>
-          <div class="dd-cal-weekday">Rab</div>
-          <div class="dd-cal-weekday">Kam</div>
-          <div class="dd-cal-weekday">Jum</div>
-          <div class="dd-cal-weekday">Sab</div>
-          <div class="dd-cal-weekday">Min</div>
-
-          <!-- Calendar Days Grid (Current Month) -->
-          <div class="dd-cal-day muted">28</div>
-          <div class="dd-cal-day muted">29</div>
-          <div class="dd-cal-day muted">30</div>
-          <div class="dd-cal-day">1</div>
-          <div class="dd-cal-day">2</div>
-          <div class="dd-cal-day">3</div>
-          <div class="dd-cal-day">4</div>
-          <div class="dd-cal-day">5</div>
-          <div class="dd-cal-day">6</div>
-          <div class="dd-cal-day active">7 <span class="dd-event-dot dd-event-royal"></span></div>
-          <div class="dd-cal-day">8</div>
-          <div class="dd-cal-day">9 <span class="dd-event-dot dd-event-coral"></span></div>
-          <div class="dd-cal-day">10</div>
-          <div class="dd-cal-day">11</div>
-          <div class="dd-cal-day">12</div>
-          <div class="dd-cal-day">13</div>
-          <div class="dd-cal-day">14 <span class="dd-event-dot dd-event-amber"></span></div>
-          <div class="dd-cal-day">15</div>
-          <div class="dd-cal-day">16</div>
-          <div class="dd-cal-day">17</div>
-          <div class="dd-cal-day">18</div>
-          <div class="dd-cal-day">19</div>
-          <div class="dd-cal-day">20 <span class="dd-event-dot dd-event-amber"></span></div>
-          <div class="dd-cal-day">21</div>
-          <div class="dd-cal-day">22</div>
-          <div class="dd-cal-day">23</div>
-          <div class="dd-cal-day">24 <span class="dd-event-dot dd-event-royal"></span></div>
-          <div class="dd-cal-day">25</div>
-          <div class="dd-cal-day">26</div>
-          <div class="dd-cal-day">27</div>
-          <div class="dd-cal-day">28</div>
-          <div class="dd-cal-day">29</div>
-          <div class="dd-cal-day">30</div>
-          <div class="dd-cal-day">31</div>
-          <div class="dd-cal-day muted">1</div>
+        <div id="calBodyWrapper">
+          <div class="dd-period-toggle">
+            <button type="button" class="dd-period-btn" id="calTabWeek" onclick="switchCalPeriod('week', this)">Minggu</button>
+            <button type="button" class="dd-period-btn active" id="calTabMonth" onclick="switchCalPeriod('month', this)">Bulan</button>
+            <button type="button" class="dd-period-btn" id="calTabYear" onclick="switchCalPeriod('year', this)">Tahun</button>
+          </div>
+          <div class="dd-month-nav">
+            <button type="button" class="dd-nav-arrow-btn" id="btnPrevCalMonth" onclick="prevCalPeriod()" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
+            <span class="dd-month-label" id="calMonthDisplay">Oktober 2026</span>
+            <button type="button" class="dd-nav-arrow-btn" id="btnNextCalMonth" onclick="nextCalPeriod()" title="Bulan Selanjutnya"><i class="fas fa-chevron-right"></i></button>
+          </div>
+          <div class="dd-calendar-grid" id="calGrid">
+            <!-- Dynamically populated via renderCalendar() -->
+          </div>
+          <div id="calYearGrid" class="dd-year-grid d-none">
+            <!-- Dynamically populated for Year view -->
+          </div>
+          <div id="calDateFilterNotice" class="d-none mt-2 pt-2 border-top text-center" style="font-size: 0.75rem;">
+            <span class="text-primary fw-bold" id="calFilterText">Filter Tanggal Aktif</span>
+            <a href="javascript:void(0)" onclick="clearCalDateFilter()" class="ms-2 text-danger text-decoration-none fw-semibold"><i class="fas fa-xmark"></i> Hapus Filter</a>
+          </div>
         </div>
       </div>
 
@@ -781,7 +757,7 @@
       const cards = document.querySelectorAll('.candidate-grid-item');
       let visibleCount = 0;
 
-      function checkMatch(name, posisi, divisi, hasReview, isRecommended, isHold) {
+      function checkMatch(name, posisi, divisi, hasReview, isRecommended, isHold, dateTs) {
         const matchesSearch = !q || name.includes(q) || posisi.includes(q) || divisi.includes(q);
         const matchesDiv = currentDivisiFilter === 'all' || currentDivisiFilter === 'ALL' || divisi.includes(currentDivisiFilter);
 
@@ -791,7 +767,18 @@
         else if (currentStatusFilter === 'LOLOS') matchesStatus = isRecommended;
         else if (currentStatusFilter === 'HOLD') matchesStatus = isHold;
 
-        return matchesSearch && matchesDiv && matchesStatus;
+        let matchesDate = true;
+        if (activeDateFilter) {
+          if (dateTs) {
+            const rd = new Date(dateTs);
+            const rk = formatDateKey(rd);
+            matchesDate = (rk === activeDateFilter);
+          } else {
+            matchesDate = false;
+          }
+        }
+
+        return matchesSearch && matchesDiv && matchesStatus && matchesDate;
       }
 
       // Filter Grid Cards
@@ -802,8 +789,9 @@
         const hasReview = c.getAttribute('data-hasreview') === 'true';
         const isRec = c.getAttribute('data-isrecommended') === 'true';
         const isHold = c.getAttribute('data-ishold') === 'true';
+        const dateTs = parseInt(c.getAttribute('data-date')) || 0;
 
-        if (checkMatch(name, posisi, divisi, hasReview, isRec, isHold)) {
+        if (checkMatch(name, posisi, divisi, hasReview, isRec, isHold, dateTs)) {
           c.style.display = '';
           visibleCount++;
         } else {
@@ -819,8 +807,9 @@
         const hasReview = r.getAttribute('data-hasreview') === 'true';
         const isRec = r.getAttribute('data-isrecommended') === 'true';
         const isHold = r.getAttribute('data-ishold') === 'true';
+        const dateTs = parseInt(r.getAttribute('data-date')) || 0;
 
-        if (checkMatch(name, posisi, divisi, hasReview, isRec, isHold)) {
+        if (checkMatch(name, posisi, divisi, hasReview, isRec, isHold, dateTs)) {
           r.style.display = '';
         } else {
           r.style.display = 'none';
@@ -853,32 +842,310 @@
       }
     }
 
-    // Calendar Navigation
-    let currentCalMonth = 9; // 0-indexed: 9 = October
+    // =========================================================================
+    // DYNAMIC SELECTION CALENDAR SYSTEM (Fully Interactive)
+    // =========================================================================
+    const today = new Date();
     let currentCalYear = 2026;
+    let currentCalMonth = 9; // October (0-indexed)
+    let activeCalPeriod = 'month'; // 'week', 'month', 'year'
+    let activeDateFilter = null; // 'YYYY-MM-DD' or null
+    let currentWeekStart = getMondayOfWeek(new Date(2026, 9, 26));
+
     const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+    const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+    function getMondayOfWeek(d) {
+      const date = new Date(d);
+      const day = (date.getDay() + 6) % 7;
+      date.setDate(date.getDate() - day);
+      date.setHours(0, 0, 0, 0);
+      return date;
+    }
+
+    function formatDateKey(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatDisplayDate(dateKey) {
+      if (!dateKey) return '';
+      const parts = dateKey.split('-');
+      if (parts.length !== 3) return dateKey;
+      const day = parseInt(parts[2], 10);
+      const mIdx = parseInt(parts[1], 10) - 1;
+      const year = parts[0];
+      return `${day} ${monthNames[mIdx] || ''} ${year}`;
+    }
+
+    function getCandidateDateMap() {
+      const counts = {};
+      const rows = document.querySelectorAll('.candidate-row[data-date]');
+      rows.forEach(r => {
+        const ts = parseInt(r.getAttribute('data-date')) || 0;
+        if (ts) {
+          const d = new Date(ts);
+          const k = formatDateKey(d);
+          counts[k] = (counts[k] || 0) + 1;
+        }
+      });
+      return counts;
+    }
+
+    function renderCalendar() {
+      const calGrid = document.getElementById('calGrid');
+      const calYearGrid = document.getElementById('calYearGrid');
+      const headerEl = document.getElementById('calMonthDisplay');
+      if (!calGrid) return;
+
+      const candidateMap = getCandidateDateMap();
+      const todayKey = formatDateKey(today);
+
+      if (activeCalPeriod === 'year') {
+        if (headerEl) headerEl.textContent = String(currentCalYear);
+        calGrid.classList.add('d-none');
+        if (calYearGrid) {
+          calYearGrid.classList.remove('d-none');
+          let yHtml = '';
+          for (let m = 0; m < 12; m++) {
+            const isSelectedMonth = (m === currentCalMonth);
+            let mCount = 0;
+            const prefix = `${currentCalYear}-${String(m + 1).padStart(2, '0')}`;
+            for (const k in candidateMap) {
+              if (k.startsWith(prefix)) mCount += candidateMap[k];
+            }
+            yHtml += `
+              <button type="button" class="dd-year-month-btn ${isSelectedMonth ? 'active' : ''}" onclick="selectCalMonth(${m})">
+                <div class="fw-bold">${shortMonthNames[m]}</div>
+                <div style="font-size: 0.65rem; opacity: 0.8;">${mCount > 0 ? mCount + ' berkas' : '-'}</div>
+              </button>
+            `;
+          }
+          calYearGrid.innerHTML = yHtml;
+        }
+        return;
+      }
+
+      if (calYearGrid) calYearGrid.classList.add('d-none');
+      calGrid.classList.remove('d-none');
+
+      if (activeCalPeriod === 'week') {
+        const weekEnd = new Date(currentWeekStart);
+        weekEnd.setDate(weekEnd.getDate() + 6);
+        if (headerEl) {
+          headerEl.textContent = `${currentWeekStart.getDate()} ${shortMonthNames[currentWeekStart.getMonth()]} - ${weekEnd.getDate()} ${shortMonthNames[weekEnd.getMonth()]} ${weekEnd.getFullYear()}`;
+        }
+
+        let html = `
+          <div class="dd-cal-weekday">Sen</div>
+          <div class="dd-cal-weekday">Sel</div>
+          <div class="dd-cal-weekday">Rab</div>
+          <div class="dd-cal-weekday">Kam</div>
+          <div class="dd-cal-weekday">Jum</div>
+          <div class="dd-cal-weekday">Sab</div>
+          <div class="dd-cal-weekday">Min</div>
+        `;
+
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(currentWeekStart);
+          d.setDate(d.getDate() + i);
+          const k = formatDateKey(d);
+          const isToday = (k === todayKey);
+          const isActive = (k === activeDateFilter);
+          const count = candidateMap[k] || 0;
+
+          let classes = ['dd-cal-day'];
+          if (isToday) classes.push('today');
+          if (isActive) classes.push('active');
+          if (count > 0) classes.push('has-event');
+
+          let dot = (count > 0) ? `<span class="dd-event-dot ${isActive ? 'dot-white' : 'dd-event-royal'}"></span>` : '';
+          html += `<div class="${classes.join(' ')}" onclick="selectCalDate('${k}')" title="${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}${count > 0 ? ' (' + count + ' berkas pelamar)' : ''}">${d.getDate()}${dot}</div>`;
+        }
+        calGrid.innerHTML = html;
+        return;
+      }
+
+      // Default: Month View
+      if (headerEl) {
+        headerEl.textContent = `${monthNames[currentCalMonth]} ${currentCalYear}`;
+      }
+
+      let html = `
+        <div class="dd-cal-weekday">Sen</div>
+        <div class="dd-cal-weekday">Sel</div>
+        <div class="dd-cal-weekday">Rab</div>
+        <div class="dd-cal-weekday">Kam</div>
+        <div class="dd-cal-weekday">Jum</div>
+        <div class="dd-cal-weekday">Sab</div>
+        <div class="dd-cal-weekday">Min</div>
+      `;
+
+      const firstDayIdx = (new Date(currentCalYear, currentCalMonth, 1).getDay() + 6) % 7;
+      const daysInMonth = new Date(currentCalYear, currentCalMonth + 1, 0).getDate();
+      const daysInPrevMonth = new Date(currentCalYear, currentCalMonth, 0).getDate();
+
+      // Trailing previous month days
+      for (let i = firstDayIdx - 1; i >= 0; i--) {
+        const dayNum = daysInPrevMonth - i;
+        const prevDate = new Date(currentCalYear, currentCalMonth - 1, dayNum);
+        const k = formatDateKey(prevDate);
+        const count = candidateMap[k] || 0;
+        let dot = (count > 0) ? `<span class="dd-event-dot dd-event-royal"></span>` : '';
+        html += `<div class="dd-cal-day muted" onclick="navToDate('${k}')" title="${dayNum} ${monthNames[prevDate.getMonth()]} ${prevDate.getFullYear()}">${dayNum}${dot}</div>`;
+      }
+
+      // Current month days
+      for (let day = 1; day <= daysInMonth; day++) {
+        const curDate = new Date(currentCalYear, currentCalMonth, day);
+        const k = formatDateKey(curDate);
+        const isToday = (k === todayKey);
+        const isActive = (k === activeDateFilter);
+        const count = candidateMap[k] || 0;
+
+        let classes = ['dd-cal-day'];
+        if (isToday) classes.push('today');
+        if (isActive) classes.push('active');
+        if (count > 0) classes.push('has-event');
+
+        let dot = (count > 0) ? `<span class="dd-event-dot ${isActive ? 'dot-white' : 'dd-event-royal'}"></span>` : '';
+        html += `<div class="${classes.join(' ')}" onclick="selectCalDate('${k}')" title="${day} ${monthNames[currentCalMonth]} ${currentCalYear}${count > 0 ? ' (' + count + ' berkas pelamar)' : ''}">${day}${dot}</div>`;
+      }
+
+      // Leading next month days
+      const totalCells = firstDayIdx + daysInMonth;
+      const remaining = (7 - (totalCells % 7)) % 7;
+      for (let nextDay = 1; nextDay <= remaining; nextDay++) {
+        const nextDate = new Date(currentCalYear, currentCalMonth + 1, nextDay);
+        const k = formatDateKey(nextDate);
+        const count = candidateMap[k] || 0;
+        let dot = (count > 0) ? `<span class="dd-event-dot dd-event-royal"></span>` : '';
+        html += `<div class="dd-cal-day muted" onclick="navToDate('${k}')" title="${nextDay} ${monthNames[nextDate.getMonth()]} ${nextDate.getFullYear()}">${nextDay}${dot}</div>`;
+      }
+
+      calGrid.innerHTML = html;
+    }
+
+    function selectCalDate(dateKey) {
+      if (activeDateFilter === dateKey) {
+        activeDateFilter = null;
+      } else {
+        activeDateFilter = dateKey;
+        const parts = dateKey.split('-');
+        if (parts.length === 3) {
+          currentCalYear = parseInt(parts[0], 10);
+          currentCalMonth = parseInt(parts[1], 10) - 1;
+        }
+      }
+      updateDateFilterUI();
+      renderCalendar();
+      filterTable();
+    }
+
+    function navToDate(dateKey) {
+      const parts = dateKey.split('-');
+      if (parts.length === 3) {
+        currentCalYear = parseInt(parts[0], 10);
+        currentCalMonth = parseInt(parts[1], 10) - 1;
+      }
+      selectCalDate(dateKey);
+    }
+
+    function selectCalMonth(m) {
+      currentCalMonth = m;
+      switchCalPeriod('month');
+    }
+
+    function clearCalDateFilter() {
+      activeDateFilter = null;
+      updateDateFilterUI();
+      renderCalendar();
+      filterTable();
+    }
+
+    function updateDateFilterUI() {
+      const chipWrap = document.getElementById('activeDateBadgeWrap');
+      const chipText = document.getElementById('activeDateBadgeText');
+      const noticeWrap = document.getElementById('calDateFilterNotice');
+      const noticeText = document.getElementById('calFilterText');
+
+      if (activeDateFilter) {
+        const label = formatDisplayDate(activeDateFilter);
+        if (chipWrap && chipText) {
+          chipText.textContent = `Tanggal: ${label}`;
+          chipWrap.classList.remove('d-none');
+          chipWrap.classList.add('d-flex');
+        }
+        if (noticeWrap && noticeText) {
+          noticeText.textContent = `Filter: ${label}`;
+          noticeWrap.classList.remove('d-none');
+        }
+      } else {
+        if (chipWrap) {
+          chipWrap.classList.add('d-none');
+          chipWrap.classList.remove('d-flex');
+        }
+        if (noticeWrap) {
+          noticeWrap.classList.add('d-none');
+        }
+      }
+    }
+
+    function switchCalPeriod(period, btn) {
+      activeCalPeriod = period;
+      document.querySelectorAll('.dd-period-btn').forEach(b => b.classList.remove('active'));
+      const targetBtn = btn || document.getElementById(`calTab${period.charAt(0).toUpperCase() + period.slice(1)}`);
+      if (targetBtn) targetBtn.classList.add('active');
+      renderCalendar();
+    }
 
     function prevCalMonth() {
-      currentCalMonth--;
-      if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; }
-      updateCalHeader();
+      prevCalPeriod();
     }
 
     function nextCalMonth() {
-      currentCalMonth++;
-      if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; }
-      updateCalHeader();
+      nextCalPeriod();
     }
 
-    function updateCalHeader() {
-      const el = document.getElementById('calMonthDisplay');
-      if (el) el.textContent = monthNames[currentCalMonth] + ' ' + currentCalYear;
+    function prevCalPeriod() {
+      if (activeCalPeriod === 'month') {
+        currentCalMonth--;
+        if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; }
+      } else if (activeCalPeriod === 'week') {
+        currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+      } else if (activeCalPeriod === 'year') {
+        currentCalYear--;
+      }
+      renderCalendar();
     }
 
-    function switchCalPeriod(period) {
-      document.querySelectorAll('.dd-period-btn').forEach(b => b.classList.remove('active'));
-      const activeBtn = document.getElementById(`calTab${period.charAt(0).toUpperCase() + period.slice(1)}`);
-      if (activeBtn) activeBtn.classList.add('active');
+    function nextCalPeriod() {
+      if (activeCalPeriod === 'month') {
+        currentCalMonth++;
+        if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; }
+      } else if (activeCalPeriod === 'week') {
+        currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+      } else if (activeCalPeriod === 'year') {
+        currentCalYear++;
+      }
+      renderCalendar();
+    }
+
+    function toggleCalCollapse() {
+      const body = document.getElementById('calBodyWrapper');
+      const icon = document.getElementById('calCollapseIcon');
+      if (body) {
+        const isHidden = body.classList.contains('d-none');
+        if (isHidden) {
+          body.classList.remove('d-none');
+          if (icon) icon.style.transform = 'rotate(0deg)';
+        } else {
+          body.classList.add('d-none');
+          if (icon) icon.style.transform = 'rotate(180deg)';
+        }
+      }
     }
 
     window.setStatusFilter = setStatusFilter;
@@ -888,9 +1155,17 @@
     window.setViewMode = setViewMode;
     window.prevCalMonth = prevCalMonth;
     window.nextCalMonth = nextCalMonth;
+    window.prevCalPeriod = prevCalPeriod;
+    window.nextCalPeriod = nextCalPeriod;
     window.switchCalPeriod = switchCalPeriod;
+    window.selectCalDate = selectCalDate;
+    window.selectCalMonth = selectCalMonth;
+    window.clearCalDateFilter = clearCalDateFilter;
+    window.toggleCalCollapse = toggleCalCollapse;
+    window.renderCalendar = renderCalendar;
 
     document.addEventListener('DOMContentLoaded', () => {
+      renderCalendar();
       const savedMode = localStorage.getItem('reviewer_view_mode');
       if (savedMode === 'list') {
         setViewMode('list');
