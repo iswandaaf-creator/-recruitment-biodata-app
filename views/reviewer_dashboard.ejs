@@ -14,11 +14,12 @@
   <link href="/assets/css/figma-ui.css" rel="stylesheet">
   <link href="/assets/css/dribbble-drive.css" rel="stylesheet">
   <style>
+    /* Reviewer Specific Dribbble Enhancements */
     .filter-btn {
       font-size: 0.8rem;
       font-weight: 600;
       border-radius: var(--kov-radius-pill);
-      padding: 0.4rem 0.85rem;
+      padding: 0.45rem 1rem;
       border: 1px solid var(--kov-slate-200);
       background: #ffffff;
       color: var(--kov-slate-600);
@@ -26,7 +27,7 @@
       transition: var(--kov-transition);
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       white-space: nowrap;
     }
     .filter-btn:hover, .filter-btn.active {
@@ -35,366 +36,905 @@
       color: #ffffff !important;
       box-shadow: 0 4px 14px var(--dd-primary-glow) !important;
     }
+    .dd-folder-card:focus {
+      outline: 3px solid rgba(255, 255, 255, 0.6);
+      outline-offset: 2px;
+    }
+    .reviewer-grid-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 18px 20px;
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+    .reviewer-grid-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(19, 20, 41, 0.08);
+      border-color: rgba(90, 96, 234, 0.35);
+    }
+    [data-theme="dark"] .reviewer-grid-card {
+      background: #181c2f;
+      border-color: rgba(255, 255, 255, 0.08);
+    }
   </style>
 </head>
 <body>
 
-  <div class="kov-app-shell">
+  <%
+    const totalKandidat = (candidates || []).length;
+    const belumDireview = (candidates || []).filter(c => !c.review_count || c.review_count === 0).length;
+    const sudahDireview = (candidates || []).filter(c => c.review_count && c.review_count > 0).length;
+    const direkomendasikan = (candidates || []).filter(c => (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima')).length;
+    const dipertimbangkan = (candidates || []).filter(c => (c.latest_rekomendasi || '').includes('Dipertimbangkan') || (c.kesimpulan_status === 'Dipertimbangkan')).length;
+    const reviewPercent = totalKandidat > 0 ? Math.round((sudahDireview / totalKandidat) * 100) : 0;
+
+    // Division Candidate Counts
+    const baristaCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('barista')).length;
+    const opsCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('operasional') || (c.divisi || '').toLowerCase().includes('staff') || (c.divisi || '').toLowerCase().includes('kasir')).length;
+    const kitchenCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('kitchen') || (c.divisi || '').toLowerCase().includes('cook') || (c.divisi || '').toLowerCase().includes('pastry')).length;
+    const teknisiCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('teknisi') || (c.divisi || '').toLowerCase().includes('maintenance') || (c.divisi || '').toLowerCase().includes('listrik')).length;
+    const itCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('it') || (c.divisi || '').toLowerCase().includes('developer') || (c.divisi || '').toLowerCase().includes('support') || (c.divisi || '').toLowerCase().includes('tech')).length;
+    const fatCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('fat') || (c.divisi || '').toLowerCase().includes('finance') || (c.divisi || '').toLowerCase().includes('akunting') || (c.divisi || '').toLowerCase().includes('tax')).length;
+    const hrCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('hr') || (c.divisi || '').toLowerCase().includes('personalia') || (c.divisi || '').toLowerCase().includes('ga')).length;
+  %>
+
+  <div class="dd-layout-root kov-app-shell">
+
+    <!-- 1. Deep Midnight Navy Sidebar Navigation (Pane 1) -->
     <%- include('partials/sidebar', { active: 'reviewer', user: typeof user !== 'undefined' ? user : null }) %>
 
-    <div class="kov-main-content">
-      <!-- Modern Minimalist Topbar -->
-      <header class="kov-topbar">
-        <div class="kov-topbar-left">
-          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+    <!-- 2. Main Center Workspace Canvas (Pane 2) -->
+    <main class="dd-main-canvas kov-main-content dd-theme" id="mainCanvas">
+
+      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
+      <div class="dd-topbar">
+        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
             <i class="fas fa-bars"></i>
           </button>
-          <div class="kov-topbar-breadcrumb">
-            <h1 class="kov-topbar-title">Portal Reviewer Pelamar</h1>
+          <div class="dd-search-container">
+            <i class="fas fa-magnifying-glass dd-search-icon"></i>
+            <input type="text" class="dd-search-input" id="searchInput" placeholder="Cari nama pelamar, posisi, kontak, atau nomor berkas..." aria-label="Cari nama pelamar" onkeyup="filterTable()">
           </div>
         </div>
-        <div class="kov-topbar-right d-flex align-items-center gap-2">
-          <!-- Coinbase Dual-Theme Switcher -->
-          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
-            <i class="fas fa-moon kov-theme-icon"></i>
+
+        <div class="dd-topbar-actions">
+          <div class="dd-view-toggle d-none d-md-flex">
+            <button type="button" class="dd-view-btn active" id="btnViewGrid" title="Tampilan Grid Kartu" onclick="setViewMode('grid')"><i class="fas fa-border-all"></i></button>
+            <button type="button" class="dd-view-btn" id="btnViewList" title="Tampilan Tabel Spreadsheet" onclick="setViewMode('list')"><i class="fas fa-list-ul"></i></button>
+          </div>
+          <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" onclick="filterByStatusPill('BELUM')" title="Saring hanya pelamar yang belum direview">
+            <i class="fas fa-clock text-warning"></i>
+            <span>Perlu Tindakan (<%= belumDireview %>)</span>
           </button>
+          <a href="/api/export/excel" class="btn-drive-upload" title="Export Rekap Pelamar ke Excel">
+            <i class="fas fa-file-excel"></i>
+            <span>Export Excel</span>
+          </a>
         </div>
-      </header>
+      </div>
 
-      <!-- Main Content Area -->
-      <main class="kov-content-body">
+      <div class="dd-body-content">
 
-    <!-- Greeting & Assigned Divisions Banner -->
-    <div class="kov-card mb-4" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; border: none;">
-      <div class="kov-card-body p-4">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
-          <div>
-            <h4 class="fw-bold mb-1 d-flex align-items-center gap-2">
-              <i class="fas fa-user-check text-warning"></i>
-              <span>Selamat Datang, <%= user.nama || user.username %>!</span>
-            </h4>
-            <p class="text-white-50 mb-2 small">
-              Tugas Anda adalah mereview berkas pelamar dan memberikan catatan evaluasi teknis sesuai divisi yang ditugaskan.
+        <!-- Welcome Hero Banner (From drive dribbble.sketch) -->
+        <div class="dd-hero-banner">
+          <div class="dd-hero-content">
+            <h2 class="dd-hero-title">
+              Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Reviewer Divisi' %>!
+            </h2>
+            <p class="dd-hero-subtitle">
+              Portal evaluasi berkas pelamar terpadu KOV Management. Berikan penilaian teknis kualifikasi, catatan wawancara, dan rekomendasi kelolosan kandidat secara akurat.
             </p>
-            <div class="d-flex align-items-center flex-wrap gap-2 mt-2">
-              <span class="small text-white-50 fw-semibold">Divisi Penugasan Anda:</span>
-              <% if (allowedDivisions.length > 0) { %>
+            <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
+              <span class="small fw-bold text-dark" style="font-size: 0.78rem;">Divisi Penugasan:</span>
+              <% if (allowedDivisions && allowedDivisions.length > 0) { %>
                 <% allowedDivisions.forEach(div => { %>
-                  <span class="status-pill-modern pill-success" style="font-size: 0.75rem;">
+                  <span class="status-pill-modern pill-success" style="font-size: 0.72rem; padding: 3px 10px;">
                     <span class="status-dot-pulse"></span> <%= div %>
                   </span>
                 <% }); %>
               <% } else { %>
-                <span class="status-pill-modern pill-warning">
-                  <span class="status-dot-pulse"></span> Belum ada divisi yang ditempelkan
+                <span class="status-pill-modern pill-warning" style="font-size: 0.72rem;">
+                  <span class="status-dot-pulse"></span> Belum ada divisi spesifik
                 </span>
               <% } %>
             </div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <button type="button" class="btn-dd-hero" onclick="filterByStatusPill('BELUM')">
+                <i class="fas fa-pen-to-square me-1"></i> Mulai Review Berkas (<%= belumDireview %>)
+              </button>
+              <a href="/api/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
+                <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
+              </a>
+            </div>
           </div>
-          <div class="text-end">
-            <span class="badge bg-white bg-opacity-10 border border-light border-opacity-25 p-2 px-3 fs-6 rounded-3">
-              <i class="fas fa-layer-group text-warning me-1"></i> Total Pelamar Divisi Anda: <strong><%= candidates.length %></strong>
+          <div class="dd-hero-illustration d-none d-lg-flex">
+            <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
+              <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
+              <path d="M100 60 L100 86 M90 70 L100 60 L110 70" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="170" cy="46" r="14" fill="#f6941e"/>
+              <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
+              <rect x="154" y="96" width="36" height="36" rx="8" fill="#ee474e" transform="rotate(12 154 96)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Alert Notification if any -->
+        <% if (typeof success !== 'undefined' && success) { %>
+          <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
+            <i class="fas fa-circle-check me-2"></i> <%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
+            <i class="fas fa-circle-exclamation me-2"></i> <%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% } %>
+
+        <!-- Kategori Divisi (Vibrant Folder Cards - 8 Symmetrical Cards) -->
+        <div class="dd-section-header">
+          <div class="d-flex align-items-center gap-2">
+            <h3 class="dd-section-title">Kategori Divisi</h3>
+            <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">8 Divisi Lengkap</span>
+          </div>
+          <a href="javascript:void(0)" onclick="filterByDivisiQuick('all')" class="dd-view-all-link" id="btnViewAllDivisions" title="Reset filter dan tampilkan seluruh pelamar">
+            <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
+          </a>
+        </div>
+
+        <div class="dd-folders-grid" id="foldersGrid">
+          <!-- 1. Barista (Coral Red) -->
+          <div class="dd-folder-card dd-folder-coral folder-coral" data-divisi="barista" onclick="filterByDivisiQuick('barista')" title="Filter Divisi Barista" role="button" tabindex="0">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-mug-hot"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Barista &amp; Cafe</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">B1</span>
+                <span class="dd-avatar-chip">B2</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= baristaCount %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= baristaCount %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-mug-hot"></i> Barista</span>
+            </div>
+          </div>
+
+          <!-- 2. Operasional Outlet (Royal Blue) -->
+          <div class="dd-folder-card dd-folder-royal folder-blue" data-divisi="operasional" onclick="filterByDivisiQuick('operasional')" title="Filter Divisi Operasional" role="button" tabindex="0">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-briefcase"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Operasional Outlet</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">OF</span>
+                <span class="dd-avatar-chip">HR</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= opsCount %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= opsCount %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-briefcase"></i> Outlet</span>
+            </div>
+          </div>
+
+          <!-- 3. Kitchen & Pastry (Amber Gold) -->
+          <div class="dd-folder-card dd-folder-amber folder-amber" data-divisi="kitchen" onclick="filterByDivisiQuick('kitchen')" title="Filter Divisi Kitchen" role="button" tabindex="0">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-utensils"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Kitchen &amp; Pastry</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">K1</span>
+                <span class="dd-avatar-chip">K2</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= kitchenCount %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= kitchenCount %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-utensils"></i> Kitchen</span>
+            </div>
+          </div>
+
+          <!-- 4. Teknisi & ME (Cyan Teal) -->
+          <div class="dd-folder-card dd-folder-cyan folder-cyan" data-divisi="teknisi" onclick="filterByDivisiQuick('teknisi')" title="Filter Divisi Teknisi & ME" role="button" tabindex="0">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-wrench"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Teknisi &amp; ME</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">TK</span>
+                <span class="dd-avatar-chip">ME</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= teknisiCount %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= teknisiCount %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-wrench"></i> Teknisi</span>
+            </div>
+          </div>
+
+          <!-- 5. IT & Systems (Violet Purple) -->
+          <div class="dd-folder-card dd-folder-violet folder-violet" data-divisi="it" onclick="filterByDivisiQuick('it')" title="Filter Divisi IT & Sistem" role="button" tabindex="0">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-laptop-code"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">IT &amp; Systems</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">IT</span>
+                <span class="dd-avatar-chip">DV</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= itCount %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= itCount %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-laptop-code"></i> IT Dept</span>
+            </div>
+          </div>
+
+          <!-- 6. FAT / Finance & Tax (Emerald Mint) -->
+          <div class="dd-folder-card dd-folder-emerald folder-emerald" data-divisi="fat" onclick="filterByDivisiQuick('fat')" title="Filter Divisi FAT / Finance" role="button" tabindex="0">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">FAT (Finance)</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">FA</span>
+                <span class="dd-avatar-chip">TX</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= fatCount %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= fatCount %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-file-invoice-dollar"></i> Finance</span>
+            </div>
+          </div>
+
+          <!-- 7. HR & GA (Rose Crimson) -->
+          <div class="dd-folder-card dd-folder-rose folder-rose" data-divisi="hr" onclick="filterByDivisiQuick('hr')" title="Filter Divisi HR & GA" role="button" tabindex="0">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-user-tie"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">HR &amp; GA</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">HR</span>
+                <span class="dd-avatar-chip">GA</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= hrCount %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= hrCount %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-user-tie"></i> HRGA</span>
+            </div>
+          </div>
+
+          <!-- 8. Semua Pelamar (Midnight Indigo) -->
+          <div class="dd-folder-card dd-folder-indigo folder-indigo active" data-divisi="all" onclick="filterByDivisiQuick('all')" title="Tampilkan Seluruh Pelamar" role="button" tabindex="0">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-users-viewfinder"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Semua Kandidat</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">KV</span>
+                <span class="dd-avatar-chip">ALL</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= totalKandidat %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder-open"></i> <%= totalKandidat %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-circle-check"></i> Terverifikasi</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Candidates Section (Modern Botanical / Dribbble High-Contrast) -->
+        <div class="dd-section-header mt-4">
+          <div class="d-flex align-items-center gap-2">
+            <h3 class="dd-section-title">Daftar Berkas Pelamar</h3>
+            <span class="badge rounded-pill bg-light text-dark border px-2.5 py-1" id="candidateCountBadge" style="font-size: 0.75rem; font-weight: 700;">
+              <%= totalKandidat %> Berkas
             </span>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Alert Notification if any -->
-    <% if (typeof success !== 'undefined' && success) { %>
-      <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
-        <i class="fas fa-circle-check me-2"></i> <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% } %>
-    <% if (typeof error !== 'undefined' && error) { %>
-      <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
-        <i class="fas fa-circle-exclamation me-2"></i> <%= error %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% } %>
-
-    <!-- Bento Metric Cards -->
-    <% 
-      const totalKandidat = candidates.length;
-      const belumDireview = candidates.filter(c => !c.review_count || c.review_count === 0).length;
-      const sudahDireview = candidates.filter(c => c.review_count && c.review_count > 0).length;
-      const direkomendasikan = candidates.filter(c => (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima')).length;
-    %>
-    <!-- Bento Metric Cards (Coinbase High-Contrast Sparkline Style) -->
-    <div class="bento-grid">
-      <div class="coinbase-kpi-card">
-        <div>
-          <div class="bento-metric-title">Total Berkas Pelamar</div>
-          <div class="bento-metric-value text-primary"><%= totalKandidat %></div>
-          <div class="bento-metric-sub">Sesuai divisi penugasan Anda</div>
+          <!-- Segmented Filter Pills -->
+          <div class="d-flex align-items-center gap-1.5 flex-wrap">
+            <button type="button" class="filter-btn active" data-filter="ALL" onclick="setStatusFilter('ALL', this)">
+              Semua (<%= totalKandidat %>)
+            </button>
+            <button type="button" class="filter-btn" data-filter="BELUM" onclick="setStatusFilter('BELUM', this)">
+              <i class="fas fa-clock text-warning"></i> Belum Direview (<%= belumDireview %>)
+            </button>
+            <button type="button" class="filter-btn" data-filter="SUDAH" onclick="setStatusFilter('SUDAH', this)">
+              <i class="fas fa-check text-success"></i> Sudah Direview (<%= sudahDireview %>)
+            </button>
+            <button type="button" class="filter-btn" data-filter="LOLOS" onclick="setStatusFilter('LOLOS', this)">
+              <i class="fas fa-circle-check text-primary"></i> Direkomendasikan (<%= direkomendasikan %>)
+            </button>
+            <button type="button" class="filter-btn" data-filter="HOLD" onclick="setStatusFilter('HOLD', this)">
+              <i class="fas fa-hourglass-half text-warning"></i> Dipertimbangkan (<%= dipertimbangkan %>)
+            </button>
+          </div>
         </div>
-        <div class="d-flex flex-column align-items-end gap-1">
-          <div class="coinbase-ring coinbase-ring-blue">
-            <div class="coinbase-ring-inner">
-              <i class="fas fa-folder-open"></i>
+
+        <!-- Hidden Division Select for programmatic filtering sync -->
+        <select id="divisionFilter" class="d-none">
+          <option value="ALL">Semua</option>
+          <option value="barista">Barista</option>
+          <option value="operasional">Operasional</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="teknisi">Teknisi</option>
+          <option value="it">IT</option>
+          <option value="fat">FAT</option>
+          <option value="hr">HR</option>
+        </select>
+
+        <!-- VIEW MODE 1: GRID VIEW -->
+        <div id="candidatesGridView" class="row g-3 mb-4">
+          <% if (candidates.length === 0) { %>
+            <div class="col-12 text-center py-5">
+              <i class="fas fa-folder-open fa-3x text-secondary opacity-50 mb-3"></i>
+              <h5 class="fw-bold text-dark">Belum Ada Pelamar Masuk</h5>
+              <p class="small text-muted mb-0">Saat ini belum ada berkas pelamar untuk divisi penugasan Anda.</p>
             </div>
-          </div>
-          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-blue" d="M2,24 Q25,8 50,18 T98,4"/></svg>
-        </div>
-      </div>
-
-      <div class="coinbase-kpi-card">
-        <div>
-          <div class="bento-metric-title text-warning">Belum Ada Catatan</div>
-          <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;"><%= belumDireview %></div>
-          <div class="bento-metric-sub">Menunggu review dari Anda</div>
-        </div>
-        <div class="d-flex flex-column align-items-end gap-1">
-          <div class="coinbase-ring coinbase-ring-amber">
-            <div class="coinbase-ring-inner">
-              <i class="fas fa-clock"></i>
-            </div>
-          </div>
-          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-amber" d="M2,18 Q30,26 55,14 T98,10"/></svg>
-        </div>
-      </div>
-
-      <div class="coinbase-kpi-card">
-        <div>
-          <div class="bento-metric-title text-info">Sudah Direview</div>
-          <div class="bento-metric-value text-info" style="color: #0284c7 !important;"><%= sudahDireview %></div>
-          <div class="bento-metric-sub">Memiliki catatan evaluasi</div>
-        </div>
-        <div class="d-flex flex-column align-items-end gap-1">
-          <div class="coinbase-ring coinbase-ring-blue">
-            <div class="coinbase-ring-inner" style="color: #0284c7;">
-              <i class="fas fa-check-double"></i>
-            </div>
-          </div>
-          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-blue" d="M2,14 Q30,22 60,8 T98,16"/></svg>
-        </div>
-      </div>
-
-      <div class="coinbase-kpi-card">
-        <div>
-          <div class="bento-metric-title text-success">Direkomendasikan</div>
-          <div class="bento-metric-value" style="color: var(--kov-primary-600);"><%= direkomendasikan %></div>
-          <div class="bento-metric-sub">Dinilai cocok untuk lanjut proses</div>
-        </div>
-        <div class="d-flex flex-column align-items-end gap-1">
-          <div class="coinbase-ring coinbase-ring-emerald">
-            <div class="coinbase-ring-inner">
-              <i class="fas fa-circle-check"></i>
-            </div>
-          </div>
-          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-gain" d="M2,28 Q25,12 55,16 T98,2"/></svg>
-        </div>
-      </div>
-    </div>
-
-    <!-- Candidate List Table Card -->
-    <div class="kov-card">
-      <!-- Toolbar & Filters -->
-      <div class="kov-card-header">
-        <div class="d-flex flex-wrap align-items-center gap-2 mobile-w-100">
-          <!-- Search input -->
-          <div class="input-group input-group-sm" style="min-width: 240px;">
-            <span class="input-group-text bg-light border-end-0"><i class="fas fa-search text-muted"></i></span>
-            <input type="text" class="form-control border-start-0" id="searchInput" placeholder="Cari nama atau posisi..." onkeyup="filterTable()">
-          </div>
-
-          <!-- Divisi Filter Dropdown -->
-          <% if (allowedDivisions.length > 1) { %>
-            <select class="form-select form-select-sm" id="divisionFilter" style="min-width: 170px;" onchange="filterTable()">
-              <option value="ALL">Semua Divisi Anda</option>
-              <% allowedDivisions.forEach(div => { %>
-                <option value="<%= div.toLowerCase() %>"><%= div %></option>
-              <% }); %>
-            </select>
           <% } %>
-        </div>
 
-        <!-- Filter Status Buttons -->
-        <div class="d-flex flex-wrap align-items-center gap-1.5">
-          <button type="button" class="filter-btn active" data-status="ALL" onclick="setStatusFilter('ALL', this)">
-            Semua (<%= totalKandidat %>)
-          </button>
-          <button type="button" class="filter-btn" data-status="BELUM" onclick="setStatusFilter('BELUM', this)">
-            <i class="fas fa-clock text-warning"></i> Belum Direview (<%= belumDireview %>)
-          </button>
-          <button type="button" class="filter-btn" data-status="SUDAH" onclick="setStatusFilter('SUDAH', this)">
-            <i class="fas fa-check text-success"></i> Sudah Direview (<%= sudahDireview %>)
-          </button>
-        </div>
-      </div>
-
-      <!-- Modern Table -->
-      <div class="table-responsive-modern">
-        <table class="kov-table" id="candidateReviewTable">
-          <thead>
-            <tr>
-              <th class="ps-3" style="width: 60px;">ID</th>
-              <th style="min-width: 130px;">Tgl Melamar</th>
-              <th style="min-width: 250px;">Nama Pelamar &amp; Kontak</th>
-              <th style="min-width: 170px;">Divisi &amp; Posisi</th>
-              <th style="min-width: 160px;">Status Catatan Review</th>
-              <th style="min-width: 220px;">Catatan Terakhir Reviewer</th>
-              <th class="text-center pe-3" style="min-width: 170px;">Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="candidateTableBody">
-            <% if (candidates.length === 0) { %>
-              <tr>
-                <td colspan="7" class="text-center py-5 text-muted">
-                  <div class="py-4">
-                    <i class="fas fa-folder-open fa-3x mb-3 text-secondary opacity-50"></i>
-                    <h5 class="fw-bold text-dark">Belum Ada Pelamar Masuk</h5>
-                    <p class="small text-muted mb-0">
-                      Saat ini belum ada data pelamar yang melamar untuk divisi: <strong><%= allowedDivisions.join(', ') || 'Semua' %></strong>.
-                    </p>
-                  </div>
-                </td>
-              </tr>
-            <% } %>
-
-            <% candidates.forEach(c => { 
-              const dLow = (c.divisi || 'operasional').toLowerCase();
-              let divBadgeClass = 'bg-light text-dark border';
-              if (dLow.includes('kitchen')) divBadgeClass = 'bg-warning-subtle text-warning-emphasis border border-warning';
-              else if (dLow.includes('barista')) divBadgeClass = 'bg-amber-subtle text-amber-emphasis border';
-              else if (dLow.includes('hr')) divBadgeClass = 'bg-primary-subtle text-primary border';
-              else if (dLow.includes('teknisi')) divBadgeClass = 'bg-info-subtle text-info border';
-              else if (dLow.includes('fat') || dLow.includes('finance')) divBadgeClass = 'bg-success-subtle text-success border';
-              else if (dLow.includes('it')) divBadgeClass = 'bg-dark text-info border border-info';
-              else divBadgeClass = 'bg-success-subtle text-success border';
-
-              const hasReview = c.review_count && c.review_count > 0;
-            %>
-              <tr class="candidate-row"
-                  data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
-                  data-posisi="<%= (c.posisi_dilamar || '').toLowerCase() %>"
-                  data-divisi="<%= dLow %>"
-                  data-hasreview="<%= hasReview ? 'true' : 'false' %>">
-                <td class="ps-3 fw-bold text-muted">#<%= c.id %></td>
-                <td class="small text-secondary fw-semibold">
-                  <%= formatDate(c.created_at, true) %>
-                </td>
-                <td>
-                  <div class="d-flex align-items-center gap-2.5">
-                    <% if (c.foto_kandidat) { %>
-                      <img src="<%= c.foto_kandidat %>" class="rounded-3 border shadow-xs flex-shrink-0" style="width: 38px; height: 38px; object-fit: cover;">
-                    <% } else { %>
-                      <div class="user-avatar-initials flex-shrink-0">
-                        <%= c.nama_lengkap ? c.nama_lengkap.charAt(0).toUpperCase() : 'P' %>
-                      </div>
-                    <% } %>
-                    <div>
-                      <div class="fw-bold text-dark"><%= c.nama_lengkap %></div>
-                      <div class="text-muted" style="font-size: 0.76rem;">
-                        <i class="fas fa-phone me-1"></i><%= c.no_hp || '-' %> &bull; <%= c.kota_domisili || c.kota_ktp || '-' %>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div class="mb-1"><span class="badge <%= divBadgeClass %> px-2 py-1"><%= c.divisi || 'Operasional' %></span></div>
-                  <div class="small fw-semibold text-dark"><%= c.posisi_dilamar %></div>
-                </td>
-                <td>
-                  <% if (hasReview) { %>
-                    <span class="status-pill-modern pill-success mb-1">
-                      <span class="status-dot-pulse"></span> <%= c.review_count %> Catatan Review
-                    </span>
-                    <% if (c.latest_rekomendasi) { %>
+          <% candidates.forEach(c => {
+            const dLow = (c.divisi || 'operasional').toLowerCase();
+            const hasReview = c.review_count && c.review_count > 0;
+            const isLolos = (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima');
+            const isHold = (c.latest_rekomendasi || '').includes('Dipertimbangkan') || (c.kesimpulan_status === 'Dipertimbangkan');
+          %>
+            <div class="col-md-6 col-xl-4 candidate-grid-item"
+                 data-id="<%= c.id %>"
+                 data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
+                 data-posisi="<%= (c.posisi_dilamar || '').toLowerCase() %>"
+                 data-divisi="<%= dLow %>"
+                 data-hasreview="<%= hasReview ? 'true' : 'false' %>"
+                 data-isrecommended="<%= isLolos ? 'true' : 'false' %>"
+                 data-ishold="<%= isHold ? 'true' : 'false' %>">
+              <div class="reviewer-grid-card shadow-xs">
+                <div>
+                  <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
+                    <div class="d-flex align-items-center gap-2.5">
+                      <% if (c.foto_kandidat) { %>
+                        <img src="<%= c.foto_kandidat %>" class="rounded-circle border shadow-xs flex-shrink-0" style="width: 44px; height: 44px; object-fit: cover;">
+                      <% } else { %>
+                        <div class="user-avatar-initials flex-shrink-0" style="width: 44px; height: 44px; font-size: 1rem;">
+                          <%= c.nama_lengkap ? c.nama_lengkap.charAt(0).toUpperCase() : 'P' %>
+                        </div>
+                      <% } %>
                       <div>
-                        <% if (c.latest_rekomendasi.includes('Direkomendasikan Lolos')) { %>
-                          <span class="status-pill-modern pill-success" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Lolos</span>
-                        <% } else if (c.latest_rekomendasi.includes('Dipertimbangkan')) { %>
-                          <span class="status-pill-modern pill-warning" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Dipertimbangkan</span>
-                        <% } else { %>
-                          <span class="status-pill-modern pill-danger" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Tidak Sesuai</span>
-                        <% } %>
+                        <h6 class="fw-bold text-dark mb-0 leading-tight"><%= c.nama_lengkap %></h6>
+                        <span class="text-muted" style="font-size: 0.74rem;">
+                          <i class="far fa-clock me-1"></i><%= formatDate(c.created_at, true) %>
+                        </span>
                       </div>
-                    <% } %>
-                  <% } else { %>
-                    <span class="status-pill-modern pill-warning">
-                      <span class="status-dot-pulse"></span> Belum Direview
+                    </div>
+                    <span class="badge bg-light text-dark border px-2 py-1" style="font-size: 0.72rem; font-weight: 700;">
+                      #<%= c.id %>
                     </span>
+                  </div>
+
+                  <div class="mb-2.5">
+                    <div class="small fw-semibold text-dark"><i class="fas fa-briefcase text-muted me-1.5"></i><%= c.posisi_dilamar %></div>
+                    <div class="text-muted small" style="font-size: 0.75rem;"><i class="fas fa-location-dot text-muted me-1.5"></i><%= c.kota_domisili || c.kota_ktp || 'Indonesia' %> &bull; <%= c.no_hp || '-' %></div>
+                  </div>
+
+                  <div class="mb-3">
+                    <% if (hasReview) { %>
+                      <span class="status-pill-modern pill-success mb-1" style="font-size: 0.72rem;">
+                        <span class="status-dot-pulse"></span> <%= c.review_count %> Catatan Review
+                      </span>
+                      <% if (isLolos) { %>
+                        <span class="status-pill-modern pill-success" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Lolos</span>
+                      <% } else if (isHold) { %>
+                        <span class="status-pill-modern pill-warning" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Hold</span>
+                      <% } else { %>
+                        <span class="status-pill-modern pill-danger" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Tidak Sesuai</span>
+                      <% } %>
+                    <% } else { %>
+                      <span class="status-pill-modern pill-warning" style="font-size: 0.72rem;">
+                        <span class="status-dot-pulse"></span> Belum Direview
+                      </span>
+                    <% } %>
+                  </div>
+
+                  <% if (c.latest_catatan || c.catatan_reviewer) { %>
+                    <div class="p-2.5 rounded-3 bg-light border mb-3" style="font-size: 0.75rem; color: #475569;">
+                      <i class="fas fa-comment-dots text-primary me-1"></i>
+                      "<%= (c.latest_catatan || c.catatan_reviewer) %>"
+                    </div>
                   <% } %>
-                </td>
-                <td>
-                  <% if (c.latest_catatan) { %>
-                    <div class="small text-dark text-truncate" style="max-width: 240px;" title="<%= c.latest_catatan %>">
-                      "<%= c.latest_catatan %>"
-                    </div>
-                    <div class="text-muted" style="font-size: 0.7rem;">
-                      Oleh: <%= c.latest_reviewer_name || 'Reviewer' %> (<%= formatDate(c.latest_review_date) %>)
-                    </div>
-                  <% } else if (c.catatan_reviewer) { %>
-                    <div class="small text-dark text-truncate" style="max-width: 240px;" title="<%= c.catatan_reviewer %>">
-                      "<%= c.catatan_reviewer %>"
-                    </div>
-                  <% } else { %>
-                    <span class="text-muted small fst-italic">Belum ada catatan evaluasi</span>
-                  <% } %>
-                </td>
-                <td class="text-center pe-3">
+                </div>
+
+                <div class="d-flex align-items-center justify-content-between pt-2 border-top">
+                  <span class="dd-file-badge dd-badge-pdf" style="font-size: 0.68rem; padding: 3px 8px;">
+                    <i class="fas fa-file-pdf text-danger me-1"></i> PDF
+                  </span>
                   <div class="d-inline-flex gap-1.5">
-                    <a href="/reviewer/candidate/<%= c.id %>" class="btn-kov-primary btn-kov-sm" title="Buka Detail & Beri Catatan Evaluasi">
-                      <i class="fas fa-pen-to-square"></i> Review
+                    <a href="/reviewer/candidate/<%= c.id %>" class="btn-kov-primary btn-kov-sm" title="Buka Form Evaluasi & Berikan Review">
+                      <i class="fas fa-pen-to-square me-1"></i> Review
                     </a>
-                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Lihat Berkas PDF 5 Halaman">
+                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Download Biodata PDF">
                       <i class="fas fa-file-pdf"></i>
                     </a>
                   </div>
-                </td>
-              </tr>
-            <% }); %>
-          </tbody>
-        </table>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+
+        <!-- VIEW MODE 2: SPREADSHEET TABLE VIEW (D-NONE BY DEFAULT) -->
+        <div id="candidatesListView" class="kov-card d-none mb-4">
+          <div class="table-responsive-modern">
+            <table class="kov-table" id="candidateReviewTable">
+              <thead>
+                <tr>
+                  <th class="ps-3" style="width: 60px;">ID</th>
+                  <th style="min-width: 130px;">Tgl Melamar</th>
+                  <th style="min-width: 250px;">Nama Pelamar &amp; Kontak</th>
+                  <th style="min-width: 170px;">Divisi &amp; Posisi</th>
+                  <th style="min-width: 160px;">Status Evaluasi</th>
+                  <th style="min-width: 220px;">Catatan Terakhir Reviewer</th>
+                  <th class="text-center pe-3" style="min-width: 160px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="candidateTableBody">
+                <% candidates.forEach(c => { 
+                  const dLow = (c.divisi || 'operasional').toLowerCase();
+                  const hasReview = c.review_count && c.review_count > 0;
+                  const isLolos = (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima');
+                  const isHold = (c.latest_rekomendasi || '').includes('Dipertimbangkan') || (c.kesimpulan_status === 'Dipertimbangkan');
+                %>
+                  <tr class="candidate-row"
+                      data-id="<%= c.id %>"
+                      data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
+                      data-posisi="<%= (c.posisi_dilamar || '').toLowerCase() %>"
+                      data-divisi="<%= dLow %>"
+                      data-hasreview="<%= hasReview ? 'true' : 'false' %>"
+                      data-isrecommended="<%= isLolos ? 'true' : 'false' %>"
+                      data-ishold="<%= isHold ? 'true' : 'false' %>">
+                    <td class="ps-3 fw-bold text-muted">#<%= c.id %></td>
+                    <td class="small text-secondary fw-semibold">
+                      <%= formatDate(c.created_at, true) %>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-2.5">
+                        <% if (c.foto_kandidat) { %>
+                          <img src="<%= c.foto_kandidat %>" class="rounded-3 border shadow-xs flex-shrink-0" style="width: 38px; height: 38px; object-fit: cover;">
+                        <% } else { %>
+                          <div class="user-avatar-initials flex-shrink-0">
+                            <%= c.nama_lengkap ? c.nama_lengkap.charAt(0).toUpperCase() : 'P' %>
+                          </div>
+                        <% } %>
+                        <div>
+                          <div class="fw-bold text-dark"><%= c.nama_lengkap %></div>
+                          <div class="text-muted" style="font-size: 0.76rem;">
+                            <i class="fas fa-phone me-1"></i><%= c.no_hp || '-' %> &bull; <%= c.kota_domisili || c.kota_ktp || '-' %>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="mb-1"><span class="badge bg-light text-dark border px-2 py-1"><%= c.divisi || 'Operasional' %></span></div>
+                      <div class="small fw-semibold text-dark"><%= c.posisi_dilamar %></div>
+                    </td>
+                    <td>
+                      <% if (hasReview) { %>
+                        <span class="status-pill-modern pill-success mb-1">
+                          <span class="status-dot-pulse"></span> <%= c.review_count %> Catatan Review
+                        </span>
+                        <% if (isLolos) { %>
+                          <div><span class="status-pill-modern pill-success" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Lolos</span></div>
+                        <% } else if (isHold) { %>
+                          <div><span class="status-pill-modern pill-warning" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Dipertimbangkan</span></div>
+                        <% } else { %>
+                          <div><span class="status-pill-modern pill-danger" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Tidak Sesuai</span></div>
+                        <% } %>
+                      <% } else { %>
+                        <span class="status-pill-modern pill-warning">
+                          <span class="status-dot-pulse"></span> Belum Direview
+                        </span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <% if (c.latest_catatan) { %>
+                        <div class="small text-dark text-truncate" style="max-width: 220px;" title="<%= c.latest_catatan %>">
+                          "<%= c.latest_catatan %>"
+                        </div>
+                        <div class="text-muted" style="font-size: 0.7rem;">
+                          Oleh: <%= c.latest_reviewer_name || 'Reviewer' %> (<%= formatDate(c.latest_review_date) %>)
+                        </div>
+                      <% } else if (c.catatan_reviewer) { %>
+                        <div class="small text-dark text-truncate" style="max-width: 220px;" title="<%= c.catatan_reviewer %>">
+                          "<%= c.catatan_reviewer %>"
+                        </div>
+                      <% } else { %>
+                        <span class="text-muted small fst-italic">Belum ada catatan evaluasi</span>
+                      <% } %>
+                    </td>
+                    <td class="text-center pe-3">
+                      <div class="d-inline-flex gap-1.5">
+                        <a href="/reviewer/candidate/<%= c.id %>" class="btn-kov-primary btn-kov-sm" title="Buka Detail & Beri Catatan Evaluasi">
+                          <i class="fas fa-pen-to-square me-1"></i> Review
+                        </a>
+                        <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Download Biodata PDF">
+                          <i class="fas fa-file-pdf"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
       </div>
-    </div>
-      </main>
-    </div>
+    </main>
+
+    <!-- 3. Right Utility Panel (Pane 3 - Dribbble Signature) -->
+    <aside class="dd-right-panel" id="rightPanel">
+
+      <!-- Profile Header (Symmetrical 46px Row aligned with Topbar) -->
+      <div class="dd-profile-header">
+        <div class="dd-utility-actions">
+          <button type="button" class="dd-icon-btn" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
+            <i class="fas fa-moon kov-theme-icon"></i>
+          </button>
+        </div>
+
+        <!-- Interactive User Profile Dropdown -->
+        <div class="dropdown">
+          <div class="dd-user-pill" id="userMenuDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" role="button" title="Menu Pengguna">
+            <div class="dd-user-avatar d-flex align-items-center justify-content-center bg-primary text-white fw-bold">
+              <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'R' %>
+            </div>
+            <div class="d-none d-xl-flex flex-column text-start" style="line-height: 1.2;">
+              <span class="dd-user-name"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Reviewer Divisi' %></span>
+              <span class="small text-muted" style="font-size: 0.7rem;"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Reviewer' %></span>
+            </div>
+            <i class="fas fa-chevron-down dd-user-caret"></i>
+          </div>
+          <div class="dropdown-menu dropdown-menu-end kov-user-dropdown-menu p-2" aria-labelledby="userMenuDropdownBtn">
+            <div class="px-3 py-2 border-bottom mb-1">
+              <div class="fw-bold text-dark small"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Reviewer Divisi' %></div>
+              <div class="text-muted" style="font-size: 0.72rem;"><%= (typeof user !== 'undefined' && user && user.username) ? '@' + user.username : '@reviewer' %> &bull; <span class="badge bg-primary bg-opacity-25 text-primary"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Reviewer' %></span></div>
+            </div>
+            <a class="dropdown-item rounded-2 py-1.5 small text-danger" href="/logout"><i class="fas fa-right-from-bracket me-2"></i> Keluar (Logout)</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Storage / Review Quota Progress Widget -->
+      <div class="dd-storage-card">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="dd-storage-title">Progress Evaluasi</span>
+          <span class="dd-storage-percent"><%= reviewPercent %>%</span>
+        </div>
+        <div class="dd-storage-track">
+          <div class="dd-storage-fill" style="width: <%= reviewPercent %>%; background: linear-gradient(90deg, #5a60ea, #10b981);"></div>
+        </div>
+        <div class="dd-storage-subtext mt-2 d-flex justify-content-between">
+          <span><%= sudahDireview %> Selesai</span>
+          <span><%= belumDireview %> Menunggu</span>
+        </div>
+      </div>
+
+      <!-- Interactive Calendar Widget (Direct Dribbble Design) -->
+      <div class="dd-calendar-widget">
+        <div class="dd-calendar-top">
+          <h4 class="dd-calendar-title">Kalender Seleksi</h4>
+          <i class="fas fa-chevron-up text-muted" style="font-size: 0.8rem;"></i>
+        </div>
+        <div class="dd-period-toggle">
+          <button type="button" class="dd-period-btn" id="calTabWeek" onclick="switchCalPeriod('week', this)">Minggu</button>
+          <button type="button" class="dd-period-btn active" id="calTabMonth" onclick="switchCalPeriod('month', this)">Bulan</button>
+        </div>
+        <div class="dd-month-nav">
+          <button type="button" class="dd-nav-arrow-btn" id="btnPrevCalMonth" onclick="prevCalMonth()" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
+          <span class="dd-month-label" id="calMonthDisplay">Oktober 2026</span>
+          <button type="button" class="dd-nav-arrow-btn" id="btnNextCalMonth" onclick="nextCalMonth()" title="Bulan Selanjutnya"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="dd-calendar-grid" id="calGrid">
+          <div class="dd-cal-weekday">Sen</div>
+          <div class="dd-cal-weekday">Sel</div>
+          <div class="dd-cal-weekday">Rab</div>
+          <div class="dd-cal-weekday">Kam</div>
+          <div class="dd-cal-weekday">Jum</div>
+          <div class="dd-cal-weekday">Sab</div>
+          <div class="dd-cal-weekday">Min</div>
+
+          <!-- Calendar Days Grid (Current Month) -->
+          <div class="dd-cal-day muted">28</div>
+          <div class="dd-cal-day muted">29</div>
+          <div class="dd-cal-day muted">30</div>
+          <div class="dd-cal-day">1</div>
+          <div class="dd-cal-day">2</div>
+          <div class="dd-cal-day">3</div>
+          <div class="dd-cal-day">4</div>
+          <div class="dd-cal-day">5</div>
+          <div class="dd-cal-day">6</div>
+          <div class="dd-cal-day active">7 <span class="dd-event-dot dd-event-royal"></span></div>
+          <div class="dd-cal-day">8</div>
+          <div class="dd-cal-day">9 <span class="dd-event-dot dd-event-coral"></span></div>
+          <div class="dd-cal-day">10</div>
+          <div class="dd-cal-day">11</div>
+          <div class="dd-cal-day">12</div>
+          <div class="dd-cal-day">13</div>
+          <div class="dd-cal-day">14 <span class="dd-event-dot dd-event-amber"></span></div>
+          <div class="dd-cal-day">15</div>
+          <div class="dd-cal-day">16</div>
+          <div class="dd-cal-day">17</div>
+          <div class="dd-cal-day">18</div>
+          <div class="dd-cal-day">19</div>
+          <div class="dd-cal-day">20 <span class="dd-event-dot dd-event-amber"></span></div>
+          <div class="dd-cal-day">21</div>
+          <div class="dd-cal-day">22</div>
+          <div class="dd-cal-day">23</div>
+          <div class="dd-cal-day">24 <span class="dd-event-dot dd-event-royal"></span></div>
+          <div class="dd-cal-day">25</div>
+          <div class="dd-cal-day">26</div>
+          <div class="dd-cal-day">27</div>
+          <div class="dd-cal-day">28</div>
+          <div class="dd-cal-day">29</div>
+          <div class="dd-cal-day">30</div>
+          <div class="dd-cal-day">31</div>
+          <div class="dd-cal-day muted">1</div>
+        </div>
+      </div>
+
+      <!-- Tindakan Tertunda Widget -->
+      <div class="dd-section-header mt-3">
+        <h4 class="dd-section-title" style="font-size: 1.15rem;">Tindakan Tertunda</h4>
+        <a href="javascript:void(0)" onclick="filterByStatusPill('BELUM')" class="dd-view-all-link" style="padding: 4px 10px; font-size: 0.75rem;">
+          Lihat Semua <i class="fas fa-chevron-right" style="font-size: 0.6rem;"></i>
+        </a>
+      </div>
+      <div class="dd-task-card" onclick="filterByStatusPill('BELUM')" role="button" tabindex="0" title="Klik untuk menyaring pelamar yang belum dievaluasi">
+        <div class="dd-task-accent-bar"></div>
+        <div class="dd-task-card-header">
+          <h5 class="dd-task-title">Review Berkas Kandidat Baru</h5>
+          <button type="button" class="dd-row-btn" aria-label="Menu Task"><i class="fas fa-ellipsis-vertical"></i></button>
+        </div>
+        <div class="dd-task-time">
+          <i class="far fa-clock"></i> 25 Okt, 2026 &bull; <%= belumDireview %> Berkas Menunggu
+        </div>
+        <div class="dd-task-desc">
+          Evaluasi kesesuaian kualifikasi dan isi formulir catatan rekomendasi teknis.
+        </div>
+      </div>
+
+      <!-- Monthly Statistics Chart Widget -->
+      <div class="dd-storage-chart-card mt-3">
+        <div class="dd-section-header mb-2">
+          <h4 class="dd-section-title" style="font-size: 1rem;">Statistik Rekap Bulanan</h4>
+          <span class="badge bg-light text-dark border" style="font-size: 0.7rem;">2026</span>
+        </div>
+        <div class="dd-chart-bars">
+          <div class="dd-chart-col">
+            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 38%;"></div></div>
+            <span class="dd-bar-label">Mei</span>
+          </div>
+          <div class="dd-chart-col">
+            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 55%;"></div></div>
+            <span class="dd-bar-label">Jun</span>
+          </div>
+          <div class="dd-chart-col">
+            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 72%;"></div></div>
+            <span class="dd-bar-label">Jul</span>
+          </div>
+          <div class="dd-chart-col">
+            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 64%;"></div></div>
+            <span class="dd-bar-label">Agu</span>
+          </div>
+          <div class="dd-chart-col">
+            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 82%;"></div></div>
+            <span class="dd-bar-label">Sep</span>
+          </div>
+          <div class="dd-chart-col active">
+            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: <%= reviewPercent || 60 %>%;"></div></div>
+            <span class="dd-bar-label">Okt</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
   </div>
 
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
     let currentStatusFilter = 'ALL';
+    let currentDivisiFilter = 'ALL';
 
     function setStatusFilter(status, btn) {
       currentStatusFilter = status;
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      if (btn) {
+        btn.classList.add('active');
+      } else {
+        const matchingBtn = document.querySelector(`.filter-btn[data-filter="${status}"]`);
+        if (matchingBtn) matchingBtn.classList.add('active');
+      }
+      filterTable();
+    }
+
+    function filterByStatusPill(status) {
+      setStatusFilter(status, null);
+      const grid = document.getElementById('candidatesGridView');
+      if (grid) {
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function filterByDivisiQuick(divisi) {
+      currentDivisiFilter = divisi.toLowerCase();
+      const divSelect = document.getElementById('divisionFilter');
+      if (divSelect) divSelect.value = divisi;
+
+      // Update active state on 8 folder cards
+      document.querySelectorAll('.dd-folder-card').forEach(card => {
+        if (divisi === 'all' && card.getAttribute('data-divisi') === 'all') {
+          card.classList.add('active');
+        } else if (card.getAttribute('data-divisi') === divisi.toLowerCase()) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+
       filterTable();
     }
 
     function filterTable() {
       const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-      const divSelect = document.getElementById('divisionFilter');
-      const selectedDiv = divSelect ? divSelect.value : 'ALL';
       const rows = document.querySelectorAll('.candidate-row');
+      const cards = document.querySelectorAll('.candidate-grid-item');
+      let visibleCount = 0;
 
+      function checkMatch(name, posisi, divisi, hasReview, isRecommended, isHold) {
+        const matchesSearch = !q || name.includes(q) || posisi.includes(q) || divisi.includes(q);
+        const matchesDiv = currentDivisiFilter === 'all' || currentDivisiFilter === 'ALL' || divisi.includes(currentDivisiFilter);
+
+        let matchesStatus = true;
+        if (currentStatusFilter === 'BELUM') matchesStatus = !hasReview;
+        else if (currentStatusFilter === 'SUDAH') matchesStatus = hasReview;
+        else if (currentStatusFilter === 'LOLOS') matchesStatus = isRecommended;
+        else if (currentStatusFilter === 'HOLD') matchesStatus = isHold;
+
+        return matchesSearch && matchesDiv && matchesStatus;
+      }
+
+      // Filter Grid Cards
+      cards.forEach(c => {
+        const name = c.getAttribute('data-name') || '';
+        const posisi = c.getAttribute('data-posisi') || '';
+        const divisi = c.getAttribute('data-divisi') || '';
+        const hasReview = c.getAttribute('data-hasreview') === 'true';
+        const isRec = c.getAttribute('data-isrecommended') === 'true';
+        const isHold = c.getAttribute('data-ishold') === 'true';
+
+        if (checkMatch(name, posisi, divisi, hasReview, isRec, isHold)) {
+          c.style.display = '';
+          visibleCount++;
+        } else {
+          c.style.display = 'none';
+        }
+      });
+
+      // Filter Table Rows
       rows.forEach(r => {
         const name = r.getAttribute('data-name') || '';
         const posisi = r.getAttribute('data-posisi') || '';
         const divisi = r.getAttribute('data-divisi') || '';
         const hasReview = r.getAttribute('data-hasreview') === 'true';
+        const isRec = r.getAttribute('data-isrecommended') === 'true';
+        const isHold = r.getAttribute('data-ishold') === 'true';
 
-        // Search match
-        const matchesSearch = !q || name.includes(q) || posisi.includes(q);
-
-        // Division match
-        const matchesDiv = selectedDiv === 'ALL' || divisi.includes(selectedDiv);
-
-        // Status match
-        let matchesStatus = true;
-        if (currentStatusFilter === 'BELUM') matchesStatus = !hasReview;
-        else if (currentStatusFilter === 'SUDAH') matchesStatus = hasReview;
-
-        if (matchesSearch && matchesDiv && matchesStatus) {
+        if (checkMatch(name, posisi, divisi, hasReview, isRec, isHold)) {
           r.style.display = '';
         } else {
           r.style.display = 'none';
         }
       });
+
+      const countBadge = document.getElementById('candidateCountBadge');
+      if (countBadge) countBadge.textContent = `${visibleCount} Berkas`;
     }
+
+    // View Mode Toggle (Grid vs Spreadsheet)
+    function setViewMode(mode) {
+      const gridView = document.getElementById('candidatesGridView');
+      const listView = document.getElementById('candidatesListView');
+      const btnGrid = document.getElementById('btnViewGrid');
+      const btnList = document.getElementById('btnViewList');
+
+      if (mode === 'list') {
+        if (gridView) gridView.classList.add('d-none');
+        if (listView) listView.classList.remove('d-none');
+        if (btnGrid) btnGrid.classList.remove('active');
+        if (btnList) btnList.classList.add('active');
+        localStorage.setItem('reviewer_view_mode', 'list');
+      } else {
+        if (gridView) gridView.classList.remove('d-none');
+        if (listView) listView.classList.add('d-none');
+        if (btnGrid) btnGrid.classList.add('active');
+        if (btnList) btnList.classList.remove('active');
+        localStorage.setItem('reviewer_view_mode', 'grid');
+      }
+    }
+
+    // Calendar Navigation
+    let currentCalMonth = 9; // 0-indexed: 9 = October
+    let currentCalYear = 2026;
+    const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    function prevCalMonth() {
+      currentCalMonth--;
+      if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; }
+      updateCalHeader();
+    }
+
+    function nextCalMonth() {
+      currentCalMonth++;
+      if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; }
+      updateCalHeader();
+    }
+
+    function updateCalHeader() {
+      const el = document.getElementById('calMonthDisplay');
+      if (el) el.textContent = monthNames[currentCalMonth] + ' ' + currentCalYear;
+    }
+
+    function switchCalPeriod(period) {
+      document.querySelectorAll('.dd-period-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`calTab${period.charAt(0).toUpperCase() + period.slice(1)}`);
+      if (activeBtn) activeBtn.classList.add('active');
+    }
+
+    window.setStatusFilter = setStatusFilter;
+    window.filterByStatusPill = filterByStatusPill;
+    window.filterByDivisiQuick = filterByDivisiQuick;
+    window.filterTable = filterTable;
+    window.setViewMode = setViewMode;
+    window.prevCalMonth = prevCalMonth;
+    window.nextCalMonth = nextCalMonth;
+    window.switchCalPeriod = switchCalPeriod;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedMode = localStorage.getItem('reviewer_view_mode');
+      if (savedMode === 'list') {
+        setViewMode('list');
+      } else {
+        setViewMode('grid');
+      }
+    });
   </script>
   <!-- Inactivity Auto-Logout (2 Jam) -->
   <script src="/idle-timer.js"></script>

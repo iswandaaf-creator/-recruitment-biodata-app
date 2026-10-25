@@ -67,7 +67,133 @@
           </a>
         </div>
 
-        <!-- Bento Metric Cards (Coinbase High-Contrast Style) -->
+        <!-- Welcome Hero Banner (Dribbble Signature) -->
+        <div class="dd-hero-banner mb-4">
+          <div class="dd-hero-content">
+            <h2 class="dd-hero-title">
+              Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Tim Operasional' %>!
+            </h2>
+            <p class="dd-hero-subtitle">
+              Pusat Otorisasi Surat Tugas &amp; Perjalanan Dinas KOV Management. Kelola penerbitan surat tugas dinas, alur persetujuan pimpinan, dan verifikasi laporan pertanggungjawaban (LPJ).
+            </p>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <a href="/admin/operasional/surat-tugas/create" class="btn-dd-hero">
+                <i class="fas fa-plus me-1"></i> Buat Surat Tugas Baru
+              </a>
+              <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
+                <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> Form Publik Surat Tugas
+              </a>
+              <a href="/api/operasional/surat-tugas/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
+                <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
+              </a>
+            </div>
+          </div>
+          <div class="dd-hero-illustration d-none d-lg-flex">
+            <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
+              <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
+              <path d="M100 60 L100 86 M90 70 L100 60 L110 70" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="170" cy="46" r="14" fill="#f6941e"/>
+              <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
+              <rect x="154" y="96" width="36" height="36" rx="8" fill="#ee474e" transform="rotate(12 154 96)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Kategori Status Surat Tugas (4 Symmetrical Dribbble Folder Cards) -->
+        <div class="dd-section-header mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <h3 class="dd-section-title">Status Surat Tugas &amp; Dinas</h3>
+            <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">
+              <%= records.length %> Berkas
+            </span>
+          </div>
+          <a href="javascript:void(0)" onclick="quickFilterSurat('')" class="dd-view-all-link" title="Reset filter dan tampilkan seluruh surat tugas">
+            <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
+          </a>
+        </div>
+
+        <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+          <!-- 1. Menunggu Approval (Coral Red) -->
+          <div class="dd-folder-card dd-folder-coral folder-coral" onclick="quickFilterSurat('Menunggu Approval')" role="button" tabindex="0" title="Filter Menunggu Approval">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-clock"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Menunggu Approval</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">ST</span>
+                <span class="dd-avatar-chip">MG</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => (r.status_surat || '').includes('Menunggu')).length %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => (r.status_surat || '').includes('Menunggu')).length %> Surat</span>
+              <span class="dd-file-weight"><i class="fas fa-clock"></i> Urgent</span>
+            </div>
+          </div>
+
+          <!-- 2. Surat Disetujui (Royal Sky) -->
+          <div class="dd-folder-card dd-folder-royal folder-blue" onclick="quickFilterSurat('Disetujui')" role="button" tabindex="0" title="Filter Surat Disetujui">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-file-circle-check"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Surat Disetujui</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">OK</span>
+                <span class="dd-avatar-chip">AP</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => (r.status_surat || '').includes('Disetujui')).length %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => (r.status_surat || '').includes('Disetujui')).length %> Surat</span>
+              <span class="dd-file-weight"><i class="fas fa-check"></i> Otorisasi</span>
+            </div>
+          </div>
+
+          <!-- 3. LPJ Terisi (Emerald Mint) -->
+          <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="quickFilterSurat('LPJ')" role="button" tabindex="0" title="Filter LPJ Selesai">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-receipt"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">LPJ Terlapor</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">LP</span>
+                <span class="dd-avatar-chip">J1</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => r.lpj_diisi === 1).length %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => r.lpj_diisi === 1).length %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-receipt"></i> LPJ Selesai</span>
+            </div>
+          </div>
+
+          <!-- 4. Total Arsip Surat Tugas (Midnight Indigo) -->
+          <div class="dd-folder-card dd-folder-indigo folder-indigo active" onclick="quickFilterSurat('')" role="button" tabindex="0" title="Tampilkan Semua Surat Tugas">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-file-signature"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Semua Surat Tugas</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">ST</span>
+                <span class="dd-avatar-chip">ALL</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.length %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder-open"></i> <%= records.length %> Surat</span>
+              <span class="dd-file-weight"><i class="fas fa-layer-group"></i> Total</span>
+            </div>
+          </div>
+        </div>
     <div class="bento-grid">
       <div class="coinbase-kpi-card">
         <div>
@@ -314,6 +440,23 @@
     const searchInput = document.getElementById('searchInput');
     const filterDivisi = document.getElementById('filterDivisi');
     const filterStatus = document.getElementById('filterStatus');
+
+    function quickFilterSurat(status) {
+      if (filterStatus) {
+        filterStatus.value = status;
+        applyFilters();
+      }
+      document.querySelectorAll('.dd-folder-card').forEach(card => {
+        if (!status && card.getAttribute('onclick') && card.getAttribute('onclick').includes("''")) {
+          card.classList.add('active');
+        } else if (status && card.getAttribute('onclick') && card.getAttribute('onclick').includes(status)) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+    }
+    window.quickFilterSurat = quickFilterSurat;
 
     function applyFilters() {
       const search = searchInput.value.toLowerCase();

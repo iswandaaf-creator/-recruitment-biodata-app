@@ -71,7 +71,133 @@
           </a>
         </div>
 
-        <!-- Bento Metric Cards (Coinbase High-Contrast Style) -->
+        <!-- Welcome Hero Banner (Dribbble Signature) -->
+        <div class="dd-hero-banner mb-4">
+          <div class="dd-hero-content">
+            <h2 class="dd-hero-title">
+              Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Tim Operasional' %>!
+            </h2>
+            <p class="dd-hero-subtitle">
+              Pusat Otorisasi Berita Acara (BA) Pengajuan Barang &amp; Inventaris KOV Management. Kelola verifikasi fisik outlet, alur persetujuan manajemen, dan koordinasi pengadaan barang secara terpadu.
+            </p>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <button type="button" class="btn-dd-hero" onclick="copyShareUrl()">
+                <i class="fas fa-link me-1"></i> Salin Link Formulir BA
+              </button>
+              <a href="/pengajuan-barang" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
+                <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> Buka Formulir Publik
+              </a>
+              <a href="/api/operasional/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
+                <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
+              </a>
+            </div>
+          </div>
+          <div class="dd-hero-illustration d-none d-lg-flex">
+            <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
+              <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
+              <path d="M100 60 L100 86 M90 70 L100 60 L110 70" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="170" cy="46" r="14" fill="#f6941e"/>
+              <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
+              <rect x="154" y="96" width="36" height="36" rx="8" fill="#ee474e" transform="rotate(12 154 96)"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Kategori Status Berita Acara (4 Symmetrical Dribbble Folder Cards) -->
+        <div class="dd-section-header mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <h3 class="dd-section-title">Status Pengajuan Berita Acara</h3>
+            <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">
+              <%= records.length %> Pengajuan
+            </span>
+          </div>
+          <a href="javascript:void(0)" onclick="quickFilterStatus('')" class="dd-view-all-link" title="Reset filter dan tampilkan seluruh BA">
+            <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
+          </a>
+        </div>
+
+        <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+          <!-- 1. Menunggu Approval (Coral Red) -->
+          <div class="dd-folder-card dd-folder-coral folder-coral" onclick="quickFilterStatus('Menunggu Approval')" role="button" tabindex="0" title="Filter BA Menunggu Approval">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-clock"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Menunggu Approval</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">MG</span>
+                <span class="dd-avatar-chip">OP</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-clock"></i> Urgent</span>
+            </div>
+          </div>
+
+          <!-- 2. Disetujui (Emerald Mint) -->
+          <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="quickFilterStatus('Disetujui')" role="button" tabindex="0" title="Filter BA Disetujui">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-circle-check"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Disetujui Manajemen</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">OK</span>
+                <span class="dd-avatar-chip">PO</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-check"></i> Siap PO</span>
+            </div>
+          </div>
+
+          <!-- 3. Dalam Proses (Royal Sky) -->
+          <div class="dd-folder-card dd-folder-royal folder-blue" onclick="quickFilterStatus('Proses')" role="button" tabindex="0" title="Filter BA Dalam Proses">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-truck-fast"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Dalam Proses Pengadaan</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">PR</span>
+                <span class="dd-avatar-chip">FN</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => (r.status_approval || '').includes('Proses')).length %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => (r.status_approval || '').includes('Proses')).length %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-spinner"></i> Pengadaan</span>
+            </div>
+          </div>
+
+          <!-- 4. Total Arsip BA (Midnight Indigo) -->
+          <div class="dd-folder-card dd-folder-indigo folder-indigo active" onclick="quickFilterStatus('')" role="button" tabindex="0" title="Tampilkan Semua Berkas BA">
+            <div class="dd-folder-top">
+              <div class="dd-folder-icon"><i class="fas fa-boxes-stacked"></i></div>
+              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+            </div>
+            <div class="dd-folder-body">
+              <h4 class="dd-folder-name">Semua Arsip Berita Acara</h4>
+              <div class="dd-avatar-group">
+                <span class="dd-avatar-chip">BA</span>
+                <span class="dd-avatar-chip">ALL</span>
+                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.length %></span>
+              </div>
+            </div>
+            <div class="dd-folder-footer">
+              <span class="dd-file-count"><i class="far fa-folder-open"></i> <%= records.length %> Berkas</span>
+              <span class="dd-file-weight"><i class="fas fa-layer-group"></i> Total</span>
+            </div>
+          </div>
+        </div>
     <div class="bento-grid">
       <div class="coinbase-kpi-card">
         <div>
@@ -349,6 +475,23 @@
     const filterStatus = document.getElementById('filterStatus');
     const filterPrioritas = document.getElementById('filterPrioritas');
     const tableRows = document.querySelectorAll('#recordsTable tbody tr');
+
+    function quickFilterStatus(status) {
+      if (filterStatus) {
+        filterStatus.value = status;
+        applyFilters();
+      }
+      document.querySelectorAll('.dd-folder-card').forEach(card => {
+        if (!status && card.getAttribute('onclick') && card.getAttribute('onclick').includes("''")) {
+          card.classList.add('active');
+        } else if (status && card.getAttribute('onclick') && card.getAttribute('onclick').includes(status)) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+    }
+    window.quickFilterStatus = quickFilterStatus;
 
     function applyFilters() {
       const searchVal = searchInput.value.toLowerCase();
