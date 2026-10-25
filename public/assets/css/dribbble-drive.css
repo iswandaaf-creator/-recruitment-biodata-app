@@ -162,108 +162,250 @@
 }
 
 /* ==========================================================================
-   3. MODERN 3-COLUMN MASTER LAYOUT & GLOBAL CONFLICT ERADICATION
+   3. MODERN MULTI-PANE VIEWPORT LOCK & INDEPENDENT SCROLLING ARCHITECTURE
    ========================================================================== */
 
+/* Universal Root Reset */
 .dd-layout-root,
 .kov-app-shell {
   display: flex !important;
-  min-height: 100vh !important;
   width: 100% !important;
   background-color: var(--dd-canvas-bg) !important;
   position: relative !important;
-  overflow-x: hidden !important;
 }
 
-/* Column 1: Left Sidebar (~240px) - Eradicates position: fixed */
-.dd-sidebar,
-.kov-sidebar,
-.kov-sidebar.dd-theme {
-  width: 240px !important;
-  min-width: 240px !important;
-  max-width: 240px !important;
-  background-color: var(--dd-sidebar-bg) !important;
-  color: var(--dd-sidebar-text) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  position: sticky !important;
-  top: 0 !important;
-  left: 0 !important;
-  height: 100vh !important;
-  border-right: 1px solid var(--dd-sidebar-border) !important;
-  z-index: 1030 !important;
-  transition: var(--dd-transition) !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  box-shadow: none !important;
+@media (min-width: 992px) {
+  /* Lock document viewport so browser window NEVER scrolls */
+  html,
+  body {
+    height: 100% !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+  }
+
+  .dd-layout-root,
+  .kov-app-shell {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    flex-direction: row !important;
+  }
+
+  /* PANE 1: Left Sidebar - Permanently anchored to viewport, independent scroll if menus overflow */
+  .dd-sidebar,
+  .kov-sidebar,
+  .kov-sidebar.dd-theme {
+    width: 240px !important;
+    min-width: 240px !important;
+    max-width: 240px !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    background-color: var(--dd-sidebar-bg) !important;
+    color: var(--dd-sidebar-text) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    border-right: 1px solid var(--dd-sidebar-border) !important;
+    z-index: 1030 !important;
+    transition: var(--dd-transition) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-shadow: none !important;
+  }
+
+  /* Column 1 Collapsed State */
+  .dd-sidebar.collapsed,
+  .kov-sidebar.collapsed,
+  .kov-app-shell.sidebar-collapsed .kov-sidebar {
+    width: 72px !important;
+    min-width: 72px !important;
+    max-width: 72px !important;
+  }
+
+  /* PANE 2: Center Main Content Canvas - The ONE and ONLY scrolling pane */
+  .dd-main-canvas,
+  .kov-main-content,
+  .kov-main-content.dd-theme,
+  .kov-app-shell .kov-main-content {
+    margin-left: 0 !important;
+    width: auto !important;
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    background-color: var(--dd-canvas-bg) !important;
+    background-image: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    transition: var(--dd-transition) !important;
+    scroll-behavior: smooth !important;
+  }
+
+  /* Specific canvas paddings */
+  .dd-main-canvas {
+    padding: 24px 32px 48px !important;
+    gap: 24px !important;
+  }
+
+  /* Prevent flex children from being compressed so content expands and scrolls naturally */
+  .dd-main-canvas > *,
+  .kov-main-content > * {
+    flex-shrink: 0 !important;
+  }
+
+  .kov-main-content:not(.dd-main-canvas) {
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .kov-content-body {
+    flex: 1 0 auto !important;
+    padding: 24px 32px 48px !important;
+  }
+
+  /* PANE 3: Right Activity & Utility Panel - Permanently anchored to viewport */
+  .dd-right-panel {
+    width: 360px !important;
+    min-width: 360px !important;
+    max-width: 360px !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    background-color: var(--dd-surface-panel) !important;
+    border-left: 1px solid var(--dd-border) !important;
+    position: relative !important;
+    top: 0 !important;
+    right: 0 !important;
+    flex-shrink: 0 !important;
+    padding: 28px 24px 36px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    z-index: 1020 !important;
+    transition: var(--dd-transition) !important;
+  }
+
+  /* Sticky Topbar inside Center Scroll Pane */
+  .kov-topbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1020 !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid var(--dd-border, #eaedf5) !important;
+    padding: 14px 32px !important;
+  }
+
+  [data-theme="dark"] .kov-topbar {
+    background: rgba(20, 26, 41, 0.94) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .dd-topbar {
+    position: sticky !important;
+    top: -24px !important;
+    margin-top: -24px !important;
+    margin-left: -32px !important;
+    margin-right: -32px !important;
+    padding: 18px 32px 14px !important;
+    background: rgba(244, 246, 250, 0.94) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    z-index: 1010 !important;
+    border-bottom: 1px solid rgba(234, 237, 245, 0.8) !important;
+  }
+
+  [data-theme="dark"] .dd-topbar {
+    background: rgba(13, 18, 31, 0.94) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
 }
 
-/* Column 1 Collapsed State */
-.dd-sidebar.collapsed,
-.kov-sidebar.collapsed,
-.kov-app-shell.sidebar-collapsed .kov-sidebar {
-  width: 72px !important;
-  min-width: 72px !important;
-  max-width: 72px !important;
+@media (max-width: 991.98px) {
+  html,
+  body {
+    height: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .dd-layout-root,
+  .kov-app-shell {
+    height: auto !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: visible !important;
+  }
+
+  .dd-sidebar,
+  .kov-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: -260px !important;
+    width: 260px !important;
+    height: 100vh !important;
+    z-index: 1050 !important;
+    transition: left 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .dd-sidebar.show,
+  .kov-sidebar.show {
+    left: 0 !important;
+  }
+
+  .kov-main-content,
+  .dd-main-canvas {
+    height: auto !important;
+    overflow: visible !important;
+    padding: 16px !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+
+  .kov-content-body {
+    padding: 16px 0 !important;
+  }
+
+  .dd-right-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    position: static !important;
+    border-left: none !important;
+    border-top: 1px solid var(--dd-border) !important;
+  }
 }
 
-/* Column 2: Center Main Content Canvas - Eradicates margin-left: 260px displacement */
-.dd-main-canvas,
-.kov-main-content,
-.kov-main-content.dd-theme,
-.kov-app-shell .kov-main-content {
-  margin-left: 0 !important;
-  width: auto !important;
-  flex: 1 1 0% !important;
-  min-width: 0 !important;
-  padding: 32px 36px 48px !important;
-  background-color: var(--dd-canvas-bg) !important;
-  background-image: none !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 28px !important;
-  transition: var(--dd-transition) !important;
-}
-
-/* Column 3: Right Activity & Utility Panel (~360px) */
-.dd-right-panel {
-  width: 360px !important;
-  min-width: 360px !important;
-  max-width: 360px !important;
-  background-color: var(--dd-surface-panel) !important;
-  border-left: 1px solid var(--dd-border) !important;
-  position: sticky !important;
-  top: 0 !important;
-  height: 100vh !important;
-  padding: 28px 24px 36px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 24px !important;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
-  z-index: 1020 !important;
-  transition: var(--dd-transition) !important;
-}
-
-/* Scrollbar polish for sidebars */
+/* Scrollbar polish for sidebars & canvas */
 .dd-sidebar::-webkit-scrollbar,
 .dd-right-panel::-webkit-scrollbar,
-.dd-main-canvas::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+.dd-main-canvas::-webkit-scrollbar,
+.kov-main-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 .dd-sidebar::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
   border-radius: var(--dd-radius-pill);
 }
 .dd-right-panel::-webkit-scrollbar-thumb,
-.dd-main-canvas::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
+.dd-main-canvas::-webkit-scrollbar-thumb,
+.kov-main-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
   border-radius: var(--dd-radius-pill);
 }
 [data-theme="dark"] .dd-right-panel::-webkit-scrollbar-thumb,
-[data-theme="dark"] .dd-main-canvas::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
+[data-theme="dark"] .dd-main-canvas::-webkit-scrollbar-thumb,
+[data-theme="dark"] .kov-main-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
 }
 
 /* ==========================================================================

@@ -262,7 +262,7 @@ async function runEmpiricalAudit() {
 
     console.log('\n--- 6. VERIFIKASI PENGACAK TOKEN & SALIN LINK ---');
     const initialUrl = await page.$eval('#shareUrl', el => el.textContent.trim());
-    await page.click('#btnAcakToken');
+    await page.evaluate(() => document.getElementById('btnAcakToken').click());
     await new Promise(r => setTimeout(r, 150));
     const updatedUrl = await page.$eval('#shareUrl', el => el.textContent.trim());
     report('Tombol "Acak Token Baru" menghasilkan token acak unik', initialUrl !== updatedUrl && updatedUrl.includes('/?ref=c-'), `URL Baru: ${updatedUrl}`);
