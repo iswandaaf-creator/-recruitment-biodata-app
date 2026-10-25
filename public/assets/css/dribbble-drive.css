@@ -162,69 +162,87 @@
 }
 
 /* ==========================================================================
-   3. MODERN 3-COLUMN MASTER LAYOUT
+   3. MODERN 3-COLUMN MASTER LAYOUT & GLOBAL CONFLICT ERADICATION
    ========================================================================== */
 
-.dd-layout-root {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  background-color: var(--dd-canvas-bg);
-  position: relative;
-  overflow-x: hidden;
+.dd-layout-root,
+.kov-app-shell {
+  display: flex !important;
+  min-height: 100vh !important;
+  width: 100% !important;
+  background-color: var(--dd-canvas-bg) !important;
+  position: relative !important;
+  overflow-x: hidden !important;
 }
 
-/* Column 1: Left Sidebar (~250px) */
+/* Column 1: Left Sidebar (~240px) - Eradicates position: fixed */
 .dd-sidebar,
+.kov-sidebar,
 .kov-sidebar.dd-theme {
-  width: 250px;
-  min-width: 250px;
-  max-width: 250px;
-  background-color: var(--dd-sidebar-bg);
-  color: var(--dd-sidebar-text);
-  display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  border-right: 1px solid var(--dd-sidebar-border);
-  z-index: 1030;
-  transition: var(--dd-transition);
-  overflow-y: auto;
-  overflow-x: hidden;
+  width: 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
+  background-color: var(--dd-sidebar-bg) !important;
+  color: var(--dd-sidebar-text) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100vh !important;
+  border-right: 1px solid var(--dd-sidebar-border) !important;
+  z-index: 1030 !important;
+  transition: var(--dd-transition) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  box-shadow: none !important;
 }
 
-/* Column 2: Center Main Content Canvas */
+/* Column 1 Collapsed State */
+.dd-sidebar.collapsed,
+.kov-sidebar.collapsed,
+.kov-app-shell.sidebar-collapsed .kov-sidebar {
+  width: 72px !important;
+  min-width: 72px !important;
+  max-width: 72px !important;
+}
+
+/* Column 2: Center Main Content Canvas - Eradicates margin-left: 260px displacement */
 .dd-main-canvas,
-.kov-main-content.dd-theme {
-  flex: 1 1 0%;
-  min-width: 0;
-  padding: 32px 36px 48px;
-  background-color: var(--dd-canvas-bg);
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  transition: var(--dd-transition);
+.kov-main-content,
+.kov-main-content.dd-theme,
+.kov-app-shell .kov-main-content {
+  margin-left: 0 !important;
+  width: auto !important;
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  padding: 32px 36px 48px !important;
+  background-color: var(--dd-canvas-bg) !important;
+  background-image: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 28px !important;
+  transition: var(--dd-transition) !important;
 }
 
 /* Column 3: Right Activity & Utility Panel (~360px) */
 .dd-right-panel {
-  width: 360px;
-  min-width: 360px;
-  max-width: 360px;
-  background-color: var(--dd-surface-panel);
-  border-left: 1px solid var(--dd-border);
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  padding: 32px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  z-index: 1020;
-  transition: var(--dd-transition);
+  width: 360px !important;
+  min-width: 360px !important;
+  max-width: 360px !important;
+  background-color: var(--dd-surface-panel) !important;
+  border-left: 1px solid var(--dd-border) !important;
+  position: sticky !important;
+  top: 0 !important;
+  height: 100vh !important;
+  padding: 28px 24px 36px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  z-index: 1020 !important;
+  transition: var(--dd-transition) !important;
 }
 
 /* Scrollbar polish for sidebars */
@@ -311,51 +329,71 @@
   flex-grow: 1;
 }
 
-.dd-nav-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 13px 28px;
-  color: var(--dd-sidebar-text);
-  text-decoration: none;
-  font-size: 0.925rem;
-  font-weight: 600;
-  position: relative;
-  transition: var(--dd-transition);
-  border-left: 4px solid transparent;
+.dd-nav-item,
+.kov-sidebar .kov-nav-item,
+.dd-sidebar .kov-nav-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  padding: 13px 28px !important;
+  color: var(--dd-sidebar-text) !important;
+  text-decoration: none !important;
+  font-size: 0.925rem !important;
+  font-weight: 600 !important;
+  position: relative !important;
+  transition: var(--dd-transition) !important;
+  border-left: 4px solid transparent !important;
+  background: transparent !important;
+  border-radius: 0 10px 10px 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 .dd-nav-item i,
-.dd-nav-item svg {
-  font-size: 1.15rem;
-  width: 22px;
-  text-align: center;
-  color: var(--dd-sidebar-text);
-  transition: var(--dd-transition);
+.dd-nav-item svg,
+.kov-sidebar .kov-nav-item i,
+.dd-sidebar .kov-nav-item i {
+  font-size: 1.15rem !important;
+  width: 22px !important;
+  text-align: center !important;
+  color: var(--dd-sidebar-text) !important;
+  transition: var(--dd-transition) !important;
 }
 
-.dd-nav-item:hover {
-  color: var(--dd-sidebar-text-hover);
-  background-color: rgba(255, 255, 255, 0.05);
+.dd-nav-item:hover,
+.kov-sidebar .kov-nav-item:hover,
+.dd-sidebar .kov-nav-item:hover {
+  color: var(--dd-sidebar-text-hover) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 .dd-nav-item:hover i,
-.dd-nav-item:hover svg {
-  color: var(--dd-sidebar-text-hover);
-  transform: scale(1.08);
+.dd-nav-item:hover svg,
+.kov-sidebar .kov-nav-item:hover i,
+.dd-sidebar .kov-nav-item:hover i {
+  color: var(--dd-sidebar-text-hover) !important;
+  transform: scale(1.08) !important;
 }
 
-/* Active Nav Item - Highlight bar and subtle glow */
-.dd-nav-item.active {
-  color: #ffffff;
-  background: linear-gradient(90deg, rgba(90, 96, 234, 0.16) 0%, rgba(90, 96, 234, 0) 100%);
-  border-left-color: var(--dd-sidebar-active-bar);
+/* Active Nav Item - Royal Purple (#5a60ea) Eradicates green #059669 completely */
+.dd-nav-item.active,
+.kov-sidebar .kov-nav-item.active,
+.dd-sidebar .kov-nav-item.active,
+.kov-nav-item.active {
+  color: #ffffff !important;
+  background: linear-gradient(90deg, rgba(90, 96, 234, 0.22) 0%, rgba(90, 96, 234, 0.04) 100%) !important;
+  border-left-color: var(--dd-sidebar-active-bar, #5a60ea) !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
 }
 
 .dd-nav-item.active i,
-.dd-nav-item.active svg {
-  color: var(--dd-primary);
-  filter: drop-shadow(0 0 8px rgba(90, 96, 234, 0.6));
+.dd-nav-item.active svg,
+.kov-sidebar .kov-nav-item.active i,
+.dd-sidebar .kov-nav-item.active i,
+.kov-nav-item.active i {
+  color: var(--dd-primary, #5a60ea) !important;
+  filter: drop-shadow(0 0 8px rgba(90, 96, 234, 0.6)) !important;
 }
 
 .dd-nav-group-title {
@@ -1048,6 +1086,128 @@
   gap: 8px;
 }
 
+.btn-dd-review,
+.kov-action-review-btn {
+  background-color: var(--dd-primary) !important;
+  color: #ffffff !important;
+  border-radius: var(--dd-radius-pill) !important;
+  padding: 6px 16px !important;
+  font-size: 0.825rem !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: 0 4px 10px var(--dd-primary-glow) !important;
+  transition: var(--dd-transition) !important;
+  border: none !important;
+}
+
+.btn-dd-review:hover,
+.kov-action-review-btn:hover {
+  background-color: var(--dd-primary-hover) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px var(--dd-primary-glow) !important;
+}
+
+.btn-dd-icon,
+.kov-action-icon-circle {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  border: 1px solid var(--dd-border) !important;
+  background-color: var(--dd-surface-card) !important;
+  color: var(--dd-text-secondary) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: var(--dd-transition) !important;
+  text-decoration: none !important;
+}
+
+.btn-dd-icon:hover,
+.kov-action-icon-circle:hover {
+  border-color: var(--dd-primary) !important;
+  color: var(--dd-primary) !important;
+  background-color: var(--dd-surface-hover) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Status Filter Pills Polish */
+.kov-filter-pill-botanical,
+.filter-pill {
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  padding: 6px 14px !important;
+  border-radius: var(--dd-radius-pill) !important;
+  border: 1px solid var(--dd-border) !important;
+  background-color: var(--dd-surface-card) !important;
+  color: var(--dd-text-secondary) !important;
+  transition: var(--dd-transition) !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  white-space: nowrap !important;
+  box-shadow: var(--dd-shadow-sm) !important;
+}
+
+.kov-filter-pill-botanical:hover,
+.filter-pill:hover {
+  background-color: var(--dd-surface-hover) !important;
+  color: var(--dd-text-primary) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.kov-filter-pill-botanical.active,
+.filter-pill.active {
+  background-color: var(--dd-primary) !important;
+  color: #ffffff !important;
+  border-color: var(--dd-primary) !important;
+  box-shadow: 0 4px 12px var(--dd-primary-glow) !important;
+}
+
+/* Status Badges */
+.kov-status-badge {
+  font-size: 0.775rem !important;
+  font-weight: 700 !important;
+  padding: 4px 12px !important;
+  border-radius: var(--dd-radius-pill) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.kov-status-badge.status-diterima,
+.badge-diterima {
+  background-color: var(--dd-emerald-bg) !important;
+  color: var(--dd-emerald-text) !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+}
+
+.kov-status-badge.status-belum,
+.badge-belum-diproses {
+  background-color: var(--dd-royal-bg) !important;
+  color: var(--dd-royal-text) !important;
+  border: 1px solid rgba(90, 96, 234, 0.25) !important;
+}
+
+.kov-status-badge.status-dipertimbangkan,
+.badge-dipertimbangkan {
+  background-color: var(--dd-amber-bg) !important;
+  color: var(--dd-amber-text) !important;
+  border: 1px solid rgba(248, 184, 73, 0.25) !important;
+}
+
+.kov-status-badge.status-ditolak,
+.badge-ditolak {
+  background-color: var(--dd-coral-bg) !important;
+  color: var(--dd-coral-text) !important;
+  border: 1px solid rgba(238, 71, 78, 0.25) !important;
+}
+
 .dd-row-btn {
   background: transparent;
   border: none;
@@ -1718,3 +1878,172 @@ input:focus-visible,
     border-left: 4px solid Highlight;
   }
 }
+
+/* ==========================================================================
+   15. GLOBAL POLISH & UNIFIED THEME COMPONENT SYNC
+   ========================================================================== */
+
+/* Non-Intrusive Floating Toast Container */
+.kov-toast-container {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  top: auto !important;
+  z-index: 99999 !important;
+  display: flex !important;
+  flex-direction: column-reverse !important;
+  gap: 10px !important;
+  max-width: 360px !important;
+  pointer-events: none !important;
+}
+
+.kov-toast {
+  pointer-events: auto !important;
+  box-shadow: 0 10px 25px rgba(19, 20, 41, 0.18) !important;
+  border-radius: 14px !important;
+}
+
+/* Share Token Card in Dribbble Language */
+.dd-share-card {
+  background: var(--dd-surface-card);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-xl);
+  padding: 20px 24px;
+  box-shadow: var(--dd-shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.dd-token-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--dd-surface-input);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-pill);
+  padding: 4px 6px 4px 18px;
+  gap: 10px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 540px;
+}
+
+.dd-token-input {
+  background: transparent;
+  border: none;
+  font-family: var(--dd-font-mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--dd-text-primary);
+  width: 100%;
+  outline: none;
+}
+
+/* Global Table & Card Sync for all Admin Views */
+.kov-table-container,
+.kov-botanical-table-wrap {
+  background: var(--dd-surface-card) !important;
+  border: 1px solid var(--dd-border) !important;
+  border-radius: var(--dd-radius-xl) !important;
+  padding: 16px 20px !important;
+  box-shadow: var(--dd-shadow-sm) !important;
+  overflow-x: auto !important;
+}
+
+.kov-botanical-table,
+.kov-table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+.kov-botanical-table th,
+.kov-table th {
+  background: var(--dd-surface-input) !important;
+  color: var(--dd-text-secondary) !important;
+  font-size: 0.775rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  padding: 12px 16px !important;
+  border-bottom: 1px solid var(--dd-border) !important;
+}
+
+.kov-botanical-table td,
+.kov-table td {
+  padding: 14px 16px !important;
+  border-bottom: 1px solid var(--dd-border) !important;
+  color: var(--dd-text-primary) !important;
+  vertical-align: middle !important;
+}
+
+.kov-botanical-table tr:hover td,
+.kov-table tr:hover td {
+  background-color: var(--dd-surface-hover) !important;
+}
+
+/* Dribbble Floating File Card Rows (Faithful to Sketch) */
+.dd-file-card-item {
+  background: var(--dd-surface-card);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-lg);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: var(--dd-shadow-sm);
+  transition: var(--dd-transition);
+  cursor: pointer;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.dd-file-card-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--dd-shadow-md);
+  border-color: #cbd5e1;
+}
+
+.dd-file-card-item.selected,
+.dd-file-card-item.active {
+  background: var(--dd-primary) !important;
+  border-color: var(--dd-primary) !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px var(--dd-primary-glow) !important;
+}
+
+.dd-file-card-item.selected *,
+.dd-file-card-item.active * {
+  color: #ffffff !important;
+}
+
+.dd-file-card-item.selected .dd-file-badge,
+.dd-file-card-item.active .dd-file-badge {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+/* Authentication & Login Screen Sync */
+.dd-auth-body {
+  background-color: #131429 !important;
+  background-image: radial-gradient(circle 800px at 50% 0%, rgba(90, 96, 234, 0.28) 0%, rgba(19, 20, 41, 0) 70%) !important;
+  font-family: var(--dd-font-sans) !important;
+  min-height: 100vh;
+}
+
+.dd-auth-card {
+  background: #ffffff !important;
+  border-radius: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5) !important;
+  padding: 2.5rem !important;
+}
+
+[data-theme="dark"] .dd-auth-card {
+  background: #141a29 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f8fafc !important;
+}
+

@@ -55,7 +55,7 @@
     return container;
   }
 
-  function showToast({ type = 'info', title = '', message = '', duration = 4000 }) {
+  function showToast({ type = 'info', title = '', message = '', duration = 2200 }) {
     const container = getContainer();
     const finalTitle = title || DEFAULT_TITLES[type] || 'Notifikasi';
 

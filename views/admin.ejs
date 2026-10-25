@@ -297,7 +297,7 @@
             <div class="kov-share-subtitle d-flex align-items-center gap-2 mt-1 flex-wrap">
               <div class="kov-share-url-pill">
                 <span id="shareUrl" class="user-select-all font-monospace" style="transition: opacity 0.15s ease;"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
-                <button type="button" class="kov-url-copy-btn" id="btnIconCopy" onclick="generateAndCopyShareLink()" title="Salin URL ke Clipboard" aria-label="Salin URL">
+                <button type="button" class="kov-url-copy-btn" id="btnIconCopy" onclick="generateAndCopyShareLink()" title="Salin URL ke Clipboard" aria-label="Salin URL" style="background: var(--dd-primary, #5a60ea) !important; color: #ffffff !important;">
                   <i class="far fa-copy" id="iconCopySmall"></i>
                 </button>
               </div>
@@ -309,9 +309,9 @@
             <i class="fas fa-file-excel me-1 text-success"></i> Export Excel
           </a>
           <button type="button" class="kov-btn-outline-pill" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru">
-            <i class="fas fa-shuffle me-1 text-success" id="iconAcak"></i> Acak Token Baru
+            <i class="fas fa-shuffle me-1" id="iconAcak" style="color: var(--dd-primary, #5a60ea);"></i> Acak Token Baru
           </button>
-          <button type="button" class="kov-btn-mint-pill" id="btnSalinLink" onclick="generateAndCopyShareLink()" title="Salin tautan formulir pelamar" style="background: var(--dd-primary, #5a60ea); border-color: var(--dd-primary, #5a60ea);">
+          <button type="button" class="kov-btn-mint-pill" id="btnSalinLink" onclick="generateAndCopyShareLink()" title="Salin tautan formulir pelamar" style="background: var(--dd-primary, #5a60ea) !important; border-color: var(--dd-primary, #5a60ea) !important; color: #ffffff !important;">
             <i class="fas fa-link me-1" id="iconSalin"></i> Salin Link
           </button>
         </div>
@@ -398,8 +398,66 @@
           </button>
         </div>
 
+        <!-- Dribbble Floating File Card Rows (Faithful to Sketch 'Recent Files') -->
+        <div class="dd-files-list mb-3" id="candidateCardsList">
+          <% if (candidates.length === 0) { %>
+            <div class="text-center py-5 text-muted bg-white rounded-4 border">
+              <div class="py-4">
+                <i class="fas fa-folder-open fa-3x mb-3 text-secondary opacity-50"></i>
+                <h6 class="fw-bold text-dark">Belum Ada Pelamar</h6>
+                <p class="small text-muted mb-0">Bagikan tautan form kepada kandidat untuk mulai menerima data.</p>
+              </div>
+            </div>
+          <% } %>
+          <% candidates.forEach((c, idx) => { 
+            const cDiv = c.divisi || 'Operasional';
+            const dLow = cDiv.toLowerCase();
+            const rawStatus = (c.kesimpulan_status || 'Belum Diproses').trim();
+            let badgeClass = 'dd-badge-pdf', badgeText = 'PDF';
+            if (c.foto_kandidat) {
+              badgeClass = 'dd-badge-png';
+              badgeText = 'PNG';
+            } else if (dLow.includes('kitchen') || dLow.includes('cook')) {
+              badgeClass = 'dd-badge-zip';
+              badgeText = 'ZIP';
+            }
+            const isSelected = idx === 1; // Row 2 selected in Dribbble Sketch concept
+          %>
+            <div class="dd-file-card-item dd-file-row <%= isSelected ? 'active selected' : '' %>"
+                 data-id="<%= c.id %>"
+                 data-date="<%= c.created_at ? new Date(c.created_at).getTime() : 0 %>"
+                 data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
+                 data-status="<%= rawStatus %>"
+                 data-divisi="<%= dLow %>"
+                 data-duplicate="<%= c.is_duplicate ? 'true' : 'false' %>"
+                 onclick="selectCandidateCard(this)">
+              <div class="d-flex align-items-center gap-3">
+                <div class="dd-file-badge <%= badgeClass %>"><%= badgeText %></div>
+                <div>
+                  <div class="fw-bold" style="font-size: 0.95rem;"><%= c.nama_lengkap %></div>
+                  <div class="opacity-75 small"><%= c.posisi_dilamar %> • <%= cDiv %></div>
+                </div>
+              </div>
+              <div class="d-none d-md-flex align-items-center gap-3 small opacity-85">
+                <span><i class="far fa-calendar me-1"></i><%= formatDate(c.created_at) %></span>
+                <span class="kov-status-badge <%= rawStatus === 'Diterima' ? 'status-diterima' : (rawStatus === 'Belum Diproses' ? 'status-belum' : (rawStatus === 'Dipertimbangkan' ? 'status-dipertimbangkan' : 'status-ditolak')) %>">
+                  <%= rawStatus %>
+                </span>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <a href="/admin/candidate/<%= c.id %>" class="btn-dd-review" onclick="event.stopPropagation()">
+                  <i class="fas fa-eye"></i> Review
+                </a>
+                <a href="/api/export/pdf/<%= c.id %>" class="btn-dd-icon" title="Export PDF Biodata" onclick="event.stopPropagation()">
+                  <i class="fas fa-file-pdf"></i>
+                </a>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+
         <!-- Modern Table Content with Dribbble File Format Badges -->
-        <div class="kov-botanical-table-wrap">
+        <div class="kov-botanical-table-wrap" id="candidateTableView" style="display: none;">
           <table class="kov-botanical-table" id="candidateTable">
             <thead>
               <tr>
@@ -1029,10 +1087,12 @@
         if (tableCard) {
           tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-        if (window.KovToast) {
-          window.KovToast.info('Menyaring kategori: ' + (divisi === 'all' ? 'Semua Divisi' : divisi.toUpperCase()), 'Filter Divisi');
-        }
       }
+    }
+
+    function selectCandidateCard(el) {
+      document.querySelectorAll('.dd-file-card-item').forEach(c => c.classList.remove('active', 'selected'));
+      if (el) el.classList.add('active', 'selected');
     }
 
     function toggleSort(type) {
@@ -1083,6 +1143,55 @@
           row.style.display = 'none';
         }
       });
+
+      // Synchronize Floating Card items in #candidateCardsList
+      const cardContainer = document.getElementById('candidateCardsList');
+      if (cardContainer) {
+        const cards = Array.from(cardContainer.querySelectorAll('.dd-file-card-item'));
+        cards.forEach(card => {
+          const cardText = card.innerText.toLowerCase();
+          const rawStatus = card.getAttribute('data-status') || '';
+          const cardNormStatus = normalizeStatus(rawStatus);
+          const cardDivisi = (card.getAttribute('data-divisi') || '').toLowerCase();
+          const isDuplicate = card.getAttribute('data-duplicate') === 'true';
+
+          let matchesSearch = searchVal === '' || cardText.includes(searchVal);
+          let matchesFilter = true;
+
+          if (activeFilter === 'duplicate') {
+            matchesFilter = isDuplicate;
+          } else if (activeFilter !== 'all') {
+            matchesFilter = (cardNormStatus === normalizeStatus(activeFilter));
+          }
+
+          let matchesDivisi = (divisiVal === 'all' || cardDivisi.includes(divisiVal));
+
+          if (matchesSearch && matchesFilter && matchesDivisi) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        // Sort Cards
+        cards.sort((a, b) => {
+          const dateA = parseInt(a.getAttribute('data-date')) || 0;
+          const dateB = parseInt(b.getAttribute('data-date')) || 0;
+          const nameA = a.getAttribute('data-name') || '';
+          const nameB = b.getAttribute('data-name') || '';
+          const statusA = a.getAttribute('data-status') || '';
+          const statusB = b.getAttribute('data-status') || '';
+
+          if (sortVal === 'date-desc') return dateB - dateA;
+          if (sortVal === 'date-asc') return dateA - dateB;
+          if (sortVal === 'name-asc') return nameA.localeCompare(nameB);
+          if (sortVal === 'name-desc') return nameB.localeCompare(nameA);
+          if (sortVal === 'status-asc') return statusA.localeCompare(statusB);
+          if (sortVal === 'status-desc') return statusB.localeCompare(statusA);
+          return 0;
+        });
+        cards.forEach(card => cardContainer.appendChild(card));
+      }
 
       const countEl = document.getElementById('candidateCount');
       if (countEl) countEl.innerText = visibleCount;
@@ -1141,21 +1250,22 @@
       rows.forEach(row => tbody.appendChild(row));
     }
 
-    // View toggle handler
+    // View toggle handler: Switch between Dribbble Cards and Spreadsheet Table
     function setViewMode(mode) {
+      const cardsList = document.getElementById('candidateCardsList');
+      const tableView = document.getElementById('candidateTableView');
       const btnGrid = document.getElementById('btnViewGrid');
       const btnList = document.getElementById('btnViewList');
-      if (btnGrid && btnList) {
-        if (mode === 'grid') {
-          btnGrid.classList.add('active');
-          btnList.classList.remove('active');
-        } else {
-          btnList.classList.add('active');
-          btnGrid.classList.remove('active');
-        }
-      }
-      if (window.KovToast) {
-        window.KovToast.info('Tampilan diubah ke mode ' + (mode === 'grid' ? 'Grid' : 'List'), 'Tata Letak');
+      if (mode === 'grid') {
+        if (cardsList) cardsList.style.display = 'block';
+        if (tableView) tableView.style.display = 'none';
+        if (btnGrid) btnGrid.classList.add('active');
+        if (btnList) btnList.classList.remove('active');
+      } else {
+        if (cardsList) cardsList.style.display = 'none';
+        if (tableView) tableView.style.display = 'block';
+        if (btnGrid) btnGrid.classList.remove('active');
+        if (btnList) btnList.classList.add('active');
       }
     }
 
@@ -1167,9 +1277,6 @@
     function switchCalPeriod(period, btn) {
       document.querySelectorAll('.dd-period-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
-      if (window.KovToast) {
-        window.KovToast.info('Rentang kalender: ' + period.toUpperCase(), 'Kalender Seleksi');
-      }
     }
 
     function prevCalMonth() {
