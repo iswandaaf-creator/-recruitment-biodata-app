@@ -1,0 +1,1720 @@
+/**
+ * ==============================================================================
+ * DRIBBLE CLOUD DRIVE DESIGN SYSTEM (dribbble-drive.css)
+ * High-Fidelity UI Styling Faithful to `drive dribbble.sketch`
+ * ==============================================================================
+ * Design Specs:
+ * - Left Sidebar (~250px): Deep Midnight Indigo (#131429, active indicator #5a60ea)
+ * - Center Canvas: Clean Soft Slate (#f4f6fa light / #0d121f dark)
+ * - Right Activity & Utility Panel (~360px): Pure Crisp Canvas (#ffffff light / #141a29 dark)
+ * - Folder Cards: 20-26px Radius, Vibrant Gradients with Soft Colored Glow Shadows
+ *   * Coral/Red: Barista & Beverage (#ee474e)
+ *   * Royal Blue: Operasional & Staff (#5a60ea)
+ *   * Honey Amber: Kitchen & Cook (#f8b849)
+ *   * Emerald Green: Seluruh Pelamar (#10b981)
+ * - Recent Files / Applicant Rows: File badges (PDF, PNG, ZIP, DOC), active state pill
+ * - Right Panel: Interactive Calendar, "Your Task" with Red Accent Bar, Stacked Bar Chart
+ * - Multi-Theme: Light & Dark Mode ([data-theme="dark"] / .theme-dark)
+ * - Accessibility: WCAG 2.1 AA Compliant Contrast & Focus States
+ * ==============================================================================
+ */
+
+/* ==========================================================================
+   1. DESIGN TOKENS & CSS CUSTOM PROPERTIES
+   ========================================================================== */
+
+:root {
+  /* Typography */
+  --dd-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --dd-font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --dd-font-mono: 'JetBrains Mono', 'Fira Code', Menlo, monospace;
+
+  /* Brand Palette from Dribbble Drive */
+  --dd-primary: #5a60ea;
+  --dd-primary-rgb: 90, 96, 234;
+  --dd-primary-hover: #4a50d8;
+  --dd-primary-active: #3c42c4;
+  --dd-primary-subtle: #eef2fe;
+  --dd-primary-glow: rgba(90, 96, 234, 0.35);
+
+  /* Deep Midnight Sidebar Tokens */
+  --dd-sidebar-bg: #131429;
+  --dd-sidebar-text: #8f95b2;
+  --dd-sidebar-text-hover: #ffffff;
+  --dd-sidebar-active-bg: rgba(90, 96, 234, 0.16);
+  --dd-sidebar-active-bar: #5a60ea;
+  --dd-sidebar-border: rgba(255, 255, 255, 0.06);
+
+  /* Light Canvas & Surfaces */
+  --dd-canvas-bg: #f4f6fa;
+  --dd-surface-card: #ffffff;
+  --dd-surface-panel: #ffffff;
+  --dd-surface-input: #eef2fe;
+  --dd-surface-hover: #f8fafc;
+  --dd-surface-active: #5a60ea;
+  --dd-border: #eaedf5;
+  --dd-border-subtle: #f1f4fb;
+  --dd-border-focus: #5a60ea;
+
+  /* Typography Colors (Light) */
+  --dd-text-primary: #131429;
+  --dd-text-secondary: #5e6582;
+  --dd-text-muted: #8f95b2;
+  --dd-text-light: #ffffff;
+
+  /* Folder Vibrant Colors & Gradients */
+  --dd-coral-start: #ee474e;
+  --dd-coral-end: #ff6e6a;
+  --dd-coral-glow: rgba(238, 71, 78, 0.32);
+  --dd-coral-bg: #fee2e2;
+  --dd-coral-text: #dc2626;
+
+  --dd-royal-start: #5a60ea;
+  --dd-royal-end: #7b80fa;
+  --dd-royal-glow: rgba(90, 96, 234, 0.32);
+  --dd-royal-bg: #e0e7ff;
+  --dd-royal-text: #4338ca;
+
+  --dd-amber-start: #f8b849;
+  --dd-amber-end: #ffcc66;
+  --dd-amber-glow: rgba(248, 184, 73, 0.32);
+  --dd-amber-bg: #fef3c7;
+  --dd-amber-text: #d97706;
+
+  --dd-emerald-start: #10b981;
+  --dd-emerald-end: #34d399;
+  --dd-emerald-glow: rgba(16, 185, 129, 0.32);
+  --dd-emerald-bg: #dcfce7;
+  --dd-emerald-text: #15803d;
+
+  /* Welcome Banner Pastel Gradient */
+  --dd-hero-gradient: linear-gradient(135deg, #eef3ff 0%, #dce8fe 100%);
+  --dd-hero-border: rgba(90, 96, 234, 0.12);
+
+  /* Shadows */
+  --dd-shadow-sm: 0 2px 8px rgba(19, 20, 41, 0.04);
+  --dd-shadow-md: 0 6px 18px rgba(19, 20, 41, 0.06);
+  --dd-shadow-lg: 0 12px 28px rgba(19, 20, 41, 0.09);
+  --dd-shadow-card: 0 10px 24px -4px rgba(19, 20, 41, 0.05);
+
+  /* Border Radii */
+  --dd-radius-sm: 8px;
+  --dd-radius-md: 12px;
+  --dd-radius-lg: 16px;
+  --dd-radius-xl: 20px;
+  --dd-radius-2xl: 26px;
+  --dd-radius-pill: 9999px;
+
+  /* Transitions */
+  --dd-transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --dd-transition-slow: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================================================
+   2. DARK THEME TOKENS ([data-theme="dark"] / .theme-dark)
+   ========================================================================== */
+
+[data-theme="dark"],
+.theme-dark {
+  --dd-canvas-bg: #0d121f;
+  --dd-surface-card: #141a29;
+  --dd-surface-panel: #141a29;
+  --dd-surface-input: #1a2236;
+  --dd-surface-hover: #1e273e;
+  --dd-border: rgba(255, 255, 255, 0.08);
+  --dd-border-subtle: rgba(255, 255, 255, 0.04);
+  --dd-border-focus: #7b80fa;
+
+  --dd-text-primary: #f8fafc;
+  --dd-text-secondary: #94a3b8;
+  --dd-text-muted: #64748b;
+
+  --dd-hero-gradient: linear-gradient(135deg, #182036 0%, #1a233c 100%);
+  --dd-hero-border: rgba(255, 255, 255, 0.08);
+
+  --dd-sidebar-bg: #0b0c1b;
+  --dd-sidebar-border: rgba(255, 255, 255, 0.05);
+
+  --dd-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --dd-shadow-md: 0 6px 18px rgba(0, 0, 0, 0.35);
+  --dd-shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.45);
+  --dd-shadow-card: 0 10px 24px -4px rgba(0, 0, 0, 0.35);
+
+  --dd-coral-bg: rgba(238, 71, 78, 0.18);
+  --dd-coral-text: #fca5a5;
+  --dd-royal-bg: rgba(90, 96, 234, 0.2);
+  --dd-royal-text: #c7d2fe;
+  --dd-amber-bg: rgba(248, 184, 73, 0.2);
+  --dd-amber-text: #fde68a;
+  --dd-emerald-bg: rgba(16, 185, 129, 0.2);
+  --dd-emerald-text: #a7f3d0;
+}
+
+/* Base Reset & Typography */
+.dd-app-wrapper,
+.dd-container,
+.kov-app-shell {
+  font-family: var(--dd-font-sans);
+  background-color: var(--dd-canvas-bg);
+  color: var(--dd-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   3. MODERN 3-COLUMN MASTER LAYOUT
+   ========================================================================== */
+
+.dd-layout-root {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--dd-canvas-bg);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Column 1: Left Sidebar (~250px) */
+.dd-sidebar,
+.kov-sidebar.dd-theme {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  background-color: var(--dd-sidebar-bg);
+  color: var(--dd-sidebar-text);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border-right: 1px solid var(--dd-sidebar-border);
+  z-index: 1030;
+  transition: var(--dd-transition);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Column 2: Center Main Content Canvas */
+.dd-main-canvas,
+.kov-main-content.dd-theme {
+  flex: 1 1 0%;
+  min-width: 0;
+  padding: 32px 36px 48px;
+  background-color: var(--dd-canvas-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  transition: var(--dd-transition);
+}
+
+/* Column 3: Right Activity & Utility Panel (~360px) */
+.dd-right-panel {
+  width: 360px;
+  min-width: 360px;
+  max-width: 360px;
+  background-color: var(--dd-surface-panel);
+  border-left: 1px solid var(--dd-border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1020;
+  transition: var(--dd-transition);
+}
+
+/* Scrollbar polish for sidebars */
+.dd-sidebar::-webkit-scrollbar,
+.dd-right-panel::-webkit-scrollbar,
+.dd-main-canvas::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.dd-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--dd-radius-pill);
+}
+.dd-right-panel::-webkit-scrollbar-thumb,
+.dd-main-canvas::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: var(--dd-radius-pill);
+}
+[data-theme="dark"] .dd-right-panel::-webkit-scrollbar-thumb,
+[data-theme="dark"] .dd-main-canvas::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   4. LEFT SIDEBAR COMPONENTS
+   ========================================================================== */
+
+/* Brand Header */
+.dd-sidebar-brand {
+  padding: 36px 28px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dd-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--dd-text-light);
+}
+
+.dd-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: var(--dd-sidebar-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.dd-brand-icon svg,
+.dd-brand-icon i {
+  font-size: 1.15rem;
+  color: #131429;
+}
+
+.dd-brand-text {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  display: flex;
+  align-items: baseline;
+}
+
+.dd-brand-text .dd-dot {
+  color: var(--dd-primary);
+  font-size: 1.6rem;
+  line-height: 0;
+}
+
+/* Sidebar Navigation Items */
+.dd-sidebar-nav {
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.dd-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 13px 28px;
+  color: var(--dd-sidebar-text);
+  text-decoration: none;
+  font-size: 0.925rem;
+  font-weight: 600;
+  position: relative;
+  transition: var(--dd-transition);
+  border-left: 4px solid transparent;
+}
+
+.dd-nav-item i,
+.dd-nav-item svg {
+  font-size: 1.15rem;
+  width: 22px;
+  text-align: center;
+  color: var(--dd-sidebar-text);
+  transition: var(--dd-transition);
+}
+
+.dd-nav-item:hover {
+  color: var(--dd-sidebar-text-hover);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.dd-nav-item:hover i,
+.dd-nav-item:hover svg {
+  color: var(--dd-sidebar-text-hover);
+  transform: scale(1.08);
+}
+
+/* Active Nav Item - Highlight bar and subtle glow */
+.dd-nav-item.active {
+  color: #ffffff;
+  background: linear-gradient(90deg, rgba(90, 96, 234, 0.16) 0%, rgba(90, 96, 234, 0) 100%);
+  border-left-color: var(--dd-sidebar-active-bar);
+}
+
+.dd-nav-item.active i,
+.dd-nav-item.active svg {
+  color: var(--dd-primary);
+  filter: drop-shadow(0 0 8px rgba(90, 96, 234, 0.6));
+}
+
+.dd-nav-group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(143, 149, 178, 0.55);
+  padding: 16px 28px 6px;
+}
+
+/* Bottom Storage Gauge Meter Widget */
+.dd-storage-widget {
+  margin: 16px 20px 24px;
+  padding: 20px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--dd-radius-lg);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dd-storage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dd-storage-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.dd-storage-label i,
+.dd-storage-label svg {
+  color: var(--dd-primary);
+  font-size: 1rem;
+}
+
+.dd-storage-percentage {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: rgba(90, 96, 234, 0.25);
+  padding: 2px 8px;
+  border-radius: var(--dd-radius-pill);
+}
+
+/* Storage Gauge Progress Bar */
+.dd-storage-meter {
+  width: 100%;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: var(--dd-radius-pill);
+  overflow: hidden;
+  position: relative;
+}
+
+.dd-storage-meter-fill {
+  height: 100%;
+  width: 73%;
+  background: linear-gradient(90deg, #f8b849 0%, #ee474e 50%, #5a60ea 100%);
+  border-radius: var(--dd-radius-pill);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(90, 96, 234, 0.5);
+}
+
+.dd-storage-caption {
+  font-size: 0.75rem;
+  color: var(--dd-sidebar-text);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* User & Theme Toggle in Sidebar Footer */
+.dd-sidebar-footer {
+  padding: 16px 20px 24px;
+  border-top: 1px solid var(--dd-sidebar-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dd-theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--dd-radius-md);
+  color: #ffffff;
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--dd-transition);
+}
+
+.dd-theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   5. CENTER CANVAS: TOP BAR & SEARCH
+   ========================================================================== */
+
+.dd-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.dd-search-container {
+  flex: 1;
+  max-width: 460px;
+  position: relative;
+}
+
+.dd-search-input {
+  width: 100%;
+  height: 48px;
+  background-color: var(--dd-surface-input);
+  border: 1px solid transparent;
+  border-radius: var(--dd-radius-pill);
+  padding: 0 20px 0 48px;
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--dd-text-primary);
+  outline: none;
+  transition: var(--dd-transition);
+}
+
+.dd-search-input::placeholder {
+  color: var(--dd-text-muted);
+}
+
+.dd-search-input:focus {
+  background-color: var(--dd-surface-card);
+  border-color: var(--dd-primary);
+  box-shadow: 0 0 0 4px var(--dd-primary-glow);
+}
+
+.dd-search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dd-primary);
+  font-size: 1.05rem;
+  pointer-events: none;
+}
+
+/* Dashboard Action Row */
+.dd-dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dd-page-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--dd-text-primary);
+  margin: 0;
+}
+
+.dd-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dd-view-toggle {
+  display: inline-flex;
+  background-color: var(--dd-surface-input);
+  border-radius: var(--dd-radius-md);
+  padding: 4px;
+  gap: 4px;
+}
+
+.dd-view-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  border-radius: var(--dd-radius-sm);
+  color: var(--dd-text-muted);
+  cursor: pointer;
+  transition: var(--dd-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dd-view-btn:hover {
+  color: var(--dd-text-primary);
+}
+
+.dd-view-btn.active {
+  background-color: var(--dd-surface-card);
+  color: var(--dd-primary);
+  box-shadow: var(--dd-shadow-sm);
+}
+
+.btn-dd-primary,
+.btn-drive-upload {
+  background-color: var(--dd-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--dd-radius-pill);
+  padding: 10px 22px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: var(--dd-transition);
+  box-shadow: 0 4px 14px var(--dd-primary-glow);
+  text-decoration: none;
+}
+
+.btn-dd-primary:hover,
+.btn-drive-upload:hover {
+  background-color: var(--dd-primary-hover);
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px var(--dd-primary-glow);
+}
+
+.btn-dd-primary:active,
+.btn-drive-upload:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   6. HERO WELCOME BANNER
+   ========================================================================== */
+
+.dd-hero-banner {
+  background: var(--dd-hero-gradient);
+  border: 1px solid var(--dd-hero-border);
+  border-radius: var(--dd-radius-2xl);
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--dd-shadow-md);
+  min-height: 190px;
+}
+
+.dd-hero-content {
+  max-width: 55%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dd-hero-title {
+  font-family: var(--dd-font-serif), var(--dd-font-sans);
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--dd-text-primary);
+  margin: 0;
+  line-height: 1.25;
+}
+
+.dd-hero-subtitle {
+  font-size: 0.925rem;
+  color: var(--dd-text-secondary);
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+
+.btn-dd-hero {
+  align-self: flex-start;
+  background-color: var(--dd-primary);
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: var(--dd-radius-pill);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px var(--dd-primary-glow);
+  transition: var(--dd-transition);
+  text-decoration: none;
+}
+
+.btn-dd-hero:hover {
+  background-color: var(--dd-primary-hover);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px var(--dd-primary-glow);
+}
+
+.dd-hero-illustration {
+  max-width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.dd-hero-illustration img,
+.dd-hero-illustration svg {
+  max-height: 165px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 24px rgba(90, 96, 234, 0.2));
+  animation: floatIllustration 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatIllustration {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+/* ==========================================================================
+   7. VIBRANT FOLDER CARDS GRID
+   ========================================================================== */
+
+.dd-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.dd-section-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  color: var(--dd-text-primary);
+  margin: 0;
+}
+
+.dd-view-all-link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--dd-text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: var(--dd-surface-card);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-pill);
+  transition: var(--dd-transition);
+}
+
+.dd-view-all-link:hover {
+  color: var(--dd-primary);
+  border-color: var(--dd-primary);
+  transform: translateX(2px);
+}
+
+/* 4-Column Folder Grid */
+.dd-folders-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.dd-folder-card {
+  border-radius: var(--dd-radius-xl);
+  padding: 22px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  position: relative;
+  transition: var(--dd-transition);
+  cursor: pointer;
+  text-decoration: none;
+  overflow: hidden;
+}
+
+.dd-folder-card:hover {
+  transform: translateY(-6px);
+  color: #ffffff;
+}
+
+/* Card Themes & Glow Shadows */
+.dd-folder-coral {
+  background: linear-gradient(135deg, var(--dd-coral-start) 0%, var(--dd-coral-end) 100%);
+  box-shadow: 0 12px 28px var(--dd-coral-glow);
+}
+.dd-folder-coral:hover {
+  box-shadow: 0 16px 36px rgba(238, 71, 78, 0.45);
+}
+
+.dd-folder-royal {
+  background: linear-gradient(135deg, var(--dd-royal-start) 0%, var(--dd-royal-end) 100%);
+  box-shadow: 0 12px 28px var(--dd-royal-glow);
+}
+.dd-folder-royal:hover {
+  box-shadow: 0 16px 36px rgba(90, 96, 234, 0.45);
+}
+
+.dd-folder-amber {
+  background: linear-gradient(135deg, var(--dd-amber-start) 0%, var(--dd-amber-end) 100%);
+  box-shadow: 0 12px 28px var(--dd-amber-glow);
+}
+.dd-folder-amber:hover {
+  box-shadow: 0 16px 36px rgba(248, 184, 73, 0.45);
+}
+
+.dd-folder-emerald {
+  background: linear-gradient(135deg, var(--dd-emerald-start) 0%, var(--dd-emerald-end) 100%);
+  box-shadow: 0 12px 28px var(--dd-emerald-glow);
+}
+.dd-folder-emerald:hover {
+  box-shadow: 0 16px 36px rgba(16, 185, 129, 0.45);
+}
+
+/* Inside Folder Card */
+.dd-folder-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dd-folder-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--dd-radius-md);
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.dd-folder-more-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--dd-radius-sm);
+  transition: var(--dd-transition);
+}
+
+.dd-folder-more-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.dd-folder-body {
+  margin-top: 14px;
+  margin-bottom: 12px;
+}
+
+.dd-folder-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.dd-folder-subtitle {
+  font-size: 0.775rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* Avatar Stack */
+.dd-avatar-stack {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 6px;
+}
+
+.dd-avatar-item {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  overflow: hidden;
+  margin-left: -8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #cbd5e1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #1e293b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+}
+
+.dd-avatar-item:first-child {
+  margin-left: 0;
+}
+
+.dd-avatar-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dd-avatar-count {
+  background-color: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(6px);
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.dd-folder-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 10px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+.dd-folder-footer span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ==========================================================================
+   8. RECENT FILES & APPLICANT ROWS
+   ========================================================================== */
+
+.dd-files-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dd-file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--dd-surface-card);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-lg);
+  padding: 14px 22px;
+  box-shadow: var(--dd-shadow-sm);
+  transition: var(--dd-transition);
+  cursor: pointer;
+  position: relative;
+}
+
+.dd-file-row:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--dd-shadow-md);
+  border-color: #cbd5e1;
+}
+
+/* Selected Active Row (From Dribbble Sketch: Filled with Indigo #5a60ea) */
+.dd-file-row.active {
+  background-color: var(--dd-primary);
+  border-color: var(--dd-primary);
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px var(--dd-primary-glow);
+}
+
+.dd-file-row.active .dd-file-name {
+  color: #ffffff !important;
+}
+
+.dd-file-row.active .dd-file-meta,
+.dd-file-row.active .dd-file-date,
+.dd-file-row.active .dd-file-size {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.dd-file-row.active .dd-row-btn {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.dd-file-row.active .dd-row-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* File Row Content */
+.dd-file-main {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 260px;
+}
+
+/* File Type Badges */
+.dd-file-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--dd-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.775rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.dd-badge-pdf {
+  background-color: var(--dd-coral-bg);
+  color: var(--dd-coral-text);
+}
+
+.dd-badge-png,
+.dd-badge-img {
+  background-color: var(--dd-amber-bg);
+  color: var(--dd-amber-text);
+}
+
+.dd-badge-zip {
+  background-color: var(--dd-emerald-bg);
+  color: var(--dd-emerald-text);
+}
+
+.dd-badge-doc,
+.dd-badge-xls {
+  background-color: var(--dd-royal-bg);
+  color: var(--dd-royal-text);
+}
+
+.dd-file-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dd-file-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--dd-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.dd-file-meta {
+  font-size: 0.8rem;
+  color: var(--dd-text-muted);
+  font-weight: 500;
+}
+
+.dd-file-date {
+  font-size: 0.825rem;
+  color: var(--dd-text-muted);
+  font-weight: 600;
+  min-width: 110px;
+}
+
+.dd-file-size {
+  font-size: 0.825rem;
+  color: var(--dd-text-secondary);
+  font-weight: 600;
+  min-width: 70px;
+}
+
+.dd-file-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dd-row-btn {
+  background: transparent;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--dd-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--dd-transition);
+}
+
+.dd-row-btn:hover {
+  background-color: var(--dd-surface-hover);
+  color: var(--dd-primary);
+}
+
+/* ==========================================================================
+   9. RIGHT UTILITY PANEL COMPONENTS
+   ========================================================================== */
+
+/* Top Profile Header in Right Panel */
+.dd-profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.dd-utility-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dd-icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--dd-border);
+  background: var(--dd-surface-card);
+  color: var(--dd-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: var(--dd-transition);
+}
+
+.dd-icon-btn:hover {
+  background: var(--dd-surface-hover);
+  color: var(--dd-primary);
+  border-color: var(--dd-primary);
+}
+
+.dd-notif-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--dd-coral-start);
+  border: 2px solid var(--dd-surface-card);
+}
+
+.dd-user-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.dd-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--dd-border);
+}
+
+.dd-user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dd-user-name {
+  font-size: 0.925rem;
+  font-weight: 700;
+  color: var(--dd-text-primary);
+}
+
+.dd-user-caret {
+  font-size: 0.75rem;
+  color: var(--dd-text-muted);
+}
+
+/* ==========================================================================
+   10. INTERACTIVE CALENDAR WIDGET
+   ========================================================================== */
+
+.dd-calendar-widget {
+  background: var(--dd-surface-card);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-xl);
+  padding: 22px;
+  box-shadow: var(--dd-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dd-calendar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dd-calendar-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--dd-text-primary);
+  margin: 0;
+}
+
+/* Period Toggle (Week / Month / Year) */
+.dd-period-toggle {
+  display: flex;
+  background-color: var(--dd-surface-input);
+  border-radius: var(--dd-radius-pill);
+  padding: 3px;
+  gap: 2px;
+}
+
+.dd-period-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: var(--dd-radius-pill);
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: var(--dd-text-muted);
+  cursor: pointer;
+  transition: var(--dd-transition);
+  text-align: center;
+}
+
+.dd-period-btn.active {
+  background-color: var(--dd-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 8px var(--dd-primary-glow);
+}
+
+/* Month Navigation */
+.dd-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+}
+
+.dd-month-label {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--dd-text-primary);
+}
+
+.dd-nav-arrow-btn {
+  background: transparent;
+  border: 1px solid var(--dd-border);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: var(--dd-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--dd-transition);
+}
+
+.dd-nav-arrow-btn:hover {
+  border-color: var(--dd-primary);
+  color: var(--dd-primary);
+}
+
+/* Calendar Grid */
+.dd-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.dd-cal-weekday {
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: var(--dd-text-muted);
+  padding-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.dd-cal-day {
+  height: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--dd-text-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: var(--dd-transition);
+}
+
+.dd-cal-day:hover {
+  background-color: var(--dd-surface-input);
+  color: var(--dd-primary);
+}
+
+.dd-cal-day.muted {
+  color: var(--dd-text-muted);
+  opacity: 0.45;
+}
+
+/* Active Day Circle */
+.dd-cal-day.active {
+  background-color: var(--dd-primary) !important;
+  color: #ffffff !important;
+  font-weight: 800;
+  box-shadow: 0 4px 12px var(--dd-primary-glow);
+}
+
+/* Event Dot Indicator */
+.dd-event-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 2px;
+}
+
+.dd-event-coral { background-color: var(--dd-coral-start); }
+.dd-event-amber { background-color: var(--dd-amber-start); }
+.dd-event-royal { background-color: var(--dd-royal-start); }
+
+/* ==========================================================================
+   11. "YOUR TASK" WIDGET & ACCENT CARD
+   ========================================================================== */
+
+.dd-task-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dd-task-card {
+  background: var(--dd-surface-card);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-lg);
+  padding: 16px 18px 16px 20px;
+  box-shadow: var(--dd-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--dd-transition);
+}
+
+.dd-task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--dd-shadow-md);
+}
+
+/* Distinct Red Accent Bar on Left */
+.dd-task-accent-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background-color: var(--dd-coral-start);
+  border-radius: 4px 0 0 4px;
+}
+
+.dd-task-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dd-task-title {
+  font-size: 0.925rem;
+  font-weight: 700;
+  color: var(--dd-text-primary);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.dd-task-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.775rem;
+  color: var(--dd-text-muted);
+  font-weight: 600;
+}
+
+.dd-task-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dd-task-avatars {
+  display: flex;
+  align-items: center;
+}
+
+.btn-dd-add-user {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px dashed var(--dd-border);
+  background: transparent;
+  color: var(--dd-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: var(--dd-transition);
+}
+
+.btn-dd-add-user:hover {
+  border-color: var(--dd-primary);
+  color: var(--dd-primary);
+  background: var(--dd-surface-input);
+}
+
+/* ==========================================================================
+   12. STACKED BAR CHART WIDGET (Storage / Available Space)
+   ========================================================================== */
+
+.dd-storage-chart-card {
+  background: var(--dd-surface-card);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-xl);
+  padding: 22px;
+  box-shadow: var(--dd-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dd-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dd-chart-capacity {
+  display: flex;
+  flex-direction: column;
+}
+
+.dd-chart-sub {
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--dd-text-muted);
+}
+
+.dd-chart-val {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--dd-primary);
+}
+
+.dd-chart-select-pill {
+  padding: 4px 12px;
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: var(--dd-text-secondary);
+  background: var(--dd-surface-input);
+  border-radius: var(--dd-radius-pill);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* Stacked Bar Visualization */
+.dd-chart-canvas {
+  height: 180px;
+  display: flex;
+  gap: 14px;
+  position: relative;
+  padding: 10px 0 24px 30px;
+}
+
+/* Y Axis Guide Lines */
+.dd-chart-y-axis {
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 0.675rem;
+  font-weight: 600;
+  color: var(--dd-text-muted);
+}
+
+.dd-chart-bars-wrap {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100%;
+  border-bottom: 1px solid var(--dd-border);
+}
+
+.dd-bar-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.dd-stacked-bar {
+  width: 6px;
+  display: flex;
+  flex-direction: column-reverse;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--dd-surface-input);
+  transition: var(--dd-transition);
+}
+
+.dd-bar-column:hover .dd-stacked-bar {
+  transform: scaleY(1.04);
+  width: 8px;
+}
+
+/* The 3 Segment Colors matching Sketch */
+.dd-bar-segment {
+  width: 100%;
+  transition: height 0.6s ease;
+}
+
+.dd-seg-bottom { background-color: var(--dd-royal-start); }
+.dd-seg-middle { background-color: var(--dd-amber-start); }
+.dd-seg-top { background-color: var(--dd-coral-start); }
+
+.dd-bar-month {
+  font-size: 0.725rem;
+  font-weight: 600;
+  color: var(--dd-text-muted);
+}
+
+.dd-bar-column.active .dd-bar-month {
+  color: var(--dd-primary);
+  font-weight: 800;
+}
+
+/* Chart Legends */
+.dd-chart-legend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid var(--dd-border-subtle);
+}
+
+.dd-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.725rem;
+  font-weight: 600;
+  color: var(--dd-text-muted);
+}
+
+.dd-legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.dd-dot-coral { background-color: var(--dd-coral-start); }
+.dd-dot-amber { background-color: var(--dd-amber-start); }
+.dd-dot-royal { background-color: var(--dd-royal-start); }
+
+/* ==========================================================================
+   13. RESPONSIVE MEDIA QUERIES & OFFCANVAS DRAWER
+   ========================================================================== */
+
+/* Backdrop overlay for mobile drawer */
+.dd-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 12, 26, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1025;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.dd-backdrop.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 1400px+ (Ultra Wide Desktop) */
+@media (min-width: 1400px) {
+  .dd-folders-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 1200px - 1399px (Standard Desktop) */
+@media (max-width: 1399.98px) {
+  .dd-folders-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dd-right-panel {
+    width: 320px;
+    min-width: 320px;
+    padding: 24px 18px;
+  }
+}
+
+/* 992px - 1199.98px (Tablet Landscape / 2-Column Mode) */
+@media (max-width: 1199.98px) {
+  .dd-right-panel {
+    display: none; /* Collapses into drawer or bottom module */
+  }
+  .dd-folders-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dd-main-canvas {
+    padding: 24px;
+  }
+}
+
+/* < 992px (Mobile & Tablet Portrait / 1-Column Mode) */
+@media (max-width: 991.98px) {
+  .dd-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.4);
+    z-index: 1040;
+  }
+
+  .dd-sidebar.show {
+    transform: translateX(0);
+  }
+
+  .dd-main-canvas {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .dd-hero-banner {
+    flex-direction: column;
+    padding: 24px 20px;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .dd-hero-content {
+    max-width: 100%;
+  }
+
+  .dd-hero-illustration {
+    display: none;
+  }
+
+  .dd-folders-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .dd-file-row {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 16px;
+  }
+
+  .dd-file-main {
+    min-width: 100%;
+  }
+
+  .dd-file-date,
+  .dd-file-size {
+    font-size: 0.75rem;
+  }
+}
+
+/* ==========================================================================
+   14. ACCESSIBILITY & WCAG 2.1 AA ENFORCEMENTS
+   ========================================================================== */
+
+/* Focus Rings for Keyboard Navigation */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+.dd-nav-item:focus-visible,
+.dd-folder-card:focus-visible {
+  outline: 2px solid var(--dd-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Screen Reader Accessible Helpers */
+.dd-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* High Contrast Mode Adjustments */
+@media (forced-colors: active) {
+  .dd-folder-card,
+  .dd-file-row,
+  .dd-task-card,
+  .dd-calendar-widget {
+    border: 2px solid ButtonText;
+  }
+  .dd-nav-item.active {
+    border-left: 4px solid Highlight;
+  }
+}

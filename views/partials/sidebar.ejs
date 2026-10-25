@@ -1,8 +1,8 @@
 <!-- Backdrop for mobile sidebar drawer -->
 <div class="kov-sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<!-- Master Sidebar Navigation (Collapsible Mini/Full & Streamlined) -->
-<aside class="kov-sidebar" id="appSidebar">
+<!-- Master Sidebar Navigation (Dribbble Cloud Drive Midnight Navy #131429) -->
+<aside class="dd-sidebar kov-sidebar dd-theme" id="appSidebar">
   
   <!-- Immediate inline script to prevent layout flicker & sync theme on reload -->
   <script>
@@ -22,14 +22,13 @@
   </script>
 
   <!-- Brand Header -->
-  <div class="kov-sidebar-brand">
-    <a href="/admin" class="kov-brand-info" title="KOV Koffie Portal">
-      <div class="kov-brand-logo">
-        <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="border-radius: 8px;">
+  <div class="dd-sidebar-brand kov-sidebar-brand">
+    <a href="/admin" class="dd-brand-logo kov-brand-info" title="KOV Koffie Portal">
+      <div class="dd-brand-icon kov-brand-logo">
+        <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="width: 100%; height: 100%; border-radius: 8px; object-fit: cover;">
       </div>
-      <div class="kov-brand-text-group">
-        <h1 class="kov-brand-name">KOV Koffie</h1>
-        <span class="kov-brand-sub">Management Portal</span>
+      <div class="dd-brand-text kov-brand-text-group">
+        <span>KOV Koffie</span><span class="dd-dot">.</span>
       </div>
     </a>
     
@@ -55,19 +54,19 @@
   %>
 
   <!-- Navigation Links (Grouped & Streamlined with Tooltips) -->
-  <nav class="kov-sidebar-nav">
+  <nav class="dd-sidebar-nav kov-sidebar-nav">
     
     <!-- Group: HR & Recruitment -->
     <% if (canHR || canReviewer) { %>
-      <div class="kov-nav-group-title">REKRUTMEN &amp; HR</div>
+      <div class="dd-nav-group-title kov-nav-group-title">REKRUTMEN &amp; HR</div>
       <% if (canHR) { %>
-        <a href="/admin" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>" data-tooltip="Dashboard HR" title="Dashboard HR">
+        <a href="/admin" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>" data-tooltip="Dashboard HR" title="Dashboard HR">
           <i class="fas fa-house"></i>
           <span>Dashboard HR</span>
         </a>
       <% } %>
       <% if (canReviewer) { %>
-        <a href="/reviewer" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'reviewer') ? 'active' : '' %>" data-tooltip="Reviewer Divisi" title="Reviewer Divisi">
+        <a href="/reviewer" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'reviewer') ? 'active' : '' %>" data-tooltip="Reviewer Divisi" title="Reviewer Divisi">
           <i class="fas fa-user-check"></i>
           <span>Reviewer Divisi</span>
         </a>
@@ -76,16 +75,16 @@
 
     <!-- Group: Operasional -->
     <% if (canOperasional) { %>
-      <div class="kov-nav-group-title">OPERASIONAL</div>
-      <a href="/admin/operasional" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>" data-tooltip="Berita Acara (BA)" title="Berita Acara (BA)">
+      <div class="dd-nav-group-title kov-nav-group-title">OPERASIONAL</div>
+      <a href="/admin/operasional" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>" data-tooltip="Berita Acara (BA)" title="Berita Acara (BA)">
         <i class="fas fa-file-lines"></i>
         <span>Berita Acara (BA)</span>
       </a>
-      <a href="/admin/operasional/po" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'po') ? 'active' : '' %>" data-tooltip="Purchase Order" title="Purchase Order">
+      <a href="/admin/operasional/po" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'po') ? 'active' : '' %>" data-tooltip="Purchase Order" title="Purchase Order">
         <i class="fas fa-cart-shopping"></i>
         <span>Purchase Order</span>
       </a>
-      <a href="/admin/operasional/surat-tugas" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'surat_tugas') ? 'active' : '' %>" data-tooltip="Surat Tugas & LPJ" title="Surat Tugas & LPJ">
+      <a href="/admin/operasional/surat-tugas" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'surat_tugas') ? 'active' : '' %>" data-tooltip="Surat Tugas & LPJ" title="Surat Tugas & LPJ">
         <i class="fas fa-file-signature"></i>
         <span>Surat Tugas &amp; LPJ</span>
       </a>
@@ -93,8 +92,8 @@
 
     <!-- Group: Infrastruktur & IT -->
     <% if (canIT) { %>
-      <div class="kov-nav-group-title">INFRASTRUKTUR &amp; IT</div>
-      <a href="/admin/it" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>" data-tooltip="Rekap Belanja IT" title="Rekap Belanja IT">
+      <div class="dd-nav-group-title kov-nav-group-title">INFRASTRUKTUR &amp; IT</div>
+      <a href="/admin/it" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>" data-tooltip="Rekap Belanja IT" title="Rekap Belanja IT">
         <i class="fas fa-desktop"></i>
         <span>Rekap Belanja IT</span>
       </a>
@@ -102,8 +101,8 @@
 
     <!-- Group: Administrasi & Akun -->
     <% if (canUsers) { %>
-      <div class="kov-nav-group-title">SISTEM</div>
-      <a href="/admin/users" class="kov-nav-item <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
+      <div class="dd-nav-group-title kov-nav-group-title">SISTEM</div>
+      <a href="/admin/users" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
         <i class="fas fa-users-gear"></i>
         <span>Kelola User &amp; Role</span>
       </a>
@@ -111,10 +110,25 @@
 
   </nav>
 
+  <!-- Dribbble Cloud Drive Storage Gauge Widget -->
+  <div class="dd-storage-gauge drive-storage-gauge-box">
+    <div class="dd-storage-header drive-gauge-header">
+      <span class="dd-storage-label drive-gauge-title"><i class="fas fa-cloud"></i> Storage</span>
+      <span class="dd-storage-percentage drive-gauge-pct">73%</span>
+    </div>
+    <div class="dd-storage-meter drive-gauge-track">
+      <div class="dd-storage-meter-fill drive-gauge-fill" style="width: 73%;"></div>
+    </div>
+    <div class="dd-storage-caption drive-gauge-footer">
+      <span>27/100 GB Digunakan</span>
+      <span class="text-success"><i class="fas fa-circle-check"></i> Aman</span>
+    </div>
+  </div>
+
   <!-- User Profile & Session Footer -->
-  <div class="kov-sidebar-footer">
-    <!-- Coinbase Dual-Theme Switcher Button -->
-    <button type="button" class="kov-theme-toggle-sidebar" onclick="toggleKovTheme()" id="themeToggleSidebarBtn" title="Ganti Mode Gelap / Terang">
+  <div class="dd-sidebar-footer kov-sidebar-footer">
+    <!-- Coinbase / Dribbble Dual-Theme Switcher Button -->
+    <button type="button" class="dd-theme-toggle-btn kov-theme-toggle-sidebar" onclick="toggleKovTheme()" id="themeToggleSidebarBtn" title="Ganti Mode Gelap / Terang">
       <i class="fas fa-moon" id="themeSidebarIcon"></i>
       <span id="themeSidebarText">Mode Gelap</span>
     </button>

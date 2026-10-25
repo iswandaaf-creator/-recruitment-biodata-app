@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "node --test",
+    "test:ui": "node tests/test_dribbble_ui.js",
     "test:e2e": "node tests/runner.js",
     "backup": "node scripts/backup-db.js",
     "verify:health": "node scripts/verify-health.js",

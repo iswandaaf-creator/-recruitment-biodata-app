@@ -11,4 +11,5 @@ public/uploads/*
 !public/uploads/**/.gitkeep
 .env
 backups/*.sqlite
+*.sketch
 .agents/
