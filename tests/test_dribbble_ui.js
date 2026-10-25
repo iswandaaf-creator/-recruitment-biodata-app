@@ -160,12 +160,12 @@ async function runEmpiricalAudit() {
   }
 
   try {
-    const tempUserDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kov-ui-test-'));
+    const tempUserDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kov-ui-' + Date.now() + '-'));
 
     browser = await puppeteer.launch({
       headless: 'new',
       userDataDir: tempUserDataDir,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu']
     });
 
     const page = await browser.newPage();
@@ -197,9 +197,9 @@ async function runEmpiricalAudit() {
     const heroBtn = await page.$('.btn-dd-hero');
     report('Hero CTA Button ("Salin Link Formulir") hadir', !!heroBtn);
 
-    console.log('\n--- 3. VERIFIKASI VIBRANT FOLDER CARDS (KATEGORI DIVISI) ---');
+    console.log('\n--- 3. VERIFIKASI VIBRANT FOLDER CARDS (KATEGORI DIVISI - 8 DIVISI LENGKAP) ---');
     const folders = await page.$$('.dd-folder-card');
-    report('4 Folder Cards interaktif terpasang', folders.length === 4, `${folders.length} kartu terdeteksi`);
+    report('8 Folder Cards Divisi Lengkap terpasang simetris', folders.length === 8, `${folders.length} kartu terdeteksi`);
 
     // Test clicking Folder 1 (Barista)
     await page.click('.dd-folder-coral');
@@ -216,11 +216,11 @@ async function runEmpiricalAudit() {
     report('Klik Folder Operasional (Blue) menyaring tabel divisi', divisiVal2 === 'operasional' && visibleCount2 === 1, `Visible: ${visibleCount2} kandidat Ops`);
 
     // Reset filter to All
-    await page.click('.dd-folder-emerald');
+    await page.click('.dd-folder-indigo');
     await new Promise(r => setTimeout(r, 100));
     const divisiVal3 = await page.$eval('#divisiSelect', el => el.value);
     const visibleCount3 = await page.$$eval('#candidateTableBody tr[data-id]', rows => rows.filter(r => r.style.display !== 'none').length);
-    report('Klik Folder Semua Kandidat (Emerald) mereset filter', divisiVal3 === 'all' && visibleCount3 === 4, `Visible: ${visibleCount3} kandidat`);
+    report('Klik Folder Semua Kandidat (Midnight Slate) mereset filter', divisiVal3 === 'all' && visibleCount3 === 4, `Visible: ${visibleCount3} kandidat`);
 
     console.log('\n--- 4. VERIFIKASI STATUS FILTER PILLS ---');
     // Test filter 'Diterima'
@@ -291,7 +291,7 @@ async function runEmpiricalAudit() {
     report('Widget "Tindakan Tertunda" tampil dengan accent bar merah', !!taskCard);
 
     // Click task card -> should filter to 'Belum Diproses'
-    await page.click('.dd-task-card');
+    await page.evaluate(() => document.querySelector('.dd-task-card').click());
     await new Promise(r => setTimeout(r, 100));
     const taskFilterCount = await page.$$eval('#candidateTableBody tr[data-id]', rows => rows.filter(r => r.style.display !== 'none').length);
     report('Klik kartu tugas menyaring berkas "Belum Diproses"', taskFilterCount === 1, `Sisa berkas: ${taskFilterCount}`);

@@ -122,8 +122,12 @@
     const pendingCandidateCount = pendingCandidates.length;
     const duplicateCount = (candidates || []).filter(c => c.is_duplicate).length;
     const baristaCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('barista')).length;
-    const opsCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('operasional') || (c.divisi || '').toLowerCase().includes('staff')).length;
-    const kitchenCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('kitchen') || (c.divisi || '').toLowerCase().includes('cook')).length;
+    const opsCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('operasional') || (c.divisi || '').toLowerCase().includes('staff') || (c.divisi || '').toLowerCase().includes('kasir')).length;
+    const kitchenCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('kitchen') || (c.divisi || '').toLowerCase().includes('cook') || (c.divisi || '').toLowerCase().includes('pastry')).length;
+    const teknisiCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('teknisi') || (c.divisi || '').toLowerCase().includes('maintenance') || (c.divisi || '').toLowerCase().includes('listrik')).length;
+    const itCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('it') || (c.divisi || '').toLowerCase().includes('developer') || (c.divisi || '').toLowerCase().includes('support') || (c.divisi || '').toLowerCase().includes('tech')).length;
+    const fatCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('fat') || (c.divisi || '').toLowerCase().includes('finance') || (c.divisi || '').toLowerCase().includes('akunting') || (c.divisi || '').toLowerCase().includes('tax')).length;
+    const hrCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('hr') || (c.divisi || '').toLowerCase().includes('personalia') || (c.divisi || '').toLowerCase().includes('ga')).length;
   %>
 
   <div class="dd-layout-root kov-app-shell">
@@ -134,24 +138,28 @@
     <!-- 2. Main Center Workspace Canvas -->
     <main class="dd-main-canvas kov-main-content dd-theme">
 
-      <!-- Top Search & View Action Bar (Dribbble Signature) -->
+      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
       <div class="dd-topbar">
-        <div class="d-flex align-items-center gap-2 flex-grow-1">
+        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
           <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
             <i class="fas fa-bars"></i>
           </button>
           <div class="dd-search-container">
             <i class="fas fa-magnifying-glass dd-search-icon"></i>
-            <input type="text" class="dd-search-input" id="searchInput" placeholder="Cari nama kandidat, NIK, kontak, atau nomor rekening..." aria-label="Cari nama pelamar" onkeyup="applyFilterAndSort()">
+            <input type="text" class="dd-search-input" id="searchInput" placeholder="Cari nama kandidat, NIK, kontak, posisi, atau nomor rekening..." aria-label="Cari nama pelamar" onkeyup="applyFilterAndSort()">
           </div>
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="dd-topbar-actions">
           <div class="dd-view-toggle d-none d-md-flex">
-            <button type="button" class="dd-view-btn active" id="btnViewGrid" title="Tampilan Grid" onclick="setViewMode('grid')"><i class="fas fa-border-all"></i></button>
-            <button type="button" class="dd-view-btn" id="btnViewList" title="Tampilan List" onclick="setViewMode('list')"><i class="fas fa-list-ul"></i></button>
+            <button type="button" class="dd-view-btn active" id="btnViewGrid" title="Tampilan Grid Kartu" onclick="setViewMode('grid')"><i class="fas fa-border-all"></i></button>
+            <button type="button" class="dd-view-btn" id="btnViewList" title="Tampilan Tabel Spreadsheet" onclick="setViewMode('list')"><i class="fas fa-list-ul"></i></button>
           </div>
-          <button type="button" class="btn-drive-upload" onclick="generateAndCopyShareLink()" id="btnUploadCTA" title="Salin Link Formulir Rekrutmen">
+          <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" id="btnAcakTokenTopbar" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir publik baru">
+            <i class="fas fa-shuffle" style="color: var(--dd-primary, #5a60ea);"></i>
+            <span>Acak Token</span>
+          </button>
+          <button type="button" class="btn-drive-upload" onclick="generateAndCopyShareLink()" id="btnUploadCTA" title="Salin Link Formulir Rekrutmen Publik">
             <i class="fas fa-cloud-arrow-up"></i>
             <span>Salin Link Form</span>
           </button>
@@ -195,17 +203,20 @@
         </div>
       </div>
 
-      <!-- Kategori Divisi (Vibrant Folder Cards from Dribbble) -->
+      <!-- Kategori Divisi (Vibrant Folder Cards from Dribbble - 8 Symmetrical Cards) -->
       <div class="dd-section-header">
-        <h3 class="dd-section-title">Kategori Divisi</h3>
-        <a href="javascript:void(0)" onclick="filterByDivisiQuick('all')" class="dd-view-all-link">
-          Lihat Semua Divisi <i class="fas fa-chevron-right" style="font-size: 0.65rem;"></i>
+        <div class="d-flex align-items-center gap-2">
+          <h3 class="dd-section-title">Kategori Divisi</h3>
+          <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">8 Divisi Lengkap</span>
+        </div>
+        <a href="javascript:void(0)" onclick="filterByDivisiQuick('all')" class="dd-view-all-link" id="btnViewAllDivisions" title="Reset filter dan tampilkan seluruh pelamar">
+          <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
         </a>
       </div>
 
       <div class="dd-folders-grid" id="foldersGrid">
-        <!-- Folder 1: Barista (Coral Red) -->
-        <div class="dd-folder-card dd-folder-coral folder-coral" onclick="filterByDivisiQuick('barista')" title="Filter Divisi Barista" role="button" tabindex="0">
+        <!-- 1. Barista (Coral Red) -->
+        <div class="dd-folder-card dd-folder-coral folder-coral" data-divisi="barista" onclick="filterByDivisiQuick('barista')" title="Filter Divisi Barista" role="button" tabindex="0">
           <div class="dd-folder-top">
             <div class="dd-folder-icon-box">
               <i class="fas fa-mug-hot"></i>
@@ -213,7 +224,7 @@
             <button type="button" class="dd-folder-more-btn" aria-label="Menu Barista" onclick="event.stopPropagation(); filterByDivisiQuick('barista')"><i class="fas fa-ellipsis-vertical"></i></button>
           </div>
           <div class="dd-folder-body">
-            <h4 class="dd-folder-title">Barista &amp; Beverage</h4>
+            <h4 class="dd-folder-title">Barista &amp; Cafe</h4>
             <div class="dd-avatar-stack">
               <div class="dd-avatar-item" style="background: #ffffff; color: #1e293b;">B1</div>
               <div class="dd-avatar-item" style="background: #f1f5f9; color: #1e293b;">B2</div>
@@ -222,12 +233,12 @@
           </div>
           <div class="dd-folder-footer">
             <span><i class="far fa-folder"></i> <strong><%= baristaCount %></strong> Berkas</span>
-            <span><i class="far fa-clock"></i> Tim Barista</span>
+            <span><i class="fas fa-mug-hot opacity-75"></i> Barista</span>
           </div>
         </div>
 
-        <!-- Folder 2: Operasional (Royal Blue) -->
-        <div class="dd-folder-card dd-folder-royal folder-blue" onclick="filterByDivisiQuick('operasional')" title="Filter Divisi Operasional" role="button" tabindex="0">
+        <!-- 2. Operasional (Royal Blue) -->
+        <div class="dd-folder-card dd-folder-royal folder-blue" data-divisi="operasional" onclick="filterByDivisiQuick('operasional')" title="Filter Divisi Operasional" role="button" tabindex="0">
           <div class="dd-folder-top">
             <div class="dd-folder-icon-box">
               <i class="fas fa-briefcase"></i>
@@ -235,7 +246,7 @@
             <button type="button" class="dd-folder-more-btn" aria-label="Menu Operasional" onclick="event.stopPropagation(); filterByDivisiQuick('operasional')"><i class="fas fa-ellipsis-vertical"></i></button>
           </div>
           <div class="dd-folder-body">
-            <h4 class="dd-folder-title">Operasional &amp; Outlet</h4>
+            <h4 class="dd-folder-title">Operasional Outlet</h4>
             <div class="dd-avatar-stack">
               <div class="dd-avatar-item" style="background: #ffffff; color: #1e293b;">OP</div>
               <div class="dd-avatar-item" style="background: #f1f5f9; color: #1e293b;">HR</div>
@@ -244,12 +255,12 @@
           </div>
           <div class="dd-folder-footer">
             <span><i class="far fa-folder"></i> <strong><%= opsCount %></strong> Berkas</span>
-            <span><i class="far fa-clock"></i> Tim Operasional</span>
+            <span><i class="fas fa-briefcase opacity-75"></i> Outlet</span>
           </div>
         </div>
 
-        <!-- Folder 3: Kitchen (Honey Amber) -->
-        <div class="dd-folder-card dd-folder-amber folder-amber" onclick="filterByDivisiQuick('kitchen')" title="Filter Divisi Kitchen" role="button" tabindex="0">
+        <!-- 3. Kitchen (Honey Amber) -->
+        <div class="dd-folder-card dd-folder-amber folder-amber" data-divisi="kitchen" onclick="filterByDivisiQuick('kitchen')" title="Filter Divisi Kitchen" role="button" tabindex="0">
           <div class="dd-folder-top">
             <div class="dd-folder-icon-box">
               <i class="fas fa-utensils"></i>
@@ -257,7 +268,7 @@
             <button type="button" class="dd-folder-more-btn" aria-label="Menu Kitchen" onclick="event.stopPropagation(); filterByDivisiQuick('kitchen')"><i class="fas fa-ellipsis-vertical"></i></button>
           </div>
           <div class="dd-folder-body">
-            <h4 class="dd-folder-title">Kitchen &amp; Cook</h4>
+            <h4 class="dd-folder-title">Kitchen &amp; Pastry</h4>
             <div class="dd-avatar-stack">
               <div class="dd-avatar-item" style="background: #ffffff; color: #1e293b;">K1</div>
               <div class="dd-avatar-item" style="background: #f1f5f9; color: #1e293b;">K2</div>
@@ -266,15 +277,103 @@
           </div>
           <div class="dd-folder-footer">
             <span><i class="far fa-folder"></i> <strong><%= kitchenCount %></strong> Berkas</span>
-            <span><i class="far fa-clock"></i> Tim Dapur</span>
+            <span><i class="fas fa-utensils opacity-75"></i> Kitchen</span>
           </div>
         </div>
 
-        <!-- Folder 4: Semua Kandidat (Emerald Green) -->
-        <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="filterByDivisiQuick('all')" title="Tampilkan Semua Berkas" role="button" tabindex="0">
+        <!-- 4. Teknisi & ME (Aqua Cyan) -->
+        <div class="dd-folder-card dd-folder-cyan folder-cyan" data-divisi="teknisi" onclick="filterByDivisiQuick('teknisi')" title="Filter Divisi Teknisi & ME" role="button" tabindex="0">
           <div class="dd-folder-top">
             <div class="dd-folder-icon-box">
-              <i class="fas fa-users"></i>
+              <i class="fas fa-wrench"></i>
+            </div>
+            <button type="button" class="dd-folder-more-btn" aria-label="Menu Teknisi" onclick="event.stopPropagation(); filterByDivisiQuick('teknisi')"><i class="fas fa-ellipsis-vertical"></i></button>
+          </div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-title">Teknisi &amp; ME</h4>
+            <div class="dd-avatar-stack">
+              <div class="dd-avatar-item" style="background: #ffffff; color: #1e293b;">TK</div>
+              <div class="dd-avatar-item" style="background: #f1f5f9; color: #1e293b;">ME</div>
+              <div class="dd-avatar-item" style="background: rgba(0, 0, 0, 0.4); color: #ffffff;">+<%= Math.max(1, teknisiCount) %></div>
+            </div>
+          </div>
+          <div class="dd-folder-footer">
+            <span><i class="far fa-folder"></i> <strong><%= teknisiCount %></strong> Berkas</span>
+            <span><i class="fas fa-wrench opacity-75"></i> Teknisi</span>
+          </div>
+        </div>
+
+        <!-- 5. IT & Digital Systems (Neon Violet) -->
+        <div class="dd-folder-card dd-folder-violet folder-violet" data-divisi="it" onclick="filterByDivisiQuick('it')" title="Filter Divisi IT Systems" role="button" tabindex="0">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon-box">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <button type="button" class="dd-folder-more-btn" aria-label="Menu IT" onclick="event.stopPropagation(); filterByDivisiQuick('it')"><i class="fas fa-ellipsis-vertical"></i></button>
+          </div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-title">IT &amp; Systems</h4>
+            <div class="dd-avatar-stack">
+              <div class="dd-avatar-item" style="background: #ffffff; color: #1e293b;">IT</div>
+              <div class="dd-avatar-item" style="background: #f1f5f9; color: #1e293b;">DV</div>
+              <div class="dd-avatar-item" style="background: rgba(0, 0, 0, 0.4); color: #ffffff;">+<%= Math.max(1, itCount) %></div>
+            </div>
+          </div>
+          <div class="dd-folder-footer">
+            <span><i class="far fa-folder"></i> <strong><%= itCount %></strong> Berkas</span>
+            <span><i class="fas fa-laptop-code opacity-75"></i> IT Dept</span>
+          </div>
+        </div>
+
+        <!-- 6. FAT - Finance, Accounting & Tax (Jade Emerald) -->
+        <div class="dd-folder-card dd-folder-emerald folder-fat" data-divisi="fat" onclick="filterByDivisiQuick('fat')" title="Filter Divisi Finance, Akunting & Tax" role="button" tabindex="0">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon-box">
+              <i class="fas fa-file-invoice-dollar"></i>
+            </div>
+            <button type="button" class="dd-folder-more-btn" aria-label="Menu FAT" onclick="event.stopPropagation(); filterByDivisiQuick('fat')"><i class="fas fa-ellipsis-vertical"></i></button>
+          </div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-title">FAT (Finance &amp; Tax)</h4>
+            <div class="dd-avatar-stack">
+              <div class="dd-avatar-item" style="background: #ffffff; color: #1e293b;">FA</div>
+              <div class="dd-avatar-item" style="background: #f1f5f9; color: #1e293b;">TX</div>
+              <div class="dd-avatar-item" style="background: rgba(0, 0, 0, 0.4); color: #ffffff;">+<%= Math.max(1, fatCount) %></div>
+            </div>
+          </div>
+          <div class="dd-folder-footer">
+            <span><i class="far fa-folder"></i> <strong><%= fatCount %></strong> Berkas</span>
+            <span><i class="fas fa-file-invoice-dollar opacity-75"></i> Finance</span>
+          </div>
+        </div>
+
+        <!-- 7. HR & General Affairs (Velvet Rose) -->
+        <div class="dd-folder-card dd-folder-rose folder-rose" data-divisi="hr" onclick="filterByDivisiQuick('hr')" title="Filter Divisi HR & Personalia" role="button" tabindex="0">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon-box">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <button type="button" class="dd-folder-more-btn" aria-label="Menu HR" onclick="event.stopPropagation(); filterByDivisiQuick('hr')"><i class="fas fa-ellipsis-vertical"></i></button>
+          </div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-title">HR &amp; GA</h4>
+            <div class="dd-avatar-stack">
+              <div class="dd-avatar-item" style="background: #ffffff; color: #1e293b;">HR</div>
+              <div class="dd-avatar-item" style="background: #f1f5f9; color: #1e293b;">GA</div>
+              <div class="dd-avatar-item" style="background: rgba(0, 0, 0, 0.4); color: #ffffff;">+<%= Math.max(1, hrCount) %></div>
+            </div>
+          </div>
+          <div class="dd-folder-footer">
+            <span><i class="far fa-folder"></i> <strong><%= hrCount %></strong> Berkas</span>
+            <span><i class="fas fa-user-tie opacity-75"></i> HRGA</span>
+          </div>
+        </div>
+
+        <!-- 8. Semua Kandidat (Master Midnight Slate) -->
+        <div class="dd-folder-card dd-folder-indigo folder-all" data-divisi="all" onclick="filterByDivisiQuick('all')" title="Tampilkan Semua Berkas Pelamar" role="button" tabindex="0">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon-box">
+              <i class="fas fa-users-viewfinder"></i>
             </div>
             <button type="button" class="dd-folder-more-btn" aria-label="Menu Semua" onclick="event.stopPropagation(); filterByDivisiQuick('all')"><i class="fas fa-ellipsis-vertical"></i></button>
           </div>
@@ -288,7 +387,7 @@
           </div>
           <div class="dd-folder-footer">
             <span><i class="far fa-folder"></i> <strong><%= candidates.length %></strong> Total</span>
-            <span><i class="fas fa-check"></i> Terverifikasi</span>
+            <span><i class="fas fa-check opacity-75"></i> Terverifikasi</span>
           </div>
         </div>
       </div>
@@ -1058,10 +1157,19 @@
       if (select) {
         select.value = divisi;
         applyFilterAndSort();
-        const tableCard = document.querySelector('.kov-table-card');
-        if (tableCard) {
-          tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      // Update active highlight state on all 8 folder cards
+      document.querySelectorAll('.dd-folder-card').forEach(card => {
+        const cDiv = card.getAttribute('data-divisi');
+        if (cDiv === divisi) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
         }
+      });
+      const tableCard = document.querySelector('.kov-table-card');
+      if (tableCard) {
+        tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
@@ -1305,6 +1413,14 @@
         btnAcak.addEventListener('click', function(e) {
           e.preventDefault();
           generateRandomShareLink(false);
+        });
+      }
+
+      const btnAcakTopbar = document.getElementById('btnAcakTokenTopbar');
+      if (btnAcakTopbar) {
+        btnAcakTopbar.addEventListener('click', function(e) {
+          e.preventDefault();
+          generateRandomShareLink(true);
         });
       }
 
