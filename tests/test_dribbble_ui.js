@@ -315,9 +315,18 @@ async function runEmpiricalAudit() {
     const pdfBtn = await page.$('.kov-action-icon-circle[title="Export PDF Biodata"]');
     report('Tombol Export PDF Biodata per kandidat hadir', !!pdfBtn);
 
+    // Reset scroll and filter before screenshot
+    await page.evaluate(() => {
+      document.querySelector('.kov-filter-pill-botanical[data-filter="all"]')?.click();
+      const canvas = document.querySelector('.dd-main-canvas');
+      if (canvas) canvas.scrollTop = 0;
+      window.scrollTo(0, 0);
+    });
+    await new Promise(r => setTimeout(r, 200));
+
     // Capture visual screenshot of the modernized dashboard
     const screenshotPath = 'C:\\Users\\ACER\\.gemini\\antigravity-cli\\brain\\41a9a5d4-6eb7-444c-bcfc-256cd766709f\\dribbble_drive_dashboard.png';
-    await page.screenshot({ path: screenshotPath, fullPage: true });
+    await page.screenshot({ path: screenshotPath, fullPage: false });
     console.log('📸 Visual screenshot captured at:', screenshotPath);
 
     console.log('\n===============================================================');

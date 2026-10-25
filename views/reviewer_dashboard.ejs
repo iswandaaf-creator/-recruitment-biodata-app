@@ -42,18 +42,19 @@
     }
     .reviewer-grid-card {
       background: #ffffff;
-      border-radius: 16px;
-      padding: 18px 20px;
-      border: 1px solid rgba(226, 232, 240, 0.8);
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      border-radius: 14px;
+      padding: 16px 18px;
+      border: 1px solid rgba(226, 232, 240, 0.75);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
     }
     .reviewer-grid-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 28px rgba(19, 20, 41, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(90, 96, 234, 0.08);
       border-color: rgba(90, 96, 234, 0.35);
     }
     [data-theme="dark"] .reviewer-grid-card {

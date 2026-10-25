@@ -305,6 +305,15 @@ async function runReviewerAudit() {
     const taskFilteredCount = await page.$$eval('.candidate-grid-item', items => items.filter(i => i.style.display !== 'none').length);
     report('Klik kartu tugas menyaring berkas "Belum Direview"', taskFilteredCount === 2, `Sisa berkas: ${taskFilteredCount}`);
 
+    // Reset filter and scroll to top for screenshot
+    await page.evaluate(() => {
+      document.querySelector('.filter-btn[data-filter="ALL"]')?.click();
+      const canvas = document.querySelector('.dd-main-canvas');
+      if (canvas) canvas.scrollTop = 0;
+      window.scrollTo(0, 0);
+    });
+    await new Promise(r => setTimeout(r, 200));
+
     const artifactPath = path.join('C:\\Users\\ACER\\.gemini\\antigravity-cli\\brain\\41a9a5d4-6eb7-444c-bcfc-256cd766709f', 'reviewer_dribbble_proof.png');
     await page.screenshot({ path: artifactPath, fullPage: false });
     console.log(`📸 Visual screenshot captured at: ${artifactPath}`);

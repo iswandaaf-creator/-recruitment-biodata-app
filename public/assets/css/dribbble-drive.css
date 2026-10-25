@@ -248,8 +248,8 @@
 
   /* Specific canvas paddings */
   .dd-main-canvas {
-    padding: 0 32px 48px !important;
-    gap: 24px !important;
+    padding: 0 28px 40px !important;
+    gap: 20px !important;
   }
 
   /* Prevent flex children from being compressed so content expands and scrolls naturally */
@@ -270,9 +270,9 @@
 
   /* PANE 3: Right Activity & Utility Panel - Permanently anchored to viewport */
   .dd-right-panel {
-    width: 360px !important;
-    min-width: 360px !important;
-    max-width: 360px !important;
+    width: 330px !important;
+    min-width: 330px !important;
+    max-width: 330px !important;
     height: 100vh !important;
     max-height: 100vh !important;
     background-color: var(--dd-surface-panel) !important;
@@ -281,10 +281,10 @@
     top: 0 !important;
     right: 0 !important;
     flex-shrink: 0 !important;
-    padding: 0 24px 36px !important;
+    padding: 0 18px 32px !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 24px !important;
+    gap: 18px !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     z-index: 1020 !important;
@@ -312,15 +312,15 @@
     position: sticky !important;
     top: 0 !important;
     margin-top: 0 !important;
-    margin-left: -32px !important;
-    margin-right: -32px !important;
-    padding: 16px 32px !important;
+    margin-left: -28px !important;
+    margin-right: -28px !important;
+    padding: 15px 28px !important;
     background: rgba(244, 246, 250, 0.96) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
     z-index: 1010 !important;
     border-bottom: 1px solid rgba(226, 232, 240, 0.85) !important;
-    box-shadow: 0 4px 18px rgba(19, 20, 41, 0.03) !important;
+    box-shadow: 0 2px 10px rgba(19, 20, 41, 0.02) !important;
     min-height: 76px !important;
     box-sizing: border-box !important;
   }
@@ -335,9 +335,9 @@
     position: sticky !important;
     top: 0 !important;
     margin-top: 0 !important;
-    margin-left: -24px !important;
-    margin-right: -24px !important;
-    padding: 15px 24px !important;
+    margin-left: -18px !important;
+    margin-right: -18px !important;
+    padding: 15px 18px !important;
     background: var(--dd-surface-panel) !important;
     backdrop-filter: blur(20px) !important;
     -webkit-backdrop-filter: blur(20px) !important;
@@ -348,8 +348,6 @@
   }
 
   [data-theme="dark"] .dd-profile-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-  }
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   }
 }
@@ -867,28 +865,28 @@
 .dd-hero-banner {
   background: var(--dd-hero-gradient);
   border: 1px solid var(--dd-hero-border);
-  border-radius: var(--dd-radius-2xl);
-  padding: 32px 36px;
+  border-radius: var(--dd-radius-xl, 18px);
+  padding: 20px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--dd-shadow-md);
-  min-height: 190px;
+  box-shadow: 0 4px 18px rgba(90, 96, 234, 0.06);
+  min-height: auto;
 }
 
 .dd-hero-content {
-  max-width: 55%;
+  max-width: 65%;
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .dd-hero-title {
   font-family: var(--dd-font-serif), var(--dd-font-sans);
-  font-size: 1.85rem;
+  font-size: 1.45rem;
   font-weight: 700;
   letter-spacing: -0.015em;
   color: var(--dd-text-primary);
@@ -897,23 +895,23 @@
 }
 
 .dd-hero-subtitle {
-  font-size: 0.925rem;
+  font-size: 0.85rem;
   color: var(--dd-text-secondary);
-  line-height: 1.5;
-  margin: 0 0 8px;
+  line-height: 1.45;
+  margin: 0 0 4px;
 }
 
 .btn-dd-hero {
   align-self: flex-start;
   background-color: var(--dd-primary);
   color: #ffffff;
-  font-size: 0.875rem;
+  font-size: 0.825rem;
   font-weight: 700;
-  padding: 10px 24px;
+  padding: 8px 20px;
   border-radius: var(--dd-radius-pill);
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px var(--dd-primary-glow);
+  box-shadow: 0 4px 12px var(--dd-primary-glow);
   transition: var(--dd-transition);
   text-decoration: none;
 }
@@ -921,12 +919,12 @@
 .btn-dd-hero:hover {
   background-color: var(--dd-primary-hover);
   color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px var(--dd-primary-glow);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px var(--dd-primary-glow);
 }
 
 .dd-hero-illustration {
-  max-width: 40%;
+  max-width: 32%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -936,10 +934,10 @@
 
 .dd-hero-illustration img,
 .dd-hero-illustration svg {
-  max-height: 165px;
+  max-height: 100px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(0 12px 24px rgba(90, 96, 234, 0.2));
+  filter: drop-shadow(0 6px 14px rgba(90, 96, 234, 0.12));
   animation: floatIllustration 4s ease-in-out infinite alternate;
 }
 
@@ -996,146 +994,150 @@
 }
 
 .dd-folder-card {
-  border-radius: var(--dd-radius-xl, 20px);
-  padding: 16px 16px;
+  border-radius: var(--dd-radius-lg, 16px);
+  padding: 13px 15px;
   color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 180px;
+  min-height: 128px;
   position: relative;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   text-decoration: none;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .dd-folder-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
   color: #ffffff;
 }
 
-/* Card Themes & Glow Shadows - 8 Vibrant Color Palettes */
+/* Card Themes & Glow Shadows - Softer, refined, non-aggressive */
 .dd-folder-coral {
   background: linear-gradient(135deg, #ff6565 0%, #ee474e 100%);
-  box-shadow: 0 10px 26px rgba(238, 71, 78, 0.32);
+  box-shadow: 0 4px 14px rgba(238, 71, 78, 0.22);
 }
 .dd-folder-coral:hover {
-  box-shadow: 0 16px 36px rgba(238, 71, 78, 0.48);
+  box-shadow: 0 8px 22px rgba(238, 71, 78, 0.32);
 }
 
 .dd-folder-royal {
   background: linear-gradient(135deg, #686ef7 0%, #4f55eb 100%);
-  box-shadow: 0 10px 26px rgba(79, 85, 235, 0.32);
+  box-shadow: 0 4px 14px rgba(79, 85, 235, 0.22);
 }
 .dd-folder-royal:hover {
-  box-shadow: 0 16px 36px rgba(79, 85, 235, 0.48);
+  box-shadow: 0 8px 22px rgba(79, 85, 235, 0.32);
 }
 
 .dd-folder-amber {
   background: linear-gradient(135deg, #fbb034 0%, #f59e0b 100%);
-  box-shadow: 0 10px 26px rgba(245, 158, 11, 0.32);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.22);
 }
 .dd-folder-amber:hover {
-  box-shadow: 0 16px 36px rgba(245, 158, 11, 0.48);
+  box-shadow: 0 8px 22px rgba(245, 158, 11, 0.32);
 }
 
 .dd-folder-cyan {
   background: linear-gradient(135deg, #22d3ee 0%, #0891b2 100%);
-  box-shadow: 0 10px 26px rgba(8, 145, 178, 0.32);
+  box-shadow: 0 4px 14px rgba(8, 145, 178, 0.22);
 }
 .dd-folder-cyan:hover {
-  box-shadow: 0 16px 36px rgba(8, 145, 178, 0.48);
+  box-shadow: 0 8px 22px rgba(8, 145, 178, 0.32);
 }
 
 .dd-folder-violet {
   background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-  box-shadow: 0 10px 26px rgba(124, 58, 237, 0.32);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.22);
 }
 .dd-folder-violet:hover {
-  box-shadow: 0 16px 36px rgba(124, 58, 237, 0.48);
+  box-shadow: 0 8px 22px rgba(124, 58, 237, 0.32);
 }
 
 .dd-folder-emerald {
   background: linear-gradient(135deg, #34d399 0%, #059669 100%);
-  box-shadow: 0 10px 26px rgba(5, 150, 105, 0.32);
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.22);
 }
 .dd-folder-emerald:hover {
-  box-shadow: 0 16px 36px rgba(5, 150, 105, 0.48);
+  box-shadow: 0 8px 22px rgba(5, 150, 105, 0.32);
 }
 
 .dd-folder-rose {
   background: linear-gradient(135deg, #fb7185 0%, #e11d48 100%);
-  box-shadow: 0 10px 26px rgba(225, 29, 72, 0.32);
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.22);
 }
 .dd-folder-rose:hover {
-  box-shadow: 0 16px 36px rgba(225, 29, 72, 0.48);
+  box-shadow: 0 8px 22px rgba(225, 29, 72, 0.32);
 }
 
 .dd-folder-indigo {
   background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
-  box-shadow: 0 10px 26px rgba(30, 27, 75, 0.38);
+  box-shadow: 0 4px 14px rgba(30, 27, 75, 0.25);
 }
 .dd-folder-indigo:hover {
-  box-shadow: 0 16px 36px rgba(30, 27, 75, 0.52);
+  box-shadow: 0 8px 22px rgba(30, 27, 75, 0.35);
 }
 
 /* Active Highlight on Clicked Folder Card */
 .dd-folder-card.active {
-  outline: 3px solid #ffffff !important;
-  outline-offset: 3px !important;
-  transform: translateY(-4px) scale(1.02) !important;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35) !important;
+  outline: 2.5px solid #ffffff !important;
+  outline-offset: 2.5px !important;
+  transform: translateY(-2px) scale(1.01) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25) !important;
 }
 
-/* Inside Folder Card */
+/* Inside Folder Card - Simple Rapi */
 .dd-folder-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.dd-folder-icon,
 .dd-folder-icon-box {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--dd-radius-md, 12px);
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
   background: rgba(255, 255, 255, 0.22);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
+  font-size: 0.95rem;
   color: #ffffff;
 }
 
+.dd-folder-menu,
 .dd-folder-more-btn {
   background: transparent;
   border: none;
   color: rgba(255, 255, 255, 0.85);
-  font-size: 1.15rem;
+  font-size: 0.9rem;
   cursor: pointer;
-  padding: 4px;
+  padding: 3px;
   border-radius: var(--dd-radius-sm);
   transition: var(--dd-transition);
 }
 
+.dd-folder-menu:hover,
 .dd-folder-more-btn:hover {
   color: #ffffff;
   background: rgba(255, 255, 255, 0.15);
 }
 
 .dd-folder-body {
-  margin-top: 14px;
-  margin-bottom: 12px;
+  margin-top: 6px;
+  margin-bottom: 4px;
 }
 
+.dd-folder-name,
 .dd-folder-title {
-  font-size: 1.05rem;
-  font-weight: 800;
+  font-size: 0.92rem;
+  font-weight: 700;
   color: #ffffff;
-  margin: 0 0 6px;
+  margin: 0 0 2px;
   letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
@@ -1143,48 +1145,53 @@
 }
 
 .dd-folder-subtitle {
-  font-size: 0.775rem;
+  font-size: 0.72rem;
   color: rgba(255, 255, 255, 0.85);
   margin: 0;
 }
 
-/* Avatar Stack */
+/* Avatar Stack - Clean Compact */
+.dd-avatar-group,
 .dd-avatar-stack {
   display: inline-flex;
   align-items: center;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
+.dd-avatar-chip,
 .dd-avatar-item {
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  border: 2px solid #ffffff;
+  border: 1.5px solid #ffffff;
   overflow: hidden;
-  margin-left: -8px;
+  margin-left: -5px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: #cbd5e1;
-  font-size: 0.7rem;
+  background-color: rgba(255, 255, 255, 0.25);
+  font-size: 0.58rem;
   font-weight: 700;
-  color: #1e293b;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.dd-avatar-chip:first-child,
 .dd-avatar-item:first-child {
   margin-left: 0;
 }
 
+.dd-avatar-chip img,
 .dd-avatar-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+.dd-avatar-chip-more,
 .dd-avatar-count {
   background-color: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
   color: #ffffff;
   font-weight: 800;
 }
@@ -1193,13 +1200,13 @@
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
-  padding-top: 10px !important;
-  font-size: 0.76rem !important;
-  color: rgba(255, 255, 255, 0.95) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.16) !important;
+  padding-top: 6px !important;
+  font-size: 0.72rem !important;
+  color: rgba(255, 255, 255, 0.92) !important;
   font-weight: 600 !important;
   white-space: nowrap !important;
-  gap: 8px !important;
+  gap: 6px !important;
 }
 
 .dd-folder-footer span {
@@ -1829,12 +1836,12 @@
 .dd-calendar-widget {
   background: var(--dd-surface-card);
   border: 1px solid var(--dd-border);
-  border-radius: var(--dd-radius-xl);
-  padding: 22px;
-  box-shadow: var(--dd-shadow-sm);
+  border-radius: var(--dd-radius-lg, 16px);
+  padding: 16px 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .dd-calendar-top {
@@ -1844,8 +1851,8 @@
 }
 
 .dd-calendar-title {
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--dd-text-primary);
   margin: 0;
 }
@@ -1912,32 +1919,34 @@
   color: var(--dd-primary);
 }
 
-/* Calendar Grid */
+/* Calendar Grid - Simple Rapi */
 .dd-calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  gap: 3px;
   text-align: center;
 }
 
 .dd-cal-weekday {
-  font-size: 0.725rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: var(--dd-text-muted);
-  padding-bottom: 6px;
+  padding-bottom: 4px;
   text-transform: uppercase;
 }
 
 .dd-cal-day {
-  height: 36px;
+  height: 28px;
+  width: 28px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--dd-text-secondary);
-  border-radius: 50%;
+  border-radius: 8px;
   cursor: pointer;
   position: relative;
   transition: var(--dd-transition);
