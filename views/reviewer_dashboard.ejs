@@ -144,11 +144,11 @@
                 </span>
               <% } %>
             </div>
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <button type="button" class="btn-dd-hero" onclick="filterByStatusPill('BELUM')">
+            <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+              <button type="button" class="btn-dd-hero text-nowrap" onclick="filterByStatusPill('BELUM')">
                 <i class="fas fa-pen-to-square me-1"></i> Mulai Review Berkas (<%= belumDireview %>)
               </button>
-              <a href="/api/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
+              <a href="/api/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
                 <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
               </a>
             </div>
@@ -733,35 +733,81 @@
 
       <!-- Monthly Statistics Chart Widget -->
       <div class="dd-storage-chart-card mt-3">
-        <div class="dd-section-header mb-2">
-          <h4 class="dd-section-title" style="font-size: 1rem;">Statistik Rekap Bulanan</h4>
-          <span class="badge bg-light text-dark border" style="font-size: 0.7rem;">2026</span>
+        <div class="dd-chart-header">
+          <div class="dd-chart-capacity">
+            <span class="dd-chart-sub">Rekap Evaluasi</span>
+            <span class="dd-chart-val"><%= sudahDireview %> Selesai / <%= totalKandidat %> Berkas</span>
+          </div>
+          <button type="button" class="dd-chart-select-pill">
+            <i class="far fa-calendar"></i> 2026
+          </button>
         </div>
-        <div class="dd-chart-bars">
-          <div class="dd-chart-col">
-            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 38%;"></div></div>
-            <span class="dd-bar-label">Mei</span>
+
+        <div class="dd-chart-canvas">
+          <div class="dd-chart-y-axis">
+            <span>100</span>
+            <span>80</span>
+            <span>60</span>
+            <span>40</span>
+            <span>20</span>
+            <span>0</span>
           </div>
-          <div class="dd-chart-col">
-            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 55%;"></div></div>
-            <span class="dd-bar-label">Jun</span>
+          <div class="dd-chart-bars-wrap">
+            <div class="dd-chart-col">
+              <div class="dd-chart-bar-pillar" title="Mei: 20 Masuk, 25 Review, 35 Lolos">
+                <div class="dd-bar-segment seg-coral" style="height: 35%;"></div>
+                <div class="dd-bar-segment seg-amber" style="height: 25%;"></div>
+                <div class="dd-bar-segment seg-royal" style="height: 20%;"></div>
+              </div>
+              <span class="dd-chart-month-lbl">Mei</span>
+            </div>
+            <div class="dd-chart-col">
+              <div class="dd-chart-bar-pillar" title="Jun: 15 Masuk, 30 Review, 40 Lolos">
+                <div class="dd-bar-segment seg-coral" style="height: 40%;"></div>
+                <div class="dd-bar-segment seg-amber" style="height: 30%;"></div>
+                <div class="dd-bar-segment seg-royal" style="height: 15%;"></div>
+              </div>
+              <span class="dd-chart-month-lbl">Jun</span>
+            </div>
+            <div class="dd-chart-col">
+              <div class="dd-chart-bar-pillar" title="Jul: 25 Masuk, 20 Review, 45 Lolos">
+                <div class="dd-bar-segment seg-coral" style="height: 45%;"></div>
+                <div class="dd-bar-segment seg-amber" style="height: 20%;"></div>
+                <div class="dd-bar-segment seg-royal" style="height: 25%;"></div>
+              </div>
+              <span class="dd-chart-month-lbl">Jul</span>
+            </div>
+            <div class="dd-chart-col">
+              <div class="dd-chart-bar-pillar" title="Agu: 10 Masuk, 35 Review, 50 Lolos">
+                <div class="dd-bar-segment seg-coral" style="height: 50%;"></div>
+                <div class="dd-bar-segment seg-amber" style="height: 35%;"></div>
+                <div class="dd-bar-segment seg-royal" style="height: 10%;"></div>
+              </div>
+              <span class="dd-chart-month-lbl">Agu</span>
+            </div>
+            <div class="dd-chart-col">
+              <div class="dd-chart-bar-pillar" title="Sep: 30 Masuk, 25 Review, 40 Lolos">
+                <div class="dd-bar-segment seg-coral" style="height: 40%;"></div>
+                <div class="dd-bar-segment seg-amber" style="height: 25%;"></div>
+                <div class="dd-bar-segment seg-royal" style="height: 30%;"></div>
+              </div>
+              <span class="dd-chart-month-lbl">Sep</span>
+            </div>
+            <div class="dd-chart-col active">
+              <div class="dd-chart-bar-pillar" title="Okt: <%= sudahDireview %> Selesai, <%= belumDireview %> Pending">
+                <div class="dd-bar-segment seg-coral" style="height: <%= Math.min(100, direkomendasikan * 30 + 20) %>%;"></div>
+                <div class="dd-bar-segment seg-amber" style="height: <%= Math.min(100, dipertimbangkan * 25 + 20) %>%;"></div>
+                <div class="dd-bar-segment seg-royal" style="height: <%= Math.min(100, reviewPercent || 50) %>%;"></div>
+              </div>
+              <span class="dd-chart-month-lbl">Okt</span>
+            </div>
           </div>
-          <div class="dd-chart-col">
-            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 72%;"></div></div>
-            <span class="dd-bar-label">Jul</span>
-          </div>
-          <div class="dd-chart-col">
-            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 64%;"></div></div>
-            <span class="dd-bar-label">Agu</span>
-          </div>
-          <div class="dd-chart-col">
-            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: 82%;"></div></div>
-            <span class="dd-bar-label">Sep</span>
-          </div>
-          <div class="dd-chart-col active">
-            <div class="dd-bar-track"><div class="dd-bar-fill" style="height: <%= reviewPercent || 60 %>%;"></div></div>
-            <span class="dd-bar-label">Okt</span>
-          </div>
+        </div>
+
+        <div class="dd-chart-legend">
+          <div class="dd-legend-item"><span class="dd-legend-dot dot-royal"></span> Evaluasi</div>
+          <div class="dd-legend-item"><span class="dd-legend-dot dot-amber"></span> Hold</div>
+          <div class="dd-legend-item"><span class="dd-legend-dot dot-coral"></span> Lolos</div>
         </div>
       </div>
 

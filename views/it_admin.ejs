@@ -193,76 +193,63 @@
   </style>
 </head>
 <body>
-  <div class="kov-app-shell">
+  <div class="dd-layout-root kov-app-shell">
     <%- include('partials/sidebar', { active: 'it', user: typeof user !== 'undefined' ? user : null }) %>
 
-    <div class="kov-main-content">
-      <!-- Modern Minimalist Topbar -->
-      <header class="kov-topbar">
-        <div class="kov-topbar-left">
-          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+    <main class="dd-main-canvas kov-main-content dd-theme">
+      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
+      <div class="dd-topbar kov-topbar">
+        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
             <i class="fas fa-bars"></i>
           </button>
-          <div class="kov-topbar-breadcrumb">
-            <h1 class="kov-topbar-title">Rekap Belanja IT</h1>
+          <div class="dd-search-container">
+            <i class="fas fa-magnifying-glass dd-search-icon"></i>
+            <input type="text" class="dd-search-input" id="itSearchInput" placeholder="Cari nama barang IT, vendor, outlet, spesifikasi..." aria-label="Cari Belanja IT" onkeyup="filterITTable()">
           </div>
         </div>
-        <div class="kov-topbar-right d-flex align-items-center gap-2">
-          <!-- Coinbase Dual-Theme Switcher -->
-          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
-            <i class="fas fa-moon kov-theme-icon"></i>
+
+        <div class="dd-topbar-actions">
+          <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI">
+            <i class="fas fa-magic text-warning"></i>
+            <span>Scan AI</span>
           </button>
-          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI">
-            <i class="fas fa-magic text-warning me-1.5"></i><span class="d-none d-sm-inline">Scan AI</span>
+          <button type="button" class="btn-topbar-action d-none d-md-inline-flex" data-bs-toggle="modal" data-bs-target="#modalGeminiKey" title="Konfigurasi Gemini API Key">
+            <i class="fas fa-key text-warning"></i>
+            <span>API Key</span>
           </button>
-          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalGeminiKey" title="Konfigurasi Google Gemini API Key">
-            <i class="fas fa-key text-warning me-1.5"></i><span class="d-none d-md-inline">API Key</span>
+          <button type="button" class="btn-topbar-action d-none d-lg-inline-flex" data-bs-toggle="modal" data-bs-target="#modalExportKustom" title="Export Rekap Belanja">
+            <i class="fas fa-file-export text-primary"></i>
+            <span>Export</span>
           </button>
-          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalPassword" title="Ganti Password Akun IT">
-            <i class="fas fa-lock text-secondary me-1.5"></i><span class="d-none d-md-inline">Password</span>
-          </button>
-          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalExportKustom" title="Export Rekap Belanja">
-            <i class="fas fa-file-export text-primary me-1.5"></i><span class="d-none d-sm-inline">Export</span>
-          </button>
-          <button class="btn-kov-primary btn-kov-sm" data-bs-toggle="modal" data-bs-target="#modalTambah" title="Catat Pengeluaran Belanja IT">
-            <i class="fas fa-plus me-1"></i><span>Catat Belanja</span>
+          <button type="button" class="btn-drive-upload" data-bs-toggle="modal" data-bs-target="#modalTambah" title="Catat Pengeluaran Belanja IT">
+            <i class="fas fa-plus"></i>
+            <span>Catat Belanja</span>
           </button>
         </div>
-      </header>
-
-      <!-- Main Content Area -->
-      <main class="kov-content-body">
-
-    <!-- Flash Alerts -->
-    <% if (typeof success !== 'undefined' && success) { %>
-      <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm rounded-3 d-flex align-items-center gap-2 mb-4" role="alert" style="background-color: #ecfdf5; color: #065f46; border-left: 4px solid #059669 !important;">
-        <i class="fas fa-check-circle fs-5"></i>
-        <div class="flex-grow-1"><%= success %></div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
       </div>
-    <% } %>
-    <% if (typeof error !== 'undefined' && error) { %>
-      <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm rounded-3 d-flex align-items-center gap-2 mb-4" role="alert" style="background-color: #fef2f2; color: #991b1b; border-left: 4px solid #dc2626 !important;">
-        <i class="fas fa-exclamation-triangle fs-5"></i>
-        <div class="flex-grow-1"><%= error %></div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-      </div>
-    <% } %>
 
-    <!-- Welcome Hero Banner (Dribbble Signature) -->
-    <div class="dd-hero-banner mb-4">
-      <div class="dd-hero-content">
-        <h2 class="dd-hero-title">
-          Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Administrator IT' %>!
-        </h2>
-        <p class="dd-hero-subtitle">
-          Portal Sentral Pengelolaan Aset, Belanja Vendor &amp; Pemeliharaan Hardware/Software IT Outlet KOV. Pindai nota invoice fisik menggunakan Gemini AI dan pantau anggaran pengeluaran secara real-time.
-        </p>
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-          <button class="btn-dd-hero" data-bs-toggle="modal" data-bs-target="#modalTambah">
-            <i class="fas fa-plus me-1"></i> Catat Belanja Baru
-          </button>
-          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI" style="font-size: 0.825rem;">
+      <!-- Welcome Hero Banner (Dribbble Signature) -->
+      <div class="dd-hero-banner mb-3">
+        <div class="dd-hero-content">
+          <h2 class="dd-hero-title">
+            Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Administrator IT' %>! 👋
+          </h2>
+          <p class="dd-hero-subtitle">
+            Portal Sentral Pengelolaan Aset, Belanja Vendor &amp; Pemeliharaan Hardware/Software IT Outlet KOV. Pindai nota invoice fisik menggunakan Gemini AI dan pantau anggaran pengeluaran secara real-time.
+          </p>
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+            <button type="button" class="btn-dd-hero text-nowrap" data-bs-toggle="modal" data-bs-target="#modalTambah">
+              <i class="fas fa-plus me-1"></i> Catat Belanja Baru
+            </button>
+            <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI" style="font-size: 0.8rem;">
+              <i class="fas fa-magic text-warning me-1.5"></i> Scan AI Nota
+            </button>
+            <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" data-bs-toggle="modal" data-bs-target="#modalExportKustom" style="font-size: 0.8rem;">
+              <i class="fas fa-file-export text-primary me-1.5"></i> Export Rekap
+            </button>
+          </div>
+        </div>
             <i class="fas fa-magic text-warning me-1.5"></i> Scan AI Nota
           </button>
           <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalExportKustom" style="font-size: 0.825rem;">
@@ -595,9 +582,8 @@
         </table>
       </div>
     </div>
-      </main>
-    </div>
-  </div>
+  </main>
+</div>
 
   <!-- MODAL 1: CATAT BELANJA BARU (MULTI-ITEM) -->
   <div class="modal fade" id="modalTambah" tabindex="-1">
@@ -1379,6 +1365,14 @@
     }
 
     searchInput.addEventListener('input', applyAllFilters);
+    function filterITTable() {
+      const topVal = document.getElementById('itSearchInput')?.value || '';
+      if (searchInput) {
+        searchInput.value = topVal;
+        applyAllFilters();
+      }
+    }
+    window.filterITTable = filterITTable;
     if (filterVendor) filterVendor.addEventListener('change', applyAllFilters);
     if (filterStartDate) filterStartDate.addEventListener('change', applyAllFilters);
     if (filterEndDate) filterEndDate.addEventListener('change', applyAllFilters);

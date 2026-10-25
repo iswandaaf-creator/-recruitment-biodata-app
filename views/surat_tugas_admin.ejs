@@ -16,78 +16,77 @@
 </head>
 <body>
 
-  <div class="kov-app-shell">
+  <div class="dd-layout-root kov-app-shell">
     <%- include('partials/sidebar', { active: 'surat_tugas', user: typeof user !== 'undefined' ? user : null }) %>
 
-    <div class="kov-main-content">
-      <!-- Modern Minimalist Topbar -->
-      <header class="kov-topbar">
-        <div class="kov-topbar-left">
-          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+    <main class="dd-main-canvas kov-main-content dd-theme">
+      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
+      <div class="dd-topbar kov-topbar">
+        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
             <i class="fas fa-bars"></i>
           </button>
-          <div class="kov-topbar-breadcrumb">
-            <h1 class="kov-topbar-title">Surat Tugas &amp; LPJ</h1>
+          <div class="dd-search-container">
+            <i class="fas fa-magnifying-glass dd-search-icon"></i>
+            <input type="text" class="dd-search-input" id="searchInput" placeholder="Cari nomor surat, penerima tugas, tujuan dinas..." aria-label="Cari Surat Tugas">
           </div>
         </div>
-        <div class="kov-topbar-right d-flex align-items-center gap-2">
-          <!-- Coinbase Dual-Theme Switcher -->
-          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
-            <i class="fas fa-moon kov-theme-icon"></i>
+
+        <div class="dd-topbar-actions">
+          <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" onclick="copyShareUrl()" title="Salin Link Form Surat Tugas">
+            <i class="fas fa-copy" style="color: var(--dd-primary, #5a60ea);"></i>
+            <span>Salin Link Form</span>
           </button>
-          <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" onclick="copyShareUrl()" title="Salin Link Form Surat Tugas">
-            <i class="fas fa-copy me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> <span class="d-none d-sm-inline">Salin Link Form</span>
-          </button>
-          <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" title="Buka Form Publik Surat Tugas">
-            <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> <span class="d-none d-md-inline">Buka Form</span>
+          <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn-topbar-action d-none d-md-inline-flex" title="Buka Form Publik Surat Tugas">
+            <i class="fas fa-arrow-up-right-from-square" style="color: var(--dd-primary, #5a60ea);"></i>
+            <span>Buka Form</span>
           </a>
-          <a href="/admin/operasional/surat-tugas/create" class="btn-kov-primary btn-kov-sm" title="Buat Surat Tugas Baru">
-            <i class="fas fa-plus me-1"></i> <span class="d-none d-sm-inline">Buat Surat Tugas</span>
+          <a href="/api/operasional/surat-tugas/export/excel" class="btn-topbar-action d-none d-sm-inline-flex" title="Export Rekap Surat Tugas ke Excel">
+            <i class="fas fa-file-excel text-success"></i>
+            <span>Export Excel</span>
           </a>
-          <a href="/api/operasional/surat-tugas/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" title="Export Rekap Surat Tugas ke Excel">
-            <i class="fas fa-file-excel text-success me-1.5"></i> <span class="d-none d-sm-inline">Export Excel</span>
+          <a href="/admin/operasional/surat-tugas/create" class="btn-drive-upload" title="Buat Surat Tugas Baru">
+            <i class="fas fa-plus"></i>
+            <span>Buat Surat Tugas</span>
           </a>
           <span id="shareUrl" class="d-none"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/surat-tugas</span>
         </div>
-      </header>
+      </div>
 
-      <!-- Main Content Area -->
-      <main class="kov-content-body">
+      <!-- Sub-menu Navigation Tabs -->
+      <div class="d-flex gap-2 overflow-x-auto pb-1 mt-2 mb-2">
+        <a class="nav-link-modern" href="/admin/operasional">
+          <i class="fas fa-boxes-packing"></i> Berita Acara Pengajuan Barang
+        </a>
+        <a class="nav-link-modern" href="/admin/operasional/po">
+          <i class="fas fa-file-invoice-dollar"></i> Purchase Order (PO)
+        </a>
+        <a class="nav-link-modern active" href="/admin/operasional/surat-tugas">
+          <i class="fas fa-file-signature text-primary"></i> Surat Tugas &amp; Perjalanan Dinas
+        </a>
+      </div>
 
-        <!-- Sub-menu Navigation Tabs -->
-        <div class="d-flex gap-2 overflow-x-auto pb-2 mb-4">
-          <a class="nav-link-modern" href="/admin/operasional">
-            <i class="fas fa-boxes-packing"></i> Berita Acara Pengajuan Barang
-          </a>
-          <a class="nav-link-modern" href="/admin/operasional/po">
-            <i class="fas fa-file-invoice-dollar"></i> Purchase Order (PO)
-          </a>
-          <a class="nav-link-modern active" href="/admin/operasional/surat-tugas">
-            <i class="fas fa-file-signature text-primary"></i> Surat Tugas &amp; Perjalanan Dinas
-          </a>
-        </div>
-
-        <!-- Welcome Hero Banner (Dribbble Signature) -->
-        <div class="dd-hero-banner mb-4">
-          <div class="dd-hero-content">
-            <h2 class="dd-hero-title">
-              Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Tim Operasional' %>!
-            </h2>
-            <p class="dd-hero-subtitle">
-              Pusat Otorisasi Surat Tugas &amp; Perjalanan Dinas KOV Management. Kelola penerbitan surat tugas dinas, alur persetujuan pimpinan, dan verifikasi laporan pertanggungjawaban (LPJ).
-            </p>
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <a href="/admin/operasional/surat-tugas/create" class="btn-dd-hero">
-                <i class="fas fa-plus me-1"></i> Buat Surat Tugas Baru
-              </a>
-              <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
-                <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> Form Publik Surat Tugas
-              </a>
-              <a href="/api/operasional/surat-tugas/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
-                <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
-              </a>
-            </div>
+      <!-- Welcome Hero Banner (Dribbble Signature) -->
+      <div class="dd-hero-banner mb-3">
+        <div class="dd-hero-content">
+          <h2 class="dd-hero-title">
+            Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Tim Operasional' %>! 👋
+          </h2>
+          <p class="dd-hero-subtitle">
+            Pusat Otorisasi Surat Tugas &amp; Perjalanan Dinas KOV Management. Kelola penerbitan surat tugas dinas, alur persetujuan pimpinan, dan verifikasi LPJ.
+          </p>
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+            <a href="/admin/operasional/surat-tugas/create" class="btn-dd-hero text-nowrap">
+              <i class="fas fa-plus me-1"></i> Buat Surat Tugas Baru
+            </a>
+            <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
+              <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> Form Publik
+            </a>
+            <a href="/api/operasional/surat-tugas/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
+              <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
+            </a>
           </div>
+        </div>
           <div class="dd-hero-illustration d-none d-lg-flex">
             <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
@@ -422,9 +421,8 @@
         </table>
       </div>
     </div>
-      </main>
-    </div>
-  </div>
+  </main>
+</div>
 
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>

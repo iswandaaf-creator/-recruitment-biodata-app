@@ -20,78 +20,77 @@
 </head>
 <body>
 
-  <div class="kov-app-shell">
+  <div class="dd-layout-root kov-app-shell">
     <%- include('partials/sidebar', { active: 'operasional', user: typeof user !== 'undefined' ? user : null }) %>
 
-    <div class="kov-main-content">
-      <!-- Modern Minimalist Topbar -->
-      <header class="kov-topbar">
-        <div class="kov-topbar-left">
-          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+    <main class="dd-main-canvas kov-main-content dd-theme">
+      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
+      <div class="dd-topbar kov-topbar">
+        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
             <i class="fas fa-bars"></i>
           </button>
-          <div class="kov-topbar-breadcrumb">
-            <h1 class="kov-topbar-title">Berita Acara (BA)</h1>
+          <div class="dd-search-container">
+            <i class="fas fa-magnifying-glass dd-search-icon"></i>
+            <input type="text" class="dd-search-input" id="searchInput" placeholder="Cari nomor BA, nama pemohon, outlet, atau keperluan..." aria-label="Cari Berita Acara">
           </div>
         </div>
-        <div class="kov-topbar-right d-flex align-items-center gap-2">
-          <!-- Coinbase Dual-Theme Switcher -->
-          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
-            <i class="fas fa-moon kov-theme-icon"></i>
+
+        <div class="dd-topbar-actions">
+          <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" onclick="copyShareUrl()" title="Salin Tautan Form BA untuk Karyawan/PIC">
+            <i class="fas fa-copy" style="color: var(--dd-primary, #5a60ea);"></i>
+            <span>Salin Form</span>
           </button>
-          <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" onclick="generateAndCopyShareLink()" title="Acak & Salin Link Formulir Publik BA">
-            <i class="fas fa-shuffle me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> <span class="d-none d-md-inline">Acak Link</span>
+          <button type="button" class="btn-topbar-action d-none d-md-inline-flex" onclick="generateAndCopyShareLink()" title="Acak & Salin Link Formulir Publik BA">
+            <i class="fas fa-shuffle" style="color: var(--dd-primary, #5a60ea);"></i>
+            <span>Acak Link</span>
           </button>
-          <button type="button" class="btn-kov-primary btn-kov-sm" onclick="copyShareUrl()" title="Salin Tautan Form BA untuk Karyawan/PIC">
-            <i class="fas fa-copy me-1"></i> <span class="d-none d-sm-inline">Salin Form</span>
-          </button>
-          <a href="/pengajuan-barang" id="openFormBtn" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" title="Buka Form Publik Berita Acara">
-            <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> <span class="d-none d-lg-inline">Buka Form</span>
+          <a href="/api/operasional/export/excel" class="btn-topbar-action d-none d-sm-inline-flex" title="Export Seluruh Rekap BA ke Excel">
+            <i class="fas fa-file-excel text-success"></i>
+            <span>Export Excel</span>
           </a>
-          <a href="/api/operasional/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" title="Export Seluruh Rekap BA ke Excel">
-            <i class="fas fa-file-excel text-success me-1.5"></i> <span class="d-none d-sm-inline">Export Excel</span>
+          <a href="/pengajuan-barang" id="openFormBtn" target="_blank" rel="noopener noreferrer" class="btn-drive-upload" title="Buka Form Publik Berita Acara">
+            <i class="fas fa-plus"></i>
+            <span>Buka Form</span>
           </a>
           <span id="shareUrl" class="d-none"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/pengajuan-barang</span>
         </div>
-      </header>
+      </div>
 
-      <!-- Main Content Area -->
-      <main class="kov-content-body">
+      <!-- Sub-menu Navigation Tabs -->
+      <div class="d-flex gap-2 overflow-x-auto pb-1 mt-2 mb-2">
+        <a class="nav-link-modern active" href="/admin/operasional">
+          <i class="fas fa-boxes-packing text-primary"></i> Berita Acara Pengajuan Barang
+        </a>
+        <a class="nav-link-modern" href="/admin/operasional/po">
+          <i class="fas fa-file-invoice-dollar"></i> Purchase Order (PO)
+        </a>
+        <a class="nav-link-modern" href="/admin/operasional/surat-tugas">
+          <i class="fas fa-file-signature"></i> Surat Tugas &amp; Perjalanan Dinas
+        </a>
+      </div>
 
-        <!-- Sub-menu Navigation Tabs -->
-        <div class="d-flex gap-2 overflow-x-auto pb-2 mb-4">
-          <a class="nav-link-modern active" href="/admin/operasional">
-            <i class="fas fa-boxes-packing text-primary"></i> Berita Acara Pengajuan Barang
-          </a>
-          <a class="nav-link-modern" href="/admin/operasional/po">
-            <i class="fas fa-file-invoice-dollar"></i> Purchase Order (PO)
-          </a>
-          <a class="nav-link-modern" href="/admin/operasional/surat-tugas">
-            <i class="fas fa-file-signature"></i> Surat Tugas &amp; Perjalanan Dinas
-          </a>
-        </div>
-
-        <!-- Welcome Hero Banner (Dribbble Signature) -->
-        <div class="dd-hero-banner mb-4">
-          <div class="dd-hero-content">
-            <h2 class="dd-hero-title">
-              Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Tim Operasional' %>!
-            </h2>
-            <p class="dd-hero-subtitle">
-              Pusat Otorisasi Berita Acara (BA) Pengajuan Barang &amp; Inventaris KOV Management. Kelola verifikasi fisik outlet, alur persetujuan manajemen, dan koordinasi pengadaan barang secara terpadu.
-            </p>
-            <div class="d-flex align-items-center gap-2 flex-wrap">
-              <button type="button" class="btn-dd-hero" onclick="copyShareUrl()">
-                <i class="fas fa-link me-1"></i> Salin Link Formulir BA
-              </button>
-              <a href="/pengajuan-barang" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
-                <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> Buka Formulir Publik
-              </a>
-              <a href="/api/operasional/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
-                <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
-              </a>
-            </div>
+      <!-- Welcome Hero Banner (Dribbble Signature) -->
+      <div class="dd-hero-banner mb-3">
+        <div class="dd-hero-content">
+          <h2 class="dd-hero-title">
+            Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Tim Operasional' %>! 👋
+          </h2>
+          <p class="dd-hero-subtitle">
+            Pusat Otorisasi Berita Acara (BA) Pengajuan Barang &amp; Inventaris KOV Management. Kelola verifikasi fisik outlet dan alur persetujuan pengadaan barang.
+          </p>
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+            <button type="button" class="btn-dd-hero text-nowrap" onclick="copyShareUrl()">
+              <i class="fas fa-link me-1"></i> Salin Link Formulir BA
+            </button>
+            <a href="/pengajuan-barang" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
+              <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> Formulir Publik
+            </a>
+            <a href="/api/operasional/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
+              <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
+            </a>
           </div>
+        </div>
           <div class="dd-hero-illustration d-none d-lg-flex">
             <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
@@ -428,8 +427,7 @@
       </div>
     </div>
   </main>
-    </div>
-  </div>
+</div>
 
   <!-- Delete Form -->
   <form id="deleteForm" method="POST" style="display: none;">

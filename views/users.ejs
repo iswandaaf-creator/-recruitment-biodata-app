@@ -16,63 +16,62 @@
 </head>
 <body>
 
-  <div class="kov-app-shell">
+  <div class="dd-layout-root kov-app-shell">
     <%- include('partials/sidebar', { active: 'users', user: typeof user !== 'undefined' ? user : null }) %>
 
-    <div class="kov-main-content">
-      <!-- Modern Minimalist Topbar -->
-      <header class="kov-topbar">
-        <div class="kov-topbar-left">
-          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+    <main class="dd-main-canvas kov-main-content dd-theme">
+      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
+      <div class="dd-topbar kov-topbar">
+        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
             <i class="fas fa-bars"></i>
           </button>
-          <div class="kov-topbar-breadcrumb">
-            <h1 class="kov-topbar-title">Kelola User &amp; Role</h1>
+          <div class="dd-search-container">
+            <i class="fas fa-magnifying-glass dd-search-icon"></i>
+            <input type="text" class="dd-search-input" id="userSearchInput" placeholder="Cari username, nama lengkap, atau role pengguna..." aria-label="Cari Pengguna" onkeyup="filterUserTable()">
           </div>
         </div>
-        <div class="kov-topbar-right d-flex align-items-center gap-2">
-          <!-- Coinbase Dual-Theme Switcher -->
-          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
-            <i class="fas fa-moon kov-theme-icon"></i>
-          </button>
-        </div>
-      </header>
 
-      <!-- Main Content Area -->
-      <main class="kov-content-body">
-
-    <!-- Alert Messages -->
-    <% if (success) { %>
-      <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
-        <i class="fas fa-circle-check me-2"></i> <%= success %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% } %>
-    <% if (error) { %>
-      <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
-        <i class="fas fa-circle-exclamation me-2"></i> <%= error %>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    <% } %>
-
-    <!-- Welcome Hero Banner (Dribbble Signature) -->
-    <div class="dd-hero-banner mb-4">
-      <div class="dd-hero-content">
-        <h2 class="dd-hero-title">
-          Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Super Admin' %>!
-        </h2>
-        <p class="dd-hero-subtitle">
-          Pusat Manajemen Akun, Hak Akses &amp; Penugasan Reviewer Divisi KOV Management. Konfigurasikan hak otorisasi modul, pembagian divisi seleksi pelamar, dan kredensial keamanan pengguna.
-        </p>
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-          <a href="#createForm" class="btn-dd-hero">
-            <i class="fas fa-user-plus me-1"></i> Tambah Pengguna Baru
+        <div class="dd-topbar-actions">
+          <a href="#createForm" class="btn-drive-upload" title="Tambah Pengguna Baru">
+            <i class="fas fa-user-plus"></i>
+            <span>Tambah Pengguna</span>
           </a>
-          <span class="badge rounded-pill bg-white text-dark border px-3 py-2 fw-bold shadow-xs">
-            <i class="fas fa-users text-primary me-1"></i> <%= (users || []).length %> Total Akun Aktif
-          </span>
         </div>
       </div>
+
+      <!-- Alert Messages -->
+      <% if (success) { %>
+        <div class="alert alert-success alert-dismissible fade show mb-3 rounded-3 shadow-xs" role="alert">
+          <i class="fas fa-circle-check me-2"></i> <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+      <% if (error) { %>
+        <div class="alert alert-danger alert-dismissible fade show mb-3 rounded-3 shadow-xs" role="alert">
+          <i class="fas fa-circle-exclamation me-2"></i> <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <!-- Welcome Hero Banner (Dribbble Signature) -->
+      <div class="dd-hero-banner mb-3">
+        <div class="dd-hero-content">
+          <h2 class="dd-hero-title">
+            Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Super Admin' %>! 👋
+          </h2>
+          <p class="dd-hero-subtitle">
+            Pusat Manajemen Akun, Hak Akses &amp; Penugasan Reviewer Divisi KOV Management. Konfigurasikan otorisasi modul dan wewenang pengguna.
+          </p>
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+            <a href="#createForm" class="btn-dd-hero text-nowrap">
+              <i class="fas fa-user-plus me-1"></i> Tambah Pengguna Baru
+            </a>
+            <span class="badge rounded-pill bg-white text-dark border px-3 py-1.5 fw-bold shadow-xs text-nowrap" style="font-size: 0.8rem;">
+              <i class="fas fa-users text-primary me-1"></i> <%= (users || []).length %> Total Akun Aktif
+            </span>
+          </div>
+        </div>
       <div class="dd-hero-illustration d-none d-lg-flex">
         <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
@@ -444,12 +443,17 @@
                           </div>
   <% }); %>
 
-      </main>
-    </div>
+    </main>
   </div>
 
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
+    function filterUserTable() {
+      const q = (document.getElementById('userSearchInput')?.value || '').toLowerCase();
+      document.querySelectorAll('.table tbody tr').forEach(tr => {
+        tr.style.display = (!q || tr.innerText.toLowerCase().includes(q)) ? '' : 'none';
+      });
+    }
     function toggleAllDivisions(formId) {
       const form = document.getElementById(formId);
       if (!form) return;

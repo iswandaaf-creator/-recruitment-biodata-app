@@ -877,7 +877,8 @@
 }
 
 .dd-hero-content {
-  max-width: 65%;
+  flex: 1;
+  max-width: 78%;
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -885,10 +886,10 @@
 }
 
 .dd-hero-title {
-  font-family: var(--dd-font-serif), var(--dd-font-sans);
-  font-size: 1.45rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-family: var(--dd-font-sans, 'Plus Jakarta Sans', sans-serif);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--dd-text-primary);
   margin: 0;
   line-height: 1.25;

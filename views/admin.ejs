@@ -170,19 +170,19 @@
       <div class="dd-hero-banner">
         <div class="dd-hero-content">
           <h2 class="dd-hero-title">
-            Welcome Back, <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %>
+            Welcome Back, <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %> 👋
           </h2>
           <p class="dd-hero-subtitle">
             Sistem rekrutmen terpadu KOV Management Portal. Kelola berkas masuk, koordinasi reviewer divisi, dan pantau pipeline kandidat secara terpusat.
           </p>
-          <div class="d-flex align-items-center gap-2 flex-wrap">
-            <button type="button" class="btn-dd-hero" id="btnSalinLink" onclick="generateAndCopyShareLink()">
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+            <button type="button" class="btn-dd-hero text-nowrap" id="btnSalinLink" onclick="generateAndCopyShareLink()">
               <i class="fas fa-link me-1" id="iconSalin"></i> Salin Link Formulir
             </button>
-            <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru" style="font-size: 0.825rem;">
+            <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru" style="font-size: 0.8rem;">
               <i class="fas fa-shuffle me-1.5" id="iconAcak" style="color: var(--dd-primary, #5a60ea);"></i> Acak Token
             </button>
-            <a href="/api/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
+            <a href="/api/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
               <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
             </a>
             <div class="d-none">
