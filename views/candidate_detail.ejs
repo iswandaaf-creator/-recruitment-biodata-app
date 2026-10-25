@@ -134,7 +134,7 @@
           <div>
             <% 
               const statusName = candidate.kesimpulan_status || 'Belum Diproses';
-              let pillClass = 'pill-slate';
+              let pillClass = 'pill-warning';
               if (statusName === 'Diterima') pillClass = 'pill-success';
               else if (statusName === 'Dipertimbangkan') pillClass = 'pill-warning';
               else if (statusName === 'Ditolak') pillClass = 'pill-danger';

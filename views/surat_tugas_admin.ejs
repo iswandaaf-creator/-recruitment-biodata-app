@@ -35,47 +35,21 @@
           <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
             <i class="fas fa-moon kov-theme-icon"></i>
           </button>
-          <a href="/admin/operasional/surat-tugas/create" class="btn-kov-outline btn-kov-sm">
-            <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Buat Surat Tugas</span>
+          <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" onclick="copyShareUrl()" title="Salin Link Form Surat Tugas">
+            <i class="fas fa-copy me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> <span class="d-none d-sm-inline">Salin Link Form</span>
+          </button>
+          <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" title="Buka Form Publik Surat Tugas">
+            <i class="fas fa-arrow-up-right-from-square me-1.5" style="color: var(--dd-primary, #5a60ea);"></i> <span class="d-none d-md-inline">Buka Form</span>
           </a>
-          <a href="/api/operasional/surat-tugas/export/excel" class="btn-kov-primary btn-kov-sm">
-            <i class="fas fa-file-excel"></i> <span class="d-none d-sm-inline">Export Excel</span>
+          <a href="/admin/operasional/surat-tugas/create" class="btn-kov-primary btn-kov-sm" title="Buat Surat Tugas Baru">
+            <i class="fas fa-plus me-1"></i> <span class="d-none d-sm-inline">Buat Surat Tugas</span>
           </a>
+          <a href="/api/operasional/surat-tugas/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" title="Export Rekap Surat Tugas ke Excel">
+            <i class="fas fa-file-excel text-success me-1.5"></i> <span class="d-none d-sm-inline">Export Excel</span>
+          </a>
+          <span id="shareUrl" class="d-none"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/surat-tugas</span>
         </div>
       </header>
-
-      <!-- Main Content Area -->
-      <main class="kov-content-body">
-
-    <!-- Sub-menu Navigation Tabs -->
-    <div class="d-flex gap-2 overflow-x-auto pb-2 mb-4">
-      <a class="nav-link-modern" href="/admin/operasional">
-        <i class="fas fa-boxes-packing text-success"></i> Berita Acara Pengajuan Barang
-      </a>
-      <a class="nav-link-modern" href="/admin/operasional/po">
-        <i class="fas fa-file-invoice-dollar text-primary"></i> Purchase Order (PO)
-      </a>
-      <a class="nav-link-modern active" href="/admin/operasional/surat-tugas">
-        <i class="fas fa-file-signature"></i> Surat Tugas &amp; Perjalanan Dinas
-      </a>
-    </div>
-
-    <!-- Share Link Alert Banner -->
-    <div class="kov-card mb-4" style="border-left: 4px solid var(--kov-primary-500);">
-      <div class="kov-card-body p-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
-        <div class="d-flex align-items-center gap-3">
-          <div class="bento-icon-box bento-icon-emerald" style="width: 40px; height: 40px;">
-            <i class="fas fa-share-nodes"></i>
-          </div>
-          <div>
-            <div class="fw-bold text-dark" style="font-size: 0.925rem;">
-              Link Formulir Publik Surat Tugas (Untuk KA Outlet / Karyawan)
-            </div>
-            <div class="d-flex align-items-center gap-2 mt-1 flex-wrap">
-              <span id="shareUrl" class="user-select-all font-monospace bg-light text-dark px-2.5 py-1 rounded-2 border small"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/surat-tugas</span>
-            </div>
-          </div>
-        </div>
         <div class="d-flex align-items-center gap-2">
           <button class="btn-kov-primary btn-kov-sm" onclick="copyShareUrl()">
             <i class="fas fa-copy"></i> Salin Link Form

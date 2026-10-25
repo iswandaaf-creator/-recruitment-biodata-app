@@ -303,11 +303,11 @@
                     <% if (c.latest_rekomendasi) { %>
                       <div>
                         <% if (c.latest_rekomendasi.includes('Direkomendasikan Lolos')) { %>
-                          <span class="badge bg-success text-white" style="font-size: 0.7rem;">Lolos</span>
+                          <span class="status-pill-modern pill-success" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Lolos</span>
                         <% } else if (c.latest_rekomendasi.includes('Dipertimbangkan')) { %>
-                          <span class="badge bg-warning text-dark" style="font-size: 0.7rem;">Dipertimbangkan</span>
+                          <span class="status-pill-modern pill-warning" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Dipertimbangkan</span>
                         <% } else { %>
-                          <span class="badge bg-danger text-white" style="font-size: 0.7rem;">Tidak Sesuai</span>
+                          <span class="status-pill-modern pill-danger" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Tidak Sesuai</span>
                         <% } %>
                       </div>
                     <% } %>

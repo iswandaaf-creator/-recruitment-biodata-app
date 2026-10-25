@@ -212,20 +212,20 @@
           <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
             <i class="fas fa-moon kov-theme-icon"></i>
           </button>
-          <button class="btn btn-warning btn-sm fw-bold text-dark rounded-pill shadow-sm px-3" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI">
-            <i class="fas fa-magic me-1"></i><span class="d-none d-sm-inline">Scan AI</span>
+          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI">
+            <i class="fas fa-magic text-warning me-1.5"></i><span class="d-none d-sm-inline">Scan AI</span>
           </button>
-          <button class="btn btn-outline-warning btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalGeminiKey" title="Konfigurasi Google Gemini API Key">
-            <i class="fas fa-key text-warning me-1"></i><span class="d-none d-sm-inline">API Key</span>
+          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalGeminiKey" title="Konfigurasi Google Gemini API Key">
+            <i class="fas fa-key text-warning me-1.5"></i><span class="d-none d-md-inline">API Key</span>
           </button>
-          <button class="btn btn-success btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalTambah" title="Catat Pengeluaran Belanja IT">
-            <i class="fas fa-plus me-1"></i><span class="d-none d-sm-inline">Catat Belanja</span>
+          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalPassword" title="Ganti Password Akun IT">
+            <i class="fas fa-lock text-secondary me-1.5"></i><span class="d-none d-md-inline">Password</span>
           </button>
-          <button class="btn btn-outline-secondary btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalPassword" title="Ganti Password Akun IT">
-            <i class="fas fa-lock me-1"></i><span class="d-none d-sm-inline">Password</span>
+          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalExportKustom" title="Export Rekap Belanja">
+            <i class="fas fa-file-export text-primary me-1.5"></i><span class="d-none d-sm-inline">Export</span>
           </button>
-          <button class="btn btn-outline-secondary btn-sm fw-semibold rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#modalExportKustom" title="Export Rekap Belanja">
-            <i class="fas fa-file-export me-1 text-primary"></i><span class="d-none d-sm-inline">Export</span>
+          <button class="btn-kov-primary btn-kov-sm" data-bs-toggle="modal" data-bs-target="#modalTambah" title="Catat Pengeluaran Belanja IT">
+            <i class="fas fa-plus me-1"></i><span>Catat Belanja</span>
           </button>
         </div>
       </header>
@@ -536,11 +536,11 @@
                 </td>
                 <td class="text-center">
                   <% if (nota.status_bayar === 'Lunas') { %>
-                    <span class="status-pill-modern status-approved"><span class="status-dot-pulse"></span>Lunas</span>
+                    <span class="status-pill-modern pill-success"><span class="status-dot-pulse"></span>Lunas</span>
                   <% } else if (nota.status_bayar === 'Reimburse') { %>
-                    <span class="status-pill-modern" style="background:#ede9fe; color:#6d28d9;"><span class="status-dot-pulse" style="background:#8b5cf6;"></span>Reimburse</span>
+                    <span class="status-pill-modern pill-purple"><span class="status-dot-pulse"></span>Reimburse</span>
                   <% } else { %>
-                    <span class="status-pill-modern status-pending"><span class="status-dot-pulse"></span>Pending</span>
+                    <span class="status-pill-modern pill-warning"><span class="status-dot-pulse"></span>Pending</span>
                   <% } %>
                 </td>
                 <td class="text-center pe-4">

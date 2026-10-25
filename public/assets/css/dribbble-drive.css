@@ -1169,43 +1169,288 @@
   box-shadow: 0 4px 12px var(--dd-primary-glow) !important;
 }
 
-/* Status Badges */
-.kov-status-badge {
+/* ==========================================================================
+   STATUS BADGES & PILLS — Comprehensive WCAG 2.1 AA Compliant (All Portals)
+   ========================================================================== */
+.kov-status-badge,
+.status-pill-modern {
   font-size: 0.775rem !important;
-  font-weight: 700 !important;
-  padding: 4px 12px !important;
-  border-radius: var(--dd-radius-pill) !important;
+  font-weight: 800 !important;
+  padding: 5px 13px !important;
+  border-radius: var(--dd-radius-pill, 9999px) !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 5px !important;
+  gap: 6px !important;
+  letter-spacing: 0.02em !important;
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
 }
 
+.status-dot-pulse {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 50% !important;
+  display: inline-block !important;
+  flex-shrink: 0 !important;
+}
+
+/* 1. SUCCESS / DITERIMA / DISETUJUI / LUNAS / APPROVED */
 .kov-status-badge.status-diterima,
-.badge-diterima {
-  background-color: var(--dd-emerald-bg) !important;
-  color: var(--dd-emerald-text) !important;
-  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+.badge-diterima,
+.status-pill-modern.pill-success,
+.status-pill-modern.status-approved,
+.status-pill-modern.status-lunas,
+.status-approved {
+  background-color: #d1fae5 !important;
+  color: #065f46 !important;
+  border: 1px solid #34d399 !important;
+}
+.status-pill-modern.pill-success .status-dot-pulse,
+.status-pill-modern.status-approved .status-dot-pulse,
+.status-pill-modern.status-lunas .status-dot-pulse,
+.status-approved .status-dot-pulse {
+  background-color: #059669 !important;
 }
 
-.kov-status-badge.status-belum,
-.badge-belum-diproses {
-  background-color: var(--dd-royal-bg) !important;
-  color: var(--dd-royal-text) !important;
-  border: 1px solid rgba(90, 96, 234, 0.25) !important;
-}
-
+/* 2. WARNING / MENUNGGU / PENDING / DIPERTIMBANGKAN / BELUM DIPROSES */
 .kov-status-badge.status-dipertimbangkan,
-.badge-dipertimbangkan {
-  background-color: var(--dd-amber-bg) !important;
-  color: var(--dd-amber-text) !important;
-  border: 1px solid rgba(248, 184, 73, 0.25) !important;
+.badge-dipertimbangkan,
+.kov-status-badge.status-belum,
+.badge-belum-diproses,
+.status-pill-modern.pill-warning,
+.status-pill-modern.status-pending,
+.status-pill-modern.status-menunggu,
+.status-pending {
+  background-color: #fef3c7 !important;
+  color: #854d0e !important;
+  border: 1px solid #fcd34d !important;
+}
+.status-pill-modern.pill-warning .status-dot-pulse,
+.status-pill-modern.status-pending .status-dot-pulse,
+.status-pill-modern.status-menunggu .status-dot-pulse,
+.status-pending .status-dot-pulse {
+  background-color: #d97706 !important;
 }
 
+/* 3. DANGER / DITOLAK / BATAL / CRITICAL */
 .kov-status-badge.status-ditolak,
-.badge-ditolak {
-  background-color: var(--dd-coral-bg) !important;
-  color: var(--dd-coral-text) !important;
-  border: 1px solid rgba(238, 71, 78, 0.25) !important;
+.badge-ditolak,
+.status-pill-modern.pill-danger,
+.status-pill-modern.status-ditolak,
+.status-ditolak {
+  background-color: #fee2e2 !important;
+  color: #991b1b !important;
+  border: 1px solid #f87171 !important;
+}
+.status-pill-modern.pill-danger .status-dot-pulse,
+.status-pill-modern.status-ditolak .status-dot-pulse,
+.status-ditolak .status-dot-pulse {
+  background-color: #dc2626 !important;
+}
+
+/* 4. INFO / DALAM PROSES / KHUSUS IT / REIMBURSE */
+.status-pill-modern.pill-info,
+.status-pill-modern.pill-primary,
+.status-pill-modern.status-proses,
+.status-pill-modern.status-reimburse,
+.status-proses,
+.status-reimburse {
+  background-color: #dbeafe !important;
+  color: #1e40af !important;
+  border: 1px solid #93c5fd !important;
+}
+.status-pill-modern.pill-info .status-dot-pulse,
+.status-pill-modern.status-proses .status-dot-pulse,
+.status-pill-modern.status-reimburse .status-dot-pulse,
+.status-proses .status-dot-pulse,
+.status-reimburse .status-dot-pulse {
+  background-color: #2563eb !important;
+}
+
+/* 5. DUPLIKAT */
+.kov-status-badge.status-duplikat,
+.badge-duplikat {
+  background-color: #ffedd5 !important;
+  color: #9a3412 !important;
+  border: 1px solid #fdba74 !important;
+}
+
+/* 6. SLATE / NEUTRAL / DRAFT */
+.status-pill-modern.pill-slate {
+  background-color: #f1f5f9 !important;
+  color: #1e293b !important;
+  border: 1px solid #cbd5e1 !important;
+}
+.status-pill-modern.pill-slate .status-dot-pulse {
+  background-color: #64748b !important;
+}
+
+/* 7. PURPLE / REIMBURSE SPECIAL */
+.status-pill-modern.pill-purple {
+  background-color: #ede9fe !important;
+  color: #5b21b6 !important;
+  border: 1px solid #c4b5fd !important;
+}
+.status-pill-modern.pill-purple .status-dot-pulse {
+  background-color: #7c3aed !important;
+}
+
+/* Dark Mode Harmonization for Statuses */
+[data-theme="dark"] .kov-status-badge.status-diterima,
+[data-theme="dark"] .badge-diterima,
+[data-theme="dark"] .status-pill-modern.pill-success,
+[data-theme="dark"] .status-pill-modern.status-approved,
+[data-theme="dark"] .status-pill-modern.status-lunas {
+  background-color: rgba(16, 185, 129, 0.22) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(52, 211, 153, 0.5) !important;
+}
+
+[data-theme="dark"] .kov-status-badge.status-dipertimbangkan,
+[data-theme="dark"] .badge-dipertimbangkan,
+[data-theme="dark"] .kov-status-badge.status-belum,
+[data-theme="dark"] .badge-belum-diproses,
+[data-theme="dark"] .status-pill-modern.pill-warning,
+[data-theme="dark"] .status-pill-modern.status-pending {
+  background-color: rgba(245, 158, 11, 0.22) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(251, 191, 36, 0.5) !important;
+}
+
+[data-theme="dark"] .kov-status-badge.status-ditolak,
+[data-theme="dark"] .badge-ditolak,
+[data-theme="dark"] .status-pill-modern.pill-danger,
+[data-theme="dark"] .status-pill-modern.status-ditolak {
+  background-color: rgba(239, 68, 68, 0.22) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(248, 113, 113, 0.5) !important;
+}
+
+[data-theme="dark"] .status-pill-modern.pill-info,
+[data-theme="dark"] .status-pill-modern.status-proses,
+[data-theme="dark"] .status-pill-modern.status-reimburse {
+  background-color: rgba(59, 130, 246, 0.22) !important;
+  color: #60a5fa !important;
+  border: 1px solid rgba(96, 165, 250, 0.5) !important;
+}
+
+[data-theme="dark"] .status-pill-modern.pill-slate {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+}
+
+/* Sub-Menu Navigation Tabs (Cross-Portal Dribbble Styling) */
+.nav-link-modern {
+  border-radius: var(--dd-radius-pill, 9999px) !important;
+  font-weight: 700 !important;
+  font-size: 0.84rem !important;
+  padding: 8px 18px !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #475569 !important;
+  background-color: #ffffff !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.nav-link-modern:hover {
+  background: rgba(90, 96, 234, 0.08) !important;
+  color: var(--dd-primary, #5a60ea) !important;
+  border-color: rgba(90, 96, 234, 0.3) !important;
+}
+
+.nav-link-modern.active {
+  background: var(--dd-primary, #5a60ea) !important;
+  color: #ffffff !important;
+  border-color: var(--dd-primary, #5a60ea) !important;
+  box-shadow: 0 4px 14px var(--dd-primary-glow) !important;
+}
+
+[data-theme="dark"] .nav-link-modern {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .nav-link-modern.active {
+  background: var(--dd-primary, #5a60ea) !important;
+  color: #ffffff !important;
+}
+
+/* KPI Cards & Bento Alignment Across All Portals */
+.coinbase-kpi-card,
+.bento-card-it {
+  background: #ffffff !important;
+  border: 1px solid var(--dd-border, #ebeef5) !important;
+  border-radius: var(--dd-radius-card, 16px) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.coinbase-kpi-card:hover,
+.bento-card-it:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 24px rgba(90, 96, 234, 0.08) !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .coinbase-kpi-card,
+[data-theme="dark"] .bento-card-it {
+  background: #181935 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Universal Button Styling (Pills, Indigo Accents) */
+.btn-kov-primary {
+  background: var(--dd-primary, #5a60ea) !important;
+  border-color: var(--dd-primary, #5a60ea) !important;
+  color: #ffffff !important;
+  border-radius: var(--dd-radius-pill, 9999px) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px var(--dd-primary-glow) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+.btn-kov-primary:hover {
+  background: #484ec9 !important;
+  border-color: #484ec9 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-kov-outline {
+  border-radius: var(--dd-radius-pill, 9999px) !important;
+  font-weight: 700 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+  background: #ffffff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+.btn-kov-outline:hover {
+  background: rgba(90, 96, 234, 0.08) !important;
+  color: var(--dd-primary, #5a60ea) !important;
+  border-color: var(--dd-primary, #5a60ea) !important;
+}
+
+.btn-kov-secondary {
+  border-radius: var(--dd-radius-pill, 9999px) !important;
+  font-weight: 600 !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #f8fafc !important;
+  color: #475569 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+.btn-kov-secondary:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
 }
 
 .dd-row-btn {
@@ -2008,21 +2253,47 @@ input:focus-visible,
 
 .dd-file-card-item.selected,
 .dd-file-card-item.active {
-  background: var(--dd-primary) !important;
-  border-color: var(--dd-primary) !important;
-  color: #ffffff !important;
-  box-shadow: 0 8px 24px var(--dd-primary-glow) !important;
+  background: var(--dd-primary, #5a60ea) !important;
+  border-color: var(--dd-primary, #5a60ea) !important;
+  box-shadow: 0 10px 28px var(--dd-primary-glow) !important;
 }
 
-.dd-file-card-item.selected *,
-.dd-file-card-item.active * {
+.dd-file-card-item.selected .fw-bold,
+.dd-file-card-item.active .fw-bold,
+.dd-file-card-item.selected .dd-file-name,
+.dd-file-card-item.active .dd-file-name {
   color: #ffffff !important;
+}
+
+.dd-file-card-item.selected .small,
+.dd-file-card-item.active .small,
+.dd-file-card-item.selected .opacity-75,
+.dd-file-card-item.active .opacity-75,
+.dd-file-card-item.selected .dd-file-sub,
+.dd-file-card-item.active .dd-file-sub {
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .dd-file-card-item.selected .dd-file-badge,
 .dd-file-card-item.active .dd-file-badge {
   background: rgba(255, 255, 255, 0.25) !important;
   color: #ffffff !important;
+}
+
+.dd-file-card-item.selected .kov-status-badge,
+.dd-file-card-item.active .kov-status-badge {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  backdrop-filter: blur(4px) !important;
+  font-weight: 800 !important;
+}
+
+.dd-file-card-item.selected .btn-dd-icon,
+.dd-file-card-item.active .btn-dd-icon {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
 }
 
 /* Authentication & Login Screen Sync */

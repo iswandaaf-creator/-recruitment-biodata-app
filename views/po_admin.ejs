@@ -38,8 +38,8 @@
           <a href="/admin/operasional/po/create" class="btn-kov-outline btn-kov-sm">
             <i class="fas fa-plus"></i> <span class="d-none d-sm-inline">Buat PO Baru</span>
           </a>
-          <a href="/api/operasional/po/export/excel" class="btn-kov-primary btn-kov-sm">
-            <i class="fas fa-file-excel"></i> <span class="d-none d-sm-inline">Export Excel</span>
+          <a href="/api/operasional/po/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center">
+            <i class="fas fa-file-excel text-success me-1.5"></i> <span class="d-none d-sm-inline">Export Excel</span>
           </a>
         </div>
       </header>
@@ -193,8 +193,14 @@
                     Rp <%= Number(item.total_netto || item.subtotal || 0).toLocaleString('id-ID') %>
                   </td>
                   <td class="text-center">
-                    <span class="status-pill-modern pill-success">
-                      <span class="status-dot-pulse"></span> <%= item.status_po || 'Approved' %>
+                    <% 
+                      const stPo = item.status_po || 'Approved';
+                      let stPoPill = 'pill-success';
+                      if (stPo.includes('Pending')) stPoPill = 'pill-warning';
+                      else if (stPo.includes('Ditolak')) stPoPill = 'pill-danger';
+                    %>
+                    <span class="status-pill-modern <%= stPoPill %>">
+                      <span class="status-dot-pulse"></span> <%= stPo %>
                     </span>
                   </td>
                   <td class="text-end pe-3">

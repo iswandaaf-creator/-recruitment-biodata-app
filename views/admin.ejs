@@ -168,12 +168,19 @@
             Sistem rekrutmen terpadu KOV Management Portal. Kelola berkas masuk, koordinasi reviewer divisi, dan pantau pipeline kandidat secara terpusat.
           </p>
           <div class="d-flex align-items-center gap-2 flex-wrap">
-            <button type="button" class="btn-dd-hero" onclick="generateAndCopyShareLink()">
-              <i class="fas fa-link me-1"></i> Salin Link Formulir
+            <button type="button" class="btn-dd-hero" id="btnSalinLink" onclick="generateAndCopyShareLink()">
+              <i class="fas fa-link me-1" id="iconSalin"></i> Salin Link Formulir
             </button>
-            <a href="/api/export/excel" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-2 fw-bold text-decoration-none" style="font-size: 0.82rem;">
-              <i class="fas fa-file-excel text-success me-1"></i> Export Rekap Excel
+            <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru" style="font-size: 0.825rem;">
+              <i class="fas fa-shuffle me-1.5" id="iconAcak" style="color: var(--dd-primary, #5a60ea);"></i> Acak Token
+            </button>
+            <a href="/api/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" style="font-size: 0.825rem;">
+              <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
             </a>
+            <div class="d-none">
+              <span id="shareUrl"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
+              <button type="button" id="btnIconCopy" onclick="generateAndCopyShareLink()"><i id="iconCopySmall"></i></button>
+            </div>
           </div>
         </div>
         <div class="dd-hero-illustration d-none d-lg-flex">
@@ -286,36 +293,7 @@
         </div>
       </div>
 
-      <!-- Share Token Bar & Link Generator -->
-      <div class="kov-share-banner mb-4">
-        <div class="kov-share-left">
-          <div class="kov-share-squircle" style="background: var(--dd-primary, #5a60ea); border-color: var(--dd-primary, #5a60ea); color: #ffffff;">
-            <i class="fas fa-link"></i>
-          </div>
-          <div>
-            <div class="kov-share-title">Link Formulir Pelamar Publik</div>
-            <div class="kov-share-subtitle d-flex align-items-center gap-2 mt-1 flex-wrap">
-              <div class="kov-share-url-pill">
-                <span id="shareUrl" class="user-select-all font-monospace" style="transition: opacity 0.15s ease;"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
-                <button type="button" class="kov-url-copy-btn" id="btnIconCopy" onclick="generateAndCopyShareLink()" title="Salin URL ke Clipboard" aria-label="Salin URL" style="background: var(--dd-primary, #5a60ea) !important; color: #ffffff !important;">
-                  <i class="far fa-copy" id="iconCopySmall"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="kov-share-right d-flex align-items-center gap-2 flex-wrap">
-          <a href="/api/export/excel" class="kov-btn-outline-pill text-decoration-none" title="Download Excel Seluruh Pelamar" aria-label="Export Seluruh Data Pelamar ke Excel">
-            <i class="fas fa-file-excel me-1 text-success"></i> Export Excel
-          </a>
-          <button type="button" class="kov-btn-outline-pill" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru">
-            <i class="fas fa-shuffle me-1" id="iconAcak" style="color: var(--dd-primary, #5a60ea);"></i> Acak Token Baru
-          </button>
-          <button type="button" class="kov-btn-mint-pill" id="btnSalinLink" onclick="generateAndCopyShareLink()" title="Salin tautan formulir pelamar" style="background: var(--dd-primary, #5a60ea) !important; border-color: var(--dd-primary, #5a60ea) !important; color: #ffffff !important;">
-            <i class="fas fa-link me-1" id="iconSalin"></i> Salin Link
-          </button>
-        </div>
-      </div>
+
 
       <!-- Recent Files / Table Card (Dribbble File List Style) -->
       <div class="kov-table-card">
