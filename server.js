@@ -1752,14 +1752,21 @@ function syncPOToITExpenses(po, poId, cb = () => {}) {
   }
 }
 
-function autoSyncAllPOsToIT() {
+function autoSyncAllPOsToIT(cb = () => {}) {
   db.all('SELECT * FROM purchase_orders', [], (err, rows) => {
-    if (err || !rows || rows.length === 0) return;
+    if (err || !rows || rows.length === 0) return cb();
+    let pending = rows.length;
     rows.forEach(po => {
       db.get('SELECT id FROM it_expenses WHERE no_transaksi = ?', [po.no_po], (checkErr, exist) => {
         if (!checkErr && !exist) {
           console.log(`[PO->IT SYNC] Auto-syncing existing PO ${po.no_po} to Rekap IT...`);
-          syncPOToITExpenses(po, po.id);
+          syncPOToITExpenses(po, po.id, () => {
+            pending--;
+            if (pending <= 0) cb();
+          });
+        } else {
+          pending--;
+          if (pending <= 0) cb();
         }
       });
     });
@@ -2233,8 +2240,8 @@ app.get('/api/operasional/surat-tugas/export/excel', requireOperasionalAuth, (re
 
 // Dashboard Rekap Pembelanjaan IT (Mendukung Multi-Item per Vendor & Berbasis Outlet)
 app.get('/admin/it', requireAuth, requireITAuth, (req, res) => {
-  // Pastikan seluruh PO yang ada tersinkronisasi ke Rekap IT
-  autoSyncAllPOsToIT();
+  // Pastikan seluruh PO yang ada tersinkronisasi sebelum data ditarik
+  autoSyncAllPOsToIT(() => {
   db.all('SELECT * FROM it_expenses ORDER BY tanggal DESC, id DESC', [], async (err, rows) => {
     if (err) return res.status(500).send(err.message);
 
@@ -2336,6 +2343,7 @@ app.get('/admin/it', requireAuth, requireITAuth, (req, res) => {
       success: req.query.success || null,
       error: req.query.error || null
     });
+  });
   });
 });
 

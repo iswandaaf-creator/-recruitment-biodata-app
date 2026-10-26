@@ -345,7 +345,7 @@
     </div>
 
     <% 
-      const defaultOutlets = ['Kantor Pusat Semarang', 'Outlet Pekalongan', 'Outlet Rinjani', 'Outlet Semarang', 'Outlet Ngaliyan', 'Outlet Purwokerto', 'Outlet Solo'];
+      const defaultOutlets = ['Kantor Pusat Semarang', 'KOV Lab Semarang', 'Outlet Pekalongan', 'Outlet Rinjani', 'Outlet Semarang', 'Outlet Ngaliyan', 'Outlet Purwokerto', 'Outlet Solo'];
       const allOutletKeys = Array.from(new Set([...defaultOutlets, ...(outletList || [])]));
     %>
 
@@ -665,6 +665,7 @@
                 <label class="form-label small fw-bold text-dark"><i class="fas fa-store text-success me-1"></i>Outlet / Unit Tujuan <span class="text-danger">*</span></label>
                 <select name="unit_outlet" id="tambahOutlet" class="form-select form-select-sm" required>
                   <option value="Kantor Pusat Semarang">Kantor Pusat Semarang</option>
+                  <option value="KOV Lab Semarang">KOV Lab Semarang</option>
                   <option value="Outlet Pekalongan">Outlet Pekalongan</option>
                   <option value="Outlet Rinjani">Outlet Rinjani</option>
                   <option value="Outlet Semarang">Outlet Semarang</option>
@@ -1360,7 +1361,7 @@
         const matchVendor = !vendorVal || rowVendor.includes(vendorVal);
         const matchStatus = !statVal || (rowStat === statVal);
         const matchSearch = !query || rowSearch.includes(query);
-        const matchKat = !katVal || rowSearch.includes(katVal.toLowerCase());
+        const matchKat = !katVal || rowSearch.includes(katVal.toLowerCase()) || rowSearch.includes(katVal.toLowerCase().replace(/&/g, '&amp;'));
         const matchStart = !sDate || (rowDate >= sDate);
         const matchEnd = !eDate || (rowDate <= eDate);
 
@@ -1370,6 +1371,27 @@
           row.style.display = 'none';
         }
       });
+    }
+
+    // Handle query params (?search=..., ?outlet=...) for seamless cross-navigation
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get('search');
+    const outletParam = urlParams.get('outlet');
+    if (searchParam && searchInput) {
+      searchInput.value = searchParam;
+    }
+    if (outletParam) {
+      currentSelectedOutlet = outletParam;
+      document.querySelectorAll('.btn-outlet').forEach(btn => {
+        if (btn.innerText.includes(outletParam.replace('Outlet ', ''))) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    }
+    if (searchParam || outletParam) {
+      setTimeout(applyAllFilters, 50);
     }
 
     searchInput.addEventListener('input', applyAllFilters);

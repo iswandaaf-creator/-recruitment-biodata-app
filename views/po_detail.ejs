@@ -119,6 +119,9 @@
           <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
             <i class="fas fa-moon kov-theme-icon"></i>
           </button>
+          <a href="/admin/it?search=<%= encodeURIComponent(po.no_po || '') %>" class="btn-kov-secondary btn-kov-sm text-primary" title="Lihat di Rekap Belanja IT">
+            <i class="fas fa-receipt text-success"></i> <span class="d-none d-sm-inline">Rekap IT</span>
+          </a>
           <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">Download PDF PO</span>
           </a>
@@ -127,6 +130,19 @@
 
       <!-- Main Content Area -->
       <main class="kov-content-body">
+
+      <!-- Integration Status Banner -->
+      <div class="alert alert-success d-flex align-items-center justify-content-between p-2.5 px-3 mb-3 rounded-3 border-0 bg-success-subtle text-success small shadow-sm">
+        <div class="d-flex align-items-center gap-2">
+          <i class="fas fa-circle-check fs-6 text-success"></i>
+          <div>
+            <strong>Tersinkron ke Rekap IT:</strong> Dokumen PO ini otomatis tercatat di data pembelanjaan IT.
+          </div>
+        </div>
+        <a href="/admin/it?search=<%= encodeURIComponent(po.no_po || '') %>" class="btn btn-sm btn-success rounded-pill px-3 py-1 text-white fw-semibold" style="font-size: 0.75rem;">
+          <i class="fas fa-arrow-up-right-from-square me-1"></i>Buka Rekap IT
+        </a>
+      </div>
     
     <div class="po-paper mb-4">
       <!-- Header Section -->
