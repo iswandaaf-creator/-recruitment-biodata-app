@@ -337,6 +337,9 @@
                       <a href="/admin/operasional/po/detail/<%= item.id %>" class="btn-kov-outline btn-kov-sm" title="Lihat Detail PO">
                         <i class="fas fa-eye"></i> Detail
                       </a>
+                      <a href="/admin/operasional/po/create?copy_from=<%= item.id %>" class="btn-kov-secondary btn-kov-sm text-primary" title="Duplikat PO Ini">
+                        <i class="fas fa-copy"></i>
+                      </a>
                       <a href="/api/operasional/po/export/pdf/<%= item.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Download Official PDF PO">
                         <i class="fas fa-file-pdf"></i>
                       </a>

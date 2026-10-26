@@ -1950,12 +1950,20 @@ app.get('/admin/operasional/po', requireOperasionalAuth, (req, res) => {
   });
 });
 
-// Create PO Form Page
+// Create PO Form Page (Supports optional ?copy_from=ID or ?from_po=ID for duplication)
 app.get('/admin/operasional/po/create', requireOperasionalAuth, (req, res) => {
+  const copyId = req.query.copy_from || req.query.from_po;
   db.all('SELECT id, nama_outlet, nama_perusahaan, alamat, telepon, email, logo_url, is_holding FROM companies WHERE status = "Aktif" ORDER BY is_holding DESC, nama_outlet ASC', [], (err, companies) => {
-    res.render('po_form', { user: req.session.user, companies: companies || [] });
+    if (copyId) {
+      db.get('SELECT * FROM purchase_orders WHERE id = ?', [copyId], (err, poToCopy) => {
+        res.render('po_form', { user: req.session.user, companies: companies || [], poToCopy: poToCopy || null });
+      });
+    } else {
+      res.render('po_form', { user: req.session.user, companies: companies || [], poToCopy: null });
+    }
   });
 });
+
 
 // Submit PO API
 app.post('/api/operasional/po/submit', requireOperasionalAuth, (req, res) => {

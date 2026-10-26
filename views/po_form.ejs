@@ -183,16 +183,23 @@
       box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
     }
 
-    /* Quantity Input: Crisp, Visible, Number Spinners Removed */
+    /* Quantity Input: High-Contrast, Visible, No Spinners */
     #itemsTable .item-qty {
-      font-weight: 700 !important;
-      font-size: 0.95rem !important;
+      font-weight: 800 !important;
+      font-size: 1rem !important;
       color: #064e3b !important;
+      background-color: #f0fdf4 !important;
+      border: 1.5px solid #10b981 !important;
       text-align: center !important;
       width: 100% !important;
-      min-width: 70px !important;
-      -moz-appearance: textfield !important;
-      appearance: textfield !important;
+      min-width: 80px !important;
+      border-radius: 8px !important;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    #itemsTable .item-qty:focus {
+      border-color: #059669 !important;
+      background-color: #ffffff !important;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
     }
     #itemsTable .item-qty::-webkit-inner-spin-button,
     #itemsTable .item-qty::-webkit-outer-spin-button {
@@ -293,6 +300,8 @@
     }
     [data-theme="dark"] #itemsTable .item-qty {
       color: #34d399 !important;
+      background-color: rgba(16, 185, 129, 0.15) !important;
+      border-color: #059669 !important;
     }
     [data-theme="dark"] #itemsTable .item-satuan {
       color: #e2e8f0 !important;
@@ -348,6 +357,17 @@
       <main class="kov-content-body">
 
   <div class="container pb-5" style="max-width: 1040px;">
+    <% if (typeof poToCopy !== 'undefined' && poToCopy) { %>
+      <div class="alert alert-info border-0 shadow-sm rounded-4 p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <i class="fas fa-copy text-primary fs-5"></i>
+          <div>
+            <strong>Menduplikasi Data PO:</strong> Formulir telah diisi otomatis dari dokumen <strong><%= poToCopy.no_po %></strong> (<%= poToCopy.vendor_nama %>). Nomor PO baru dan tanggal hari ini dibuat otomatis.
+          </div>
+        </div>
+        <a href="/admin/operasional/po/create" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1">Reset ke Form Kosong</a>
+      </div>
+    <% } %>
     <form id="poForm">
       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
       
@@ -379,15 +399,15 @@
 
             <div class="col-md-6">
               <label class="form-label">Nama Vendor / PT <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="vendor_nama" placeholder="Contoh: PT AGRES INFO TEKNOLOGI" required>
+              <input type="text" class="form-control" name="vendor_nama" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.vendor_nama) ? poToCopy.vendor_nama : '' %>" placeholder="Contoh: PT AGRES INFO TEKNOLOGI" required>
             </div>
             <div class="col-md-6">
               <label class="form-label">Nama Dagang / Toko</label>
-              <input type="text" class="form-control" name="vendor_nama_dagang" placeholder="Contoh: AGRES.ID / Tokopedia Official">
+              <input type="text" class="form-control" name="vendor_nama_dagang" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.vendor_nama_dagang) ? poToCopy.vendor_nama_dagang : '' %>" placeholder="Contoh: AGRES.ID / Tokopedia Official">
             </div>
             <div class="col-md-6">
               <label class="form-label">Perihal Pengadaan <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="perihal" placeholder="Contoh: Pengadaan Laptop Kasir & Perlengkapan IT" required>
+              <input type="text" class="form-control" name="perihal" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.perihal) ? poToCopy.perihal : '' %>" placeholder="Contoh: Pengadaan Laptop Kasir & Perlengkapan IT" required>
             </div>
             <div class="col-md-6">
               <label class="form-label d-flex justify-content-between">
@@ -407,7 +427,7 @@
             </div>
             <div class="col-md-6">
               <label class="form-label">Unit Kerja / PT Pembeli <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="unit_kerja" id="inputUnitKerja" value="PT Puteri Seruput Indonesia" placeholder="Contoh: PT Puteri Seruput Indonesia / PT Samasta Kopi Indonesia" required>
+              <input type="text" class="form-control" name="unit_kerja" id="inputUnitKerja" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.unit_kerja) ? poToCopy.unit_kerja : 'PT Puteri Seruput Indonesia' %>" placeholder="Contoh: PT Puteri Seruput Indonesia / PT Samasta Kopi Indonesia" required>
             </div>
           </div>
         </div>
@@ -423,7 +443,7 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label class="form-label">Lokasi Pengiriman <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="lokasi_kirim" placeholder="Contoh: KOV Koffie, Jl. Sultan Agung No.135, Kaliwiru, Semarang" required>
+              <input type="text" class="form-control" name="lokasi_kirim" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.lokasi_kirim) ? poToCopy.lokasi_kirim : '' %>" placeholder="Contoh: KOV Koffie, Jl. Sultan Agung No.135, Kaliwiru, Semarang" required>
             </div>
             <div class="col-md-6">
               <label class="form-label">Tanggal Estimasi Pengiriman</label>
@@ -431,7 +451,7 @@
             </div>
             <div class="col-md-6">
               <label class="form-label">Termin Pembayaran <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="termin_bayar" value="DP 30% / Transfer Bank" placeholder="Contoh: DP 30% / Pelunasan 14 Hari" required>
+              <input type="text" class="form-control" name="termin_bayar" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.termin_bayar) ? poToCopy.termin_bayar : 'DP 30% / Transfer Bank' %>" placeholder="Contoh: DP 30% / Pelunasan 14 Hari" required>
             </div>
             <div class="col-md-6">
               <label class="form-label">Mata Uang</label>
@@ -502,7 +522,7 @@
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="text-muted small fw-bold">PPN (%):</span>
                     <div class="input-group input-group-sm" style="width: 120px;">
-                      <input type="number" class="form-control text-end" name="ppn_persen" id="ppn_persen" min="0" max="100" value="0" onfocus="this.select()">
+                      <input type="number" class="form-control text-end" name="ppn_persen" id="ppn_persen" min="0" max="100" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.ppn_persen != null) ? poToCopy.ppn_persen : 0 %>" onfocus="this.select()">
                       <span class="input-group-text">%</span>
                     </div>
                   </div>
@@ -513,7 +533,7 @@
                   </div>
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="text-muted small fw-bold">Diskon (Rp):</span>
-                    <input type="number" class="form-control form-control-sm text-end" style="width: 140px;" name="diskon_nominal" id="diskon_nominal" min="0" value="0" onfocus="this.select()">
+                    <input type="number" class="form-control form-control-sm text-end" style="width: 140px;" name="diskon_nominal" id="diskon_nominal" min="0" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.diskon_nominal != null) ? poToCopy.diskon_nominal : 0 %>" onfocus="this.select()">
                   </div>
                   <hr class="my-2">
                   <div class="d-flex justify-content-between align-items-center fs-5 fw-bold text-success">
@@ -650,13 +670,13 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
           <input type="text" class="form-control form-control-sm" name="item_spec_${itemIndex}" value="${specVal}" placeholder="Spesifikasi Detail (opsional)">
         </td>
         <td>
-          <input type="number" class="form-control form-control-sm item-qty" name="item_qty_${itemIndex}" min="1" step="1" value="${qtyVal}" required onfocus="this.select()" autocomplete="off">
+          <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control form-control-sm item-qty text-center" name="item_qty_${itemIndex}" value="${qtyVal || 1}" placeholder="1" required autocomplete="off">
         </td>
         <td>
-          <input type="text" list="satuanList" class="form-control form-control-sm item-satuan" name="item_satuan_${itemIndex}" value="${satuanVal}" placeholder="PCS" required onfocus="this.select()">
+          <input type="text" list="satuanList" class="form-control form-control-sm item-satuan text-center" name="item_satuan_${itemIndex}" value="${satuanVal}" placeholder="PCS" required onfocus="this.select()">
         </td>
         <td>
-          <input type="number" class="form-control form-control-sm item-harga" name="item_harga_${itemIndex}" min="0" step="1" value="${hargaVal}" required onfocus="this.select()" autocomplete="off">
+          <input type="number" class="form-control form-control-sm item-harga text-end" name="item_harga_${itemIndex}" min="0" step="1" value="${hargaVal}" required onfocus="this.select()" autocomplete="off">
         </td>
         <td class="text-end fw-bold text-success font-monospace item-total-lbl">Rp 0</td>
         <td class="text-center pe-3">
@@ -667,6 +687,13 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       `;
 
       tbody.appendChild(tr);
+
+      const qtyInpEl = tr.querySelector('.item-qty');
+      if (qtyInpEl) {
+        qtyInpEl.value = String(qtyVal || 1);
+        qtyInpEl.defaultValue = String(qtyVal || 1);
+      }
+
       attachCalcEvents(tr);
       recalculateAll();
     }
@@ -709,7 +736,16 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
         recalculateAll();
       }
 
-      qtyInp.addEventListener('input', updateRowTotal);
+      qtyInp.addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        updateRowTotal();
+      });
+      qtyInp.addEventListener('blur', (e) => {
+        if (!e.target.value || parseInt(e.target.value) <= 0) {
+          e.target.value = '1';
+        }
+        updateRowTotal();
+      });
       hargaInp.addEventListener('input', updateRowTotal);
       updateRowTotal();
     }
@@ -741,8 +777,29 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
     document.getElementById('ppn_persen').addEventListener('input', recalculateAll);
     document.getElementById('diskon_nominal').addEventListener('input', recalculateAll);
 
-    // Initial clean item row
-    addItemRow();
+    // Initial item rows (Preloaded from poToCopy if duplicating, else 1 clean row)
+    <% if (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.items_json) { %>
+      try {
+        const copiedItems = <%- poToCopy.items_json %>;
+        if (Array.isArray(copiedItems) && copiedItems.length > 0) {
+          copiedItems.forEach(it => {
+            addItemRow({
+              nama: it.nama_kode || it.nama || it.nama_barang || '',
+              spec: it.spesifikasi || it.spec || '',
+              qty: it.qty || 1,
+              satuan: it.satuan || 'PCS',
+              harga: it.harga_satuan || it.harga || 0
+            });
+          });
+        } else {
+          addItemRow();
+        }
+      } catch (e) {
+        addItemRow();
+      }
+    <% } else { %>
+      addItemRow();
+    <% } %>
 
     // Signature Pad with Persistent State
     const canvas = document.getElementById('sigCanvas');

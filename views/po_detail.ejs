@@ -122,6 +122,9 @@
           <a href="/admin/it?highlight=<%= encodeURIComponent(po.no_po || '') %>" class="btn-kov-secondary btn-kov-sm text-primary" title="Lihat di Rekap Belanja IT">
             <i class="fas fa-receipt text-success"></i> <span class="d-none d-sm-inline">Rekap IT</span>
           </a>
+          <a href="/admin/operasional/po/create?copy_from=<%= po.id %>" class="btn-kov-secondary btn-kov-sm text-primary" title="Duplikat PO ini sebagai PO Baru">
+            <i class="fas fa-copy"></i> <span class="d-none d-sm-inline">Duplikat PO</span>
+          </a>
           <a href="/api/operasional/po/export/pdf/<%= po.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
             <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">Download PDF PO</span>
           </a>
