@@ -190,6 +190,29 @@
     [data-theme="dark"] .bento-metric-value.text-warning {
       color: #fbbf24 !important;
     }
+    /* PO / Target Row Pulsing Glow */
+    @keyframes poRowGlow {
+      0% {
+        background-color: rgba(16, 185, 129, 0.22);
+        box-shadow: inset 0 0 0 2px #10b981;
+      }
+      50% {
+        background-color: rgba(90, 96, 234, 0.25);
+        box-shadow: inset 0 0 0 3px #5a60ea;
+      }
+      100% {
+        background-color: rgba(16, 185, 129, 0.22);
+        box-shadow: inset 0 0 0 2px #10b981;
+      }
+    }
+    .row-highlight-pulse {
+      animation: poRowGlow 1.8s ease-in-out infinite;
+      position: relative;
+      z-index: 2;
+    }
+    .row-highlight-pulse td {
+      background-color: transparent !important;
+    }
   </style>
 </head>
 <body>
@@ -443,6 +466,30 @@
       </div>
     </div>
 
+    <!-- Active Filter Banner (Provides instant clarity & 1-click restore) -->
+    <div id="itFilterAlert" class="alert alert-warning border-0 shadow-sm rounded-4 py-2 px-3 mb-3 d-none align-items-center justify-content-between flex-wrap gap-2">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-warning text-dark"><i class="fas fa-filter me-1"></i>Filter Aktif</span>
+        <span id="itFilterAlertText" class="small fw-semibold text-dark"></span>
+      </div>
+      <button type="button" class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-none" onclick="resetAllITFilters()">
+        <i class="fas fa-rotate-left me-1"></i>Tampilkan Semua Data (<span id="itFilterTotalBadge"><%= expenses.length %></span>)
+      </button>
+    </div>
+
+    <!-- PO Highlight Info Banner -->
+    <div id="itHighlightAlert" class="alert alert-emerald border-0 shadow-sm rounded-4 py-2.5 px-3 mb-3 d-none align-items-center justify-content-between flex-wrap gap-2" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 1px solid #a7f3d0 !important;">
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-success text-white rounded-pill px-2.5 py-1"><i class="fas fa-check-circle me-1"></i>PO Terpilih</span>
+        <span id="itHighlightAlertText" class="small fw-semibold text-emerald-dark"></span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1 shadow-none" onclick="dismissHighlightAlert()">
+          <i class="fas fa-check me-1"></i>Selesai Dilihat
+        </button>
+      </div>
+    </div>
+
     <!-- Modern Data Table Card -->
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white mb-5">
       <div class="table-responsive">
@@ -477,6 +524,9 @@
 
             <% expenses.forEach((nota, index) => { %>
               <tr class="expense-row" 
+                  id="expense-row-<%= nota.id %>"
+                  data-id="<%= nota.id %>"
+                  data-no-transaksi="<%= (nota.no_transaksi || '').trim() %>"
                   data-outlet="<%= nota.unit_outlet %>" 
                   data-status="<%= nota.status_bayar %>" 
                   data-tanggal="<%= nota.tanggal %>"
@@ -1284,6 +1334,7 @@
       const vendor = filterVendor ? filterVendor.value.trim() : '';
       const sDate = filterStartDate ? filterStartDate.value : '';
       const eDate = filterEndDate ? filterEndDate.value : '';
+
       const kw = searchInput ? searchInput.value.trim() : '';
       const kat = filterKat ? filterKat.value : '';
 
@@ -1342,13 +1393,50 @@
       window.open(url, '_blank');
     }
 
+    function updateFilterBanner(visibleCount, totalCount) {
+      const banner = document.getElementById('itFilterAlert');
+      const text = document.getElementById('itFilterAlertText');
+      if (!banner || !text) return;
+
+      const topInput = document.getElementById('itSearchInput');
+      const query = ((searchInput ? searchInput.value : '') || (topInput ? topInput.value : '')).trim();
+      const vendorVal = (filterVendor ? filterVendor.value : '').trim();
+      const statVal = filterStat ? filterStat.value : '';
+      const katVal = filterKat ? filterKat.value : '';
+      const sDate = filterStartDate ? filterStartDate.value : '';
+      const eDate = filterEndDate ? filterEndDate.value : '';
+
+      const isFilteredOutlet = currentSelectedOutlet !== 'ALL';
+
+      const hasActiveFilter = query || vendorVal || statVal || katVal || sDate || eDate || isFilteredOutlet;
+
+      if (hasActiveFilter && visibleCount < totalCount) {
+        let desc = [];
+        if (query) desc.push(`Kata kunci: "${query}"`);
+        if (isFilteredOutlet) desc.push(`Outlet: ${currentSelectedOutlet}`);
+        if (katVal) desc.push(`Kategori: ${katVal}`);
+        if (vendorVal) desc.push(`Vendor: ${vendorVal}`);
+        if (statVal) desc.push(`Status: ${statVal}`);
+        if (sDate || eDate) desc.push(`Tanggal: ${sDate || '...'} s/d ${eDate || '...'}`);
+
+        text.innerHTML = `Menampilkan <strong>${visibleCount}</strong> dari <strong>${totalCount}</strong> catatan (${desc.join(', ')}).`;
+        banner.classList.remove('d-none');
+        banner.classList.add('d-flex');
+      } else {
+        banner.classList.remove('d-flex');
+        banner.classList.add('d-none');
+      }
+    }
+
     function applyAllFilters() {
+      let visibleCount = 0;
       const query = (searchInput.value || '').trim().toLowerCase();
       const vendorVal = (filterVendor ? filterVendor.value : '').trim().toLowerCase();
       const statVal = filterStat.value;
       const katVal = filterKat.value;
       const sDate = filterStartDate ? filterStartDate.value : '';
       const eDate = filterEndDate ? filterEndDate.value : '';
+
 
       rows.forEach(row => {
         const rowOutlet = row.getAttribute('data-outlet') || '';
@@ -1366,18 +1454,113 @@
         const matchEnd = !eDate || (rowDate <= eDate);
 
         if (matchOutlet && matchVendor && matchStatus && matchSearch && matchKat && matchStart && matchEnd) {
+          visibleCount++;
           row.style.display = '';
         } else {
           row.style.display = 'none';
         }
       });
+      updateFilterBanner(visibleCount, rows.length);
+      return;
+      rows.forEach(r => {
+        }
+      });
     }
 
-    // Handle query params (?search=..., ?outlet=...) for seamless cross-navigation
+    function resetAllITFilters() {
+      if (searchInput) searchInput.value = '';
+      const topInput = document.getElementById('itSearchInput');
+      if (topInput) topInput.value = '';
+      if (filterVendor) filterVendor.value = '';
+      if (filterStartDate) filterStartDate.value = '';
+      if (filterEndDate) filterEndDate.value = '';
+      if (filterStat) filterStat.value = '';
+      if (filterKat) filterKat.value = '';
+
+      // Reset outlet to 'ALL'
+      currentSelectedOutlet = 'ALL';
+      document.querySelectorAll('.btn-outlet').forEach(btn => {
+        if (btn.getAttribute('onclick')?.includes("'ALL'")) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // Clear row highlight pulse
+      document.querySelectorAll('.row-highlight-pulse').forEach(r => r.classList.remove('row-highlight-pulse'));
+
+      // Hide banners
+      const alertFilter = document.getElementById('itFilterAlert');
+      if (alertFilter) {
+        alertFilter.classList.remove('d-flex');
+        alertFilter.classList.add('d-none');
+      }
+      const alertHighlight = document.getElementById('itHighlightAlert');
+      if (alertHighlight) {
+        alertHighlight.classList.remove('d-flex');
+        alertHighlight.classList.add('d-none');
+      }
+
+      // Clean browser URL query params without reload
+      try {
+        window.history.replaceState({}, '', window.location.pathname);
+      } catch (e) {}
+
+      applyAllFilters();
+    }
+    window.resetAllITFilters = resetAllITFilters;
+
+    window.dismissHighlightAlert = function() {
+      const alertBox = document.getElementById('itHighlightAlert');
+      if (alertBox) {
+        alertBox.classList.remove('d-flex');
+        alertBox.classList.add('d-none');
+      }
+      document.querySelectorAll('.row-highlight-pulse').forEach(r => r.classList.remove('row-highlight-pulse'));
+    };
+
+    // Handle query params (?highlight=..., ?search=..., ?outlet=...) for seamless cross-navigation
     const urlParams = new URLSearchParams(window.location.search);
+    const highlightParam = urlParams.get('highlight');
     const searchParam = urlParams.get('search');
     const outletParam = urlParams.get('outlet');
-    if (searchParam && searchInput) {
+    if (highlightParam) {
+      // KEEP ALL DATA VISIBLE! DO NOT FILTER OUT OTHER ROWS!
+      currentSelectedOutlet = 'ALL';
+      document.querySelectorAll('.btn-outlet').forEach(btn => {
+        if (btn.getAttribute('onclick')?.includes("'ALL'")) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      applyAllFilters();
+
+      setTimeout(() => {
+        const targetRow = Array.from(rows).find(r => {
+          const noTrans = (r.getAttribute('data-no-transaksi') || '').toLowerCase();
+          const rSearch = (r.getAttribute('data-search') || '').toLowerCase();
+          const target = highlightParam.toLowerCase();
+          return noTrans === target || noTrans.includes(target) || rSearch.includes(target);
+        });
+
+        if (targetRow) {
+          targetRow.classList.add('row-highlight-pulse');
+          targetRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          const alertBox = document.getElementById('itHighlightAlert');
+          const alertText = document.getElementById('itHighlightAlertText');
+          if (alertBox && alertText) {
+            alertText.innerHTML = `Data PO <strong>${highlightParam}</strong> berhasil disinkronkan ke Rekap IT. Seluruh <strong>${rows.length}</strong> data pengeluaran lainnya tetap aman dan lengkap.`;
+            alertBox.classList.remove('d-none');
+            alertBox.classList.add('d-flex');
+          }
+        }
+      }, 150);
+    } else if (searchParam && searchInput) {
+      const topInput = document.getElementById('itSearchInput');
+      if (topInput) topInput.value = searchParam;
       searchInput.value = searchParam;
     }
     if (outletParam) {
@@ -1394,7 +1577,11 @@
       setTimeout(applyAllFilters, 50);
     }
 
-    searchInput.addEventListener('input', applyAllFilters);
+    searchInput.addEventListener('input', () => {
+      const topInput = document.getElementById('itSearchInput');
+      if (topInput) topInput.value = searchInput.value;
+      applyAllFilters();
+    });
     function filterITTable() {
       const topVal = document.getElementById('itSearchInput')?.value || '';
       if (searchInput) {
@@ -1409,7 +1596,8 @@
     filterStat.addEventListener('change', applyAllFilters);
     filterKat.addEventListener('change', applyAllFilters);
 
-    btnReset.addEventListener('click', () => {
+    if (btnReset) btnReset.addEventListener('click', resetAllITFilters);
+    const __dummy_btnReset_listener = () => {
       searchInput.value = '';
       if (filterVendor) filterVendor.value = '';
       if (filterStartDate) filterStartDate.value = '';

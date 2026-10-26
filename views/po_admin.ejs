@@ -304,7 +304,7 @@
                   <td class="ps-3 fw-bold text-dark">
                     <div class="d-flex align-items-center gap-1.5 flex-wrap">
                       <span><%= item.no_po || ('PO/KOV/' + item.id) %></span>
-                      <a href="/admin/it?search=<%= encodeURIComponent(item.no_po || '') %>" class="badge bg-emerald-subtle text-emerald-dark border border-emerald-subtle rounded-pill text-decoration-none px-2 py-0.5" title="Buka data di Rekap Belanja IT" style="font-size: 0.72rem;">
+                      <a href="/admin/it?highlight=<%= encodeURIComponent(item.no_po || '') %>" class="badge bg-emerald-subtle text-emerald-dark border border-emerald-subtle rounded-pill text-decoration-none px-2 py-0.5" title="Buka data di Rekap Belanja IT" style="font-size: 0.72rem;">
                         <i class="fas fa-check-circle me-1 text-success"></i>Rekap IT
                       </a>
                     </div>
