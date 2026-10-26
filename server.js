@@ -117,6 +117,48 @@ const uploadInvoice = multer({
   }
 });
 
+// Master Company / Outlet Logo Storage Setup
+const companyLogoUploadDir = path.join(__dirname, 'public', 'uploads', 'logos');
+if (!fs.existsSync(companyLogoUploadDir)) {
+  fs.mkdirSync(companyLogoUploadDir, { recursive: true });
+}
+
+const logoStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, companyLogoUploadDir);
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    const unique = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, 'logo-' + unique + ext);
+  }
+});
+
+const uploadLogo = multer({
+  storage: logoStorage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  fileFilter: function (req, file, cb) {
+    const ext = path.extname(file.originalname).toLowerCase();
+    const allowed = ['.png', '.jpg', '.jpeg', '.webp', '.svg'];
+    const allowedMime = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
+    if (!allowed.includes(ext) || !allowedMime.includes(file.mimetype)) {
+      return cb(new Error('Format logo harus berupa file gambar (PNG, JPG, JPEG, WEBP, atau SVG).'));
+    }
+    cb(null, true);
+  }
+});
+
+function handleLogoUpload(req, res, next) {
+  uploadLogo.single('logo')(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      return res.redirect('/admin/companies?error=' + encodeURIComponent('Gagal upload logo: ' + err.message));
+    } else if (err) {
+      return res.redirect('/admin/companies?error=' + encodeURIComponent(err.message));
+    }
+    next();
+  });
+}
+
 const app = express();
 
 
@@ -838,6 +880,126 @@ app.post('/admin/users/delete/:id', requireAuth, requireSuperAdmin, (req, res) =
     if (err) return res.redirect('/admin/users?error=' + encodeURIComponent(err.message));
     res.redirect('/admin/users?success=User+berhasil+dihapus!');
   });
+});
+
+// ==========================================
+// MASTER DATA PERUSAHAAN & OUTLET KOV GROUPS
+// ==========================================
+
+// 1. List All Companies / Outlets (Super Admin Only)
+app.get('/admin/companies', requireAuth, requireSuperAdmin, (req, res) => {
+  db.all('SELECT * FROM companies ORDER BY is_holding DESC, id ASC', [], (err, rows) => {
+    if (err) return res.status(500).send('Database Error: ' + err.message);
+    res.render('companies', {
+      companies: rows || [],
+      user: req.session.user,
+      active: 'companies',
+      success: req.query.success || null,
+      error: req.query.error || null
+    });
+  });
+});
+
+// 2. Create Company / Outlet (Super Admin Only)
+app.post('/admin/companies/create', requireAuth, requireSuperAdmin, handleLogoUpload, (req, res) => {
+  const { nama_outlet, nama_perusahaan, alamat, telepon, email } = req.body;
+  const is_holding = (req.body.is_holding === '1' || req.body.is_holding === 'on') ? 1 : 0;
+  const status = req.body.status || 'Aktif';
+
+  if (!nama_outlet || !nama_perusahaan || !alamat) {
+    return res.redirect('/admin/companies?error=' + encodeURIComponent('Nama Outlet, Nama Badan Hukum/Perusahaan, dan Alamat wajib diisi!'));
+  }
+
+  let logo_url = '';
+  if (req.file) {
+    logo_url = '/uploads/logos/' + req.file.filename;
+  }
+
+  db.run(
+    `INSERT INTO companies (nama_outlet, nama_perusahaan, alamat, telepon, email, logo_url, is_holding, status)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+    [nama_outlet.trim(), nama_perusahaan.trim(), alamat.trim(), (telepon || '').trim(), (email || '').trim(), logo_url, is_holding, status],
+    function (err) {
+      if (err) {
+        return res.redirect('/admin/companies?error=' + encodeURIComponent('Gagal menyimpan perusahaan: ' + err.message));
+      }
+      res.redirect('/admin/companies?success=' + encodeURIComponent(`Outlet "${nama_outlet}" (${nama_perusahaan}) berhasil ditambahkan ke Master Database!`));
+    }
+  );
+});
+
+// 3. Edit Company / Outlet (Super Admin Only)
+app.post('/admin/companies/edit/:id', requireAuth, requireSuperAdmin, handleLogoUpload, (req, res) => {
+  const companyId = parseInt(req.params.id, 10);
+  if (isNaN(companyId)) {
+    return res.redirect('/admin/companies?error=' + encodeURIComponent('ID perusahaan tidak valid!'));
+  }
+
+  db.get('SELECT * FROM companies WHERE id = ?', [companyId], (err, existing) => {
+    if (err || !existing) {
+      return res.redirect('/admin/companies?error=' + encodeURIComponent('Data perusahaan tidak ditemukan!'));
+    }
+
+    const nama_outlet = (req.body.nama_outlet || existing.nama_outlet).trim();
+    const nama_perusahaan = (req.body.nama_perusahaan || existing.nama_perusahaan).trim();
+    const alamat = (req.body.alamat || existing.alamat).trim();
+    const telepon = typeof req.body.telepon !== 'undefined' ? req.body.telepon.trim() : existing.telepon;
+    const email = typeof req.body.email !== 'undefined' ? req.body.email.trim() : existing.email;
+    const is_holding = typeof req.body.is_holding !== 'undefined' 
+      ? ((req.body.is_holding === '1' || req.body.is_holding === 'on') ? 1 : 0)
+      : existing.is_holding;
+    const status = req.body.status || existing.status;
+
+    let logo_url = existing.logo_url || '';
+    if (req.file) {
+      logo_url = '/uploads/logos/' + req.file.filename;
+    } else if (req.body.remove_logo === '1') {
+      logo_url = '';
+    }
+
+    db.run(
+      `UPDATE companies 
+       SET nama_outlet = ?, nama_perusahaan = ?, alamat = ?, telepon = ?, email = ?, logo_url = ?, is_holding = ?, status = ?, updated_at = CURRENT_TIMESTAMP
+       WHERE id = ?`,
+      [nama_outlet, nama_perusahaan, alamat, telepon, email, logo_url, is_holding, status, companyId],
+      function (updateErr) {
+        if (updateErr) {
+          return res.redirect('/admin/companies?error=' + encodeURIComponent('Gagal memperbarui data: ' + updateErr.message));
+        }
+        res.redirect('/admin/companies?success=' + encodeURIComponent(`Perubahan data "${nama_outlet}" berhasil disimpan!`));
+      }
+    );
+  });
+});
+
+// 4. Delete Company / Outlet (Super Admin Only)
+app.post('/admin/companies/delete/:id', requireAuth, requireSuperAdmin, (req, res) => {
+  const companyId = parseInt(req.params.id, 10);
+  if (isNaN(companyId)) {
+    return res.redirect('/admin/companies?error=' + encodeURIComponent('ID perusahaan tidak valid!'));
+  }
+
+  db.get('SELECT nama_outlet FROM companies WHERE id = ?', [companyId], (err, row) => {
+    const nama = row ? row.nama_outlet : 'Perusahaan';
+    db.run('DELETE FROM companies WHERE id = ?', [companyId], (deleteErr) => {
+      if (deleteErr) {
+        return res.redirect('/admin/companies?error=' + encodeURIComponent('Gagal menghapus data: ' + deleteErr.message));
+      }
+      res.redirect('/admin/companies?success=' + encodeURIComponent(`Data "${nama}" berhasil dihapus dari Master Database.`));
+    });
+  });
+});
+
+// 5. API: Master Companies List (for dynamic dropdowns in PO, Surat Tugas, BA, etc.)
+app.get('/api/companies', requireAuth, (req, res) => {
+  db.all(
+    'SELECT id, nama_outlet, nama_perusahaan, alamat, telepon, email, logo_url, is_holding, status FROM companies WHERE status = "Aktif" ORDER BY is_holding DESC, nama_outlet ASC',
+    [],
+    (err, rows) => {
+      if (err) return res.status(500).json({ success: false, error: err.message });
+      res.json({ success: true, data: rows || [] });
+    }
+  );
 });
 
 // API: Submit Candidate Biodata (Public)
@@ -1790,7 +1952,9 @@ app.get('/admin/operasional/po', requireOperasionalAuth, (req, res) => {
 
 // Create PO Form Page
 app.get('/admin/operasional/po/create', requireOperasionalAuth, (req, res) => {
-  res.render('po_form', { user: req.session.user });
+  db.all('SELECT id, nama_outlet, nama_perusahaan, alamat, telepon, email, logo_url, is_holding FROM companies WHERE status = "Aktif" ORDER BY is_holding DESC, nama_outlet ASC', [], (err, companies) => {
+    res.render('po_form', { user: req.session.user, companies: companies || [] });
+  });
 });
 
 // Submit PO API

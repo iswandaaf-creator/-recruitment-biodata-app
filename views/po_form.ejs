@@ -390,8 +390,24 @@
               <input type="text" class="form-control" name="perihal" placeholder="Contoh: Pengadaan Laptop Kasir & Perlengkapan IT" required>
             </div>
             <div class="col-md-6">
+              <label class="form-label d-flex justify-content-between">
+                <span>Pilih Outlet / Unit Kerja (Master Index)</span>
+                <span class="text-primary fw-bold" style="font-size: 11px;"><i class="fas fa-building me-1"></i>Auto-Fill PT &amp; Alamat</span>
+              </label>
+              <select class="form-select" id="selectCompanyOutlet" onchange="applyCompanyOutlet(this)">
+                <option value="">-- Pilih dari Master Perusahaan / Outlet KOV --</option>
+                <% if (typeof companies !== 'undefined' && companies && companies.length > 0) { %>
+                  <% companies.forEach(function(c) { %>
+                    <option value="<%= c.id %>" data-pt="<%= c.nama_perusahaan %>" data-outlet="<%= c.nama_outlet %>" data-alamat="<%= c.alamat %>">
+                      <%= c.nama_outlet %> (<%= c.nama_perusahaan %>) <%= c.is_holding === 1 ? '[HOLDING]' : '' %>
+                    </option>
+                  <% }); %>
+                <% } %>
+              </select>
+            </div>
+            <div class="col-md-6">
               <label class="form-label">Unit Kerja / PT Pembeli <span class="text-danger">*</span></label>
-              <input type="text" class="form-control" name="unit_kerja" value="PT SUMBER CITA INDONESIA" placeholder="Contoh: PT SUMBER CITA INDONESIA / KOV Detampot" required>
+              <input type="text" class="form-control" name="unit_kerja" id="inputUnitKerja" value="PT Puteri Seruput Indonesia" placeholder="Contoh: PT Puteri Seruput Indonesia / PT Samasta Kopi Indonesia" required>
             </div>
           </div>
         </div>
@@ -775,6 +791,24 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       const sigInput = document.getElementById('signature_dibuat');
       if (sigInput) sigInput.value = '';
     });
+
+    // Master Index Company / Outlet Auto-fill Handler
+    function applyCompanyOutlet(sel) {
+      const opt = sel.options[sel.selectedIndex];
+      if (!opt || !opt.value) return;
+      const pt = opt.getAttribute('data-pt');
+      const outlet = opt.getAttribute('data-outlet');
+      const alamat = opt.getAttribute('data-alamat');
+
+      if (pt) {
+        const ptInput = document.getElementById('inputUnitKerja');
+        if (ptInput) ptInput.value = pt;
+      }
+      if (outlet && alamat) {
+        const locInput = document.querySelector('input[name="lokasi_kirim"]');
+        if (locInput) locInput.value = outlet + ' - ' + alamat;
+      }
+    }
 
     // Submit Form
     document.getElementById('poForm').addEventListener('submit', async function(e) {

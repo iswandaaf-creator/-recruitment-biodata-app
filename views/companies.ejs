@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Data Perusahaan &amp; Outlet - KOV Portal</title>
+  <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
+  <link href="/assets/css/figma-ui.css" rel="stylesheet">
+  <link href="/assets/css/dribbble-drive.css" rel="stylesheet">
+  <style>
+    .company-logo-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: rgba(90, 96, 234, 0.08);
+      border: 1px solid rgba(90, 96, 234, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--dd-primary, #5a60ea);
+      flex-shrink: 0;
+    }
+    .badge-holding {
+      background: linear-gradient(135deg, #f6941e 0%, #d97706 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-outlet {
+      background: rgba(90, 96, 234, 0.12);
+      color: var(--dd-primary, #5a60ea);
+      border: 1px solid rgba(90, 96, 234, 0.28);
+      font-weight: 700;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .badge-logo-ok {
+      background: rgba(16, 185, 129, 0.12);
+      color: #059669;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    .badge-logo-pending {
+      background: rgba(245, 158, 11, 0.12);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+    .company-card-row {
+      transition: all 0.2s ease;
+    }
+    .company-card-row:hover {
+      background: rgba(90, 96, 234, 0.04);
+    }
+    .upload-dropzone {
+      border: 2px dashed rgba(90, 96, 234, 0.35);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(90, 96, 234, 0.02);
+      transition: all 0.2s ease;
+    }
+    .upload-dropzone:hover {
+      border-color: var(--dd-primary, #5a60ea);
+      background: rgba(90, 96, 234, 0.06);
+    }
+    .filter-pill-btn {
+      border: 1px solid rgba(140, 150, 175, 0.25);
+      background: transparent;
+      color: var(--dd-text-muted, #64748b);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .filter-pill-btn:hover {
+      background: rgba(90, 96, 234, 0.08);
+      color: var(--dd-primary, #5a60ea);
+    }
+    .filter-pill-btn.active {
+      background: var(--dd-primary, #5a60ea);
+      color: #ffffff;
+      border-color: var(--dd-primary, #5a60ea);
+      box-shadow: 0 2px 6px rgba(90, 96, 234, 0.3);
+    }
+    [data-theme="dark"] .filter-pill-btn {
+      color: #94a3b8;
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+    [data-theme="dark"] .filter-pill-btn.active {
+      color: #ffffff;
+    }
+    [data-theme="dark"] .company-card-row:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dd-layout-root kov-app-shell">
+    <%- include('partials/sidebar', { active: 'companies', user: typeof user !== 'undefined' ? user : null }) %>
+
+    <main class="dd-main-canvas kov-main-content dd-theme">
+      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
+      <div class="dd-topbar kov-topbar">
+        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="dd-search-container">
+            <i class="fas fa-magnifying-glass dd-search-icon"></i>
+            <input type="text" class="dd-search-input" id="companySearchInput" placeholder="Cari nama outlet, badan hukum (PT/CV), atau alamat..." aria-label="Cari Perusahaan" onkeyup="filterCompanyTable()">
+          </div>
+        </div>
+
+        <div class="dd-topbar-actions">
+          <button type="button" class="btn-drive-upload" data-bs-toggle="modal" data-bs-target="#modalCreateCompany" title="Tambah Perusahaan atau Outlet Baru">
+            <i class="fas fa-plus"></i>
+            <span>Tambah Outlet / PT</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Alert Messages -->
+      <% if (success) { %>
+        <div class="alert alert-success alert-dismissible fade show mb-3 rounded-3 shadow-xs" role="alert">
+          <i class="fas fa-circle-check me-2"></i> <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+      <% if (error) { %>
+        <div class="alert alert-danger alert-dismissible fade show mb-3 rounded-3 shadow-xs" role="alert">
+          <i class="fas fa-circle-exclamation me-2"></i> <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <!-- Welcome Hero Banner (Dribbble Signature) -->
+      <div class="dd-hero-banner mb-3">
+        <div class="dd-hero-content">
+          <h2 class="dd-hero-title">
+            Master Index Perusahaan &amp; Outlet KOV Groups 🏢
+          </h2>
+          <p class="dd-hero-subtitle">
+            Pusat acuan data legalitas badan hukum (PT / CV), nama outlet, alamat resmi, dan logo perusahaan untuk pembuatan dokumen Purchase Order (PO), Surat Tugas, Berita Acara (BA), dan persuratan resmi grup.
+          </p>
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+            <button type="button" class="btn-dd-hero text-nowrap" data-bs-toggle="modal" data-bs-target="#modalCreateCompany">
+              <i class="fas fa-building-circle-check me-1"></i> Tambah Perusahaan / Outlet
+            </button>
+            <span class="badge rounded-pill bg-white text-dark border px-3 py-1.5 fw-bold shadow-xs text-nowrap" style="font-size: 0.8rem;">
+              <i class="fas fa-building text-primary me-1"></i> <%= (companies || []).length %> Total Entitas Terdaftar
+            </span>
+          </div>
+        </div>
+        <div class="dd-hero-illustration d-none d-lg-flex">
+          <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
+            <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
+            <path d="M60 80 L80 60 L100 80 L140 40" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="170" cy="46" r="14" fill="#f6941e"/>
+            <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
+            <rect x="154" y="96" width="36" height="36" rx="8" fill="#10b981" transform="rotate(12 154 96)"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Bento Metric Cards (4 Symmetrical Dribbble Folder Cards) -->
+      <div class="dd-section-header mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <h3 class="dd-section-title">Ringkasan Entitas &amp; Dokumen Legal</h3>
+          <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">
+            <%= (companies || []).length %> Entitas
+          </span>
+        </div>
+      </div>
+
+      <%
+        const totalEntitas = (companies || []).length;
+        const totalHolding = (companies || []).filter(c => c.is_holding === 1).length;
+        const totalCabang = (companies || []).filter(c => c.is_holding === 0).length;
+        const totalLogoOk = (companies || []).filter(c => c.logo_url && c.logo_url.trim().length > 0).length;
+        const totalLogoPending = totalEntitas - totalLogoOk;
+      %>
+
+      <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+        <!-- 1. Total Entitas (Navy) -->
+        <div class="dd-folder-card dd-folder-navy folder-navy" onclick="setFilter('all')">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-building"></i></div>
+            <span class="dd-folder-badge"><%= totalEntitas %> Terdaftar</span>
+          </div>
+          <h4 class="dd-folder-title">Total Entitas KOV</h4>
+          <div class="dd-folder-meta">
+            <span><i class="fas fa-layer-group opacity-75"></i> Semua Master Data</span>
+            <span class="fw-bold"><%= totalEntitas %> Data</span>
+          </div>
+        </div>
+
+        <!-- 2. Holding Company (Orange / Amber) -->
+        <div class="dd-folder-card dd-folder-amber folder-amber" onclick="setFilter('holding')">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-crown"></i></div>
+            <span class="dd-folder-badge"><%= totalHolding %> Holding</span>
+          </div>
+          <h4 class="dd-folder-title">Holding Company</h4>
+          <div class="dd-folder-meta">
+            <span><i class="fas fa-star opacity-75"></i> Induk Perusahaan</span>
+            <span class="fw-bold"><%= totalHolding %> Induk</span>
+          </div>
+        </div>
+
+        <!-- 3. Cabang & Outlet (Cyan / Blue) -->
+        <div class="dd-folder-card dd-folder-blue folder-blue" onclick="setFilter('cabang')">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-store"></i></div>
+            <span class="dd-folder-badge"><%= totalCabang %> Cabang</span>
+          </div>
+          <h4 class="dd-folder-title">Outlet &amp; Anak Usaha</h4>
+          <div class="dd-folder-meta">
+            <span><i class="fas fa-mug-hot opacity-75"></i> Operasional Unit</span>
+            <span class="fw-bold"><%= totalCabang %> Unit</span>
+          </div>
+        </div>
+
+        <!-- 4. Status Logo (Emerald Green) -->
+        <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="setFilter('logo')">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-image"></i></div>
+            <span class="dd-folder-badge"><%= totalLogoOk %> / <%= totalEntitas %> Logo</span>
+          </div>
+          <h4 class="dd-folder-title">Kelengkapan Logo</h4>
+          <div class="dd-folder-meta">
+            <span><i class="fas fa-clock opacity-75"></i> Menyusul: <%= totalLogoPending %></span>
+            <span class="fw-bold text-success"><%= totalLogoOk %> Siap Kop</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Data Table Container -->
+      <div class="card border-0 rounded-4 shadow-sm p-4 mb-4" style="background: var(--dd-card-bg, #ffffff);">
+        
+        <!-- Filter Bar & Search Header -->
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pb-3 border-bottom">
+          <div class="d-flex flex-wrap align-items-center gap-2" id="filterPillGroup">
+            <span class="small fw-bold text-muted me-1"><i class="fas fa-filter me-1"></i> Filter:</span>
+            <button type="button" class="filter-pill-btn active" onclick="setFilter('all', this)">Semua (<%= totalEntitas %>)</button>
+            <button type="button" class="filter-pill-btn" onclick="setFilter('holding', this)">Holding (<%= totalHolding %>)</button>
+            <button type="button" class="filter-pill-btn" onclick="setFilter('cabang', this)">Outlet Cabang (<%= totalCabang %>)</button>
+            <button type="button" class="filter-pill-btn" onclick="setFilter('has_logo', this)">Ada Logo (<%= totalLogoOk %>)</button>
+            <button type="button" class="filter-pill-btn" onclick="setFilter('no_logo', this)">Logo Menyusul (<%= totalLogoPending %>)</button>
+          </div>
+
+          <div class="small text-muted">
+            <i class="fas fa-circle-info text-primary me-1"></i> Data dijadikan acuan kop surat, nomor PO, dan penugasan dinas.
+          </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="table-responsive">
+          <table class="table align-middle" id="companiesTable">
+            <thead>
+              <tr class="text-uppercase small fw-bold text-muted" style="border-bottom: 2px solid rgba(140, 150, 175, 0.15); font-size: 11px; letter-spacing: 0.5px;">
+                <th style="width: 50px;">No</th>
+                <th style="width: 70px;">Logo</th>
+                <th>Nama Outlet</th>
+                <th>Badan Hukum (Perusahaan)</th>
+                <th>Alamat Lengkap</th>
+                <th>Kontak</th>
+                <th class="text-end" style="width: 140px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (!companies || companies.length === 0) { %>
+                <tr>
+                  <td colspan="7" class="text-center py-5 text-muted">
+                    <i class="fas fa-building-circle-xmark fa-3x mb-3 text-secondary opacity-50"></i>
+                    <p class="mb-0 fw-semibold">Belum ada data perusahaan atau outlet yang terdaftar.</p>
+                  </td>
+                </tr>
+              <% } else { %>
+                <% companies.forEach((comp, idx) => { %>
+                  <tr class="company-card-row" 
+                      data-id="<%= comp.id %>"
+                      data-is-holding="<%= comp.is_holding %>"
+                      data-has-logo="<%= comp.logo_url && comp.logo_url.trim().length > 0 ? '1' : '0' %>">
+                    <td class="fw-bold text-muted small"><%= idx + 1 %></td>
+                    
+                    <!-- Logo / Avatar -->
+                    <td>
+                      <% if (comp.logo_url && comp.logo_url.trim().length > 0) { %>
+                        <img src="<%= comp.logo_url %>" alt="Logo <%= comp.nama_outlet %>" class="company-logo-avatar shadow-2xs" onerror="this.onerror=null; this.src='/logo_kov_2.jpg';">
+                      <% } else { %>
+                        <div class="company-logo-avatar" title="Logo belum diupload (menyusul)">
+                          <%= comp.nama_outlet.charAt(0).toUpperCase() %>
+                        </div>
+                      <% } %>
+                    </td>
+
+                    <!-- Nama Outlet -->
+                    <td>
+                      <div class="fw-bold text-dark fs-6 d-flex align-items-center gap-2">
+                        <%= comp.nama_outlet %>
+                        <% if (comp.is_holding === 1) { %>
+                          <span class="badge-holding"><i class="fas fa-crown"></i> HOLDING</span>
+                        <% } else { %>
+                          <span class="badge-outlet"><i class="fas fa-store"></i> OUTLET</span>
+                        <% } %>
+                      </div>
+                      <div class="small text-muted mt-0.5">
+                        <% if (comp.logo_url && comp.logo_url.trim().length > 0) { %>
+                          <span class="badge-logo-ok"><i class="fas fa-check-circle me-1"></i>Logo Siap</span>
+                        <% } else { %>
+                          <span class="badge-logo-pending"><i class="fas fa-clock me-1"></i>Logo Menyusul</span>
+                        <% } %>
+                      </div>
+                    </td>
+
+                    <!-- Nama Perusahaan / Badan Hukum -->
+                    <td>
+                      <div class="fw-semibold text-primary">
+                        <i class="fas fa-briefcase me-1 opacity-75"></i> <%= comp.nama_perusahaan %>
+                      </div>
+                      <div class="small text-muted">Status: <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill py-0.5 px-2">Aktif</span></div>
+                    </td>
+
+                    <!-- Alamat Lengkap -->
+                    <td>
+                      <div class="small text-secondary" style="max-width: 320px; line-height: 1.4;">
+                        <i class="fas fa-location-dot text-danger me-1"></i> <%= comp.alamat %>
+                      </div>
+                    </td>
+
+                    <!-- Kontak -->
+                    <td>
+                      <div class="small text-muted">
+                        <% if (comp.telepon) { %>
+                          <div><i class="fas fa-phone me-1 text-secondary"></i> <%= comp.telepon %></div>
+                        <% } %>
+                        <% if (comp.email) { %>
+                          <div><i class="fas fa-envelope me-1 text-secondary"></i> <%= comp.email %></div>
+                        <% } %>
+                        <% if (!comp.telepon && !comp.email) { %>
+                          <span class="text-muted opacity-75">-</span>
+                        <% } %>
+                      </div>
+                    </td>
+
+                    <!-- Actions -->
+                    <td class="text-end">
+                      <div class="btn-group btn-group-sm">
+                        <!-- Quick Upload Logo Button -->
+                        <button type="button" class="btn btn-outline-primary btn-sm rounded-2 me-1" 
+                                onclick="openUploadLogoModal(<%= comp.id %>, '<%= comp.nama_outlet.replace(/'/g, "\\'") %>', '<%= comp.logo_url || '' %>')"
+                                title="Upload / Ganti Logo">
+                          <i class="fas fa-camera"></i>
+                        </button>
+
+                        <!-- Edit Button -->
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-2 me-1" 
+                                onclick="openEditModal(<%= JSON.stringify(comp).replace(/"/g, '&quot;') %>)"
+                                title="Edit Data Outlet / PT">
+                          <i class="fas fa-pen-to-square"></i>
+                        </button>
+
+                        <!-- Delete Button -->
+                        <button type="button" class="btn btn-outline-danger btn-sm rounded-2" 
+                                onclick="confirmDelete(<%= comp.id %>, '<%= comp.nama_outlet.replace(/'/g, "\\'") %>')"
+                                title="Hapus Outlet">
+                          <i class="fas fa-trash-can"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                <% }); %>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODAL: Tambah Perusahaan / Outlet Baru -->
+  <div class="modal fade" id="modalCreateCompany" tabindex="-1" aria-labelledby="modalCreateLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content rounded-4 border-0 shadow-lg">
+        <form action="/admin/companies/create" method="POST" enctype="multipart/form-data">
+          <div class="modal-header border-0 pb-0 px-4 pt-4">
+            <h5 class="modal-title fw-bold" id="modalCreateLabel">
+              <i class="fas fa-building-circle-check text-primary me-2"></i> Tambah Perusahaan / Outlet Baru
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body px-4 py-3">
+            <p class="text-muted small mb-3">
+              Data ini akan langsung terhubung ke master data dan menjadi pilihan dropdown otomatis saat pembuatan Surat Tugas, Purchase Order (PO), Berita Acara, dan surat resmi KOV.
+            </p>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Nama Outlet <span class="text-danger">*</span></label>
+                <input type="text" class="form-control rounded-3" name="nama_outlet" placeholder="Contoh: KOV Heritage Kota Lama" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Nama Badan Hukum / Perusahaan <span class="text-danger">*</span></label>
+                <input type="text" class="form-control rounded-3" name="nama_perusahaan" placeholder="Contoh: PT Samasta Kopi Indonesia" required>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label small fw-bold">Alamat Lengkap Outlet / Kantor <span class="text-danger">*</span></label>
+                <textarea class="form-control rounded-3" name="alamat" rows="2" placeholder="Contoh: Jl. Letjen Suprapto No.3, Tj. Mas, Kec. Semarang Utara, Kota Semarang, Jawa Tengah 50137" required></textarea>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Nomor Telepon / WhatsApp (Opsional)</label>
+                <input type="text" class="form-control rounded-3" name="telepon" placeholder="Contoh: (024) 845-xxxx / 0812-xxxx-xxxx">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Email Resmi (Opsional)</label>
+                <input type="email" class="form-control rounded-3" name="email" placeholder="Contoh: kotalama@kovgroups.com">
+              </div>
+
+              <div class="col-12">
+                <div class="form-check form-switch p-2 bg-light rounded-3 border">
+                  <input class="form-check-input ms-0 me-2" type="checkbox" role="switch" id="is_holding_create" name="is_holding" value="1">
+                  <label class="form-check-label fw-bold small text-dark" for="is_holding_create">
+                    Jadikan sebagai Holding / Induk Perusahaan (KOV Group Holding)
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label small fw-bold d-flex justify-content-between">
+                  <span>Upload Logo Outlet / Perusahaan</span>
+                  <span class="text-muted fw-normal" style="font-size: 11px;">(Dapat diupload sekarang atau menyusul)</span>
+                </label>
+                <div class="upload-dropzone" onclick="document.getElementById('createLogoInput').click()">
+                  <i class="fas fa-cloud-arrow-up fa-2x text-primary mb-2"></i>
+                  <div class="fw-semibold small text-dark" id="createLogoText">Klik untuk memilih file logo (PNG, JPG, WEBP, SVG)</div>
+                  <div class="text-muted" style="font-size: 11px;">Maksimal 5MB. Jika belum ada, logo dapat di-upload menyusul kapan saja.</div>
+                  <input type="file" id="createLogoInput" name="logo" class="d-none" accept="image/png, image/jpeg, image/webp, image/svg+xml" onchange="previewLogoFile(this, 'createLogoText')">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 px-4 pb-4">
+            <button type="button" class="btn btn-light rounded-3 px-3" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary rounded-3 px-4 fw-bold">
+              <i class="fas fa-save me-1"></i> Simpan Perusahaan / Outlet
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Edit Perusahaan / Outlet -->
+  <div class="modal fade" id="modalEditCompany" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content rounded-4 border-0 shadow-lg">
+        <form id="editCompanyForm" action="/admin/companies/edit/0" method="POST" enctype="multipart/form-data">
+          <div class="modal-header border-0 pb-0 px-4 pt-4">
+            <h5 class="modal-title fw-bold" id="modalEditLabel">
+              <i class="fas fa-pen-to-square text-primary me-2"></i> Edit Data Perusahaan / Outlet
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body px-4 py-3">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Nama Outlet <span class="text-danger">*</span></label>
+                <input type="text" class="form-control rounded-3" name="nama_outlet" id="edit_nama_outlet" required>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Nama Badan Hukum / Perusahaan <span class="text-danger">*</span></label>
+                <input type="text" class="form-control rounded-3" name="nama_perusahaan" id="edit_nama_perusahaan" required>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label small fw-bold">Alamat Lengkap <span class="text-danger">*</span></label>
+                <textarea class="form-control rounded-3" name="alamat" id="edit_alamat" rows="2" required></textarea>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Nomor Telepon</label>
+                <input type="text" class="form-control rounded-3" name="telepon" id="edit_telepon">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Email Resmi</label>
+                <input type="email" class="form-control rounded-3" name="email" id="edit_email">
+              </div>
+
+              <div class="col-12">
+                <div class="form-check form-switch p-2 bg-light rounded-3 border">
+                  <input class="form-check-input ms-0 me-2" type="checkbox" role="switch" id="edit_is_holding" name="is_holding" value="1">
+                  <label class="form-check-label fw-bold small text-dark" for="edit_is_holding">
+                    Jadikan sebagai Holding / Induk Perusahaan
+                  </label>
+                </div>
+              </div>
+
+              <!-- Current Logo Preview & Change -->
+              <div class="col-12">
+                <label class="form-label small fw-bold">Logo Saat Ini &amp; Pembaruan File</label>
+                <div class="d-flex align-items-center gap-3 p-3 bg-light rounded-3 border mb-2">
+                  <div id="editLogoPreviewBox">
+                    <img id="editCurrentLogoImg" src="/logo_kov_2.jpg" alt="Logo" class="company-logo-avatar">
+                  </div>
+                  <div class="flex-grow-1">
+                    <div class="small fw-bold text-dark" id="editCurrentLogoStatus">Logo Terpasang</div>
+                    <div class="text-muted" style="font-size: 11px;">Pilih file baru di bawah jika ingin memperbarui logo.</div>
+                  </div>
+                </div>
+
+                <div class="upload-dropzone" onclick="document.getElementById('editLogoInput').click()">
+                  <i class="fas fa-camera text-primary mb-1"></i>
+                  <div class="fw-semibold small text-dark" id="editLogoText">Klik untuk ganti file logo (PNG, JPG, WEBP, SVG)</div>
+                  <input type="file" id="editLogoInput" name="logo" class="d-none" accept="image/png, image/jpeg, image/webp, image/svg+xml" onchange="previewLogoFile(this, 'editLogoText')">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0 px-4 pb-4">
+            <button type="button" class="btn btn-light rounded-3 px-3" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary rounded-3 px-4 fw-bold">
+              <i class="fas fa-save me-1"></i> Simpan Perubahan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Quick Upload Logo Only -->
+  <div class="modal fade" id="modalUploadLogo" tabindex="-1" aria-labelledby="modalUploadLogoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg">
+        <form id="quickLogoForm" action="" method="POST" enctype="multipart/form-data">
+          <div class="modal-header border-0 pb-0 px-4 pt-4">
+            <h5 class="modal-title fw-bold" id="modalUploadLogoLabel">
+              <i class="fas fa-camera text-primary me-2"></i> Upload Logo Outlet
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body px-4 py-3">
+            <p class="small text-muted mb-3" id="quickLogoOutletName">
+              Upload logo resmi untuk outlet ini. Logo akan otomatis digunakan pada kop surat resmi dan PO.
+            </p>
+
+            <div class="upload-dropzone" onclick="document.getElementById('quickLogoInput').click()">
+              <i class="fas fa-cloud-arrow-up fa-2x text-primary mb-2"></i>
+              <div class="fw-semibold small text-dark" id="quickLogoText">Pilih file logo (PNG, JPG, WEBP, SVG)</div>
+              <div class="text-muted" style="font-size: 11px;">Maksimal 5MB, format transparan PNG disarankan.</div>
+              <input type="file" id="quickLogoInput" name="logo" class="d-none" accept="image/png, image/jpeg, image/webp, image/svg+xml" required onchange="previewLogoFile(this, 'quickLogoText')">
+            </div>
+          </div>
+          <div class="modal-footer border-0 px-4 pb-4">
+            <button type="button" class="btn btn-light rounded-3 px-3" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary rounded-3 px-4 fw-bold">
+              <i class="fas fa-upload me-1"></i> Upload Logo
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Konfirmasi Hapus -->
+  <div class="modal fade" id="modalDeleteCompany" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content rounded-4 border-0 shadow-lg text-center p-3">
+        <div class="modal-body">
+          <div class="mb-3 text-danger">
+            <i class="fas fa-triangle-exclamation fa-3x"></i>
+          </div>
+          <h6 class="fw-bold text-dark mb-2">Hapus Outlet / Perusahaan?</h6>
+          <p class="small text-muted mb-3" id="deleteTargetText">
+            Apakah Anda yakin ingin menghapus outlet ini dari master database?
+          </p>
+          <form id="deleteCompanyForm" action="" method="POST">
+            <div class="d-flex justify-content-center gap-2">
+              <button type="button" class="btn btn-light rounded-3 btn-sm px-3" data-bs-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-danger rounded-3 btn-sm px-3 fw-bold">Ya, Hapus</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Real-time Search Filter
+    function filterCompanyTable() {
+      const q = (document.getElementById('companySearchInput').value || '').toLowerCase().trim();
+      const rows = document.querySelectorAll('#companiesTable tbody tr.company-card-row');
+      rows.forEach(r => {
+        const text = r.innerText.toLowerCase();
+        r.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    // Segmented Category Filter (All, Holding, Cabang, Has Logo, No Logo)
+    let currentFilter = 'all';
+    function setFilter(type, btn) {
+      currentFilter = type;
+      if (btn) {
+        document.querySelectorAll('#filterPillGroup .filter-pill-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+
+      const rows = document.querySelectorAll('#companiesTable tbody tr.company-card-row');
+      rows.forEach(r => {
+        const isHolding = r.getAttribute('data-is-holding') === '1';
+        const hasLogo = r.getAttribute('data-has-logo') === '1';
+
+        let show = true;
+        if (type === 'holding') show = isHolding;
+        else if (type === 'cabang') show = !isHolding;
+        else if (type === 'has_logo') show = hasLogo;
+        else if (type === 'no_logo') show = !hasLogo;
+
+        r.style.display = show ? '' : 'none';
+      });
+    }
+
+    // File Preview helper
+    function previewLogoFile(input, textId) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        document.getElementById(textId).innerHTML = `<strong>${file.name}</strong> (${(file.size / 1024).toFixed(1)} KB)`;
+      }
+    }
+
+    // Open Edit Modal with Pre-filled Data
+    function openEditModal(comp) {
+      document.getElementById('editCompanyForm').action = '/admin/companies/edit/' + comp.id;
+      document.getElementById('edit_nama_outlet').value = comp.nama_outlet || '';
+      document.getElementById('edit_nama_perusahaan').value = comp.nama_perusahaan || '';
+      document.getElementById('edit_alamat').value = comp.alamat || '';
+      document.getElementById('edit_telepon').value = comp.telepon || '';
+      document.getElementById('edit_email').value = comp.email || '';
+      document.getElementById('edit_is_holding').checked = comp.is_holding === 1;
+
+      const img = document.getElementById('editCurrentLogoImg');
+      const statusText = document.getElementById('editCurrentLogoStatus');
+      if (comp.logo_url && comp.logo_url.trim().length > 0) {
+        img.src = comp.logo_url;
+        img.style.display = 'block';
+        statusText.innerHTML = '<span class="text-success"><i class="fas fa-circle-check"></i> Logo Terpasang</span>';
+      } else {
+        img.src = '/logo_kov_2.jpg';
+        statusText.innerHTML = '<span class="text-warning"><i class="fas fa-clock"></i> Belum ada logo (Logo Menyusul)</span>';
+      }
+
+      const modal = new bootstrap.Modal(document.getElementById('modalEditCompany'));
+      modal.show();
+    }
+
+    // Open Quick Upload Logo Modal
+    function openUploadLogoModal(id, namaOutlet, currentLogo) {
+      document.getElementById('quickLogoForm').action = '/admin/companies/edit/' + id;
+      document.getElementById('quickLogoOutletName').innerHTML = `Upload logo resmi untuk <strong>${namaOutlet}</strong>. Logo akan otomatis digunakan pada kop surat resmi dan PO.`;
+      const modal = new bootstrap.Modal(document.getElementById('modalUploadLogo'));
+      modal.show();
+    }
+
+    // Open Confirm Delete Modal
+    function confirmDelete(id, namaOutlet) {
+      document.getElementById('deleteCompanyForm').action = '/admin/companies/delete/' + id;
+      document.getElementById('deleteTargetText').innerHTML = `Apakah Anda yakin ingin menghapus <strong>${namaOutlet}</strong> dari master database?`;
+      const modal = new bootstrap.Modal(document.getElementById('modalDeleteCompany'));
+      modal.show();
+    }
+  </script>
+</body>
+</html>

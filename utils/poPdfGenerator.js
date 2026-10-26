@@ -2,25 +2,51 @@ const puppeteer = require('puppeteer');
 const ejs = require('ejs');
 const path = require('path');
 const fs = require('fs');
+const db = require('../db');
 
 const { formatDate, formatDateTime } = require('./dateFormatter');
 
 async function generatePOPDF(poData) {
   const templatePath = path.join(__dirname, '..', 'views', 'po_pdf_template.ejs');
 
-  // Read KOV Logo as Base64
+  // Look up master company info matching unit_kerja if exists
+  let companyInfo = null;
+  if (poData.unit_kerja) {
+    try {
+      companyInfo = await new Promise((resolve) => {
+        db.get('SELECT * FROM companies WHERE LOWER(nama_perusahaan) = LOWER(?) OR LOWER(nama_outlet) = LOWER(?)', 
+          [poData.unit_kerja.trim(), poData.unit_kerja.trim()], 
+          (err, row) => resolve(row || null)
+        );
+      });
+    } catch (e) {
+      companyInfo = null;
+    }
+  }
+
+  // Read KOV Logo as Base64 (prefer company custom logo if exists)
   let logoBase64 = '';
-  const logoPath = path.join(__dirname, '..', 'public', 'logo_kov_2.jpg');
+  let customLogoPath = null;
+  if (companyInfo && companyInfo.logo_url) {
+    const candidatePath = path.join(__dirname, '..', 'public', companyInfo.logo_url.replace(/^\//, ''));
+    if (fs.existsSync(candidatePath)) {
+      customLogoPath = candidatePath;
+    }
+  }
+
+  const logoPath = customLogoPath || path.join(__dirname, '..', 'public', 'logo_kov_2.jpg');
   const fallbackLogo = path.join(__dirname, '..', 'public', 'logo_kov_hijau.png');
   const targetLogo = fs.existsSync(logoPath) ? logoPath : fallbackLogo;
   if (fs.existsSync(targetLogo)) {
-    const mime = targetLogo.endsWith('.png') ? 'image/png' : 'image/jpeg';
+    const ext = path.extname(targetLogo).toLowerCase();
+    const mime = ext === '.png' ? 'image/png' : (ext === '.svg' ? 'image/svg+xml' : 'image/jpeg');
     logoBase64 = `data:${mime};base64,` + fs.readFileSync(targetLogo).toString('base64');
   }
 
   // Parse items JSON safely if passed as string
   const po = {
     ...poData,
+    company_addr: companyInfo ? (companyInfo.alamat + (companyInfo.telepon ? ` | Telp: ${companyInfo.telepon}` : '')) : null,
     items: typeof poData.items_json === 'string' ? JSON.parse(poData.items_json || '[]') : (poData.items || [])
   };
 

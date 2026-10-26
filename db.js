@@ -535,6 +535,110 @@ db.serialize(() => {
       }
     }
   });
+
+  // Master Data Perusahaan & Outlet KOV Groups
+  db.run(`
+    CREATE TABLE IF NOT EXISTS companies (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nama_outlet TEXT NOT NULL,
+      nama_perusahaan TEXT NOT NULL,
+      alamat TEXT NOT NULL,
+      logo_url TEXT DEFAULT '',
+      telepon TEXT DEFAULT '',
+      email TEXT DEFAULT '',
+      is_holding INTEGER DEFAULT 0,
+      status TEXT DEFAULT 'Aktif',
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `, (err) => {
+    if (!err) {
+      db.get('SELECT COUNT(*) as total FROM companies', [], (err, row) => {
+        if (!err && row && row.total === 0) {
+          console.log('[DATABASE] Seeding master index data perusahaan & outlet KOV Groups...');
+          const initialCompanies = [
+            {
+              nama_outlet: 'KOV Koffie Sula / Holding',
+              nama_perusahaan: 'PT Puteri Seruput Indonesia',
+              alamat: 'Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232',
+              is_holding: 1,
+              telepon: '(024) 845-xxxx',
+              email: 'holding@kovgroups.com'
+            },
+            {
+              nama_outlet: 'KOV Heritage Kota Lama',
+              nama_perusahaan: 'PT Samasta Kopi Indonesia',
+              alamat: 'Jl. Letjen Suprapto No.3, Tj. Mas, Kec. Semarang Utara, Kota Semarang, Jawa Tengah 50137',
+              is_holding: 0,
+              telepon: '',
+              email: 'kotalama@kovgroups.com'
+            },
+            {
+              nama_outlet: 'KOV Motion Soeta',
+              nama_perusahaan: 'CV Lintas Aroma Bumi',
+              alamat: 'Jl. Soekarno Hatta No.37, Sambirejo, Kec. Gayamsari, Kota Semarang, Jawa Tengah 50166',
+              is_holding: 0,
+              telepon: '',
+              email: 'soeta@kovgroups.com'
+            },
+            {
+              nama_outlet: 'KOV Factory Rinjani',
+              nama_perusahaan: 'CV Fajar Anugrah Ciptana',
+              alamat: 'Jl. Rinjani No.9, Bendungan, Kec. Gajahmungkur, Kota Semarang, Jawa Tengah 50231',
+              is_holding: 0,
+              telepon: '',
+              email: 'rinjani@kovgroups.com'
+            },
+            {
+              nama_outlet: 'KOV Lab Ngaliyan',
+              nama_perusahaan: 'CV Orika Nanda Esensia',
+              alamat: 'Jl. Prof. Dr. Hamka No.3 a, Bringin, Kec. Ngaliyan, Kota Semarang, Jawa Tengah 50189',
+              is_holding: 0,
+              telepon: '',
+              email: 'ngaliyan@kovgroups.com'
+            },
+            {
+              nama_outlet: 'WHIMS Sula',
+              nama_perusahaan: 'CV Prana Indo Raya',
+              alamat: 'Jl. Sultan Agung No.1, Gajahmungkur, Kec. Gajahmungkur, Kota Semarang, Jawa Tengah 50232',
+              is_holding: 0,
+              telepon: '',
+              email: 'whimssula@kovgroups.com'
+            },
+            {
+              nama_outlet: 'WHIMS Solo',
+              nama_perusahaan: 'PT Sumber Cita Indonesia',
+              alamat: 'Slamet Riyadi St No.191, Kemlayan, Serengan, Surakarta City, Central Java 57151',
+              is_holding: 0,
+              telepon: '',
+              email: 'whimssolo@kovgroups.com'
+            },
+            {
+              nama_outlet: 'KOV Montre Salatiga',
+              nama_perusahaan: 'CV Seduhan Inti Prima',
+              alamat: 'Jl. Diponegoro No.24, Salatiga, Kec. Sidorejo, Kota Salatiga, Jawa Tengah 50711',
+              is_holding: 0,
+              telepon: '',
+              email: 'montresalatiga@kovgroups.com'
+            }
+          ];
+
+          try {
+            const stmt = sqlite.prepare(`
+              INSERT INTO companies (nama_outlet, nama_perusahaan, alamat, is_holding, telepon, email, status)
+              VALUES (?, ?, ?, ?, ?, ?, 'Aktif')
+            `);
+            for (const c of initialCompanies) {
+              stmt.run(c.nama_outlet, c.nama_perusahaan, c.alamat, c.is_holding, c.telepon, c.email);
+            }
+            console.log('[DATABASE] Berhasil memasukkan 8 master data outlet & perusahaan.');
+          } catch (insertErr) {
+            console.error('[DATABASE ERROR] Gagal melakukan seeder companies:', insertErr);
+          }
+        }
+      });
+    }
+  });
 });
 
 module.exports = db;

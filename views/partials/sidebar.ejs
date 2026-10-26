@@ -102,6 +102,10 @@
     <!-- Group: Administrasi & Akun -->
     <% if (canUsers) { %>
       <div class="dd-nav-group-title kov-nav-group-title">SISTEM</div>
+      <a href="/admin/companies" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'companies') ? 'active' : '' %>" data-tooltip="Master Perusahaan &amp; Outlet" title="Master Perusahaan &amp; Outlet">
+        <i class="fas fa-building-user"></i>
+        <span>Master Perusahaan</span>
+      </a>
       <a href="/admin/users" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
         <i class="fas fa-users-gear"></i>
         <span>Kelola User &amp; Role</span>

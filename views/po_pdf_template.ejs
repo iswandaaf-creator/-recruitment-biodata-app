@@ -218,8 +218,8 @@
           <img src="<%= logoBase64 %>" style="height: 42px; max-width: 160px; object-fit: contain; margin-bottom: 4px;">
         <% } %>
         <div class="company-title">KOV GROUP / KOV KOFFIE</div>
-        <div class="company-sub">Divisi Finance, Accounting & Procurement Operasional</div>
-        <div class="company-addr">Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232<br>IG : KOV KOFFIE</div>
+        <div class="company-sub"><%= po.unit_kerja || 'Divisi Finance, Accounting & Procurement Operasional' %></div>
+        <div class="company-addr"><%= (typeof po !== 'undefined' && po.company_addr) ? po.company_addr : 'Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232' %><br>IG : KOV KOFFIE</div>
       </td>
       <td style="width: 45%;" class="po-title-box">
         <div class="po-title">PURCHASE ORDER</div>
