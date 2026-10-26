@@ -484,13 +484,21 @@
                   data-search="<%= (nota.no_transaksi + ' ' + nota.unit_outlet + ' ' + (nota.vendor_toko || '') + ' ' + (nota.bukti_transaksi || '') + ' ' + nota.parsedItems.map(i => i.nama + ' ' + i.kategori).join(' ')).toLowerCase() %>">
                 <td class="ps-4 text-muted small fw-bold"><%= index + 1 %></td>
                 <td>
-                  <span class="fw-bold text-success font-monospace small"><%= nota.no_transaksi %></span>
-                  <div class="text-muted small mt-1"><i class="fas fa-calendar-alt me-1 text-secondary"></i><%= formatDate(nota.tanggal) %></div>
+                  <div class="d-flex align-items-center gap-1 flex-wrap mb-1">
+                    <% if (nota.no_transaksi && (nota.no_transaksi.startsWith('PO/') || (nota.bukti_transaksi && nota.bukti_transaksi.includes('/po/detail/')))) { %>
+                      <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2 py-0.5 fw-semibold" style="font-size: 0.72rem;">
+                        <i class="fas fa-file-invoice-dollar me-1"></i>PO
+                      </span>
+                    <% } %>
+                    <span class="fw-bold text-success font-monospace small"><%= nota.no_transaksi %></span>
+                  </div>
+                  <div class="text-muted small"><i class="fas fa-calendar-alt me-1 text-secondary"></i><%= formatDate(nota.tanggal) %></div>
                   <% if (nota.bukti_transaksi) { %>
                     <div class="mt-1">
                       <% 
                         const bt = (nota.bukti_transaksi || '').trim();
                         let targetLink = '';
+                        let isPO = bt.includes('/po/detail/') || (nota.no_transaksi && nota.no_transaksi.startsWith('PO/'));
                         if (bt.startsWith('http://') || bt.startsWith('https://')) {
                           targetLink = bt;
                         } else if (bt.includes('inv-')) {
@@ -501,8 +509,8 @@
                         }
                       %>
                       <% if (targetLink) { %>
-                        <a href="<%= targetLink %>" target="_blank" rel="noopener noreferrer" class="badge bg-light text-primary border small text-decoration-none" title="Lihat Bukti Transaksi">
-                          <i class="fas fa-file-invoice text-success me-1"></i>Bukti Nota
+                        <a href="<%= targetLink %>" target="_blank" rel="noopener noreferrer" class="badge <%= isPO ? 'bg-primary-subtle text-primary border border-primary-subtle' : 'bg-light text-primary border' %> small text-decoration-none" title="Lihat <%= isPO ? 'Dokumen PO' : 'Bukti Transaksi' %>">
+                          <i class="fas <%= isPO ? 'fa-external-link-alt' : 'fa-file-invoice' %> <%= isPO ? 'text-primary' : 'text-success' %> me-1"></i><%= isPO ? 'Buka PO' : 'Bukti Nota' %>
                         </a>
                       <% } else { %>
                         <span class="badge bg-light text-secondary border small" title="<%= bt %>">

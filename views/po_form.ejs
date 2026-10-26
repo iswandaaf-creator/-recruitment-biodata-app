@@ -825,7 +825,7 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
         if (json.success) {
           KovToast.approvalFeedback({
             title: 'Purchase Order Terbit!',
-            message: 'Dokumen ' + (json.no_po || '') + ' berhasil dibuat.',
+            message: 'Dokumen ' + (json.no_po || '') + ' berhasil dibuat & tersinkron ke Rekap IT.',
             duration: 1800,
             onComplete: () => {
               window.location.href = `/admin/operasional/po/detail/${json.id}`;

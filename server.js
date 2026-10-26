@@ -1626,6 +1626,146 @@ app.get('/api/operasional/export/excel', requireOperasionalAuth, (req, res) => {
   });
 });
 
+
+// =========================================================================
+// OPERASIONAL: PURCHASE ORDER (PO) & REKAP IT INTEGRATION
+// =========================================================================
+
+function mapITCategory(name = '', spec = '') {
+  const text = (name + ' ' + spec).toLowerCase();
+  if (/service|servis|perbaikan|maintenance|reparasi|thermal\s*paste|clean/i.test(text)) return 'Perawatan & Service';
+  if (/cctv|dvr|nvr|camera|kamera|surveillance|ip\s*cam/i.test(text)) return 'CCTV & Keamanan';
+  if (/kabel|lan|cat\s*6|cat\s*5|mikrotik|router|switch|wifi|access\s*point|rj45|hub|ethernet|modem|patch\s*cord/i.test(text)) return 'Jaringan & Network';
+  if (/windows|office|lisensi|license|software|aplikasi|os|antivirus/i.test(text)) return 'Software & Lisensi';
+  if (/kertas|thermal\s*paper|roll\s*paper|tinta|toner|cartridge|ribbon|lakban|baterai|batre|alat\s*tulis|atk/i.test(text)) return 'Operasional & Lainnya';
+  if (/mouse|keyboard|mousepad|headset|earphone|hdmi|type-c|adapter|usb|flashdisk|otg|converter|docking|hub\s*usb|speaker/i.test(text)) return 'Aksesoris & Peripheral';
+  if (/laptop|pc|komputer|computer|desktop|server|motherboard|mainboard|procie|processor|cpu|ram|ddr|ssd|nvme|hdd|harddisk|monitor|vga\s*card|gpu|power\s*supply|psu|printer|scanner/i.test(text)) return 'Hardware & Komputer';
+  return 'Hardware & Komputer';
+}
+
+function detectOutlet(lokasi = '', unitKerja = '', perihal = '') {
+  const text = (lokasi + ' ' + unitKerja + ' ' + perihal).toLowerCase();
+  if (text.includes('pekalongan')) return 'Outlet Pekalongan';
+  if (text.includes('rinjani')) return 'Outlet Rinjani';
+  if (text.includes('ngaliyan')) return 'Outlet Ngaliyan';
+  if (text.includes('purwokerto')) return 'Outlet Purwokerto';
+  if (text.includes('solo')) return 'Outlet Solo';
+  if (text.includes('lab')) return 'KOV Lab Semarang';
+  if (unitKerja && !unitKerja.toUpperCase().includes('SUMBER CITA INDONESIA')) {
+    return unitKerja.trim();
+  }
+  return 'Kantor Pusat Semarang';
+}
+
+function syncPOToITExpenses(po, poId, cb = () => {}) {
+  try {
+    const noPo = po.no_po || ('PO/KOV/' + poId);
+    let rawItems = [];
+    if (po.items_json) {
+      try {
+        rawItems = typeof po.items_json === 'string' ? JSON.parse(po.items_json) : po.items_json;
+      } catch (e) {
+        rawItems = [];
+      }
+    }
+
+    const itItems = (rawItems || []).map(it => {
+      const nama = it.nama_kode || it.nama_barang || it.nama || 'Barang IT';
+      const spec = it.spesifikasi || it.spec || '';
+      const qty = parseInt(it.qty, 10) || 1;
+      const harga = parseFloat(it.harga_satuan != null ? it.harga_satuan : (it.harga || 0)) || 0;
+      const subtotal = parseFloat(it.total_harga != null ? it.total_harga : (it.subtotal || (qty * harga))) || (qty * harga);
+      const kat = it.kategori || mapITCategory(nama, spec);
+      return {
+        nama,
+        spesifikasi: spec,
+        kategori: kat,
+        qty,
+        satuan: it.satuan || 'PCS',
+        harga,
+        subtotal
+      };
+    });
+
+    let totalBiaya = parseFloat(po.total_netto || po.subtotal || 0);
+    let totalQty = 0;
+    itItems.forEach(it => { totalQty += (it.qty || 1); });
+    if (totalQty === 0) totalQty = 1;
+
+    const mainNama = itItems.length > 1
+      ? `${itItems[0].nama} (dan ${itItems.length - 1} item lainnya)`
+      : (itItems[0] ? itItems[0].nama : (po.perihal || 'Pengadaan Purchase Order'));
+    const mainKat = itItems[0] ? itItems[0].kategori : 'Hardware & Komputer';
+    const unitOutlet = detectOutlet(po.lokasi_kirim, po.unit_kerja, po.perihal);
+    const vendorToko = po.vendor_nama_dagang || po.vendor_nama || 'Vendor PO';
+    const tgl = po.tanggal_po || new Date().toISOString().slice(0, 10);
+    const buktiLink = `/admin/operasional/po/detail/${poId}`;
+    const sLow = (po.status_po || '').toLowerCase();
+    let statusBayar = 'Lunas';
+    if (sLow.includes('pending') || sLow.includes('review')) statusBayar = 'Pending';
+    else if (sLow.includes('tolak') || sLow.includes('batal')) statusBayar = 'Ditolak';
+
+    const keterangan = `[Purchase Order: ${noPo}] Perihal: ${po.perihal || '-'}${po.catatan_syarat ? ' | ' + po.catatan_syarat : ''}`;
+    const createdBy = po.dibuat_oleh_nama || 'Procurement / Staff IT';
+
+    db.get('SELECT id FROM it_expenses WHERE no_transaksi = ?', [noPo], (err, existing) => {
+      if (err) {
+        console.error('Error checking it_expenses for PO sync:', err);
+        return cb(err);
+      }
+
+      if (existing) {
+        const updateSql = `
+          UPDATE it_expenses SET
+            tanggal = ?, nama_barang = ?, kategori = ?, unit_outlet = ?,
+            qty = ?, satuan = ?, harga_satuan = ?, total_biaya = ?,
+            vendor_toko = ?, metode_bayar = ?, status_bayar = ?,
+            keterangan = ?, bukti_transaksi = ?, items_json = ?, updated_at = CURRENT_TIMESTAMP
+          WHERE id = ?
+        `;
+        db.run(updateSql, [
+          tgl, mainNama, mainKat, unitOutlet,
+          totalQty, itItems[0]?.satuan || 'PCS', itItems[0]?.harga || totalBiaya, totalBiaya,
+          vendorToko, po.termin_bayar || 'Transfer Bank', statusBayar,
+          keterangan, buktiLink, JSON.stringify(itItems), existing.id
+        ], cb);
+      } else {
+        const insertSql = `
+          INSERT INTO it_expenses (
+            no_transaksi, tanggal, nama_barang, kategori, unit_outlet,
+            qty, satuan, harga_satuan, total_biaya,
+            vendor_toko, metode_bayar, status_bayar,
+            keterangan, bukti_transaksi, items_json, created_by
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+        db.run(insertSql, [
+          noPo, tgl, mainNama, mainKat, unitOutlet,
+          totalQty, itItems[0]?.satuan || 'PCS', itItems[0]?.harga || totalBiaya, totalBiaya,
+          vendorToko, po.termin_bayar || 'Transfer Bank', statusBayar,
+          keterangan, buktiLink, JSON.stringify(itItems), createdBy
+        ], cb);
+      }
+    });
+  } catch (syncErr) {
+    console.error('syncPOToITExpenses exception:', syncErr);
+    cb(syncErr);
+  }
+}
+
+function autoSyncAllPOsToIT() {
+  db.all('SELECT * FROM purchase_orders', [], (err, rows) => {
+    if (err || !rows || rows.length === 0) return;
+    rows.forEach(po => {
+      db.get('SELECT id FROM it_expenses WHERE no_transaksi = ?', [po.no_po], (checkErr, exist) => {
+        if (!checkErr && !exist) {
+          console.log(`[PO->IT SYNC] Auto-syncing existing PO ${po.no_po} to Rekap IT...`);
+          syncPOToITExpenses(po, po.id);
+        }
+      });
+    });
+  });
+}
+
 // =========================================================================
 // OPERASIONAL: PURCHASE ORDER (PO) ROUTES
 // =========================================================================
@@ -1705,11 +1845,38 @@ app.post('/api/operasional/po/submit', requireOperasionalAuth, (req, res) => {
       console.error('Error inserting purchase order:', err);
       return res.status(500).json({ success: false, error: err.message });
     }
-    res.json({
-      success: true,
-      id: this.lastID,
-      no_po: generatedNoPo,
-      message: 'Purchase Order berhasil diterbitkan.'
+    const newId = this.lastID;
+    const newNoPo = generatedNoPo;
+
+    // Otomatis sinkronisasi data Purchase Order ke Rekap Pembelanjaan IT (it_expenses)
+    const poForSync = {
+      id: newId,
+      no_po: newNoPo,
+      tanggal_po: body.tanggal_po || new Date().toISOString().split('T')[0],
+      vendor_nama: body.vendor_nama,
+      vendor_nama_dagang: body.vendor_nama_dagang,
+      perihal: body.perihal,
+      unit_kerja: body.unit_kerja,
+      status_po: body.status_po,
+      lokasi_kirim: body.lokasi_kirim,
+      termin_bayar: body.termin_bayar,
+      items_json: body.items_json,
+      subtotal: subtotal,
+      total_netto: totalNetto,
+      catatan_syarat: body.catatan_syarat,
+      dibuat_oleh_nama: body.dibuat_oleh_nama
+    };
+
+    syncPOToITExpenses(poForSync, newId, (syncErr) => {
+      if (syncErr) {
+        console.error('Warning: Gagal otomatis mencatat PO ke Rekap IT:', syncErr);
+      }
+      res.json({
+        success: true,
+        id: newId,
+        no_po: newNoPo,
+        message: 'Purchase Order berhasil diterbitkan dan otomatis tercatat di Rekap IT.'
+      });
     });
   });
 });
@@ -1733,6 +1900,14 @@ app.post('/api/operasional/po/status/:id', requireOperasionalAuth, (req, res) =>
     [status_po, req.params.id],
     function(err) {
       if (err) return res.status(500).json({ error: err.message });
+
+      // Sinkronkan pembaruan status ke Rekap IT
+      db.get('SELECT * FROM purchase_orders WHERE id = ?', [req.params.id], (getErr, row) => {
+        if (!getErr && row) {
+          syncPOToITExpenses(row, req.params.id);
+        }
+      });
+
       if (req.headers.accept && req.headers.accept.includes('application/json')) {
         return res.json({ success: true, message: 'Status PO berhasil diperbarui', status_po });
       }
@@ -1743,9 +1918,15 @@ app.post('/api/operasional/po/status/:id', requireOperasionalAuth, (req, res) =>
 
 // Delete PO (Super Admin Only)
 app.post('/admin/operasional/po/delete/:id', requireAuth, requireSuperAdmin, (req, res) => {
-  db.run('DELETE FROM purchase_orders WHERE id = ?', [req.params.id], (err) => {
-    if (err) return res.status(500).send(err.message);
-    res.redirect('/admin/operasional/po');
+  db.get('SELECT no_po FROM purchase_orders WHERE id = ?', [req.params.id], (findErr, poRow) => {
+    const poNum = poRow ? poRow.no_po : null;
+    db.run('DELETE FROM purchase_orders WHERE id = ?', [req.params.id], (err) => {
+      if (err) return res.status(500).send(err.message);
+      if (poNum) {
+        db.run('DELETE FROM it_expenses WHERE no_transaksi = ?', [poNum], () => {});
+      }
+      res.redirect('/admin/operasional/po');
+    });
   });
 });
 
@@ -2052,6 +2233,8 @@ app.get('/api/operasional/surat-tugas/export/excel', requireOperasionalAuth, (re
 
 // Dashboard Rekap Pembelanjaan IT (Mendukung Multi-Item per Vendor & Berbasis Outlet)
 app.get('/admin/it', requireAuth, requireITAuth, (req, res) => {
+  // Pastikan seluruh PO yang ada tersinkronisasi ke Rekap IT
+  autoSyncAllPOsToIT();
   db.all('SELECT * FROM it_expenses ORDER BY tanggal DESC, id DESC', [], async (err, rows) => {
     if (err) return res.status(500).send(err.message);
 
@@ -2510,6 +2693,8 @@ app.get('/api/it/invoices/download/:filename', requireAuth, requireITAuth, (req,
 
 
 app.listen(PORT, '0.0.0.0', () => {
+  // Sinkronisasi otomatis PO ke Rekap IT saat server booting
+  autoSyncAllPOsToIT();
   console.log(`==================================================`);
   console.log(`Server running on http://localhost:${PORT}`);
   console.log(`HR Candidate Form: http://localhost:${PORT}/`);
