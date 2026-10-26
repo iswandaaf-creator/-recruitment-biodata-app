@@ -119,6 +119,199 @@
       padding: 1.25rem 1.5rem;
       border: 1px solid #e2e8f0;
     }
+
+    /* Items Table Custom Styling & Fixed Width Sizing */
+    .table-items-wrapper {
+      overflow-x: auto;
+      border-radius: 0;
+      background: transparent;
+    }
+    #itemsTable {
+      width: 100%;
+      min-width: 960px;
+      margin-bottom: 0;
+      border-collapse: separate !important;
+      border-spacing: 0 8px !important;
+    }
+    #itemsTable thead th {
+      background: #f8fafc !important;
+      color: #475569 !important;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.65rem 0.5rem !important;
+      border: none !important;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+    #itemsTable tbody tr {
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+      border-radius: 10px;
+    }
+    #itemsTable tbody td {
+      padding: 0.5rem 0.45rem !important;
+      vertical-align: middle;
+      border-top: 1px solid #f1f5f9;
+      border-bottom: 1px solid #f1f5f9;
+      background: transparent;
+    }
+    #itemsTable tbody td:first-child {
+      border-left: 1px solid #f1f5f9;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+    }
+    #itemsTable tbody td:last-child {
+      border-right: 1px solid #f1f5f9;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    /* Table Inputs */
+    #itemsTable .form-control {
+      padding: 0.45rem 0.6rem !important;
+      font-size: 0.875rem !important;
+      height: 38px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      color: #0f172a !important;
+      background-color: #ffffff;
+    }
+    #itemsTable .form-control:focus {
+      border-color: #059669;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+    }
+
+    /* Quantity Input: Crisp, Visible, Number Spinners Removed */
+    #itemsTable .item-qty {
+      font-weight: 700 !important;
+      font-size: 0.95rem !important;
+      color: #064e3b !important;
+      text-align: center !important;
+      width: 100% !important;
+      min-width: 70px !important;
+      -moz-appearance: textfield !important;
+      appearance: textfield !important;
+    }
+    #itemsTable .item-qty::-webkit-inner-spin-button,
+    #itemsTable .item-qty::-webkit-outer-spin-button {
+      -webkit-appearance: none !important;
+      margin: 0 !important;
+    }
+
+    /* Satuan Input */
+    #itemsTable .item-satuan {
+      font-weight: 600 !important;
+      text-align: center !important;
+      color: #334155 !important;
+      width: 100% !important;
+      min-width: 75px !important;
+    }
+
+    /* Harga Satuan */
+    #itemsTable .item-harga {
+      font-weight: 600 !important;
+      text-align: right !important;
+      font-family: monospace, sans-serif !important;
+      color: #0f172a !important;
+      width: 100% !important;
+      min-width: 110px !important;
+      -moz-appearance: textfield !important;
+      appearance: textfield !important;
+    }
+    #itemsTable .item-harga::-webkit-inner-spin-button,
+    #itemsTable .item-harga::-webkit-outer-spin-button {
+      -webkit-appearance: none !important;
+      margin: 0 !important;
+    }
+
+    /* Total Label */
+    #itemsTable .item-total-lbl {
+      font-size: 0.95rem !important;
+      font-weight: 700 !important;
+      color: #059669 !important;
+      white-space: nowrap;
+      padding-right: 0.6rem !important;
+    }
+
+    /* Row Number Badge */
+    .row-num-badge {
+      width: 26px;
+      height: 26px;
+      background: #f1f5f9;
+      color: #475569;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    /* Dark Mode Overrides */
+    [data-theme="dark"] .card-po-section {
+      background: #140727 !important;
+      border-color: #3a2251 !important;
+      box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.4) !important;
+    }
+    [data-theme="dark"] .card-po-section .card-header {
+      background: #1a0b33 !important;
+      border-bottom-color: #3a2251 !important;
+      color: #34d399 !important;
+    }
+    [data-theme="dark"] .form-label {
+      color: #e2e8f0 !important;
+    }
+    [data-theme="dark"] .form-control,
+    [data-theme="dark"] .form-select {
+      background-color: #240a3d !important;
+      border-color: #3a2251 !important;
+      color: #ffffff !important;
+    }
+    [data-theme="dark"] .form-control:focus,
+    [data-theme="dark"] .form-select:focus {
+      border-color: #059669 !important;
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.25) !important;
+    }
+    [data-theme="dark"] #itemsTable thead th {
+      background: #1a0b33 !important;
+      color: #94a3b8 !important;
+    }
+    [data-theme="dark"] #itemsTable tbody tr {
+      background: #1b0c36 !important;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+    }
+    [data-theme="dark"] #itemsTable tbody td {
+      border-color: #3a2251 !important;
+      color: #e2e8f0 !important;
+    }
+    [data-theme="dark"] #itemsTable .form-control {
+      background-color: #240a3d !important;
+      border-color: #3a2251 !important;
+      color: #ffffff !important;
+    }
+    [data-theme="dark"] #itemsTable .item-qty {
+      color: #34d399 !important;
+    }
+    [data-theme="dark"] #itemsTable .item-satuan {
+      color: #e2e8f0 !important;
+    }
+    [data-theme="dark"] #itemsTable .item-harga {
+      color: #f8fafc !important;
+    }
+    [data-theme="dark"] .row-num-badge {
+      background: #240a3d;
+      color: #a78bfa;
+    }
+    [data-theme="dark"] .totals-summary-box {
+      background: #1a0b33 !important;
+      border-color: #3a2251 !important;
+    }
+    [data-theme="dark"] .signature-container {
+      background-color: #1a0b33 !important;
+      border-color: #4b5563 !important;
+    }
   </style>
 </head>
 <body>
@@ -244,18 +437,18 @@
           </button>
         </div>
         <div class="card-body p-0">
-          <div class="table-responsive">
-            <table class="table kov-table align-middle mb-0" id="itemsTable">
+          <div class="table-responsive table-items-wrapper">
+            <table class="table align-middle mb-0" id="itemsTable">
               <thead>
                 <tr>
-                  <th style="width: 4%;" class="ps-3 text-center">NO</th>
-                  <th style="width: 28%;">KODE & NAMA BARANG</th>
-                  <th style="width: 30%;">SPESIFIKASI DETAIL</th>
-                  <th style="width: 8%;" class="text-center">QTY</th>
-                  <th style="width: 8%;" class="text-center">SATUAN</th>
-                  <th style="width: 13%;" class="text-end">HARGA (RP)</th>
-                  <th style="width: 14%;" class="text-end">TOTAL (RP)</th>
-                  <th style="width: 5%;" class="text-center pe-3">AKSI</th>
+                  <th style="width: 44px; min-width: 44px;" class="ps-3 text-center">NO</th>
+                  <th style="min-width: 220px;">KODE &amp; NAMA BARANG</th>
+                  <th style="min-width: 200px;">SPESIFIKASI DETAIL</th>
+                  <th style="width: 95px; min-width: 90px;" class="text-center">QTY</th>
+                  <th style="width: 95px; min-width: 90px;" class="text-center">SATUAN</th>
+                  <th style="width: 145px; min-width: 135px;" class="text-end">HARGA (RP)</th>
+                  <th style="width: 145px; min-width: 135px;" class="text-end">TOTAL (RP)</th>
+                  <th style="width: 48px; min-width: 48px;" class="text-center pe-3">AKSI</th>
                 </tr>
               </thead>
               <tbody id="itemsTbody">
@@ -263,6 +456,22 @@
               </tbody>
             </table>
           </div>
+          
+          <!-- Datalist Satuan Pilihan Standard -->
+          <datalist id="satuanList">
+            <option value="PCS"></option>
+            <option value="Unit"></option>
+            <option value="Box"></option>
+            <option value="Set"></option>
+            <option value="Paket"></option>
+            <option value="Roll"></option>
+            <option value="Meter"></option>
+            <option value="Kg"></option>
+            <option value="Rim"></option>
+            <option value="Lembar"></option>
+            <option value="Botol"></option>
+            <option value="Psg"></option>
+          </datalist>
           
           <!-- Summary Totals Block -->
           <div class="p-4 bg-light border-top">
@@ -277,7 +486,7 @@
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="text-muted small fw-bold">PPN (%):</span>
                     <div class="input-group input-group-sm" style="width: 120px;">
-                      <input type="number" class="form-control text-end" name="ppn_persen" id="ppn_persen" min="0" max="100" value="0">
+                      <input type="number" class="form-control text-end" name="ppn_persen" id="ppn_persen" min="0" max="100" value="0" onfocus="this.select()">
                       <span class="input-group-text">%</span>
                     </div>
                   </div>
@@ -288,7 +497,7 @@
                   </div>
                   <div class="d-flex justify-content-between align-items-center mb-2">
                     <span class="text-muted small fw-bold">Diskon (Rp):</span>
-                    <input type="number" class="form-control form-control-sm text-end" style="width: 140px;" name="diskon_nominal" id="diskon_nominal" min="0" value="0">
+                    <input type="number" class="form-control form-control-sm text-end" style="width: 140px;" name="diskon_nominal" id="diskon_nominal" min="0" value="0" onfocus="this.select()">
                   </div>
                   <hr class="my-2">
                   <div class="d-flex justify-content-between align-items-center fs-5 fw-bold text-success">
@@ -408,32 +617,34 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
       const tr = document.createElement('tr');
       tr.id = `row_${itemIndex}`;
 
-      const nameVal = defaultData ? defaultData.nama : '';
-      const specVal = defaultData ? defaultData.spec : '';
-      const qtyVal = defaultData ? defaultData.qty : 1;
-      const satuanVal = defaultData ? defaultData.satuan : 'PCS';
-      const hargaVal = defaultData ? defaultData.harga : 0;
+      const nameVal = defaultData && defaultData.nama ? defaultData.nama : '';
+      const specVal = defaultData && defaultData.spec ? defaultData.spec : '';
+      const qtyVal = (defaultData && defaultData.qty != null) ? defaultData.qty : 1;
+      const satuanVal = defaultData && defaultData.satuan ? defaultData.satuan : 'PCS';
+      const hargaVal = (defaultData && defaultData.harga != null) ? defaultData.harga : 0;
 
       tr.innerHTML = `
-        <td class="text-center row-num font-monospace small ps-3">${tbody.children.length + 1}</td>
+        <td class="text-center row-num ps-3">
+          <span class="row-num-badge">${tbody.children.length + 1}</span>
+        </td>
         <td>
           <input type="text" class="form-control form-control-sm fw-semibold" name="item_nama_${itemIndex}" value="${nameVal}" placeholder="Nama & Kode Barang" required>
         </td>
         <td>
-          <input type="text" class="form-control form-control-sm" name="item_spec_${itemIndex}" value="${specVal}" placeholder="Spesifikasi Detail">
+          <input type="text" class="form-control form-control-sm" name="item_spec_${itemIndex}" value="${specVal}" placeholder="Spesifikasi Detail (opsional)">
         </td>
         <td>
-          <input type="number" class="form-control form-control-sm text-center item-qty" name="item_qty_${itemIndex}" min="1" value="${qtyVal}" required>
+          <input type="number" class="form-control form-control-sm item-qty" name="item_qty_${itemIndex}" min="1" step="1" value="${qtyVal}" required onfocus="this.select()" autocomplete="off">
         </td>
         <td>
-          <input type="text" class="form-control form-control-sm text-center" name="item_satuan_${itemIndex}" value="${satuanVal}" required>
+          <input type="text" list="satuanList" class="form-control form-control-sm item-satuan" name="item_satuan_${itemIndex}" value="${satuanVal}" placeholder="PCS" required onfocus="this.select()">
         </td>
         <td>
-          <input type="number" class="form-control form-control-sm text-end item-harga" name="item_harga_${itemIndex}" min="0" value="${hargaVal}" required>
+          <input type="number" class="form-control form-control-sm item-harga" name="item_harga_${itemIndex}" min="0" step="1" value="${hargaVal}" required onfocus="this.select()" autocomplete="off">
         </td>
         <td class="text-end fw-bold text-success font-monospace item-total-lbl">Rp 0</td>
         <td class="text-center pe-3">
-          <button type="button" class="btn btn-outline-danger btn-sm rounded-circle py-0 px-2" onclick="removeRow(${itemIndex})">
+          <button type="button" class="btn btn-outline-danger btn-sm rounded-circle py-0 px-2" onclick="removeRow(${itemIndex})" title="Hapus baris">
             &times;
           </button>
         </td>
@@ -445,6 +656,15 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
     }
 
     function removeRow(idx) {
+      const tbody = document.getElementById('itemsTbody');
+      if (tbody.children.length <= 1) {
+        if (window.KovToast && typeof window.KovToast.warning === 'function') {
+          window.KovToast.warning('Purchase Order harus memiliki minimal 1 item barang.', 'Perhatian');
+        } else {
+          alert('Purchase Order harus memiliki minimal 1 item barang.');
+        }
+        return;
+      }
       const row = document.getElementById(`row_${idx}`);
       if (row) {
         row.remove();
@@ -456,7 +676,8 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
     function reindexRows() {
       const rows = document.querySelectorAll('#itemsTbody tr');
       rows.forEach((r, index) => {
-        r.querySelector('.row-num').innerText = index + 1;
+        const badge = r.querySelector('.row-num-badge');
+        if (badge) badge.innerText = index + 1;
       });
     }
 

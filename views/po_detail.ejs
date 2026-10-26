@@ -38,6 +38,60 @@
       border-bottom: 1px solid var(--kov-slate-200);
       padding-bottom: 0.4rem;
     }
+
+    /* Constrained Brand Logo to prevent overflow/overlap */
+    .brand-badge-logo {
+      width: 54px;
+      height: 54px;
+      min-width: 54px;
+      max-width: 54px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--kov-border, #e2e8f0);
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    }
+    .brand-badge-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Dark Mode Overrides */
+    [data-theme="dark"] .po-paper {
+      background-color: #140727 !important;
+      border-color: #3a2251 !important;
+    }
+    [data-theme="dark"] .card-box {
+      background: #1a0b33 !important;
+      border-color: #3a2251 !important;
+    }
+    [data-theme="dark"] .card-box-header {
+      border-bottom-color: #3a2251 !important;
+      color: #34d399 !important;
+    }
+    [data-theme="dark"] .text-dark {
+      color: #f8fafc !important;
+    }
+    [data-theme="dark"] .bg-light {
+      background-color: #1a0b33 !important;
+      border-color: #3a2251 !important;
+    }
+    [data-theme="dark"] .brand-badge-logo {
+      border-color: #3a2251 !important;
+      background: #1a0b33 !important;
+    }
+    [data-theme="dark"] .border-bottom {
+      border-color: #3a2251 !important;
+    }
+    [data-theme="dark"] hr {
+      border-color: #3a2251 !important;
+    }
   </style>
 </head>
 <body>
@@ -79,8 +133,8 @@
       <div class="row align-items-top mb-4 border-bottom pb-4">
         <div class="col-md-6 mb-3 mb-md-0">
           <div class="d-flex align-items-center gap-3 mb-2">
-            <div class="brand-badge-logo" style="width: 48px; height: 48px;">
-              <img src="/logo_kov_2.jpg" alt="KOV Logo" style="border-radius: 8px;">
+            <div class="brand-badge-logo">
+              <img src="/logo_kov_2.jpg" alt="KOV Logo">
             </div>
             <div>
               <h4 class="fw-bold mb-0 text-dark">KOV GROUP / KOV KOFFIE</h4>
@@ -160,7 +214,7 @@
           <div class="card-box">
             <div class="card-box-header"><i class="fas fa-location-dot me-1"></i>Detail Pengiriman &amp; Pembayaran</div>
             <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Lokasi Kirim:</div><div class="small" style="width: 65%;"><%= po.lokasi_kirim || '-' %></div></div>
-            <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Tgl Kirim:</div><div class="small" style="width: 65%;"><%= po.tgl_pengiriman || '-' %></div></div>
+            <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Tgl Kirim:</div><div class="small" style="width: 65%;"><%= po.tgl_pengiriman ? formatDate(po.tgl_pengiriman) : '-' %></div></div>
             <div class="d-flex mb-1.5"><div class="fw-bold text-secondary small" style="width: 35%;">Termin Bayar:</div><div class="small" style="width: 65%;"><%= po.termin_bayar || '-' %></div></div>
             <div class="d-flex"><div class="fw-bold text-secondary small" style="width: 35%;">Mata Uang:</div><div class="small" style="width: 65%;"><%= po.mata_uang || 'IDR (Rupiah)' %></div></div>
           </div>
