@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029b" rel="stylesheet">
   <!-- Dribbble Cloud Drive Design System Extension -->
   
   <!-- Toast & Theme Global Utilities in Head for Immediate Availability -->
@@ -187,6 +187,61 @@
             <div class="d-none">
               <span id="shareUrl"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
               <button type="button" id="btnIconCopy" onclick="generateAndCopyShareLink()"><i id="iconCopySmall"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
+      <div class="row g-2 mb-3">
+        <div class="col-6 col-lg-3">
+          <div class="coinbase-kpi-card h-100" onclick="filterByStatusCard('all')" role="button" style="cursor: pointer;" title="Klik untuk menampilkan seluruh pelamar">
+            <div class="w-100">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="bento-metric-title">Total Pelamar</span>
+                <div class="kov-metric-icon-box text-primary"><i class="fas fa-users"></i></div>
+              </div>
+              <div class="bento-metric-value text-primary"><%= candidates.length %></div>
+              <div class="bento-metric-sub">Seluruh berkas masuk</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+          <div class="coinbase-kpi-card h-100" onclick="filterByStatusCard('Belum Diproses')" role="button" style="cursor: pointer;" title="Klik untuk menyaring berkas perlu ditinjau">
+            <div class="w-100">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="bento-metric-title text-warning">Perlu Ditinjau</span>
+                <div class="kov-metric-icon-box text-warning" style="color: var(--kov-amber) !important;"><i class="fas fa-clock"></i></div>
+              </div>
+              <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;"><%= pendingCandidateCount %></div>
+              <div class="bento-metric-sub">Antrean evaluasi HR</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+          <div class="coinbase-kpi-card h-100" onclick="filterByStatusCard('Diterima')" role="button" style="cursor: pointer;" title="Klik untuk menyaring kandidat diterima">
+            <div class="w-100">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="bento-metric-title text-success">Lulus Seleksi</span>
+                <div class="kov-metric-icon-box text-success" style="color: var(--kov-primary-600) !important;"><i class="fas fa-circle-check"></i></div>
+              </div>
+              <div class="bento-metric-value" style="color: var(--kov-primary-600);"><%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %></div>
+              <div class="bento-metric-sub">Kandidat diterima kerja</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-3">
+          <div class="coinbase-kpi-card h-100" onclick="filterByStatusCard('duplicate')" role="button" style="cursor: pointer;" title="Klik untuk menyaring indikasi duplikat">
+            <div class="w-100">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="bento-metric-title text-danger">Data Ganda</span>
+                <div class="kov-metric-icon-box text-danger"><i class="far fa-clone"></i></div>
+              </div>
+              <div class="bento-metric-value text-danger"><%= duplicateCount %></div>
+              <div class="bento-metric-sub">Terdeteksi NIK/HP ganda</div>
             </div>
           </div>
         </div>
