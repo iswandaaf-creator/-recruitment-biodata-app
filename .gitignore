@@ -13,6 +13,7 @@ public/uploads/*
 backups/*.sqlite
 *.sketch
 .agents/
+scripts/update-hsts.js
 scripts/apply-ssl*.js
 scripts/check-*.js
 scripts/debug-*.js
