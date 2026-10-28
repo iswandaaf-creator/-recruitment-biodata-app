@@ -35,6 +35,13 @@ echo "Target commit: $CURRENT_COMMIT"
 git reset --hard origin/main
 git clean -fd -e db/ -e .env -e logs/ -e storage/
 
+if [ -d "${REMOTE_APP_DIR}/.agents/skills/design-taste-frontend" ]; then
+  mkdir -p /root/.agents/skills /root/.gemini/config/skills
+  cp -r ${REMOTE_APP_DIR}/.agents/skills/design-taste-frontend /root/.agents/skills/
+  cp -r ${REMOTE_APP_DIR}/.agents/skills/design-taste-frontend /root/.gemini/config/skills/
+  echo "Synced design-taste-frontend to global agent skills on VPS."
+fi
+
 echo ">>> [3/5] Verifying production dependencies..."
 npm install --omit=dev
 

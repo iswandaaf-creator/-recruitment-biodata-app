@@ -12,7 +12,10 @@ public/uploads/*
 .env
 backups/*.sqlite
 *.sketch
-.agents/
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/design-taste-frontend/
 scripts/update-hsts.js
 scripts/apply-ssl*.js
 scripts/check-*.js
