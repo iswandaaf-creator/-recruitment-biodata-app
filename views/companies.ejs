@@ -18,14 +18,14 @@
       height: 48px;
       border-radius: 10px;
       object-fit: cover;
-      background: rgba(90, 96, 234, 0.08);
-      border: 1px solid rgba(90, 96, 234, 0.2);
+      background: rgba(22, 101, 52, 0.08);
+      border: 1px solid rgba(22, 101, 52, 0.2);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-weight: 800;
       font-size: 1.1rem;
-      color: var(--dd-primary, #5a60ea);
+      color: var(--dd-primary, #166534);
       flex-shrink: 0;
     }
     .badge-holding {
@@ -41,9 +41,9 @@
       gap: 4px;
     }
     .badge-outlet {
-      background: rgba(90, 96, 234, 0.12);
-      color: var(--dd-primary, #5a60ea);
-      border: 1px solid rgba(90, 96, 234, 0.28);
+      background: rgba(22, 101, 52, 0.12);
+      color: var(--dd-primary, #166534);
+      border: 1px solid rgba(22, 101, 52, 0.28);
       font-weight: 700;
       font-size: 10px;
       padding: 3px 8px;
@@ -74,20 +74,20 @@
       transition: all 0.2s ease;
     }
     .company-card-row:hover {
-      background: rgba(90, 96, 234, 0.04);
+      background: rgba(22, 101, 52, 0.04);
     }
     .upload-dropzone {
-      border: 2px dashed rgba(90, 96, 234, 0.35);
+      border: 2px dashed rgba(22, 101, 52, 0.35);
       border-radius: 12px;
       padding: 20px;
       text-align: center;
       cursor: pointer;
-      background: rgba(90, 96, 234, 0.02);
+      background: rgba(22, 101, 52, 0.02);
       transition: all 0.2s ease;
     }
     .upload-dropzone:hover {
-      border-color: var(--dd-primary, #5a60ea);
-      background: rgba(90, 96, 234, 0.06);
+      border-color: var(--dd-primary, #166534);
+      background: rgba(22, 101, 52, 0.06);
     }
     .filter-pill-btn {
       border: 1px solid rgba(140, 150, 175, 0.25);
@@ -101,14 +101,14 @@
       cursor: pointer;
     }
     .filter-pill-btn:hover {
-      background: rgba(90, 96, 234, 0.08);
-      color: var(--dd-primary, #5a60ea);
+      background: rgba(22, 101, 52, 0.08);
+      color: var(--dd-primary, #166534);
     }
     .filter-pill-btn.active {
-      background: var(--dd-primary, #5a60ea);
+      background: var(--dd-primary, #166534);
       color: #ffffff;
-      border-color: var(--dd-primary, #5a60ea);
-      box-shadow: 0 2px 6px rgba(90, 96, 234, 0.3);
+      border-color: var(--dd-primary, #166534);
+      box-shadow: 0 2px 6px rgba(22, 101, 52, 0.3);
     }
     [data-theme="dark"] .filter-pill-btn {
       color: #94a3b8;
@@ -162,41 +162,51 @@
         </div>
       <% } %>
 
-      <!-- Welcome Hero Banner (Dribbble Signature) -->
+      <!-- Executive Companies Header (Taste-Skill Framed Sheet) -->
       <div class="dd-hero-banner mb-3">
         <div class="dd-hero-content">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+              LEGALITAS &amp; HOLDING
+            </span>
+            <span class="text-muted small">&bull;</span>
+            <span class="text-muted small">Master Index Perusahaan &amp; Outlet</span>
+          </div>
           <h2 class="dd-hero-title">
-            Master Index Perusahaan &amp; Outlet KOV Groups 🏢
+            Master Entitas Perusahaan &amp; Jaringan Outlet
           </h2>
           <p class="dd-hero-subtitle">
-            Pusat acuan data legalitas badan hukum (PT / CV), nama outlet, alamat resmi, dan logo perusahaan untuk pembuatan dokumen Purchase Order (PO), Surat Tugas, Berita Acara (BA), dan persuratan resmi grup.
+            Pusat acuan data legalitas badan hukum (PT/CV), nama outlet resmi, nomor kontak, dan berkas kop surat grup KOV Management.
           </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
             <button type="button" class="btn-dd-hero text-nowrap" data-bs-toggle="modal" data-bs-target="#modalCreateCompany">
-              <i class="fas fa-building-circle-check me-1"></i> Tambah Perusahaan / Outlet
+              <i class="fas fa-building-circle-check me-1.5"></i> Tambah Perusahaan / Outlet
             </button>
-            <span class="badge rounded-pill bg-white text-dark border px-3 py-1.5 fw-bold shadow-xs text-nowrap" style="font-size: 0.8rem;">
-              <i class="fas fa-building text-primary me-1"></i> <%= (companies || []).length %> Total Entitas Terdaftar
+            <span class="badge" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); font-size: 0.76rem; font-weight: 600; padding: 6px 12px; border-radius: 6px;">
+              <i class="fas fa-building me-1"></i> <%= (companies || []).length %> Total Entitas
             </span>
           </div>
         </div>
-        <div class="dd-hero-illustration d-none d-lg-flex">
-          <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
-            <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
-            <path d="M60 80 L80 60 L100 80 L140 40" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="170" cy="46" r="14" fill="#f6941e"/>
-            <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
-            <rect x="154" y="96" width="36" height="36" rx="8" fill="#10b981" transform="rotate(12 154 96)"/>
+        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
+          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
+            <line x1="45" y1="22" x2="88" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
+            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
+            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M48 58 L58 50 L68 58 L68 76 L48 76 Z" fill="#f0fdf4" stroke="#166534" stroke-width="1.5" />
+            <rect x="54" y="64" width="8" height="12" fill="#166534" />
+            <line x1="76" y1="62" x2="105" y2="62" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
+            <line x1="76" y1="70" x2="98" y2="70" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
           </svg>
         </div>
       </div>
 
-      <!-- Bento Metric Cards (4 Symmetrical Dribbble Folder Cards) -->
+      <!-- Bento Metric Cards (Framed-Sheet Architectural Cards) -->
       <div class="dd-section-header mb-3">
         <div class="d-flex align-items-center gap-2">
           <h3 class="dd-section-title">Ringkasan Entitas &amp; Dokumen Legal</h3>
-          <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">
+          <span class="badge rounded-pill" style="background: rgba(22, 101, 52, 0.12); color: var(--dd-primary, #166534); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">
             <%= (companies || []).length %> Entitas
           </span>
         </div>

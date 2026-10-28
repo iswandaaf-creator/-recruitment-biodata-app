@@ -37,46 +37,48 @@
       z-index: 1020;
     }
 
-    /* Hero Form Banner */
+    /* Executive Form Banner (Taste-Skill Framed Sheet) */
     .po-header-banner {
-      background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
-      color: white;
-      padding: 2.25rem 1.5rem;
-      border-radius: 0 0 24px 24px;
-      box-shadow: 0 10px 25px -5px rgba(5, 150, 105, 0.25);
+      background: #ffffff;
+      color: #1e293b;
+      padding: 1.75rem 1.5rem;
+      border-radius: 0;
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: none;
     }
 
-    /* Bento Form Section Cards */
+    /* Framed-Sheet Form Section Cards */
     .card-po-section {
       background: #ffffff;
-      border: 1px solid var(--figma-neutral-200, #e2e8f0);
-      border-radius: var(--figma-radius-xl, 16px);
-      box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      box-shadow: none;
       margin-bottom: 1.5rem;
       overflow: hidden;
     }
     .card-po-section .card-header {
-      background: #ffffff;
-      border-bottom: 1px solid var(--figma-neutral-200, #e2e8f0);
-      padding: 1.1rem 1.5rem;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 1rem 1.25rem;
       font-weight: 700;
-      color: #064e3b;
-      font-size: 1rem;
+      color: #166534;
+      font-size: 0.95rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
     .section-pill-num {
-      width: 26px;
-      height: 26px;
-      background: linear-gradient(135deg, #064e3b, #059669);
-      color: white;
-      border-radius: 8px;
+      width: 24px;
+      height: 24px;
+      background: rgba(22, 101, 52, 0.12);
+      color: #166534;
+      border: 1px solid rgba(22, 101, 52, 0.25);
+      border-radius: 6px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
     }
 
@@ -258,13 +260,13 @@
 
     /* Dark Mode Overrides */
     [data-theme="dark"] .card-po-section {
-      background: #140727 !important;
-      border-color: #3a2251 !important;
+      background: #101726 !important;
+      border-color: #1e293b !important;
       box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.4) !important;
     }
     [data-theme="dark"] .card-po-section .card-header {
-      background: #1a0b33 !important;
-      border-bottom-color: #3a2251 !important;
+      background: #0f172a !important;
+      border-bottom-color: #1e293b !important;
       color: #34d399 !important;
     }
     [data-theme="dark"] .form-label {
@@ -272,8 +274,8 @@
     }
     [data-theme="dark"] .form-control,
     [data-theme="dark"] .form-select {
-      background-color: #240a3d !important;
-      border-color: #3a2251 !important;
+      background-color: #0b0f19 !important;
+      border-color: #1e293b !important;
       color: #ffffff !important;
     }
     [data-theme="dark"] .form-control:focus,
@@ -282,20 +284,20 @@
       box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.25) !important;
     }
     [data-theme="dark"] #itemsTable thead th {
-      background: #1a0b33 !important;
+      background: #0f172a !important;
       color: #94a3b8 !important;
     }
     [data-theme="dark"] #itemsTable tbody tr {
-      background: #1b0c36 !important;
+      background: #101726 !important;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
     }
     [data-theme="dark"] #itemsTable tbody td {
-      border-color: #3a2251 !important;
+      border-color: #1e293b !important;
       color: #e2e8f0 !important;
     }
     [data-theme="dark"] #itemsTable .form-control {
-      background-color: #240a3d !important;
-      border-color: #3a2251 !important;
+      background-color: #0b0f19 !important;
+      border-color: #1e293b !important;
       color: #ffffff !important;
     }
     [data-theme="dark"] #itemsTable .item-qty {
@@ -310,15 +312,15 @@
       color: #f8fafc !important;
     }
     [data-theme="dark"] .row-num-badge {
-      background: #240a3d;
-      color: #a78bfa;
+      background: #0b0f19;
+      color: #34d399;
     }
     [data-theme="dark"] .totals-summary-box {
-      background: #1a0b33 !important;
-      border-color: #3a2251 !important;
+      background: #0f172a !important;
+      border-color: #1e293b !important;
     }
     [data-theme="dark"] .signature-container {
-      background-color: #1a0b33 !important;
+      background-color: #0f172a !important;
       border-color: #4b5563 !important;
     }
   </style>
@@ -346,8 +348,8 @@
           </div>
         </div>
         <div class="kov-topbar-right d-flex align-items-center gap-2">
-          <!-- Coinbase Dual-Theme Switcher -->
-          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang (Coinbase Theme)">
+          <!-- KOV Dual-Theme Switcher -->
+          <button type="button" class="kov-theme-toggle" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
             <i class="fas fa-moon kov-theme-icon"></i>
           </button>
         </div>

@@ -87,13 +87,13 @@
     }
     .btn-outlet:hover {
       background-color: rgba(90, 96, 234, 0.08);
-      color: var(--dd-primary, #5a60ea);
+      color: var(--dd-primary, #166534);
       border-color: rgba(90, 96, 234, 0.3);
     }
     .btn-outlet.active {
-      background: var(--dd-primary, #5a60ea) !important;
+      background: var(--dd-primary, #166534) !important;
       color: #ffffff !important;
-      border-color: var(--dd-primary, #5a60ea) !important;
+      border-color: var(--dd-primary, #166534) !important;
       font-weight: 700;
       box-shadow: 0 4px 14px var(--dd-primary-glow, rgba(90, 96, 234, 0.35));
     }
@@ -139,8 +139,8 @@
 
     /* AI Scanner Banner */
     .ai-scanner-panel {
-      background: linear-gradient(135deg, #f5f6ff 0%, #eef2fe 100%);
-      border: 1.5px dashed var(--dd-primary, #5a60ea);
+      background: #f8fafc;
+      border: 1.5px dashed var(--dd-primary, #166534);
       border-radius: var(--figma-radius-lg, 12px);
     }
 
@@ -197,7 +197,7 @@
       }
       50% {
         background-color: rgba(90, 96, 234, 0.25);
-        box-shadow: inset 0 0 0 3px #5a60ea;
+        box-shadow: inset 0 0 0 3px #166534;
       }
       100% {
         background-color: rgba(16, 185, 129, 0.22);
@@ -251,116 +251,99 @@
         </div>
       </div>
 
-      <!-- Welcome Hero Banner (Dribbble Signature) -->
+      <!-- Executive IT Infrastructure Header (Taste-Skill Framed Sheet) -->
       <div class="dd-hero-banner mb-3">
         <div class="dd-hero-content">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+              INFRASTRUKTUR &amp; DIGITAL
+            </span>
+            <span class="text-muted small">&bull;</span>
+            <span class="text-muted small">Sentral Rekap Belanja &amp; Aset IT</span>
+          </div>
           <h2 class="dd-hero-title">
-            Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Administrator IT' %>! 👋
+            Sentral Anggaran &amp; Pemeliharaan IT Outlet
           </h2>
           <p class="dd-hero-subtitle">
-            Portal Sentral Pengelolaan Aset, Belanja Vendor &amp; Pemeliharaan Hardware/Software IT Outlet KOV. Pindai nota invoice fisik menggunakan Gemini AI dan pantau anggaran pengeluaran secara real-time.
+            Pengelolaan aset perangkat keras, lisensi software, jaringan kasir/CCTV, serta otomasi pembacaan nota vendor via Gemini AI.
           </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
             <button type="button" class="btn-dd-hero text-nowrap" data-bs-toggle="modal" data-bs-target="#modalTambah">
-              <i class="fas fa-plus me-1"></i> Catat Belanja Baru
+              <i class="fas fa-plus me-1.5"></i> Catat Belanja Baru
             </button>
-            <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI" style="font-size: 0.8rem;">
+            <button type="button" class="btn-kov-outline btn-sm text-nowrap" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI" style="font-size: 0.82rem; padding: 7px 14px;">
               <i class="fas fa-magic text-warning me-1.5"></i> Scan AI Nota
             </button>
-            <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" data-bs-toggle="modal" data-bs-target="#modalExportKustom" style="font-size: 0.8rem;">
+            <button type="button" class="btn-kov-outline btn-sm text-nowrap" data-bs-toggle="modal" data-bs-target="#modalExportKustom" style="font-size: 0.82rem; padding: 7px 14px;">
               <i class="fas fa-file-export text-primary me-1.5"></i> Export Rekap
             </button>
           </div>
         </div>
-            <i class="fas fa-magic text-warning me-1.5"></i> Scan AI Nota
-          </button>
-          <button class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-2 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center" data-bs-toggle="modal" data-bs-target="#modalExportKustom" style="font-size: 0.825rem;">
-            <i class="fas fa-file-export text-primary me-1.5"></i> Export Rekap
-          </button>
+        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
+          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
+            <line x1="45" y1="22" x2="88" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
+            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
+            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
+            <rect x="45" y="56" width="30" height="20" rx="3" fill="#f0fdf4" stroke="#166534" stroke-width="1.5" />
+            <line x1="50" y1="63" x2="70" y2="63" stroke="#166534" stroke-width="1.5" stroke-linecap="round" />
+            <line x1="50" y1="69" x2="65" y2="69" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
+            <line x1="82" y1="66" x2="105" y2="66" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
         </div>
       </div>
-      <div class="dd-hero-illustration d-none d-lg-flex">
-        <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
-          <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
-          <path d="M100 60 L100 86 M90 70 L100 60 L110 70" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="170" cy="46" r="14" fill="#f6941e"/>
-          <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
-          <rect x="154" y="96" width="36" height="36" rx="8" fill="#ee474e" transform="rotate(12 154 96)"/>
-        </svg>
-      </div>
-    </div>
 
-    <!-- Bento Metric Cards (Coinbase High-Contrast Sparkline Style) -->
+    <!-- Bento Metric Cards (Taste-Skill Framed Sheet) -->
     <div class="row g-3 mb-4">
       <div class="col-6 col-md-3">
         <div class="coinbase-kpi-card h-100">
-          <div>
-            <div class="bento-metric-title">Total Belanja IT</div>
+          <div class="w-100">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="bento-metric-title">Total Belanja IT</span>
+              <div class="kov-metric-icon-box text-success" style="color: var(--kov-primary-600) !important;"><i class="fas fa-wallet"></i></div>
+            </div>
             <div class="bento-metric-value text-success" style="font-size: 1.45rem;">Rp <%= totalPengeluaran.toLocaleString('id-ID') %></div>
             <div class="bento-metric-sub">Seluruh outlet KOV</div>
           </div>
-          <div class="d-flex flex-column align-items-end gap-1">
-            <div class="coinbase-ring coinbase-ring-emerald">
-              <div class="coinbase-ring-inner">
-                <i class="fas fa-wallet"></i>
-              </div>
-            </div>
-            <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-gain" d="M2,28 Q25,12 55,16 T98,2"/></svg>
-          </div>
         </div>
       </div>
 
       <div class="col-6 col-md-3">
         <div class="coinbase-kpi-card h-100">
-          <div>
-            <div class="bento-metric-title">Bulan Ini</div>
+          <div class="w-100">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="bento-metric-title">Bulan Ini</span>
+              <div class="kov-metric-icon-box text-primary"><i class="fas fa-calendar-check"></i></div>
+            </div>
             <div class="bento-metric-value text-primary" style="font-size: 1.45rem;">Rp <%= pengeluaranBulanIni.toLocaleString('id-ID') %></div>
             <div class="bento-metric-sub"><%= new Date().toLocaleString('id-ID', { month: 'short', year: 'numeric' }) %></div>
           </div>
-          <div class="d-flex flex-column align-items-end gap-1">
-            <div class="coinbase-ring coinbase-ring-blue">
-              <div class="coinbase-ring-inner">
-                <i class="fas fa-calendar-check"></i>
-              </div>
-            </div>
-            <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-blue" d="M2,24 Q25,8 50,18 T98,4"/></svg>
-          </div>
         </div>
       </div>
 
       <div class="col-6 col-md-3">
         <div class="coinbase-kpi-card h-100">
-          <div>
-            <div class="bento-metric-title">Total Nota</div>
+          <div class="w-100">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="bento-metric-title">Total Nota</span>
+              <div class="kov-metric-icon-box text-secondary"><i class="fas fa-receipt"></i></div>
+            </div>
             <div class="bento-metric-value"><%= expenses.length %> <span class="fs-6 fw-normal text-muted">Nota</span></div>
             <div class="bento-metric-sub">Belanja vendor IT</div>
           </div>
-          <div class="d-flex flex-column align-items-end gap-1">
-            <div class="coinbase-ring coinbase-ring-purple">
-              <div class="coinbase-ring-inner">
-                <i class="fas fa-receipt"></i>
-              </div>
-            </div>
-            <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-purple" d="M2,20 Q30,10 60,16 T98,6"/></svg>
-          </div>
         </div>
       </div>
 
       <div class="col-6 col-md-3">
         <div class="coinbase-kpi-card h-100">
-          <div>
-            <div class="bento-metric-title text-warning">Pending</div>
+          <div class="w-100">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="bento-metric-title text-warning">Pending</span>
+              <div class="kov-metric-icon-box text-warning" style="color: var(--kov-amber) !important;"><i class="fas fa-clock"></i></div>
+            </div>
             <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;"><%= totalPending %> <span class="fs-6 fw-normal text-muted">Nota</span></div>
             <div class="bento-metric-sub">Perlu verifikasi</div>
-          </div>
-          <div class="d-flex flex-column align-items-end gap-1">
-            <div class="coinbase-ring coinbase-ring-amber">
-              <div class="coinbase-ring-inner">
-                <i class="fas fa-clock"></i>
-              </div>
-            </div>
-            <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-amber" d="M2,18 Q30,26 55,14 T98,10"/></svg>
           </div>
         </div>
       </div>

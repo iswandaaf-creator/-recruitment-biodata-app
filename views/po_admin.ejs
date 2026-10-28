@@ -60,48 +60,58 @@
         </a>
       </div>
 
-      <!-- Welcome Hero Banner (Dribbble Signature) -->
+      <!-- Executive PO Header (Taste-Skill Framed Sheet) -->
       <div class="dd-hero-banner mb-3">
         <div class="dd-hero-content">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+              PENGADAAN &amp; PURCHASING
+            </span>
+            <span class="text-muted small">&bull;</span>
+            <span class="text-muted small">Purchase Order (PO)</span>
+          </div>
           <h2 class="dd-hero-title">
-            Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Tim Purchasing' %>! 👋
+            Pusat Otorisasi Purchase Order &amp; Pengadaan
           </h2>
           <p class="dd-hero-subtitle">
-            Pusat Otorisasi Purchase Order (PO) Pengadaan KOV Management. Kelola verifikasi pesanan supplier, alur persetujuan direksi, dan faktur resmi.
+            Verifikasi pesanan supplier, alur persetujuan direksi, sinkronisasi otomatis ke rekap IT, dan faktur resmi KOV Management.
           </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
             <a href="/admin/operasional/po/create" class="btn-dd-hero text-nowrap">
-              <i class="fas fa-plus me-1"></i> Buat PO Baru
+              <i class="fas fa-plus me-1.5"></i> Buat PO Baru
             </a>
-            <a href="/api/operasional/po/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
+            <a href="/api/operasional/po/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
               <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
             </a>
           </div>
         </div>
-      <div class="dd-hero-illustration d-none d-lg-flex">
-        <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
-          <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
-          <path d="M100 60 L100 86 M90 70 L100 60 L110 70" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="170" cy="46" r="14" fill="#f6941e"/>
-          <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
-          <rect x="154" y="96" width="36" height="36" rx="8" fill="#ee474e" transform="rotate(12 154 96)"/>
-        </svg>
+        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
+          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
+            <line x1="45" y1="22" x2="88" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
+            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
+            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
+            <circle cx="50" cy="62" r="6" fill="#f0fdf4" stroke="#166534" stroke-width="1.5" />
+            <path d="M48 62 L50 64 L53 60" stroke="#166534" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <line x1="64" y1="62" x2="105" y2="62" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
+            <line x1="45" y1="76" x2="105" y2="76" stroke="#e2e8f0" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </div>
       </div>
-    </div>
 
-    <!-- Kategori Status Purchase Order (4 Symmetrical Dribbble Folder Cards) -->
-    <div class="dd-section-header mb-3">
-      <div class="d-flex align-items-center gap-2">
-        <h3 class="dd-section-title">Status Dokumen Purchase Order</h3>
-        <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">
-          <%= records.length %> Dokumen
-        </span>
+      <!-- Kategori Status Purchase Order (4 Symmetrical Framed-Sheet Cards) -->
+      <div class="dd-section-header mb-3">
+        <div class="d-flex align-items-center gap-2">
+          <h3 class="dd-section-title">Status Dokumen Purchase Order</h3>
+          <span class="badge" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); font-size: 0.74rem; font-weight: 600; padding: 3px 8px; border-radius: 6px;">
+            <%= records.length %> Dokumen
+          </span>
+        </div>
+        <a href="javascript:void(0)" onclick="quickFilterPO('')" class="dd-view-all-link" title="Reset filter dan tampilkan seluruh PO">
+          <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
+        </a>
       </div>
-      <a href="javascript:void(0)" onclick="quickFilterPO('')" class="dd-view-all-link" title="Reset filter dan tampilkan seluruh PO">
-        <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
-      </a>
-    </div>
 
     <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
       <!-- 1. PO Pending (Coral Red) -->
@@ -186,72 +196,52 @@
     </div>
     <div class="bento-grid">
       <div class="coinbase-kpi-card">
-        <div>
-          <div class="bento-metric-title">Total PO Diterbitkan</div>
+        <div class="w-100">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="bento-metric-title">Total PO Diterbitkan</span>
+            <div class="kov-metric-icon-box text-primary"><i class="fas fa-file-invoice-dollar"></i></div>
+          </div>
           <div class="bento-metric-value text-primary"><%= records.length %></div>
           <div class="bento-metric-sub">Seluruh berkas PO resmi</div>
-        </div>
-        <div class="d-flex flex-column align-items-end gap-1">
-          <div class="coinbase-ring coinbase-ring-blue">
-            <div class="coinbase-ring-inner">
-              <i class="fas fa-file-invoice-dollar"></i>
-            </div>
-          </div>
-          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-blue" d="M2,24 Q25,8 50,18 T98,4"/></svg>
         </div>
       </div>
 
       <div class="coinbase-kpi-card">
-        <div>
-          <div class="bento-metric-title text-success">PO Approved</div>
+        <div class="w-100">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="bento-metric-title text-success">PO Approved</span>
+            <div class="kov-metric-icon-box text-success" style="color: var(--kov-primary-600) !important;"><i class="fas fa-circle-check"></i></div>
+          </div>
           <div class="bento-metric-value" style="color: var(--kov-primary-600);">
             <%= records.filter(r => (r.status_po || '').includes('Approved')).length %>
           </div>
           <div class="bento-metric-sub">Sudah diverifikasi direksi</div>
         </div>
-        <div class="d-flex flex-column align-items-end gap-1">
-          <div class="coinbase-ring coinbase-ring-emerald">
-            <div class="coinbase-ring-inner">
-              <i class="fas fa-circle-check"></i>
-            </div>
-          </div>
-          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-gain" d="M2,28 Q25,12 55,16 T98,2"/></svg>
-        </div>
       </div>
 
       <div class="coinbase-kpi-card">
-        <div>
-          <div class="bento-metric-title text-warning">PO Pending</div>
+        <div class="w-100">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="bento-metric-title text-warning">PO Pending</span>
+            <div class="kov-metric-icon-box text-warning" style="color: var(--kov-amber) !important;"><i class="fas fa-clock"></i></div>
+          </div>
           <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;">
             <%= records.filter(r => (r.status_po || '').includes('Pending')).length %>
           </div>
           <div class="bento-metric-sub">Menunggu konfirmasi final</div>
         </div>
-        <div class="d-flex flex-column align-items-end gap-1">
-          <div class="coinbase-ring coinbase-ring-amber">
-            <div class="coinbase-ring-inner">
-              <i class="fas fa-clock"></i>
-            </div>
-          </div>
-          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-amber" d="M2,18 Q30,26 55,14 T98,10"/></svg>
-        </div>
       </div>
 
       <div class="coinbase-kpi-card">
-        <div>
-          <div class="bento-metric-title">Total Nilai Netto PO</div>
+        <div class="w-100">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="bento-metric-title">Total Nilai Netto PO</span>
+            <div class="kov-metric-icon-box text-secondary"><i class="fas fa-wallet"></i></div>
+          </div>
           <div class="bento-metric-value text-dark" style="font-size: 1.35rem;">
             Rp <%= records.reduce((acc, r) => acc + (r.total_netto || 0), 0).toLocaleString('id-ID') %>
           </div>
           <div class="bento-metric-sub">Akumulasi pengadaan barang</div>
-        </div>
-        <div class="d-flex flex-column align-items-end gap-1">
-          <div class="coinbase-ring coinbase-ring-purple">
-            <div class="coinbase-ring-inner">
-              <i class="fas fa-wallet"></i>
-            </div>
-          </div>
-          <svg class="cb-sparkline-svg" viewBox="0 0 100 32"><path class="cb-sparkline-path cb-sparkline-purple" d="M2,20 Q30,10 60,16 T98,6"/></svg>
         </div>
       </div>
     </div>

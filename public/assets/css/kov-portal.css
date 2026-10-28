@@ -1421,123 +1421,97 @@ body {
   font-weight: 400;
 }
 
-/* Coinbase Circular Ring KPI Metric Cards */
-.coinbase-kpi-card {
-  background: #ffffff;
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 20px;
-  padding: 1.25rem 1.35rem;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+/* ==========================================================================
+   KOV EXECUTIVE METRIC CARDS & BENTO (TASTE-SKILL FRAMED SHEET)
+   ========================================================================== */
+.coinbase-kpi-card,
+.kov-metric-card {
+  background: var(--dd-surface-card, #ffffff) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-radius: 8px !important;
+  padding: 1.15rem 1.25rem !important;
+  box-shadow: none !important;
+  transition: border-color 0.16s ease, transform 0.16s ease !important;
   position: relative;
   overflow: hidden;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.coinbase-kpi-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.08);
-  border-color: #cbd5e1;
+  align-items: stretch;
 }
 
-.coinbase-ring {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  flex-shrink: 0;
-  border: 1px solid transparent;
+.coinbase-kpi-card:hover,
+.kov-metric-card:hover {
+  transform: translateY(-1px) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03) !important;
 }
-.coinbase-ring-emerald {
-  background: #f0fdf4;
-  border-color: #dcfce7;
-}
-.coinbase-ring-blue {
-  background: #eff6ff;
-  border-color: #dbeafe;
-}
-.coinbase-ring-amber {
-  background: #fffbeb;
-  border-color: #fef3c7;
-}
-.coinbase-ring-rose {
-  background: #fff1f2;
-  border-color: #ffe4e6;
-}
-.coinbase-ring-purple {
-  background: #f5f3ff;
-  border-color: #ede9fe;
-}
-.coinbase-ring-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-}
-.coinbase-ring-emerald .coinbase-ring-inner { color: #047857; }
-.coinbase-ring-blue .coinbase-ring-inner    { color: #1d4ed8; }
-.coinbase-ring-amber .coinbase-ring-inner   { color: #b45309; }
-.coinbase-ring-rose .coinbase-ring-inner    { color: #be123c; }
-.coinbase-ring-purple .coinbase-ring-inner  { color: #6d28d9; }
 
-.coinbase-badge-trend {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
+[data-theme="dark"] .coinbase-kpi-card,
+[data-theme="dark"] .kov-metric-card {
+  background: var(--dd-surface-card, #101726) !important;
+  border-color: var(--dd-border, #1e293b) !important;
+}
+
+.bento-metric-title {
   font-size: 0.72rem;
   font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--dd-text-muted, #64748b);
   line-height: 1.2;
 }
-.coinbase-badge-up {
-  background: #ecfdf5;
-  color: #059669;
-}
-.coinbase-badge-down {
-  background: #fef2f2;
-  color: #dc2626;
+
+.bento-metric-value {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-feature-settings: "tnum" 1;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--dd-text-main, #0f172a);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.02em;
 }
 
-/* Animated Coinbase SVG Sparklines */
+.bento-metric-sub {
+  font-size: 0.78rem;
+  color: var(--dd-text-muted, #64748b);
+  line-height: 1.3;
+}
+
+[data-theme="dark"] .bento-metric-value {
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .bento-metric-title,
+[data-theme="dark"] .bento-metric-sub {
+  color: #94a3b8 !important;
+}
+
+.kov-metric-icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--dd-surface-subtle, #f8fafc);
+  border: 1px solid var(--dd-border, #e2e8f0);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  color: var(--dd-text-muted, #64748b);
+  flex-shrink: 0;
+  transition: background 0.16s ease;
+}
+
+[data-theme="dark"] .kov-metric-icon-box {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+/* Fallback for legacy classes & suppression of fake sparklines */
 .cb-sparkline-svg {
-  width: 76px;
-  height: 28px;
-  overflow: visible;
-  display: block;
+  display: none !important;
 }
-
-.cb-sparkline-path {
-  fill: none;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 240;
-  stroke-dashoffset: 0;
-  animation: cbSparklineDraw 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes cbSparklineDraw {
-  from { stroke-dashoffset: 240; }
-  to { stroke-dashoffset: 0; }
-}
-
-.cb-sparkline-gain   { stroke: #059669; }
-.cb-sparkline-loss   { stroke: #be123c; }
-.cb-sparkline-amber  { stroke: #b45309; }
-.cb-sparkline-blue   { stroke: #2563eb; }
-.cb-sparkline-purple { stroke: #7c3aed; }
-
-[data-theme="dark"] .cb-sparkline-gain   { stroke: #5cf888; }
-[data-theme="dark"] .cb-sparkline-loss   { stroke: #fc4848; }
-[data-theme="dark"] .cb-sparkline-amber  { stroke: #f59e0b; }
-[data-theme="dark"] .cb-sparkline-blue   { stroke: #38bdf8; }
-[data-theme="dark"] .cb-sparkline-purple { stroke: #c084fc; }
 
 /* Coinbase Theme Toggle Buttons */
 .kov-theme-toggle {
@@ -3652,14 +3626,14 @@ body {
   transform: scale(1.08) !important;
 }
 
-/* Active Nav Item - Royal Purple (#5a60ea) Eradicates green #059669 completely */
+/* Active Nav Item - Framed Sheet KOV Botanical Pine Accent */
 .dd-nav-item.active,
 .kov-sidebar .kov-nav-item.active,
 .dd-sidebar .kov-nav-item.active,
 .kov-nav-item.active {
   color: #ffffff !important;
-  background: linear-gradient(90deg, rgba(90, 96, 234, 0.22) 0%, rgba(90, 96, 234, 0.04) 100%) !important;
-  border-left-color: var(--dd-sidebar-active-bar, #5a60ea) !important;
+  background: rgba(22, 101, 52, 0.28) !important;
+  border-left-color: #22c55e !important;
   box-shadow: none !important;
   font-weight: 700 !important;
 }
@@ -3669,8 +3643,8 @@ body {
 .kov-sidebar .kov-nav-item.active i,
 .dd-sidebar .kov-nav-item.active i,
 .kov-nav-item.active i {
-  color: var(--dd-primary, #5a60ea) !important;
-  filter: drop-shadow(0 0 8px rgba(90, 96, 234, 0.6)) !important;
+  color: #4ade80 !important;
+  filter: none !important;
 }
 
 .dd-nav-group-title {
@@ -3720,7 +3694,7 @@ body {
   font-size: 0.85rem;
   font-weight: 800;
   color: #ffffff;
-  background: rgba(90, 96, 234, 0.25);
+  background: rgba(22, 101, 52, 0.25);
   padding: 2px 8px;
   border-radius: var(--dd-radius-pill);
 }
@@ -3738,10 +3712,10 @@ body {
 .dd-storage-meter-fill {
   height: 100%;
   width: 73%;
-  background: linear-gradient(90deg, #f8b849 0%, #ee474e 50%, #5a60ea 100%);
+  background: linear-gradient(90deg, #f8b849 0%, #ee474e 50%, #166534 100%);
   border-radius: var(--dd-radius-pill);
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 10px rgba(90, 96, 234, 0.5);
+  box-shadow: 0 0 10px rgba(22, 101, 52, 0.5);
 }
 
 .dd-storage-caption {
@@ -5758,8 +5732,8 @@ input:focus-visible,
 
 .dd-file-card-item.selected,
 .dd-file-card-item.active {
-  background: var(--dd-primary, #5a60ea) !important;
-  border-color: var(--dd-primary, #5a60ea) !important;
+  background: var(--dd-primary, #166534) !important;
+  border-color: var(--dd-primary, #166534) !important;
   box-shadow: 0 10px 28px var(--dd-primary-glow) !important;
 }
 
@@ -5804,7 +5778,7 @@ input:focus-visible,
 /* Authentication & Login Screen Sync */
 .dd-auth-body {
   background-color: #131429 !important;
-  background-image: radial-gradient(circle 800px at 50% 0%, rgba(90, 96, 234, 0.28) 0%, rgba(19, 20, 41, 0) 70%) !important;
+  background-image: radial-gradient(circle 800px at 50% 0%, rgba(22, 101, 52, 0.28) 0%, rgba(19, 20, 41, 0) 70%) !important;
   font-family: var(--dd-font-sans) !important;
   min-height: 100vh;
 }
