@@ -195,20 +195,20 @@
 
 [data-theme="dark"] .form-control,
 [data-theme="dark"] .form-select {
-  background-color: #240a3d !important;
-  border-color: #3a2251 !important;
+  background-color: #101726 !important;
+  border-color: #1e293b !important;
   color: #ffffff !important;
 }
 
 [data-theme="dark"] .form-control:focus,
 [data-theme="dark"] .form-select:focus {
-  border-color: #8c44b3 !important;
-  box-shadow: 0 0 0 3px rgba(140, 68, 179, 0.25) !important;
+  border-color: #166534 !important;
+  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.15) !important;
 }
 
 [data-theme="dark"] .input-group-text {
-  background-color: #240a3d !important;
-  border-color: #3a2251 !important;
+  background-color: #101726 !important;
+  border-color: #1e293b !important;
   color: #c7c0cd !important;
 }
 
@@ -218,7 +218,7 @@
 }
 
 [data-theme="dark"] .kov-sidebar-brand {
-  border-bottom-color: #3a2251 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
 }
 
 [data-theme="dark"] .kov-sidebar-footer {
@@ -237,18 +237,18 @@
 }
 
 [data-theme="dark"] .kov-nav-item:hover {
-  background: #2a1042 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
   color: #ffffff !important;
 }
 
 [data-theme="dark"] .share-banner-modern {
-  background: #2a1042 !important;
-  border-color: #3a2251 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: #1e293b !important;
 }
 
 [data-theme="dark"] .share-token-box {
-  background: #240a3d !important;
-  border-color: #3a2251 !important;
+  background: #101726 !important;
+  border-color: #1e293b !important;
   color: #5cf888 !important;
 }
 
@@ -556,8 +556,8 @@ body {
 }
 
 [data-theme="dark"] .table-responsive-modern {
-  background: #240a3d !important;
-  border-color: #3a2251 !important;
+  background: #101726 !important;
+  border-color: #1e293b !important;
 }
 
 .kov-table, .coinbase-table, .cb-table-floating {
@@ -617,7 +617,7 @@ body {
 [data-theme="dark"] .kov-table tbody tr,
 [data-theme="dark"] .coinbase-table tbody tr,
 [data-theme="dark"] .cb-table-floating tbody tr {
-  background: #2a1042 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
 }
 
 [data-theme="dark"] .kov-table tbody tr:hover,
@@ -631,7 +631,7 @@ body {
 [data-theme="dark"] .coinbase-table tbody td,
 [data-theme="dark"] .cb-table-floating tbody td {
   border-top-color: #3a2251 !important;
-  border-bottom-color: #3a2251 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.08) !important;
   color: #e3dfe6 !important;
 }
 

@@ -13,3 +13,11 @@ public/uploads/*
 backups/*.sqlite
 *.sketch
 .agents/
+scripts/apply-ssl*.js
+scripts/check-*.js
+scripts/debug-*.js
+scripts/install-mailcow.js
+scripts/obtain-ssl*.js
+scripts/start-mailcow*.js
+scripts/verify-mailcow.js
+

@@ -31,10 +31,10 @@
       white-space: nowrap;
     }
     .filter-btn:hover, .filter-btn.active {
-      background: var(--dd-primary, #5a60ea) !important;
-      border-color: var(--dd-primary, #5a60ea) !important;
+      background: var(--dd-primary, #166534) !important;
+      border-color: var(--dd-primary, #166534) !important;
       color: #ffffff !important;
-      box-shadow: 0 4px 14px var(--dd-primary-glow) !important;
+      box-shadow: none !important;
     }
     .dd-folder-card:focus {
       outline: 3px solid rgba(255, 255, 255, 0.6);
@@ -117,17 +117,24 @@
 
       <div class="dd-body-content">
 
-        <!-- Welcome Hero Banner (From drive dribbble.sketch) -->
+        <!-- Executive Command Header (Taste-Skill Framed Sheet) -->
         <div class="dd-hero-banner">
           <div class="dd-hero-content">
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+                EVALUASI PELAMAR
+              </span>
+              <span class="text-muted small">&bull;</span>
+              <span class="text-muted small">Portal Penilai Divisi</span>
+            </div>
             <h2 class="dd-hero-title">
-              Welcome Back, <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Reviewer Divisi' %>!
+              Portal Reviewer Divisi: <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Staff Reviewer' %>
             </h2>
             <p class="dd-hero-subtitle">
-              Portal evaluasi berkas pelamar terpadu KOV Management. Berikan penilaian teknis kualifikasi, catatan wawancara, dan rekomendasi kelolosan kandidat secara akurat.
+              Berikan penilaian teknis kualifikasi, catatan wawancara, dan verifikasi kelolosan kandidat divisi Anda secara terpusat.
             </p>
-            <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
-              <span class="small fw-bold text-dark" style="font-size: 0.78rem;">Divisi Penugasan:</span>
+            <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+              <span class="small fw-semibold text-secondary" style="font-size: 0.78rem;">Divisi Penugasan:</span>
               <% if (allowedDivisions && allowedDivisions.length > 0) { %>
                 <% allowedDivisions.forEach(div => { %>
                   <span class="status-pill-modern pill-success" style="font-size: 0.72rem; padding: 3px 10px;">
@@ -140,23 +147,27 @@
                 </span>
               <% } %>
             </div>
-            <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+            <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
               <button type="button" class="btn-dd-hero text-nowrap" onclick="filterByStatusPill('BELUM')">
-                <i class="fas fa-pen-to-square me-1"></i> Mulai Review Berkas (<%= belumDireview %>)
+                <i class="fas fa-pen-to-square me-1.5"></i> Mulai Review Berkas (<%= belumDireview %>)
               </button>
-              <a href="/api/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
+              <a href="/api/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
                 <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
               </a>
             </div>
           </div>
-          <div class="dd-hero-illustration d-none d-lg-flex">
-            <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
-              <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
-              <path d="M100 60 L100 86 M90 70 L100 60 L110 70" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="170" cy="46" r="14" fill="#f6941e"/>
-              <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
-              <rect x="154" y="96" width="36" height="36" rx="8" fill="#ee474e" transform="rotate(12 154 96)"/>
+          <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
+            <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
+              <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
+              <line x1="45" y1="22" x2="78" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
+              <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
+              <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
+              <circle cx="50" cy="58" r="5" fill="#166534" fill-opacity="0.12" stroke="#166534" stroke-width="1.5" />
+              <path d="M48 58L50 60L53 56" stroke="#166534" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              <line x1="62" y1="58" x2="105" y2="58" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
+              <circle cx="50" cy="72" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" />
+              <line x1="62" y1="72" x2="90" y2="72" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
             </svg>
           </div>
         </div>

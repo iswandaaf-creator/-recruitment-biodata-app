@@ -42,10 +42,10 @@
     }
 
     .filter-pill.active {
-      background: var(--dd-primary, #5a60ea);
+      background: var(--dd-primary, #166534);
       color: #ffffff;
-      border-color: var(--dd-primary, #5a60ea);
-      box-shadow: 0 4px 10px var(--dd-primary-glow, rgba(90, 96, 234, 0.25));
+      border-color: var(--dd-primary, #166534);
+      box-shadow: none;
     }
 
     .sortable-header {
@@ -152,29 +152,36 @@
 
         <div class="dd-topbar-actions">
           <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" id="btnAcakTokenTopbar" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir publik baru">
-            <i class="fas fa-shuffle" style="color: var(--dd-primary, #5a60ea);"></i>
+            <i class="fas fa-shuffle" style="color: var(--dd-primary, #166534);"></i>
             <span>Acak Token</span>
           </button>
         </div>
       </div>
 
-      <!-- Welcome Hero Banner (From drive dribbble.sketch) -->
+      <!-- Executive Command Header (Taste-Skill Framed Sheet) -->
       <div class="dd-hero-banner">
         <div class="dd-hero-content">
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+              KOV MANAGEMENT PORTAL
+            </span>
+            <span class="text-muted small">&bull;</span>
+            <span class="text-muted small">Pipeline Rekrutmen Aktif</span>
+          </div>
           <h2 class="dd-hero-title">
-            Welcome Back, <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %> 👋
+            Dashboard Rekrutmen HR &mdash; <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %>
           </h2>
           <p class="dd-hero-subtitle">
-            Sistem rekrutmen terpadu KOV Management Portal. Kelola berkas masuk, koordinasi reviewer divisi, dan pantau pipeline kandidat secara terpusat.
+            Kelola berkas masuk, koordinasi reviewer divisi, dan pantau status kandidat seluruh outlet secara terpusat.
           </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto">
+          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
             <button type="button" class="btn-dd-hero text-nowrap" id="btnSalinLink" onclick="generateAndCopyShareLink()">
-              <i class="fas fa-link me-1" id="iconSalin"></i> Salin Link Formulir
+              <i class="fas fa-link me-1.5" id="iconSalin"></i> Salin Link Formulir
             </button>
-            <button type="button" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru" style="font-size: 0.8rem;">
-              <i class="fas fa-shuffle me-1.5" id="iconAcak" style="color: var(--dd-primary, #5a60ea);"></i> Acak Token
+            <button type="button" class="btn-kov-outline btn-sm text-nowrap" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru" style="font-size: 0.82rem; padding: 7px 14px;">
+              <i class="fas fa-shuffle me-1.5" id="iconAcak" style="color: var(--dd-primary, #166534);"></i> Acak Token
             </button>
-            <a href="/api/export/excel" class="btn btn-sm bg-white text-dark border rounded-pill px-3 py-1.5 fw-bold text-decoration-none shadow-sm d-inline-flex align-items-center text-nowrap" style="font-size: 0.8rem;">
+            <a href="/api/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
               <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
             </a>
             <div class="d-none">
@@ -183,23 +190,13 @@
             </div>
           </div>
         </div>
-        <div class="dd-hero-illustration d-none d-lg-flex">
-          <svg width="220" height="140" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="20" width="160" height="110" rx="14" fill="#5a60ea" fill-opacity="0.08" stroke="#5a60ea" stroke-width="2" stroke-dasharray="4 4"/>
-            <rect x="36" y="36" width="128" height="78" rx="10" fill="#ffffff" stroke="#5a60ea" stroke-width="1.5"/>
-            <path d="M100 60 L100 86 M90 70 L100 60 L110 70" stroke="#059669" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="170" cy="46" r="14" fill="#f6941e"/>
-            <circle cx="176" cy="116" r="24" fill="#5a60ea"/>
-            <rect x="154" y="96" width="36" height="36" rx="8" fill="#ee474e" transform="rotate(12 154 96)"/>
-          </svg>
-        </div>
       </div>
 
-      <!-- Kategori Divisi (Vibrant Folder Cards from Dribbble - 8 Symmetrical Cards) -->
+      <!-- Kategori Divisi (Architectural Metric Cards - 8 Symmetrical Cards) -->
       <div class="dd-section-header">
         <div class="d-flex align-items-center gap-2">
           <h3 class="dd-section-title">Kategori Divisi</h3>
-          <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">8 Divisi Lengkap</span>
+          <span class="badge" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); font-size: 0.74rem; font-weight: 600; padding: 3px 8px; border-radius: 6px;">8 Divisi Aktif</span>
         </div>
         <a href="javascript:void(0)" onclick="filterByDivisiQuick('all')" class="dd-view-all-link" id="btnViewAllDivisions" title="Reset filter dan tampilkan seluruh pelamar">
           <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
@@ -1029,9 +1026,11 @@
 
     function filterByStatusCard(status) {
       setFilter(status, null);
-      const tableCard = document.querySelector('.kov-table-card');
-      if (tableCard) {
-        tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.innerWidth < 768) {
+        const tableCard = document.querySelector('.kov-table-card');
+        if (tableCard) {
+          tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
 
@@ -1050,9 +1049,11 @@
           card.classList.remove('active');
         }
       });
-      const tableCard = document.querySelector('.kov-table-card');
-      if (tableCard) {
-        tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.innerWidth < 768) {
+        const tableCard = document.querySelector('.kov-table-card');
+        if (tableCard) {
+          tableCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
     }
 

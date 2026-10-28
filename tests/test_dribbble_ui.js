@@ -215,7 +215,7 @@ async function runEmpiricalAudit() {
 
     // Test clicking Folder 2 (Operasional)
     await page.click('.dd-folder-royal');
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise(r => setTimeout(r, 150));
     const divisiVal2 = await page.$eval('#divisiSelect', el => el.value);
     const visibleCount2 = await page.$$eval('#candidateTableBody tr[data-id]', rows => rows.filter(r => r.style.display !== 'none').length);
     report('Klik Folder Operasional (Blue) menyaring tabel divisi', divisiVal2 === 'operasional' && visibleCount2 === 1, `Visible: ${visibleCount2} kandidat Ops`);
