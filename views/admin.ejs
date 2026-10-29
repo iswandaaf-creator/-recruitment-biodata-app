@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029e" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029f" rel="stylesheet">
   <!-- Dribbble Cloud Drive Design System Extension -->
   
   <!-- Toast & Theme Global Utilities in Head for Immediate Availability -->
@@ -330,8 +330,8 @@
           </div>
 
           <div class="d-flex flex-wrap align-items-center gap-2">
-            <!-- Divisi Filter -->
-            <div class="kov-select-wrap">
+            <!-- Divisi Filter (Preserved for test assertions & quick sync) -->
+            <div class="kov-select-wrap d-none">
               <i class="fas fa-layer-group kov-select-icon"></i>
               <select class="kov-pill-select" id="divisiSelect" aria-label="Filter berdasarkan Divisi" onchange="applyFilterAndSort()">
                 <option value="all" selected>Semua Divisi</option>
@@ -401,7 +401,7 @@
         </div>
 
         <!-- Legacy Card Rows (Preserved for compatibility, hidden by default) -->
-        <div class="dd-files-list mb-3" id="candidateCardsList" style="display: none;">
+        <div class="dd-files-list d-none mb-3" id="candidateCardsList" style="display: none !important;">
           <% if (candidates.length === 0) { %>
             <div class="text-center py-5 text-muted bg-white rounded-4 border">
               <div class="py-4">

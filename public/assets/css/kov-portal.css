@@ -6597,4 +6597,369 @@ body,
   color: #ffffff !important;
 }
 
+/* ========================================================================= */
+/* 8. TOTAL ANTI-SLOP REINFORCEMENT: ENFORCE DEFAULT DATA TABLE VIEW         */
+/* ========================================================================= */
+#candidateCardsList,
+.dd-files-list {
+  display: none !important;
+}
+
+#candidateTableView,
+.kov-botanical-table-wrap {
+  display: block !important;
+  background: #ffffff !important;
+  border: 1px solid #eaecf0 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04) !important;
+  margin-bottom: 1.5rem !important;
+}
+
+[data-theme="dark"] #candidateTableView,
+[data-theme="dark"] .kov-botanical-table-wrap {
+  background: #111113 !important;
+  border-color: #27272a !important;
+}
+
+.kov-botanical-table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  font-size: 0.8125rem !important;
+}
+
+.kov-botanical-table thead th {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #eaecf0 !important;
+  color: #475467 !important;
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 10px 14px !important;
+  white-space: nowrap !important;
+}
+
+[data-theme="dark"] .kov-botanical-table thead th {
+  background: #18181b !important;
+  border-bottom-color: #27272a !important;
+  color: #a1a1aa !important;
+}
+
+.kov-botanical-table tbody tr {
+  transition: background-color 0.15s ease !important;
+}
+
+.kov-botanical-table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody tr:hover {
+  background-color: #18181b !important;
+}
+
+.kov-botanical-table tbody td {
+  padding: 12px 14px !important;
+  border-bottom: 1px solid #f2f4f7 !important;
+  vertical-align: middle !important;
+  color: #344054 !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody td {
+  border-bottom-color: #27272a !important;
+  color: #d4d4d8 !important;
+}
+
+.kov-avatar-monogram {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  border: 1px solid #bbf7d0 !important;
+  font-weight: 700 !important;
+  font-size: 0.8125rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+[data-theme="dark"] .kov-avatar-monogram {
+  background: rgba(22, 101, 52, 0.25) !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  color: #4ade80 !important;
+}
+
+.kov-candidate-name {
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  color: #101828 !important;
+  line-height: 1.3 !important;
+}
+
+[data-theme="dark"] .kov-candidate-name {
+  color: #f4f4f5 !important;
+}
+
+.kov-candidate-sub {
+  font-size: 0.75rem !important;
+  color: #667085 !important;
+  margin-top: 2px !important;
+}
+
+[data-theme="dark"] .kov-candidate-sub {
+  color: #a1a1aa !important;
+}
+
+/* Minimalist Format Badges */
+.dd-file-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 2px 7px !important;
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+  font-family: 'IBM Plex Mono', monospace !important;
+  border-radius: 4px !important;
+  letter-spacing: 0.02em !important;
+  width: auto !important;
+  height: 22px !important;
+}
+
+.dd-badge-pdf {
+  background: #fef3f2 !important;
+  color: #b42318 !important;
+  border: 1px solid #fee4e2 !important;
+}
+
+.dd-badge-png {
+  background: #eff8ff !important;
+  color: #175cd3 !important;
+  border: 1px solid #d1e9ff !important;
+}
+
+.dd-badge-zip {
+  background: #fdf2fa !important;
+  color: #c11574 !important;
+  border: 1px solid #fce7f6 !important;
+}
+
+[data-theme="dark"] .dd-badge-pdf {
+  background: rgba(180, 35, 24, 0.2) !important;
+  border-color: rgba(180, 35, 24, 0.3) !important;
+  color: #fda29b !important;
+}
+
+[data-theme="dark"] .dd-badge-png {
+  background: rgba(23, 92, 211, 0.2) !important;
+  border-color: rgba(23, 92, 211, 0.3) !important;
+  color: #84caff !important;
+}
+
+[data-theme="dark"] .dd-badge-zip {
+  background: rgba(193, 21, 116, 0.2) !important;
+  border-color: rgba(193, 21, 116, 0.3) !important;
+  color: #faa7e0 !important;
+}
+
+/* Minimalist Status Badges */
+.kov-status-badge,
+.status-pill-modern {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 3px 9px !important;
+  border-radius: 9999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+}
+
+.status-diterima,
+.pill-success {
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  border: 1px solid #bbf7d0 !important;
+}
+
+.status-belum,
+.pill-warning {
+  background: #fffbeb !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+}
+
+.status-dipertimbangkan {
+  background: #eff8ff !important;
+  color: #175cd3 !important;
+  border: 1px solid #b2ddff !important;
+}
+
+.status-ditolak,
+.pill-danger {
+  background: #fef3f2 !important;
+  color: #b42318 !important;
+  border: 1px solid #fee4e2 !important;
+}
+
+[data-theme="dark"] .status-diterima,
+[data-theme="dark"] .pill-success {
+  background: rgba(22, 101, 52, 0.2) !important;
+  border-color: rgba(34, 197, 94, 0.3) !important;
+  color: #86efac !important;
+}
+
+[data-theme="dark"] .status-belum,
+[data-theme="dark"] .pill-warning {
+  background: rgba(180, 83, 9, 0.2) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+  color: #fde68a !important;
+}
+
+[data-theme="dark"] .status-dipertimbangkan {
+  background: rgba(23, 92, 211, 0.2) !important;
+  border-color: rgba(23, 92, 211, 0.3) !important;
+  color: #84caff !important;
+}
+
+[data-theme="dark"] .status-ditolak,
+[data-theme="dark"] .pill-danger {
+  background: rgba(180, 35, 24, 0.2) !important;
+  border-color: rgba(180, 35, 24, 0.3) !important;
+  color: #fda29b !important;
+}
+
+/* Minimal Ghost Action Buttons */
+.kov-action-review-btn {
+  background: #ffffff !important;
+  border: 1px solid #d0d5dd !important;
+  color: #344054 !important;
+  border-radius: 6px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: all 0.15s ease !important;
+  text-decoration: none !important;
+}
+
+.kov-action-review-btn:hover {
+  background: #f8fafc !important;
+  border-color: #98a2b3 !important;
+  color: #101828 !important;
+}
+
+[data-theme="dark"] .kov-action-review-btn {
+  background: #18181b !important;
+  border-color: #27272a !important;
+  color: #e4e4e7 !important;
+}
+
+[data-theme="dark"] .kov-action-review-btn:hover {
+  background: #27272a !important;
+  color: #ffffff !important;
+}
+
+.kov-action-icon-circle {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 6px !important;
+  border: 1px solid #d0d5dd !important;
+  background: #ffffff !important;
+  color: #667085 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.75rem !important;
+  transition: all 0.15s ease !important;
+  text-decoration: none !important;
+}
+
+.kov-action-icon-circle:hover {
+  background: #fef3f2 !important;
+  border-color: #fee4e2 !important;
+  color: #b42318 !important;
+}
+
+[data-theme="dark"] .kov-action-icon-circle {
+  background: #18181b !important;
+  border-color: #27272a !important;
+  color: #a1a1aa !important;
+}
+
+/* Slim Minimalist Right Panel (Linear Inspector Style) */
+.dd-right-panel {
+  width: 280px !important;
+  flex: 0 0 280px !important;
+  background: #fafafa !important;
+  border-left: 1px solid #eaecf0 !important;
+  padding: 16px !important;
+  gap: 14px !important;
+}
+
+[data-theme="dark"] .dd-right-panel {
+  background: #0d0d0f !important;
+  border-left-color: #27272a !important;
+}
+
+.dd-calendar-widget,
+.dd-task-widget {
+  background: #ffffff !important;
+  border: 1px solid #eaecf0 !important;
+  border-radius: 8px !important;
+  padding: 12px 14px !important;
+}
+
+[data-theme="dark"] .dd-calendar-widget,
+[data-theme="dark"] .dd-task-widget {
+  background: #111113 !important;
+  border-color: #27272a !important;
+}
+
+.dd-task-card {
+  background: #f8fafc !important;
+  border: 1px solid #eaecf0 !important;
+  border-left: 3px solid #166534 !important;
+  border-radius: 6px !important;
+  padding: 10px 12px !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .dd-task-card {
+  background: #18181b !important;
+  border-color: #27272a !important;
+  border-left-color: #22c55e !important;
+}
+
+/* Hide toy badges on task card */
+.dd-task-card .badge,
+.dd-task-card .d-flex.gap-1 {
+  display: none !important;
+}
+
+/* Reviewer Grid Card Minimalist Treatment */
+.reviewer-grid-card {
+  background: #ffffff !important;
+  border: 1px solid #eaecf0 !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04) !important;
+  transition: all 0.15s ease !important;
+}
+
+.reviewer-grid-card:hover {
+  border-color: #cbd5e1 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 6px rgba(16, 24, 40, 0.06) !important;
+}
+
+[data-theme="dark"] .reviewer-grid-card {
+  background: #111113 !important;
+  border-color: #27272a !important;
+}
+
+
 
