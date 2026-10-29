@@ -6961,5 +6961,363 @@ body,
   border-color: #27272a !important;
 }
 
+/* ========================================================================= */
+/* 12. JUSTINMIND WEB COMPONENTS DESIGN SYSTEM ARCHITECTURE                 */
+/*     (Ultra-clean geometry, hairline rules, 4px radius, smooth motion)    */
+/* ========================================================================= */
+
+/* --- 1. Universal Smooth Motion Engine --- */
+a,
+button,
+input,
+select,
+textarea,
+.dd-folder-card,
+.kov-filter-pill-botanical,
+.coinbase-kpi-card,
+.reviewer-grid-card,
+.dd-task-card,
+.kov-botanical-table tbody tr {
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* --- 2. Justinmind Typography & Headings Hierarchy --- */
+.jm-heading-1,
+.brand-headline {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.025em !important;
+  color: #111827 !important;
+  line-height: 1.25 !important;
+}
+
+.jm-heading-2,
+.dd-hero-title,
+.login-title {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: #111827 !important;
+  line-height: 1.3 !important;
+}
+
+.jm-heading-3,
+.kov-table-title {
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.015em !important;
+  color: #111827 !important;
+}
+
+.jm-heading-4,
+.dd-section-title,
+.dd-calendar-title {
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  color: #111827 !important;
+  text-transform: uppercase !important;
+}
+
+.jm-subtitle,
+.brand-kicker,
+.kov-table-kicker {
+  font-size: 0.6875rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: #6b7280 !important;
+}
+
+[data-theme="dark"] .jm-heading-1,
+[data-theme="dark"] .jm-heading-2,
+[data-theme="dark"] .jm-heading-3,
+[data-theme="dark"] .jm-heading-4,
+[data-theme="dark"] .dd-hero-title,
+[data-theme="dark"] .login-title,
+[data-theme="dark"] .kov-table-title {
+  color: #f9fafb !important;
+}
+
+[data-theme="dark"] .jm-subtitle,
+[data-theme="dark"] .brand-kicker {
+  color: #9ca3af !important;
+}
+
+/* --- 3. Justinmind Button System --- */
+.btn-dd-hero,
+.btn-submit-linear,
+.btn-kov-primary,
+.btn-submit-kov {
+  height: 40px !important;
+  background: #166534 !important;
+  color: #ffffff !important;
+  border: 1px solid #14532d !important;
+  border-radius: 4px !important;
+  padding: 0 16px !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+}
+
+.btn-dd-hero:hover,
+.btn-submit-linear:hover,
+.btn-kov-primary:hover,
+.btn-submit-kov:hover {
+  background: #14532d !important;
+  color: #ffffff !important;
+}
+
+.btn-dd-hero:active,
+.btn-submit-linear:active,
+.btn-kov-primary:active,
+.btn-submit-kov:active {
+  transform: scale(0.98) !important;
+}
+
+/* Justinmind Secondary / Outline Button */
+.btn-kov-outline,
+.btn-kov-secondary {
+  height: 40px !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  border: 1px solid #111827 !important;
+  border-radius: 4px !important;
+  padding: 0 16px !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  box-shadow: none !important;
+}
+
+.btn-kov-outline:hover,
+.btn-kov-secondary:hover {
+  background: #f9fafb !important;
+  color: #000000 !important;
+}
+
+.btn-kov-outline:active,
+.btn-kov-secondary:active {
+  transform: scale(0.98) !important;
+}
+
+[data-theme="dark"] .btn-kov-outline,
+[data-theme="dark"] .btn-kov-secondary {
+  background: #18181b !important;
+  color: #f9fafb !important;
+  border-color: #3f3f46 !important;
+}
+
+[data-theme="dark"] .btn-kov-outline:hover,
+[data-theme="dark"] .btn-kov-secondary:hover {
+  background: #27272a !important;
+}
+
+/* Justinmind Circular Icon Buttons */
+.dd-nav-arrow-btn,
+.dd-icon-btn {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  border: 1px solid #d1d5db !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+}
+
+.dd-nav-arrow-btn:hover,
+.dd-icon-btn:hover {
+  background: #f3f4f6 !important;
+  border-color: #9ca3af !important;
+}
+
+[data-theme="dark"] .dd-nav-arrow-btn,
+[data-theme="dark"] .dd-icon-btn {
+  background: #18181b !important;
+  border-color: #3f3f46 !important;
+  color: #f9fafb !important;
+}
+
+/* --- 4. Justinmind Forms & Controls Architecture --- */
+.dd-search-container {
+  height: 40px !important;
+  border: 1px solid #2b2b2b !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.dd-search-container:focus-within {
+  border-color: #166534 !important;
+  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.2) !important;
+}
+
+[data-theme="dark"] .dd-search-container {
+  background: #18181b !important;
+  border-color: #3f3f46 !important;
+}
+
+[data-theme="dark"] .dd-search-container:focus-within {
+  border-color: #22c55e !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25) !important;
+}
+
+.input-field-kov,
+.form-control {
+  height: 40px !important;
+  border: 1px solid #2b2b2b !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+  padding: 8px 12px !important;
+  font-size: 0.875rem !important;
+}
+
+.input-field-kov:focus,
+.form-control:focus {
+  border-color: #166534 !important;
+  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.2) !important;
+  outline: none !important;
+}
+
+[data-theme="dark"] .input-field-kov,
+[data-theme="dark"] .form-control {
+  background: #18181b !important;
+  border-color: #3f3f46 !important;
+  color: #f9fafb !important;
+}
+
+.form-label-kov,
+.form-label {
+  font-size: 0.8125rem !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+  margin-bottom: 6px !important;
+  letter-spacing: 0.01em !important;
+}
+
+[data-theme="dark"] .form-label-kov,
+[data-theme="dark"] .form-label {
+  color: #e5e7eb !important;
+}
+
+/* --- 5. Justinmind Cards & Items --- */
+.kov-table-card,
+.coinbase-kpi-card,
+.reviewer-grid-card,
+.kov-card,
+.login-card {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+
+.coinbase-kpi-card:hover,
+.reviewer-grid-card:hover {
+  border-color: #9ca3af !important;
+  transform: none !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="dark"] .kov-table-card,
+[data-theme="dark"] .coinbase-kpi-card,
+[data-theme="dark"] .reviewer-grid-card,
+[data-theme="dark"] .kov-card,
+[data-theme="dark"] .login-card {
+  background: #111113 !important;
+  border-color: #27272a !important;
+}
+
+/* --- 6. Justinmind Navigation & Segmented Tabs --- */
+.dd-folders-grid {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 4px !important;
+  padding: 4px !important;
+  background: #f3f4f6 !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 6px !important;
+}
+
+[data-theme="dark"] .dd-folders-grid {
+  background: #18181b !important;
+  border-color: #27272a !important;
+}
+
+.dd-folder-card {
+  height: 36px !important;
+  padding: 0 14px !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  color: #4b5563 !important;
+  cursor: pointer !important;
+}
+
+.dd-folder-card:hover {
+  color: #111827 !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dd-folder-card.active {
+  background: #111827 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border-color: #111827 !important;
+}
+
+[data-theme="dark"] .dd-folder-card {
+  color: #9ca3af !important;
+}
+
+[data-theme="dark"] .dd-folder-card.active {
+  background: #22c55e !important;
+  color: #09090b !important;
+  border-color: #22c55e !important;
+}
+
+.badge-tab-count {
+  background: #e5e7eb !important;
+  color: #374151 !important;
+  padding: 2px 7px !important;
+  border-radius: 9999px !important;
+  font-size: 0.6875rem !important;
+  font-weight: 700 !important;
+}
+
+.dd-folder-card.active .badge-tab-count {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .dd-folder-card.active .badge-tab-count {
+  background: rgba(0, 0, 0, 0.3) !important;
+  color: #09090b !important;
+}
+
+
 
 
