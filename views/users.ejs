@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029b" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
 </head>
 <body>
 
@@ -93,93 +93,84 @@
         </div>
       </div>
 
-    <!-- Kategori Role Pengguna (4 Symmetrical Framed-Sheet Cards) -->
-    <div class="dd-section-header mb-3">
-      <div class="d-flex align-items-center gap-2">
-        <h3 class="dd-section-title">Distribusi Role &amp; Wewenang Akun</h3>
-        <span class="badge rounded-pill" style="background: rgba(22, 101, 52, 0.12); color: var(--dd-primary, #166534); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">
-          <%= (users || []).length %> Pengguna
-        </span>
-      </div>
-    </div>
-
-    <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
-      <!-- 1. Super Admin (Rose Crimson) -->
-      <div class="dd-folder-card dd-folder-rose folder-rose">
-        <div class="dd-folder-top">
-          <div class="dd-folder-icon"><i class="fas fa-shield-halved"></i></div>
-          <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
+      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
+      <div class="kov-kpi-strip mb-3">
+        <div class="kov-kpi-cell" role="button" title="Total Seluruh Akun Pengguna">
+          <div class="kov-kpi-cell-label">Total Pengguna <i class="fas fa-users opacity-50"></i></div>
+          <div class="kov-kpi-cell-val text-primary"><%= (users || []).length %></div>
+          <div class="kov-kpi-cell-sub">Seluruh akun terdaftar</div>
         </div>
-        <div class="dd-folder-body">
-          <h4 class="dd-folder-name">Super Admin</h4>
-          <div class="dd-avatar-group">
-            <span class="dd-avatar-chip">SA</span>
-            <span class="dd-avatar-chip dd-avatar-chip-more">+<%= (users || []).filter(u => (u.role || '').toLowerCase().includes('superadmin')).length %></span>
-          </div>
+        <div class="kov-kpi-cell" role="button" title="Akun Super Admin">
+          <div class="kov-kpi-cell-label">Super Admin <i class="fas fa-shield-halved opacity-50"></i></div>
+          <div class="kov-kpi-cell-val text-danger"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('superadmin')).length %></div>
+          <div class="kov-kpi-cell-sub">Otoritas sistem penuh</div>
         </div>
-        <div class="dd-folder-footer">
-          <span class="dd-file-count"><i class="far fa-user"></i> <%= (users || []).filter(u => (u.role || '').toLowerCase().includes('superadmin')).length %> Akun</span>
-          <span class="dd-file-weight"><i class="fas fa-lock"></i> Full Akses</span>
+        <div class="kov-kpi-cell" role="button" title="Akun Reviewer Divisi">
+          <div class="kov-kpi-cell-label">Reviewer Divisi <i class="fas fa-user-check opacity-50"></i></div>
+          <div class="kov-kpi-cell-val text-warning"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('user')).length %></div>
+          <div class="kov-kpi-cell-sub">Penilai seleksi pelamar</div>
+        </div>
+        <div class="kov-kpi-cell" role="button" title="Akun Operasional & IT">
+          <div class="kov-kpi-cell-label">Operasional &amp; IT <i class="fas fa-boxes-packing opacity-50"></i></div>
+          <div class="kov-kpi-cell-val" style="color: var(--dd-primary, #166534);"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('operasional') || (u.role || '').toLowerCase().includes('it') || (u.role || '').toLowerCase() === 'admin').length %></div>
+          <div class="kov-kpi-cell-sub">Staf logistik &amp; sistem</div>
         </div>
       </div>
 
-      <!-- 2. Admin HR (Violet Purple) -->
-      <div class="dd-folder-card dd-folder-violet folder-violet">
-        <div class="dd-folder-top">
-          <div class="dd-folder-icon"><i class="fas fa-user-tie"></i></div>
-          <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-        </div>
-        <div class="dd-folder-body">
-          <h4 class="dd-folder-name">Admin HR</h4>
-          <div class="dd-avatar-group">
-            <span class="dd-avatar-chip">HR</span>
-            <span class="dd-avatar-chip dd-avatar-chip-more">+<%= (users || []).filter(u => (u.role || '').toLowerCase() === 'admin').length %></span>
+      <!-- Kategori Filter Role Pengguna (4 Compact Symmetrical Framed Tiles) -->
+      <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+        <!-- 1. Super Admin (Rose Crimson) -->
+        <div class="dd-folder-card dd-folder-rose folder-rose">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-shield-halved"></i></div>
+          </div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-name">Super Admin</h4>
+          </div>
+          <div class="dd-folder-footer">
+            <span class="dd-file-count"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('superadmin')).length %> Akun</span>
           </div>
         </div>
-        <div class="dd-folder-footer">
-          <span class="dd-file-count"><i class="far fa-user"></i> <%= (users || []).filter(u => (u.role || '').toLowerCase() === 'admin').length %> Akun</span>
-          <span class="dd-file-weight"><i class="fas fa-users-gear"></i> Rekrutmen</span>
-        </div>
-      </div>
 
-      <!-- 3. Reviewer Divisi (Amber Gold) -->
-      <div class="dd-folder-card dd-folder-amber folder-amber">
-        <div class="dd-folder-top">
-          <div class="dd-folder-icon"><i class="fas fa-user-check"></i></div>
-          <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-        </div>
-        <div class="dd-folder-body">
-          <h4 class="dd-folder-name">Reviewer Divisi</h4>
-          <div class="dd-avatar-group">
-            <span class="dd-avatar-chip">RV</span>
-            <span class="dd-avatar-chip dd-avatar-chip-more">+<%= (users || []).filter(u => (u.role || '').toLowerCase().includes('user')).length %></span>
+        <!-- 2. Admin HR (Violet Purple) -->
+        <div class="dd-folder-card dd-folder-violet folder-violet">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-user-tie"></i></div>
+          </div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-name">Admin HR</h4>
+          </div>
+          <div class="dd-folder-footer">
+            <span class="dd-file-count"><%= (users || []).filter(u => (u.role || '').toLowerCase() === 'admin').length %> Akun</span>
           </div>
         </div>
-        <div class="dd-folder-footer">
-          <span class="dd-file-count"><i class="far fa-user"></i> <%= (users || []).filter(u => (u.role || '').toLowerCase().includes('user')).length %> Akun</span>
-          <span class="dd-file-weight"><i class="fas fa-pen-to-square"></i> Penilai</span>
-        </div>
-      </div>
 
-      <!-- 4. Tim Operasional (Royal Sky) -->
-      <div class="dd-folder-card dd-folder-royal folder-blue active">
-        <div class="dd-folder-top">
-          <div class="dd-folder-icon"><i class="fas fa-boxes-packing"></i></div>
-          <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-        </div>
-        <div class="dd-folder-body">
-          <h4 class="dd-folder-name">Tim Operasional</h4>
-          <div class="dd-avatar-group">
-            <span class="dd-avatar-chip">OP</span>
-            <span class="dd-avatar-chip dd-avatar-chip-more">+<%= (users || []).filter(u => (u.role || '').toLowerCase().includes('operasional')).length %></span>
+        <!-- 3. Reviewer Divisi (Amber Gold) -->
+        <div class="dd-folder-card dd-folder-amber folder-amber">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-user-check"></i></div>
+          </div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-name">Reviewer Divisi</h4>
+          </div>
+          <div class="dd-folder-footer">
+            <span class="dd-file-count"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('user')).length %> Akun</span>
           </div>
         </div>
-        <div class="dd-folder-footer">
-          <span class="dd-file-count"><i class="far fa-user"></i> <%= (users || []).filter(u => (u.role || '').toLowerCase().includes('operasional')).length %> Akun</span>
-          <span class="dd-file-weight"><i class="fas fa-truck-fast"></i> BA &amp; PO</span>
+
+        <!-- 4. Tim Operasional (Royal Sky) -->
+        <div class="dd-folder-card dd-folder-royal folder-blue active">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-boxes-packing"></i></div>
+          </div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-name">Tim Operasional</h4>
+          </div>
+          <div class="dd-folder-footer">
+            <span class="dd-file-count"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('operasional')).length %> Akun</span>
+          </div>
         </div>
       </div>
-    </div>
       <!-- Create User Card -->
       <div class="col-xl-4 col-lg-5">
         <div class="kov-card h-100" style="border-top: 3px solid var(--kov-primary-500);">

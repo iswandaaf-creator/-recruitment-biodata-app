@@ -16,7 +16,7 @@
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   
   <!-- Figma Design Token System -->
-  <link href="/assets/css/kov-portal.css?v=20261029b" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
   
   <style>
     body {
@@ -294,60 +294,29 @@
         </div>
       </div>
 
-    <!-- Bento Metric Cards (Taste-Skill Framed Sheet) -->
-    <div class="row g-3 mb-4">
-      <div class="col-6 col-md-3">
-        <div class="coinbase-kpi-card h-100">
-          <div class="w-100">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="bento-metric-title">Total Belanja IT</span>
-              <div class="kov-metric-icon-box text-success" style="color: var(--kov-primary-600) !important;"><i class="fas fa-wallet"></i></div>
-            </div>
-            <div class="bento-metric-value text-success" style="font-size: 1.45rem;">Rp <%= totalPengeluaran.toLocaleString('id-ID') %></div>
-            <div class="bento-metric-sub">Seluruh outlet KOV</div>
-          </div>
+      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
+      <div class="kov-kpi-strip mb-3">
+        <div class="kov-kpi-cell" role="button" title="Total Seluruh Belanja IT">
+          <div class="kov-kpi-cell-label">Total Belanja IT <i class="fas fa-wallet opacity-50"></i></div>
+          <div class="kov-kpi-cell-val" style="color: var(--dd-primary, #166534);">Rp <%= totalPengeluaran.toLocaleString('id-ID') %></div>
+          <div class="kov-kpi-cell-sub">Seluruh outlet KOV</div>
+        </div>
+        <div class="kov-kpi-cell" role="button" title="Pengeluaran Bulan Ini">
+          <div class="kov-kpi-cell-label">Bulan Ini <i class="fas fa-calendar-check opacity-50"></i></div>
+          <div class="kov-kpi-cell-val text-primary">Rp <%= pengeluaranBulanIni.toLocaleString('id-ID') %></div>
+          <div class="kov-kpi-cell-sub"><%= new Date().toLocaleString('id-ID', { month: 'short', year: 'numeric' }) %></div>
+        </div>
+        <div class="kov-kpi-cell" role="button" title="Total Seluruh Nota IT">
+          <div class="kov-kpi-cell-label">Total Nota <i class="fas fa-receipt opacity-50"></i></div>
+          <div class="kov-kpi-cell-val"><%= expenses.length %> <span style="font-size: 0.95rem; font-weight: 500; color: #64748b;">Nota</span></div>
+          <div class="kov-kpi-cell-sub">Belanja vendor IT tercatat</div>
+        </div>
+        <div class="kov-kpi-cell" role="button" title="Nota Pending Verifikasi">
+          <div class="kov-kpi-cell-label">Pending Verifikasi <i class="fas fa-clock opacity-50"></i></div>
+          <div class="kov-kpi-cell-val text-warning"><%= totalPending %> <span style="font-size: 0.95rem; font-weight: 500; color: #64748b;">Nota</span></div>
+          <div class="kov-kpi-cell-sub">Perlu audit berkas</div>
         </div>
       </div>
-
-      <div class="col-6 col-md-3">
-        <div class="coinbase-kpi-card h-100">
-          <div class="w-100">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="bento-metric-title">Bulan Ini</span>
-              <div class="kov-metric-icon-box text-primary"><i class="fas fa-calendar-check"></i></div>
-            </div>
-            <div class="bento-metric-value text-primary" style="font-size: 1.45rem;">Rp <%= pengeluaranBulanIni.toLocaleString('id-ID') %></div>
-            <div class="bento-metric-sub"><%= new Date().toLocaleString('id-ID', { month: 'short', year: 'numeric' }) %></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <div class="coinbase-kpi-card h-100">
-          <div class="w-100">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="bento-metric-title">Total Nota</span>
-              <div class="kov-metric-icon-box text-secondary"><i class="fas fa-receipt"></i></div>
-            </div>
-            <div class="bento-metric-value"><%= expenses.length %> <span class="fs-6 fw-normal text-muted">Nota</span></div>
-            <div class="bento-metric-sub">Belanja vendor IT</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <div class="coinbase-kpi-card h-100">
-          <div class="w-100">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="bento-metric-title text-warning">Pending</span>
-              <div class="kov-metric-icon-box text-warning" style="color: var(--kov-amber) !important;"><i class="fas fa-clock"></i></div>
-            </div>
-            <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;"><%= totalPending %> <span class="fs-6 fw-normal text-muted">Nota</span></div>
-            <div class="bento-metric-sub">Perlu verifikasi</div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <% 
       const defaultOutlets = ['Kantor Pusat Semarang', 'KOV Lab Semarang', 'Outlet Pekalongan', 'Outlet Rinjani', 'Outlet Semarang', 'Outlet Ngaliyan', 'Outlet Purwokerto', 'Outlet Solo'];

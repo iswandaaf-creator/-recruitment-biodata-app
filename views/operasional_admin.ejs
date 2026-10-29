@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029b" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
   <style>
     .sortable-header { cursor: pointer; user-select: none; transition: var(--kov-transition); }
     .sortable-header:hover { background-color: var(--kov-slate-100); }
@@ -112,175 +112,84 @@
         </div>
       </div>
 
-      <!-- Kategori Status Berita Acara (4 Symmetrical Framed-Sheet Cards) -->
-      <div class="dd-section-header mb-3">
-        <div class="d-flex align-items-center gap-2">
-          <h3 class="dd-section-title">Status Pengajuan Berita Acara</h3>
-          <span class="badge" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); font-size: 0.74rem; font-weight: 600; padding: 3px 8px; border-radius: 6px;">
-            <%= records.length %> Pengajuan
-          </span>
+      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
+      <div class="kov-kpi-strip mb-3">
+        <div class="kov-kpi-cell" onclick="quickFilterStatus('')" role="button" title="Tampilkan semua pengajuan">
+          <div class="kov-kpi-cell-label">Total Pengajuan <i class="fas fa-boxes-stacked opacity-50"></i></div>
+          <div class="kov-kpi-cell-val text-primary"><%= records.length %></div>
+          <div class="kov-kpi-cell-sub">Seluruh berkas BA tercatat</div>
         </div>
-          <a href="javascript:void(0)" onclick="quickFilterStatus('')" class="dd-view-all-link" title="Reset filter dan tampilkan seluruh BA">
-            <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
-          </a>
+        <div class="kov-kpi-cell" onclick="quickFilterStatus('Menunggu Approval')" role="button" title="Filter BA Menunggu Approval">
+          <div class="kov-kpi-cell-label">Menunggu Approval <i class="fas fa-clock opacity-50"></i></div>
+          <div class="kov-kpi-cell-val text-warning"><%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %></div>
+          <div class="kov-kpi-cell-sub">Perlu otorisasi manajemen</div>
         </div>
-
-        <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
-          <!-- 1. Menunggu Approval (Coral Red) -->
-          <div class="dd-folder-card dd-folder-coral folder-coral" onclick="quickFilterStatus('Menunggu Approval')" role="button" tabindex="0" title="Filter BA Menunggu Approval">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-clock"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Menunggu Approval</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">MG</span>
-                <span class="dd-avatar-chip">OP</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-clock"></i> Urgent</span>
-            </div>
-          </div>
-
-          <!-- 2. Disetujui (Emerald Mint) -->
-          <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="quickFilterStatus('Disetujui')" role="button" tabindex="0" title="Filter BA Disetujui">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-circle-check"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Disetujui Manajemen</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">OK</span>
-                <span class="dd-avatar-chip">PO</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-check"></i> Siap PO</span>
-            </div>
-          </div>
-
-          <!-- 3. Dalam Proses (Royal Sky) -->
-          <div class="dd-folder-card dd-folder-royal folder-blue" onclick="quickFilterStatus('Proses')" role="button" tabindex="0" title="Filter BA Dalam Proses">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-truck-fast"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Dalam Proses Pengadaan</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">PR</span>
-                <span class="dd-avatar-chip">FN</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.filter(r => (r.status_approval || '').includes('Proses')).length %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= records.filter(r => (r.status_approval || '').includes('Proses')).length %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-spinner"></i> Pengadaan</span>
-            </div>
-          </div>
-
-          <!-- 4. Total Arsip BA (Midnight Indigo) -->
-          <div class="dd-folder-card dd-folder-indigo folder-indigo active" onclick="quickFilterStatus('')" role="button" tabindex="0" title="Tampilkan Semua Berkas BA">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-boxes-stacked"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Semua Arsip Berita Acara</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">BA</span>
-                <span class="dd-avatar-chip">ALL</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= records.length %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder-open"></i> <%= records.length %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-layer-group"></i> Total</span>
-            </div>
-          </div>
+        <div class="kov-kpi-cell" onclick="quickFilterStatus('Disetujui')" role="button" title="Filter BA Disetujui">
+          <div class="kov-kpi-cell-label">Disetujui <i class="fas fa-circle-check opacity-50"></i></div>
+          <div class="kov-kpi-cell-val" style="color: var(--dd-primary, #166534);"><%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %></div>
+          <div class="kov-kpi-cell-sub">Siap diproses PO / pembelian</div>
         </div>
-    <div class="bento-grid">
-      <div class="coinbase-kpi-card">
-        <div class="w-100">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <span class="bento-metric-title">Total Pengajuan</span>
-            <div class="kov-metric-icon-box text-primary"><i class="fas fa-boxes-stacked"></i></div>
-          </div>
-          <div class="bento-metric-value text-primary"><%= records.length %></div>
-          <div class="bento-metric-sub">Seluruh berkas BA tercatat</div>
+        <div class="kov-kpi-cell" onclick="quickFilterStatus('')" role="button" title="Total Nilai Estimasi">
+          <div class="kov-kpi-cell-label">Estimasi Nilai <i class="fas fa-wallet opacity-50"></i></div>
+          <div class="kov-kpi-cell-val">Rp <%= (Math.round(records.reduce((acc, r) => acc + (r.total_estimasi || 0), 0) / 1000000)).toLocaleString('id-ID') %> <span style="font-size: 0.95rem; font-weight: 500; color: #64748b;">Jt</span></div>
+          <div class="kov-kpi-cell-sub">Akumulasi estimasi anggaran</div>
         </div>
       </div>
 
-      <div class="coinbase-kpi-card">
-        <div class="w-100">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <span class="bento-metric-title text-warning">Menunggu Approval</span>
-            <div class="kov-metric-icon-box text-warning" style="color: var(--kov-amber) !important;"><i class="fas fa-clock"></i></div>
+      <!-- Kategori Filter Status Berita Acara (4 Compact Symmetrical Framed Tiles) -->
+      <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
+        <!-- 1. Menunggu Approval (Coral Red) -->
+        <div class="dd-folder-card dd-folder-coral folder-coral" onclick="quickFilterStatus('Menunggu Approval')" role="button" tabindex="0" title="Filter BA Menunggu Approval">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-clock"></i></div>
           </div>
-          <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;">
-            <%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-name">Menunggu Approval</h4>
           </div>
-          <div class="bento-metric-sub">Perlu otorisasi manajemen</div>
+          <div class="dd-folder-footer">
+            <span class="dd-file-count"><%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %> Berkas</span>
+          </div>
         </div>
-      </div>
 
-      <div class="coinbase-kpi-card">
-        <div class="w-100">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <span class="bento-metric-title text-success">Disetujui</span>
-            <div class="kov-metric-icon-box text-success" style="color: var(--kov-primary-600) !important;"><i class="fas fa-circle-check"></i></div>
+        <!-- 2. Disetujui (Emerald Mint) -->
+        <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="quickFilterStatus('Disetujui')" role="button" tabindex="0" title="Filter BA Disetujui">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-circle-check"></i></div>
           </div>
-          <div class="bento-metric-value" style="color: var(--kov-primary-600);"><%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %></div>
-          <div class="bento-metric-sub">Siap diproses pengadaan/PO</div>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-name">Disetujui</h4>
+          </div>
+          <div class="dd-folder-footer">
+            <span class="dd-file-count"><%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %> Berkas</span>
+          </div>
         </div>
-      </div>
 
-      <div class="coinbase-kpi-card">
-        <div class="w-100">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <span class="bento-metric-title text-info">Dalam Proses</span>
-            <div class="kov-metric-icon-box text-info" style="color: #0284c7 !important;"><i class="fas fa-spinner"></i></div>
+        <!-- 3. Dalam Proses (Royal Sky) -->
+        <div class="dd-folder-card dd-folder-royal folder-blue" onclick="quickFilterStatus('Proses')" role="button" tabindex="0" title="Filter BA Dalam Proses">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-truck-fast"></i></div>
           </div>
-          <div class="bento-metric-value text-info" style="color: #0284c7 !important;">
-            <%= records.filter(r => (r.status_approval || '').includes('Proses')).length %>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-name">Dalam Proses</h4>
           </div>
-          <div class="bento-metric-sub">Tahap pembelian / kirim</div>
+          <div class="dd-folder-footer">
+            <span class="dd-file-count"><%= records.filter(r => (r.status_approval || '').includes('Proses')).length %> Berkas</span>
+          </div>
         </div>
-      </div>
 
-      <div class="coinbase-kpi-card">
-        <div class="w-100">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <span class="bento-metric-title text-danger">Ditolak</span>
-            <div class="kov-metric-icon-box text-danger"><i class="fas fa-circle-xmark"></i></div>
+        <!-- 4. Total Arsip BA (Midnight Indigo) -->
+        <div class="dd-folder-card dd-folder-indigo folder-indigo active" onclick="quickFilterStatus('')" role="button" tabindex="0" title="Tampilkan Semua Berkas BA">
+          <div class="dd-folder-top">
+            <div class="dd-folder-icon"><i class="fas fa-boxes-stacked"></i></div>
           </div>
-          <div class="bento-metric-value text-danger">
-            <%= records.filter(r => (r.status_approval || '') === 'Ditolak').length %>
+          <div class="dd-folder-body">
+            <h4 class="dd-folder-name">Semua Arsip BA</h4>
           </div>
-          <div class="bento-metric-sub">Pengajuan tidak disetujui</div>
+          <div class="dd-folder-footer">
+            <span class="dd-file-count"><%= records.length %> Total</span>
+          </div>
         </div>
       </div>
-
-      <div class="coinbase-kpi-card">
-        <div class="w-100">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <span class="bento-metric-title">Total Estimasi</span>
-            <div class="kov-metric-icon-box text-secondary"><i class="fas fa-wallet"></i></div>
-          </div>
-          <div class="bento-metric-value text-dark" style="font-size: 1.35rem;">
-            Rp <%= records.reduce((acc, r) => acc + (r.total_estimasi || 0), 0).toLocaleString('id-ID') %>
-          </div>
-          <div class="bento-metric-sub">Akumulasi estimasi biaya BA</div>
-        </div>
-      </div>
-    </div>
 
     <!-- Main Data Table Card -->
     <div class="kov-card">

@@ -5349,3 +5349,573 @@ input:focus-visible,
   border-color: #334155 !important;
   color: #94a3b8 !important;
 }
+
+
+/* ==========================================================================
+   CILA TASTE-SKILL V2: COMPREHENSIVE FRAMED-SHEET TOTAL OVERHAUL STYLES
+   - Principles: Anti-slop, pure flat surfaces, 1px hairlines (#e2e8f0),
+     accent KOV Botanical Pine (#166534), tabular numbers (IBM Plex Mono).
+   - Zero cartoon illustrations, zero fake avatar circles, zero waving emojis.
+   - Ultra-smooth micro-interactions, responsive 1440/1024/768/390px layouts.
+   ========================================================================== */
+
+/* 1. Global Smoothing & Typography */
+body, .dd-theme, .kov-app-shell {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  background-color: var(--dd-bg-canvas, #f8fafc) !important;
+  color: var(--dd-text-primary, #0f172a);
+}
+
+/* 2. Universal Executive KPI Strip (.kov-kpi-strip) */
+.kov-kpi-strip {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  background: var(--dd-surface-card, #ffffff) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-radius: 8px !important;
+  margin-bottom: 1.25rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+}
+
+.kov-kpi-cell {
+  padding: 14px 18px !important;
+  border-right: 1px solid var(--dd-border, #e2e8f0) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  transition: background 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.kov-kpi-cell:last-child {
+  border-right: none !important;
+}
+
+.kov-kpi-cell:hover {
+  background: var(--dd-surface-subtle, #f8fafc) !important;
+}
+
+.kov-kpi-cell-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--dd-text-muted, #64748b) !important;
+  margin-bottom: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+.kov-kpi-cell-val {
+  font-family: var(--dd-font-mono, 'IBM Plex Mono', ui-monospace, monospace) !important;
+  font-size: 1.6rem !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  color: var(--dd-text-primary, #0f172a) !important;
+  font-variant-numeric: tabular-nums !important;
+  margin-bottom: 3px !important;
+}
+
+.kov-kpi-cell-sub {
+  font-size: 11.5px !important;
+  color: var(--dd-text-muted, #64748b) !important;
+  line-height: 1.3 !important;
+}
+
+[data-theme="dark"] .kov-kpi-strip {
+  background: #0b0f19 !important;
+  border-color: #1e293b !important;
+}
+
+[data-theme="dark"] .kov-kpi-cell {
+  border-right-color: #1e293b !important;
+}
+
+[data-theme="dark"] .kov-kpi-cell:hover {
+  background: #111827 !important;
+}
+
+[data-theme="dark"] .kov-kpi-cell-val {
+  color: #f8fafc !important;
+}
+
+@media (max-width: 991px) {
+  .kov-kpi-strip {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  .kov-kpi-cell:nth-child(2) {
+    border-right: none !important;
+  }
+  .kov-kpi-cell:nth-child(1),
+  .kov-kpi-cell:nth-child(2) {
+    border-bottom: 1px solid var(--dd-border, #e2e8f0) !important;
+  }
+  [data-theme="dark"] .kov-kpi-cell:nth-child(1),
+  [data-theme="dark"] .kov-kpi-cell:nth-child(2) {
+    border-bottom-color: #1e293b !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .kov-kpi-strip {
+    grid-template-columns: 1fr !important;
+  }
+  .kov-kpi-cell {
+    border-right: none !important;
+    border-bottom: 1px solid var(--dd-border, #e2e8f0) !important;
+  }
+  .kov-kpi-cell:last-child {
+    border-bottom: none !important;
+  }
+}
+
+/* 3. Anti-Slop Executive Hero Banner (.dd-hero-banner) */
+.dd-hero-banner {
+  background: var(--dd-surface-card, #ffffff) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-radius: 8px !important;
+  padding: 16px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+}
+
+.dd-hero-content {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.dd-hero-illustration {
+  display: none !important; /* Eliminate all cartoon illustration slop */
+}
+
+.dd-hero-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  color: var(--dd-text-primary, #0f172a) !important;
+  margin: 0 0 4px 0 !important;
+  letter-spacing: -0.015em !important;
+}
+
+.dd-hero-subtitle {
+  font-size: 0.825rem !important;
+  color: var(--dd-text-muted, #64748b) !important;
+  margin: 0 0 12px 0 !important;
+  line-height: 1.45 !important;
+}
+
+[data-theme="dark"] .dd-hero-banner {
+  background: #0b0f19 !important;
+  border-color: #1e293b !important;
+}
+
+[data-theme="dark"] .dd-hero-title {
+  color: #f8fafc !important;
+}
+
+/* 4. Sleek Interactive Filter Tiles (.dd-folders-grid & .dd-folder-card) */
+.dd-folders-grid {
+  display: grid !important;
+  gap: 8px !important;
+  margin-bottom: 1.25rem !important;
+}
+
+.dd-folder-card {
+  height: 52px !important;
+  min-height: 52px !important;
+  max-height: 52px !important;
+  background: var(--dd-surface-card, #ffffff) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-radius: 6px !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+  position: relative !important;
+}
+
+.dd-folder-card:hover {
+  border-color: #94a3b8 !important;
+  background: var(--dd-surface-subtle, #f8fafc) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.04) !important;
+}
+
+.dd-folder-card.active {
+  border-color: var(--dd-primary, #166534) !important;
+  background: #f0fdf4 !important;
+  box-shadow: 0 0 0 1px var(--dd-primary, #166534) !important;
+}
+
+[data-theme="dark"] .dd-folder-card {
+  background: #0b0f19 !important;
+  border-color: #1e293b !important;
+}
+
+[data-theme="dark"] .dd-folder-card:hover {
+  background: #111827 !important;
+  border-color: #334155 !important;
+}
+
+[data-theme="dark"] .dd-folder-card.active {
+  background: rgba(22, 101, 52, 0.15) !important;
+  border-color: #22c55e !important;
+}
+
+.dd-folder-top {
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+.dd-folder-icon {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 5px !important;
+  background: var(--dd-surface-subtle, #f1f5f9) !important;
+  color: var(--dd-text-secondary, #475569) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.82rem !important;
+}
+
+.dd-folder-card.active .dd-folder-icon {
+  background: rgba(22, 101, 52, 0.15) !important;
+  color: var(--dd-primary, #166534) !important;
+}
+
+[data-theme="dark"] .dd-folder-icon {
+  background: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+.dd-folder-menu {
+  display: none !important; /* Remove dummy 3-dot dropdowns */
+}
+
+/* Suppress All Avatar Stacks and Clutter */
+.dd-avatar-group,
+.dd-avatar-stack,
+.dd-avatar-chip,
+.dd-avatar-item,
+.dd-folder-more-btn {
+  display: none !important;
+}
+
+/* 5. Minimalist Clean Table Architecture */
+.table-responsive-modern,
+.kov-card {
+  background: var(--dd-surface-card, #ffffff) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+}
+
+[data-theme="dark"] .table-responsive-modern,
+[data-theme="dark"] .kov-card {
+  background: #0b0f19 !important;
+  border-color: #1e293b !important;
+}
+
+.kov-table,
+#candidatesTable,
+#recordsTable {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 0.825rem !important;
+}
+
+.kov-table thead th,
+#candidatesTable thead th,
+#recordsTable thead th {
+  background: var(--dd-surface-subtle, #f8fafc) !important;
+  color: var(--dd-text-muted, #64748b) !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  padding: 10px 14px !important;
+  border-bottom: 1px solid var(--dd-border, #e2e8f0) !important;
+  white-space: nowrap !important;
+}
+
+[data-theme="dark"] .kov-table thead th,
+[data-theme="dark"] #candidatesTable thead th,
+[data-theme="dark"] #recordsTable thead th {
+  background: #111827 !important;
+  color: #94a3b8 !important;
+  border-bottom-color: #1e293b !important;
+}
+
+.kov-table tbody td,
+#candidatesTable tbody td,
+#recordsTable tbody td {
+  padding: 11px 14px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  color: var(--dd-text-primary, #0f172a) !important;
+  vertical-align: middle !important;
+  transition: background 0.12s ease !important;
+}
+
+[data-theme="dark"] .kov-table tbody td,
+[data-theme="dark"] #candidatesTable tbody td,
+[data-theme="dark"] #recordsTable tbody td {
+  border-bottom-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+.kov-table tbody tr:hover td,
+#candidatesTable tbody tr:hover td,
+#recordsTable tbody tr:hover td {
+  background: #f8fafc !important;
+}
+
+[data-theme="dark"] .kov-table tbody tr:hover td,
+[data-theme="dark"] #candidatesTable tbody tr:hover td,
+[data-theme="dark"] #recordsTable tbody tr:hover td {
+  background: #111827 !important;
+}
+
+/* Numbers in tables are strictly tabular mono */
+td.num, th.num, .num-tabular {
+  font-family: var(--dd-font-mono, 'IBM Plex Mono', monospace) !important;
+  font-variant-numeric: tabular-nums !important;
+  text-align: right !important;
+}
+
+/* 6. Smooth Status Pills (.status-pill-modern) with High-Contrast WCAG Ratios */
+.status-pill-modern {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 3px 9px !important;
+  border-radius: 9999px !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  border: 1px solid transparent !important;
+}
+
+.status-pill-modern.pill-success {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+  border-color: #a7f3d0 !important;
+}
+
+.status-pill-modern.pill-warning {
+  background: #fef3c7 !important;
+  color: #854d0e !important;
+  border-color: #fde68a !important;
+}
+
+.status-pill-modern.pill-danger {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+  border-color: #fecdd3 !important;
+}
+
+.status-pill-modern.pill-info {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+  border-color: #bfdbfe !important;
+}
+
+.status-pill-modern.pill-secondary {
+  background: #f1f5f9 !important;
+  color: #1e293b !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .status-pill-modern.pill-success {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+[data-theme="dark"] .status-pill-modern.pill-warning {
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: #fbbf24 !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+[data-theme="dark"] .status-pill-modern.pill-danger {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #f87171 !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+[data-theme="dark"] .status-pill-modern.pill-info {
+  background: rgba(59, 130, 246, 0.15) !important;
+  color: #60a5fa !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+/* 7. Action Buttons & Micro-Interactions */
+.btn-kov-outline {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  background: var(--dd-surface-card, #ffffff) !important;
+  color: var(--dd-text-secondary, #475569) !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-kov-outline:hover {
+  background: var(--dd-surface-subtle, #f8fafc) !important;
+  border-color: #cbd5e1 !important;
+  color: var(--dd-text-primary, #0f172a) !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-kov-outline:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+.btn-dd-hero {
+  background: var(--dd-primary, #166534) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--dd-primary, #166534) !important;
+  padding: 7px 14px !important;
+  border-radius: 6px !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-dd-hero:hover {
+  background: #14532d !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
+
+.btn-dd-hero:active {
+  transform: translateY(0) scale(0.98) !important;
+}
+
+/* 8. Symmetrical 46px Topbar Polish */
+.dd-topbar {
+  height: 52px !important;
+  background: var(--dd-surface-card, #ffffff) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-radius: 8px !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 1rem !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
+}
+
+[data-theme="dark"] .dd-topbar {
+  background: #0b0f19 !important;
+  border-color: #1e293b !important;
+}
+
+.dd-search-container {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: var(--dd-surface-input, #f8fafc) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-radius: 6px !important;
+  padding: 0 10px !important;
+  height: 36px !important;
+  flex: 1 !important;
+  max-width: 480px !important;
+  transition: all 0.15s ease !important;
+}
+
+.dd-search-container:focus-within {
+  border-color: var(--dd-primary, #166534) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.12) !important;
+}
+
+[data-theme="dark"] .dd-search-container {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+[data-theme="dark"] .dd-search-container:focus-within {
+  border-color: #22c55e !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.15) !important;
+}
+
+.dd-search-input {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  color: var(--dd-text-primary, #0f172a) !important;
+  font-size: 0.825rem !important;
+  width: 100% !important;
+}
+
+[data-theme="dark"] .dd-search-input {
+  color: #f1f5f9 !important;
+}
+
+/* 9. Sub-Navigation Tabs (.nav-link-modern) */
+.nav-link-modern {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  border-radius: 6px !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+  color: var(--dd-text-secondary, #475569) !important;
+  text-decoration: none !important;
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  transition: all 0.15s ease !important;
+  white-space: nowrap !important;
+}
+
+.nav-link-modern:hover {
+  color: var(--dd-text-primary, #0f172a) !important;
+  background: var(--dd-surface-subtle, #f1f5f9) !important;
+}
+
+.nav-link-modern.active {
+  color: var(--dd-primary, #166534) !important;
+  background: #ffffff !important;
+  border-color: var(--dd-border, #e2e8f0) !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="dark"] .nav-link-modern.active {
+  background: #1e293b !important;
+  color: #34d399 !important;
+  border-color: #334155 !important;
+}
