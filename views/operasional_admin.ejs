@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029d" rel="stylesheet">
   <style>
     .sortable-header { cursor: pointer; user-select: none; transition: var(--kov-transition); }
     .sortable-header:hover { background-color: var(--kov-slate-100); }
@@ -69,55 +69,43 @@
         </a>
       </div>
 
-      <!-- Executive Operational Header (Taste-Skill Framed Sheet) -->
-      <div class="dd-hero-banner mb-3">
-        <div class="dd-hero-content">
+      <!-- Executive Header (Anti-Slop Framed Sheet) -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pt-1">
+        <div>
           <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
-              LOGISTIK &amp; FISIK OUTLET
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 4px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.04em;">
+              LOGISTIK &amp; INVENTARIS OUTLET
             </span>
-            <span class="text-muted small">&bull;</span>
-            <span class="text-muted small">Berita Acara Pengajuan Barang</span>
+            <span class="text-muted" style="font-size: 12px;">&bull;</span>
+            <span class="text-muted" style="font-size: 12px;"><%= records.length %> Berkas Tercatat</span>
           </div>
-          <h2 class="dd-hero-title">
-            Pusat Otorisasi Berita Acara (BA) &amp; Inventaris
-          </h2>
-          <p class="dd-hero-subtitle">
-            Verifikasi fisik barang, inventaris outlet, dan alur persetujuan pengadaan grup KOV Management secara akuntabel.
-          </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
-            <button type="button" class="btn-dd-hero text-nowrap" onclick="copyShareUrl()">
-              <i class="fas fa-link me-1.5"></i> Salin Link Form BA
-            </button>
-            <a href="/pengajuan-barang" target="_blank" rel="noopener noreferrer" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-arrow-up-right-from-square me-1.5 text-muted"></i> Formulir Publik
-            </a>
-            <a href="/api/operasional/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
-            </a>
-          </div>
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
+            Berita Acara Pengajuan Barang
+          </h1>
         </div>
-        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
-          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
-            <line x1="45" y1="22" x2="78" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
-            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-            <rect x="45" y="55" width="22" height="22" rx="4" fill="#f0fdf4" stroke="#166534" stroke-width="1" />
-            <path d="M51 66 L55 70 L62 62" stroke="#166534" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <line x1="74" y1="62" x2="105" y2="62" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="74" y1="72" x2="95" y2="72" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+
+        <div class="d-flex align-items-center gap-2">
+          <button type="button" class="btn-kov-outline" onclick="copyShareUrl()" title="Salin tautan formulir untuk PIC">
+            <i class="fas fa-link" style="color: var(--dd-primary, #166534);"></i>
+            <span>Salin Form</span>
+          </button>
+          <a href="/api/operasional/export/excel" class="btn-kov-outline" title="Export Rekap ke Excel">
+            <i class="fas fa-file-excel text-success"></i>
+            <span>Export Excel</span>
+          </a>
+          <a href="/pengajuan-barang" target="_blank" rel="noopener noreferrer" class="btn-dd-hero" title="Buka Formulir Publik Baru">
+            <i class="fas fa-plus"></i>
+            <span>Buat Pengajuan</span>
+          </a>
         </div>
       </div>
 
-      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
+      <!-- Executive KPI Metric Strip as Primary Interactive Filters -->
       <div class="kov-kpi-strip mb-3">
         <div class="kov-kpi-cell" onclick="quickFilterStatus('')" role="button" title="Tampilkan semua pengajuan">
           <div class="kov-kpi-cell-label">Total Pengajuan <i class="fas fa-boxes-stacked opacity-50"></i></div>
           <div class="kov-kpi-cell-val text-primary"><%= records.length %></div>
-          <div class="kov-kpi-cell-sub">Seluruh berkas BA tercatat</div>
+          <div class="kov-kpi-cell-sub">Semua berkas tercatat</div>
         </div>
         <div class="kov-kpi-cell" onclick="quickFilterStatus('Menunggu Approval')" role="button" title="Filter BA Menunggu Approval">
           <div class="kov-kpi-cell-label">Menunggu Approval <i class="fas fa-clock opacity-50"></i></div>
@@ -133,61 +121,6 @@
           <div class="kov-kpi-cell-label">Estimasi Nilai <i class="fas fa-wallet opacity-50"></i></div>
           <div class="kov-kpi-cell-val">Rp <%= (Math.round(records.reduce((acc, r) => acc + (r.total_estimasi || 0), 0) / 1000000)).toLocaleString('id-ID') %> <span style="font-size: 0.95rem; font-weight: 500; color: #64748b;">Jt</span></div>
           <div class="kov-kpi-cell-sub">Akumulasi estimasi anggaran</div>
-        </div>
-      </div>
-
-      <!-- Kategori Filter Status Berita Acara (4 Compact Symmetrical Framed Tiles) -->
-      <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
-        <!-- 1. Menunggu Approval (Coral Red) -->
-        <div class="dd-folder-card dd-folder-coral folder-coral" onclick="quickFilterStatus('Menunggu Approval')" role="button" tabindex="0" title="Filter BA Menunggu Approval">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-clock"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Menunggu Approval</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.filter(r => (r.status_approval || '').includes('Menunggu')).length %> Berkas</span>
-          </div>
-        </div>
-
-        <!-- 2. Disetujui (Emerald Mint) -->
-        <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="quickFilterStatus('Disetujui')" role="button" tabindex="0" title="Filter BA Disetujui">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-circle-check"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Disetujui</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.filter(r => (r.status_approval || '') === 'Disetujui').length %> Berkas</span>
-          </div>
-        </div>
-
-        <!-- 3. Dalam Proses (Royal Sky) -->
-        <div class="dd-folder-card dd-folder-royal folder-blue" onclick="quickFilterStatus('Proses')" role="button" tabindex="0" title="Filter BA Dalam Proses">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-truck-fast"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Dalam Proses</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.filter(r => (r.status_approval || '').includes('Proses')).length %> Berkas</span>
-          </div>
-        </div>
-
-        <!-- 4. Total Arsip BA (Midnight Indigo) -->
-        <div class="dd-folder-card dd-folder-indigo folder-indigo active" onclick="quickFilterStatus('')" role="button" tabindex="0" title="Tampilkan Semua Berkas BA">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-boxes-stacked"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Semua Arsip BA</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.length %> Total</span>
-          </div>
         </div>
       </div>
 

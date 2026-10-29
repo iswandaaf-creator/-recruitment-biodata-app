@@ -5919,3 +5919,76 @@ td.num, th.num, .num-tabular {
   color: #34d399 !important;
   border-color: #334155 !important;
 }
+
+/* 10. Unified Anti-Slop Table Toolbar & Filter Bar Architecture */
+.kov-card-header {
+  padding: 10px 16px !important;
+  background: var(--dd-surface-card, #ffffff) !important;
+  border-bottom: 1px solid var(--dd-border, #e2e8f0) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
+
+[data-theme="dark"] .kov-card-header {
+  background: #0b0f19 !important;
+  border-bottom-color: #1e293b !important;
+}
+
+.kov-card-header .input-group,
+.kov-card-header .form-control,
+.kov-card-header .form-select {
+  height: 34px !important;
+  font-size: 0.8125rem !important;
+  border-radius: 6px !important;
+}
+
+.kov-card-header .form-select {
+  width: auto !important;
+  flex: 0 0 auto !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+  padding-left: 10px !important;
+  padding-right: 28px !important;
+  background-color: var(--dd-surface-input, #f8fafc) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  color: var(--dd-text-primary, #0f172a) !important;
+}
+
+.kov-card-header .input-group {
+  flex: 0 1 280px !important;
+  min-width: 200px !important;
+}
+
+.kov-card-header .input-group .input-group-text {
+  height: 34px !important;
+  font-size: 0.8125rem !important;
+  padding: 0 10px !important;
+  background-color: var(--dd-surface-subtle, #f1f5f9) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-right: none !important;
+  color: var(--dd-text-muted, #94a3b8) !important;
+}
+
+.kov-card-header .input-group .form-control {
+  background-color: var(--dd-surface-input, #f8fafc) !important;
+  border: 1px solid var(--dd-border, #e2e8f0) !important;
+  border-left: none !important;
+  color: var(--dd-text-primary, #0f172a) !important;
+}
+
+[data-theme="dark"] .kov-card-header .form-select,
+[data-theme="dark"] .kov-card-header .input-group .form-control {
+  background-color: #111827 !important;
+  border-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .kov-card-header .input-group .input-group-text {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+

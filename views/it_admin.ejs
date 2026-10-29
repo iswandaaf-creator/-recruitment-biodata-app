@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -16,7 +16,7 @@
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   
   <!-- Figma Design Token System -->
-  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029d" rel="stylesheet">
   
   <style>
     body {
@@ -251,46 +251,34 @@
         </div>
       </div>
 
-      <!-- Executive IT Infrastructure Header (Taste-Skill Framed Sheet) -->
-      <div class="dd-hero-banner mb-3">
-        <div class="dd-hero-content">
+      <!-- Executive Header (Anti-Slop Framed Sheet) -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pt-1">
+        <div>
           <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 4px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.04em;">
               INFRASTRUKTUR &amp; DIGITAL
             </span>
-            <span class="text-muted small">&bull;</span>
-            <span class="text-muted small">Sentral Rekap Belanja &amp; Aset IT</span>
+            <span class="text-muted" style="font-size: 12px;">&bull;</span>
+            <span class="text-muted" style="font-size: 12px;"><%= expenses.length %> Nota Pembelian IT</span>
           </div>
-          <h2 class="dd-hero-title">
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
             Sentral Anggaran &amp; Pemeliharaan IT Outlet
-          </h2>
-          <p class="dd-hero-subtitle">
-            Pengelolaan aset perangkat keras, lisensi software, jaringan kasir/CCTV, serta otomasi pembacaan nota vendor via Gemini AI.
-          </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
-            <button type="button" class="btn-dd-hero text-nowrap" data-bs-toggle="modal" data-bs-target="#modalTambah">
-              <i class="fas fa-plus me-1.5"></i> Catat Belanja Baru
-            </button>
-            <button type="button" class="btn-kov-outline btn-sm text-nowrap" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-magic text-warning me-1.5"></i> Scan AI Nota
-            </button>
-            <button type="button" class="btn-kov-outline btn-sm text-nowrap" data-bs-toggle="modal" data-bs-target="#modalExportKustom" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-file-export text-primary me-1.5"></i> Export Rekap
-            </button>
-          </div>
+          </h1>
         </div>
-        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
-          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
-            <line x1="45" y1="22" x2="88" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
-            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-            <rect x="45" y="56" width="30" height="20" rx="3" fill="#f0fdf4" stroke="#166534" stroke-width="1.5" />
-            <line x1="50" y1="63" x2="70" y2="63" stroke="#166534" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="50" y1="69" x2="65" y2="69" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="82" y1="66" x2="105" y2="66" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+
+        <div class="d-flex align-items-center gap-2">
+          <button type="button" class="btn-kov-outline" onclick="openGeminiScanner()" title="Scan Bukti Invoice dengan AI">
+            <i class="fas fa-magic text-warning"></i>
+            <span>Scan AI</span>
+          </button>
+          <button type="button" class="btn-kov-outline" data-bs-toggle="modal" data-bs-target="#modalExportKustom" title="Export Rekap Belanja">
+            <i class="fas fa-file-export text-primary"></i>
+            <span>Export Rekap</span>
+          </button>
+          <button type="button" class="btn-dd-hero" data-bs-toggle="modal" data-bs-target="#modalTambah" title="Catat Pengeluaran Belanja IT">
+            <i class="fas fa-plus"></i>
+            <span>Catat Belanja</span>
+          </button>
         </div>
       </div>
 

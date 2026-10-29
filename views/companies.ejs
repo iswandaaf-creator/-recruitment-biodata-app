@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029d" rel="stylesheet">
   <style>
     .company-logo-avatar {
       width: 48px;
@@ -162,43 +162,26 @@
         </div>
       <% } %>
 
-      <!-- Executive Companies Header (Taste-Skill Framed Sheet) -->
-      <div class="dd-hero-banner mb-3">
-        <div class="dd-hero-content">
+      <!-- Executive Header (Anti-Slop Framed Sheet) -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pt-1">
+        <div>
           <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 4px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.04em;">
               LEGALITAS &amp; HOLDING
             </span>
-            <span class="text-muted small">&bull;</span>
-            <span class="text-muted small">Master Index Perusahaan &amp; Outlet</span>
+            <span class="text-muted" style="font-size: 12px;">&bull;</span>
+            <span class="text-muted" style="font-size: 12px;"><%= (companies || []).length %> Entitas Terdaftar</span>
           </div>
-          <h2 class="dd-hero-title">
-            Master Entitas Perusahaan &amp; Jaringan Outlet
-          </h2>
-          <p class="dd-hero-subtitle">
-            Pusat acuan data legalitas badan hukum (PT/CV), nama outlet resmi, nomor kontak, dan berkas kop surat grup KOV Management.
-          </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
-            <button type="button" class="btn-dd-hero text-nowrap" data-bs-toggle="modal" data-bs-target="#modalCreateCompany">
-              <i class="fas fa-building-circle-check me-1.5"></i> Tambah Perusahaan / Outlet
-            </button>
-            <span class="badge" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); font-size: 0.76rem; font-weight: 600; padding: 6px 12px; border-radius: 6px;">
-              <i class="fas fa-building me-1"></i> <%= (companies || []).length %> Total Entitas
-            </span>
-          </div>
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
+            Master Entitas Perusahaan &amp; Outlet
+          </h1>
         </div>
-        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
-          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
-            <line x1="45" y1="22" x2="88" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
-            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M48 58 L58 50 L68 58 L68 76 L48 76 Z" fill="#f0fdf4" stroke="#166534" stroke-width="1.5" />
-            <rect x="54" y="64" width="8" height="12" fill="#166534" />
-            <line x1="76" y1="62" x2="105" y2="62" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="76" y1="70" x2="98" y2="70" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+
+        <div class="d-flex align-items-center gap-2">
+          <button type="button" class="btn-dd-hero" data-bs-toggle="modal" data-bs-target="#modalCreateCompany" title="Tambah Perusahaan atau Outlet Baru">
+            <i class="fas fa-plus"></i>
+            <span>Tambah Outlet / PT</span>
+          </button>
         </div>
       </div>
 
@@ -210,8 +193,8 @@
         const totalLogoPending = totalEntitas - totalLogoOk;
       %>
 
-      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
-      <div class="kov-kpi-strip mb-3">
+      <!-- Executive KPI Metric Strip as Primary Interactive Filters -->
+      <div class="kov-kpi-strip mb-4">
         <div class="kov-kpi-cell" onclick="setFilter('all')" role="button" title="Tampilkan seluruh entitas">
           <div class="kov-kpi-cell-label">Total Entitas KOV <i class="fas fa-building opacity-50"></i></div>
           <div class="kov-kpi-cell-val text-primary"><%= totalEntitas %></div>
@@ -227,73 +210,18 @@
           <div class="kov-kpi-cell-val" style="color: var(--dd-primary, #166534);"><%= totalCabang %></div>
           <div class="kov-kpi-cell-sub">Jaringan operasional aktif</div>
         </div>
-        <div class="kov-kpi-cell" onclick="setFilter('logo')" role="button" title="Filter Kelengkapan Logo">
+        <div class="kov-kpi-cell" onclick="setFilter('has_logo')" role="button" title="Filter Kelengkapan Logo">
           <div class="kov-kpi-cell-label">Kelengkapan Logo <i class="fas fa-image opacity-50"></i></div>
           <div class="kov-kpi-cell-val"><%= totalLogoOk %> <span style="font-size: 0.95rem; font-weight: 500; color: #64748b;">/ <%= totalEntitas %></span></div>
           <div class="kov-kpi-cell-sub">Siap kop surat resmi</div>
         </div>
       </div>
 
-      <!-- Kategori Filter Entitas Perusahaan (4 Compact Symmetrical Framed Tiles) -->
-      <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
-        <!-- 1. Total Entitas (Navy) -->
-        <div class="dd-folder-card dd-folder-navy folder-navy active" onclick="setFilter('all')">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-building"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Semua Entitas</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= totalEntitas %> Terdaftar</span>
-          </div>
-        </div>
-
-        <!-- 2. Holding Company (Amber) -->
-        <div class="dd-folder-card dd-folder-amber folder-amber" onclick="setFilter('holding')">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-crown"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Holding Company</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= totalHolding %> Induk</span>
-          </div>
-        </div>
-
-        <!-- 3. Cabang & Outlet (Cyan / Blue) -->
-        <div class="dd-folder-card dd-folder-blue folder-blue" onclick="setFilter('cabang')">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-store"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Outlet &amp; Cabang</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= totalCabang %> Unit</span>
-          </div>
-        </div>
-
-        <!-- 4. Status Logo (Emerald Green) -->
-        <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="setFilter('logo')">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-image"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Kop Surat &amp; Logo</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= totalLogoOk %> Siap</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Main Data Table Container -->
-      <div class="card border-0 rounded-4 shadow-sm p-4 mb-4" style="background: var(--dd-card-bg, #ffffff);">
+      <div class="kov-card mb-4">
         
         <!-- Filter Bar & Search Header -->
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pb-3 border-bottom">
+        <div class="kov-card-header">
           <div class="d-flex flex-wrap align-items-center gap-2" id="filterPillGroup">
             <span class="small fw-bold text-muted me-1"><i class="fas fa-filter me-1"></i> Filter:</span>
             <button type="button" class="filter-pill-btn active" onclick="setFilter('all', this)">Semua (<%= totalEntitas %>)</button>
@@ -304,12 +232,12 @@
           </div>
 
           <div class="small text-muted">
-            <i class="fas fa-circle-info text-primary me-1"></i> Data dijadikan acuan kop surat, nomor PO, dan penugasan dinas.
+            <i class="fas fa-circle-info text-primary me-1"></i> Acuan kop surat &amp; penugasan resmi
           </div>
         </div>
 
         <!-- Table View -->
-        <div class="table-responsive">
+        <div class="table-responsive-modern">
           <table class="table align-middle" id="companiesTable">
             <thead>
               <tr class="text-uppercase small fw-bold text-muted" style="border-bottom: 2px solid rgba(140, 150, 175, 0.15); font-size: 11px; letter-spacing: 0.5px;">

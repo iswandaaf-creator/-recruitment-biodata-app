@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029d" rel="stylesheet">
 </head>
 <body>
 
@@ -65,49 +65,38 @@
         </a>
       </div>
 
-      <!-- Executive Assignment Header (Taste-Skill Framed Sheet) -->
-      <div class="dd-hero-banner mb-3">
-        <div class="dd-hero-content">
+      <!-- Executive Header (Anti-Slop Framed Sheet) -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pt-1">
+        <div>
           <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 4px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.04em;">
               ADMINISTRASI OPERASIONAL
             </span>
-            <span class="text-muted small">&bull;</span>
-            <span class="text-muted small">Surat Tugas &amp; Perjalanan Dinas</span>
+            <span class="text-muted" style="font-size: 12px;">&bull;</span>
+            <span class="text-muted" style="font-size: 12px;"><%= records.length %> Surat Tugas Resmi</span>
           </div>
-          <h2 class="dd-hero-title">
-            Pusat Otorisasi Surat Tugas &amp; Perjalanan Dinas
-          </h2>
-          <p class="dd-hero-subtitle">
-            Penerbitan surat tugas kedinasan outlet, alur persetujuan pimpinan, pencairan anggaran, dan verifikasi LPJ akuntabel.
-          </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
-            <a href="/admin/operasional/surat-tugas/create" class="btn-dd-hero text-nowrap">
-              <i class="fas fa-plus me-1.5"></i> Buat Surat Tugas Baru
-            </a>
-            <a href="/surat-tugas" target="_blank" rel="noopener noreferrer" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-arrow-up-right-from-square me-1.5 text-muted"></i> Form Publik
-            </a>
-            <a href="/api/operasional/surat-tugas/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
-            </a>
-          </div>
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
+            Surat Tugas &amp; Perjalanan Dinas
+          </h1>
         </div>
-        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
-          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
-            <line x1="45" y1="22" x2="88" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
-            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-            <path d="M48 60 L60 60 L60 72 L48 72 Z" fill="#f0fdf4" stroke="#166534" stroke-width="1" />
-            <line x1="68" y1="62" x2="105" y2="62" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="68" y1="70" x2="95" y2="70" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+
+        <div class="d-flex align-items-center gap-2">
+          <button type="button" class="btn-kov-outline" onclick="copyShareUrl()" title="Salin tautan formulir dinas">
+            <i class="fas fa-link" style="color: var(--dd-primary, #166534);"></i>
+            <span>Salin Link Form</span>
+          </button>
+          <a href="/api/operasional/surat-tugas/export/excel" class="btn-kov-outline" title="Export Rekap Surat Tugas ke Excel">
+            <i class="fas fa-file-excel text-success"></i>
+            <span>Export Excel</span>
+          </a>
+          <a href="/admin/operasional/surat-tugas/create" class="btn-dd-hero" title="Buat Surat Tugas Baru">
+            <i class="fas fa-plus"></i>
+            <span>Buat Surat Tugas</span>
+          </a>
         </div>
       </div>
 
-      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
+      <!-- Executive KPI Metric Strip as Primary Interactive Filters -->
       <div class="kov-kpi-strip mb-3">
         <div class="kov-kpi-cell" onclick="quickFilterSurat('')" role="button" title="Tampilkan semua surat tugas">
           <div class="kov-kpi-cell-label">Total Surat Tugas <i class="fas fa-file-signature opacity-50"></i></div>
@@ -128,61 +117,6 @@
           <div class="kov-kpi-cell-label">LPJ Terlapor <i class="fas fa-receipt opacity-50"></i></div>
           <div class="kov-kpi-cell-val"><%= records.filter(r => r.lpj_diisi === 1).length %> <span style="font-size: 0.95rem; font-weight: 500; color: #64748b;">Berkas</span></div>
           <div class="kov-kpi-cell-sub">Realisasi anggaran dilaporkan</div>
-        </div>
-      </div>
-
-      <!-- Kategori Filter Status Surat Tugas (4 Compact Symmetrical Framed Tiles) -->
-      <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
-        <!-- 1. Menunggu Approval (Coral Red) -->
-        <div class="dd-folder-card dd-folder-coral folder-coral" onclick="quickFilterSurat('Menunggu Approval')" role="button" tabindex="0" title="Filter Menunggu Approval">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-clock"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Menunggu Approval</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.filter(r => (r.status_surat || '').includes('Menunggu')).length %> Surat</span>
-          </div>
-        </div>
-
-        <!-- 2. Surat Disetujui (Royal Sky) -->
-        <div class="dd-folder-card dd-folder-royal folder-blue" onclick="quickFilterSurat('Disetujui')" role="button" tabindex="0" title="Filter Surat Disetujui">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-file-circle-check"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Surat Disetujui</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.filter(r => (r.status_surat || '').includes('Disetujui')).length %> Surat</span>
-          </div>
-        </div>
-
-        <!-- 3. LPJ Terisi (Emerald Mint) -->
-        <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="quickFilterSurat('LPJ')" role="button" tabindex="0" title="Filter LPJ Selesai">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-receipt"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">LPJ Terlapor</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.filter(r => r.lpj_diisi === 1).length %> Berkas</span>
-          </div>
-        </div>
-
-        <!-- 4. Total Arsip Surat Tugas (Midnight Indigo) -->
-        <div class="dd-folder-card dd-folder-indigo folder-indigo active" onclick="quickFilterSurat('')" role="button" tabindex="0" title="Tampilkan Semua Surat Tugas">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-file-signature"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Semua Surat Tugas</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.length %> Total</span>
-          </div>
         </div>
       </div>
 

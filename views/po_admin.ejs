@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029d" rel="stylesheet">
 </head>
 <body>
 
@@ -61,51 +61,39 @@
       </div>
 
       <!-- Executive PO Header (Taste-Skill Framed Sheet) -->
-      <div class="dd-hero-banner mb-3">
-        <div class="dd-hero-content">
+      <!-- Executive Header (Anti-Slop Framed Sheet) -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pt-1">
+        <div>
           <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 4px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.04em;">
               PENGADAAN &amp; PURCHASING
             </span>
-            <span class="text-muted small">&bull;</span>
-            <span class="text-muted small">Purchase Order (PO)</span>
+            <span class="text-muted" style="font-size: 12px;">&bull;</span>
+            <span class="text-muted" style="font-size: 12px;"><%= records.length %> Dokumen PO Resmi</span>
           </div>
-          <h2 class="dd-hero-title">
-            Pusat Otorisasi Purchase Order &amp; Pengadaan
-          </h2>
-          <p class="dd-hero-subtitle">
-            Verifikasi pesanan supplier, alur persetujuan direksi, sinkronisasi otomatis ke rekap IT, dan faktur resmi KOV Management.
-          </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
-            <a href="/admin/operasional/po/create" class="btn-dd-hero text-nowrap">
-              <i class="fas fa-plus me-1.5"></i> Buat PO Baru
-            </a>
-            <a href="/api/operasional/po/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
-            </a>
-          </div>
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
+            Purchase Order (PO) Pengadaan
+          </h1>
         </div>
-        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
-          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
-            <line x1="45" y1="22" x2="88" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
-            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-            <circle cx="50" cy="62" r="6" fill="#f0fdf4" stroke="#166534" stroke-width="1.5" />
-            <path d="M48 62 L50 64 L53 60" stroke="#166534" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            <line x1="64" y1="62" x2="105" y2="62" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="45" y1="76" x2="105" y2="76" stroke="#e2e8f0" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+
+        <div class="d-flex align-items-center gap-2">
+          <a href="/api/operasional/po/export/excel" class="btn-kov-outline" title="Export Rekap PO ke Excel">
+            <i class="fas fa-file-excel text-success"></i>
+            <span>Export Excel</span>
+          </a>
+          <a href="/admin/operasional/po/create" class="btn-dd-hero" title="Buat Purchase Order Baru">
+            <i class="fas fa-plus"></i>
+            <span>Buat PO Baru</span>
+          </a>
         </div>
       </div>
 
-      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
+      <!-- Executive KPI Metric Strip as Primary Interactive Filters -->
       <div class="kov-kpi-strip mb-3">
         <div class="kov-kpi-cell" onclick="quickFilterPO('')" role="button" title="Tampilkan semua PO">
           <div class="kov-kpi-cell-label">Total Dokumen PO <i class="fas fa-file-invoice-dollar opacity-50"></i></div>
           <div class="kov-kpi-cell-val text-primary"><%= records.length %></div>
-          <div class="kov-kpi-cell-sub">Seluruh berkas PO resmi</div>
+          <div class="kov-kpi-cell-sub">Semua berkas PO resmi</div>
         </div>
         <div class="kov-kpi-cell" onclick="quickFilterPO('Pending')" role="button" title="Filter PO Pending">
           <div class="kov-kpi-cell-label">PO Pending <i class="fas fa-clock opacity-50"></i></div>
@@ -121,61 +109,6 @@
           <div class="kov-kpi-cell-label">Total Nilai Netto <i class="fas fa-wallet opacity-50"></i></div>
           <div class="kov-kpi-cell-val">Rp <%= (Math.round(records.reduce((acc, r) => acc + (r.total_netto || 0), 0) / 1000000)).toLocaleString('id-ID') %> <span style="font-size: 0.95rem; font-weight: 500; color: #64748b;">Jt</span></div>
           <div class="kov-kpi-cell-sub">Akumulasi pengadaan barang</div>
-        </div>
-      </div>
-
-      <!-- Kategori Filter Status Purchase Order (4 Compact Symmetrical Framed Tiles) -->
-      <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
-        <!-- 1. PO Pending (Coral Red) -->
-        <div class="dd-folder-card dd-folder-coral folder-coral" onclick="quickFilterPO('Pending')" role="button" tabindex="0" title="Filter PO Pending">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-clock"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">PO Pending</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.filter(r => (r.status_po || '').includes('Pending')).length %> Dokumen</span>
-          </div>
-        </div>
-
-        <!-- 2. PO Approved (Emerald Mint) -->
-        <div class="dd-folder-card dd-folder-emerald folder-emerald" onclick="quickFilterPO('Approved')" role="button" tabindex="0" title="Filter PO Approved">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-circle-check"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">PO Approved</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.filter(r => (r.status_po || '').includes('Approved')).length %> Dokumen</span>
-          </div>
-        </div>
-
-        <!-- 3. Nilai Netto Akumulasi (Royal Sky) -->
-        <div class="dd-folder-card dd-folder-royal folder-blue" onclick="quickFilterPO('')" role="button" tabindex="0" title="Lihat Nilai Netto PO">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-wallet"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Akumulasi Nilai</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count">Rp <%= (Math.round(records.reduce((acc, r) => acc + (r.total_netto || 0), 0) / 1000000)).toLocaleString('id-ID') %> Jt</span>
-          </div>
-        </div>
-
-        <!-- 4. Total Arsip PO (Midnight Indigo) -->
-        <div class="dd-folder-card dd-folder-indigo folder-indigo active" onclick="quickFilterPO('')" role="button" tabindex="0" title="Tampilkan Semua PO">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Semua Dokumen PO</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= records.length %> Total</span>
-          </div>
         </div>
       </div>
 

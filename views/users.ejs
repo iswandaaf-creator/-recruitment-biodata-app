@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029c" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029d" rel="stylesheet">
 </head>
 <body>
 
@@ -53,52 +53,35 @@
         </div>
       <% } %>
 
-      <!-- Executive Users Header (Taste-Skill Framed Sheet) -->
-      <div class="dd-hero-banner mb-3">
-        <div class="dd-hero-content">
+      <!-- Executive Header (Anti-Slop Framed Sheet) -->
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pt-1">
+        <div>
           <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 4px; font-weight: 700; font-size: 10.5px; letter-spacing: 0.04em;">
               OTORISASI &amp; SISTEM
             </span>
-            <span class="text-muted small">&bull;</span>
-            <span class="text-muted small">Manajemen Akun &amp; Peran</span>
+            <span class="text-muted" style="font-size: 12px;">&bull;</span>
+            <span class="text-muted" style="font-size: 12px;"><%= (users || []).length %> Pengguna Aktif</span>
           </div>
-          <h2 class="dd-hero-title">
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
             Manajemen Akun &amp; Matriks Hak Akses
-          </h2>
-          <p class="dd-hero-subtitle">
-            Konfigurasi akun staf, hak akses modul operasional, IT, purchasing, serta pembagian divisi reviewer pelamar kerja.
-          </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
-            <a href="#createForm" class="btn-dd-hero text-nowrap">
-              <i class="fas fa-user-plus me-1.5"></i> Tambah Pengguna Baru
-            </a>
-            <span class="badge" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); font-size: 0.76rem; font-weight: 600; padding: 6px 12px; border-radius: 6px;">
-              <i class="fas fa-users me-1"></i> <%= (users || []).length %> Total Akun Aktif
-            </span>
-          </div>
+          </h1>
         </div>
-        <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
-          <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-            <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
-            <line x1="45" y1="22" x2="88" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
-            <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-            <circle cx="56" cy="62" r="7" fill="#f0fdf4" stroke="#166534" stroke-width="1.5" />
-            <path d="M46 76 C46 70 51 68 56 68 C61 68 66 70 66 76" fill="#f0fdf4" stroke="#166534" stroke-width="1.5" />
-            <line x1="74" y1="62" x2="105" y2="62" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
-            <line x1="74" y1="70" x2="95" y2="70" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-          </svg>
+
+        <div class="d-flex align-items-center gap-2">
+          <a href="#createForm" class="btn-dd-hero" title="Tambah Pengguna Baru">
+            <i class="fas fa-user-plus"></i>
+            <span>Tambah Pengguna</span>
+          </a>
         </div>
       </div>
 
-      <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
-      <div class="kov-kpi-strip mb-3">
+      <!-- Executive KPI Metric Strip as Primary Interactive Filters -->
+      <div class="kov-kpi-strip mb-4">
         <div class="kov-kpi-cell" role="button" title="Total Seluruh Akun Pengguna">
           <div class="kov-kpi-cell-label">Total Pengguna <i class="fas fa-users opacity-50"></i></div>
           <div class="kov-kpi-cell-val text-primary"><%= (users || []).length %></div>
-          <div class="kov-kpi-cell-sub">Seluruh akun terdaftar</div>
+          <div class="kov-kpi-cell-sub">Semua akun terdaftar</div>
         </div>
         <div class="kov-kpi-cell" role="button" title="Akun Super Admin">
           <div class="kov-kpi-cell-label">Super Admin <i class="fas fa-shield-halved opacity-50"></i></div>
@@ -114,61 +97,6 @@
           <div class="kov-kpi-cell-label">Operasional &amp; IT <i class="fas fa-boxes-packing opacity-50"></i></div>
           <div class="kov-kpi-cell-val" style="color: var(--dd-primary, #166534);"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('operasional') || (u.role || '').toLowerCase().includes('it') || (u.role || '').toLowerCase() === 'admin').length %></div>
           <div class="kov-kpi-cell-sub">Staf logistik &amp; sistem</div>
-        </div>
-      </div>
-
-      <!-- Kategori Filter Role Pengguna (4 Compact Symmetrical Framed Tiles) -->
-      <div class="dd-folders-grid mb-4" style="grid-template-columns: repeat(4, 1fr);">
-        <!-- 1. Super Admin (Rose Crimson) -->
-        <div class="dd-folder-card dd-folder-rose folder-rose">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-shield-halved"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Super Admin</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('superadmin')).length %> Akun</span>
-          </div>
-        </div>
-
-        <!-- 2. Admin HR (Violet Purple) -->
-        <div class="dd-folder-card dd-folder-violet folder-violet">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-user-tie"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Admin HR</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= (users || []).filter(u => (u.role || '').toLowerCase() === 'admin').length %> Akun</span>
-          </div>
-        </div>
-
-        <!-- 3. Reviewer Divisi (Amber Gold) -->
-        <div class="dd-folder-card dd-folder-amber folder-amber">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-user-check"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Reviewer Divisi</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('user')).length %> Akun</span>
-          </div>
-        </div>
-
-        <!-- 4. Tim Operasional (Royal Sky) -->
-        <div class="dd-folder-card dd-folder-royal folder-blue active">
-          <div class="dd-folder-top">
-            <div class="dd-folder-icon"><i class="fas fa-boxes-packing"></i></div>
-          </div>
-          <div class="dd-folder-body">
-            <h4 class="dd-folder-name">Tim Operasional</h4>
-          </div>
-          <div class="dd-folder-footer">
-            <span class="dd-file-count"><%= (users || []).filter(u => (u.role || '').toLowerCase().includes('operasional')).length %> Akun</span>
-          </div>
         </div>
       </div>
       <!-- Create User Card -->
