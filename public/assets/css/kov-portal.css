@@ -6962,107 +6962,270 @@ body,
 }
 
 /* ========================================================================= */
-/* 12. JUSTINMIND WEB COMPONENTS DESIGN SYSTEM ARCHITECTURE                 */
-/*     (Ultra-clean geometry, hairline rules, 4px radius, smooth motion)    */
+/* 12. HIGH-CRAFT EDITORIAL DESIGN SYSTEM: BUTTERY SMOOTH & REFINED          */
+/*     (Anti-Slop, Non-Plain, Micro-Animations & Curated Botanical Tone)     */
 /* ========================================================================= */
 
-/* --- 1. Universal Smooth Motion Engine --- */
+/* --- 1. Physics-Based Keyframe Animations --- */
+@keyframes kovElevateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kovPulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+
+@keyframes kovGlowSubtle {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(22, 101, 52, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(22, 101, 52, 0.12);
+  }
+}
+
+/* Staggered page element entrances */
+.dd-topbar {
+  animation: kovElevateIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+.dd-hero-banner {
+  animation: kovElevateIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both !important;
+}
+
+.kov-kpi-row,
+.row.g-2,
+.row.g-2\.5 {
+  animation: kovElevateIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.08s both !important;
+}
+
+.dd-folders-grid {
+  animation: kovElevateIn 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both !important;
+}
+
+.kov-table-card,
+.reviewer-grid-card {
+  animation: kovElevateIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) 0.16s both !important;
+}
+
+/* Universal Smooth Easing (Linear/Apple curve) */
 a,
 button,
 input,
 select,
 textarea,
+.btn,
 .dd-folder-card,
 .kov-filter-pill-botanical,
 .coinbase-kpi-card,
 .reviewer-grid-card,
 .dd-task-card,
+.kov-action-review-btn,
+.kov-action-icon-circle,
+.dd-nav-arrow-btn,
+.dd-icon-btn,
 .kov-botanical-table tbody tr {
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* --- 2. Justinmind Typography & Headings Hierarchy --- */
-.jm-heading-1,
-.brand-headline {
-  font-size: 2rem !important;
+/* Tactile Active Scaling (Physical feedback on touch/click) */
+button:active,
+.btn:active,
+.btn-kov-outline:active,
+.btn-dd-hero:active,
+.btn-kov-primary:active,
+.dd-folder-card:active,
+.kov-filter-pill-botanical:active,
+.dd-cal-day:active {
+  transform: scale(0.97) !important;
+  transition: transform 0.08s ease !important;
+}
+
+/* Live Pulse Dot */
+.kov-pulse-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #166534;
+  margin-right: 6px;
+  animation: kovPulseDot 2s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+[data-theme="dark"] .kov-pulse-dot {
+  background-color: #22c55e;
+}
+
+/* --- 2. Canvas & Layout Atmosphere --- */
+body,
+.dd-layout-root.kov-app-shell {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+[data-theme="dark"] body,
+[data-theme="dark"] .dd-layout-root.kov-app-shell {
+  background-color: #0b0f17 !important;
+  color: #f8fafc !important;
+}
+
+/* Symmetrical 46px-52px Topbar with subtle blur glass effect */
+.dd-topbar {
+  min-height: 52px !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 0 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 1.25rem !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
+[data-theme="dark"] .dd-topbar {
+  background: rgba(17, 24, 39, 0.92) !important;
+  border-color: #1f2937 !important;
+}
+
+.dd-search-container {
+  height: 46px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  background: #f8fafc !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  max-width: 480px !important;
+  width: 100% !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.dd-search-container:focus-within {
+  border-color: #166534 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12) !important;
+}
+
+[data-theme="dark"] .dd-search-container {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+[data-theme="dark"] .dd-search-container:focus-within {
+  border-color: #22c55e !important;
+  background: #0f172a !important;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15) !important;
+}
+
+.dd-search-input {
+  height: 46px !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  color: #0f172a !important;
+  font-size: 0.8125rem !important;
+  font-weight: 500 !important;
+  width: 100% !important;
+}
+
+[data-theme="dark"] .dd-search-input {
+  color: #f8fafc !important;
+}
+
+/* --- 3. Streamlined Executive Command Header --- */
+.dd-hero-banner {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 1.25rem 1.5rem !important;
+  margin-bottom: 1.25rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  flex-wrap: wrap !important;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.03) !important;
+}
+
+[data-theme="dark"] .dd-hero-banner {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+.dd-hero-content {
+  flex: 1 1 360px !important;
+  min-width: 0 !important;
+}
+
+.dd-hero-actions {
+  flex-shrink: 0 !important;
+}
+
+.dd-hero-title {
+  font-size: 1.3rem !important;
   font-weight: 700 !important;
   letter-spacing: -0.025em !important;
-  color: #111827 !important;
-  line-height: 1.25 !important;
-}
-
-.jm-heading-2,
-.dd-hero-title,
-.login-title {
-  font-size: 1.5rem !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.02em !important;
-  color: #111827 !important;
+  color: #0f172a !important;
+  margin: 0 0 4px 0 !important;
   line-height: 1.3 !important;
 }
 
-.jm-heading-3,
-.kov-table-title {
-  font-size: 1.125rem !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.015em !important;
-  color: #111827 !important;
+[data-theme="dark"] .dd-hero-title {
+  color: #f8fafc !important;
 }
 
-.jm-heading-4,
-.dd-section-title,
-.dd-calendar-title {
-  font-size: 0.875rem !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.01em !important;
-  color: #111827 !important;
-  text-transform: uppercase !important;
+.dd-hero-subtitle {
+  font-size: 0.8125rem !important;
+  color: #64748b !important;
+  margin: 0 !important;
+  line-height: 1.45 !important;
 }
 
-.jm-subtitle,
-.brand-kicker,
-.kov-table-kicker {
-  font-size: 0.6875rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.08em !important;
-  color: #6b7280 !important;
+[data-theme="dark"] .dd-hero-subtitle {
+  color: #94a3b8 !important;
 }
 
-[data-theme="dark"] .jm-heading-1,
-[data-theme="dark"] .jm-heading-2,
-[data-theme="dark"] .jm-heading-3,
-[data-theme="dark"] .jm-heading-4,
-[data-theme="dark"] .dd-hero-title,
-[data-theme="dark"] .login-title,
-[data-theme="dark"] .kov-table-title {
-  color: #f9fafb !important;
-}
-
-[data-theme="dark"] .jm-subtitle,
-[data-theme="dark"] .brand-kicker {
-  color: #9ca3af !important;
-}
-
-/* --- 3. Justinmind Button System --- */
+/* --- 4. Curated Button System (Buttery tactile feedback) --- */
 .btn-dd-hero,
 .btn-submit-linear,
 .btn-kov-primary,
 .btn-submit-kov {
-  height: 40px !important;
+  height: 38px !important;
   background: #166534 !important;
   color: #ffffff !important;
   border: 1px solid #14532d !important;
-  border-radius: 4px !important;
+  border-radius: 8px !important;
   padding: 0 16px !important;
-  font-size: 0.875rem !important;
+  font-size: 0.8125rem !important;
   font-weight: 600 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
   cursor: pointer !important;
-  box-shadow: none !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05) !important;
+  text-decoration: none !important;
 }
 
 .btn-dd-hero:hover,
@@ -7070,227 +7233,239 @@ textarea,
 .btn-kov-primary:hover,
 .btn-submit-kov:hover {
   background: #14532d !important;
+  box-shadow: 0 3px 8px rgba(22, 101, 52, 0.25) !important;
   color: #ffffff !important;
+  transform: translateY(-1px) !important;
 }
 
-.btn-dd-hero:active,
-.btn-submit-linear:active,
-.btn-kov-primary:active,
-.btn-submit-kov:active {
-  transform: scale(0.98) !important;
-}
-
-/* Justinmind Secondary / Outline Button */
+/* Secondary Button with subtle elevation */
 .btn-kov-outline,
 .btn-kov-secondary {
-  height: 40px !important;
+  height: 38px !important;
   background: #ffffff !important;
-  color: #111827 !important;
-  border: 1px solid #111827 !important;
-  border-radius: 4px !important;
-  padding: 0 16px !important;
-  font-size: 0.875rem !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  padding: 0 14px !important;
+  font-size: 0.8125rem !important;
   font-weight: 600 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 8px !important;
   cursor: pointer !important;
-  box-shadow: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  text-decoration: none !important;
 }
 
 .btn-kov-outline:hover,
 .btn-kov-secondary:hover {
-  background: #f9fafb !important;
-  color: #000000 !important;
-}
-
-.btn-kov-outline:active,
-.btn-kov-secondary:active {
-  transform: scale(0.98) !important;
+  background: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-1px) !important;
 }
 
 [data-theme="dark"] .btn-kov-outline,
 [data-theme="dark"] .btn-kov-secondary {
-  background: #18181b !important;
-  color: #f9fafb !important;
-  border-color: #3f3f46 !important;
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
+  border-color: #334155 !important;
 }
 
 [data-theme="dark"] .btn-kov-outline:hover,
 [data-theme="dark"] .btn-kov-secondary:hover {
-  background: #27272a !important;
+  background: #334155 !important;
+  color: #ffffff !important;
 }
 
-/* Justinmind Circular Icon Buttons */
-.dd-nav-arrow-btn,
-.dd-icon-btn {
-  width: 36px !important;
-  height: 36px !important;
-  border-radius: 50% !important;
-  border: 1px solid #d1d5db !important;
-  background: #ffffff !important;
-  color: #111827 !important;
+.btn-drive-upload {
+  height: 46px !important;
+  border-radius: 10px !important;
+  padding: 0 16px !important;
+  font-weight: 600 !important;
   display: inline-flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  cursor: pointer !important;
+  gap: 8px !important;
 }
 
-.dd-nav-arrow-btn:hover,
-.dd-icon-btn:hover {
-  background: #f3f4f6 !important;
-  border-color: #9ca3af !important;
-}
-
-[data-theme="dark"] .dd-nav-arrow-btn,
-[data-theme="dark"] .dd-icon-btn {
-  background: #18181b !important;
-  border-color: #3f3f46 !important;
-  color: #f9fafb !important;
-}
-
-/* --- 4. Justinmind Forms & Controls Architecture --- */
-.dd-search-container {
-  height: 40px !important;
-  border: 1px solid #2b2b2b !important;
-  border-radius: 4px !important;
+/* --- 5. Executive KPI Cards (Intentional accents, not plain wireframe) --- */
+.coinbase-kpi-card {
   background: #ffffff !important;
-  padding: 0 14px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 16px 18px !important;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.03) !important;
+  cursor: pointer !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* High-craft top subtle accent rules */
+.coinbase-kpi-card.kpi-total,
+.coinbase-kpi-card:nth-child(1) {
+  border-top: 3px solid #166534 !important;
+}
+
+.coinbase-kpi-card.kpi-pending {
+  border-top: 3px solid #f59e0b !important;
+}
+
+.coinbase-kpi-card.kpi-accepted {
+  border-top: 3px solid #10b981 !important;
+}
+
+.coinbase-kpi-card.kpi-duplicate {
+  border-top: 3px solid #ef4444 !important;
+}
+
+.coinbase-kpi-card.kpi-info {
+  border-top: 3px solid #0284c7 !important;
+}
+
+.coinbase-kpi-card:hover {
+  border-color: #cbd5e1 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 18px -4px rgba(16, 24, 40, 0.08) !important;
+}
+
+[data-theme="dark"] .coinbase-kpi-card {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .coinbase-kpi-card:hover {
+  border-color: #374151 !important;
+  box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.4) !important;
+}
+
+.bento-metric-title {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: #64748b !important;
+}
+
+[data-theme="dark"] .bento-metric-title {
+  color: #94a3b8 !important;
+}
+
+.bento-metric-value {
+  font-size: 1.75rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.03em !important;
+  font-variant-numeric: tabular-nums !important;
+  margin: 6px 0 2px 0 !important;
+  line-height: 1.15 !important;
+}
+
+.bento-metric-sub {
+  font-size: 0.75rem !important;
+  color: #94a3b8 !important;
+}
+
+.kov-metric-icon-box {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 9px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
-}
-
-.dd-search-container:focus-within {
-  border-color: #166534 !important;
-  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.2) !important;
-}
-
-[data-theme="dark"] .dd-search-container {
-  background: #18181b !important;
-  border-color: #3f3f46 !important;
-}
-
-[data-theme="dark"] .dd-search-container:focus-within {
-  border-color: #22c55e !important;
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25) !important;
-}
-
-.input-field-kov,
-.form-control {
-  height: 40px !important;
-  border: 1px solid #2b2b2b !important;
-  border-radius: 4px !important;
-  background: #ffffff !important;
-  color: #111827 !important;
-  padding: 8px 12px !important;
-  font-size: 0.875rem !important;
-}
-
-.input-field-kov:focus,
-.form-control:focus {
-  border-color: #166534 !important;
-  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.2) !important;
-  outline: none !important;
-}
-
-[data-theme="dark"] .input-field-kov,
-[data-theme="dark"] .form-control {
-  background: #18181b !important;
-  border-color: #3f3f46 !important;
-  color: #f9fafb !important;
-}
-
-.form-label-kov,
-.form-label {
+  justify-content: center !important;
   font-size: 0.8125rem !important;
-  font-weight: 700 !important;
-  color: #111827 !important;
-  margin-bottom: 6px !important;
-  letter-spacing: 0.01em !important;
 }
 
-[data-theme="dark"] .form-label-kov,
-[data-theme="dark"] .form-label {
-  color: #e5e7eb !important;
+[data-theme="dark"] .kov-metric-icon-box {
+  background: #1e293b !important;
+  border-color: #334155 !important;
 }
 
-/* --- 5. Justinmind Cards & Items --- */
-.kov-table-card,
-.coinbase-kpi-card,
-.reviewer-grid-card,
-.kov-card,
-.login-card {
-  background: #ffffff !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 6px !important;
-  box-shadow: none !important;
+/* Tinted icon backgrounds matching purpose */
+.coinbase-kpi-card.kpi-total .kov-metric-icon-box {
+  background: #f0fdf4 !important;
+  border-color: #bbf7d0 !important;
+  color: #166534 !important;
 }
 
-.coinbase-kpi-card:hover,
-.reviewer-grid-card:hover {
-  border-color: #9ca3af !important;
-  transform: none !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+.coinbase-kpi-card.kpi-pending .kov-metric-icon-box {
+  background: #fffbeb !important;
+  border-color: #fde68a !important;
+  color: #d97706 !important;
 }
 
-[data-theme="dark"] .kov-table-card,
-[data-theme="dark"] .coinbase-kpi-card,
-[data-theme="dark"] .reviewer-grid-card,
-[data-theme="dark"] .kov-card,
-[data-theme="dark"] .login-card {
-  background: #111113 !important;
-  border-color: #27272a !important;
+.coinbase-kpi-card.kpi-accepted .kov-metric-icon-box {
+  background: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  color: #059669 !important;
 }
 
-/* --- 6. Justinmind Navigation & Segmented Tabs --- */
+.coinbase-kpi-card.kpi-duplicate .kov-metric-icon-box {
+  background: #fef2f2 !important;
+  border-color: #fecaca !important;
+  color: #dc2626 !important;
+}
+
+/* --- 6. Sleek Segmented Division Tabs --- */
 .dd-folders-grid {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
-  gap: 4px !important;
-  padding: 4px !important;
-  background: #f3f4f6 !important;
-  border: 1px solid #e5e7eb !important;
-  border-radius: 6px !important;
+  gap: 6px !important;
+  padding: 6px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  margin-bottom: 1.25rem !important;
+  scrollbar-width: thin !important;
 }
 
 [data-theme="dark"] .dd-folders-grid {
-  background: #18181b !important;
-  border-color: #27272a !important;
+  background: #111827 !important;
+  border-color: #1f2937 !important;
 }
 
 .dd-folder-card {
   height: 36px !important;
   padding: 0 14px !important;
-  border-radius: 4px !important;
+  border-radius: 8px !important;
   background: transparent !important;
   border: 1px solid transparent !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
   font-size: 0.8125rem !important;
-  font-weight: 500 !important;
-  color: #4b5563 !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
   cursor: pointer !important;
+  white-space: nowrap !important;
 }
 
 .dd-folder-card:hover {
-  color: #111827 !important;
-  background: rgba(255, 255, 255, 0.8) !important;
+  color: #0f172a !important;
+  background: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
 }
 
+/* Active tab uses KOV Botanical Pine */
 .dd-folder-card.active {
-  background: #111827 !important;
+  background: #166534 !important;
   color: #ffffff !important;
   font-weight: 600 !important;
-  border-color: #111827 !important;
+  border-color: #166534 !important;
+  box-shadow: 0 2px 6px rgba(22, 101, 52, 0.25) !important;
 }
 
 [data-theme="dark"] .dd-folder-card {
-  color: #9ca3af !important;
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .dd-folder-card:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #f8fafc !important;
 }
 
 [data-theme="dark"] .dd-folder-card.active {
@@ -7300,8 +7475,8 @@ textarea,
 }
 
 .badge-tab-count {
-  background: #e5e7eb !important;
-  color: #374151 !important;
+  background: #e2e8f0 !important;
+  color: #334155 !important;
   padding: 2px 7px !important;
   border-radius: 9999px !important;
   font-size: 0.6875rem !important;
@@ -7314,10 +7489,378 @@ textarea,
 }
 
 [data-theme="dark"] .dd-folder-card.active .badge-tab-count {
-  background: rgba(0, 0, 0, 0.3) !important;
+  background: rgba(0, 0, 0, 0.25) !important;
   color: #09090b !important;
 }
 
+/* --- 7. Modern High-Density Table (Framed Sheet, Smooth Row Hover) --- */
+.kov-table-card,
+.kov-botanical-table-wrap {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.03) !important;
+  margin-bottom: 1.5rem !important;
+}
 
+[data-theme="dark"] .kov-table-card,
+[data-theme="dark"] .kov-botanical-table-wrap {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
 
+.kov-table-header-box {
+  padding: 14px 20px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
 
+[data-theme="dark"] .kov-table-header-box {
+  background: #111827 !important;
+  border-bottom-color: #1f2937 !important;
+}
+
+.kov-table-title {
+  font-size: 0.95rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 !important;
+  color: #0f172a !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+[data-theme="dark"] .kov-table-title {
+  color: #f8fafc !important;
+}
+
+.kov-table-squircle {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  border: 1px solid #bbf7d0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.8125rem !important;
+}
+
+[data-theme="dark"] .kov-table-squircle {
+  background: rgba(22, 101, 52, 0.25) !important;
+  border-color: rgba(34, 197, 94, 0.35) !important;
+  color: #86efac !important;
+}
+
+.kov-status-filter-bar {
+  padding: 10px 20px !important;
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+
+[data-theme="dark"] .kov-status-filter-bar {
+  background: #0f172a !important;
+  border-bottom-color: #1f2937 !important;
+}
+
+.kov-filter-pill-botanical {
+  height: 30px !important;
+  padding: 0 12px !important;
+  border-radius: 7px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  border: 1px solid #cbd5e1 !important;
+  background: #ffffff !important;
+  color: #475569 !important;
+  cursor: pointer !important;
+}
+
+.kov-filter-pill-botanical:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+  transform: translateY(-1px) !important;
+}
+
+.kov-filter-pill-botanical.active {
+  background: #166534 !important;
+  border-color: #166534 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 4px rgba(22, 101, 52, 0.2) !important;
+}
+
+[data-theme="dark"] .kov-filter-pill-botanical {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .kov-filter-pill-botanical.active {
+  background: #22c55e !important;
+  border-color: #22c55e !important;
+  color: #09090b !important;
+}
+
+/* Modern Data Table Styling */
+.kov-botanical-table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+}
+
+.kov-botanical-table thead th {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  color: #475569 !important;
+  font-size: 0.6875rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  padding: 12px 18px !important;
+}
+
+[data-theme="dark"] .kov-botanical-table thead th {
+  background: #0f172a !important;
+  border-bottom-color: #1f2937 !important;
+  color: #94a3b8 !important;
+}
+
+.kov-botanical-table tbody td {
+  padding: 14px 18px !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  vertical-align: middle !important;
+  color: #334155 !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody td {
+  border-bottom-color: #1f2937 !important;
+  color: #cbd5e1 !important;
+}
+
+.kov-botanical-table tbody tr {
+  transition: background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.kov-botanical-table tbody tr:hover {
+  background-color: #f8fafc !important;
+  box-shadow: inset 3px 0 0 #166534 !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody tr:hover {
+  background-color: #1e293b !important;
+  box-shadow: inset 3px 0 0 #22c55e !important;
+}
+
+/* Candidate monogram avatar: smooth circular frame */
+.kov-avatar-monogram {
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 10px !important;
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  border: 1px solid #bbf7d0 !important;
+  font-weight: 700 !important;
+  font-size: 0.8125rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.kov-botanical-table tbody tr:hover .kov-avatar-monogram {
+  transform: scale(1.08) !important;
+}
+
+[data-theme="dark"] .kov-avatar-monogram {
+  background: rgba(22, 101, 52, 0.25) !important;
+  border-color: rgba(34, 197, 94, 0.35) !important;
+  color: #86efac !important;
+}
+
+.kov-candidate-name {
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.3 !important;
+}
+
+[data-theme="dark"] .kov-candidate-name {
+  color: #f8fafc !important;
+}
+
+.kov-candidate-sub {
+  font-size: 0.75rem !important;
+  color: #64748b !important;
+  margin-top: 2px !important;
+}
+
+[data-theme="dark"] .kov-candidate-sub {
+  color: #94a3b8 !important;
+}
+
+/* Status pills in table */
+.status-pill-modern {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+}
+
+.status-pill-modern.pill-success {
+  background: #ecfdf5 !important;
+  color: #065f46 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+.status-pill-modern.pill-warning {
+  background: #fffbeb !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+}
+
+.status-pill-modern.pill-danger {
+  background: #fef2f2 !important;
+  color: #991b1b !important;
+  border: 1px solid #fecaca !important;
+}
+
+.status-pill-modern.pill-info {
+  background: #eff6ff !important;
+  color: #1e40af !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+/* Action buttons in table */
+.kov-action-review-btn {
+  height: 30px !important;
+  padding: 0 12px !important;
+  background: #166534 !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  text-decoration: none !important;
+}
+
+.kov-action-review-btn:hover {
+  background: #14532d !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) scale(1.02) !important;
+  box-shadow: 0 2px 6px rgba(22, 101, 52, 0.25) !important;
+}
+
+.kov-action-icon-circle {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 6px !important;
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.8125rem !important;
+  color: #64748b !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+}
+
+.kov-action-icon-circle:hover {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  transform: translateY(-1px) scale(1.08) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* --- 8. Linear Style Right Inspector & Minimalist Calendar --- */
+.dd-right-panel {
+  width: 280px !important;
+  flex: 0 0 280px !important;
+  background: #fafafa !important;
+  border-left: 1px solid #e2e8f0 !important;
+  padding: 16px !important;
+  gap: 14px !important;
+}
+
+[data-theme="dark"] .dd-right-panel {
+  background: #0b0f17 !important;
+  border-left-color: #1f2937 !important;
+}
+
+.dd-calendar-widget,
+.dd-task-widget {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
+[data-theme="dark"] .dd-calendar-widget,
+[data-theme="dark"] .dd-task-widget {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+/* Smooth Calendar Circle Hover */
+.dd-cal-day {
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.dd-cal-day:hover {
+  background-color: #f0fdf4 !important;
+  color: #166534 !important;
+  border-radius: 50% !important;
+  transform: scale(1.15) !important;
+}
+
+.dd-cal-day.active {
+  background-color: #166534 !important;
+  color: #ffffff !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 6px rgba(22, 101, 52, 0.3) !important;
+}
+
+/* Task Card: Sleek Linear task item with 3px green accent */
+.dd-task-card {
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  border-left: 3px solid #166534 !important;
+  border-radius: 8px !important;
+  padding: 11px 13px !important;
+  cursor: pointer !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.dd-task-card:hover {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  border-left-color: #166534 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="dark"] .dd-task-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  border-left-color: #22c55e !important;
+}

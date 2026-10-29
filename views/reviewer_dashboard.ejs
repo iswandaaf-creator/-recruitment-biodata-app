@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029g" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029h" rel="stylesheet">
   <style>
     /* Reviewer Specific Dribbble Enhancements */
     .filter-btn {
@@ -186,9 +186,9 @@
         <% } %>
 
         <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
-        <div class="row g-2 mb-3">
+        <div class="row g-2.5 mb-3 kov-kpi-row">
           <div class="col-6 col-lg-3">
-            <div class="coinbase-kpi-card h-100" onclick="filterByStatusPill('ALL')" role="button" style="cursor: pointer;" title="Tampilkan semua berkas penugasan">
+            <div class="coinbase-kpi-card kpi-total h-100" onclick="filterByStatusPill('ALL')" role="button" style="cursor: pointer;" title="Tampilkan semua berkas penugasan">
               <div class="w-100">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <span class="bento-metric-title">Total Penugasan</span>
@@ -201,7 +201,7 @@
           </div>
 
           <div class="col-6 col-lg-3">
-            <div class="coinbase-kpi-card h-100" onclick="filterByStatusPill('BELUM')" role="button" style="cursor: pointer;" title="Saring berkas belum direview">
+            <div class="coinbase-kpi-card kpi-pending h-100" onclick="filterByStatusPill('BELUM')" role="button" style="cursor: pointer;" title="Saring berkas belum direview">
               <div class="w-100">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <span class="bento-metric-title text-warning">Belum Direview</span>
@@ -214,7 +214,7 @@
           </div>
 
           <div class="col-6 col-lg-3">
-            <div class="coinbase-kpi-card h-100" onclick="filterByStatusPill('SUDAH')" role="button" style="cursor: pointer;" title="Saring berkas sudah direview">
+            <div class="coinbase-kpi-card kpi-accepted h-100" onclick="filterByStatusPill('SUDAH')" role="button" style="cursor: pointer;" title="Saring berkas sudah direview">
               <div class="w-100">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <span class="bento-metric-title text-success">Sudah Direview</span>
@@ -227,7 +227,7 @@
           </div>
 
           <div class="col-6 col-lg-3">
-            <div class="coinbase-kpi-card h-100" role="button" style="cursor: pointer;">
+            <div class="coinbase-kpi-card kpi-info h-100" role="button" style="cursor: pointer;">
               <div class="w-100">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <span class="bento-metric-title text-info">Tingkat Progres</span>

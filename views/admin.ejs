@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029g" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029h" rel="stylesheet">
   <!-- Dribbble Cloud Drive Design System Extension -->
   
   <!-- Toast & Theme Global Utilities in Head for Immediate Availability -->
@@ -162,11 +162,11 @@
       <div class="dd-hero-banner">
         <div class="dd-hero-content">
           <div class="d-flex align-items-center gap-2 mb-1">
-            <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
-              KOV MANAGEMENT PORTAL
+            <span class="badge py-1 px-2 kov-hero-badge" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 6px; font-weight: 700; font-size: 11px;">
+              <span class="kov-pulse-dot"></span> KOV MANAGEMENT PORTAL
             </span>
             <span class="text-muted small">&bull;</span>
-            <span class="text-muted small">Pipeline Rekrutmen Aktif</span>
+            <span class="text-muted small fw-medium">Pipeline Rekrutmen Aktif</span>
           </div>
           <h2 class="dd-hero-title">
             Dashboard Rekrutmen HR &mdash; <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %>
@@ -174,28 +174,28 @@
           <p class="dd-hero-subtitle">
             Kelola berkas masuk, koordinasi reviewer divisi, dan pantau status kandidat seluruh outlet secara terpusat.
           </p>
-          <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
-            <button type="button" class="btn-dd-hero text-nowrap" id="btnSalinLink" onclick="generateAndCopyShareLink()">
-              <i class="fas fa-link me-1.5" id="iconSalin"></i> Salin Link Formulir
-            </button>
-            <button type="button" class="btn-kov-outline btn-sm text-nowrap" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-shuffle me-1.5" id="iconAcak" style="color: var(--dd-primary, #166534);"></i> Acak Token
-            </button>
-            <a href="/api/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
-              <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
-            </a>
-            <div class="d-none">
-              <span id="shareUrl"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
-              <button type="button" id="btnIconCopy" onclick="generateAndCopyShareLink()"><i id="iconCopySmall"></i></button>
-            </div>
+        </div>
+        <div class="dd-hero-actions d-flex align-items-center gap-2 flex-wrap">
+          <button type="button" class="btn-kov-outline btn-sm text-nowrap" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru" style="font-size: 0.82rem; padding: 7px 14px;">
+            <i class="fas fa-shuffle me-1.5" id="iconAcak" style="color: var(--dd-primary, #166534);"></i> Acak Token
+          </button>
+          <a href="/api/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
+            <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
+          </a>
+          <button type="button" class="btn-dd-hero text-nowrap" id="btnSalinLink" onclick="generateAndCopyShareLink()">
+            <i class="fas fa-link me-1.5" id="iconSalin"></i> Salin Link Formulir
+          </button>
+          <div class="d-none">
+            <span id="shareUrl"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
+            <button type="button" id="btnIconCopy" onclick="generateAndCopyShareLink()"><i id="iconCopySmall"></i></button>
           </div>
         </div>
       </div>
 
       <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
-      <div class="row g-2 mb-3">
+      <div class="row g-2.5 mb-3 kov-kpi-row">
         <div class="col-6 col-lg-3">
-          <div class="coinbase-kpi-card h-100" onclick="filterByStatusCard('all')" role="button" style="cursor: pointer;" title="Klik untuk menampilkan seluruh pelamar">
+          <div class="coinbase-kpi-card kpi-total h-100" onclick="filterByStatusCard('all')" role="button" style="cursor: pointer;" title="Klik untuk menampilkan seluruh pelamar">
             <div class="w-100">
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <span class="bento-metric-title">Total Pelamar</span>
@@ -208,7 +208,7 @@
         </div>
 
         <div class="col-6 col-lg-3">
-          <div class="coinbase-kpi-card h-100" onclick="filterByStatusCard('Belum Diproses')" role="button" style="cursor: pointer;" title="Klik untuk menyaring berkas perlu ditinjau">
+          <div class="coinbase-kpi-card kpi-pending h-100" onclick="filterByStatusCard('Belum Diproses')" role="button" style="cursor: pointer;" title="Klik untuk menyaring berkas perlu ditinjau">
             <div class="w-100">
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <span class="bento-metric-title text-warning">Perlu Ditinjau</span>
@@ -221,7 +221,7 @@
         </div>
 
         <div class="col-6 col-lg-3">
-          <div class="coinbase-kpi-card h-100" onclick="filterByStatusCard('Diterima')" role="button" style="cursor: pointer;" title="Klik untuk menyaring kandidat diterima">
+          <div class="coinbase-kpi-card kpi-accepted h-100" onclick="filterByStatusCard('Diterima')" role="button" style="cursor: pointer;" title="Klik untuk menyaring kandidat diterima">
             <div class="w-100">
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <span class="bento-metric-title text-success">Lulus Seleksi</span>
@@ -234,7 +234,7 @@
         </div>
 
         <div class="col-6 col-lg-3">
-          <div class="coinbase-kpi-card h-100" onclick="filterByStatusCard('duplicate')" role="button" style="cursor: pointer;" title="Klik untuk menyaring indikasi duplikat">
+          <div class="coinbase-kpi-card kpi-duplicate h-100" onclick="filterByStatusCard('duplicate')" role="button" style="cursor: pointer;" title="Klik untuk menyaring indikasi duplikat">
             <div class="w-100">
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <span class="bento-metric-title text-danger">Data Ganda</span>
