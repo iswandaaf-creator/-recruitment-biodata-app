@@ -639,6 +639,24 @@ db.serialize(() => {
       });
     }
   });
+
+  // Performance Indexes for SQLite Speed & Multi-User Concurrency
+  try {
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_candidates_created_at ON candidates(created_at);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_candidates_status ON candidates(kesimpulan_status);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_candidates_divisi ON candidates(divisi);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_candidates_duplicate ON candidates(is_duplicate);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_candidates_share_token ON candidates(share_token);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_candidates_ktp ON candidates(nomor_ktp);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_candidates_hp ON candidates(no_hp);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_reviews_candidate_id ON candidate_reviews(candidate_id);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_po_no_po ON purchase_orders(no_po);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_po_status ON purchase_orders(status_approval);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_it_no_transaksi ON it_expenses(no_transaksi);');
+    sqlite.exec('CREATE INDEX IF NOT EXISTS idx_surat_tugas_no ON surat_tugas(no_surat);');
+  } catch (idxErr) {
+    // Indexes ready
+  }
 });
 
 module.exports = db;

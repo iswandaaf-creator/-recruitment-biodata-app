@@ -6970,7 +6970,7 @@ body,
 @keyframes kovElevateIn {
   0% {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   100% {
     opacity: 1;
@@ -7149,8 +7149,8 @@ body,
 .dd-hero-banner {
   background: #ffffff !important;
   border: 1px solid #e2e8f0 !important;
-  border-radius: 12px !important;
-  padding: 1.25rem 1.5rem !important;
+  border-radius: 14px !important;
+  padding: 1.35rem 1.65rem !important;
   margin-bottom: 1.25rem !important;
   display: flex !important;
   align-items: center !important;
@@ -7305,32 +7305,33 @@ body,
   overflow: hidden !important;
 }
 
-/* High-craft top subtle accent rules */
+/* High-craft top subtle accent rules (2px refined hairline) */
 .coinbase-kpi-card.kpi-total,
 .coinbase-kpi-card:nth-child(1) {
-  border-top: 3px solid #166534 !important;
+  border-top: 2px solid #166534 !important;
 }
 
 .coinbase-kpi-card.kpi-pending {
-  border-top: 3px solid #f59e0b !important;
+  border-top: 2px solid #f59e0b !important;
 }
 
 .coinbase-kpi-card.kpi-accepted {
-  border-top: 3px solid #10b981 !important;
+  border-top: 2px solid #10b981 !important;
 }
 
 .coinbase-kpi-card.kpi-duplicate {
-  border-top: 3px solid #ef4444 !important;
+  border-top: 2px solid #ef4444 !important;
 }
 
 .coinbase-kpi-card.kpi-info {
-  border-top: 3px solid #0284c7 !important;
+  border-top: 2px solid #0284c7 !important;
 }
 
 .coinbase-kpi-card:hover {
   border-color: #cbd5e1 !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 8px 18px -4px rgba(16, 24, 40, 0.08) !important;
+  box-shadow: 0 10px 24px -4px rgba(16, 24, 40, 0.08) !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%) !important;
 }
 
 [data-theme="dark"] .coinbase-kpi-card {
@@ -7340,7 +7341,7 @@ body,
 
 [data-theme="dark"] .coinbase-kpi-card:hover {
   border-color: #374151 !important;
-  box-shadow: 0 8px 18px -4px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 0 10px 24px -4px rgba(0, 0, 0, 0.4) !important;
 }
 
 .bento-metric-title {
@@ -7356,7 +7357,7 @@ body,
 }
 
 .bento-metric-value {
-  font-size: 1.75rem !important;
+  font-size: 1.85rem !important;
   font-weight: 800 !important;
   letter-spacing: -0.03em !important;
   font-variant-numeric: tabular-nums !important;
@@ -7417,13 +7418,14 @@ body,
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
-  gap: 4px !important;
-  padding: 4px !important;
+  gap: 3px !important;
+  padding: 3px !important;
   background: #f1f5f9 !important;
   border: 1px solid #e2e8f0 !important;
-  border-radius: 12px !important;
+  border-radius: 10px !important;
   margin-bottom: 1.25rem !important;
   scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 .dd-folders-grid::-webkit-scrollbar {
@@ -7436,19 +7438,20 @@ body,
 }
 
 .dd-folder-card {
-  height: 36px !important;
-  padding: 0 14px !important;
-  border-radius: 8px !important;
+  height: 34px !important;
+  padding: 0 11px !important;
+  border-radius: 7px !important;
   background: transparent !important;
   border: 1px solid transparent !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 8px !important;
-  font-size: 0.8125rem !important;
+  gap: 7px !important;
+  font-size: 0.8rem !important;
   font-weight: 600 !important;
   color: #475569 !important;
   cursor: pointer !important;
   white-space: nowrap !important;
+  flex-shrink: 0 !important;
 }
 
 .dd-folder-card:hover {
@@ -7484,7 +7487,7 @@ body,
 .badge-tab-count {
   background: #e2e8f0 !important;
   color: #334155 !important;
-  padding: 2px 7px !important;
+  padding: 1px 6px !important;
   border-radius: 9999px !important;
   font-size: 0.6875rem !important;
   font-weight: 700 !important;
