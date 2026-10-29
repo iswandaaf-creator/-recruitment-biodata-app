@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029d" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029e" rel="stylesheet">
   <style>
     /* Reviewer Specific Dribbble Enhancements */
     .filter-btn {
@@ -242,176 +242,64 @@
           </div>
         </div>
 
-        <!-- Kategori Divisi (Vibrant Folder Cards - 8 Symmetrical Cards) -->
-        <div class="dd-section-header">
+        <!-- Segmented Division Filter Tabs (Untitled UI / Linear Architecture) -->
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
           <div class="d-flex align-items-center gap-2">
-            <h3 class="dd-section-title">Kategori Divisi</h3>
-            <span class="badge rounded-pill" style="background: rgba(90, 96, 234, 0.12); color: var(--dd-primary, #5a60ea); font-size: 0.76rem; font-weight: 700; padding: 4px 10px;">8 Divisi Lengkap</span>
+            <span class="text-uppercase fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.05em;">Filter Divisi</span>
+            <span class="badge py-0.5 px-2" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 4px; font-weight: 700; font-size: 10.5px;">8 Divisi Lengkap</span>
           </div>
-          <a href="javascript:void(0)" onclick="filterByDivisiQuick('all')" class="dd-view-all-link" id="btnViewAllDivisions" title="Reset filter dan tampilkan seluruh pelamar">
-            <span>Tampilkan Semua</span> <i class="fas fa-rotate-left ms-1" style="font-size: 0.72rem;"></i>
+          <a href="javascript:void(0)" onclick="filterByDivisiQuick('all')" class="text-decoration-none text-muted small fw-medium" id="btnViewAllDivisions" title="Reset filter dan tampilkan seluruh pelamar">
+            <i class="fas fa-rotate-left me-1"></i> Reset Divisi
           </a>
         </div>
 
-        <div class="dd-folders-grid" id="foldersGrid">
-          <!-- 1. Barista (Coral Red) -->
-          <div class="dd-folder-card dd-folder-coral folder-coral" data-divisi="barista" onclick="filterByDivisiQuick('barista')" title="Filter Divisi Barista" role="button" tabindex="0">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-mug-hot"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Barista &amp; Cafe</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">B1</span>
-                <span class="dd-avatar-chip">B2</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= baristaCount %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= baristaCount %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-mug-hot"></i> Barista</span>
-            </div>
-          </div>
-
-          <!-- 2. Operasional Outlet (Royal Blue) -->
-          <div class="dd-folder-card dd-folder-royal folder-blue" data-divisi="operasional" onclick="filterByDivisiQuick('operasional')" title="Filter Divisi Operasional" role="button" tabindex="0">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-briefcase"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Operasional Outlet</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">OF</span>
-                <span class="dd-avatar-chip">HR</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= opsCount %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= opsCount %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-briefcase"></i> Outlet</span>
-            </div>
-          </div>
-
-          <!-- 3. Kitchen & Pastry (Amber Gold) -->
-          <div class="dd-folder-card dd-folder-amber folder-amber" data-divisi="kitchen" onclick="filterByDivisiQuick('kitchen')" title="Filter Divisi Kitchen" role="button" tabindex="0">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-utensils"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Kitchen &amp; Pastry</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">K1</span>
-                <span class="dd-avatar-chip">K2</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= kitchenCount %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= kitchenCount %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-utensils"></i> Kitchen</span>
-            </div>
-          </div>
-
-          <!-- 4. Teknisi & ME (Cyan Teal) -->
-          <div class="dd-folder-card dd-folder-cyan folder-cyan" data-divisi="teknisi" onclick="filterByDivisiQuick('teknisi')" title="Filter Divisi Teknisi & ME" role="button" tabindex="0">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-wrench"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Teknisi &amp; ME</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">TK</span>
-                <span class="dd-avatar-chip">ME</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= teknisiCount %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= teknisiCount %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-wrench"></i> Teknisi</span>
-            </div>
-          </div>
-
-          <!-- 5. IT & Systems (Violet Purple) -->
-          <div class="dd-folder-card dd-folder-violet folder-violet" data-divisi="it" onclick="filterByDivisiQuick('it')" title="Filter Divisi IT & Sistem" role="button" tabindex="0">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-laptop-code"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">IT &amp; Systems</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">IT</span>
-                <span class="dd-avatar-chip">DV</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= itCount %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= itCount %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-laptop-code"></i> IT Dept</span>
-            </div>
-          </div>
-
-          <!-- 6. FAT / Finance & Tax (Emerald Mint) -->
-          <div class="dd-folder-card dd-folder-emerald folder-emerald" data-divisi="fat" onclick="filterByDivisiQuick('fat')" title="Filter Divisi FAT / Finance" role="button" tabindex="0">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-file-invoice-dollar"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">FAT (Finance)</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">FA</span>
-                <span class="dd-avatar-chip">TX</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= fatCount %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= fatCount %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-file-invoice-dollar"></i> Finance</span>
-            </div>
-          </div>
-
-          <!-- 7. HR & GA (Rose Crimson) -->
-          <div class="dd-folder-card dd-folder-rose folder-rose" data-divisi="hr" onclick="filterByDivisiQuick('hr')" title="Filter Divisi HR & GA" role="button" tabindex="0">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-user-tie"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">HR &amp; GA</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">HR</span>
-                <span class="dd-avatar-chip">GA</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= hrCount %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder"></i> <%= hrCount %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-user-tie"></i> HRGA</span>
-            </div>
-          </div>
-
-          <!-- 8. Semua Pelamar (Midnight Indigo) -->
+        <div class="dd-folders-grid mb-3" id="foldersGrid">
+          <!-- 8. Semua Pelamar (Master) -->
           <div class="dd-folder-card dd-folder-indigo folder-indigo active" data-divisi="all" onclick="filterByDivisiQuick('all')" title="Tampilkan Seluruh Pelamar" role="button" tabindex="0">
-            <div class="dd-folder-top">
-              <div class="dd-folder-icon"><i class="fas fa-users-viewfinder"></i></div>
-              <button type="button" class="dd-folder-menu" aria-label="Menu Opsi"><i class="fas fa-ellipsis-vertical"></i></button>
-            </div>
-            <div class="dd-folder-body">
-              <h4 class="dd-folder-name">Semua Kandidat</h4>
-              <div class="dd-avatar-group">
-                <span class="dd-avatar-chip">KV</span>
-                <span class="dd-avatar-chip">ALL</span>
-                <span class="dd-avatar-chip dd-avatar-chip-more">+<%= totalKandidat %></span>
-              </div>
-            </div>
-            <div class="dd-folder-footer">
-              <span class="dd-file-count"><i class="far fa-folder-open"></i> <%= totalKandidat %> Berkas</span>
-              <span class="dd-file-weight"><i class="fas fa-circle-check"></i> Terverifikasi</span>
-            </div>
+            <span class="dd-folder-title dd-folder-name">Semua Divisi</span>
+            <span class="badge-tab-count"><%= totalKandidat %></span>
+          </div>
+
+          <!-- 1. Barista (Coral) -->
+          <div class="dd-folder-card dd-folder-coral folder-coral" data-divisi="barista" onclick="filterByDivisiQuick('barista')" title="Filter Divisi Barista" role="button" tabindex="0">
+            <span class="dd-folder-title dd-folder-name">Barista</span>
+            <span class="badge-tab-count"><%= baristaCount %></span>
+          </div>
+
+          <!-- 2. Operasional (Royal) -->
+          <div class="dd-folder-card dd-folder-royal folder-blue" data-divisi="operasional" onclick="filterByDivisiQuick('operasional')" title="Filter Divisi Operasional" role="button" tabindex="0">
+            <span class="dd-folder-title dd-folder-name">Operasional</span>
+            <span class="badge-tab-count"><%= opsCount %></span>
+          </div>
+
+          <!-- 3. Kitchen (Amber) -->
+          <div class="dd-folder-card dd-folder-amber folder-amber" data-divisi="kitchen" onclick="filterByDivisiQuick('kitchen')" title="Filter Divisi Kitchen" role="button" tabindex="0">
+            <span class="dd-folder-title dd-folder-name">Kitchen</span>
+            <span class="badge-tab-count"><%= kitchenCount %></span>
+          </div>
+
+          <!-- 4. Teknisi & ME (Cyan) -->
+          <div class="dd-folder-card dd-folder-cyan folder-cyan" data-divisi="teknisi" onclick="filterByDivisiQuick('teknisi')" title="Filter Divisi Teknisi & ME" role="button" tabindex="0">
+            <span class="dd-folder-title dd-folder-name">Teknisi</span>
+            <span class="badge-tab-count"><%= teknisiCount %></span>
+          </div>
+
+          <!-- 5. IT & Systems (Violet) -->
+          <div class="dd-folder-card dd-folder-violet folder-violet" data-divisi="it" onclick="filterByDivisiQuick('it')" title="Filter Divisi IT & Sistem" role="button" tabindex="0">
+            <span class="dd-folder-title dd-folder-name">IT &amp; Systems</span>
+            <span class="badge-tab-count"><%= itCount %></span>
+          </div>
+
+          <!-- 6. FAT / Finance & Tax (Emerald) -->
+          <div class="dd-folder-card dd-folder-emerald folder-emerald" data-divisi="fat" onclick="filterByDivisiQuick('fat')" title="Filter Divisi FAT / Finance" role="button" tabindex="0">
+            <span class="dd-folder-title dd-folder-name">Finance &amp; Tax</span>
+            <span class="badge-tab-count"><%= fatCount %></span>
+          </div>
+
+          <!-- 7. HR & GA (Rose) -->
+          <div class="dd-folder-card dd-folder-rose folder-rose" data-divisi="hr" onclick="filterByDivisiQuick('hr')" title="Filter Divisi HR & GA" role="button" tabindex="0">
+            <span class="dd-folder-title dd-folder-name">HR &amp; GA</span>
+            <span class="badge-tab-count"><%= hrCount %></span>
           </div>
         </div>
 
