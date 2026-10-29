@@ -2672,9 +2672,9 @@
 
   /* PANE 3: Right Activity & Utility Panel - Permanently anchored to viewport */
   .dd-right-panel {
-    width: 210px !important;
-    min-width: 210px !important;
-    max-width: 210px !important;
+    width: 240px !important;
+    min-width: 240px !important;
+    max-width: 240px !important;
     height: 100vh !important;
     max-height: 100vh !important;
     background-color: var(--dd-surface-panel) !important;
@@ -7927,14 +7927,24 @@ time {
 /* Right Utility Rail: Sleek 240px column */
 .dd-right-panel {
   width: 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
   flex: 0 0 240px !important;
   background: #f8fafc !important;
   border-left: 1px solid #e2e8f0 !important;
-  padding: 14px !important;
+  padding: 12px 10px !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 12px !important;
   box-shadow: none !important;
+}
+
+.dd-user-name {
+  max-width: 90px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
 }
 
 [data-theme="dark"] .dd-right-panel {
