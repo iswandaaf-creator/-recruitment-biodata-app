@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029i" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029j" rel="stylesheet">
   <style>
     /* Reviewer Specific Dribbble Enhancements */
     .filter-btn {
@@ -119,12 +119,12 @@
         <!-- Executive Command Header (Taste-Skill Framed Sheet) -->
         <div class="dd-hero-banner">
           <div class="dd-hero-content">
-            <div class="d-flex align-items-center gap-2 mb-1">
-              <span class="badge py-1 px-2" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
-                EVALUASI PELAMAR
+            <div class="d-flex align-items-center gap-2 mb-1 flex-nowrap overflow-hidden">
+              <span class="badge py-1 px-2 text-nowrap" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
+                <span class="kov-pulse-dot"></span> EVALUASI PELAMAR
               </span>
               <span class="text-muted small">&bull;</span>
-              <span class="text-muted small">Portal Penilai Divisi</span>
+              <span class="text-muted small text-nowrap">Portal Penilai Divisi</span>
             </div>
             <h2 class="dd-hero-title">
               Portal Reviewer Divisi: <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Staff Reviewer' %>
