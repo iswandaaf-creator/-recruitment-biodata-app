@@ -549,7 +549,7 @@
               <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'R' %>
             </div>
             <div class="d-none d-xl-flex flex-column text-start" style="line-height: 1.2;">
-              <span class="dd-user-name"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Reviewer Divisi' %></span>
+              <span class="dd-user-name" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Reviewer Divisi' %>"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Reviewer Divisi' %></span>
               <span class="small text-muted" style="font-size: 0.7rem;"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Reviewer' %></span>
             </div>
             <i class="fas fa-chevron-down dd-user-caret"></i>

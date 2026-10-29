@@ -435,20 +435,20 @@
           <table class="kov-botanical-table" id="candidateTable">
             <thead>
               <tr>
-                <th style="width: 48px; text-align: center;">FORMAT</th>
-                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('date'); event.preventDefault(); }" style="width: 105px; cursor: pointer;">
-                  TANGGAL SUBMIT <i class="fas fa-sort ms-1 opacity-50" id="sortIconDate"></i>
+                <th style="width: 48px; text-align: center;">TIPE</th>
+                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('date'); event.preventDefault(); }" style="width: 98px; cursor: pointer;">
+                  TANGGAL <i class="fas fa-sort ms-1 opacity-50" id="sortIconDate"></i>
                 </th>
-                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('name'); event.preventDefault(); }" style="min-width: 160px; cursor: pointer;">
-                  NAMA &amp; IDENTITAS <i class="fas fa-sort ms-1 opacity-50" id="sortIconName"></i>
+                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('name'); event.preventDefault(); }" style="cursor: pointer;">
+                  NAMA KANDIDAT <i class="fas fa-sort ms-1 opacity-50" id="sortIconName"></i>
                 </th>
-                <th style="width: 115px;">POSISI DILAMAR</th>
-                <th style="width: 135px;">KONTAK</th>
-                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('status'); event.preventDefault(); }" style="width: 110px; cursor: pointer;">
-                  STATUS SELEKSI <i class="fas fa-sort ms-1 opacity-50" id="sortIconStatus"></i>
+                <th style="width: 112px;">POSISI</th>
+                <th style="width: 125px;">KONTAK</th>
+                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('status'); event.preventDefault(); }" style="width: 114px; cursor: pointer;">
+                  STATUS <i class="fas fa-sort ms-1 opacity-50" id="sortIconStatus"></i>
                 </th>
-                <th style="width: 75px; text-align: center;">INDIKATOR</th>
-                <th class="text-center" style="width: 105px;">AKSI</th>
+                <th style="width: 75px; text-align: center;">DATA</th>
+                <th class="text-center" style="width: 135px;">AKSI</th>
               </tr>
             </thead>
             <tbody id="candidateTableBody">
@@ -692,7 +692,7 @@
               <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
             </div>
             <div class="d-none d-xl-flex flex-column text-start" style="line-height: 1.2;">
-              <span class="dd-user-name" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %>"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %></span>
+              <span class="dd-user-name" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %>"><%= (typeof user !== 'undefined' && user && user.nama) ? (user.nama === 'Administrator HR' ? 'Admin HR' : user.nama) : 'Admin HR' %></span>
               <span class="small text-muted" style="font-size: 0.7rem;"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %></span>
             </div>
             <i class="fas fa-chevron-down dd-user-caret"></i>
