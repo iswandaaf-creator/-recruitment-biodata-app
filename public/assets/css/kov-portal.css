@@ -7940,7 +7940,7 @@ time {
 }
 
 .dd-user-name {
-  max-width: 90px !important;
+  max-width: 130px !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
   white-space: nowrap !important;
@@ -8627,32 +8627,38 @@ time {
 
 .kov-botanical-table {
   width: 100% !important;
+  table-layout: fixed !important;
   border-collapse: collapse !important;
+}
+
+.kov-botanical-table th,
+.kov-botanical-table td {
+  box-sizing: border-box !important;
 }
 
 .kov-botanical-table th:nth-child(1),
 .kov-botanical-table td:nth-child(1) { width: 48px !important; text-align: center !important; }
 
 .kov-botanical-table th:nth-child(2),
-.kov-botanical-table td:nth-child(2) { width: 105px !important; white-space: nowrap !important; }
+.kov-botanical-table td:nth-child(2) { width: 98px !important; white-space: nowrap !important; }
 
 .kov-botanical-table th:nth-child(3),
-.kov-botanical-table td:nth-child(3) { min-width: 150px !important; }
+.kov-botanical-table td:nth-child(3) { width: auto !important; min-width: 160px !important; }
 
 .kov-botanical-table th:nth-child(4),
-.kov-botanical-table td:nth-child(4) { width: 115px !important; }
+.kov-botanical-table td:nth-child(4) { width: 112px !important; }
 
 .kov-botanical-table th:nth-child(5),
 .kov-botanical-table td:nth-child(5) { width: 130px !important; }
 
 .kov-botanical-table th:nth-child(6),
-.kov-botanical-table td:nth-child(6) { width: 110px !important; }
+.kov-botanical-table td:nth-child(6) { width: 118px !important; }
 
 .kov-botanical-table th:nth-child(7),
-.kov-botanical-table td:nth-child(7) { width: 75px !important; text-align: center !important; }
+.kov-botanical-table td:nth-child(7) { width: 76px !important; text-align: center !important; }
 
 .kov-botanical-table th:nth-child(8),
-.kov-botanical-table td:nth-child(8) { width: 110px !important; text-align: center !important; }
+.kov-botanical-table td:nth-child(8) { width: 140px !important; text-align: center !important; }
 
 .kov-botanical-table thead th {
   font-size: 11px !important;
@@ -8767,29 +8773,29 @@ time {
 }
 
 .kov-td-action {
-  position: sticky !important;
-  right: 0 !important;
+  position: static !important;
+  right: auto !important;
   background: #ffffff !important;
-  border-left: 1px solid #f1f5f9 !important;
-  z-index: 5 !important;
+  border-left: none !important;
+  z-index: auto !important;
 }
 
 .kov-botanical-table thead th:last-child {
-  position: sticky !important;
-  right: 0 !important;
+  position: static !important;
+  right: auto !important;
   background: #f8fafc !important;
-  border-left: 1px solid #e2e8f0 !important;
-  z-index: 6 !important;
+  border-left: none !important;
+  z-index: auto !important;
 }
 
 [data-theme="dark"] .kov-td-action {
   background: #111827 !important;
-  border-left-color: #1f2937 !important;
+  border-left: none !important;
 }
 
 [data-theme="dark"] .kov-botanical-table thead th:last-child {
   background: #162032 !important;
-  border-left-color: #1f2937 !important;
+  border-left: none !important;
 }
 
 /* Status Badges: Low-Chroma Tonal Fills */

@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v7" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_cila_v8" rel="stylesheet">
   <!-- Dribbble Cloud Drive Design System Extension -->
   
   <!-- Toast & Theme Global Utilities in Head for Immediate Availability -->
@@ -484,7 +484,7 @@
                     data-status="<%= rawStatus %>"
                     data-divisi="<%= dLow %>"
                     data-duplicate="<%= c.is_duplicate ? 'true' : 'false' %>">
-                  <td class="text-center kov-td-action">
+                  <td class="text-center">
                     <div class="dd-file-badge <%= badgeClass %>" title="Format Dokumen: <%= badgeText %>">
                       <%= badgeText %>
                     </div>
@@ -499,11 +499,17 @@
                         <img src="<%= c.foto_kandidat %>" class="rounded-circle border flex-shrink-0" style="width: 30px; height: 30px; object-fit: cover;">
                       <% } else { %>
                         <div class="kov-avatar-monogram">
-                          <%= c.nama_lengkap ? c.nama_lengkap.trim().charAt(0).toUpperCase() : 'P' %>
+                          <%= (c.nama_lengkap && c.nama_lengkap.trim()) ? c.nama_lengkap.trim().charAt(0).toUpperCase() : '?' %>
                         </div>
                       <% } %>
                       <div style="min-width: 0; max-width: 150px;">
-                        <div class="kov-candidate-name text-truncate" title="<%= c.nama_lengkap %>"><%= c.nama_lengkap %></div>
+                        <div class="kov-candidate-name text-truncate" title="<%= c.nama_lengkap || '(Tanpa Nama)' %>">
+                          <% if (c.nama_lengkap && c.nama_lengkap.trim()) { %>
+                            <%= c.nama_lengkap %>
+                          <% } else { %>
+                            <span class="text-muted fst-italic" style="font-size: 0.8rem;">(Tanpa Nama)</span>
+                          <% } %>
+                        </div>
                         <div class="kov-candidate-sub text-truncate">
                           <% if (c.nomor_ktp) { %><span>NIK: <%= c.nomor_ktp %></span><% } %>
                           <% if (c.no_rekening) { %><span class="ms-1 border-start ps-1">Rek: <%= c.no_rekening %></span><% } %>
@@ -537,9 +543,11 @@
                         <i class="fas fa-briefcase me-1"></i> <%= cDiv %>
                       </span>
                     <% } %>
+                    <% if (c.posisi_dilamar && c.posisi_dilamar.trim().toLowerCase() !== cDiv.trim().toLowerCase()) { %>
                     <div class="fw-semibold text-dark small mt-0.5 text-truncate" style="max-width: 120px;" title="<%= c.posisi_dilamar %>">
                       <%= c.posisi_dilamar %>
                     </div>
+                    <% } %>
                   </td>
                   <td>
                     <div style="max-width: 135px;">
@@ -684,14 +692,14 @@
               <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
             </div>
             <div class="d-none d-xl-flex flex-column text-start" style="line-height: 1.2;">
-              <span class="dd-user-name"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %></span>
+              <span class="dd-user-name" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %>"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %></span>
               <span class="small text-muted" style="font-size: 0.7rem;"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %></span>
             </div>
             <i class="fas fa-chevron-down dd-user-caret"></i>
           </div>
           <div class="dropdown-menu dropdown-menu-end kov-user-dropdown-menu p-2" aria-labelledby="userMenuDropdownBtn">
             <div class="px-3 py-2 border-bottom mb-1">
-              <div class="fw-bold text-dark small"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %></div>
+              <div class="fw-bold text-dark small"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %></div>
               <div class="text-muted" style="font-size: 0.72rem;"><%= (typeof user !== 'undefined' && user && user.username) ? '@' + user.username : '@admin' %> &bull; <span class="badge bg-success bg-opacity-25 text-success"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %></span></div>
             </div>
             <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
@@ -750,13 +758,13 @@
             <button type="button" class="dd-row-btn" aria-label="Menu Task" onclick="event.stopPropagation(); filterByStatusCard('Belum Diproses')"><i class="fas fa-ellipsis-vertical"></i></button>
           </div>
           <div class="dd-task-time">
-            <i class="far fa-clock"></i> 25 Okt, 2026 | 10:00 WIB &bull; <%= pendingCandidateCount %> Berkas
+            <i class="far fa-clock"></i> <%= pendingCandidateCount > 0 ? (pendingCandidateCount + ' Berkas Memerlukan Evaluasi') : 'Semua Berkas Terverifikasi' %>
           </div>
           <div class="dd-task-footer">
             <div class="dd-task-avatars">
-              <div class="dd-avatar-sm" style="background: #5a60ea; color: #fff;">HR</div>
-              <div class="dd-avatar-sm" style="background: #10b981; color: #fff;">OP</div>
-              <button type="button" class="btn-dd-add-user" title="Tambah Penilai"><i class="fas fa-plus"></i></button>
+              <div class="dd-avatar-sm" style="background: #166534; color: #fff;">HR</div>
+              <div class="dd-avatar-sm" style="background: #0f766e; color: #fff;">OP</div>
+              <span class="small text-muted ms-1" style="font-size: 0.72rem;">Tim Seleksi KOV</span>
             </div>
           </div>
         </div>
