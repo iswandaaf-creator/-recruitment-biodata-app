@@ -2597,9 +2597,9 @@
   .dd-sidebar,
   .kov-sidebar,
   .kov-sidebar.dd-theme {
-    width: 240px !important;
-    min-width: 240px !important;
-    max-width: 240px !important;
+    width: 210px !important;
+    min-width: 210px !important;
+    max-width: 210px !important;
     height: 100vh !important;
     max-height: 100vh !important;
     background-color: var(--dd-sidebar-bg) !important;
@@ -2672,9 +2672,9 @@
 
   /* PANE 3: Right Activity & Utility Panel - Permanently anchored to viewport */
   .dd-right-panel {
-    width: 330px !important;
-    min-width: 330px !important;
-    max-width: 330px !important;
+    width: 210px !important;
+    min-width: 210px !important;
+    max-width: 210px !important;
     height: 100vh !important;
     max-height: 100vh !important;
     background-color: var(--dd-surface-panel) !important;
@@ -8617,9 +8617,32 @@ time {
 
 .kov-botanical-table {
   width: 100% !important;
-  min-width: 860px !important;
   border-collapse: collapse !important;
 }
+
+.kov-botanical-table th:nth-child(1),
+.kov-botanical-table td:nth-child(1) { width: 48px !important; text-align: center !important; }
+
+.kov-botanical-table th:nth-child(2),
+.kov-botanical-table td:nth-child(2) { width: 105px !important; white-space: nowrap !important; }
+
+.kov-botanical-table th:nth-child(3),
+.kov-botanical-table td:nth-child(3) { min-width: 150px !important; }
+
+.kov-botanical-table th:nth-child(4),
+.kov-botanical-table td:nth-child(4) { width: 115px !important; }
+
+.kov-botanical-table th:nth-child(5),
+.kov-botanical-table td:nth-child(5) { width: 130px !important; }
+
+.kov-botanical-table th:nth-child(6),
+.kov-botanical-table td:nth-child(6) { width: 110px !important; }
+
+.kov-botanical-table th:nth-child(7),
+.kov-botanical-table td:nth-child(7) { width: 75px !important; text-align: center !important; }
+
+.kov-botanical-table th:nth-child(8),
+.kov-botanical-table td:nth-child(8) { width: 110px !important; text-align: center !important; }
 
 .kov-botanical-table thead th {
   font-size: 11px !important;
@@ -8627,7 +8650,7 @@ time {
   color: #64748b !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
-  padding: 9px 12px !important;
+  padding: 8px 10px !important;
   background: #f8fafc !important;
   border-bottom: 1px solid #e2e8f0 !important;
   text-align: left !important;
