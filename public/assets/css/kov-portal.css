@@ -7846,11 +7846,12 @@ body,
 }
 
 /* ==========================================================================
-   CILA ANTI-SLOP ART DIRECTION & FRAMED-SHEET ARCHITECTURE (TASTE-SKILL V2)
+   CILA ANTI-SLOP ART DIRECTION & FRAMED-SHEET MASTER ARCHITECTURE (V3)
    Distilled from 247 curated gallery sites & 23 real product screens.
-   - Ground: #f4f6f8 / #f8fafc framed L-chrome
-   - Work Sheet: #ffffff flat surface, 1px hairline (#e8eaec), zero box-shadow
-   - Accent: KOV Botanical Pine (#166534) on data & primary control
+   - Ground: #f4f6f8 framed chrome
+   - Work Sheet: #ffffff flat surface, 1px hairline (#e2e8f0), zero drop shadow
+   - Proportions: 230px Sidebar | 1fr Main Content | 260px Quiet Utility Rail
+   - Accent: KOV Botanical Pine (#166534) on data & primary action
    - Type: IBM Plex Sans (400, 500, 600) + IBM Plex Mono tabular numbers
    - Anti-Slop: Zero circular icon boxes, zero rainbow folder cards, zero SaaS banners
    ========================================================================== */
@@ -7886,32 +7887,34 @@ time {
   font-variant-numeric: tabular-nums !important;
 }
 
-/* --- 2. Shell & Inset Framed Sheet --- */
+/* --- 2. Shell & Inset Framed Sheet Architecture --- */
 .dd-layout-root {
   display: flex !important;
   min-height: 100vh !important;
   background: #f4f6f8 !important;
   gap: 0 !important;
+  overflow-x: hidden !important;
 }
 
-/* Sidebar: Crisp, understated Obsidian Slate frame */
+/* Sidebar: Deep Obsidian Slate frame (230px, sleek & calm) */
 .dd-sidebar.kov-sidebar {
-  width: 240px !important;
+  width: 230px !important;
+  flex: 0 0 230px !important;
   background: #0f172a !important;
   border-right: 1px solid #1e293b !important;
   box-shadow: none !important;
   z-index: 100 !important;
 }
 
-/* Main Workspace Sheet: Inset 8px, flat #ffffff surface, 1px hairline rule, zero drop shadow */
+/* Main Workspace Sheet: Takes all remaining space, flat #ffffff surface, 1px hairline rule */
 .dd-main-canvas.kov-main-content {
-  flex: 1 1 auto !important;
+  flex: 1 1 0 !important;
   min-width: 0 !important;
   background: #ffffff !important;
-  border: 1px solid #e8eaec !important;
-  border-radius: 14px !important;
-  margin: 8px 8px 8px 8px !important;
-  padding: 24px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  margin: 8px !important;
+  padding: 22px 24px !important;
   box-shadow: none !important;
   overflow-y: auto !important;
 }
@@ -7921,7 +7924,137 @@ time {
   border-color: #1f2937 !important;
 }
 
-/* --- 3. Topbar: 46px Clean Symmetrical Row --- */
+/* Right Utility Rail: Sleek 260px column */
+.dd-right-panel {
+  width: 260px !important;
+  flex: 0 0 260px !important;
+  background: #f8fafc !important;
+  border-left: 1px solid #e2e8f0 !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  box-shadow: none !important;
+}
+
+[data-theme="dark"] .dd-right-panel {
+  background: #090d16 !important;
+  border-left-color: #1f2937 !important;
+}
+
+/* --- 3. Sidebar Navigation Links: Zero White Sticker Boxes --- */
+.dd-sidebar .dd-nav-item,
+.kov-sidebar .kov-nav-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  color: #94a3b8 !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  transition: all 0.15s ease !important;
+  text-decoration: none !important;
+  margin-bottom: 2px !important;
+  box-shadow: none !important;
+}
+
+.dd-sidebar .dd-nav-item:hover,
+.kov-sidebar .kov-nav-item:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Subtle, refined active state (Never a white block on dark sidebar!) */
+.dd-sidebar .dd-nav-item.active,
+.kov-sidebar .kov-nav-item.active,
+.dd-nav-item.active {
+  color: #ffffff !important;
+  background: rgba(34, 197, 94, 0.12) !important;
+  border-left: 3px solid #22c55e !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
+}
+
+.dd-sidebar .dd-nav-item.active i,
+.dd-sidebar .dd-nav-item.active svg,
+.kov-sidebar .kov-nav-item.active i {
+  color: #4ade80 !important;
+}
+
+.dd-nav-group-title,
+.kov-nav-group-title {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  color: #64748b !important;
+  text-transform: uppercase !important;
+  padding: 14px 12px 6px 12px !important;
+}
+
+/* Sidebar Footer & Bottom Widgets */
+.kov-sidebar-footer,
+.dd-sidebar-footer {
+  border-top: 1px solid #1e293b !important;
+  padding: 12px !important;
+  background: transparent !important;
+}
+
+.kov-theme-toggle-sidebar {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid #1e293b !important;
+  color: #94a3b8 !important;
+  border-radius: 6px !important;
+  padding: 6px 10px !important;
+  font-size: 12px !important;
+  width: 100% !important;
+  margin-bottom: 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+}
+
+.kov-theme-toggle-sidebar:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+}
+
+.kov-user-badge-box {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 6px !important;
+  padding: 8px 10px !important;
+  margin-bottom: 6px !important;
+  box-shadow: none !important;
+}
+
+.kov-user-name {
+  color: #f1f5f9 !important;
+  font-size: 12px !important;
+}
+
+.kov-logout-link {
+  background: transparent !important;
+  border: none !important;
+  color: #f87171 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 6px 4px !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+.kov-logout-link:hover {
+  color: #ef4444 !important;
+}
+
+/* --- 4. Topbar: 46px Clean Symmetrical Row --- */
 .dd-topbar {
   display: flex !important;
   align-items: center !important;
@@ -7931,27 +8064,27 @@ time {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  padding: 0 0 16px 0 !important;
-  margin-bottom: 8px !important;
+  padding: 0 0 14px 0 !important;
+  margin-bottom: 6px !important;
 }
 
 .dd-search-container {
-  max-width: 540px !important;
-  height: 46px !important;
-  border-radius: 8px !important;
+  max-width: 500px !important;
+  height: 48px !important;
+  border-radius: 6px !important;
   background: #f8fafc !important;
   border: 1px solid #e2e8f0 !important;
   box-shadow: none !important;
   display: flex !important;
   align-items: center !important;
   padding: 0 14px !important;
+  box-sizing: border-box !important;
   transition: border-color 0.15s ease !important;
 }
 
 .dd-search-container:focus-within {
   border-color: #166534 !important;
   background: #ffffff !important;
-  outline: none !important;
 }
 
 .dd-search-input {
@@ -7961,33 +8094,37 @@ time {
   background: transparent !important;
   border: none !important;
   outline: none !important;
-  height: 100% !important;
+  height: 46px !important;
   width: 100% !important;
   padding-left: 8px !important;
+  box-sizing: border-box !important;
 }
 
-[data-theme="dark"] .dd-search-container {
-  background: #1e293b !important;
-  border-color: #334155 !important;
+/* Topbar CTA Export (46px standard in reviewer/admin) */
+.btn-drive-upload {
+  height: 46px !important;
+  padding: 0 16px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  box-shadow: none !important;
 }
 
-[data-theme="dark"] .dd-search-input {
-  color: #f8fafc !important;
-}
-
-/* --- 4. Executive Command Header (Anti-Slop: Noun Title at 22px, Flat Ground) --- */
+/* --- 5. Executive Command Header: Clean Architectural Noun Title --- */
 .dd-hero-banner {
   background: #fafbfc !important;
   border: 1px solid #e8eaec !important;
-  border-radius: 10px !important;
-  padding: 16px 20px !important;
-  margin-bottom: 20px !important;
-  box-shadow: none !important;
+  border-radius: 8px !important;
+  padding: 14px 18px !important;
+  margin-bottom: 16px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   flex-wrap: wrap !important;
-  gap: 16px !important;
+  gap: 12px !important;
+  box-shadow: none !important;
 }
 
 [data-theme="dark"] .dd-hero-banner {
@@ -7995,12 +8132,20 @@ time {
   border-color: #1f2937 !important;
 }
 
+.kov-hero-badge {
+  display: none !important; /* Eliminate cheesy pulse dot badge */
+}
+
+.dd-hero-content {
+  flex: 1 1 280px !important;
+}
+
 .dd-hero-title {
-  font-size: 22px !important;
+  font-size: 18px !important;
   font-weight: 600 !important;
   color: #0f172a !important;
-  letter-spacing: -0.02em !important;
-  margin: 2px 0 4px 0 !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 0 2px 0 !important;
   line-height: 1.25 !important;
 }
 
@@ -8009,9 +8154,9 @@ time {
 }
 
 .dd-hero-subtitle {
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   color: #64748b !important;
-  line-height: 1.45 !important;
+  line-height: 1.4 !important;
   margin: 0 !important;
 }
 
@@ -8019,22 +8164,29 @@ time {
   color: #94a3b8 !important;
 }
 
-/* Header Action Buttons */
+.dd-hero-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+}
+
 .btn-dd-hero {
   background: #166534 !important;
   color: #ffffff !important;
   border: 1px solid #166534 !important;
   border-radius: 6px !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   font-weight: 600 !important;
-  padding: 8px 16px !important;
-  height: 36px !important;
+  padding: 6px 14px !important;
+  height: 34px !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
   box-shadow: none !important;
   cursor: pointer !important;
   transition: background 0.15s ease !important;
+  white-space: nowrap !important;
 }
 
 .btn-dd-hero:hover {
@@ -8048,16 +8200,17 @@ time {
   color: #334155 !important;
   border: 1px solid #cbd5e1 !important;
   border-radius: 6px !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   font-weight: 500 !important;
-  padding: 7px 14px !important;
-  height: 36px !important;
+  padding: 6px 12px !important;
+  height: 34px !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
   box-shadow: none !important;
   text-decoration: none !important;
   transition: all 0.15s ease !important;
+  white-space: nowrap !important;
 }
 
 .btn-kov-outline:hover {
@@ -8072,28 +8225,17 @@ time {
   color: #e2e8f0 !important;
 }
 
-/* Topbar CTA Export (46px standard in reviewer/admin) */
-.btn-drive-upload {
-  height: 46px !important;
-  padding: 0 18px !important;
-  border-radius: 8px !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  box-shadow: none !important;
-}
-
-/* --- 5. Executive KPI Metric Strip (Anti-Slop: Type, Not Tiles - 1 Continuous Strip) --- */
+/* --- 6. Executive KPI Metric Strip (Anti-Slop: Type, Not Tiles - Zero Broken Text Wrapping) --- */
 .kov-kpi-row {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   background: #ffffff !important;
-  border: 1px solid #e8eaec !important;
-  border-radius: 10px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
   overflow: hidden !important;
-  margin: 0 0 20px 0 !important;
+  margin: 0 0 18px 0 !important;
   box-shadow: none !important;
+  width: 100% !important;
 }
 
 [data-theme="dark"] .kov-kpi-row {
@@ -8101,61 +8243,68 @@ time {
   border-color: #1f2937 !important;
 }
 
-.kov-kpi-row > div {
-  padding: 0 !important;
-  border-right: 1px solid #f1f5f9 !important;
-}
-
-[data-theme="dark"] .kov-kpi-row > div {
-  border-right-color: #1f2937 !important;
-}
-
-.kov-kpi-row > div:last-child {
-  border-right: none !important;
-}
-
 .coinbase-kpi-card {
+  padding: 14px 18px !important;
   background: transparent !important;
-  border: none !important;
+  border-right: 1px solid #f1f5f9 !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
   border-radius: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-width: 0 !important;
   box-shadow: none !important;
-  padding: 16px 20px !important;
+  text-decoration: none !important;
   cursor: pointer !important;
   transition: background 0.15s ease !important;
-  height: auto !important;
-  position: relative !important;
+}
+
+.coinbase-kpi-card:last-child {
+  border-right: none !important;
 }
 
 .coinbase-kpi-card:hover {
   background: #fafbfc !important;
 }
 
+[data-theme="dark"] .coinbase-kpi-card {
+  border-right-color: #1f2937 !important;
+}
+
 [data-theme="dark"] .coinbase-kpi-card:hover {
   background: #162032 !important;
 }
 
-/* Hide circular icon boxes on KPIs (House Rule #14: Icons in circles on KPIs = 0 of 23) */
+/* Suppress all circular icon containers on KPIs */
 .coinbase-kpi-card .kov-metric-icon-box {
   display: none !important;
 }
 
 .bento-metric-title {
-  font-size: 12px !important;
+  font-size: 11px !important;
   font-weight: 600 !important;
-  color: #64748b !important;
+  letter-spacing: 0.05em !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
-  margin-bottom: 6px !important;
+  color: #64748b !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  margin-bottom: 4px !important;
+  line-height: 1.2 !important;
   display: block !important;
 }
 
 .bento-metric-value {
   font-size: 26px !important;
   font-weight: 600 !important;
+  line-height: 1.1 !important;
   color: #0f172a !important;
-  line-height: 1.15 !important;
-  margin-bottom: 4px !important;
+  white-space: nowrap !important;
   letter-spacing: -0.02em !important;
+  font-variant-numeric: tabular-nums !important;
+  margin-bottom: 4px !important;
 }
 
 [data-theme="dark"] .bento-metric-value {
@@ -8165,31 +8314,38 @@ time {
 .bento-metric-sub {
   font-size: 12px !important;
   color: #94a3b8 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
   font-weight: 400 !important;
+  display: block !important;
 }
 
-/* Active status indicator on KPI */
-.coinbase-kpi-card.active::after {
-  content: "" !important;
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  height: 2px !important;
-  background: #166534 !important;
+/* Subtle active bottom hairline on active KPI */
+.coinbase-kpi-card.active {
+  background: #fafbfc !important;
+  box-shadow: inset 0 -2px 0 0 #166534 !important;
 }
 
-/* --- 6. Division Tabs (Anti-Slop: Unified Segmented Bar, Zero Rainbow Boxes) --- */
+/* --- 7. Division Filter Bar: Single-Row Segmented Control (Zero Wrapping) --- */
 .dd-folders-grid {
   display: flex !important;
-  flex-wrap: wrap !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
   gap: 4px !important;
   background: #f1f5f9 !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 8px !important;
   padding: 4px !important;
-  margin-bottom: 20px !important;
+  margin-bottom: 18px !important;
   box-shadow: none !important;
+  width: 100% !important;
+}
+
+.dd-folders-grid::-webkit-scrollbar {
+  display: none !important;
 }
 
 [data-theme="dark"] .dd-folders-grid {
@@ -8198,19 +8354,20 @@ time {
 }
 
 .dd-folder-card {
+  flex: 0 0 auto !important;
   background: transparent !important;
   border: none !important;
   border-radius: 6px !important;
   padding: 6px 14px !important;
-  min-height: 36px !important;
+  min-height: 34px !important;
   font-size: 13px !important;
   font-weight: 500 !important;
   color: #475569 !important;
   cursor: pointer !important;
   display: inline-flex !important;
   align-items: center !important;
-  justify-content: center !important;
   gap: 8px !important;
+  white-space: nowrap !important;
   transition: all 0.15s ease !important;
   box-shadow: none !important;
   text-decoration: none !important;
@@ -8218,10 +8375,9 @@ time {
 }
 
 .dd-folder-card:hover {
-  background: rgba(255, 255, 255, 0.6) !important;
+  background: rgba(255, 255, 255, 0.7) !important;
   color: #0f172a !important;
   transform: none !important;
-  box-shadow: none !important;
 }
 
 [data-theme="dark"] .dd-folder-card:hover {
@@ -8240,7 +8396,6 @@ time {
 [data-theme="dark"] .dd-folder-card.active {
   background: #1e293b !important;
   color: #4ade80 !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
 }
 
 .dd-folder-title,
@@ -8259,6 +8414,7 @@ time {
   padding: 2px 7px !important;
   border-radius: 999px !important;
   line-height: 1 !important;
+  font-variant-numeric: tabular-nums !important;
 }
 
 .dd-folder-card.active .badge-tab-count {
@@ -8271,7 +8427,7 @@ time {
   color: #04250e !important;
 }
 
-/* Suppress all tacky rainbow backgrounds on folder cards */
+/* Neutralize legacy rainbow backgrounds */
 .dd-folder-coral,
 .dd-folder-royal,
 .dd-folder-amber,
@@ -8297,11 +8453,11 @@ time {
   display: none !important;
 }
 
-/* --- 7. Candidate Table: Flat Framed Surface & Rules --- */
+/* --- 8. Candidate Table: Flat Framed Surface & Clean Typography --- */
 .kov-table-card {
   background: #ffffff !important;
   border: 1px solid #e8eaec !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   box-shadow: none !important;
   overflow: hidden !important;
   margin-bottom: 24px !important;
@@ -8313,7 +8469,7 @@ time {
 }
 
 .kov-table-header-box {
-  padding: 16px 20px !important;
+  padding: 14px 18px !important;
   border-bottom: 1px solid #f1f5f9 !important;
   display: flex !important;
   align-items: center !important;
@@ -8331,7 +8487,7 @@ time {
 }
 
 .kov-table-title {
-  font-size: 16px !important;
+  font-size: 15px !important;
   font-weight: 600 !important;
   color: #0f172a !important;
   margin: 0 !important;
@@ -8345,30 +8501,30 @@ time {
 }
 
 .kov-badge-count {
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
   background: #f1f5f9 !important;
   color: #475569 !important;
   border: 1px solid #e2e8f0 !important;
-  padding: 2px 8px !important;
-  border-radius: 6px !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
 }
 
-[data-theme="dark"] .kov-badge-count {
-  background: #1e293b !important;
-  color: #94a3b8 !important;
-  border-color: #334155 !important;
-}
-
-/* Status Filter Pill Bar */
+/* Status Filter Pill Bar: Clean single-row tabs */
 .kov-status-filter-bar {
-  padding: 10px 20px !important;
+  padding: 8px 18px !important;
   background: #fafbfc !important;
   border-bottom: 1px solid #f1f5f9 !important;
   display: flex !important;
   align-items: center !important;
-  flex-wrap: wrap !important;
-  gap: 6px !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  scrollbar-width: none !important;
+  gap: 5px !important;
+}
+
+.kov-status-filter-bar::-webkit-scrollbar {
+  display: none !important;
 }
 
 [data-theme="dark"] .kov-status-filter-bar {
@@ -8377,16 +8533,23 @@ time {
 }
 
 .kov-filter-pill-botanical {
-  border-radius: 6px !important;
+  border-radius: 5px !important;
   font-size: 12px !important;
   font-weight: 500 !important;
-  padding: 5px 12px !important;
+  padding: 4px 11px !important;
   border: 1px solid #e2e8f0 !important;
   background: #ffffff !important;
   color: #475569 !important;
   box-shadow: none !important;
   cursor: pointer !important;
   transition: all 0.15s ease !important;
+  white-space: nowrap !important;
+  flex: 0 0 auto !important;
+}
+
+/* Hide multi-colored noisy icons inside filter pills */
+.kov-filter-pill-botanical i {
+  display: none !important;
 }
 
 .kov-filter-pill-botanical:hover {
@@ -8396,9 +8559,10 @@ time {
 }
 
 .kov-filter-pill-botanical.active {
-  background: #166534 !important;
+  background: #0f172a !important;
   color: #ffffff !important;
-  border-color: #166534 !important;
+  border-color: #0f172a !important;
+  font-weight: 600 !important;
 }
 
 [data-theme="dark"] .kov-filter-pill-botanical {
@@ -8420,12 +8584,12 @@ time {
 }
 
 .kov-botanical-table thead th {
-  font-size: 12px !important;
+  font-size: 11px !important;
   font-weight: 600 !important;
   color: #64748b !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.04em !important;
-  padding: 12px 16px !important;
+  letter-spacing: 0.05em !important;
+  padding: 10px 14px !important;
   background: #f8fafc !important;
   border-bottom: 1px solid #e2e8f0 !important;
   text-align: left !important;
@@ -8440,7 +8604,7 @@ time {
 .kov-botanical-table tbody td {
   font-size: 13px !important;
   color: #1e293b !important;
-  padding: 12px 16px !important;
+  padding: 11px 14px !important;
   border-bottom: 1px solid #f1f5f9 !important;
   vertical-align: middle !important;
 }
@@ -8464,10 +8628,10 @@ time {
   background: #ecfdf5 !important;
   color: #065f46 !important;
   border: 1px solid #a7f3d0 !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
   border-radius: 4px !important;
-  padding: 3px 8px !important;
+  padding: 2px 7px !important;
 }
 
 .status-pill-modern.pill-info,
@@ -8475,10 +8639,10 @@ time {
   background: #eff6ff !important;
   color: #1e40af !important;
   border: 1px solid #bfdbfe !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
   border-radius: 4px !important;
-  padding: 3px 8px !important;
+  padding: 2px 7px !important;
 }
 
 .status-pill-modern.pill-warning,
@@ -8486,10 +8650,10 @@ time {
   background: #fffbeb !important;
   color: #92400e !important;
   border: 1px solid #fde68a !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
   border-radius: 4px !important;
-  padding: 3px 8px !important;
+  padding: 2px 7px !important;
 }
 
 .status-pill-modern.pill-danger,
@@ -8497,20 +8661,20 @@ time {
   background: #fef2f2 !important;
   color: #991b1b !important;
   border: 1px solid #fecaca !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
   border-radius: 4px !important;
-  padding: 3px 8px !important;
+  padding: 2px 7px !important;
 }
 
 /* Action Buttons inside Table */
 .kov-action-review-btn {
   height: 28px !important;
-  padding: 0 12px !important;
+  padding: 0 10px !important;
   background: #166534 !important;
   color: #ffffff !important;
-  border-radius: 5px !important;
-  font-size: 12px !important;
+  border-radius: 4px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -8523,20 +8687,18 @@ time {
 .kov-action-review-btn:hover {
   background: #14532d !important;
   color: #ffffff !important;
-  transform: none !important;
-  box-shadow: none !important;
 }
 
 .kov-action-icon-circle {
   width: 28px !important;
   height: 28px !important;
-  border-radius: 5px !important;
+  border-radius: 4px !important;
   background: #ffffff !important;
   border: 1px solid #cbd5e1 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   color: #475569 !important;
   text-decoration: none !important;
   box-shadow: none !important;
@@ -8546,34 +8708,23 @@ time {
 .kov-action-icon-circle:hover {
   background: #f8fafc !important;
   border-color: #94a3b8 !important;
-  transform: none !important;
-  box-shadow: none !important;
 }
 
-/* --- 8. Right Utility Panel: Quiet & Streamlined --- */
-.dd-right-panel {
-  width: 280px !important;
-  flex: 0 0 280px !important;
-  background: #f4f6f8 !important;
-  border-left: 1px solid #e8eaec !important;
-  padding: 16px !important;
+/* --- 9. Right Utility Panel: Minimal Calendar & Quiet Tasks --- */
+.dd-profile-header {
   display: flex !important;
-  flex-direction: column !important;
-  gap: 16px !important;
-  box-shadow: none !important;
-}
-
-[data-theme="dark"] .dd-right-panel {
-  background: #090d16 !important;
-  border-left-color: #1f2937 !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-bottom: 10px !important;
+  border-bottom: 1px solid #e8eaec !important;
 }
 
 .dd-calendar-widget,
 .dd-task-widget {
   background: #ffffff !important;
   border: 1px solid #e8eaec !important;
-  border-radius: 10px !important;
-  padding: 14px !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
   box-shadow: none !important;
 }
 
@@ -8583,15 +8734,61 @@ time {
   border-color: #1f2937 !important;
 }
 
-.dd-cal-day {
-  transition: background 0.15s ease !important;
+.dd-calendar-title,
+.dd-section-title {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 !important;
+}
+
+[data-theme="dark"] .dd-calendar-title,
+[data-theme="dark"] .dd-section-title {
+  color: #f9fafb !important;
+}
+
+.dd-period-toggle {
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 6px !important;
+  padding: 2px !important;
+  margin-top: 8px !important;
+}
+
+.dd-period-btn {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  padding: 3px 8px !important;
   border-radius: 4px !important;
+  border: none !important;
+  background: transparent !important;
+  color: #64748b !important;
+}
+
+.dd-period-btn.active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+.dd-month-label {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+
+.dd-cal-day {
+  font-size: 11px !important;
+  border-radius: 4px !important;
+  transition: background 0.15s ease !important;
+  font-variant-numeric: tabular-nums !important;
 }
 
 .dd-cal-day:hover {
   background-color: #f1f5f9 !important;
   color: #0f172a !important;
-  transform: none !important;
 }
 
 .dd-cal-day.active {
@@ -8606,23 +8803,38 @@ time {
   border: 1px solid #e8eaec !important;
   border-left: 3px solid #166534 !important;
   border-radius: 6px !important;
-  padding: 10px 12px !important;
+  padding: 9px 11px !important;
   cursor: pointer !important;
   box-shadow: none !important;
   transition: background 0.15s ease !important;
+  margin-top: 8px !important;
 }
 
 .dd-task-card:hover {
   background: #ffffff !important;
   border-color: #cbd5e1 !important;
   border-left-color: #166534 !important;
-  transform: none !important;
-  box-shadow: none !important;
 }
 
-[data-theme="dark"] .dd-task-card {
-  background: #162032 !important;
-  border-color: #1f2937 !important;
-  border-left-color: #22c55e !important;
+.dd-task-title {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
 }
+
+.dd-task-time {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+  margin-top: 3px !important;
+}
+
+/* Toast container positioning */
+.kov-toast-container {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 99999 !important;
+}
+
 

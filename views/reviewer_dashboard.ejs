@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_taste" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_cila_v3" rel="stylesheet">
   <style>
     /* Reviewer Specific Dribbble Enhancements */
     .filter-btn {
@@ -185,60 +185,32 @@
           </div>
         <% } %>
 
-        <!-- Executive KPI Metric Strip (Taste-Skill Framed Sheet) -->
-        <div class="row g-2.5 mb-3 kov-kpi-row">
-          <div class="col-6 col-lg-3">
-            <div class="coinbase-kpi-card kpi-total h-100" onclick="filterByStatusPill('ALL')" role="button" style="cursor: pointer;" title="Tampilkan semua berkas penugasan">
-              <div class="w-100">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <span class="bento-metric-title">Total Penugasan</span>
-                  <div class="kov-metric-icon-box text-primary"><i class="fas fa-clipboard-list"></i></div>
-                </div>
-                <div class="bento-metric-value text-primary"><%= totalKandidat %></div>
-                <div class="bento-metric-sub">Sesuai divisi reviewer</div>
-              </div>
-            </div>
+        <!-- Executive KPI Metric Strip (Anti-Slop: Type, Not Tiles - Direct Grid Children) -->
+        <div class="kov-kpi-row mb-3">
+          <div class="coinbase-kpi-card kpi-total active" onclick="filterByStatusPill('ALL')" role="button" tabindex="0" title="Tampilkan semua berkas penugasan">
+            <span class="bento-metric-title">TOTAL PENUGASAN</span>
+            <div class="bento-metric-value text-primary"><%= totalKandidat %></div>
+            <span class="bento-metric-sub">Sesuai divisi reviewer</span>
           </div>
 
-          <div class="col-6 col-lg-3">
-            <div class="coinbase-kpi-card kpi-pending h-100" onclick="filterByStatusPill('BELUM')" role="button" style="cursor: pointer;" title="Saring berkas belum direview">
-              <div class="w-100">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <span class="bento-metric-title text-warning">Belum Direview</span>
-                  <div class="kov-metric-icon-box text-warning" style="color: var(--kov-amber) !important;"><i class="fas fa-clock"></i></div>
-                </div>
-                <div class="bento-metric-value text-warning" style="color: var(--kov-amber) !important;"><%= belumDireview %></div>
-                <div class="bento-metric-sub">Perlu scoring &amp; evaluasi</div>
-              </div>
-            </div>
+          <div class="coinbase-kpi-card kpi-pending" onclick="filterByStatusPill('BELUM')" role="button" tabindex="0" title="Saring berkas belum direview">
+            <span class="bento-metric-title text-warning">BELUM DIREVIEW</span>
+            <div class="bento-metric-value text-warning"><%= belumDireview %></div>
+            <span class="bento-metric-sub">Perlu scoring &amp; evaluasi</span>
           </div>
 
-          <div class="col-6 col-lg-3">
-            <div class="coinbase-kpi-card kpi-accepted h-100" onclick="filterByStatusPill('SUDAH')" role="button" style="cursor: pointer;" title="Saring berkas sudah direview">
-              <div class="w-100">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <span class="bento-metric-title text-success">Sudah Direview</span>
-                  <div class="kov-metric-icon-box text-success" style="color: var(--kov-primary-600) !important;"><i class="fas fa-circle-check"></i></div>
-                </div>
-                <div class="bento-metric-value" style="color: var(--kov-primary-600);"><%= sudahDireview %></div>
-                <div class="bento-metric-sub">Telah diberi rekomendasi</div>
-              </div>
-            </div>
+          <div class="coinbase-kpi-card kpi-accepted" onclick="filterByStatusPill('SUDAH')" role="button" tabindex="0" title="Saring berkas sudah direview">
+            <span class="bento-metric-title text-success">SUDAH DIREVIEW</span>
+            <div class="bento-metric-value text-success"><%= sudahDireview %></div>
+            <span class="bento-metric-sub">Telah diberi rekomendasi</span>
           </div>
 
-          <div class="col-6 col-lg-3">
-            <div class="coinbase-kpi-card kpi-info h-100" role="button" style="cursor: pointer;">
-              <div class="w-100">
-                <div class="d-flex align-items-center justify-content-between mb-2">
-                  <span class="bento-metric-title text-info">Tingkat Progres</span>
-                  <div class="kov-metric-icon-box text-info" style="color: #0284c7 !important;"><i class="fas fa-chart-pie"></i></div>
-                </div>
-                <div class="bento-metric-value text-info" style="color: #0284c7 !important;">
-                  <%= totalKandidat > 0 ? Math.round((sudahDireview / totalKandidat) * 100) : 0 %>%
-                </div>
-                <div class="bento-metric-sub">Penyelesaian review divisi</div>
-              </div>
+          <div class="coinbase-kpi-card kpi-info" role="button" tabindex="0" title="Tingkat progres review">
+            <span class="bento-metric-title text-info">TINGKAT PROGRES</span>
+            <div class="bento-metric-value text-info">
+              <%= totalKandidat > 0 ? Math.round((sudahDireview / totalKandidat) * 100) : 0 %>%
             </div>
+            <span class="bento-metric-sub">Penyelesaian review divisi</span>
           </div>
         </div>
 
