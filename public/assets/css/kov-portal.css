@@ -8249,7 +8249,16 @@ time {
   border-color: #1f2937 !important;
 }
 
-.coinbase-kpi-card {
+.coinbase-kpi-card,
+.coinbase-kpi-card.kpi-total,
+.coinbase-kpi-card.kpi-pending,
+.coinbase-kpi-card.kpi-accepted,
+.coinbase-kpi-card.kpi-duplicate,
+.coinbase-kpi-card.kpi-info,
+.coinbase-kpi-card:nth-child(1),
+.coinbase-kpi-card:nth-child(2),
+.coinbase-kpi-card:nth-child(3),
+.coinbase-kpi-card:nth-child(4) {
   padding: 12px 16px !important;
   background: transparent !important;
   border-right: 1px solid #f1f5f9 !important;
@@ -8704,6 +8713,50 @@ time {
   color: #64748b !important;
   font-family: "IBM Plex Mono", monospace !important;
   margin-top: 2px !important;
+}
+
+.kov-table-date {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #0f172a !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1.2 !important;
+}
+
+.kov-table-time {
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 10.5px !important;
+  color: #94a3b8 !important;
+  white-space: nowrap !important;
+  font-variant-numeric: tabular-nums !important;
+  margin-top: 1px !important;
+}
+
+.kov-td-action {
+  position: sticky !important;
+  right: 0 !important;
+  background: #ffffff !important;
+  border-left: 1px solid #f1f5f9 !important;
+  z-index: 5 !important;
+}
+
+.kov-botanical-table thead th:last-child {
+  position: sticky !important;
+  right: 0 !important;
+  background: #f8fafc !important;
+  border-left: 1px solid #e2e8f0 !important;
+  z-index: 6 !important;
+}
+
+[data-theme="dark"] .kov-td-action {
+  background: #111827 !important;
+  border-left-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .kov-botanical-table thead th:last-child {
+  background: #162032 !important;
+  border-left-color: #1f2937 !important;
 }
 
 /* Status Badges: Low-Chroma Tonal Fills */
