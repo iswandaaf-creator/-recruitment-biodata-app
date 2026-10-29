@@ -7412,20 +7412,15 @@ body,
   color: #dc2626 !important;
 }
 
-/* --- 6. Sleek Segmented Division Tabs (Linear Pill Track) --- */
+/* --- 6. Executive Symmetrical Division Matrix (Taste-Skill Framed Sheet) --- */
 .dd-folders-grid {
-  display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important;
-  overflow-x: auto !important;
-  gap: 3px !important;
-  padding: 3px !important;
-  background: #f1f5f9 !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 10px !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 8px !important;
   margin-bottom: 1.25rem !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 .dd-folders-grid::-webkit-scrollbar {
@@ -7433,49 +7428,98 @@ body,
 }
 
 [data-theme="dark"] .dd-folders-grid {
-  background: #111827 !important;
-  border-color: #1f2937 !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 .dd-folder-card {
-  height: 34px !important;
-  padding: 0 11px !important;
-  border-radius: 7px !important;
-  background: transparent !important;
-  border: 1px solid transparent !important;
-  display: inline-flex !important;
+  height: 40px !important;
+  padding: 0 12px !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  display: flex !important;
   align-items: center !important;
-  gap: 7px !important;
-  font-size: 0.8rem !important;
+  justify-content: space-between !important;
+  font-size: 0.8125rem !important;
   font-weight: 600 !important;
-  color: #475569 !important;
+  color: #334155 !important;
   cursor: pointer !important;
   white-space: nowrap !important;
-  flex-shrink: 0 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .dd-folder-card:hover {
   color: #0f172a !important;
-  background: rgba(255, 255, 255, 0.85) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  background: #fafbfc !important;
+  border-color: #cbd5e1 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.dd-folder-card:active {
+  transform: scale(0.98) !important;
 }
 
 /* Active tab uses KOV Botanical Pine */
 .dd-folder-card.active {
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  font-weight: 700 !important;
+  border-color: #166534 !important;
+  box-shadow: 0 0 0 1px #166534, 0 2px 4px rgba(22, 101, 52, 0.08) !important;
+}
+
+.dd-folder-card .badge-tab-count {
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  border-radius: 9999px !important;
+  background: #f1f5f9 !important;
+  color: #64748b !important;
+  font-variant-numeric: tabular-nums !important;
+  transition: all 0.16s ease !important;
+}
+
+.dd-folder-card.active .badge-tab-count {
   background: #166534 !important;
   color: #ffffff !important;
-  font-weight: 600 !important;
-  border-color: #166534 !important;
-  box-shadow: 0 2px 6px rgba(22, 101, 52, 0.25) !important;
 }
 
 [data-theme="dark"] .dd-folder-card {
+  background: #101726 !important;
+  border-color: #1e293b !important;
   color: #94a3b8 !important;
 }
 
 [data-theme="dark"] .dd-folder-card:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: #172033 !important;
+  border-color: #334155 !important;
   color: #f8fafc !important;
+}
+
+[data-theme="dark"] .dd-folder-card.active {
+  background: rgba(22, 101, 52, 0.2) !important;
+  border-color: #22c55e !important;
+  color: #4ade80 !important;
+  box-shadow: 0 0 0 1px #22c55e, 0 2px 4px rgba(34, 197, 94, 0.15) !important;
+}
+
+[data-theme="dark"] .dd-folder-card .badge-tab-count {
+  background: #1e293b !important;
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .dd-folder-card.active .badge-tab-count {
+  background: #22c55e !important;
+  color: #0f172a !important;
+}
+
+@media (max-width: 991.98px) {
+  .dd-folders-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 }
 
 [data-theme="dark"] .dd-folder-card.active {
