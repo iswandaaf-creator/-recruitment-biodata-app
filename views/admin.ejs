@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v3" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_cila_v4" rel="stylesheet">
   <!-- Dribbble Cloud Drive Design System Extension -->
   
   <!-- Toast & Theme Global Utilities in Head for Immediate Availability -->
@@ -263,13 +263,13 @@
 
         <!-- 5. IT & Digital Systems (Neon Violet) -->
         <div class="dd-folder-card dd-folder-violet folder-violet" data-divisi="it" onclick="filterByDivisiQuick('it')" title="Filter Divisi IT Systems" role="button" tabindex="0">
-          <span class="dd-folder-title">IT &amp; Systems</span>
+          <span class="dd-folder-title">IT Systems</span>
           <span class="badge-tab-count"><%= itCount %></span>
         </div>
 
         <!-- 6. FAT - Finance, Accounting & Tax (Jade Emerald) -->
         <div class="dd-folder-card dd-folder-emerald folder-fat" data-divisi="fat" onclick="filterByDivisiQuick('fat')" title="Filter Divisi Finance, Akunting & Tax" role="button" tabindex="0">
-          <span class="dd-folder-title">Finance &amp; Tax</span>
+          <span class="dd-folder-title">Finance</span>
           <span class="badge-tab-count"><%= fatCount %></span>
         </div>
 
@@ -435,20 +435,20 @@
           <table class="kov-botanical-table" id="candidateTable">
             <thead>
               <tr>
-                <th style="width: 60px;">FORMAT</th>
-                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('date'); event.preventDefault(); }" style="min-width: 120px; cursor: pointer;">
+                <th style="width: 48px; text-align: center;">FORMAT</th>
+                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('date'); event.preventDefault(); }" style="width: 105px; cursor: pointer;">
                   TANGGAL SUBMIT <i class="fas fa-sort ms-1 opacity-50" id="sortIconDate"></i>
                 </th>
-                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('name'); event.preventDefault(); }" style="min-width: 200px; cursor: pointer;">
+                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('name'); event.preventDefault(); }" style="min-width: 160px; cursor: pointer;">
                   NAMA &amp; IDENTITAS <i class="fas fa-sort ms-1 opacity-50" id="sortIconName"></i>
                 </th>
-                <th style="min-width: 130px;">POSISI DILAMAR</th>
-                <th style="min-width: 140px;">KONTAK</th>
-                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('status'); event.preventDefault(); }" style="min-width: 130px; cursor: pointer;">
+                <th style="width: 115px;">POSISI DILAMAR</th>
+                <th style="width: 135px;">KONTAK</th>
+                <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" onkeydown="if(event.key==='Enter'||event.key===' ') { toggleSort('status'); event.preventDefault(); }" style="width: 110px; cursor: pointer;">
                   STATUS SELEKSI <i class="fas fa-sort ms-1 opacity-50" id="sortIconStatus"></i>
                 </th>
-                <th style="min-width: 90px;">INDIKATOR</th>
-                <th class="text-center" style="min-width: 120px;">AKSI</th>
+                <th style="width: 75px; text-align: center;">INDIKATOR</th>
+                <th class="text-center" style="width: 105px;">AKSI</th>
               </tr>
             </thead>
             <tbody id="candidateTableBody">

@@ -7924,16 +7924,16 @@ time {
   border-color: #1f2937 !important;
 }
 
-/* Right Utility Rail: Sleek 260px column */
+/* Right Utility Rail: Sleek 240px column */
 .dd-right-panel {
-  width: 260px !important;
-  flex: 0 0 260px !important;
+  width: 240px !important;
+  flex: 0 0 240px !important;
   background: #f8fafc !important;
   border-left: 1px solid #e2e8f0 !important;
-  padding: 16px !important;
+  padding: 14px !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 14px !important;
+  gap: 12px !important;
   box-shadow: none !important;
 }
 
@@ -8059,8 +8059,8 @@ time {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  height: 46px !important;
-  min-height: 46px !important;
+  height: 48px !important;
+  min-height: 48px !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -8069,8 +8069,8 @@ time {
 }
 
 .dd-search-container {
-  max-width: 500px !important;
-  height: 48px !important;
+  max-width: 480px !important;
+  height: 46px !important;
   border-radius: 6px !important;
   background: #f8fafc !important;
   border: 1px solid #e2e8f0 !important;
@@ -8079,12 +8079,24 @@ time {
   align-items: center !important;
   padding: 0 14px !important;
   box-sizing: border-box !important;
-  transition: border-color 0.15s ease !important;
+  gap: 10px !important;
+  transition: border-color 0.15s ease, background 0.15s ease !important;
 }
 
 .dd-search-container:focus-within {
   border-color: #166534 !important;
   background: #ffffff !important;
+}
+
+.dd-search-icon {
+  position: static !important;
+  color: #94a3b8 !important;
+  font-size: 13px !important;
+  flex-shrink: 0 !important;
+  pointer-events: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
 }
 
 .dd-search-input {
@@ -8096,7 +8108,8 @@ time {
   outline: none !important;
   height: 46px !important;
   width: 100% !important;
-  padding-left: 8px !important;
+  padding: 0 !important;
+  margin: 0 !important;
   box-sizing: border-box !important;
 }
 
@@ -8117,8 +8130,8 @@ time {
   background: #fafbfc !important;
   border: 1px solid #e8eaec !important;
   border-radius: 8px !important;
-  padding: 14px 18px !important;
-  margin-bottom: 16px !important;
+  padding: 12px 18px !important;
+  margin-bottom: 14px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -8133,19 +8146,19 @@ time {
 }
 
 .kov-hero-badge {
-  display: none !important; /* Eliminate cheesy pulse dot badge */
+  display: none !important;
 }
 
 .dd-hero-content {
-  flex: 1 1 280px !important;
+  flex: 1 1 260px !important;
 }
 
 .dd-hero-title {
-  font-size: 18px !important;
+  font-size: 17px !important;
   font-weight: 600 !important;
   color: #0f172a !important;
   letter-spacing: -0.01em !important;
-  margin: 0 0 2px 0 !important;
+  margin: 0 !important;
   line-height: 1.25 !important;
 }
 
@@ -8154,14 +8167,7 @@ time {
 }
 
 .dd-hero-subtitle {
-  font-size: 12.5px !important;
-  color: #64748b !important;
-  line-height: 1.4 !important;
-  margin: 0 !important;
-}
-
-[data-theme="dark"] .dd-hero-subtitle {
-  color: #94a3b8 !important;
+  display: none !important;
 }
 
 .dd-hero-actions {
@@ -8233,7 +8239,7 @@ time {
   border: 1px solid #e2e8f0 !important;
   border-radius: 8px !important;
   overflow: hidden !important;
-  margin: 0 0 18px 0 !important;
+  margin: 0 0 16px 0 !important;
   box-shadow: none !important;
   width: 100% !important;
 }
@@ -8244,7 +8250,7 @@ time {
 }
 
 .coinbase-kpi-card {
-  padding: 14px 18px !important;
+  padding: 12px 16px !important;
   background: transparent !important;
   border-right: 1px solid #f1f5f9 !important;
   border-top: none !important;
@@ -8291,20 +8297,20 @@ time {
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  margin-bottom: 4px !important;
+  margin-bottom: 3px !important;
   line-height: 1.2 !important;
   display: block !important;
 }
 
 .bento-metric-value {
-  font-size: 26px !important;
+  font-size: 24px !important;
   font-weight: 600 !important;
   line-height: 1.1 !important;
   color: #0f172a !important;
   white-space: nowrap !important;
   letter-spacing: -0.02em !important;
   font-variant-numeric: tabular-nums !important;
-  margin-bottom: 4px !important;
+  margin-bottom: 3px !important;
 }
 
 [data-theme="dark"] .bento-metric-value {
@@ -8312,7 +8318,7 @@ time {
 }
 
 .bento-metric-sub {
-  font-size: 12px !important;
+  font-size: 11px !important;
   color: #94a3b8 !important;
   white-space: nowrap !important;
   overflow: hidden !important;
@@ -8338,8 +8344,8 @@ time {
   background: #f1f5f9 !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 8px !important;
-  padding: 4px !important;
-  margin-bottom: 18px !important;
+  padding: 3px !important;
+  margin-bottom: 14px !important;
   box-shadow: none !important;
   width: 100% !important;
 }
@@ -8358,15 +8364,15 @@ time {
   background: transparent !important;
   border: none !important;
   border-radius: 6px !important;
-  padding: 6px 14px !important;
-  min-height: 34px !important;
-  font-size: 13px !important;
+  padding: 4px 10px !important;
+  min-height: 28px !important;
+  font-size: 12px !important;
   font-weight: 500 !important;
   color: #475569 !important;
   cursor: pointer !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  gap: 6px !important;
   white-space: nowrap !important;
   transition: all 0.15s ease !important;
   box-shadow: none !important;
@@ -8400,7 +8406,7 @@ time {
 
 .dd-folder-title,
 .dd-folder-name {
-  font-size: 13px !important;
+  font-size: 12px !important;
   font-weight: inherit !important;
   color: inherit !important;
   margin: 0 !important;
@@ -8409,11 +8415,11 @@ time {
 .badge-tab-count {
   background: #e2e8f0 !important;
   color: #475569 !important;
-  font-size: 11px !important;
+  font-size: 10px !important;
   font-weight: 600 !important;
-  padding: 2px 7px !important;
+  padding: 1px 6px !important;
   border-radius: 999px !important;
-  line-height: 1 !important;
+  line-height: 1.2 !important;
   font-variant-numeric: tabular-nums !important;
 }
 
@@ -8460,7 +8466,7 @@ time {
   border-radius: 8px !important;
   box-shadow: none !important;
   overflow: hidden !important;
-  margin-bottom: 24px !important;
+  margin-bottom: 20px !important;
 }
 
 [data-theme="dark"] .kov-table-card {
@@ -8469,7 +8475,7 @@ time {
 }
 
 .kov-table-header-box {
-  padding: 14px 18px !important;
+  padding: 12px 18px !important;
   border-bottom: 1px solid #f1f5f9 !important;
   display: flex !important;
   align-items: center !important;
@@ -8487,7 +8493,7 @@ time {
 }
 
 .kov-table-title {
-  font-size: 15px !important;
+  font-size: 14px !important;
   font-weight: 600 !important;
   color: #0f172a !important;
   margin: 0 !important;
@@ -8501,18 +8507,18 @@ time {
 }
 
 .kov-badge-count {
-  font-size: 11.5px !important;
+  font-size: 11px !important;
   font-weight: 600 !important;
   background: #f1f5f9 !important;
   color: #475569 !important;
   border: 1px solid #e2e8f0 !important;
-  padding: 2px 7px !important;
+  padding: 1px 6px !important;
   border-radius: 4px !important;
 }
 
 /* Status Filter Pill Bar: Clean single-row tabs */
 .kov-status-filter-bar {
-  padding: 8px 18px !important;
+  padding: 6px 14px !important;
   background: #fafbfc !important;
   border-bottom: 1px solid #f1f5f9 !important;
   display: flex !important;
@@ -8520,7 +8526,7 @@ time {
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   scrollbar-width: none !important;
-  gap: 5px !important;
+  gap: 4px !important;
 }
 
 .kov-status-filter-bar::-webkit-scrollbar {
@@ -8534,9 +8540,9 @@ time {
 
 .kov-filter-pill-botanical {
   border-radius: 5px !important;
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 500 !important;
-  padding: 4px 11px !important;
+  padding: 4px 10px !important;
   border: 1px solid #e2e8f0 !important;
   background: #ffffff !important;
   color: #475569 !important;
@@ -8547,7 +8553,6 @@ time {
   flex: 0 0 auto !important;
 }
 
-/* Hide multi-colored noisy icons inside filter pills */
 .kov-filter-pill-botanical i {
   display: none !important;
 }
@@ -8577,9 +8582,33 @@ time {
   border-color: #22c55e !important;
 }
 
-/* Botanical Data Table Rules */
+/* Botanical Data Table Rules & Full Horizontal Scroll Protection */
+.kov-botanical-table-wrap,
+#candidateTableView {
+  width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  background: #ffffff !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.kov-botanical-table-wrap::-webkit-scrollbar,
+#candidateTableView::-webkit-scrollbar {
+  height: 6px !important;
+}
+
+.kov-botanical-table-wrap::-webkit-scrollbar-thumb,
+#candidateTableView::-webkit-scrollbar-thumb {
+  background: #cbd5e1 !important;
+  border-radius: 999px !important;
+}
+
 .kov-botanical-table {
   width: 100% !important;
+  min-width: 860px !important;
   border-collapse: collapse !important;
 }
 
@@ -8589,10 +8618,11 @@ time {
   color: #64748b !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
-  padding: 10px 14px !important;
+  padding: 9px 12px !important;
   background: #f8fafc !important;
   border-bottom: 1px solid #e2e8f0 !important;
   text-align: left !important;
+  white-space: nowrap !important;
 }
 
 [data-theme="dark"] .kov-botanical-table thead th {
@@ -8602,9 +8632,9 @@ time {
 }
 
 .kov-botanical-table tbody td {
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   color: #1e293b !important;
-  padding: 11px 14px !important;
+  padding: 9px 12px !important;
   border-bottom: 1px solid #f1f5f9 !important;
   vertical-align: middle !important;
 }
@@ -8620,6 +8650,60 @@ time {
 
 [data-theme="dark"] .kov-botanical-table tbody tr:hover {
   background: #162032 !important;
+}
+
+/* Document Format Badge (Minimalist Doc Tag) */
+.dd-file-badge,
+.file-badge-pill {
+  font-family: "IBM Plex Mono", monospace !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  padding: 2px 5px !important;
+  border-radius: 4px !important;
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #64748b !important;
+  display: inline-block !important;
+  text-align: center !important;
+  box-shadow: none !important;
+  line-height: 1.2 !important;
+}
+
+.dd-file-badge.dd-badge-pdf,
+.file-badge-pill.pdf-badge {
+  background: #fef2f2 !important;
+  border-color: #fecaca !important;
+  color: #dc2626 !important;
+}
+
+/* Candidate Monogram Avatar */
+.kov-avatar-monogram {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 6px !important;
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.kov-candidate-name {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  line-height: 1.2 !important;
+}
+
+.kov-candidate-sub {
+  font-size: 11px !important;
+  color: #64748b !important;
+  font-family: "IBM Plex Mono", monospace !important;
+  margin-top: 2px !important;
 }
 
 /* Status Badges: Low-Chroma Tonal Fills */
@@ -8724,7 +8808,7 @@ time {
   background: #ffffff !important;
   border: 1px solid #e8eaec !important;
   border-radius: 8px !important;
-  padding: 12px !important;
+  padding: 10px !important;
   box-shadow: none !important;
 }
 
@@ -8736,10 +8820,11 @@ time {
 
 .dd-calendar-title,
 .dd-section-title {
-  font-size: 13px !important;
+  font-size: 12px !important;
   font-weight: 600 !important;
   color: #0f172a !important;
-  letter-spacing: -0.01em !important;
+  letter-spacing: 0.02em !important;
+  text-transform: uppercase !important;
   margin: 0 !important;
 }
 
@@ -8749,21 +8834,25 @@ time {
 }
 
 .dd-period-toggle {
+  display: flex !important;
   background: #f1f5f9 !important;
   border: 1px solid #e2e8f0 !important;
   border-radius: 6px !important;
   padding: 2px !important;
-  margin-top: 8px !important;
+  margin-top: 6px !important;
 }
 
 .dd-period-btn {
-  font-size: 11px !important;
+  flex: 1 !important;
+  font-size: 10.5px !important;
   font-weight: 500 !important;
-  padding: 3px 8px !important;
+  padding: 3px 0 !important;
+  text-align: center !important;
   border-radius: 4px !important;
   border: none !important;
   background: transparent !important;
   color: #64748b !important;
+  cursor: pointer !important;
 }
 
 .dd-period-btn.active {
@@ -8773,17 +8862,61 @@ time {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
 }
 
+.dd-month-nav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin: 6px 0 !important;
+}
+
 .dd-month-label {
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
   color: #0f172a !important;
 }
 
-.dd-cal-day {
-  font-size: 11px !important;
+.dd-nav-arrow-btn {
+  width: 22px !important;
+  height: 22px !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 4px !important;
-  transition: background 0.15s ease !important;
+  background: #ffffff !important;
+  color: #64748b !important;
+  font-size: 10px !important;
+  cursor: pointer !important;
+}
+
+.dd-cal-weekdays {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  text-align: center !important;
+  font-size: 9.5px !important;
+  font-weight: 600 !important;
+  color: #94a3b8 !important;
+  margin-bottom: 2px !important;
+}
+
+.dd-cal-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 2px !important;
+}
+
+.dd-cal-day {
+  height: 24px !important;
+  line-height: 24px !important;
+  text-align: center !important;
+  font-size: 10.5px !important;
+  font-weight: 500 !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  color: #334155 !important;
   font-variant-numeric: tabular-nums !important;
+  transition: background 0.1s ease !important;
 }
 
 .dd-cal-day:hover {
@@ -8803,11 +8936,11 @@ time {
   border: 1px solid #e8eaec !important;
   border-left: 3px solid #166534 !important;
   border-radius: 6px !important;
-  padding: 9px 11px !important;
+  padding: 8px 10px !important;
   cursor: pointer !important;
   box-shadow: none !important;
-  transition: background 0.15s ease !important;
-  margin-top: 8px !important;
+  transition: all 0.15s ease !important;
+  margin-top: 6px !important;
 }
 
 .dd-task-card:hover {
@@ -8817,16 +8950,34 @@ time {
 }
 
 .dd-task-title {
-  font-size: 12px !important;
+  font-size: 11.5px !important;
   font-weight: 600 !important;
   color: #0f172a !important;
   margin: 0 !important;
 }
 
 .dd-task-time {
-  font-size: 11px !important;
+  font-size: 10.5px !important;
   color: #94a3b8 !important;
-  margin-top: 3px !important;
+  margin-top: 2px !important;
+}
+
+.dd-avatar-sm {
+  width: 20px !important;
+  height: 20px !important;
+  border-radius: 999px !important;
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+  font-size: 9px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.btn-dd-add-user {
+  display: none !important;
 }
 
 /* Toast container positioning */

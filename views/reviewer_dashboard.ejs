@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v3" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_cila_v4" rel="stylesheet">
   <style>
     /* Reviewer Specific Dribbble Enhancements */
     .filter-btn {
@@ -258,13 +258,13 @@
 
           <!-- 5. IT & Systems (Violet) -->
           <div class="dd-folder-card dd-folder-violet folder-violet" data-divisi="it" onclick="filterByDivisiQuick('it')" title="Filter Divisi IT & Sistem" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">IT &amp; Systems</span>
+            <span class="dd-folder-title dd-folder-name">IT Systems</span>
             <span class="badge-tab-count"><%= itCount %></span>
           </div>
 
           <!-- 6. FAT / Finance & Tax (Emerald) -->
           <div class="dd-folder-card dd-folder-emerald folder-emerald" data-divisi="fat" onclick="filterByDivisiQuick('fat')" title="Filter Divisi FAT / Finance" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">Finance &amp; Tax</span>
+            <span class="dd-folder-title dd-folder-name">Finance</span>
             <span class="badge-tab-count"><%= fatCount %></span>
           </div>
 
@@ -427,13 +427,13 @@
             <table class="kov-table" id="candidateReviewTable">
               <thead>
                 <tr>
-                  <th class="ps-3" style="width: 60px;">ID</th>
-                  <th style="min-width: 130px;">Tgl Melamar</th>
-                  <th style="min-width: 250px;">Nama Pelamar &amp; Kontak</th>
-                  <th style="min-width: 170px;">Divisi &amp; Posisi</th>
-                  <th style="min-width: 160px;">Status Evaluasi</th>
-                  <th style="min-width: 220px;">Catatan Terakhir Reviewer</th>
-                  <th class="text-center pe-3" style="min-width: 160px;">Aksi</th>
+                  <th class="ps-3" style="width: 50px;">ID</th>
+                  <th style="width: 110px;">Tgl Melamar</th>
+                  <th style="min-width: 180px;">Nama Pelamar &amp; Kontak</th>
+                  <th style="width: 130px;">Divisi &amp; Posisi</th>
+                  <th style="width: 120px;">Status Evaluasi</th>
+                  <th style="min-width: 160px;">Catatan Terakhir Reviewer</th>
+                  <th class="text-center pe-3" style="width: 120px;">Aksi</th>
                 </tr>
               </thead>
               <tbody id="candidateTableBody">
