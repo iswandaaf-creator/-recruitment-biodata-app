@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v8" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_cila_v10" rel="stylesheet">
   <style>
     .review-timeline-item {
       position: relative;
@@ -53,7 +53,7 @@
           </a>
           <div class="kov-topbar-breadcrumb">
             <h1 class="kov-topbar-title">Review Pelamar</h1>
-            <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= candidate.nama_lengkap %></span>
+            <span class="text-muted d-none d-md-inline" style="font-size: 0.85rem;">/ <%= candidate.nama_lengkap || '(Tanpa Nama)' %></span>
           </div>
         </div>
         <div class="kov-topbar-right d-flex align-items-center gap-2">
@@ -118,7 +118,7 @@
             <% } %>
             <div>
               <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                <h3 class="fw-bold mb-0 text-dark"><%= candidate.nama_lengkap %></h3>
+                <h3 class="fw-bold mb-0 text-dark"><%= candidate.nama_lengkap || '(Tanpa Nama)' %></h3>
                 <span class="badge <%= divBadgeClass %> px-2 py-1">
                   <i class="fas fa-briefcase me-1"></i>Divisi: <%= candidate.divisi || 'Operasional' %>
                 </span>
