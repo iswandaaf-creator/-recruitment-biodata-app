@@ -1,10 +1,10 @@
 <!-- Backdrop for mobile sidebar drawer -->
 <div class="kov-sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<!-- Master Sidebar Navigation (High-Contrast Deep KOV Forest Roast + Pastel Matcha Active Pill) -->
-<aside class="dd-sidebar kov-sidebar dd-theme" id="appSidebar">
+<!-- Master Sidebar Navigation (Atelier Pebble Sage Dock + Symmetrical Pastel Aesthetic) -->
+<aside class="atelier-sidebar dd-sidebar kov-sidebar dd-theme" id="appSidebar">
   
-  <!-- Immediate inline script to prevent layout flicker & sync theme on reload -->
+  <!-- Immediate inline script to prevent layout flicker & sync collapse on reload -->
   <script>
     (function() {
       try {
@@ -12,10 +12,8 @@
           document.getElementById('appSidebar').classList.add('collapsed');
           const mc = document.querySelector('.kov-main-content');
           if (mc) mc.classList.add('collapsed');
-        }
-        if (false) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-          if (document.body) document.body.classList.add('theme-dark');
+          const ash = document.querySelector('.kov-app-shell');
+          if (ash) ash.classList.add('sidebar-collapsed');
         }
       } catch (e) {}
     })();
@@ -24,24 +22,24 @@
   <!-- Brand Header -->
   <div class="dd-sidebar-brand kov-sidebar-brand d-flex items-center justify-between px-3 py-2 border-b" style="border-color: var(--border-organic, #d8e2dc); height: 64px;">
     <a href="/admin" class="dd-brand-logo kov-brand-info d-flex items-center gap-2 text-decoration-none" title="KOV Koffie Portal">
-      <div class="dd-brand-icon kov-brand-logo flex-shrink-0" style="width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--celadon-border, #bdd6c5); padding: 1px; background: #ffffff; overflow: hidden;">
+      <div class="dd-brand-icon kov-brand-logo flex-shrink-0" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--celadon-border, #bdd6c5); padding: 1px; background: #ffffff; overflow: hidden; display: flex; align-items: center; justify-content: center;">
         <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="width: 100%; height: 100%; object-fit: cover;">
       </div>
       <div class="dd-brand-text kov-brand-text-group d-flex flex-column hide-on-collapse" style="line-height: 1.15;">
-        <div class="font-display font-bold text-xs" style="color: var(--ink-deep, #384d42); font-weight: 800; font-size: 13px;">KOV Koffie<span style="color: var(--celadon-stroke, #3f6f56);">.</span></div>
+        <div class="font-display font-bold text-xs" style="color: var(--ink-deep, #384d42); font-weight: 800; font-size: 13.5px; letter-spacing: -0.01em;">KOV Koffie<span style="color: var(--celadon-stroke, #3f6f56);">.</span></div>
         <div class="text-[9.5px] font-medium" style="color: var(--ink-muted, #7d9186); font-size: 10px; font-weight: 600; letter-spacing: 0.04em;">Atelier Sistem</div>
       </div>
     </a>
     
     <!-- Mobile close drawer button (<992px) -->
-    <button type="button" class="btn btn-sm p-1 d-lg-none" id="sidebarCloseBtn" style="color: var(--ink-deep, #384d42) !important;" aria-label="Close Sidebar">
+    <button type="button" class="btn btn-sm p-1 d-lg-none" id="sidebarCloseBtn" style="color: var(--ink-deep, #384d42) !important;" aria-label="Tutup Menu">
       <i class="fas fa-times fs-5"></i>
     </button>
 
-    <!-- Desktop collapse/fold button (>=992px) with Hand-Drawn Chevron -->
-    <button type="button" class="kov-sidebar-collapse-btn kov-soft-icon-btn d-none d-lg-inline-flex align-items-center justify-content-center flex-shrink-0" id="sidebarCollapseBtn" onclick="toggleSidebarCollapse()" title="Lipat / Perluas Navigasi" aria-label="Collapse Sidebar" style="width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--border-organic, #d8e2dc); background: transparent; cursor: pointer;">
-      <svg class="hand-icon !w-3.5 !h-3.5" id="sidebarCollapseIcon" viewBox="0 0 24 24" fill="none" style="width: 14px; height: 14px;">
-        <path d="M14.5 6.5C12.2 8.8 9.8 10.6 8 12.2C10.1 13.9 12.4 15.6 14.8 17.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Desktop collapse/slide button (>=992px) with Symmetrical Chevron -->
+    <button type="button" class="kov-sidebar-collapse-btn kov-soft-icon-btn d-none d-lg-inline-flex align-items-center justify-content-center flex-shrink-0" id="sidebarCollapseBtn" onclick="toggleSidebarCollapse()" title="Lipat / Perluas Navigasi" aria-label="Collapse Sidebar" style="width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border-organic, #d8e2dc); background: var(--bg-paper, #fcfbf9); color: var(--ink-deep, #384d42); cursor: pointer; transition: background 0.15s ease;">
+      <svg class="kov-chevron-icon" id="sidebarCollapseIcon" viewBox="0 0 24 24" fill="none" style="width: 14px; height: 14px; transition: transform 0.25s ease;">
+        <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
   </div>
@@ -56,18 +54,17 @@
     const canUsers = isSuperOrAdmin;
   %>
 
-  <!-- Navigation Links (Natural Pastel Hand-Crafted Icons & Asymmetric Radii) -->
+  <!-- Navigation Links (Symmetrical Geometric Icons & Clean Pastel Accents) -->
   <nav class="dd-sidebar-nav kov-sidebar-nav px-2 py-2" id="sidebarNav">
     
     <!-- Group: HR & Recruitment -->
     <% if (canHR || canReviewer) { %>
-      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse">REKRUTMEN &amp; HR</div>
+      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse" style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--ink-muted, #7d9186); padding: 8px 10px 4px;">REKRUTMEN &amp; HR</div>
       <% if (canHR) { %>
         <a href="/admin" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>" data-tooltip="Direktori Kandidat" title="Direktori Kandidat">
-          <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
-            <path d="M7.5 9.2C7.5 6.8 9.4 5 11.8 5.2C14.2 5.4 15.8 7.3 15.6 9.7C15.4 12.1 13.5 13.8 11.1 13.6C8.8 13.4 7.5 11.5 7.5 9.2Z" fill="#bdd6c5" fill-opacity="0.65"/>
-            <path d="M11.2 4.8C13.6 4.7 15.6 6.6 15.5 9C15.4 11.4 13.4 13.2 11 13.2C8.6 13.2 6.8 11.3 6.9 8.9C7 6.6 8.9 4.9 11.2 4.8Z" stroke="#3f6f56" stroke-width="1.85" stroke-linecap="round"/>
-            <path d="M4.2 19.6C4.8 16.5 7.6 15.1 11.2 15.1C14.8 15.1 17.5 16.7 18.2 19.7" stroke="#3f6f56" stroke-width="2.05" stroke-linecap="round"/>
+          <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 18px; height: 18px;">
+            <circle cx="12" cy="7" r="4" fill="#dfece3" stroke="#2e5943" stroke-width="1.8"/>
+            <path d="M4 21C4 16.58 7.58 13 12 13C16.42 13 20 16.58 20 21" stroke="#2e5943" stroke-width="1.8" stroke-linecap="round"/>
           </svg>
           <i class="fas fa-house d-none"></i>
           <span class="hide-on-collapse">Direktori Kandidat</span>
@@ -75,9 +72,10 @@
       <% } %>
       <% if (canReviewer) { %>
         <a href="/reviewer" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'reviewer') ? 'active' : '' %>" data-tooltip="Evaluasi Divisi" title="Evaluasi Divisi">
-          <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
-            <path d="M12.4 4.5L14.6 9.1L19.6 9.7L15.9 13.1L16.9 18.1L12.3 15.6L7.8 18.2L8.8 13.2L5.1 9.8L10.1 9.1L12.4 4.5Z" fill="#e5d4a7" fill-opacity="0.7"/>
-            <path d="M11.9 4.2L14.1 8.8L19.1 9.4L15.4 12.8L16.4 17.8L11.8 15.3L7.3 17.9L8.3 12.9L4.6 9.5L9.6 8.8L11.9 4.2Z" stroke="#9c782b" stroke-width="1.8" stroke-linejoin="round"/>
+          <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 18px; height: 18px;">
+            <rect x="5" y="4" width="14" height="17" rx="3" fill="#f6eed8" stroke="#9c782b" stroke-width="1.8"/>
+            <path d="M9 2H15V5H9V2Z" fill="#e5d4a7" stroke="#9c782b" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M9 12L11 14L15 10" stroke="#9c782b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <i class="fas fa-user-check d-none"></i>
           <span class="hide-on-collapse">Evaluasi Divisi</span>
@@ -87,30 +85,30 @@
 
     <!-- Group: Operasional -->
     <% if (canOperasional) { %>
-      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse">OPERASIONAL</div>
+      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse" style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--ink-muted, #7d9186); padding: 8px 10px 4px;">OPERASIONAL</div>
       <a href="/admin/operasional" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>" data-tooltip="Berita Acara (BA)" title="Berita Acara (BA)">
-        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
-          <path d="M5.8 5.5H17.6C18.5 5.5 19.2 6.2 19.2 7.1V18.5C19.2 19.4 18.5 20.1 17.6 20.1H5.8C4.9 20.1 4.2 19.4 4.2 18.5V7.1C4.2 6.2 4.9 5.5 5.8 5.5Z" fill="#e6c6b0" fill-opacity="0.6"/>
-          <path d="M5.4 4.8H17.2C18.1 4.8 18.8 5.5 18.8 6.4V17.8C18.8 18.7 18.1 19.4 17.2 19.4H5.4C4.5 19.4 3.8 18.7 3.8 17.8V6.4C3.8 5.5 4.5 4.8 5.4 4.8Z" stroke="#a65d37" stroke-width="1.8"/>
-          <path d="M7.8 9.4H14.8M7.8 13H15.2M7.8 16.2H11.5" stroke="#a65d37" stroke-width="1.95" stroke-linecap="round"/>
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 18px; height: 18px;">
+          <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z" fill="#f6e5da" stroke="#a65d37" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M14 2V8H20" stroke="#a65d37" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M8 13H16M8 17H13" stroke="#a65d37" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
         <i class="fas fa-file-lines d-none"></i>
         <span class="hide-on-collapse">Berita Acara (BA)</span>
       </a>
       <a href="/admin/operasional/po" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'po') ? 'active' : '' %>" data-tooltip="Purchase Order" title="Purchase Order">
-        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
-          <path d="M6.4 8.2H19.2L17.4 16.2H8L6.4 8.2Z" fill="#ddc3cb" fill-opacity="0.65"/>
-          <path d="M3.6 5.2H5.8L7.8 15.6H17.2L19 7.8H6.4" stroke="#8c4a5b" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="9.2" cy="19.2" r="1.5" fill="#8c4a5b"/>
-          <circle cx="16.2" cy="19.2" r="1.5" fill="#8c4a5b"/>
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 18px; height: 18px;">
+          <path d="M3 4H5L7 16H18L20 7H6" stroke="#8c4a5b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="8.5" cy="20" r="1.5" fill="#8c4a5b"/>
+          <circle cx="16.5" cy="20" r="1.5" fill="#8c4a5b"/>
+          <path d="M9 10H15M12 7V13" stroke="#8c4a5b" stroke-width="1.6" stroke-linecap="round"/>
         </svg>
         <i class="fas fa-cart-shopping d-none"></i>
         <span class="hide-on-collapse">Purchase Order</span>
       </a>
       <a href="/admin/operasional/surat-tugas" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'surat_tugas') ? 'active' : '' %>" data-tooltip="Surat Tugas & LPJ" title="Surat Tugas & LPJ">
-        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
-          <path d="M4.6 11.8L19.4 5.4L15.2 19.2L11.4 13.8L4.6 11.8Z" fill="#e5d4a7" fill-opacity="0.65"/>
-          <path d="M4.2 11.4L19 5L14.8 18.8L11 13.4L4.2 11.4Z" stroke="#9c782b" stroke-width="1.8" stroke-linejoin="round"/>
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 18px; height: 18px;">
+          <rect x="4" y="4" width="16" height="16" rx="3" fill="#f6eed8" stroke="#9c782b" stroke-width="1.8"/>
+          <path d="M8 8H16M8 12H16M8 16H12" stroke="#9c782b" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
         <i class="fas fa-file-signature d-none"></i>
         <span class="hide-on-collapse">Surat Tugas &amp; LPJ</span>
@@ -119,12 +117,11 @@
 
     <!-- Group: Infrastruktur & IT -->
     <% if (canIT) { %>
-      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse">INFRASTRUKTUR &amp; IT</div>
+      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse" style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--ink-muted, #7d9186); padding: 8px 10px 4px;">INFRASTRUKTUR &amp; IT</div>
       <a href="/admin/it" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>" data-tooltip="Rekap Belanja IT" title="Rekap Belanja IT">
-        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
-          <rect x="4.6" y="5.4" width="15.6" height="10.8" rx="2.2" fill="#c8cfe6" fill-opacity="0.6"/>
-          <rect x="4" y="4.8" width="15.6" height="10.8" rx="2.2" stroke="#54638f" stroke-width="1.8"/>
-          <path d="M8.2 19.4H15.4M11.8 15.8V19.4" stroke="#54638f" stroke-width="2" stroke-linecap="round"/>
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 18px; height: 18px;">
+          <rect x="3" y="4" width="18" height="12" rx="2.5" fill="#e6e9f4" stroke="#54638f" stroke-width="1.8"/>
+          <path d="M8 20H16M12 16V20" stroke="#54638f" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
         <i class="fas fa-desktop d-none"></i>
         <span class="hide-on-collapse">Rekap Belanja IT</span>
@@ -133,21 +130,22 @@
 
     <!-- Group: Administrasi & Akun -->
     <% if (canUsers) { %>
-      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse">SISTEM</div>
+      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse" style="font-size: 10px; font-weight: 700; letter-spacing: 0.06em; color: var(--ink-muted, #7d9186); padding: 8px 10px 4px;">SISTEM</div>
       <a href="/admin/companies" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'companies') ? 'active' : '' %>" data-tooltip="Master Perusahaan &amp; Outlet" title="Master Perusahaan &amp; Outlet">
-        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
-          <path d="M5.2 10.2H18.8V19.4H5.2V10.2Z" fill="#bdd6c5" fill-opacity="0.55"/>
-          <path d="M4.4 9.6L6.2 4.8H17.8L19.6 9.6H4.4Z" fill="#e5d4a7" fill-opacity="0.65" stroke="#3f6f56" stroke-width="1.8" stroke-linejoin="round"/>
-          <path d="M5.4 9.8V19.2H18.6V9.8M10.2 19.2V14.2H13.8V19.2" stroke="#3f6f56" stroke-width="1.85" stroke-linecap="round"/>
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 18px; height: 18px;">
+          <path d="M3 21H21M5 21V7L13 3V21M13 7L19 10V21" stroke="#2e5943" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="8" y="10" width="2" height="2" fill="#2e5943"/>
+          <rect x="8" y="14" width="2" height="2" fill="#2e5943"/>
         </svg>
         <i class="fas fa-building-user d-none"></i>
         <span class="hide-on-collapse">Master Perusahaan</span>
       </a>
       <a href="/admin/users" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
-        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
-          <path d="M12.4 4.4L19.2 7.2V12.4C19.2 16.6 16.3 19.6 12.4 20.8C8.5 19.6 5.6 16.6 5.6 12.4V7.2L12.4 4.4Z" fill="#ddc3cb" fill-opacity="0.6"/>
-          <path d="M12 3.8L18.8 6.6V11.8C18.8 16 15.9 19 12 20.2C8.1 19 5.2 16 5.2 11.8V6.6L12 3.8Z" stroke="#8c4a5b" stroke-width="1.8" stroke-linejoin="round"/>
-          <path d="M9.4 11.8L11.3 13.7L14.8 9.8" stroke="#8c4a5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 18px; height: 18px;">
+          <circle cx="9" cy="8" r="3.5" fill="#f0e4e8" stroke="#8c4a5b" stroke-width="1.8"/>
+          <path d="M3 19C3 15.68 5.68 13 9 13C12.32 13 15 15.68 15 19" stroke="#8c4a5b" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M16 8C17.65 8 19 9.34 19 11C19 12.65 17.65 14 16 14" stroke="#8c4a5b" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M19 19C19 16.79 17.5 14.94 15.5 14.2" stroke="#8c4a5b" stroke-width="1.8" stroke-linecap="round"/>
         </svg>
         <i class="fas fa-users-gear d-none"></i>
         <span class="hide-on-collapse">Kelola User &amp; Role</span>
@@ -159,41 +157,42 @@
   <!-- User Profile & Session Footer (Pebble-Sage Dock Footer) -->
   <div class="dd-sidebar-footer kov-sidebar-footer p-3 border-t space-y-2" style="border-color: var(--border-organic, #d8e2dc);">
     <!-- Role Indicator Box -->
-    <div class="p-2 rounded-xl border hide-on-collapse mb-2" style="background: var(--bg-paper, #fcfbf9); border-color: var(--border-organic, #d8e2dc);">
+    <div class="p-2 rounded-xl border hide-on-collapse mb-2" style="background: var(--bg-paper, #fcfbf9); border-color: var(--border-organic, #d8e2dc); border-radius: 10px;">
       <div class="block text-[9.5px] font-bold uppercase tracking-wider mb-1" style="color: var(--ink-muted, #7d9186); font-size: 9.5px; font-weight: 700;">Peran Aktif</div>
-      <div class="w-full py-1 px-2 rounded-md border text-[11px] font-bold" style="background: var(--celadon-bg, #dfece3); color: var(--celadon-ink, #2e5943); border-color: var(--celadon-border, #bdd6c5); font-size: 11px;">
+      <div class="w-full py-1 px-2 rounded-md border text-[11px] font-bold" style="background: var(--celadon-bg, #dfece3); color: var(--celadon-ink, #2e5943); border-color: var(--celadon-border, #bdd6c5); font-size: 11px; border-radius: 6px;">
         <%= (typeof user !== 'undefined' && user && user.role) ? user.role.toUpperCase() : 'SUPERADMIN HR' %>
       </div>
     </div>
 
-    <!-- Theme Switcher Button with Hand-drawn Botanical Leaf & Sun SVG -->
-    <button type="button" class="dd-theme-toggle-btn kov-theme-toggle-sidebar btn-kov-outline w-100 justify-content-center mb-2" onclick="toggleKovTheme()" id="themeToggleSidebarBtn" title="Ganti Nuansa Pastel (Linen / Sage Lavender)" style="height: 32px; border-radius: 9px; font-size: 11.5px; font-weight: 600;">
+    <!-- Theme Switcher Button with Symmetrical Sun & Leaf SVG -->
+    <button type="button" class="dd-theme-toggle-btn kov-theme-toggle-sidebar btn-kov-outline w-100 justify-content-center mb-2" onclick="toggleKovTheme()" id="themeToggleSidebarBtn" title="Ganti Nuansa Pastel (Linen / Sage Lavender)" style="height: 32px; border-radius: 8px; font-size: 11.5px; font-weight: 600;">
       <svg class="hand-icon !w-4 !h-4 me-1.5" id="themeIcon" viewBox="0 0 24 24" fill="none" style="width: 16px; height: 16px;">
-        <path d="M19.5 14.8C17.8 15.6 15.8 15.9 13.7 15.3C9.8 14.2 7.5 10.1 8.6 6.2C8.9 5.1 9.5 4.2 10.3 3.5C6.4 4.2 3.5 7.6 3.5 11.8C3.5 16.6 7.4 20.5 12.2 20.5C15.6 20.5 18.4 18.1 19.5 14.8Z" fill="#e5d4a7" fill-opacity="0.65" stroke="#9c782b" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="12" cy="12" r="5" fill="#f6eed8" stroke="#9c782b" stroke-width="1.8"/>
+        <path d="M12 2V4M12 20V22M4 12H2M22 12H20M5.6 5.6L7 7M17 17L18.4 18.4M5.6 18.4L7 17M17 7L18.4 5.6" stroke="#9c782b" stroke-width="1.6" stroke-linecap="round"/>
       </svg>
       <i class="fas fa-moon d-none" id="themeSidebarIcon"></i>
       <span class="hide-on-collapse" id="themeSidebarText">Nuansa Lavender</span>
     </button>
 
-    <div class="kov-user-badge-box" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'User' %> (<%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Staff' %>)">
-      <div class="kov-user-avatar">
+    <div class="kov-user-badge-box" style="border-radius: 10px;" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'User' %> (<%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Staff' %>)">
+      <div class="kov-user-avatar" style="border-radius: 8px;">
         <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
       </div>
-      <div class="flex-grow-1 min-w-0">
-        <div class="small fw-bold text-truncate leading-tight kov-user-name">
+      <div class="flex-grow-1 min-w-0 hide-on-collapse">
+        <div class="small fw-bold text-truncate leading-tight kov-user-name" style="font-size: 12px; font-weight: 700; color: var(--ink-deep, #384d42);">
           <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : ((typeof user !== 'undefined' && user && user.username) ? user.username : 'Administrator HR') %>
         </div>
-        <div style="font-size: 10.5px; margin-top: 2px;">
-          <span class="badge py-0.5 px-2" style="background: #d8f3e5; color: #062e1e; border: 1px solid #6ee7b7; border-radius: 999px; font-weight: 800; font-size: 10px;">
+        <div style="font-size: 10px; margin-top: 2px;">
+          <span class="badge py-0.5 px-2" style="background: var(--celadon-bg, #dfece3); color: var(--celadon-ink, #2e5943); border: 1px solid var(--celadon-border, #bdd6c5); border-radius: 9999px; font-weight: 700; font-size: 9.5px;">
             <%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %>
           </span>
         </div>
       </div>
-      <i class="fas fa-chevron-right ms-auto" style="font-size: 0.75rem; color: #a7f3d0;"></i>
+      <i class="fas fa-chevron-right ms-auto hide-on-collapse" style="font-size: 0.75rem; color: var(--ink-muted, #7d9186);"></i>
     </div>
-    <a href="/admin/logout" onclick="sessionStorage.clear();" class="kov-logout-link" data-tooltip="Keluar (Logout)" title="Keluar (Logout)">
+    <a href="/admin/logout" onclick="sessionStorage.clear();" class="kov-logout-link" data-tooltip="Keluar (Logout)" title="Keluar (Logout)" style="border-radius: 8px; font-size: 11.5px; font-weight: 600;">
       <i class="fas fa-arrow-right-from-bracket"></i>
-      <span>Keluar (Logout)</span>
+      <span class="hide-on-collapse">Keluar (Logout)</span>
     </a>
   </div>
 
@@ -205,8 +204,8 @@
     const backdrop = document.getElementById('sidebarBackdrop');
     const closeBtn = document.getElementById('sidebarCloseBtn');
     const collapseIcon = document.getElementById('sidebarCollapseIcon');
-    const appShell = document.querySelector('.kov-app-shell');
-    const mainContent = document.querySelector('.kov-main-content');
+    const appShell = document.querySelector('.kov-app-shell') || document.querySelector('.atelier-shell');
+    const mainContent = document.querySelector('.kov-main-content') || document.querySelector('.atelier-main');
 
     function applySavedCollapseState() {
       try {
@@ -216,8 +215,11 @@
           if (mainContent) mainContent.classList.add('collapsed');
           if (appShell) appShell.classList.add('sidebar-collapsed');
           if (collapseIcon) {
-            collapseIcon.classList.remove('fa-angles-left');
-            collapseIcon.classList.add('fa-angles-right');
+            collapseIcon.style.transform = 'rotate(180deg)';
+          }
+        } else {
+          if (collapseIcon) {
+            collapseIcon.style.transform = 'rotate(0deg)';
           }
         }
       } catch (e) {}
@@ -233,13 +235,7 @@
       if (appShell) appShell.classList.toggle('sidebar-collapsed', willCollapse);
       
       if (collapseIcon) {
-        if (willCollapse) {
-          collapseIcon.classList.remove('fa-angles-left');
-          collapseIcon.classList.add('fa-angles-right');
-        } else {
-          collapseIcon.classList.remove('fa-angles-right');
-          collapseIcon.classList.add('fa-angles-left');
-        }
+        collapseIcon.style.transform = willCollapse ? 'rotate(180deg)' : 'rotate(0deg)';
       }
       try {
         localStorage.setItem('kov_sidebar_collapsed', willCollapse ? 'true' : 'false');
@@ -271,6 +267,38 @@
       });
     }
 
+    // Touch swipe gestures to slide sidebar in and out
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', function(e) {
+      if (e.changedTouches && e.changedTouches[0]) {
+        touchStartX = e.changedTouches[0].screenX;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', function(e) {
+      if (e.changedTouches && e.changedTouches[0]) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+      }
+    }, { passive: true });
+
+    function handleSwipeGesture() {
+      if (window.innerWidth >= 992) return;
+      const swipeDistance = touchEndX - touchStartX;
+      // Swipe right from left edge (within 60px) to slide open
+      if (swipeDistance > 65 && touchStartX < 60 && sidebar && !sidebar.classList.contains('show')) {
+        sidebar.classList.add('show');
+        if (backdrop) backdrop.classList.add('show');
+      }
+      // Swipe left to slide close
+      if (swipeDistance < -65 && sidebar && sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+        if (backdrop) backdrop.classList.remove('show');
+      }
+    }
+
     window.addEventListener('resize', function() {
       if (window.innerWidth >= 992) {
         if (sidebar) sidebar.classList.remove('show');
@@ -280,6 +308,7 @@
         if (sidebar) sidebar.classList.remove('collapsed');
         if (mainContent) mainContent.classList.remove('collapsed');
         if (appShell) appShell.classList.remove('sidebar-collapsed');
+        if (collapseIcon) collapseIcon.style.transform = 'rotate(0deg)';
       }
     });
   })();

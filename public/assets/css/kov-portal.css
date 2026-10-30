@@ -338,7 +338,7 @@
     gap: 0;
   }
   .kov-sidebar.collapsed .kov-sidebar-collapse-btn {
-    display: none !important;
+    display: inline-flex !important;
   }
 
   /* Compact Dividers */
@@ -10661,18 +10661,22 @@ a:hover .hand-icon {
   animation: kovLaserSweep 1.1s linear infinite;
 }
 
-/* 1. Left Pebble-Sage Dock (194px) */
+/* 1. Left Pebble-Sage Dock (194px) with Symmetrical Proportions & Smooth Slide Transition */
 .atelier-sidebar,
-.dd-sidebar {
+.dd-sidebar,
+.kov-sidebar {
   width: 194px !important;
   min-width: 194px !important;
   max-width: 194px !important;
   background: var(--bg-sidebar, #e6efe9) !important;
   border-right: 1px solid var(--border-organic, #d8e2dc) !important;
+  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+/* Collapsed State: Symmetrical 64px Dock */
 .atelier-sidebar.collapsed,
-.dd-sidebar.collapsed {
+.dd-sidebar.collapsed,
+.kov-sidebar.collapsed {
   width: 64px !important;
   min-width: 64px !important;
   max-width: 64px !important;
@@ -10680,6 +10684,7 @@ a:hover .hand-icon {
 
 .atelier-sidebar.collapsed .hide-on-collapse,
 .dd-sidebar.collapsed .hide-on-collapse,
+.kov-sidebar.collapsed .hide-on-collapse,
 .dd-sidebar.collapsed .dd-brand-text,
 .dd-sidebar.collapsed .kov-nav-group-title,
 .dd-sidebar.collapsed .dd-nav-item span,
@@ -10689,10 +10694,96 @@ a:hover .hand-icon {
   display: none !important;
 }
 
+.atelier-sidebar.collapsed .dd-sidebar-brand,
+.dd-sidebar.collapsed .dd-sidebar-brand,
+.kov-sidebar.collapsed .kov-sidebar-brand {
+  padding: 8px 6px !important;
+  justify-content: center !important;
+  gap: 4px !important;
+}
+
+.atelier-sidebar.collapsed .kov-sidebar-collapse-btn,
+.dd-sidebar.collapsed .kov-sidebar-collapse-btn,
+.kov-sidebar.collapsed .kov-sidebar-collapse-btn {
+  display: inline-flex !important;
+  width: 26px !important;
+  height: 26px !important;
+  margin: 0 !important;
+}
+
+/* Chevron Smooth Rotation on Collapse */
+.atelier-sidebar.collapsed #sidebarCollapseIcon,
+.dd-sidebar.collapsed #sidebarCollapseIcon,
+.kov-sidebar.collapsed #sidebarCollapseIcon,
+.sidebar-collapsed #sidebarCollapseIcon {
+  transform: rotate(180deg) !important;
+}
+
 .atelier-sidebar.collapsed .nav-btn,
-.dd-sidebar.collapsed .dd-nav-item {
+.dd-sidebar.collapsed .dd-nav-item,
+.kov-sidebar.collapsed .kov-nav-item {
   justify-content: center !important;
   padding: 10px 0 !important;
+  width: 44px !important;
+  margin: 3px auto !important;
+  border-radius: 10px !important;
+}
+
+/* Tooltip on Hover in Collapsed Mode */
+.atelier-sidebar.collapsed .nav-btn:hover::after,
+.dd-sidebar.collapsed .dd-nav-item:hover::after,
+.kov-sidebar.collapsed .kov-nav-item:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--ink-deep, #384d42);
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+/* Mobile Slide-Out Drawer (<992px) */
+@media (max-width: 991.98px) {
+  .atelier-sidebar,
+  .dd-sidebar,
+  .kov-sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    height: 100vh !important;
+    z-index: 1050 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: 4px 0 24px rgba(56, 77, 66, 0.15) !important;
+  }
+  .atelier-sidebar.show,
+  .dd-sidebar.show,
+  .kov-sidebar.show {
+    transform: translateX(0) !important;
+  }
+  .kov-sidebar-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(46, 89, 67, 0.35) !important;
+    backdrop-filter: blur(2px) !important;
+    z-index: 1040 !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease !important;
+  }
+  .kov-sidebar-backdrop.show {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
 }
 
 .nav-group-heading,
@@ -10700,19 +10791,21 @@ a:hover .hand-icon {
   font-size: 10px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.07em !important;
+  letter-spacing: 0.06em !important;
   color: var(--ink-muted, #7d9186) !important;
-  padding: 14px 12px 5px !important;
+  padding: 12px 10px 4px !important;
 }
 
+/* Symmetrical Nav Items */
 .nav-btn,
-.dd-nav-item {
+.dd-nav-item,
+.kov-nav-item {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
   width: 100% !important;
   padding: 8.5px 11px !important;
-  border-radius: 11px 9px 11px 10px !important;
+  border-radius: 10px !important;
   font-size: 12.5px !important;
   font-weight: 600 !important;
   color: var(--ink-body, #586e62) !important;
@@ -10726,13 +10819,15 @@ a:hover .hand-icon {
 }
 
 .nav-btn:hover,
-.dd-nav-item:hover {
+.dd-nav-item:hover,
+.kov-nav-item:hover {
   background: rgba(255, 255, 255, 0.65) !important;
   color: var(--ink-deep, #384d42) !important;
 }
 
 .nav-btn.active,
-.dd-nav-item.active {
+.dd-nav-item.active,
+.kov-nav-item.active {
   background: var(--bg-paper, #fcfbf9) !important;
   color: var(--celadon-ink, #2e5943) !important;
   border-color: var(--celadon-border, #bdd6c5) !important;
@@ -10778,7 +10873,7 @@ a:hover .hand-icon {
   }
 }
 
-/* Tonal Summary Strip (3 Cards) */
+/* Tonal Summary Strip (3 Symmetrical Cards) */
 .tonal-summary-strip,
 .kov-kpi-row {
   display: flex !important;
@@ -10792,15 +10887,15 @@ a:hover .hand-icon {
 
 .tonal-pill-card,
 .coinbase-kpi-card {
-  padding: 9px 13px !important;
-  border-radius: 14px 11px 15px 12px !important;
+  padding: 10px 14px !important;
+  border-radius: 12px !important;
   border: 1px solid transparent !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  gap: 10px !important;
-  min-width: 142px !important;
-  box-shadow: 0 4px 18px -4px rgba(56, 77, 66, 0.055), 0 1px 2px rgba(56, 77, 66, 0.03) !important;
+  gap: 12px !important;
+  min-width: 146px !important;
+  box-shadow: 0 4px 14px -3px rgba(56, 77, 66, 0.05), 0 1px 2px rgba(56, 77, 66, 0.02) !important;
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1) !important;
   cursor: pointer !important;
 }
@@ -10813,10 +10908,10 @@ a:hover .hand-icon {
 .tonal-summary-strip .bento-metric-title,
 .tonal-pill-card .bento-metric-title,
 .coinbase-kpi-card .bento-metric-title {
-  font-size: 9.5px !important;
+  font-size: 10px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
+  letter-spacing: 0.05em !important;
   line-height: 1.15 !important;
   margin-bottom: 2px !important;
   opacity: 0.85 !important;
@@ -10825,11 +10920,11 @@ a:hover .hand-icon {
 .tonal-summary-strip .bento-metric-value,
 .tonal-pill-card .bento-metric-value,
 .coinbase-kpi-card .bento-metric-value {
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 1.05rem !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 1.25rem !important;
   font-weight: 800 !important;
-  line-height: 1.1 !important;
-  letter-spacing: -0.01em !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.015em !important;
   margin: 0 !important;
   white-space: nowrap !important;
 }
@@ -10890,7 +10985,7 @@ a:hover .hand-icon {
 
 .dd-folder-card {
   padding: 8px 10px !important;
-  border-radius: 12px 10px 12px 11px !important;
+  border-radius: 10px !important;
   border: 1px solid var(--border-organic, #d8e2dc) !important;
   background: var(--bg-paper, #fcfbf9) !important;
   display: flex !important;
@@ -10916,18 +11011,18 @@ a:hover .hand-icon {
   font-weight: 700 !important;
 }
 
-/* Paper Card for Table */
+/* Paper Card for Table (Symmetrical 14px) */
 .kov-paper-card,
 .kov-table-card {
   background: var(--bg-paper, #fcfbf9) !important;
   border: 1px solid var(--border-organic, #d8e2dc) !important;
-  border-radius: 18px 15px 18px 16px !important;
+  border-radius: 14px !important;
   box-shadow: 0 4px 18px -4px rgba(56, 77, 66, 0.055), 0 1px 2px rgba(56, 77, 66, 0.03) !important;
   overflow: hidden !important;
   margin-bottom: 24px !important;
 }
 
-/* 4. Right Pad Card (268px) */
+/* 4. Right Pad Card (268px - Symmetrical 14px) */
 .kov-pad-card,
 .dd-right-panel {
   width: 268px !important;
@@ -10941,11 +11036,11 @@ a:hover .hand-icon {
   box-shadow: none !important;
 }
 
-/* Status Pills */
+/* Status Pills (Symmetrical 9999px) */
 .status-pill,
 .status-pill-modern {
-  border-radius: 999px !important;
-  padding: 3px 10px !important;
+  border-radius: 9999px !important;
+  padding: 3.5px 10px !important;
   font-size: 11px !important;
   font-weight: 700 !important;
   display: inline-flex !important;
@@ -10979,12 +11074,12 @@ a:hover .hand-icon {
   border-color: var(--dusk-border, #c8cfe6) !important;
 }
 
-/* Buttons */
+/* Buttons (Symmetrical 8px) */
 .btn-kov-primary,
 .btn-dd-hero {
   height: 35px !important;
   padding: 0 14px !important;
-  border-radius: 10px 8px 10px 9px !important;
+  border-radius: 8px !important;
   background: #497a61 !important;
   color: #fcfbf9 !important;
   border: 1px solid #3f6f56 !important;
@@ -11009,7 +11104,7 @@ a:hover .hand-icon {
 .btn-kov-outline {
   height: 34px !important;
   padding: 0 11px !important;
-  border-radius: 9px 11px 9px 10px !important;
+  border-radius: 8px !important;
   background: var(--bg-paper, #fcfbf9) !important;
   color: var(--ink-deep, #384d42) !important;
   border: 1px solid var(--border-organic, #d8e2dc) !important;
@@ -11030,12 +11125,12 @@ a:hover .hand-icon {
   color: var(--celadon-ink, #2e5943) !important;
 }
 
-/* Filter Tab Pills */
+/* Filter Tab Pills (Symmetrical 8px) */
 .kov-tab-pill,
 .kov-filter-pill-botanical {
   height: 30px !important;
   padding: 0 12px !important;
-  border-radius: 8px 10px 8px 9px !important;
+  border-radius: 8px !important;
   font-size: 11.5px !important;
   font-weight: 600 !important;
   color: var(--ink-body, #586e62) !important;
@@ -11061,7 +11156,7 @@ a:hover .hand-icon {
   font-weight: 700 !important;
 }
 
-/* Breathable Artisanal Table */
+/* Breathable Artisanal Table (Symmetrical & Clean) */
 .kov-table,
 .kov-botanical-table {
   width: 100% !important;
@@ -11097,12 +11192,12 @@ a:hover .hand-icon {
   background: rgba(223, 236, 227, 0.35) !important;
 }
 
-/* Calendar Day Buttons */
+/* Calendar Day Buttons (Symmetrical 8px) */
 .cal-day-btn,
 .dd-cal-day {
   height: 28px !important;
   width: 100% !important;
-  border-radius: 8px 6px 8px 7px !important;
+  border-radius: 8px !important;
   font-size: 11px !important;
   font-weight: 600 !important;
   display: flex !important;
@@ -11129,11 +11224,11 @@ a:hover .hand-icon {
 .cal-dot {
   width: 4px !important;
   height: 4px !important;
-  border-radius: 999px !important;
+  border-radius: 9999px !important;
   margin-top: 1px !important;
 }
 
-/* Soft Pastel Inputs */
+/* Soft Pastel Inputs (Symmetrical 8px) */
 .kov-pastel-input,
 .dd-search-input,
 .form-control,
@@ -11141,6 +11236,7 @@ a:hover .hand-icon {
   background-color: #ffffff !important;
   color: var(--ink-deep, #384d42) !important;
   border: 1px solid var(--border-organic, #d8e2dc) !important;
+  border-radius: 8px !important;
   outline: none !important;
   transition: border-color 0.18s ease, box-shadow 0.18s ease !important;
 }
@@ -11152,7 +11248,7 @@ a:hover .hand-icon {
   box-shadow: 0 0 0 3px rgba(223, 236, 227, 0.7) !important;
 }
 
-/* Submit Overlay Modal & Toast */
+/* Submit Overlay Modal & Toast (Symmetrical 16px) */
 .kov-submit-overlay,
 .kov-modal-backdrop {
   position: fixed !important;
@@ -11168,7 +11264,7 @@ a:hover .hand-icon {
 .kov-submit-modal {
   background: var(--bg-paper, #fcfbf9) !important;
   border: 1px solid var(--border-organic, #d8e2dc) !important;
-  border-radius: 18px 15px 18px 16px !important;
+  border-radius: 16px !important;
   padding: 26px 28px !important;
   max-width: 340px !important;
   width: 100% !important;
@@ -11176,4 +11272,5 @@ a:hover .hand-icon {
   box-shadow: 0 16px 36px -8px rgba(56, 77, 66, 0.14) !important;
   animation: fadeUpOrganic 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }
+
 
