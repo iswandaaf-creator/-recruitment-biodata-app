@@ -22,25 +22,27 @@
   </script>
 
   <!-- Brand Header -->
-  <div class="dd-sidebar-brand kov-sidebar-brand">
-    <a href="/admin" class="dd-brand-logo kov-brand-info" title="KOV Koffie Portal">
-      <div class="dd-brand-icon kov-brand-logo">
-        <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="width: 100%; height: 100%; border-radius: 8px; object-fit: cover;">
+  <div class="dd-sidebar-brand kov-sidebar-brand d-flex items-center justify-between px-3 py-2 border-b" style="border-color: var(--border-organic, #d8e2dc); height: 64px;">
+    <a href="/admin" class="dd-brand-logo kov-brand-info d-flex items-center gap-2 text-decoration-none" title="KOV Koffie Portal">
+      <div class="dd-brand-icon kov-brand-logo flex-shrink-0" style="width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--celadon-border, #bdd6c5); padding: 1px; background: #ffffff; overflow: hidden;">
+        <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="width: 100%; height: 100%; object-fit: cover;">
       </div>
-      <div class="dd-brand-text kov-brand-text-group d-flex flex-column">
-        <div style="line-height: 1.15;"><span style="color: #384d42 !important; font-weight: 800;">KOV Koffie</span><span class="dd-dot" style="color: #34d399 !important;">.</span></div>
-        <small style="font-size: 10px; font-weight: 800; color: #586e62 !important; letter-spacing: 0.05em;">ROASTERY &amp; HR STUDIO</small>
+      <div class="dd-brand-text kov-brand-text-group d-flex flex-column hide-on-collapse" style="line-height: 1.15;">
+        <div class="font-display font-bold text-xs" style="color: var(--ink-deep, #384d42); font-weight: 800; font-size: 13px;">KOV Koffie<span style="color: var(--celadon-stroke, #3f6f56);">.</span></div>
+        <div class="text-[9.5px] font-medium" style="color: var(--ink-muted, #7d9186); font-size: 10px; font-weight: 600; letter-spacing: 0.04em;">Atelier Sistem</div>
       </div>
     </a>
     
     <!-- Mobile close drawer button (<992px) -->
-    <button type="button" class="btn btn-sm p-1 d-lg-none" id="sidebarCloseBtn" style="color: #384d42 !important;" aria-label="Close Sidebar">
+    <button type="button" class="btn btn-sm p-1 d-lg-none" id="sidebarCloseBtn" style="color: var(--ink-deep, #384d42) !important;" aria-label="Close Sidebar">
       <i class="fas fa-times fs-5"></i>
     </button>
 
-    <!-- Desktop collapse/fold button (>=992px) -->
-    <button type="button" class="kov-sidebar-collapse-btn d-none d-lg-inline-flex" id="sidebarCollapseBtn" onclick="toggleSidebarCollapse()" title="Lipat / Perluas Sidebar" aria-label="Collapse Sidebar">
-      <i class="fas fa-angles-left" id="sidebarCollapseIcon"></i>
+    <!-- Desktop collapse/fold button (>=992px) with Hand-Drawn Chevron -->
+    <button type="button" class="kov-sidebar-collapse-btn kov-soft-icon-btn d-none d-lg-inline-flex align-items-center justify-content-center flex-shrink-0" id="sidebarCollapseBtn" onclick="toggleSidebarCollapse()" title="Lipat / Perluas Navigasi" aria-label="Collapse Sidebar" style="width: 26px; height: 26px; border-radius: 6px; border: 1px solid var(--border-organic, #d8e2dc); background: transparent; cursor: pointer;">
+      <svg class="hand-icon !w-3.5 !h-3.5" id="sidebarCollapseIcon" viewBox="0 0 24 24" fill="none" style="width: 14px; height: 14px;">
+        <path d="M14.5 6.5C12.2 8.8 9.8 10.6 8 12.2C10.1 13.9 12.4 15.6 14.8 17.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </button>
   </div>
 
@@ -54,73 +56,123 @@
     const canUsers = isSuperOrAdmin;
   %>
 
-  <!-- Navigation Links (Grouped & Streamlined with High-Contrast Duotone Icons) -->
-  <nav class="dd-sidebar-nav kov-sidebar-nav">
+  <!-- Navigation Links (Natural Pastel Hand-Crafted Icons & Asymmetric Radii) -->
+  <nav class="dd-sidebar-nav kov-sidebar-nav px-2 py-2" id="sidebarNav">
     
     <!-- Group: HR & Recruitment -->
     <% if (canHR || canReviewer) { %>
-      <div class="dd-nav-group-title kov-nav-group-title">REKRUTMEN &amp; HR</div>
+      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse">REKRUTMEN &amp; HR</div>
       <% if (canHR) { %>
-        <a href="/admin" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>" data-tooltip="Dashboard HR" title="Dashboard HR">
-          <i class="fas fa-house"></i>
-          <span>Dashboard HR</span>
+        <a href="/admin" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'hr') ? 'active' : '' %>" data-tooltip="Direktori Kandidat" title="Direktori Kandidat">
+          <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
+            <path d="M7.5 9.2C7.5 6.8 9.4 5 11.8 5.2C14.2 5.4 15.8 7.3 15.6 9.7C15.4 12.1 13.5 13.8 11.1 13.6C8.8 13.4 7.5 11.5 7.5 9.2Z" fill="#bdd6c5" fill-opacity="0.65"/>
+            <path d="M11.2 4.8C13.6 4.7 15.6 6.6 15.5 9C15.4 11.4 13.4 13.2 11 13.2C8.6 13.2 6.8 11.3 6.9 8.9C7 6.6 8.9 4.9 11.2 4.8Z" stroke="#3f6f56" stroke-width="1.85" stroke-linecap="round"/>
+            <path d="M4.2 19.6C4.8 16.5 7.6 15.1 11.2 15.1C14.8 15.1 17.5 16.7 18.2 19.7" stroke="#3f6f56" stroke-width="2.05" stroke-linecap="round"/>
+          </svg>
+          <i class="fas fa-house d-none"></i>
+          <span class="hide-on-collapse">Direktori Kandidat</span>
         </a>
       <% } %>
       <% if (canReviewer) { %>
-        <a href="/reviewer" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'reviewer') ? 'active' : '' %>" data-tooltip="Reviewer Divisi" title="Reviewer Divisi">
-          <i class="fas fa-user-check"></i>
-          <span>Reviewer Divisi</span>
+        <a href="/reviewer" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'reviewer') ? 'active' : '' %>" data-tooltip="Evaluasi Divisi" title="Evaluasi Divisi">
+          <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
+            <path d="M12.4 4.5L14.6 9.1L19.6 9.7L15.9 13.1L16.9 18.1L12.3 15.6L7.8 18.2L8.8 13.2L5.1 9.8L10.1 9.1L12.4 4.5Z" fill="#e5d4a7" fill-opacity="0.7"/>
+            <path d="M11.9 4.2L14.1 8.8L19.1 9.4L15.4 12.8L16.4 17.8L11.8 15.3L7.3 17.9L8.3 12.9L4.6 9.5L9.6 8.8L11.9 4.2Z" stroke="#9c782b" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          <i class="fas fa-user-check d-none"></i>
+          <span class="hide-on-collapse">Evaluasi Divisi</span>
         </a>
       <% } %>
     <% } %>
 
     <!-- Group: Operasional -->
     <% if (canOperasional) { %>
-      <div class="dd-nav-group-title kov-nav-group-title">OPERASIONAL</div>
-      <a href="/admin/operasional" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>" data-tooltip="Berita Acara (BA)" title="Berita Acara (BA)">
-        <i class="fas fa-file-lines"></i>
-        <span>Berita Acara (BA)</span>
+      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse">OPERASIONAL</div>
+      <a href="/admin/operasional" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'operasional') ? 'active' : '' %>" data-tooltip="Berita Acara (BA)" title="Berita Acara (BA)">
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
+          <path d="M5.8 5.5H17.6C18.5 5.5 19.2 6.2 19.2 7.1V18.5C19.2 19.4 18.5 20.1 17.6 20.1H5.8C4.9 20.1 4.2 19.4 4.2 18.5V7.1C4.2 6.2 4.9 5.5 5.8 5.5Z" fill="#e6c6b0" fill-opacity="0.6"/>
+          <path d="M5.4 4.8H17.2C18.1 4.8 18.8 5.5 18.8 6.4V17.8C18.8 18.7 18.1 19.4 17.2 19.4H5.4C4.5 19.4 3.8 18.7 3.8 17.8V6.4C3.8 5.5 4.5 4.8 5.4 4.8Z" stroke="#a65d37" stroke-width="1.8"/>
+          <path d="M7.8 9.4H14.8M7.8 13H15.2M7.8 16.2H11.5" stroke="#a65d37" stroke-width="1.95" stroke-linecap="round"/>
+        </svg>
+        <i class="fas fa-file-lines d-none"></i>
+        <span class="hide-on-collapse">Berita Acara (BA)</span>
       </a>
-      <a href="/admin/operasional/po" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'po') ? 'active' : '' %>" data-tooltip="Purchase Order" title="Purchase Order">
-        <i class="fas fa-cart-shopping"></i>
-        <span>Purchase Order</span>
+      <a href="/admin/operasional/po" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'po') ? 'active' : '' %>" data-tooltip="Purchase Order" title="Purchase Order">
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
+          <path d="M6.4 8.2H19.2L17.4 16.2H8L6.4 8.2Z" fill="#ddc3cb" fill-opacity="0.65"/>
+          <path d="M3.6 5.2H5.8L7.8 15.6H17.2L19 7.8H6.4" stroke="#8c4a5b" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9.2" cy="19.2" r="1.5" fill="#8c4a5b"/>
+          <circle cx="16.2" cy="19.2" r="1.5" fill="#8c4a5b"/>
+        </svg>
+        <i class="fas fa-cart-shopping d-none"></i>
+        <span class="hide-on-collapse">Purchase Order</span>
       </a>
-      <a href="/admin/operasional/surat-tugas" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'surat_tugas') ? 'active' : '' %>" data-tooltip="Surat Tugas & LPJ" title="Surat Tugas & LPJ">
-        <i class="fas fa-file-signature"></i>
-        <span>Surat Tugas &amp; LPJ</span>
+      <a href="/admin/operasional/surat-tugas" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'surat_tugas') ? 'active' : '' %>" data-tooltip="Surat Tugas & LPJ" title="Surat Tugas & LPJ">
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
+          <path d="M4.6 11.8L19.4 5.4L15.2 19.2L11.4 13.8L4.6 11.8Z" fill="#e5d4a7" fill-opacity="0.65"/>
+          <path d="M4.2 11.4L19 5L14.8 18.8L11 13.4L4.2 11.4Z" stroke="#9c782b" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+        <i class="fas fa-file-signature d-none"></i>
+        <span class="hide-on-collapse">Surat Tugas &amp; LPJ</span>
       </a>
     <% } %>
 
     <!-- Group: Infrastruktur & IT -->
     <% if (canIT) { %>
-      <div class="dd-nav-group-title kov-nav-group-title">INFRASTRUKTUR &amp; IT</div>
-      <a href="/admin/it" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>" data-tooltip="Rekap Belanja IT" title="Rekap Belanja IT">
-        <i class="fas fa-desktop"></i>
-        <span>Rekap Belanja IT</span>
+      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse">INFRASTRUKTUR &amp; IT</div>
+      <a href="/admin/it" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'it') ? 'active' : '' %>" data-tooltip="Rekap Belanja IT" title="Rekap Belanja IT">
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
+          <rect x="4.6" y="5.4" width="15.6" height="10.8" rx="2.2" fill="#c8cfe6" fill-opacity="0.6"/>
+          <rect x="4" y="4.8" width="15.6" height="10.8" rx="2.2" stroke="#54638f" stroke-width="1.8"/>
+          <path d="M8.2 19.4H15.4M11.8 15.8V19.4" stroke="#54638f" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <i class="fas fa-desktop d-none"></i>
+        <span class="hide-on-collapse">Rekap Belanja IT</span>
       </a>
     <% } %>
 
     <!-- Group: Administrasi & Akun -->
     <% if (canUsers) { %>
-      <div class="dd-nav-group-title kov-nav-group-title">SISTEM</div>
-      <a href="/admin/companies" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'companies') ? 'active' : '' %>" data-tooltip="Master Perusahaan &amp; Outlet" title="Master Perusahaan &amp; Outlet">
-        <i class="fas fa-building-user"></i>
-        <span>Master Perusahaan</span>
+      <div class="dd-nav-group-title kov-nav-group-title nav-group-heading hide-on-collapse">SISTEM</div>
+      <a href="/admin/companies" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'companies') ? 'active' : '' %>" data-tooltip="Master Perusahaan &amp; Outlet" title="Master Perusahaan &amp; Outlet">
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
+          <path d="M5.2 10.2H18.8V19.4H5.2V10.2Z" fill="#bdd6c5" fill-opacity="0.55"/>
+          <path d="M4.4 9.6L6.2 4.8H17.8L19.6 9.6H4.4Z" fill="#e5d4a7" fill-opacity="0.65" stroke="#3f6f56" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M5.4 9.8V19.2H18.6V9.8M10.2 19.2V14.2H13.8V19.2" stroke="#3f6f56" stroke-width="1.85" stroke-linecap="round"/>
+        </svg>
+        <i class="fas fa-building-user d-none"></i>
+        <span class="hide-on-collapse">Master Perusahaan</span>
       </a>
-      <a href="/admin/users" class="dd-nav-item kov-nav-item <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
-        <i class="fas fa-users-gear"></i>
-        <span>Kelola User &amp; Role</span>
+      <a href="/admin/users" class="dd-nav-item kov-nav-item nav-btn <%= (typeof active !== 'undefined' && active === 'users') ? 'active' : '' %>" data-tooltip="Kelola User & Role" title="Kelola User & Role">
+        <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none">
+          <path d="M12.4 4.4L19.2 7.2V12.4C19.2 16.6 16.3 19.6 12.4 20.8C8.5 19.6 5.6 16.6 5.6 12.4V7.2L12.4 4.4Z" fill="#ddc3cb" fill-opacity="0.6"/>
+          <path d="M12 3.8L18.8 6.6V11.8C18.8 16 15.9 19 12 20.2C8.1 19 5.2 16 5.2 11.8V6.6L12 3.8Z" stroke="#8c4a5b" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M9.4 11.8L11.3 13.7L14.8 9.8" stroke="#8c4a5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <i class="fas fa-users-gear d-none"></i>
+        <span class="hide-on-collapse">Kelola User &amp; Role</span>
       </a>
     <% } %>
 
   </nav>
 
-  <!-- User Profile & Session Footer -->
-  <div class="dd-sidebar-footer kov-sidebar-footer">
-    <!-- Theme Switcher Button -->
-    <button type="button" class="dd-theme-toggle-btn kov-theme-toggle-sidebar" onclick="toggleKovTheme()" id="themeToggleSidebarBtn" title="Ganti Nuansa Pastel / Terang">
-      <i class="fas fa-moon" id="themeSidebarIcon"></i>
-      <span id="themeSidebarText">Nuansa Pastel</span>
+  <!-- User Profile & Session Footer (Pebble-Sage Dock Footer) -->
+  <div class="dd-sidebar-footer kov-sidebar-footer p-3 border-t space-y-2" style="border-color: var(--border-organic, #d8e2dc);">
+    <!-- Role Indicator Box -->
+    <div class="p-2 rounded-xl border hide-on-collapse mb-2" style="background: var(--bg-paper, #fcfbf9); border-color: var(--border-organic, #d8e2dc);">
+      <div class="block text-[9.5px] font-bold uppercase tracking-wider mb-1" style="color: var(--ink-muted, #7d9186); font-size: 9.5px; font-weight: 700;">Peran Aktif</div>
+      <div class="w-full py-1 px-2 rounded-md border text-[11px] font-bold" style="background: var(--celadon-bg, #dfece3); color: var(--celadon-ink, #2e5943); border-color: var(--celadon-border, #bdd6c5); font-size: 11px;">
+        <%= (typeof user !== 'undefined' && user && user.role) ? user.role.toUpperCase() : 'SUPERADMIN HR' %>
+      </div>
+    </div>
+
+    <!-- Theme Switcher Button with Hand-drawn Botanical Leaf & Sun SVG -->
+    <button type="button" class="dd-theme-toggle-btn kov-theme-toggle-sidebar btn-kov-outline w-100 justify-content-center mb-2" onclick="toggleKovTheme()" id="themeToggleSidebarBtn" title="Ganti Nuansa Pastel (Linen / Sage Lavender)" style="height: 32px; border-radius: 9px; font-size: 11.5px; font-weight: 600;">
+      <svg class="hand-icon !w-4 !h-4 me-1.5" id="themeIcon" viewBox="0 0 24 24" fill="none" style="width: 16px; height: 16px;">
+        <path d="M19.5 14.8C17.8 15.6 15.8 15.9 13.7 15.3C9.8 14.2 7.5 10.1 8.6 6.2C8.9 5.1 9.5 4.2 10.3 3.5C6.4 4.2 3.5 7.6 3.5 11.8C3.5 16.6 7.4 20.5 12.2 20.5C15.6 20.5 18.4 18.1 19.5 14.8Z" fill="#e5d4a7" fill-opacity="0.65" stroke="#9c782b" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <i class="fas fa-moon d-none" id="themeSidebarIcon"></i>
+      <span class="hide-on-collapse" id="themeSidebarText">Nuansa Lavender</span>
     </button>
 
     <div class="kov-user-badge-box" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'User' %> (<%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Staff' %>)">

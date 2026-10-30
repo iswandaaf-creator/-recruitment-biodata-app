@@ -117,6 +117,9 @@
 </head>
 <body>
 
+  <!-- Top Laser Loading Bar -->
+  <div class="kov-laser-bar" id="topLaserBar"></div>
+
   <%
     const pendingCandidates = (candidates || []).filter(c => !c.kesimpulan_status || c.kesimpulan_status === 'Belum Diproses');
     const pendingCandidateCount = pendingCandidates.length;
@@ -130,61 +133,64 @@
     const hrCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('hr') || (c.divisi || '').toLowerCase().includes('personalia') || (c.divisi || '').toLowerCase().includes('ga')).length;
   %>
 
-  <div class="dd-layout-root kov-app-shell">
+  <div class="atelier-shell dd-layout-root kov-app-shell">
     
-    <!-- 1. Deep Midnight Navy Sidebar Navigation -->
+    <!-- 1. Left Pebble-Sage Sidebar Navigation -->
     <%- include('partials/sidebar', { active: 'hr', user: typeof user !== 'undefined' ? user : null }) %>
 
     <!-- 2. Main Center Workspace Canvas -->
-    <main class="dd-main-canvas kov-main-content dd-theme">
+    <main class="atelier-main dd-main-canvas kov-main-content dd-theme">
 
-      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
-      <div class="dd-topbar">
-        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+      <!-- Top Bar (64px) with Organic Asymmetry & Hand-Drawn Icons -->
+      <div class="dd-topbar kov-topbar h-16 border-b d-flex items-center justify-between gap-4">
+        <div class="d-flex items-center gap-2.5 min-w-0">
           <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
             <i class="fas fa-bars"></i>
           </button>
-          <div class="dd-search-container">
-            <i class="fas fa-magnifying-glass dd-search-icon"></i>
-            <input type="text" class="dd-search-input" id="searchInput" placeholder="Cari nama kandidat, NIK, kontak, posisi, atau nomor rekening..." aria-label="Cari nama pelamar" onkeyup="applyFilterAndSort()">
-          </div>
+          <span class="status-pill pill-emerald font-mono-num" id="activeRoleBadge">Super Admin HR</span>
+          <span class="text-xs text-muted" style="color: var(--ink-muted, #7d9186);">/</span>
+          <span class="text-xs font-semibold text-truncate d-none d-sm-inline" style="color: var(--ink-body, #586e62); font-size: 12px; font-weight: 600;">KOV Semarang Roastery &amp; People</span>
         </div>
 
-        <div class="dd-topbar-actions">
-          <div class="d-none d-sm-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-white border text-muted" style="font-size: 0.78rem; font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
-            <span class="kov-pulse-dot"></span>
-            <span style="color: #475569;">Sistem Seleksi Aktif</span>
+        <div class="d-flex align-items-center gap-2 flex-shrink-0">
+          <!-- Search with Hand-Drawn Loupe SVG -->
+          <div class="d-flex align-items-center gap-2 px-3 py-1 rounded-lg border dd-search-container" style="background: var(--bg-linen, #f5f3ed); border-color: var(--border-organic, #d8e2dc); height: 35px; border-radius: 8px; width: 220px;">
+            <svg class="hand-icon flex-shrink-0" style="width: 14px; height: 14px;" viewBox="0 0 24 24" fill="none">
+              <path d="M10.8 4.2C14.6 4.1 17.5 7.2 17.3 10.9C17.1 14.7 14 17.4 10.3 17.3C6.6 17.2 3.9 14.1 4.1 10.4C4.3 7.1 7.2 4.3 10.8 4.2Z" fill="#dfece3" stroke="#3f6f56" stroke-width="1.85" stroke-linecap="round"/>
+              <path d="M15.6 15.8L20.2 20.1" stroke="#3f6f56" stroke-width="2.1" stroke-linecap="round"/>
+            </svg>
+            <i class="fas fa-magnifying-glass dd-search-icon d-none"></i>
+            <input type="text" class="dd-search-input bg-transparent border-0 outline-none text-xs font-medium w-100" id="searchInput" placeholder="Cari kandidat, NIK, outlet..." aria-label="Cari nama pelamar" onkeyup="applyFilterAndSort()" style="background: transparent; border: none; outline: none; font-size: 11.5px; color: var(--ink-deep, #384d42);">
           </div>
-        </div>
-      </div>
 
-      <!-- Executive Command Header (Taste-Skill Framed Sheet) -->
-      <div class="dd-hero-banner">
-        <div class="dd-hero-content">
-          <div class="d-flex align-items-center gap-2 mb-1 flex-nowrap overflow-hidden">
-            <span class="badge py-1 px-2 kov-hero-badge text-nowrap" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 6px; font-weight: 700; font-size: 11px;">
-              <span class="kov-pulse-dot"></span> KOV MANAGEMENT PORTAL
-            </span>
-            <span class="text-muted small">&bull;</span>
-            <span class="text-muted small fw-medium text-nowrap">Pipeline Rekrutmen Aktif</span>
-          </div>
-          <h2 class="dd-hero-title">
-            Dashboard Rekrutmen HR &mdash; <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %>
-          </h2>
-          <p class="dd-hero-subtitle">
-            Kelola berkas masuk, koordinasi reviewer divisi, dan pantau status kandidat seluruh outlet secara terpusat.
-          </p>
-        </div>
-        <div class="dd-hero-actions d-flex align-items-center gap-2 flex-wrap">
-          <button type="button" class="btn-kov-outline btn-sm text-nowrap" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru" style="font-size: 0.82rem; padding: 7px 14px;">
-            <i class="fas fa-shuffle me-1.5" id="iconAcak" style="color: var(--dd-primary, #166534);"></i> Acak Token
+          <!-- Toggle Right Calendar -->
+          <button type="button" id="btnToggleRightCalendar" class="btn-kov-outline" onclick="toggleRightCalendarPanel()" title="Sembunyikan / Tampilkan Kalender">
+            <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 15px; height: 15px;">
+              <path d="M4.5 7.2C4.5 5.8 5.6 4.8 7 4.8H17.2C18.6 4.8 19.6 5.9 19.5 7.3V18.2C19.4 19.6 18.3 20.5 16.9 20.5H6.8C5.4 20.5 4.4 19.4 4.5 18V7.2Z" fill="#dfece3" stroke="#3f6f56" stroke-width="1.75"/>
+              <path d="M8.2 3.2V6.1M15.8 3.4V6.2M4.8 9.6H19.2" stroke="#3f6f56" stroke-width="1.9" stroke-linecap="round"/>
+            </svg>
+            <span class="d-none d-sm-inline">Kalender</span>
           </button>
-          <a href="/api/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
-            <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
+
+          <button type="button" class="btn-kov-outline" id="btnAcakToken" onclick="generateRandomShareLink(false)" title="Hasilkan token formulir baru">
+            <i class="fas fa-shuffle me-1" id="iconAcak" style="color: var(--celadon-stroke, #3f6f56);"></i> Acak Token
+          </button>
+
+          <a href="/api/export/excel" class="btn-kov-outline d-none d-md-inline-flex" title="Export Rekap Excel">
+            <i class="fas fa-file-excel me-1" style="color: var(--celadon-stroke, #3f6f56);"></i> Export Excel
           </a>
-          <button type="button" class="btn-dd-hero text-nowrap" id="btnSalinLink" onclick="generateAndCopyShareLink()">
-            <i class="fas fa-link me-1.5" id="iconSalin"></i> Salin Link Formulir
+
+          <!-- Primary Hero Button: Salin Link Form -->
+          <button type="button" class="btn-kov-primary btn-dd-hero text-nowrap" id="btnSalinLink" onclick="generateAndCopyShareLink()">
+            <svg class="hand-icon flex-shrink-0" viewBox="0 0 24 24" fill="none" style="width: 15px; height: 15px;">
+              <path d="M9.8 14.2L14.3 9.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M11.2 7.5L13.4 5.3C15.1 3.6 17.8 3.7 19.3 5.2C20.8 6.7 20.7 9.4 19 11.1L16.8 13.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M12.8 16.5L10.6 18.7C8.9 20.4 6.2 20.3 4.7 18.8C3.2 17.3 3.3 14.6 5 12.9L7.2 10.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <i class="fas fa-link me-1.5 d-none" id="iconSalin"></i>
+            <span id="topbarPrimaryLabel">Salin Link Form</span>
           </button>
+          
           <div class="d-none">
             <span id="shareUrl"><%= typeof baseUrl !== 'undefined' ? baseUrl : '' %>/?ref=c-Sysujatg</span>
             <button type="button" id="btnIconCopy" onclick="generateAndCopyShareLink()"><i id="iconCopySmall"></i></button>
@@ -192,32 +198,67 @@
         </div>
       </div>
 
-      <!-- Executive KPI Metric Strip (Anti-Slop: Type, Not Tiles - Direct Grid Children) -->
-      <div class="kov-kpi-row mb-3">
-        <div class="coinbase-kpi-card kpi-total active" onclick="filterByStatusCard('all')" role="button" tabindex="0" title="Klik untuk menampilkan seluruh pelamar">
-          <span class="bento-metric-title">TOTAL PELAMAR</span>
-          <div class="bento-metric-value text-primary"><%= candidates.length %></div>
-          <span class="bento-metric-sub">Seluruh berkas masuk</span>
+      <!-- Editorial Header Band + Tonal Summary Strip -->
+      <section class="editorial-header-band dd-hero-banner">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <h1 class="font-display dd-hero-title" id="pageTitleHeading" style="font-size: 1.35rem; font-weight: 700; margin: 0; color: var(--ink-deep, #384d42);">Direktori Kandidat Pelamar &mdash; <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Administrator HR' %></h1>
+            <span class="status-pill pill-emerald font-mono-num" id="headerCountPill"><%= candidates.length %> Data</span>
+          </div>
+          <p class="dd-hero-subtitle text-xs" style="color: var(--ink-body, #586e62); font-size: 12px; margin: 0;">
+            Kelola seleksi kandidat, verifikasi berkas, dan jadwal agenda HRD dalam tata letak pastel yang tenang.
+          </p>
         </div>
 
-        <div class="coinbase-kpi-card kpi-pending" onclick="filterByStatusCard('Belum Diproses')" role="button" tabindex="0" title="Klik untuk menyaring berkas perlu ditinjau">
-          <span class="bento-metric-title text-warning">PERLU DITINJAU</span>
-          <div class="bento-metric-value text-warning"><%= pendingCandidateCount %></div>
-          <span class="bento-metric-sub">Antrean evaluasi HR</span>
-        </div>
+        <!-- Asymmetric 3-Card (+1) Tonal Summary Cluster -->
+        <div class="tonal-summary-strip kov-kpi-row" id="roleMetricTilesContainer">
+          <!-- Card 1: Total Pelamar (Celadon) -->
+          <div class="tonal-pill-card pigment-celadon coinbase-kpi-card kpi-total active" onclick="filterByStatusCard('all')" role="button" tabindex="0" title="Klik untuk menampilkan seluruh pelamar">
+            <div>
+              <div class="bento-metric-title text-[10px] font-bold uppercase tracking-wider opacity-80" style="font-size: 10px; font-weight: 700; letter-spacing: 0.05em;">Total Pelamar</div>
+              <div class="bento-metric-value font-display font-mono-num font-bold leading-tight" style="font-size: 1.15rem; font-weight: 800; color: var(--celadon-ink, #2e5943);"><%= candidates.length %> Kandidat</div>
+            </div>
+            <svg class="hand-icon" viewBox="0 0 24 24" fill="none" style="width: 22px; height: 22px;">
+              <path d="M7.5 9.2C7.5 6.8 9.4 5 11.8 5.2C14.2 5.4 15.8 7.3 15.6 9.7C15.4 12.1 13.5 13.8 11.1 13.6C8.8 13.4 7.5 11.5 7.5 9.2Z" fill="#bdd6c5" fill-opacity="0.65"/>
+              <path d="M11.2 4.8C13.6 4.7 15.6 6.6 15.5 9C15.4 11.4 13.4 13.2 11 13.2C8.6 13.2 6.8 11.3 6.9 8.9C7 6.6 8.9 4.9 11.2 4.8Z" stroke="#3f6f56" stroke-width="1.85" stroke-linecap="round"/>
+              <path d="M4.2 19.6C4.8 16.5 7.6 15.1 11.2 15.1C14.8 15.1 17.5 16.7 18.2 19.7" stroke="#3f6f56" stroke-width="2.05" stroke-linecap="round"/>
+            </svg>
+          </div>
 
-        <div class="coinbase-kpi-card kpi-accepted" onclick="filterByStatusCard('Diterima')" role="button" tabindex="0" title="Klik untuk menyaring kandidat diterima">
-          <span class="bento-metric-title text-success">LULUS SELEKSI</span>
-          <div class="bento-metric-value text-success"><%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %></div>
-          <span class="bento-metric-sub">Kandidat diterima kerja</span>
-        </div>
+          <!-- Card 2: Perlu Ditinjau (Ochre) -->
+          <div class="tonal-pill-card pigment-ochre coinbase-kpi-card kpi-pending" onclick="filterByStatusCard('Belum Diproses')" role="button" tabindex="0" title="Klik untuk menyaring berkas perlu ditinjau">
+            <div>
+              <div class="bento-metric-title text-[10px] font-bold uppercase tracking-wider opacity-80" style="font-size: 10px; font-weight: 700; letter-spacing: 0.05em;">Perlu Evaluasi</div>
+              <div class="bento-metric-value font-display font-mono-num font-bold leading-tight" style="font-size: 1.15rem; font-weight: 800; color: var(--ochre-ink, #6e5219);"><%= pendingCandidateCount %> Berkas</div>
+            </div>
+            <svg class="hand-icon" viewBox="0 0 24 24" fill="none" style="width: 22px; height: 22px;">
+              <path d="M12.4 4.5L14.6 9.1L19.6 9.7L15.9 13.1L16.9 18.1L12.3 15.6L7.8 18.2L8.8 13.2L5.1 9.8L10.1 9.1L12.4 4.5Z" fill="#e5d4a7" fill-opacity="0.7"/>
+              <path d="M11.9 4.2L14.1 8.8L19.1 9.4L15.4 12.8L16.4 17.8L11.8 15.3L7.3 17.9L8.3 12.9L4.6 9.5L9.6 8.8L11.9 4.2Z" stroke="#9c782b" stroke-width="1.8" stroke-linejoin="round"/>
+            </svg>
+          </div>
 
-        <div class="coinbase-kpi-card kpi-duplicate" onclick="filterByStatusCard('duplicate')" role="button" tabindex="0" title="Klik untuk menyaring indikasi duplikat">
-          <span class="bento-metric-title text-danger">DATA GANDA</span>
-          <div class="bento-metric-value text-danger"><%= duplicateCount %></div>
-          <span class="bento-metric-sub">Terdeteksi NIK/HP ganda</span>
+          <!-- Card 3: Lulus Seleksi (Mauve) -->
+          <div class="tonal-pill-card pigment-mauve coinbase-kpi-card kpi-accepted" onclick="filterByStatusCard('Diterima')" role="button" tabindex="0" title="Klik untuk menyaring kandidat diterima">
+            <div>
+              <div class="bento-metric-title text-[10px] font-bold uppercase tracking-wider opacity-80" style="font-size: 10px; font-weight: 700; letter-spacing: 0.05em;">Lulus Seleksi</div>
+              <div class="bento-metric-value font-display font-mono-num font-bold leading-tight" style="font-size: 1.15rem; font-weight: 800; color: var(--mauve-ink, #6e3645);"><%= candidates.filter(c => c.kesimpulan_status === 'Diterima').length %> Siap PKWT</div>
+            </div>
+            <svg class="hand-icon" viewBox="0 0 24 24" fill="none" style="width: 22px; height: 22px;">
+              <path d="M6.8 5.2H15.4L18.8 8.6V19.2C18.8 20.1 18.1 20.8 17.2 20.8H6.8C5.9 20.8 5.2 20.1 5.2 19.2V6.8C5.2 5.9 5.9 5.2 6.8 5.2Z" fill="#c8cfe6" fill-opacity="0.55"/>
+              <path d="M6.2 4.6H14.8L18.4 8.2V18.8C18.4 19.7 17.7 20.4 16.8 20.4H6.2C5.3 20.4 4.6 19.7 4.6 18.8V6.2C4.6 5.3 5.3 4.6 6.2 4.6Z" stroke="#54638f" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M8.2 11.5H14.6M8.2 15.2H12.4" stroke="#54638f" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+
+          <!-- Card 4 (compact / test hook): Duplikat -->
+          <div class="tonal-pill-card pigment-terracotta coinbase-kpi-card kpi-duplicate d-none" onclick="filterByStatusCard('duplicate')" role="button" tabindex="0" title="Klik untuk menyaring indikasi duplikat">
+            <div>
+              <div class="bento-metric-title text-[10px] font-bold uppercase tracking-wider opacity-80" style="font-size: 10px; font-weight: 700;">Data Ganda</div>
+              <div class="bento-metric-value font-display font-mono-num font-bold leading-tight" style="font-size: 1.15rem; font-weight: 800; color: var(--terracotta-ink, #784124);"><%= duplicateCount %></div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
       <!-- Segmented Division Filter Tabs (Untitled UI / Linear Architecture) -->
       <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
@@ -622,21 +663,27 @@
 
     </main>
 
-    <!-- 3. Right Activity & Utility Panel (Dribbble Signature) -->
-    <aside class="dd-right-panel">
+    <!-- 3. Right Activity & Utility Panel (Tactile Warm Cream Memo Pad) -->
+    <aside class="dd-right-panel kov-pad-card" id="hrRightSidebar">
       
-      <!-- Topbar Controls (Notif, Theme, User Profile) -->
-      <div class="dd-profile-header">
-        <div class="dd-utility-actions">
+      <!-- Topbar Header (Botanical Pin Icon + Title + Notif Dropdown + Profile) -->
+      <div class="px-3 py-3 border-b d-flex align-items-center justify-content-between" style="border-color: var(--border-organic, #d8e2dc); background: var(--bg-paper, #fcfbf9);">
+        <div class="d-flex align-items-center gap-2">
+          <!-- Hand-Drawn Botanical Pin Icon -->
+          <svg class="hand-icon flex-shrink-0" style="width: 17px; height: 17px;" viewBox="0 0 24 24" fill="none">
+            <path d="M6.5 4.8H17.5C18.5 4.8 19.2 5.6 19.2 6.6V18.4C19.2 19.4 18.4 20.2 17.4 20.2H6.5C5.5 20.2 4.8 19.4 4.8 18.4V6.6C4.8 5.6 5.5 4.8 6.5 4.8Z" fill="#f6eed8" stroke="#9c782b" stroke-width="1.75"/>
+            <path d="M8.5 9.5H15.5M8.5 13H13.5" stroke="#9c782b" stroke-width="1.9" stroke-linecap="round"/>
+          </svg>
+          <h2 class="font-display text-xs font-bold" style="font-size: 13px; font-weight: 700; margin: 0; color: var(--ink-deep, #384d42);">Kalender &amp; Memo</h2>
+        </div>
+
+        <div class="d-flex align-items-center gap-1.5">
           <!-- Notification Bell Dropdown -->
           <div class="dropdown">
-            <button type="button" class="dd-icon-btn position-relative" id="notifDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Pusat Notifikasi Rekrutmen" aria-label="Pusat Notifikasi">
-              <i class="far fa-bell"></i>
-              <% if (pendingCandidateCount > 0 || duplicateCount > 0) { %>
-                <span class="dd-notif-dot"></span>
-              <% } %>
+            <button type="button" class="status-pill pill-ochre cursor-pointer border-0" id="btnNotifBell" data-bs-toggle="dropdown" aria-expanded="false" title="Pusat Agenda &amp; Notifikasi">
+              <span class="font-mono-num" id="pendingTaskBadge"><%= pendingCandidateCount %> Notif</span>
             </button>
-            <div class="dropdown-menu dropdown-menu-end kov-notif-dropdown-menu p-0" aria-labelledby="notifDropdownBtn">
+            <div class="dropdown-menu dropdown-menu-end kov-notif-dropdown-menu p-0" aria-labelledby="btnNotifBell">
               <div class="p-3 bg-light border-bottom d-flex align-items-center justify-content-between">
                 <span class="fw-bold small text-dark"><i class="fas fa-bell me-1.5 text-success"></i> Notifikasi Rekrutmen</span>
                 <span class="badge bg-success bg-opacity-25 text-success border border-success" style="font-size: 0.7rem;"><%= pendingCandidateCount %> Perlu Tindakan</span>
@@ -679,39 +726,31 @@
             </div>
           </div>
 
-          <!-- Theme Switcher Button -->
-          <button type="button" class="dd-icon-btn" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
-            <i class="fas fa-moon kov-theme-icon"></i>
-          </button>
-        </div>
-
-        <!-- Interactive User Profile Dropdown -->
-        <div class="dropdown">
-          <div class="dd-user-pill" id="userMenuDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" role="button" title="Menu Pengguna">
-            <div class="dd-user-avatar d-flex align-items-center justify-content-center bg-primary text-white fw-bold">
-              <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
+          <!-- Interactive User Profile Dropdown -->
+          <div class="dropdown">
+            <div class="dd-user-pill p-1 cursor-pointer" id="userMenuDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" role="button" title="Menu Pengguna">
+              <div class="dd-user-avatar d-flex align-items-center justify-content-center bg-primary text-white fw-bold" style="width: 26px; height: 26px; border-radius: 999px; font-size: 11px;">
+                <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'A' %>
+              </div>
             </div>
-            <div class="d-none d-xl-flex flex-column text-start" style="line-height: 1.2;">
-              <span class="dd-user-name" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %>"><%= (typeof user !== 'undefined' && user && user.nama) ? (user.nama === 'Administrator HR' ? 'Admin HR' : user.nama) : 'Admin HR' %></span>
-              <span class="small text-muted" style="font-size: 0.7rem;"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %></span>
+            <div class="dropdown-menu dropdown-menu-end kov-user-dropdown-menu p-2" aria-labelledby="userMenuDropdownBtn">
+              <div class="px-3 py-2 border-bottom mb-1">
+                <div class="fw-bold text-dark small"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %></div>
+                <div class="text-muted" style="font-size: 0.72rem;"><%= (typeof user !== 'undefined' && user && user.username) ? '@' + user.username : '@admin' %> &bull; <span class="badge bg-success bg-opacity-25 text-success"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %></span></div>
+              </div>
+              <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
+                <a class="dropdown-item rounded-2 py-1.5 small" href="/admin/users"><i class="fas fa-users-gear me-2 text-primary"></i> Kelola User &amp; Role</a>
+              <% } %>
+              <a class="dropdown-item rounded-2 py-1.5 small" href="javascript:void(0)" onclick="toggleKovTheme()"><i class="fas fa-moon me-2 text-warning"></i> Ganti Tema (Gelap/Terang)</a>
+              <div class="dropdown-divider my-1"></div>
+              <a class="dropdown-item rounded-2 py-1.5 small text-danger fw-semibold" href="/admin/logout"><i class="fas fa-arrow-right-from-bracket me-2"></i> Keluar (Logout)</a>
             </div>
-            <i class="fas fa-chevron-down dd-user-caret"></i>
-          </div>
-          <div class="dropdown-menu dropdown-menu-end kov-user-dropdown-menu p-2" aria-labelledby="userMenuDropdownBtn">
-            <div class="px-3 py-2 border-bottom mb-1">
-              <div class="fw-bold text-dark small"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Admin HR' %></div>
-              <div class="text-muted" style="font-size: 0.72rem;"><%= (typeof user !== 'undefined' && user && user.username) ? '@' + user.username : '@admin' %> &bull; <span class="badge bg-success bg-opacity-25 text-success"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %></span></div>
-            </div>
-            <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
-              <a class="dropdown-item rounded-2 py-1.5 small" href="/admin/users"><i class="fas fa-users-gear me-2 text-primary"></i> Kelola User &amp; Role</a>
-            <% } %>
-            <a class="dropdown-item rounded-2 py-1.5 small" href="javascript:void(0)" onclick="toggleKovTheme()"><i class="fas fa-moon me-2 text-warning"></i> Ganti Tema (Gelap/Terang)</a>
-            <div class="dropdown-divider my-1"></div>
-            <a class="dropdown-item rounded-2 py-1.5 small text-danger fw-semibold" href="/admin/logout"><i class="fas fa-arrow-right-from-bracket me-2"></i> Keluar (Logout)</a>
           </div>
         </div>
-
       </div>
+
+      <!-- Padding wrap for content -->
+      <div class="p-3 d-flex flex-column gap-3" style="overflow-y: auto;">
 
       <!-- Interactive Calendar Widget (Direct Dribbble Design - Dynamic Selection Calendar) -->
       <div class="dd-calendar-widget" id="ddCalendarWidget">
@@ -825,6 +864,7 @@
         <div id="hrMemoListContainer" class="mt-2" style="max-height: 240px; overflow-y: auto;"></div>
       </div>
 
+      </div>
     </aside>
 
   </div>
@@ -1549,6 +1589,25 @@
     window.clearCalDateFilter = clearCalDateFilter;
     window.toggleCalCollapse = toggleCalCollapse;
     window.renderCalendar = renderCalendar;
+
+    function toggleRightCalendarPanel() {
+      const panel = document.getElementById('hrRightSidebar');
+      if (panel) {
+        const isHidden = panel.classList.contains('d-none');
+        if (isHidden) {
+          panel.classList.remove('d-none');
+        } else {
+          panel.classList.add('d-none');
+        }
+      }
+    }
+    window.toggleRightCalendarPanel = toggleRightCalendarPanel;
+
+    function setLaserLoading(active) {
+      const bar = document.getElementById('topLaserBar');
+      if (bar) bar.classList.toggle('is-loading', active);
+    }
+    window.setLaserLoading = setLaserLoading;
 
 
     // =========================================================================

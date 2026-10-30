@@ -64,6 +64,9 @@
 </head>
 <body>
 
+  <!-- Top Laser Loading Bar -->
+  <div class="kov-laser-bar" id="topLaserBar"></div>
+
   <%
     const totalKandidat = (candidates || []).length;
     const belumDireview = (candidates || []).filter(c => !c.review_count || c.review_count === 0).length;
@@ -82,13 +85,13 @@
     const hrCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('hr') || (c.divisi || '').toLowerCase().includes('personalia') || (c.divisi || '').toLowerCase().includes('ga')).length;
   %>
 
-  <div class="dd-layout-root kov-app-shell">
+  <div class="atelier-shell dd-layout-root kov-app-shell">
 
     <!-- 1. Deep Midnight Navy Sidebar Navigation (Pane 1) -->
     <%- include('partials/sidebar', { active: 'reviewer', user: typeof user !== 'undefined' ? user : null }) %>
 
     <!-- 2. Main Center Workspace Canvas (Pane 2) -->
-    <main class="dd-main-canvas kov-main-content dd-theme" id="mainCanvas">
+    <main class="atelier-main dd-main-canvas kov-main-content dd-theme" id="mainCanvas">
 
       <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
       <div class="dd-topbar">
@@ -532,7 +535,7 @@
     </main>
 
     <!-- 3. Right Utility Panel (Pane 3 - Dribbble Signature) -->
-    <aside class="dd-right-panel" id="rightPanel">
+    <aside class="dd-right-panel kov-pad-card" id="rightPanel">
 
       <!-- Profile Header (Symmetrical 46px Row aligned with Topbar) -->
       <div class="dd-profile-header">
