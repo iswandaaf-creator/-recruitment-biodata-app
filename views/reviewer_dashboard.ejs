@@ -518,6 +518,22 @@
                     </td>
                     <td class="text-center pe-3">
                       <div class="d-inline-flex gap-1.5">
+                        <button type="button" class="btn-kov-outline btn-kov-sm" onclick="openReviewerModal(<%= JSON.stringify({
+                          id: c.id,
+                          nama: c.nama_lengkap || '',
+                          posisi: c.posisi_dilamar || '',
+                          divisi: c.divisi || 'Operasional',
+                          email: c.email || '',
+                          no_hp: c.no_hp || '',
+                          kota: c.kota_domisili || c.kota_ktp || '-',
+                          pendidikan: c.pendidikan_terakhir || '-',
+                          pengalaman: c.pengalaman_kerja || '-',
+                          status: c.kesimpulan_status || 'Dalam Review',
+                          catatan: c.latest_catatan || c.catatan_reviewer || '',
+                          foto: c.foto_kandidat || ''
+                        }) %>)" title="Pratinjau Cepat Modal Reviewer">
+                          <i class="fas fa-eye me-1"></i> Detail
+                        </button>
                         <a href="/reviewer/candidate/<%= c.id %>" class="btn-kov-primary btn-kov-sm" title="Buka Detail & Beri Catatan Evaluasi">
                           <i class="fas fa-pen-to-square me-1"></i> Review
                         </a>
@@ -1380,6 +1396,40 @@
     window.toggleHrMemoDone = toggleHrMemoDone;
     window.deleteHrMemo = deleteHrMemo;
 
+    let reviewerDetailModal = null;
+    function openReviewerModal(candidate) {
+      if (!candidate) return;
+      if (!reviewerDetailModal && typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+        reviewerDetailModal = new bootstrap.Modal(document.getElementById('modalReviewerDetail'));
+      }
+      document.getElementById('mRevNama').textContent = candidate.nama || '(Tanpa Nama)';
+      document.getElementById('mRevId').textContent = '#' + candidate.id;
+      document.getElementById('mRevPosisi').textContent = candidate.posisi || 'Pelamar';
+      document.getElementById('mRevDivisi').textContent = 'Divisi ' + (candidate.divisi || 'Operasional');
+      document.getElementById('mRevStatus').textContent = candidate.status || 'Dalam Review';
+      document.getElementById('mRevEmail').textContent = candidate.email || '-';
+      document.getElementById('mRevHp').textContent = candidate.no_hp || '-';
+      document.getElementById('mRevKota').textContent = candidate.kota || '-';
+      document.getElementById('mRevPendidikan').textContent = candidate.pendidikan || '-';
+      document.getElementById('mRevPengalaman').textContent = candidate.pengalaman || '-';
+      document.getElementById('mRevCatatan').textContent = candidate.catatan ? `"${candidate.catatan}"` : 'Belum ada catatan evaluasi.';
+      
+      const fotoContainer = document.getElementById('mRevFotoContainer');
+      if (candidate.foto) {
+        fotoContainer.innerHTML = `<img src="${candidate.foto}" alt="${candidate.nama}" class="rounded-3 border shadow-xs" style="width: 80px; height: 100px; object-fit: cover;">`;
+      } else {
+        fotoContainer.innerHTML = `<div class="rounded-3 bg-light border d-flex flex-column align-items-center justify-content-center text-muted" style="width: 80px; height: 100px;"><i class="fas fa-camera fa-2x mb-1 opacity-50"></i><span style="font-size: 9.5px;">No Photo</span></div>`;
+      }
+
+      document.getElementById('mRevPdfBtn').href = `/api/export/pdf/${candidate.id}`;
+      document.getElementById('mRevReviewBtn').href = `/reviewer/candidate/${candidate.id}`;
+
+      if (reviewerDetailModal) {
+        reviewerDetailModal.show();
+      }
+    }
+    window.openReviewerModal = openReviewerModal;
+
     document.addEventListener('DOMContentLoaded', () => {
       loadHrMemos();
       renderCalendar();
@@ -1391,6 +1441,81 @@
       }
     });
   </script>
+  <!-- Modal Detail Cepat Reviewer Pelamar -->
+  <div class="modal fade" id="modalReviewerDetail" tabindex="-1" aria-labelledby="modalReviewerDetailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 16px; border: 1px solid var(--border-organic, #d8e2dc); overflow: hidden; box-shadow: 0 20px 40px -10px rgba(56, 77, 66, 0.18);">
+        <div class="modal-header d-flex align-items-center justify-content-between" style="background: var(--bg-paper, #fcfbf9); border-bottom: 1px solid var(--border-organic, #e2e8f0); padding: 16px 22px;">
+          <div class="d-flex align-items-center gap-2">
+            <span class="status-pill-modern pill-success" style="font-size: 11px;">
+              <span class="status-dot-pulse"></span> Detail Pelamar
+            </span>
+            <h5 class="modal-title fw-bold text-dark mb-0 fs-6" id="modalReviewerDetailLabel">Profil Kandidat</h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body p-4" style="background: #ffffff;">
+          <div class="d-flex flex-wrap gap-4 align-items-start mb-4 pb-3 border-bottom">
+            <div id="mRevFotoContainer" class="flex-shrink-0">
+              <!-- Foto dynamically inserted -->
+            </div>
+            <div class="flex-grow-1 min-w-0">
+              <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                <h4 class="fw-bold mb-0 text-dark" id="mRevNama">-</h4>
+                <span class="badge bg-light text-dark border font-mono-num" id="mRevId">#0</span>
+              </div>
+              <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                <span class="badge py-1 px-2.5 rounded-pill" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); font-weight: 700; font-size: 11px;" id="mRevPosisi">-</span>
+                <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill px-2.5" id="mRevDivisi">-</span>
+                <span class="status-pill-modern pill-warning" id="mRevStatus">Dalam Review</span>
+              </div>
+              <div class="d-flex flex-wrap gap-3 small text-secondary">
+                <span><i class="fas fa-envelope text-primary me-1"></i><span id="mRevEmail">-</span></span>
+                <span><i class="fas fa-phone text-primary me-1"></i><span id="mRevHp" class="font-mono-num">-</span></span>
+                <span><i class="fas fa-location-dot text-primary me-1"></i><span id="mRevKota">-</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <div class="p-3 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                <div class="text-muted small fw-bold text-uppercase mb-1" style="font-size: 10.5px; letter-spacing: 0.04em;">Pendidikan Terakhir</div>
+                <div class="fw-semibold text-dark" id="mRevPendidikan">-</div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="p-3 rounded-3" style="background: #f8fafc; border: 1px solid #e2e8f0;">
+                <div class="text-muted small fw-bold text-uppercase mb-1" style="font-size: 10.5px; letter-spacing: 0.04em;">Pengalaman Kerja Terakhir</div>
+                <div class="fw-semibold text-dark" id="mRevPengalaman">-</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-3" style="background: rgba(22, 101, 52, 0.04); border: 1px solid rgba(22, 101, 52, 0.15);">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+              <span class="fw-bold small text-success"><i class="fas fa-comment-dots me-1"></i>Catatan Evaluasi / Review Terakhir:</span>
+            </div>
+            <div class="small text-dark" id="mRevCatatan" style="font-style: italic;">
+              Belum ada catatan evaluasi.
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex align-items-center justify-content-between px-4 py-3" style="background: var(--bg-paper, #fcfbf9); border-top: 1px solid #e2e8f0;">
+          <button type="button" class="btn-kov-secondary btn-kov-sm" data-bs-dismiss="modal">Tutup</button>
+          <div class="d-flex gap-2">
+            <a href="#" id="mRevPdfBtn" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger">
+              <i class="fas fa-file-pdf me-1"></i> Download PDF
+            </a>
+            <a href="#" id="mRevReviewBtn" class="btn-kov-primary btn-kov-sm">
+              <i class="fas fa-pen-to-square me-1"></i> Buka Halaman Review
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Inactivity Auto-Logout (2 Jam) -->
   <script src="/idle-timer.js"></script>
 </body>

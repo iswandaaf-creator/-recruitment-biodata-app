@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kelola User &amp; Hak Akses Reviewer - KOV Portal</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
-  <!-- Google Fonts: Plus Jakarta Sans -->
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
@@ -22,8 +22,10 @@
       <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
       <div class="dd-topbar kov-topbar">
         <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
-          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
-            <i class="fas fa-bars"></i>
+          <button type="button" class="kov-sidebar-toggle-btn btn-kov-outline d-inline-flex align-items-center justify-content-center flex-shrink-0" onclick="toggleKovSidebar()" aria-label="Geser / Lipat Navigasi" title="Lipat / Geser Navigasi Sidebar" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-organic, #d8e2dc); background: var(--bg-paper, #fcfbf9); color: var(--ink-deep, #384d42); cursor: pointer; padding: 0;">
+            <svg viewBox="0 0 24 24" fill="none" style="width: 17px; height: 17px;">
+              <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
           </button>
           <div class="dd-search-container">
             <i class="fas fa-magnifying-glass dd-search-icon"></i>
