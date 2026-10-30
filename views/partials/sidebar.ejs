@@ -1,7 +1,7 @@
 <!-- Backdrop for mobile sidebar drawer -->
 <div class="kov-sidebar-backdrop" id="sidebarBackdrop"></div>
 
-<!-- Master Sidebar Navigation (Framed-Sheet Obsidian Slate) -->
+<!-- Master Sidebar Navigation (High-Contrast Deep KOV Forest Roast + Pastel Matcha Active Pill) -->
 <aside class="dd-sidebar kov-sidebar dd-theme" id="appSidebar">
   
   <!-- Immediate inline script to prevent layout flicker & sync theme on reload -->
@@ -13,7 +13,7 @@
           const mc = document.querySelector('.kov-main-content');
           if (mc) mc.classList.add('collapsed');
         }
-        if (localStorage.getItem('kov_theme') === 'dark') {
+        if (false) {
           document.documentElement.setAttribute('data-theme', 'dark');
           if (document.body) document.body.classList.add('theme-dark');
         }
@@ -27,13 +27,14 @@
       <div class="dd-brand-icon kov-brand-logo">
         <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="width: 100%; height: 100%; border-radius: 8px; object-fit: cover;">
       </div>
-      <div class="dd-brand-text kov-brand-text-group">
-        <span>KOV Koffie</span><span class="dd-dot">.</span>
+      <div class="dd-brand-text kov-brand-text-group d-flex flex-column">
+        <div style="line-height: 1.15;"><span style="color: #384d42 !important; font-weight: 800;">KOV Koffie</span><span class="dd-dot" style="color: #34d399 !important;">.</span></div>
+        <small style="font-size: 10px; font-weight: 800; color: #586e62 !important; letter-spacing: 0.05em;">ROASTERY &amp; HR STUDIO</small>
       </div>
     </a>
     
     <!-- Mobile close drawer button (<992px) -->
-    <button type="button" class="btn btn-sm text-white-50 p-1 d-lg-none" id="sidebarCloseBtn" aria-label="Close Sidebar">
+    <button type="button" class="btn btn-sm p-1 d-lg-none" id="sidebarCloseBtn" style="color: #384d42 !important;" aria-label="Close Sidebar">
       <i class="fas fa-times fs-5"></i>
     </button>
 
@@ -53,7 +54,7 @@
     const canUsers = isSuperOrAdmin;
   %>
 
-  <!-- Navigation Links (Grouped & Streamlined with Tooltips) -->
+  <!-- Navigation Links (Grouped & Streamlined with High-Contrast Duotone Icons) -->
   <nav class="dd-sidebar-nav kov-sidebar-nav">
     
     <!-- Group: HR & Recruitment -->
@@ -117,9 +118,9 @@
   <!-- User Profile & Session Footer -->
   <div class="dd-sidebar-footer kov-sidebar-footer">
     <!-- Theme Switcher Button -->
-    <button type="button" class="dd-theme-toggle-btn kov-theme-toggle-sidebar" onclick="toggleKovTheme()" id="themeToggleSidebarBtn" title="Ganti Mode Gelap / Terang">
+    <button type="button" class="dd-theme-toggle-btn kov-theme-toggle-sidebar" onclick="toggleKovTheme()" id="themeToggleSidebarBtn" title="Ganti Nuansa Pastel / Terang">
       <i class="fas fa-moon" id="themeSidebarIcon"></i>
-      <span id="themeSidebarText">Mode Gelap</span>
+      <span id="themeSidebarText">Nuansa Pastel</span>
     </button>
 
     <div class="kov-user-badge-box" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'User' %> (<%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Staff' %>)">
@@ -131,12 +132,12 @@
           <%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : ((typeof user !== 'undefined' && user && user.username) ? user.username : 'Administrator HR') %>
         </div>
         <div style="font-size: 10.5px; margin-top: 2px;">
-          <span class="badge py-0.5 px-2" style="background: rgba(22, 101, 52, 0.12); color: #166534; border: 1px solid rgba(22, 101, 52, 0.25); border-radius: 4px; font-weight: 600; font-size: 10.5px;">
+          <span class="badge py-0.5 px-2" style="background: #d8f3e5; color: #062e1e; border: 1px solid #6ee7b7; border-radius: 999px; font-weight: 800; font-size: 10px;">
             <%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Superadmin' %>
           </span>
         </div>
       </div>
-      <i class="fas fa-chevron-right text-muted ms-auto" style="font-size: 0.75rem;"></i>
+      <i class="fas fa-chevron-right ms-auto" style="font-size: 0.75rem; color: #a7f3d0;"></i>
     </div>
     <a href="/admin/logout" onclick="sessionStorage.clear();" class="kov-logout-link" data-tooltip="Keluar (Logout)" title="Keluar (Logout)">
       <i class="fas fa-arrow-right-from-bracket"></i>
@@ -155,7 +156,6 @@
     const appShell = document.querySelector('.kov-app-shell');
     const mainContent = document.querySelector('.kov-main-content');
 
-    // Apply saved state on DOM ready
     function applySavedCollapseState() {
       try {
         const isCollapsed = localStorage.getItem('kov_sidebar_collapsed') === 'true';
@@ -235,5 +235,5 @@
 
 <!-- Human-Crafted Toast & Micro-Interaction System -->
 <script src="/assets/js/kov-toast.js"></script>
-<!-- Coinbase Dual-Theme Engine -->
+<!-- Dual-Theme Engine -->
 <script src="/assets/js/kov-theme.js"></script>

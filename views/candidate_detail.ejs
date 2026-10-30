@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v10" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
 </head>
 <body>
 
@@ -74,7 +74,7 @@
                   <a href="/admin/candidate/<%= dup.id %>" class="btn btn-sm <%= dup.id === candidate.id ? 'btn-warning fw-bold border-dark' : 'btn-outline-secondary' %> py-1 px-2 text-start rounded-pill">
                     <i class="fas <%= dup.id === candidate.id ? 'fa-check-circle' : 'fa-history' %> me-1"></i>
                     ID #<%= dup.id %> (<%= formatDate(dup.created_at) %>)
-                    <span class="badge bg-dark bg-opacity-75 ms-1"><%= dup.kesimpulan_status || 'Belum Diproses' %></span>
+                    <span class="badge bg-secondary bg-opacity-75 ms-1"><%= dup.kesimpulan_status || 'Belum Diproses' %></span>
                     <% if (dup.id === candidate.id) { %> <span class="badge bg-danger ms-1">Sedang Dibuka</span> <% } %>
                   </a>
                 <% }); %>
@@ -93,7 +93,7 @@
             <% if (candidate.foto_kandidat) { %>
               <div class="position-relative">
                 <img src="<%= candidate.foto_kandidat %>" class="rounded-3 border shadow-xs" style="width: 85px; height: 110px; object-fit: cover;">
-                <span class="badge bg-dark position-absolute bottom-0 start-50 translate-middle-x mb-1 opacity-75" style="font-size: 9px;">Pasfoto 3x4</span>
+                <span class="badge bg-secondary position-absolute bottom-0 start-50 translate-middle-x mb-1 opacity-75" style="font-size: 9px;">Pasfoto 3x4</span>
               </div>
             <% } else { %>
               <div class="rounded-3 bg-light border d-flex flex-column align-items-center justify-content-center text-muted" style="width: 85px; height: 110px;">
@@ -112,7 +112,7 @@
                   else if (dLow.includes('hr')) divCls = 'bg-primary-subtle text-primary border';
                   else if (dLow.includes('teknisi')) divCls = 'bg-info-subtle text-info border';
                   else if (dLow.includes('fat') || dLow.includes('finance')) divCls = 'bg-success-subtle text-success border';
-                  else if (dLow.includes('it')) divCls = 'bg-dark text-info border border-info';
+                  else if (dLow.includes('it')) divCls = 'bg-light text-secondary border border-info';
                   else divCls = 'bg-success-subtle text-success border';
                 %>
                 <span class="badge <%= divCls %> px-2 py-1"><i class="fas fa-layer-group me-1"></i>Divisi: <%= candidate.divisi || 'Operasional' %></span>
@@ -401,7 +401,7 @@
       <div class="modal-content border-0 shadow-lg rounded-4">
         <form action="/admin/candidate/<%= candidate.id %>/update-division" method="POST" data-kov-loading>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="modal-header bg-slate-900 text-white rounded-top-4" style="background-color: var(--kov-slate-900);">
+          <div class="modal-header pigment-celadon rounded-top-4" style="background-color: #dfece3; color: #2e5943;">
             <h5 class="modal-title fw-bold" id="modalChangeDivisiLabel">
               <i class="fas fa-layer-group text-warning me-2"></i>Ubah Divisi Pelamar
             </h5>

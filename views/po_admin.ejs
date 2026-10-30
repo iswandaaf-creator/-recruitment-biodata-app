@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v10" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
 </head>
 <body>
 
@@ -71,7 +71,7 @@
             <span class="text-muted" style="font-size: 12px;">&bull;</span>
             <span class="text-muted" style="font-size: 12px;"><%= records.length %> Dokumen PO Resmi</span>
           </div>
-          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #384d42); letter-spacing: -0.015em;">
             Purchase Order (PO) Pengadaan
           </h1>
         </div>
@@ -118,7 +118,7 @@
         <div class="d-flex flex-wrap align-items-center gap-2 mobile-w-100">
           <div class="input-group input-group-sm" style="min-width: 280px;">
             <span class="input-group-text bg-light"><i class="fas fa-search text-secondary"></i></span>
-            <input type="text" id="searchInput" class="form-control" placeholder="Cari No PO, Nama Vendor, Perihal, Unit Kerja...">
+            <input type="text" id="tableSearchInput" class="form-control" placeholder="Cari No PO, Nama Vendor, Perihal, Unit Kerja...">
           </div>
         </div>
 
@@ -222,6 +222,14 @@
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
     const searchInput = document.getElementById('searchInput');
+    const tableSearchInput = document.getElementById('tableSearchInput');
+    if (tableSearchInput) {
+      tableSearchInput.addEventListener('keyup', function() {
+        const searchVal = this.value.toLowerCase();
+        if (searchInput) searchInput.value = this.value;
+        tableRows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(searchVal) ? '' : 'none'; });
+      });
+    }
     const tableRows = document.querySelectorAll('#poTable tbody tr');
 
     function quickFilterPO(status) {

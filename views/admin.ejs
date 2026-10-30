@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v10" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
   <!-- Dribbble Cloud Drive Design System Extension -->
   
   <!-- Toast & Theme Global Utilities in Head for Immediate Availability -->
@@ -76,13 +76,13 @@
     }
 
     [data-theme="dark"] .kov-notif-dropdown-menu {
-      background: #0f172a;
-      border-color: #1e293b;
+      background: #384d42;
+      border-color: #4c5b52;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
     }
 
     [data-theme="dark"] .kov-notif-dropdown-menu .bg-light {
-      background: #1e293b !important;
+      background: #4c5b52 !important;
       color: #f1f5f9 !important;
     }
 
@@ -95,8 +95,8 @@
     }
 
     [data-theme="dark"] .kov-user-dropdown-menu {
-      background: #0f172a;
-      border-color: #1e293b;
+      background: #384d42;
+      border-color: #4c5b52;
       box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
     }
 
@@ -105,7 +105,7 @@
     }
 
     [data-theme="dark"] .kov-user-dropdown-menu .dropdown-item:hover {
-      background: #1e293b;
+      background: #4c5b52;
       color: #ffffff;
     }
 
@@ -531,7 +531,7 @@
                         <i class="fas fa-user-tie me-1"></i> HR
                       </span>
                     <% } else if (dLow.includes('it')) { %>
-                      <span class="kov-divisi-pill" style="background: #f1f5f9; border-color: #cbd5e1; color: #0f172a;">
+                      <span class="kov-divisi-pill" style="background: #f1f5f9; border-color: #cbd5e1; color: #384d42;">
                         <i class="fas fa-laptop me-1"></i> IT
                       </span>
                     <% } else if (dLow.includes('teknisi')) { %>
@@ -770,6 +770,61 @@
         </div>
       </div>
 
+
+      <!-- Memo & Agenda HRD Studio (Interactive Right Sidebar Widget) -->
+      <div class="kov-memo-studio-widget" id="hrMemoStudioWidget">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <div>
+            <h4 class="dd-section-title" style="font-size: 0.78rem; letter-spacing: 0.04em;">MEMO &amp; AGENDA HRD</h4>
+            <div class="text-muted" style="font-size: 10.5px;" id="memoActiveDateLabel">Semua Jadwal &amp; Catatan</div>
+          </div>
+          <button type="button" class="btn-kov-primary btn-sm" style="height: 26px; min-height: 26px; padding: 0 9px; font-size: 11px; border-radius: 6px;" onclick="toggleMemoComposer()" id="btnToggleMemoComposer">
+            <i class="fas fa-plus"></i> Isi Memo
+          </button>
+        </div>
+
+        <!-- Inline Memo & Agenda Form -->
+        <form id="hrMemoForm" class="kov-memo-composer d-none" onsubmit="submitHrMemo(event)" novalidate>
+          <div class="mb-2">
+            <label class="form-label mb-1" style="font-size: 11px; font-weight: 700;">Judul Memo / Agenda HRD <span class="text-danger">*</span></label>
+            <input type="text" id="hrMemoTitleInput" class="form-control form-control-sm" style="font-size: 12px; height: 32px;" placeholder="Cth: Interview Barista / Evaluasi Kontrak...">
+          </div>
+          <div class="row g-1.5 mb-2">
+            <div class="col-7">
+              <label class="form-label mb-1" style="font-size: 10.5px; font-weight: 600;">Tanggal</label>
+              <input type="date" id="hrMemoDateInput" class="form-control form-control-sm font-monospace" style="font-size: 11.5px; height: 30px;" value="2026-10-29">
+            </div>
+            <div class="col-5">
+              <label class="form-label mb-1" style="font-size: 10.5px; font-weight: 600;">Jam</label>
+              <input type="time" id="hrMemoTimeInput" class="form-control form-control-sm font-monospace" style="font-size: 11.5px; height: 30px;" value="10:00">
+            </div>
+          </div>
+          <div class="mb-2">
+            <label class="form-label mb-1" style="font-size: 10.5px; font-weight: 600;">Kategori &amp; Catatan Singkat</label>
+            <div class="d-flex gap-1 mb-1.5">
+              <select id="hrMemoCatInput" class="form-select form-select-sm" style="font-size: 11.5px; height: 30px;">
+                <option value="Interview">Agenda Interview</option>
+                <option value="Memo HRD">Catatan Memo HRD</option>
+                <option value="Onboarding">Onboarding Staf</option>
+                <option value="Deadline">Deadline Penting</option>
+              </select>
+            </div>
+            <textarea id="hrMemoNoteInput" class="form-control form-control-sm" rows="2" style="font-size: 11.5px;" placeholder="Tulis rincian memo, nama kandidat, atau ruangan..."></textarea>
+          </div>
+          <div class="d-flex align-items-center justify-content-between gap-1.5 pt-1">
+            <button type="button" class="btn-kov-outline btn-sm" style="height: 30px; min-height: 30px; font-size: 11px; padding: 0 8px;" onclick="testMemoErrorState()" title="Uji Animasi Error Validasi">
+              <i class="fas fa-bolt text-danger"></i> Uji Error
+            </button>
+            <button type="submit" id="btnSaveHrMemo" class="btn-kov-primary btn-sm flex-grow-1" style="height: 30px; min-height: 30px; font-size: 11.5px;">
+              <i class="fas fa-check"></i> Simpan Memo
+            </button>
+          </div>
+        </form>
+
+        <!-- Dynamic Memo & Agenda List -->
+        <div id="hrMemoListContainer" class="mt-2" style="max-height: 240px; overflow-y: auto;"></div>
+      </div>
+
     </aside>
 
   </div>
@@ -931,6 +986,8 @@
       }
 
       applyFilterAndSort();
+      if (typeof renderHrMemoList === "function") renderHrMemoList();
+      if (typeof onCalendarDateClickForMemo === "function") onCalendarDateClickForMemo(activeDateFilter);
     }
 
     function filterByStatusCard(status) {
@@ -1493,7 +1550,237 @@
     window.toggleCalCollapse = toggleCalCollapse;
     window.renderCalendar = renderCalendar;
 
+
+    // =========================================================================
+    // HRD CALENDAR MEMO & AGENDA STUDIO (Right Sidebar Interactive Controller)
+    // =========================================================================
+    const DEFAULT_HR_MEMOS = [
+      { id: 901, tanggal: '2026-10-24', waktu: '10:00', kategori: 'Interview', judul: 'Interview User Head Barista — Budi Santoso', catatan: 'Tes kalibrasi mesin espresso bersama SPV Bar.', selesai: 0 },
+      { id: 902, tanggal: '2026-10-24', waktu: '14:00', kategori: 'Memo HRD', judul: 'Cek Referensi Kerja Siti Rahma', catatan: 'Konfirmasi riwayat kerja & disiplin shift.', selesai: 0 },
+      { id: 903, tanggal: '2026-10-29', waktu: '09:30', kategori: 'Onboarding', judul: 'Briefing Kontrak & Seragam Karyawan Baru', catatan: 'Outlet KOV Koffie Sula & Heritage Kota Lama.', selesai: 0 }
+    ];
+
+    let hrMemosState = [];
+
+    function loadHrMemos() {
+      try {
+        const raw = localStorage.getItem('kov_hr_memos_v11');
+        if (raw) {
+          hrMemosState = JSON.parse(raw);
+        } else {
+          hrMemosState = DEFAULT_HR_MEMOS.slice();
+          localStorage.setItem('kov_hr_memos_v11', JSON.stringify(hrMemosState));
+        }
+      } catch (e) {
+        hrMemosState = DEFAULT_HR_MEMOS.slice();
+      }
+      // Also fetch from server API if available
+      if (typeof fetch === 'function') {
+        fetch('/api/hr/memos', { headers: { 'Accept': 'application/json' } })
+          .then(r => r.ok ? r.json() : null)
+          .then(data => {
+            if (data && data.ok && Array.isArray(data.memos) && data.memos.length > 0) {
+              hrMemosState = data.memos;
+              renderHrMemoList();
+            }
+          })
+          .catch(() => {});
+      }
+      renderHrMemoList();
+    }
+
+    function saveHrMemosLocal() {
+      try {
+        localStorage.setItem('kov_hr_memos_v11', JSON.stringify(hrMemosState));
+      } catch (e) {}
+    }
+
+    function toggleMemoComposer() {
+      const form = document.getElementById('hrMemoForm');
+      if (!form) return;
+      form.classList.toggle('d-none');
+      const input = document.getElementById('hrMemoTitleInput');
+      if (!form.classList.contains('d-none') && input) input.focus();
+    }
+
+    function renderHrMemoList(newlyAddedId = null) {
+      const container = document.getElementById('hrMemoListContainer');
+      const dateLabel = document.getElementById('memoActiveDateLabel');
+      const dateInput = document.getElementById('hrMemoDateInput');
+      if (!container) return;
+
+      if (activeDateFilter) {
+        if (dateLabel) dateLabel.textContent = 'Agenda Tanggal: ' + formatDisplayDate(activeDateFilter);
+        if (dateInput) dateInput.value = activeDateFilter;
+      } else {
+        if (dateLabel) dateLabel.textContent = 'Semua Jadwal & Catatan (' + hrMemosState.length + ')';
+      }
+
+      const filtered = activeDateFilter
+        ? hrMemosState.filter(m => m.tanggal === activeDateFilter)
+        : hrMemosState;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-3 px-2 rounded-3 border border-dashed mt-2" style="font-size: 11.5px; color: #64748b;">
+            Belum ada memo atau agenda pada tanggal ini. Isi form di atas untuk menambahkan.
+          </div>
+        `;
+        return;
+      }
+
+      const catColorMap = {
+        'Interview': { border: '#059669', badgeBg: '#d1fae5', badgeText: '#065f46' },
+        'Memo HRD': { border: '#d97706', badgeBg: '#fef3c7', badgeText: '#854d0e' },
+        'Onboarding': { border: '#2563eb', badgeBg: '#dbeafe', badgeText: '#1e40af' },
+        'Deadline': { border: '#dc2626', badgeBg: '#fee2e2', badgeText: '#991b1b' }
+      };
+
+      container.innerHTML = filtered.map(m => {
+        const c = catColorMap[m.kategori] || catColorMap['Interview'];
+        const isNew = newlyAddedId && m.id === newlyAddedId;
+        return `
+          <div class="kov-memo-item ${m.selesai ? 'is-done' : ''} ${isNew ? 'kov-memo-arrive' : ''}" style="border-left-color: ${c.border};">
+            <div class="d-flex align-items-start justify-content-between gap-1">
+              <div class="d-flex align-items-start gap-2 min-w-0">
+                <input type="checkbox" class="form-check-input mt-0.5 flex-shrink-0" style="cursor: pointer;" ${m.selesai ? 'checked' : ''} onchange="toggleHrMemoDone(${m.id})" title="Tandai Selesai">
+                <div class="min-w-0">
+                  <div class="kov-memo-item-title fw-bold text-dark" style="font-size: 11.5px; line-height: 1.3;">${m.judul}</div>
+                  ${m.catatan ? `<div class="text-muted mt-0.5" style="font-size: 10.5px; line-height: 1.35;">${m.catatan}</div>` : ''}
+                  <div class="d-flex align-items-center gap-1.5 mt-1 flex-wrap">
+                    <span class="badge" style="background: ${c.badgeBg}; color: ${c.badgeText}; font-size: 9.5px; font-weight: 700; padding: 2px 6px;">${m.kategori}</span>
+                    <span class="font-monospace text-muted" style="font-size: 10px;"><i class="far fa-clock me-0.5"></i>${m.tanggal} ${m.waktu || ''}</span>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-sm p-0 text-muted hover-danger border-0 bg-transparent" style="font-size: 11px;" onclick="deleteHrMemo(${m.id})" title="Hapus Memo">
+                <i class="fas fa-xmark"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function submitHrMemo(e) {
+      if (e) e.preventDefault();
+      const titleInput = document.getElementById('hrMemoTitleInput');
+      const dateInput = document.getElementById('hrMemoDateInput');
+      const timeInput = document.getElementById('hrMemoTimeInput');
+      const catInput = document.getElementById('hrMemoCatInput');
+      const noteInput = document.getElementById('hrMemoNoteInput');
+      const saveBtn = document.getElementById('btnSaveHrMemo');
+
+      const judul = titleInput ? titleInput.value.trim() : '';
+      if (!judul) {
+        if (window.KovToast && typeof window.KovToast.triggerError === 'function') {
+          window.KovToast.triggerError(titleInput, 'Judul memo atau agenda HRD tidak boleh kosong!', 'Gagal Menyimpan Memo');
+        }
+        return;
+      }
+
+      if (window.KovToast && typeof window.KovToast.setLoading === 'function') {
+        window.KovToast.setLoading(saveBtn, 'Menyimpan...');
+      }
+
+      const newMemo = {
+        id: Date.now(),
+        tanggal: (dateInput && dateInput.value) ? dateInput.value : '2026-10-29',
+        waktu: (timeInput && timeInput.value) ? timeInput.value : '10:00',
+        kategori: (catInput && catInput.value) ? catInput.value : 'Interview',
+        judul: judul,
+        catatan: (noteInput && noteInput.value) ? noteInput.value.trim() : '',
+        selesai: 0
+      };
+
+      setTimeout(() => {
+        hrMemosState.unshift(newMemo);
+        saveHrMemosLocal();
+        if (titleInput) titleInput.value = '';
+        if (noteInput) noteInput.value = '';
+        if (window.KovToast && typeof window.KovToast.resetLoading === 'function') {
+          window.KovToast.resetLoading(saveBtn);
+        }
+        renderHrMemoList(newMemo.id);
+        if (typeof renderCalendar === 'function') renderCalendar();
+        if (window.KovToast && typeof window.KovToast.approvalFeedback === 'function') {
+          window.KovToast.approvalFeedback({
+            title: 'Memo & Agenda HRD Tersimpan',
+            message: `[${newMemo.kategori}] "${newMemo.judul}" dijadwalkan pada ${newMemo.tanggal} pukul ${newMemo.waktu}.`,
+            duration: 1650
+          });
+        }
+      }, 420);
+    }
+
+    function testMemoErrorState() {
+      const titleInput = document.getElementById('hrMemoTitleInput');
+      if (titleInput) titleInput.value = '';
+      if (window.KovToast && typeof window.KovToast.triggerError === 'function') {
+        window.KovToast.triggerError(titleInput, 'Kolom Judul Memo & Agenda wajib diisi sebelum menyimpan!', 'Contoh Validasi Error');
+      }
+    }
+
+    function toggleHrMemoDone(id) {
+      const item = hrMemosState.find(m => m.id === id);
+      if (!item) return;
+      item.selesai = item.selesai ? 0 : 1;
+      saveHrMemosLocal();
+      renderHrMemoList();
+      if (window.KovToast) {
+        window.KovToast.success(
+          item.selesai ? `Agenda "${item.judul}" ditandai selesai.` : `Agenda "${item.judul}" dibuka kembali.`,
+          item.selesai ? 'Agenda Selesai' : 'Status Diperbarui'
+        );
+      }
+    }
+
+    function deleteHrMemo(id) {
+      hrMemosState = hrMemosState.filter(m => m.id !== id);
+      saveHrMemosLocal();
+      renderHrMemoList();
+      if (window.KovToast) {
+        window.KovToast.info('Catatan memo telah dihapus dari kalender HRD.', 'Memo Dihapus');
+      }
+    }
+
+    
+    function onCalendarDateClickForMemo(dateKey) {
+      const form = document.getElementById('hrMemoForm');
+      const dateInput = document.getElementById('hrMemoDateInput');
+      const titleInput = document.getElementById('hrMemoTitleInput');
+      if (dateKey) {
+        if (form && form.classList.contains('d-none')) {
+          form.classList.remove('d-none');
+        }
+        if (dateInput) dateInput.value = dateKey;
+        if (titleInput) setTimeout(() => titleInput.focus(), 80);
+        const dayMemos = (hrMemosState || []).filter(m => m.tanggal === dateKey);
+        if (window.KovToast) {
+          if (dayMemos.length > 0) {
+            window.KovToast.info(
+              `Ada ${dayMemos.length} agenda pada ${formatDisplayDate(dateKey)}: "${dayMemos[0].judul}". Silakan isi form di bawah kalender untuk menambah memo baru.`,
+              `Pengingat Kalender (${formatDisplayDate(dateKey)})`
+            );
+          } else {
+            window.KovToast.info(
+              `Tanggal ${formatDisplayDate(dateKey)} dipilih. Ketik memo atau agenda HRD pada kotak di bawah kalender.`,
+              `Isi Memo — ${formatDisplayDate(dateKey)}`
+            );
+          }
+        }
+      }
+    }
+    window.onCalendarDateClickForMemo = onCalendarDateClickForMemo;
+
+    window.toggleMemoComposer = toggleMemoComposer;
+    window.submitHrMemo = submitHrMemo;
+    window.testMemoErrorState = testMemoErrorState;
+    window.toggleHrMemoDone = toggleHrMemoDone;
+    window.deleteHrMemo = deleteHrMemo;
+
     document.addEventListener('DOMContentLoaded', () => {
+      loadHrMemos();
       renderCalendar();
       updateKovLiveClock();
       setInterval(updateKovLiveClock, 30000);

@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v10" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
   <style>
     .review-timeline-item {
       position: relative;
@@ -98,7 +98,7 @@
       else if (dLow.includes('hr')) divBadgeClass = 'bg-primary-subtle text-primary border';
       else if (dLow.includes('teknisi')) divBadgeClass = 'bg-info-subtle text-info border';
       else if (dLow.includes('fat') || dLow.includes('finance')) divBadgeClass = 'bg-success-subtle text-success border';
-      else if (dLow.includes('it')) divBadgeClass = 'bg-dark text-info border border-info';
+      else if (dLow.includes('it')) divBadgeClass = 'bg-light text-secondary border border-info';
       else divBadgeClass = 'bg-success-subtle text-success border';
     %>
     <div class="kov-card mb-4">
@@ -108,7 +108,7 @@
             <% if (candidate.foto_kandidat) { %>
               <div class="position-relative">
                 <img src="<%= candidate.foto_kandidat %>" class="rounded-3 border shadow-xs" style="width: 85px; height: 110px; object-fit: cover;">
-                <span class="badge bg-dark position-absolute bottom-0 start-50 translate-middle-x mb-1 opacity-75" style="font-size: 9px;">Pasfoto</span>
+                <span class="badge bg-secondary position-absolute bottom-0 start-50 translate-middle-x mb-1 opacity-75" style="font-size: 9px;">Pasfoto</span>
               </div>
             <% } else { %>
               <div class="rounded-3 bg-light border d-flex flex-column align-items-center justify-content-center text-muted" style="width: 85px; height: 110px;">

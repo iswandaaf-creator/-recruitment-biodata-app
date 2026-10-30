@@ -659,4 +659,37 @@ db.serialize(() => {
   }
 });
 
+
+  // Tabel Memo & Agenda Kalender HRD
+  db.run(`
+    CREATE TABLE IF NOT EXISTS hr_memos (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      tanggal TEXT NOT NULL,
+      waktu TEXT DEFAULT '09:00',
+      kategori TEXT DEFAULT 'Interview',
+      judul TEXT NOT NULL,
+      catatan TEXT DEFAULT '',
+      pic TEXT DEFAULT 'Tim HRD',
+      selesai INTEGER DEFAULT 0,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `, (err) => {
+    if (!err) {
+      db.get('SELECT COUNT(*) as count FROM hr_memos', [], (cntErr, row) => {
+        if (!cntErr && row && row.count === 0) {
+          const initialMemos = [
+            ['2026-10-24', '10:00', 'Interview', 'Interview User Head Barista — Budi Santoso', 'Evaluasi praktik kalibrasi espresso & latte art bersama SPV Bar di KOV Koffie Sula.', 'Admin HR', 0],
+            ['2026-10-24', '14:00', 'Memo HRD', 'Verifikasi Berkas & Referensi Kerja Siti Rahma', 'Hubungi HR tempat kerja sebelumnya untuk konfirmasi masa kerja & kedisiplinan.', 'Admin HR', 0],
+            ['2026-10-26', '09:30', 'Onboarding', 'Orientasi Karyawan Baru Batch Oktober', 'Pembagian seragam kerja, briefing SOP grooming, dan penandatanganan PKWT.', 'People & Culture', 0],
+            ['2026-10-28', '15:00', 'Deadline', 'Batas Akhir Rekap Evaluasi Probation Outlet Rinjani', 'Kumpulkan form penilaian 3 bulan pertama dari Store Manager Rinjani.', 'Admin HR', 1]
+          ];
+          try {
+            const stmt = sqlite.prepare('INSERT INTO hr_memos (tanggal, waktu, kategori, judul, catatan, pic, selesai) VALUES (?, ?, ?, ?, ?, ?, ?)');
+            for (const m of initialMemos) stmt.run(...m);
+          } catch (e) {}
+        }
+      });
+    }
+  });
+
 module.exports = db;

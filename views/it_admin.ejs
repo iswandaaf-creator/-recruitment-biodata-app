@@ -16,12 +16,12 @@
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   
   <!-- Figma Design Token System -->
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v10" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
   
   <style>
     body {
       background-color: var(--figma-canvas, #f8fafc);
-      color: var(--figma-neutral-800, #1e293b);
+      color: var(--figma-neutral-800, #4c5b52);
       font-family: var(--figma-font-sans, 'Plus Jakarta Sans', sans-serif);
       -webkit-font-smoothing: antialiased;
     }
@@ -86,16 +86,16 @@
       cursor: pointer;
     }
     .btn-outlet:hover {
-      background-color: rgba(90, 96, 234, 0.08);
+      background-color: rgba(5, 150, 105, 0.08);
       color: var(--dd-primary, #166534);
-      border-color: rgba(90, 96, 234, 0.3);
+      border-color: rgba(5, 150, 105, 0.3);
     }
     .btn-outlet.active {
       background: var(--dd-primary, #166534) !important;
       color: #ffffff !important;
       border-color: var(--dd-primary, #166534) !important;
       font-weight: 700;
-      box-shadow: 0 4px 14px var(--dd-primary-glow, rgba(90, 96, 234, 0.35));
+      box-shadow: 0 4px 14px var(--dd-primary-glow, rgba(5, 150, 105, 0.28));
     }
     .btn-outlet.active .badge-count {
       background-color: rgba(255, 255, 255, 0.25) !important;
@@ -170,7 +170,7 @@
     }
     [data-theme="dark"] .card.bg-white,
     [data-theme="dark"] .card {
-      background-color: var(--kov-surface, #240b3b) !important;
+      background-color: var(--kov-surface, #fcfbf9) !important;
       color: var(--kov-text, #f1f5f9) !important;
       border-color: var(--kov-border, rgba(255, 255, 255, 0.1)) !important;
     }
@@ -178,7 +178,7 @@
       border-color: var(--kov-border, rgba(255, 255, 255, 0.1)) !important;
     }
     [data-theme="dark"] .modal-content {
-      background-color: var(--kov-surface, #240b3b);
+      background-color: var(--kov-surface, #fcfbf9);
       color: var(--kov-text, #f1f5f9);
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
@@ -196,7 +196,7 @@
         box-shadow: inset 0 0 0 2px #10b981;
       }
       50% {
-        background-color: rgba(90, 96, 234, 0.25);
+        background-color: rgba(5, 150, 105, 0.25);
         box-shadow: inset 0 0 0 3px #166534;
       }
       100% {
@@ -261,7 +261,7 @@
             <span class="text-muted" style="font-size: 12px;">&bull;</span>
             <span class="text-muted" style="font-size: 12px;"><%= expenses.length %> Nota Pembelian IT</span>
           </div>
-          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #384d42); letter-spacing: -0.015em;">
             Sentral Anggaran &amp; Pemeliharaan IT Outlet
           </h1>
         </div>
@@ -411,7 +411,7 @@
         <span class="badge bg-warning text-dark"><i class="fas fa-filter me-1"></i>Filter Aktif</span>
         <span id="itFilterAlertText" class="small fw-semibold text-dark"></span>
       </div>
-      <button type="button" class="btn btn-sm btn-dark rounded-pill px-3 py-1 shadow-none" onclick="resetAllITFilters()">
+      <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 shadow-none" onclick="resetAllITFilters()">
         <i class="fas fa-rotate-left me-1"></i>Tampilkan Semua Data (<span id="itFilterTotalBadge"><%= expenses.length %></span>)
       </button>
     </div>
@@ -588,7 +588,7 @@
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         <form action="/api/it/expenses" method="POST" onsubmit="return prepareSubmitItems('tambah')">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="modal-header bg-dark text-white py-3 px-4">
+          <div class="modal-header pigment-celadon py-3 px-4">
             <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-cart-plus text-success"></i>Catat Belanja Baru (Multi-Item per Outlet)
             </h5>
@@ -766,7 +766,7 @@
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         <form id="formEditExpense" method="POST" onsubmit="return prepareSubmitItems('edit')">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="modal-header bg-dark text-white py-3 px-4">
+          <div class="modal-header pigment-celadon py-3 px-4">
             <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-edit text-primary"></i>Edit Catatan Belanja
             </h5>
@@ -894,7 +894,7 @@
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         <form action="/api/it/ai/save-key" method="POST" id="formGeminiKey">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="modal-header bg-dark text-white py-3 px-4">
+          <div class="modal-header pigment-celadon py-3 px-4">
             <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-key text-warning"></i>Konfigurasi Google Gemini API Key
             </h5>
@@ -927,7 +927,7 @@
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         <form action="/api/it/change-password" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="modal-header bg-dark text-white py-3 px-4">
+          <div class="modal-header pigment-celadon py-3 px-4">
             <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-key text-warning"></i>Ganti Password Akun IT
             </h5>
@@ -958,7 +958,7 @@
   <div class="modal fade" id="modalExportKustom" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-        <div class="modal-header bg-dark text-white py-3 px-4">
+        <div class="modal-header pigment-celadon py-3 px-4">
           <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
             <i class="fas fa-file-export text-warning"></i>Export Rekap Belanja IT
           </h5>

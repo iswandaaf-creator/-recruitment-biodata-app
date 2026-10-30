@@ -13,21 +13,21 @@
   
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v10" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
 
   <style>
     :root {
-      --kov-pine: #166534;
-      --kov-pine-dark: #14532d;
-      --kov-pine-light: #f0fdf4;
+      --kov-emerald: #059669;
+      --kov-emerald-dark: #047857;
+      --kov-emerald-light: #ecfdf5;
     }
     * {
       box-sizing: border-box;
     }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: #fafafa;
-      background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+      background-color: #f4f8f6;
+      background-image: radial-gradient(#cde3d9 1px, transparent 1px);
       background-size: 24px 24px;
       min-height: 100vh;
       display: flex;
@@ -36,111 +36,142 @@
       justify-content: center;
       padding: 2rem 1.25rem;
       margin: 0;
-      color: #101828;
+      color: #384d42;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.28s ease, color 0.22s ease;
     }
 
     [data-theme="dark"] body {
-      background-color: #09090b;
-      background-image: radial-gradient(#1f1f23 1px, transparent 1px);
-      color: #f4f4f5;
+      background-color: #f5f3ed;
+      background-image: radial-gradient(#162923 1px, transparent 1px);
+      color: #f8fafc;
+    }
+
+    .login-theme-Corner {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 20;
     }
 
     .login-container {
       width: 100%;
       max-width: 440px;
+      animation: kovLoginFadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes kovLoginFadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .login-card {
       background: #ffffff;
-      border: 1px solid #eaecf0;
-      border-radius: 12px;
-      padding: 2.25rem 2rem;
-      box-shadow: 0 1px 3px rgba(16, 24, 40, 0.05), 0 10px 25px -5px rgba(16, 24, 40, 0.04);
+      border: 1px solid #dcece5;
+      border-radius: 18px;
+      padding: 2.35rem 2.1rem;
+      box-shadow: 0 4px 20px -4px rgba(6, 78, 59, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
       position: relative;
+      overflow: hidden;
+      transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #064e3b 0%, #059669 50%, #10b981 100%);
     }
 
     [data-theme="dark"] .login-card {
-      background: #111113;
-      border-color: #27272a;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      background: #fcfbf9;
+      border-color: #1f362e;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
     }
 
     .login-brand-header {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.85rem;
     }
 
     .brand-logo-frame {
-      width: 52px;
-      height: 52px;
-      margin: 0 auto 1.25rem;
-      border-radius: 12px;
-      border: 1px solid #eaecf0;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1.15rem;
+      border-radius: 14px;
+      border: 1px solid #a7f3d0;
       padding: 4px;
       background: #ffffff;
-      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.14);
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .brand-logo-frame:hover {
+      transform: scale(1.04);
     }
 
     [data-theme="dark"] .brand-logo-frame {
-      background: #18181b;
-      border-color: #27272a;
+      background: #f5f3ed;
+      border-color: rgba(16, 185, 129, 0.35);
     }
 
     .brand-logo-frame img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 10px;
     }
 
     .brand-kicker {
       font-family: 'IBM Plex Mono', monospace;
       font-size: 0.6875rem;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #166534;
+      color: #059669;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      padding: 3px 10px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 4px 12px;
       border-radius: 9999px;
       margin-bottom: 0.75rem;
     }
 
     [data-theme="dark"] .brand-kicker {
-      background: rgba(22, 101, 52, 0.2);
-      border-color: rgba(34, 197, 94, 0.3);
-      color: #4ade80;
+      background: rgba(5, 150, 105, 0.2);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #34d399;
     }
 
     .login-title {
-      font-size: 1.375rem;
-      font-weight: 700;
+      font-size: 1.4rem;
+      font-weight: 800;
       letter-spacing: -0.025em;
-      color: #101828;
-      margin: 0 0 0.5rem;
+      color: #384d42;
+      margin: 0 0 0.45rem;
     }
 
     [data-theme="dark"] .login-title {
-      color: #f4f4f5;
+      color: #f8fafc;
     }
 
     .login-sub {
-      font-size: 0.8125rem;
-      color: #475467;
+      font-size: 0.825rem;
+      color: #64748b;
       margin: 0;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
     [data-theme="dark"] .login-sub {
-      color: #a1a1aa;
+      color: #94a3b8;
     }
 
     .form-group-kov {
@@ -149,15 +180,15 @@
 
     .form-label-kov {
       display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #344054;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #334155;
       margin-bottom: 0.4rem;
       letter-spacing: 0.01em;
     }
 
     [data-theme="dark"] .form-label-kov {
-      color: #d4d4d8;
+      color: #cbd5e1;
     }
 
     .input-shell {
@@ -168,51 +199,51 @@
 
     .input-icon {
       position: absolute;
-      left: 12px;
-      color: #98a2b3;
-      font-size: 0.8125rem;
+      left: 13px;
+      color: #94a3b8;
+      font-size: 0.85rem;
       pointer-events: none;
-      transition: color 0.15s ease;
+      transition: color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .input-field-kov {
       width: 100%;
-      height: 40px;
-      padding: 0 12px 0 38px;
-      font-size: 0.875rem;
-      color: #101828;
+      height: 44px;
+      padding: 0 14px 0 40px;
+      font-size: 0.885rem;
+      color: #384d42;
       background: #ffffff;
-      border: 1px solid #d0d5dd;
-      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
       outline: none;
-      transition: all 0.15s ease;
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
       font-family: inherit;
     }
 
     [data-theme="dark"] .input-field-kov {
-      background: #18181b;
-      border-color: #27272a;
-      color: #f4f4f5;
+      background: #f5f3ed;
+      border-color: #264239;
+      color: #f8fafc;
     }
 
     .input-field-kov:focus {
-      border-color: #166534;
+      border-color: #059669;
       background: #ffffff;
-      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12);
+      box-shadow: 0 0 0 3.5px rgba(5, 150, 105, 0.16);
     }
 
     [data-theme="dark"] .input-field-kov:focus {
-      border-color: #22c55e;
-      background: #121215;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+      border-color: #10b981;
+      background: #fcfbf9;
+      box-shadow: 0 0 0 3.5px rgba(16, 185, 129, 0.2);
     }
 
     .input-shell:focus-within .input-icon {
-      color: #166534;
+      color: #059669;
     }
 
     [data-theme="dark"] .input-shell:focus-within .input-icon {
-      color: #4ade80;
+      color: #34d399;
     }
 
     .toggle-pw-btn {
@@ -220,60 +251,62 @@
       right: 10px;
       background: transparent;
       border: none;
-      color: #98a2b3;
+      color: #94a3b8;
       cursor: pointer;
       padding: 6px 8px;
-      font-size: 0.8125rem;
-      border-radius: 4px;
-      transition: color 0.15s ease;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      transition: color 0.18s ease;
       display: flex;
       align-items: center;
     }
 
     .toggle-pw-btn:hover {
-      color: #344054;
+      color: #059669;
     }
 
     [data-theme="dark"] .toggle-pw-btn:hover {
-      color: #f4f4f5;
+      color: #34d399;
     }
 
     .btn-submit-linear {
       width: 100%;
-      height: 42px;
-      background: #166534;
+      height: 44px;
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
       color: #ffffff;
-      border: 1px solid #14532d;
-      border-radius: 8px;
-      font-size: 0.875rem;
-      font-weight: 600;
+      border: 1px solid #047857;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
       letter-spacing: 0.01em;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.15s ease;
-      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28);
       margin-top: 0.5rem;
     }
 
     .btn-submit-linear:hover {
-      background: #14532d;
-      box-shadow: 0 2px 4px rgba(16, 24, 40, 0.1);
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.35);
     }
 
     .btn-submit-linear:active {
-      transform: scale(0.99);
+      transform: translateY(0) scale(0.99);
     }
 
     .alert-banner-error {
-      background: #fef3f2;
-      border: 1px solid #fee4e2;
-      border-radius: 8px;
-      padding: 10px 14px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 11px 14px;
       font-size: 0.8125rem;
-      color: #b42318;
+      font-weight: 600;
+      color: #991b1b;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -281,61 +314,68 @@
     }
 
     [data-theme="dark"] .alert-banner-error {
-      background: rgba(180, 35, 24, 0.15);
-      border-color: rgba(180, 35, 24, 0.3);
-      color: #fda29b;
+      background: rgba(220, 38, 38, 0.15);
+      border-color: rgba(220, 38, 38, 0.35);
+      color: #fca5a5;
     }
 
     .login-footer-meta {
       text-align: center;
       margin-top: 1.75rem;
       font-size: 0.75rem;
-      color: #667085;
+      color: #64748b;
       display: flex;
       flex-direction: column;
       gap: 6px;
     }
 
     [data-theme="dark"] .login-footer-meta {
-      color: #71717a;
+      color: #94a3b8;
     }
 
     .meta-security {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-      font-weight: 500;
-      color: #475467;
+      gap: 6px;
+      font-weight: 600;
+      color: #475569;
     }
 
     [data-theme="dark"] .meta-security {
-      color: #a1a1aa;
+      color: #cbd5e1;
     }
 
     .meta-security i {
-      color: #166534;
+      color: #059669;
       font-size: 0.75rem;
     }
 
     [data-theme="dark"] .meta-security i {
-      color: #4ade80;
+      color: #34d399;
     }
   </style>
 </head>
 <body>
 
+  <div class="login-theme-Corner">
+    <button type="button" class="btn-kov-outline btn-sm px-3 py-1.5" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
+      <i class="fas fa-moon kov-theme-icon"></i>
+      <span class="d-none d-sm-inline ms-1">Tema</span>
+    </button>
+  </div>
+
   <div class="login-container">
     <div class="login-card">
       <div class="login-brand-header">
         <div class="brand-logo-frame">
-          <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 40 40\'%3E%3Crect width=\'40\' height=\'40\' fill=\'%23166534\' rx=\'8\'/%3E%3Ctext x=\'50%25\' y=\'55%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\' font-family=\'sans-serif\' font-size=\'14\'%3EKOV%3C/text%3E%3C/svg%3E';">
+          <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 40 40\'%3E%3Crect width=\'40\' height=\'40\' fill=\'%23059669\' rx=\'8\'/%3E%3Ctext x=\'50%25\' y=\'55%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\' font-family=\'sans-serif\' font-size=\'14\'%3EKOV%3C/text%3E%3C/svg%3E';">
         </div>
         <div class="brand-kicker">
-          <i class="fas fa-shield-halved"></i> Internal Workspace
+          <i class="fas fa-shield-halved"></i> KOV Management Portal
         </div>
         <h1 class="login-title">Masuk ke Portal</h1>
-        <p class="login-sub">Sistem terpadu operasional, rekrutmen &amp; purchase order.</p>
+        <p class="login-sub">Sistem terpadu rekrutmen HR, operasional, purchase order &amp; IT.</p>
       </div>
 
       <% if (error) { %>
@@ -360,7 +400,7 @@
           <label for="password" class="form-label-kov">Kata Sandi</label>
           <div class="input-shell">
             <i class="fas fa-lock input-icon"></i>
-            <input type="password" class="input-field-kov" id="password" name="password" placeholder="Masukkan kata sandi" required autocomplete="current-password" style="padding-right: 38px;">
+            <input type="password" class="input-field-kov" id="password" name="password" placeholder="Masukkan kata sandi" required autocomplete="current-password" style="padding-right: 40px;">
             <button class="toggle-pw-btn" type="button" id="togglePassword" aria-label="Lihat Password">
               <i class="fas fa-eye" id="eyeIcon"></i>
             </button>

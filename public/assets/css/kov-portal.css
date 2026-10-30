@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 /**
  * KOV Management Portal - Unified Anti-Slop Framed-Sheet Design System
  * Architecture: Flat surfaces, hairline rules (1px solid #e2e8f0), KOV Botanical Pine (#166534)
@@ -48,7 +49,7 @@
   --cb-text-subtle: #94a3b8;
 
   /* Signature Multi-Stop Gradients */
-  --cb-grad-sunset: linear-gradient(135deg, #743ab8 0%, #a04cac 35%, #ea6c9f 70%, #fc7498 100%);
+  --cb-grad-sunset: linear-gradient(135deg, #064e3b 0%, #059669 55%, #10b981 100%);
   --cb-grad-ocean: linear-gradient(135deg, #0088f8 0%, #00a8f8 50%, #20c0f8 100%);
   --cb-grad-gain: linear-gradient(135deg, #059669 0%, #10b981 50%, #5cf888 100%);
   --cb-grad-loss: linear-gradient(135deg, #be123c 0%, #e11d48 50%, #fc4848 100%);
@@ -2868,7 +2869,7 @@
 .dd-brand-icon svg,
 .dd-brand-icon i {
   font-size: 1.15rem;
-  color: #131429;
+  color: #071a14;
 }
 
 .dd-brand-text {
@@ -5071,7 +5072,7 @@ input:focus-visible,
 
 /* Authentication & Login Screen Sync */
 .dd-auth-body {
-  background-color: #131429 !important;
+  background-color: #071a14 !important;
   background-image: radial-gradient(circle 800px at 50% 0%, rgba(22, 101, 52, 0.28) 0%, rgba(19, 20, 41, 0) 70%) !important;
   font-family: var(--dd-font-sans) !important;
   min-height: 100vh;
@@ -7845,23 +7846,64 @@ body,
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05) !important;
 }
 
+
 /* ==========================================================================
-   CILA ANTI-SLOP ART DIRECTION & FRAMED-SHEET MASTER ARCHITECTURE (V3)
-   Distilled from 247 curated gallery sites & 23 real product screens.
-   - Ground: #f4f6f8 framed chrome
-   - Work Sheet: #ffffff flat surface, 1px hairline (#e2e8f0), zero drop shadow
-   - Proportions: 230px Sidebar | 1fr Main Content | 260px Quiet Utility Rail
-   - Accent: KOV Botanical Pine (#166534) on data & primary action
-   - Type: IBM Plex Sans (400, 500, 600) + IBM Plex Mono tabular numbers
-   - Anti-Slop: Zero circular icon boxes, zero rainbow folder cards, zero SaaS banners
+   KOV MANAGEMENT PORTAL — OFFICIAL DESIGN SYSTEM & SMOOTH UI ENGINE (V11)
+   Aligned 100% with DESIGN_SYSTEM_KOV_PORTAL.md:
+   - Brand Palette: KOV Emerald (#059669 / #047857 / #ecfdf5) & Botanical Pine (#071a14 -> #020806)
+   - Typography: Plus Jakarta Sans (UI) + IBM Plex Mono (Technical & Tabular Metrics)
+   - Geometry: Cards 16-18px, Buttons & Inputs 10px, Pills & Badges 9999px
+   - Motion: Buttery-smooth cubic-bezier(0.22, 1, 0.36, 1) transitions & focus rings
+   - Viewport Lock: 100vh multi-pane independent scrolling with sticky topbar (top = 0)
    ========================================================================== */
 
-/* --- 1. Global Typography & Ground Tokens --- */
+:root {
+  --kov-font-sans: 'Plus Jakarta Sans', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --kov-font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --kov-emerald-50: #ecfdf5;
+  --kov-emerald-100: #d1fae5;
+  --kov-emerald-200: #a7f3d0;
+  --kov-emerald-500: #10b981;
+  --kov-emerald-600: #059669;
+  --kov-emerald-700: #047857;
+  --kov-emerald-800: #065f46;
+  --kov-emerald-900: #064e3b;
+  --kov-pine: #166534;
+
+  --dd-primary: #059669;
+  --dd-primary-hover: #047857;
+  --dd-primary-glow: rgba(5, 150, 105, 0.22);
+
+  --kov-bg-canvas: #f4f8f6;
+  --kov-surface: #ffffff;
+  --kov-surface-subtle: #f8fbf9;
+  --kov-border-color: #dcece5;
+  --kov-border-neutral: #e2e8f0;
+
+  --kov-ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --kov-transition-fast: 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  --kov-transition-smooth: 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+
+  --kov-shadow-card: 0 2px 10px -2px rgba(6, 78, 59, 0.05), 0 1px 3px 0 rgba(15, 23, 42, 0.03);
+  --kov-shadow-card-hover: 0 10px 24px -6px rgba(6, 78, 59, 0.09), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+  --kov-focus-ring: 0 0 0 3.5px rgba(5, 150, 105, 0.16);
+}
+
+/* Smooth cross-fade when toggling dark/light mode */
+html.kov-theme-transitioning,
+html.kov-theme-transitioning *,
+html.kov-theme-transitioning *::before,
+html.kov-theme-transitioning *::after {
+  transition: background-color 0.28s ease, border-color 0.28s ease, color 0.22s ease, box-shadow 0.28s ease !important;
+}
+
+/* --- 1. Global Typography & Canvas Ground --- */
 body,
 .dd-layout-root,
 .kov-app-shell {
-  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-  background-color: #f4f6f8 !important;
+  font-family: var(--kov-font-sans) !important;
+  background-color: var(--kov-bg-canvas) !important;
   color: #0f172a !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -7870,73 +7912,145 @@ body,
 [data-theme="dark"] body,
 [data-theme="dark"] .dd-layout-root,
 [data-theme="dark"] .kov-app-shell {
-  background-color: #090d16 !important;
+  background-color: #070d0b !important;
   color: #f8fafc !important;
 }
 
-/* Tabular figures on all metrics, tables, dates, and counts */
+/* Monospace & Tabular Numbers per KOV Design System Section 2 */
 .bento-metric-value,
+.kov-kpi-cell-val,
 .badge-tab-count,
 .kov-badge-count,
 .kov-pill-select,
 .kov-botanical-table td,
 .dd-cal-day,
 .font-mono,
+.font-monospace,
+#shareUrl,
 code,
 time {
   font-variant-numeric: tabular-nums !important;
 }
 
-/* --- 2. Shell & Inset Framed Sheet Architecture --- */
-.dd-layout-root {
+.font-mono,
+.font-monospace,
+#shareUrl {
+  font-family: var(--kov-font-mono) !important;
+}
+
+/* --- 2. Multi-Pane Shell & Strict Scroll Isolation --- */
+.dd-layout-root,
+.kov-app-shell {
   display: flex !important;
   min-height: 100vh !important;
-  background: #f4f6f8 !important;
+  width: 100% !important;
   gap: 0 !important;
   overflow-x: hidden !important;
 }
 
-/* Sidebar: Deep Obsidian Slate frame (230px, sleek & calm) */
-.dd-sidebar.kov-sidebar {
-  width: 230px !important;
-  flex: 0 0 230px !important;
-  background: #0f172a !important;
-  border-right: 1px solid #1e293b !important;
-  box-shadow: none !important;
-  z-index: 100 !important;
+@media (min-width: 992px) {
+  .dd-layout-root,
+  .kov-app-shell {
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+  }
 }
 
-/* Main Workspace Sheet: Takes all remaining space, flat #ffffff surface, 1px hairline rule */
-.dd-main-canvas.kov-main-content {
+/* Sidebar: KOV Botanical Deep Forest (#071a14 -> #020806) per Design System Section 3A */
+.dd-sidebar.kov-sidebar,
+.kov-sidebar {
+  width: 240px !important;
+  flex: 0 0 240px !important;
+  background: linear-gradient(180deg, #071a14 0%, #04120e 58%, #020806 100%) !important;
+  border-right: 1px solid rgba(16, 185, 129, 0.14) !important;
+  box-shadow: 4px 0 24px rgba(2, 8, 6, 0.18) !important;
+  z-index: 1030 !important;
+  transition: width var(--kov-transition-smooth), flex-basis var(--kov-transition-smooth), transform var(--kov-transition-smooth) !important;
+}
+
+@media (min-width: 992px) {
+  .dd-sidebar.kov-sidebar,
+  .kov-sidebar {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+  }
+
+  .dd-sidebar.kov-sidebar.collapsed,
+  .kov-sidebar.collapsed {
+    width: 76px !important;
+    flex: 0 0 76px !important;
+  }
+}
+
+/* Main Workspace Canvas: Independent Scroll Container */
+.dd-main-canvas.kov-main-content,
+.kov-main-content {
   flex: 1 1 0 !important;
   min-width: 0 !important;
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 12px !important;
-  margin: 8px !important;
-  padding: 22px 24px !important;
+  background: var(--kov-bg-canvas) !important;
+  border: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 24px 28px 24px !important;
   box-shadow: none !important;
   overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scroll-behavior: smooth !important;
 }
 
-[data-theme="dark"] .dd-main-canvas.kov-main-content {
-  background: #111827 !important;
-  border-color: #1f2937 !important;
+@media (min-width: 992px) {
+  .dd-main-canvas.kov-main-content,
+  .kov-main-content {
+    height: 100vh !important;
+    max-height: 100vh !important;
+  }
 }
 
-/* Right Utility Rail: Sleek 240px column */
+[data-theme="dark"] .dd-main-canvas.kov-main-content,
+[data-theme="dark"] .kov-main-content {
+  background: #070d0b !important;
+}
+
+/* Detail views that have .kov-content-body inside .kov-main-content */
+.kov-main-content:has(> .kov-content-body) {
+  padding: 0 !important;
+}
+.kov-content-body {
+  padding: 20px 24px 32px 24px !important;
+}
+
+/* Right Utility Panel: Sleek 256px Column Locked to Viewport */
 .dd-right-panel {
-  width: 240px !important;
-  min-width: 240px !important;
-  max-width: 240px !important;
-  flex: 0 0 240px !important;
-  background: #f8fafc !important;
-  border-left: 1px solid #e2e8f0 !important;
-  padding: 12px 10px !important;
+  width: 256px !important;
+  min-width: 256px !important;
+  max-width: 256px !important;
+  flex: 0 0 256px !important;
+  background: #ffffff !important;
+  border-left: 1px solid var(--kov-border-color) !important;
+  padding: 14px 14px !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
-  box-shadow: none !important;
+  gap: 14px !important;
+  box-shadow: -2px 0 12px rgba(6, 78, 59, 0.03) !important;
+}
+
+@media (min-width: 992px) {
+  .dd-right-panel {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    overflow-y: auto !important;
+  }
+}
+
+[data-theme="dark"] .dd-right-panel {
+  background: #0c1512 !important;
+  border-left-color: #1a2e26 !important;
 }
 
 .dd-user-name {
@@ -7947,171 +8061,272 @@ time {
   display: inline-block !important;
 }
 
-[data-theme="dark"] .dd-right-panel {
-  background: #090d16 !important;
-  border-left-color: #1f2937 !important;
+/* --- 3. Sidebar Navigation (KOV Botanical Emerald Theme) --- */
+.dd-sidebar-brand,
+.kov-sidebar-brand {
+  padding: 18px 16px 14px 16px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
 }
 
-/* --- 3. Sidebar Navigation Links: Zero White Sticker Boxes --- */
+.dd-brand-icon,
+.kov-brand-logo {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  padding: 2px !important;
+  background: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25) !important;
+  flex-shrink: 0 !important;
+}
+
+.dd-brand-text span:first-child {
+  font-weight: 800 !important;
+  font-size: 15px !important;
+  letter-spacing: -0.02em !important;
+  color: #ffffff !important;
+}
+
+.dd-brand-text .dd-dot {
+  color: #10b981 !important;
+  font-weight: 800 !important;
+}
+
+.dd-nav-group-title,
+.kov-nav-group-title {
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  color: #6ee7b7 !important;
+  opacity: 0.65 !important;
+  text-transform: uppercase !important;
+  padding: 16px 14px 6px 14px !important;
+}
+
 .dd-sidebar .dd-nav-item,
 .kov-sidebar .kov-nav-item {
   display: flex !important;
   align-items: center !important;
   gap: 12px !important;
-  padding: 8px 12px !important;
-  border-radius: 6px !important;
-  color: #94a3b8 !important;
+  padding: 9px 14px !important;
+  margin: 2px 10px !important;
+  border-radius: 10px !important;
+  color: rgba(226, 232, 240, 0.78) !important;
   background: transparent !important;
-  border: none !important;
+  border: 1px solid transparent !important;
   font-size: 13px !important;
   font-weight: 500 !important;
-  transition: all 0.15s ease !important;
+  transition: all var(--kov-transition-fast) !important;
   text-decoration: none !important;
-  margin-bottom: 2px !important;
   box-shadow: none !important;
+}
+
+.dd-sidebar .dd-nav-item i,
+.kov-sidebar .kov-nav-item i {
+  width: 18px !important;
+  text-align: center !important;
+  font-size: 13.5px !important;
+  color: rgba(167, 243, 208, 0.7) !important;
+  transition: transform var(--kov-transition-fast), color var(--kov-transition-fast) !important;
 }
 
 .dd-sidebar .dd-nav-item:hover,
 .kov-sidebar .kov-nav-item:hover {
   color: #ffffff !important;
-  background: rgba(255, 255, 255, 0.06) !important;
+  background: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.18) !important;
+  transform: translateX(2px) !important;
 }
 
-/* Subtle, refined active state (Never a white block on dark sidebar!) */
+.dd-sidebar .dd-nav-item:hover i,
+.kov-sidebar .kov-nav-item:hover i {
+  color: #34d399 !important;
+}
+
+/* Active Sidebar Item: Full Emerald Pill per Design System Section 3A */
 .dd-sidebar .dd-nav-item.active,
 .kov-sidebar .kov-nav-item.active,
 .dd-nav-item.active {
   color: #ffffff !important;
-  background: rgba(34, 197, 94, 0.12) !important;
-  border-left: 3px solid #22c55e !important;
-  font-weight: 600 !important;
-  box-shadow: none !important;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  border: 1px solid rgba(52, 211, 153, 0.35) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.32) !important;
+  transform: none !important;
 }
 
 .dd-sidebar .dd-nav-item.active i,
 .dd-sidebar .dd-nav-item.active svg,
 .kov-sidebar .kov-nav-item.active i {
-  color: #4ade80 !important;
+  color: #ffffff !important;
 }
 
-.dd-nav-group-title,
-.kov-nav-group-title {
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.08em !important;
-  color: #64748b !important;
-  text-transform: uppercase !important;
-  padding: 14px 12px 6px 12px !important;
-}
-
-/* Sidebar Footer & Bottom Widgets */
+/* Sidebar Footer */
 .kov-sidebar-footer,
 .dd-sidebar-footer {
-  border-top: 1px solid #1e293b !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
   padding: 12px !important;
-  background: transparent !important;
+  background: rgba(2, 8, 6, 0.35) !important;
 }
 
 .kov-theme-toggle-sidebar {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid #1e293b !important;
-  color: #94a3b8 !important;
-  border-radius: 6px !important;
-  padding: 6px 10px !important;
-  font-size: 12px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #cbd5e1 !important;
+  border-radius: 10px !important;
+  padding: 8px 12px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
   width: 100% !important;
-  margin-bottom: 6px !important;
+  margin-bottom: 8px !important;
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
-  box-shadow: none !important;
+  transition: all var(--kov-transition-fast) !important;
 }
 
 .kov-theme-toggle-sidebar:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(16, 185, 129, 0.16) !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
   color: #ffffff !important;
 }
 
 .kov-user-badge-box {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid #1e293b !important;
-  border-radius: 6px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 10px !important;
   padding: 8px 10px !important;
-  margin-bottom: 6px !important;
-  box-shadow: none !important;
+  margin-bottom: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.kov-user-avatar {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  background: linear-gradient(135deg, #059669, #047857) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 13px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
 }
 
 .kov-user-name {
-  color: #f1f5f9 !important;
-  font-size: 12px !important;
+  color: #f8fafc !important;
+  font-size: 12.5px !important;
 }
 
 .kov-logout-link {
-  background: transparent !important;
-  border: none !important;
-  color: #f87171 !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
+  background: rgba(220, 38, 38, 0.12) !important;
+  border: 1px solid rgba(220, 38, 38, 0.25) !important;
+  border-radius: 10px !important;
+  color: #fca5a5 !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 8px !important;
-  padding: 6px 4px !important;
+  padding: 7px 10px !important;
   text-decoration: none !important;
-  box-shadow: none !important;
+  transition: all var(--kov-transition-fast) !important;
 }
 
 .kov-logout-link:hover {
-  color: #ef4444 !important;
+  background: #dc2626 !important;
+  border-color: #dc2626 !important;
+  color: #ffffff !important;
 }
 
-/* --- 4. Topbar: 46px Clean Symmetrical Row --- */
-.dd-topbar {
+/* --- 4. Topbar: Sticky, Symmetrical 46px Search & Action Bar --- */
+.dd-topbar,
+.kov-topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1015 !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  height: 48px !important;
-  min-height: 48px !important;
-  background: transparent !important;
-  border: none !important;
+  min-height: 62px !important;
+  background: rgba(244, 248, 246, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(220, 236, 229, 0.85) !important;
   box-shadow: none !important;
-  padding: 0 0 14px 0 !important;
-  margin-bottom: 6px !important;
+  padding: 8px 0 !important;
+  margin-bottom: 14px !important;
+}
+
+.kov-main-content:has(> .kov-content-body) > .kov-topbar {
+  padding: 8px 24px !important;
+  margin-bottom: 0 !important;
+}
+
+[data-theme="dark"] .dd-topbar,
+[data-theme="dark"] .kov-topbar {
+  background: rgba(7, 13, 11, 0.92) !important;
+  border-bottom-color: #1a2e26 !important;
 }
 
 .dd-search-container {
   max-width: 480px !important;
+  width: 100% !important;
   height: 46px !important;
-  border-radius: 6px !important;
-  background: #f8fafc !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: none !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--kov-border-color) !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
   display: flex !important;
   align-items: center !important;
   padding: 0 14px !important;
   box-sizing: border-box !important;
   gap: 10px !important;
-  transition: border-color 0.15s ease, background 0.15s ease !important;
+  transition: border-color var(--kov-transition-fast), box-shadow var(--kov-transition-fast), background var(--kov-transition-fast) !important;
 }
 
 .dd-search-container:focus-within {
-  border-color: #166534 !important;
+  border-color: var(--kov-emerald-600) !important;
+  box-shadow: var(--kov-focus-ring) !important;
   background: #ffffff !important;
+}
+
+[data-theme="dark"] .dd-search-container {
+  background: #111e1a !important;
+  border-color: #1f362e !important;
+}
+
+[data-theme="dark"] .dd-search-container:focus-within {
+  border-color: #10b981 !important;
+  background: #14241f !important;
 }
 
 .dd-search-icon {
   position: static !important;
-  color: #94a3b8 !important;
-  font-size: 13px !important;
+  color: #64748b !important;
+  font-size: 13.5px !important;
   flex-shrink: 0 !important;
   pointer-events: none !important;
   margin: 0 !important;
   padding: 0 !important;
   width: auto !important;
+  transition: color var(--kov-transition-fast) !important;
+}
+
+.dd-search-container:focus-within .dd-search-icon {
+  color: var(--kov-emerald-600) !important;
 }
 
 .dd-search-input {
   font-family: inherit !important;
-  font-size: 13px !important;
+  font-size: 13.5px !important;
   color: #0f172a !important;
   background: transparent !important;
   border: none !important;
@@ -8123,155 +8338,271 @@ time {
   box-sizing: border-box !important;
 }
 
-/* Topbar CTA Export (46px standard in reviewer/admin) */
+[data-theme="dark"] .dd-search-input {
+  color: #f8fafc !important;
+}
+
+/* Topbar CTA Button (strictly 46px height for symmetrical alignment & test compliance) */
 .btn-drive-upload {
   height: 46px !important;
-  padding: 0 16px !important;
-  border-radius: 6px !important;
+  padding: 0 18px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #047857 !important;
   font-size: 13px !important;
+  font-weight: 700 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.22) !important;
+  text-decoration: none !important;
+  transition: all var(--kov-transition-fast) !important;
+}
+
+.btn-drive-upload:hover {
+  background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(5, 150, 105, 0.3) !important;
+}
+
+.btn-topbar-action {
+  height: 40px !important;
+  padding: 0 14px !important;
+  border-radius: 10px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--kov-border-color) !important;
+  color: #334155 !important;
+  font-size: 12.5px !important;
   font-weight: 600 !important;
   display: inline-flex !important;
   align-items: center !important;
-  box-shadow: none !important;
+  gap: 7px !important;
+  text-decoration: none !important;
+  transition: all var(--kov-transition-fast) !important;
 }
 
-/* --- 5. Executive Command Header: Clean Architectural Noun Title --- */
+.btn-topbar-action:hover {
+  background: #f0fdf4 !important;
+  border-color: #a7f3d0 !important;
+  color: #065f46 !important;
+  transform: translateY(-1px) !important;
+}
+
+[data-theme="dark"] .btn-topbar-action {
+  background: #111e1a !important;
+  border-color: #1f362e !important;
+  color: #e2e8f0 !important;
+}
+
+[data-theme="dark"] .btn-topbar-action:hover {
+  background: #162923 !important;
+  border-color: #059669 !important;
+  color: #34d399 !important;
+}
+
+/* Sub-navigation Pill Tabs (Berita Acara / PO / Surat Tugas) */
+.nav-link-modern {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 16px !important;
+  border-radius: 9999px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  background: #ffffff !important;
+  border: 1px solid var(--kov-border-color) !important;
+  text-decoration: none !important;
+  white-space: nowrap !important;
+  transition: all var(--kov-transition-fast) !important;
+}
+
+.nav-link-modern:hover {
+  background: #f0fdf4 !important;
+  color: #059669 !important;
+  border-color: #a7f3d0 !important;
+  transform: translateY(-1px) !important;
+}
+
+.nav-link-modern.active {
+  background: #059669 !important;
+  color: #ffffff !important;
+  border-color: #059669 !important;
+  box-shadow: 0 3px 10px rgba(5, 150, 105, 0.24) !important;
+}
+
+.nav-link-modern.active i {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .nav-link-modern {
+  background: #111e1a !important;
+  border-color: #1f362e !important;
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .nav-link-modern.active {
+  background: #059669 !important;
+  border-color: #10b981 !important;
+  color: #ffffff !important;
+}
+
+/* --- 5. Executive Hero Banner & Action Buttons --- */
 .dd-hero-banner {
-  background: #fafbfc !important;
-  border: 1px solid #e8eaec !important;
-  border-radius: 8px !important;
-  padding: 12px 18px !important;
-  margin-bottom: 14px !important;
+  background: linear-gradient(135deg, #ffffff 0%, #f7fcf9 100%) !important;
+  border: 1px solid var(--kov-border-color) !important;
+  border-radius: 16px !important;
+  padding: 18px 22px !important;
+  margin-bottom: 16px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   flex-wrap: wrap !important;
-  gap: 12px !important;
-  box-shadow: none !important;
+  gap: 14px !important;
+  box-shadow: var(--kov-shadow-card) !important;
+  transition: box-shadow var(--kov-transition-smooth), border-color var(--kov-transition-smooth) !important;
 }
 
 [data-theme="dark"] .dd-hero-banner {
-  background: #162032 !important;
-  border-color: #1f2937 !important;
-}
-
-.kov-hero-badge {
-  display: none !important;
+  background: linear-gradient(135deg, #111e1a 0%, #0d1714 100%) !important;
+  border-color: #1f362e !important;
 }
 
 .dd-hero-content {
-  flex: 1 1 260px !important;
+  flex: 1 1 280px !important;
 }
 
 .dd-hero-title {
-  font-size: 17px !important;
-  font-weight: 600 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
   color: #0f172a !important;
-  letter-spacing: -0.01em !important;
-  margin: 0 !important;
-  line-height: 1.25 !important;
+  letter-spacing: -0.015em !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.3 !important;
 }
 
 [data-theme="dark"] .dd-hero-title {
-  color: #f9fafb !important;
+  color: #f8fafc !important;
 }
 
 .dd-hero-subtitle {
-  display: none !important;
+  display: block !important;
+  font-size: 13px !important;
+  color: #64748b !important;
+  margin: 0 0 8px 0 !important;
+  line-height: 1.45 !important;
+}
+
+[data-theme="dark"] .dd-hero-subtitle {
+  color: #94a3b8 !important;
 }
 
 .dd-hero-actions {
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
-  flex-wrap: nowrap !important;
+  flex-wrap: wrap !important;
 }
 
-.btn-dd-hero {
-  background: #166534 !important;
+.btn-dd-hero,
+.btn-kov-primary {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
   color: #ffffff !important;
-  border: 1px solid #166534 !important;
-  border-radius: 6px !important;
-  font-size: 12.5px !important;
+  border: 1px solid #047857 !important;
+  border-radius: 10px !important;
+  font-size: 13px !important;
   font-weight: 600 !important;
-  padding: 6px 14px !important;
-  height: 34px !important;
+  padding: 8px 16px !important;
+  min-height: 38px !important;
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 6px !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2) !important;
   cursor: pointer !important;
-  transition: background 0.15s ease !important;
+  text-decoration: none !important;
+  transition: all var(--kov-transition-fast) !important;
   white-space: nowrap !important;
 }
 
-.btn-dd-hero:hover {
-  background: #14532d !important;
-  border-color: #14532d !important;
+.btn-dd-hero:hover,
+.btn-kov-primary:hover {
+  background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important;
+  border-color: #065f46 !important;
   color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 14px rgba(5, 150, 105, 0.28) !important;
 }
 
-.btn-kov-outline {
+.btn-kov-outline,
+.btn-kov-secondary {
   background: #ffffff !important;
   color: #334155 !important;
   border: 1px solid #cbd5e1 !important;
-  border-radius: 6px !important;
+  border-radius: 10px !important;
   font-size: 12.5px !important;
-  font-weight: 500 !important;
-  padding: 6px 12px !important;
-  height: 34px !important;
+  font-weight: 600 !important;
+  padding: 7px 14px !important;
+  min-height: 36px !important;
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 6px !important;
-  box-shadow: none !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
   text-decoration: none !important;
-  transition: all 0.15s ease !important;
+  transition: all var(--kov-transition-fast) !important;
   white-space: nowrap !important;
 }
 
-.btn-kov-outline:hover {
-  background: #f8fafc !important;
-  border-color: #94a3b8 !important;
-  color: #0f172a !important;
+.btn-kov-outline:hover,
+.btn-kov-secondary:hover {
+  background: #f0fdf4 !important;
+  border-color: #a7f3d0 !important;
+  color: #065f46 !important;
+  transform: translateY(-1px) !important;
 }
 
-[data-theme="dark"] .btn-kov-outline {
-  background: #1e293b !important;
-  border-color: #334155 !important;
+[data-theme="dark"] .btn-kov-outline,
+[data-theme="dark"] .btn-kov-secondary {
+  background: #162923 !important;
+  border-color: #264239 !important;
   color: #e2e8f0 !important;
 }
 
-/* --- 6. Executive KPI Metric Strip (Anti-Slop: Type, Not Tiles - Zero Broken Text Wrapping) --- */
-.kov-kpi-row {
+[data-theme="dark"] .btn-kov-outline:hover,
+[data-theme="dark"] .btn-kov-secondary:hover {
+  background: #1d362e !important;
+  border-color: #10b981 !important;
+  color: #34d399 !important;
+}
+
+/* --- 6. Executive KPI Metric Cards & Strip --- */
+.kov-kpi-row,
+.kov-kpi-strip {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
   background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 8px !important;
+  border: 1px solid var(--kov-border-color) !important;
+  border-radius: 16px !important;
   overflow: hidden !important;
   margin: 0 0 16px 0 !important;
-  box-shadow: none !important;
+  box-shadow: var(--kov-shadow-card) !important;
   width: 100% !important;
 }
 
-[data-theme="dark"] .kov-kpi-row {
-  background: #111827 !important;
-  border-color: #1f2937 !important;
+[data-theme="dark"] .kov-kpi-row,
+[data-theme="dark"] .kov-kpi-strip {
+  background: #111e1a !important;
+  border-color: #1f362e !important;
 }
 
 .coinbase-kpi-card,
-.coinbase-kpi-card.kpi-total,
-.coinbase-kpi-card.kpi-pending,
-.coinbase-kpi-card.kpi-accepted,
-.coinbase-kpi-card.kpi-duplicate,
-.coinbase-kpi-card.kpi-info,
-.coinbase-kpi-card:nth-child(1),
-.coinbase-kpi-card:nth-child(2),
-.coinbase-kpi-card:nth-child(3),
-.coinbase-kpi-card:nth-child(4) {
-  padding: 12px 16px !important;
+.kov-kpi-cell {
+  padding: 15px 18px !important;
   background: transparent !important;
-  border-right: 1px solid #f1f5f9 !important;
+  border-right: 1px solid #edf5f1 !important;
   border-top: none !important;
   border-bottom: none !important;
   border-left: none !important;
@@ -8283,48 +8614,60 @@ time {
   box-shadow: none !important;
   text-decoration: none !important;
   cursor: pointer !important;
-  transition: background 0.15s ease !important;
+  transition: background var(--kov-transition-fast), box-shadow var(--kov-transition-fast) !important;
 }
 
-.coinbase-kpi-card:last-child {
+.coinbase-kpi-card:last-child,
+.kov-kpi-cell:last-child {
   border-right: none !important;
 }
 
-.coinbase-kpi-card:hover {
-  background: #fafbfc !important;
+.coinbase-kpi-card:hover,
+.kov-kpi-cell:hover {
+  background: #f4faf7 !important;
 }
 
-[data-theme="dark"] .coinbase-kpi-card {
-  border-right-color: #1f2937 !important;
+[data-theme="dark"] .coinbase-kpi-card,
+[data-theme="dark"] .kov-kpi-cell {
+  border-right-color: #1f362e !important;
 }
 
-[data-theme="dark"] .coinbase-kpi-card:hover {
-  background: #162032 !important;
+[data-theme="dark"] .coinbase-kpi-card:hover,
+[data-theme="dark"] .kov-kpi-cell:hover {
+  background: #162923 !important;
 }
 
-/* Suppress all circular icon containers on KPIs */
-.coinbase-kpi-card .kov-metric-icon-box {
-  display: none !important;
+.coinbase-kpi-card.active,
+.kov-kpi-cell.active {
+  background: #f0fdf4 !important;
+  box-shadow: inset 0 -3px 0 0 #059669 !important;
 }
 
-.bento-metric-title {
+[data-theme="dark"] .coinbase-kpi-card.active,
+[data-theme="dark"] .kov-kpi-cell.active {
+  background: rgba(5, 150, 105, 0.14) !important;
+  box-shadow: inset 0 -3px 0 0 #10b981 !important;
+}
+
+.bento-metric-title,
+.kov-kpi-cell-label {
   font-size: 11px !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;
   color: #64748b !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  margin-bottom: 3px !important;
-  line-height: 1.2 !important;
-  display: block !important;
+  margin-bottom: 4px !important;
+  line-height: 1.25 !important;
 }
 
-.bento-metric-value {
+.bento-metric-value,
+.kov-kpi-cell-val {
   font-size: 24px !important;
-  font-weight: 600 !important;
-  line-height: 1.1 !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
   color: #0f172a !important;
   white-space: nowrap !important;
   letter-spacing: -0.02em !important;
@@ -8332,40 +8675,35 @@ time {
   margin-bottom: 3px !important;
 }
 
-[data-theme="dark"] .bento-metric-value {
-  color: #f9fafb !important;
+[data-theme="dark"] .bento-metric-value,
+[data-theme="dark"] .kov-kpi-cell-val {
+  color: #f8fafc !important;
 }
 
-.bento-metric-sub {
-  font-size: 11px !important;
-  color: #94a3b8 !important;
+.bento-metric-sub,
+.kov-kpi-cell-sub {
+  font-size: 11.5px !important;
+  color: #64748b !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  font-weight: 400 !important;
-  display: block !important;
+  font-weight: 500 !important;
 }
 
-/* Subtle active bottom hairline on active KPI */
-.coinbase-kpi-card.active {
-  background: #fafbfc !important;
-  box-shadow: inset 0 -2px 0 0 #166534 !important;
-}
-
-/* --- 7. Division Filter Bar: Single-Row Segmented Control (Zero Wrapping) --- */
+/* --- 7. Division Segmented Filter Bar (8 Divisions) --- */
 .dd-folders-grid {
   display: flex !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  gap: 4px !important;
-  background: #f1f5f9 !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 8px !important;
-  padding: 3px !important;
-  margin-bottom: 14px !important;
-  box-shadow: none !important;
+  gap: 6px !important;
+  background: #ffffff !important;
+  border: 1px solid var(--kov-border-color) !important;
+  border-radius: 12px !important;
+  padding: 5px !important;
+  margin-bottom: 16px !important;
+  box-shadow: var(--kov-shadow-card) !important;
   width: 100% !important;
 }
 
@@ -8374,128 +8712,114 @@ time {
 }
 
 [data-theme="dark"] .dd-folders-grid {
-  background: #162032 !important;
-  border-color: #1f2937 !important;
+  background: #111e1a !important;
+  border-color: #1f362e !important;
 }
 
 .dd-folder-card {
-  flex: 0 0 auto !important;
+  flex: 1 0 auto !important;
   background: transparent !important;
-  border: none !important;
-  border-radius: 6px !important;
-  padding: 4px 10px !important;
-  min-height: 28px !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
+  border: 1px solid transparent !important;
+  border-radius: 9px !important;
+  padding: 6px 12px !important;
+  min-height: 34px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
   color: #475569 !important;
   cursor: pointer !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 6px !important;
+  justify-content: center !important;
+  gap: 7px !important;
   white-space: nowrap !important;
-  transition: all 0.15s ease !important;
+  transition: all var(--kov-transition-fast) !important;
   box-shadow: none !important;
   text-decoration: none !important;
   outline: none !important;
 }
 
 .dd-folder-card:hover {
-  background: rgba(255, 255, 255, 0.7) !important;
-  color: #0f172a !important;
+  background: #f0fdf4 !important;
+  color: #059669 !important;
   transform: none !important;
 }
 
+[data-theme="dark"] .dd-folder-card {
+  color: #94a3b8 !important;
+}
+
 [data-theme="dark"] .dd-folder-card:hover {
-  background: rgba(255, 255, 255, 0.08) !important;
-  color: #f8fafc !important;
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #34d399 !important;
 }
 
 .dd-folder-card.active {
-  background: #ffffff !important;
-  color: #166534 !important;
-  font-weight: 600 !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-  border: none !important;
+  background: #059669 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25) !important;
+  border-color: #047857 !important;
 }
 
 [data-theme="dark"] .dd-folder-card.active {
-  background: #1e293b !important;
-  color: #4ade80 !important;
+  background: #059669 !important;
+  color: #ffffff !important;
+  border-color: #10b981 !important;
 }
 
 .dd-folder-title,
 .dd-folder-name {
-  font-size: 12px !important;
+  font-size: 12.5px !important;
   font-weight: inherit !important;
   color: inherit !important;
   margin: 0 !important;
 }
 
 .badge-tab-count {
-  background: #e2e8f0 !important;
+  background: #f1f5f9 !important;
   color: #475569 !important;
-  font-size: 10px !important;
-  font-weight: 600 !important;
-  padding: 1px 6px !important;
-  border-radius: 999px !important;
-  line-height: 1.2 !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  padding: 1px 7px !important;
+  border-radius: 9999px !important;
+  line-height: 1.3 !important;
   font-variant-numeric: tabular-nums !important;
+  transition: all var(--kov-transition-fast) !important;
 }
 
 .dd-folder-card.active .badge-tab-count {
-  background: #166534 !important;
+  background: rgba(255, 255, 255, 0.22) !important;
   color: #ffffff !important;
 }
 
-[data-theme="dark"] .dd-folder-card.active .badge-tab-count {
-  background: #22c55e !important;
-  color: #04250e !important;
+[data-theme="dark"] .badge-tab-count {
+  background: #1e293b !important;
+  color: #cbd5e1 !important;
 }
 
-/* Neutralize legacy rainbow backgrounds */
-.dd-folder-coral,
-.dd-folder-royal,
-.dd-folder-amber,
-.dd-folder-cyan,
-.dd-folder-violet,
-.dd-folder-emerald,
-.dd-folder-rose,
-.dd-folder-indigo,
-.folder-all,
-.folder-coral,
-.folder-blue,
-.folder-amber,
-.folder-cyan,
-.folder-violet,
-.folder-fat,
-.folder-rose {
-  background: transparent !important;
-  border: none !important;
-}
-
-.dd-folder-icon,
-.dd-folder-icon-box {
-  display: none !important;
-}
-
-/* --- 8. Candidate Table: Flat Framed Surface & Clean Typography --- */
+/* --- 8. Cards, Filter Pills & Data Tables (KOV Botanical Standard) --- */
+.kov-card,
 .kov-table-card {
   background: #ffffff !important;
-  border: 1px solid #e8eaec !important;
-  border-radius: 8px !important;
-  box-shadow: none !important;
+  border: 1px solid var(--kov-border-color) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--kov-shadow-card) !important;
   overflow: hidden !important;
   margin-bottom: 20px !important;
+  transition: box-shadow var(--kov-transition-smooth), border-color var(--kov-transition-smooth) !important;
 }
 
+[data-theme="dark"] .kov-card,
 [data-theme="dark"] .kov-table-card {
-  background: #111827 !important;
-  border-color: #1f2937 !important;
+  background: #111e1a !important;
+  border-color: #1f362e !important;
 }
 
+.kov-card-header,
 .kov-table-header-box {
-  padding: 12px 18px !important;
-  border-bottom: 1px solid #f1f5f9 !important;
+  padding: 14px 20px !important;
+  border-bottom: 1px solid #edf5f1 !important;
+  background: #ffffff !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -8503,17 +8827,35 @@ time {
   gap: 12px !important;
 }
 
+[data-theme="dark"] .kov-card-header,
 [data-theme="dark"] .kov-table-header-box {
-  border-bottom-color: #1f2937 !important;
+  background: #111e1a !important;
+  border-bottom-color: #1f362e !important;
 }
 
 .kov-table-squircle {
-  display: none !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 10px !important;
+  background: #ecfdf5 !important;
+  color: #059669 !important;
+  border: 1px solid #a7f3d0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 14px !important;
 }
 
-.kov-table-title {
-  font-size: 14px !important;
-  font-weight: 600 !important;
+[data-theme="dark"] .kov-table-squircle {
+  background: rgba(5, 150, 105, 0.18) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+  color: #34d399 !important;
+}
+
+.kov-table-title,
+.kov-card-title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
   color: #0f172a !important;
   margin: 0 !important;
   display: flex !important;
@@ -8521,31 +8863,38 @@ time {
   gap: 8px !important;
 }
 
-[data-theme="dark"] .kov-table-title {
-  color: #f9fafb !important;
+[data-theme="dark"] .kov-table-title,
+[data-theme="dark"] .kov-card-title {
+  color: #f8fafc !important;
 }
 
 .kov-badge-count {
   font-size: 11px !important;
-  font-weight: 600 !important;
-  background: #f1f5f9 !important;
-  color: #475569 !important;
-  border: 1px solid #e2e8f0 !important;
-  padding: 1px 6px !important;
-  border-radius: 4px !important;
+  font-weight: 700 !important;
+  background: #ecfdf5 !important;
+  color: #059669 !important;
+  border: 1px solid #a7f3d0 !important;
+  padding: 2px 8px !important;
+  border-radius: 9999px !important;
 }
 
-/* Status Filter Pill Bar: Clean single-row tabs */
+[data-theme="dark"] .kov-badge-count {
+  background: rgba(5, 150, 105, 0.2) !important;
+  color: #34d399 !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+/* Status Filter Pill Bar per Design System Section 3F */
 .kov-status-filter-bar {
-  padding: 6px 14px !important;
-  background: #fafbfc !important;
-  border-bottom: 1px solid #f1f5f9 !important;
+  padding: 10px 18px !important;
+  background: #f8fbf9 !important;
+  border-bottom: 1px solid #edf5f1 !important;
   display: flex !important;
   align-items: center !important;
   flex-wrap: nowrap !important;
   overflow-x: auto !important;
   scrollbar-width: none !important;
-  gap: 4px !important;
+  gap: 6px !important;
 }
 
 .kov-status-filter-bar::-webkit-scrollbar {
@@ -8553,76 +8902,88 @@ time {
 }
 
 [data-theme="dark"] .kov-status-filter-bar {
-  background: #162032 !important;
-  border-bottom-color: #1f2937 !important;
+  background: #0d1714 !important;
+  border-bottom-color: #1f362e !important;
 }
 
-.kov-filter-pill-botanical {
-  border-radius: 5px !important;
-  font-size: 11.5px !important;
-  font-weight: 500 !important;
-  padding: 4px 10px !important;
-  border: 1px solid #e2e8f0 !important;
+.kov-filter-pill-botanical,
+.filter-btn,
+.filter-pill-btn {
+  border-radius: 9999px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 5px 13px !important;
+  border: 1px solid #dcece5 !important;
   background: #ffffff !important;
   color: #475569 !important;
-  box-shadow: none !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02) !important;
   cursor: pointer !important;
-  transition: all 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all var(--kov-transition-fast) !important;
   white-space: nowrap !important;
   flex: 0 0 auto !important;
 }
 
 .kov-filter-pill-botanical i {
-  display: none !important;
+  display: inline-block !important;
+  font-size: 11px !important;
 }
 
-.kov-filter-pill-botanical:hover {
-  background: #f8fafc !important;
-  border-color: #cbd5e1 !important;
-  color: #0f172a !important;
+.kov-filter-pill-botanical:hover,
+.filter-btn:hover,
+.filter-pill-btn:hover {
+  background: #f0fdf4 !important;
+  border-color: #a7f3d0 !important;
+  color: #059669 !important;
+  transform: translateY(-1px) !important;
 }
 
-.kov-filter-pill-botanical.active {
-  background: #0f172a !important;
+.kov-filter-pill-botanical.active,
+.filter-btn.active,
+.filter-pill-btn.active {
+  background: #059669 !important;
   color: #ffffff !important;
-  border-color: #0f172a !important;
-  font-weight: 600 !important;
+  border-color: #059669 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25) !important;
 }
 
-[data-theme="dark"] .kov-filter-pill-botanical {
-  background: #1e293b !important;
-  border-color: #334155 !important;
+.kov-filter-pill-botanical.active i,
+.filter-btn.active i {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .kov-filter-pill-botanical,
+[data-theme="dark"] .filter-btn,
+[data-theme="dark"] .filter-pill-btn {
+  background: #162923 !important;
+  border-color: #264239 !important;
   color: #cbd5e1 !important;
 }
 
-[data-theme="dark"] .kov-filter-pill-botanical.active {
-  background: #22c55e !important;
-  color: #04250e !important;
-  border-color: #22c55e !important;
+[data-theme="dark"] .kov-filter-pill-botanical.active,
+[data-theme="dark"] .filter-btn.active,
+[data-theme="dark"] .filter-pill-btn.active {
+  background: #059669 !important;
+  color: #ffffff !important;
+  border-color: #10b981 !important;
 }
 
-/* Botanical Data Table Rules & Full Horizontal Scroll Protection */
+/* Data Tables: Header #f4faf7 per Design System Section 3F */
 .kov-botanical-table-wrap,
-#candidateTableView {
+#candidateTableView,
+.table-responsive-modern {
   width: 100% !important;
   overflow-x: auto !important;
-  overflow-y: hidden !important;
   background: #ffffff !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
 }
 
-.kov-botanical-table-wrap::-webkit-scrollbar,
-#candidateTableView::-webkit-scrollbar {
-  height: 6px !important;
-}
-
-.kov-botanical-table-wrap::-webkit-scrollbar-thumb,
-#candidateTableView::-webkit-scrollbar-thumb {
-  background: #cbd5e1 !important;
-  border-radius: 999px !important;
+[data-theme="dark"] .kov-botanical-table-wrap,
+[data-theme="dark"] #candidateTableView,
+[data-theme="dark"] .table-responsive-modern {
+  background: #111e1a !important;
 }
 
 .kov-botanical-table {
@@ -8631,445 +8992,367 @@ time {
   border-collapse: collapse !important;
 }
 
-.kov-botanical-table th,
-.kov-botanical-table td {
-  box-sizing: border-box !important;
-}
-
 .kov-botanical-table th:nth-child(1),
-.kov-botanical-table td:nth-child(1) { width: 48px !important; text-align: center !important; }
-
+.kov-botanical-table td:nth-child(1) { width: 52px !important; text-align: center !important; }
 .kov-botanical-table th:nth-child(2),
-.kov-botanical-table td:nth-child(2) { width: 98px !important; white-space: nowrap !important; }
-
+.kov-botanical-table td:nth-child(2) { width: 100px !important; white-space: nowrap !important; }
 .kov-botanical-table th:nth-child(3),
-.kov-botanical-table td:nth-child(3) { width: auto !important; min-width: 160px !important; }
-
+.kov-botanical-table td:nth-child(3) { width: auto !important; min-width: 165px !important; }
 .kov-botanical-table th:nth-child(4),
-.kov-botanical-table td:nth-child(4) { width: 112px !important; }
-
+.kov-botanical-table td:nth-child(4) { width: 116px !important; }
 .kov-botanical-table th:nth-child(5),
-.kov-botanical-table td:nth-child(5) { width: 125px !important; }
-
+.kov-botanical-table td:nth-child(5) { width: 128px !important; }
 .kov-botanical-table th:nth-child(6),
-.kov-botanical-table td:nth-child(6) { width: 114px !important; }
-
+.kov-botanical-table td:nth-child(6) { width: 120px !important; }
 .kov-botanical-table th:nth-child(7),
-.kov-botanical-table td:nth-child(7) { width: 75px !important; text-align: center !important; }
-
+.kov-botanical-table td:nth-child(7) { width: 82px !important; text-align: center !important; }
 .kov-botanical-table th:nth-child(8),
-.kov-botanical-table td:nth-child(8) { width: 135px !important; text-align: center !important; }
+.kov-botanical-table td:nth-child(8) { width: 138px !important; text-align: center !important; }
 
-.kov-botanical-table thead th {
+.kov-botanical-table thead th,
+.kov-table thead th {
   font-size: 11px !important;
-  font-weight: 600 !important;
-  color: #64748b !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
-  padding: 8px 10px !important;
-  background: #f8fafc !important;
-  border-bottom: 1px solid #e2e8f0 !important;
-  text-align: left !important;
+  padding: 11px 12px !important;
+  background: #f4faf7 !important;
+  border-bottom: 1px solid #dcece5 !important;
   white-space: nowrap !important;
 }
 
-[data-theme="dark"] .kov-botanical-table thead th {
-  background: #162032 !important;
-  border-bottom-color: #1f2937 !important;
+[data-theme="dark"] .kov-botanical-table thead th,
+[data-theme="dark"] .kov-table thead th {
+  background: #0d1714 !important;
+  border-bottom-color: #1f362e !important;
   color: #94a3b8 !important;
 }
 
-.kov-botanical-table tbody td {
-  font-size: 12.5px !important;
+.kov-botanical-table tbody td,
+.kov-table tbody td {
+  font-size: 13px !important;
   color: #1e293b !important;
-  padding: 9px 12px !important;
+  padding: 11px 12px !important;
   border-bottom: 1px solid #f1f5f9 !important;
   vertical-align: middle !important;
+  transition: background-color var(--kov-transition-fast) !important;
 }
 
-[data-theme="dark"] .kov-botanical-table tbody td {
+[data-theme="dark"] .kov-botanical-table tbody td,
+[data-theme="dark"] .kov-table tbody td {
   color: #e2e8f0 !important;
-  border-bottom-color: #1f2937 !important;
+  border-bottom-color: #1a2e26 !important;
 }
 
-.kov-botanical-table tbody tr:hover {
-  background: #fafbfc !important;
+.kov-botanical-table tbody tr:hover td,
+.kov-table tbody tr:hover td {
+  background-color: #f4faf7 !important;
 }
 
-[data-theme="dark"] .kov-botanical-table tbody tr:hover {
-  background: #162032 !important;
+[data-theme="dark"] .kov-botanical-table tbody tr:hover td,
+[data-theme="dark"] .kov-table tbody tr:hover td {
+  background-color: #162923 !important;
 }
 
-/* Document Format Badge (Minimalist Doc Tag) */
-.dd-file-badge,
-.file-badge-pill {
-  font-family: "IBM Plex Mono", monospace !important;
-  font-size: 10px !important;
-  font-weight: 600 !important;
-  padding: 2px 5px !important;
-  border-radius: 4px !important;
-  background: #f8fafc !important;
-  border: 1px solid #e2e8f0 !important;
-  color: #64748b !important;
-  display: inline-block !important;
-  text-align: center !important;
-  box-shadow: none !important;
-  line-height: 1.2 !important;
-}
-
-.dd-file-badge.dd-badge-pdf,
-.file-badge-pill.pdf-badge {
-  background: #fef2f2 !important;
-  border-color: #fecaca !important;
-  color: #dc2626 !important;
-}
-
-/* Candidate Monogram Avatar */
-.kov-avatar-monogram {
-  width: 30px !important;
-  height: 30px !important;
-  border-radius: 6px !important;
-  background: #f1f5f9 !important;
-  color: #0f172a !important;
-  border: 1px solid #e2e8f0 !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
+/* Candidate Monogram Avatar (Green Tint per Design System Section 3F) */
+.kov-avatar-monogram,
+.user-avatar-initials {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 9px !important;
+  background: #ecfdf5 !important;
+  color: #059669 !important;
+  border: 1px solid #a7f3d0 !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   flex-shrink: 0 !important;
 }
 
-.kov-candidate-name {
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  color: #0f172a !important;
-  line-height: 1.2 !important;
+[data-theme="dark"] .kov-avatar-monogram,
+[data-theme="dark"] .user-avatar-initials {
+  background: rgba(5, 150, 105, 0.2) !important;
+  color: #34d399 !important;
+  border-color: rgba(16, 185, 129, 0.35) !important;
 }
 
-.kov-candidate-sub {
-  font-size: 11px !important;
-  color: #64748b !important;
-  font-family: "IBM Plex Mono", monospace !important;
-  margin-top: 2px !important;
-}
-
-.kov-table-date {
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  color: #0f172a !important;
+/* Status Pills: Rounded 9999px with WCAG 2.1 AA High Contrast */
+.status-pill-modern {
+  border-radius: 9999px !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  padding: 3px 10px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
   white-space: nowrap !important;
-  font-variant-numeric: tabular-nums !important;
-  line-height: 1.2 !important;
 }
 
-.kov-table-time {
-  font-family: "IBM Plex Mono", monospace !important;
-  font-size: 10.5px !important;
-  color: #94a3b8 !important;
-  white-space: nowrap !important;
-  font-variant-numeric: tabular-nums !important;
-  margin-top: 1px !important;
-}
-
-.kov-td-action {
-  position: static !important;
-  right: auto !important;
-  background: #ffffff !important;
-  border-left: none !important;
-  z-index: auto !important;
-}
-
-.kov-botanical-table thead th:last-child {
-  position: static !important;
-  right: auto !important;
-  background: #f8fafc !important;
-  border-left: none !important;
-  z-index: auto !important;
-}
-
-[data-theme="dark"] .kov-td-action {
-  background: #111827 !important;
-  border-left: none !important;
-}
-
-[data-theme="dark"] .kov-botanical-table thead th:last-child {
-  background: #162032 !important;
-  border-left: none !important;
-}
-
-/* Status Badges: Low-Chroma Tonal Fills */
 .status-pill-modern.pill-success,
 .status-diterima {
-  background: #ecfdf5 !important;
+  background: #d1fae5 !important;
   color: #065f46 !important;
   border: 1px solid #a7f3d0 !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  border-radius: 4px !important;
-  padding: 2px 7px !important;
 }
 
 .status-pill-modern.pill-info,
 .status-belum {
-  background: #eff6ff !important;
+  background: #dbeafe !important;
   color: #1e40af !important;
   border: 1px solid #bfdbfe !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  border-radius: 4px !important;
-  padding: 2px 7px !important;
 }
 
 .status-pill-modern.pill-warning,
 .status-dipertimbangkan {
-  background: #fffbeb !important;
-  color: #92400e !important;
+  background: #fef3c7 !important;
+  color: #854d0e !important;
   border: 1px solid #fde68a !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  border-radius: 4px !important;
-  padding: 2px 7px !important;
 }
 
 .status-pill-modern.pill-danger,
 .status-ditolak {
-  background: #fef2f2 !important;
+  background: #fee2e2 !important;
   color: #991b1b !important;
   border: 1px solid #fecaca !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  border-radius: 4px !important;
-  padding: 2px 7px !important;
+}
+
+.status-pill-modern.pill-purple {
+  background: #ede9fe !important;
+  color: #5b21b6 !important;
+  border: 1px solid #ddd6fe !important;
 }
 
 /* Action Buttons inside Table */
 .kov-action-review-btn {
-  height: 28px !important;
-  padding: 0 10px !important;
-  background: #166534 !important;
+  height: 30px !important;
+  padding: 0 12px !important;
+  background: #059669 !important;
   color: #ffffff !important;
-  border-radius: 4px !important;
-  font-size: 11.5px !important;
+  border-radius: 8px !important;
+  font-size: 12px !important;
   font-weight: 600 !important;
   display: inline-flex !important;
   align-items: center !important;
   gap: 5px !important;
   text-decoration: none !important;
-  box-shadow: none !important;
-  transition: background 0.15s ease !important;
+  box-shadow: 0 1px 3px rgba(5, 150, 105, 0.2) !important;
+  transition: all var(--kov-transition-fast) !important;
 }
 
 .kov-action-review-btn:hover {
-  background: #14532d !important;
+  background: #047857 !important;
   color: #ffffff !important;
+  transform: translateY(-1px) !important;
 }
 
 .kov-action-icon-circle {
-  width: 28px !important;
-  height: 28px !important;
-  border-radius: 4px !important;
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 8px !important;
   background: #ffffff !important;
   border: 1px solid #cbd5e1 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  font-size: 11.5px !important;
+  font-size: 12px !important;
   color: #475569 !important;
   text-decoration: none !important;
-  box-shadow: none !important;
-  transition: all 0.15s ease !important;
+  transition: all var(--kov-transition-fast) !important;
 }
 
 .kov-action-icon-circle:hover {
   background: #f8fafc !important;
   border-color: #94a3b8 !important;
+  transform: translateY(-1px) !important;
 }
 
-/* --- 9. Right Utility Panel: Minimal Calendar & Quiet Tasks --- */
+/* --- 9. Right Utility Panel Widgets (Calendar & Tasks) --- */
 .dd-profile-header {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
   padding-bottom: 10px !important;
-  border-bottom: 1px solid #e8eaec !important;
+  border-bottom: 1px solid #edf5f1 !important;
+}
+
+[data-theme="dark"] .dd-profile-header {
+  border-bottom-color: #1f362e !important;
 }
 
 .dd-calendar-widget,
-.dd-task-widget {
+.dd-task-widget,
+.dd-storage-card {
   background: #ffffff !important;
-  border: 1px solid #e8eaec !important;
-  border-radius: 8px !important;
-  padding: 10px !important;
-  box-shadow: none !important;
+  border: 1px solid var(--kov-border-color) !important;
+  border-radius: 14px !important;
+  padding: 12px !important;
+  box-shadow: var(--kov-shadow-card) !important;
 }
 
 [data-theme="dark"] .dd-calendar-widget,
-[data-theme="dark"] .dd-task-widget {
-  background: #111827 !important;
-  border-color: #1f2937 !important;
-}
-
-.dd-calendar-title,
-.dd-section-title {
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  color: #0f172a !important;
-  letter-spacing: 0.02em !important;
-  text-transform: uppercase !important;
-  margin: 0 !important;
-}
-
-[data-theme="dark"] .dd-calendar-title,
-[data-theme="dark"] .dd-section-title {
-  color: #f9fafb !important;
-}
-
-.dd-period-toggle {
-  display: flex !important;
-  background: #f1f5f9 !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 6px !important;
-  padding: 2px !important;
-  margin-top: 6px !important;
-}
-
-.dd-period-btn {
-  flex: 1 !important;
-  font-size: 10.5px !important;
-  font-weight: 500 !important;
-  padding: 3px 0 !important;
-  text-align: center !important;
-  border-radius: 4px !important;
-  border: none !important;
-  background: transparent !important;
-  color: #64748b !important;
-  cursor: pointer !important;
-}
-
-.dd-period-btn.active {
-  background: #ffffff !important;
-  color: #0f172a !important;
-  font-weight: 600 !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-}
-
-.dd-month-nav {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  margin: 6px 0 !important;
-}
-
-.dd-month-label {
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  color: #0f172a !important;
-}
-
-.dd-nav-arrow-btn {
-  width: 22px !important;
-  height: 22px !important;
-  padding: 0 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 4px !important;
-  background: #ffffff !important;
-  color: #64748b !important;
-  font-size: 10px !important;
-  cursor: pointer !important;
-}
-
-.dd-cal-weekdays {
-  display: grid !important;
-  grid-template-columns: repeat(7, 1fr) !important;
-  text-align: center !important;
-  font-size: 9.5px !important;
-  font-weight: 600 !important;
-  color: #94a3b8 !important;
-  margin-bottom: 2px !important;
-}
-
-.dd-cal-grid {
-  display: grid !important;
-  grid-template-columns: repeat(7, 1fr) !important;
-  gap: 2px !important;
+[data-theme="dark"] .dd-task-widget,
+[data-theme="dark"] .dd-storage-card {
+  background: #111e1a !important;
+  border-color: #1f362e !important;
 }
 
 .dd-cal-day {
-  height: 24px !important;
-  line-height: 24px !important;
+  height: 26px !important;
+  line-height: 26px !important;
   text-align: center !important;
-  font-size: 10.5px !important;
-  font-weight: 500 !important;
-  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
   cursor: pointer !important;
   color: #334155 !important;
   font-variant-numeric: tabular-nums !important;
-  transition: background 0.1s ease !important;
+  transition: all var(--kov-transition-fast) !important;
 }
 
 .dd-cal-day:hover {
-  background-color: #f1f5f9 !important;
-  color: #0f172a !important;
+  background-color: #ecfdf5 !important;
+  color: #059669 !important;
 }
 
 .dd-cal-day.active {
-  background-color: #166534 !important;
+  background-color: #059669 !important;
   color: #ffffff !important;
-  border-radius: 4px !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.28) !important;
+}
+
+[data-theme="dark"] .dd-cal-day {
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .dd-cal-day:hover {
+  background-color: rgba(5, 150, 105, 0.2) !important;
+  color: #34d399 !important;
 }
 
 .dd-task-card {
-  background: #fafbfc !important;
-  border: 1px solid #e8eaec !important;
-  border-left: 3px solid #166534 !important;
-  border-radius: 6px !important;
-  padding: 8px 10px !important;
+  background: #f8fbf9 !important;
+  border: 1px solid var(--kov-border-color) !important;
+  border-left: 3.5px solid #059669 !important;
+  border-radius: 10px !important;
+  padding: 10px 12px !important;
   cursor: pointer !important;
-  box-shadow: none !important;
-  transition: all 0.15s ease !important;
-  margin-top: 6px !important;
+  transition: all var(--kov-transition-fast) !important;
+  margin-top: 8px !important;
 }
 
 .dd-task-card:hover {
+  background: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  border-left-color: #059669 !important;
+  transform: translateX(2px) !important;
+}
+
+[data-theme="dark"] .dd-task-card {
+  background: #162923 !important;
+  border-color: #264239 !important;
+  border-left-color: #10b981 !important;
+}
+
+/* --- 10. Unified Form Controls, Public Forms & Modals --- */
+.form-control,
+.form-select {
+  border-radius: 10px !important;
+  border: 1px solid #cbd5e1 !important;
+  font-size: 13.5px !important;
+  transition: border-color var(--kov-transition-fast), box-shadow var(--kov-transition-fast), background-color var(--kov-transition-fast) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #059669 !important;
+  box-shadow: var(--kov-focus-ring) !important;
+  outline: none !important;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #0d1714 !important;
+  border-color: #264239 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  border-color: #10b981 !important;
+  background-color: #111e1a !important;
+}
+
+/* Public Form Cards (.card-modern-form) */
+.kov-public-nav {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid var(--kov-border-color) !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1020 !important;
+  padding: 0.85rem 0 !important;
+}
+
+[data-theme="dark"] .kov-public-nav {
+  background: rgba(12, 21, 18, 0.92) !important;
+  border-bottom-color: #1f362e !important;
+}
+
+.card-modern-form {
   background: #ffffff !important;
-  border-color: #cbd5e1 !important;
-  border-left-color: #166534 !important;
+  border: 1px solid var(--kov-border-color) !important;
+  border-radius: 18px !important;
+  box-shadow: var(--kov-shadow-card) !important;
+  margin-bottom: 1.5rem !important;
+  overflow: hidden !important;
+  transition: box-shadow var(--kov-transition-smooth), border-color var(--kov-transition-smooth) !important;
 }
 
-.dd-task-title {
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  color: #0f172a !important;
-  margin: 0 !important;
+.card-modern-form:hover {
+  box-shadow: var(--kov-shadow-card-hover) !important;
 }
 
-.dd-task-time {
-  font-size: 10.5px !important;
-  color: #94a3b8 !important;
-  margin-top: 2px !important;
+.card-modern-form .card-header {
+  background: #f4faf7 !important;
+  border-bottom: 1px solid var(--kov-border-color) !important;
+  padding: 0.95rem 1.35rem !important;
+  font-weight: 700 !important;
+  color: #064e3b !important;
+  font-size: 0.95rem !important;
 }
 
-.dd-avatar-sm {
-  width: 20px !important;
-  height: 20px !important;
-  border-radius: 999px !important;
-  background: #f1f5f9 !important;
-  color: #475569 !important;
-  border: 1px solid #e2e8f0 !important;
-  font-size: 9px !important;
-  font-weight: 600 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+[data-theme="dark"] .card-modern-form {
+  background: #111e1a !important;
+  border-color: #1f362e !important;
 }
 
-.btn-dd-add-user {
-  display: none !important;
+[data-theme="dark"] .card-modern-form .card-header {
+  background: #0d1714 !important;
+  border-bottom-color: #1f362e !important;
+  color: #34d399 !important;
+}
+
+.btn-submit-kov {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 0.8rem 2.5rem !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  font-size: 0.95rem !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28) !important;
+  transition: all var(--kov-transition-fast) !important;
+}
+
+.btn-submit-kov:hover {
+  background: linear-gradient(135deg, #047857 0%, #065f46 100%) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.36) !important;
 }
 
 /* Toast container positioning */
@@ -9081,3 +9364,736 @@ time {
 }
 
 
+/* ==========================================================================
+   11. CHOREOGRAPHED LOADING, SUBMIT SUCCESS, ERROR SHAKE & HRD MEMO STUDIO
+   ========================================================================== */
+
+@keyframes kovDrawStroke {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes kovOrbitalSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.kov-orbital-spin {
+  animation: kovOrbitalSpin 0.78s linear infinite;
+}
+
+@keyframes kovErrorShake {
+  0%, 100% { transform: translateX(0); }
+  16% { transform: translateX(-7px); }
+  32% { transform: translateX(6px); }
+  48% { transform: translateX(-5px); }
+  64% { transform: translateX(4px); }
+  80% { transform: translateX(-2px); }
+}
+
+.kov-error-shake {
+  animation: kovErrorShake 0.44s cubic-bezier(0.36, 0.07, 0.19, 0.97) both !important;
+}
+
+.kov-input-invalid {
+  border-color: #dc2626 !important;
+  background-color: #fff5f5 !important;
+  box-shadow: 0 0 0 3.5px rgba(220, 38, 38, 0.16) !important;
+}
+
+[data-theme="dark"] .kov-input-invalid {
+  border-color: #f87171 !important;
+  background-color: rgba(220, 38, 38, 0.12) !important;
+  box-shadow: 0 0 0 3.5px rgba(248, 113, 113, 0.2) !important;
+}
+
+.kov-inline-error-msg {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #dc2626;
+  margin-top: 5px;
+  display: none;
+  align-items: center;
+  gap: 4px;
+  animation: kovSlideDownError 0.22s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.kov-inline-error-msg.is-visible {
+  display: flex;
+}
+
+@keyframes kovSlideDownError {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Top Laser Progress Bar */
+.kov-top-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #059669 0%, #34d399 50%, #10b981 100%);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.55);
+  z-index: 100000;
+  opacity: 0;
+  pointer-events: none;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+}
+
+.kov-top-progress-bar.is-active {
+  opacity: 1;
+  width: 78%;
+}
+
+.kov-top-progress-bar.is-done {
+  opacity: 0;
+  width: 100%;
+}
+
+/* Newly Submitted Row / Memo Entrance Flash */
+@keyframes kovRowArrive {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.985);
+    background-color: rgba(16, 185, 129, 0.18);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    background-color: rgba(16, 185, 129, 0.12);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.kov-memo-arrive {
+  animation: kovRowArrive 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Wider, Richer Right Sidebar for HRD Calendar + Memo & Agenda Studio (310px) */
+@media (min-width: 1200px) {
+  .dd-right-panel {
+    width: 264px !important;
+    min-width: 264px !important;
+    max-width: 264px !important;
+    flex: 0 0 264px !important;
+  }
+}
+
+/* Force 100% Full-Screen Width on Workspace & Inner Containers */
+html, body {
+  width: 100% !important;
+  min-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dd-layout-root,
+.kov-app-shell {
+  width: 100% !important;
+  max-width: 100vw !important;
+}
+.dd-main-canvas,
+.kov-main-content {
+  flex: 1 1 0% !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.dd-main-canvas > .container,
+.kov-main-content > .container,
+.kov-content-body > .container {
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.kov-memo-studio-widget {
+  background: #ffffff !important;
+  border: 1px solid var(--kov-border-color, #dcece5) !important;
+  border-radius: 14px !important;
+  padding: 12px !important;
+  box-shadow: var(--kov-shadow-card) !important;
+}
+
+[data-theme="dark"] .kov-memo-studio-widget {
+  background: #111e1a !important;
+  border-color: #1f362e !important;
+}
+
+.kov-memo-composer {
+  background: #f8fbf9;
+  border: 1px solid #dcece5;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 8px;
+}
+
+[data-theme="dark"] .kov-memo-composer {
+  background: #0d1714;
+  border-color: #264239;
+}
+
+.kov-memo-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 3.5px solid #059669;
+  border-radius: 10px;
+  padding: 9px 11px;
+  margin-top: 7px;
+  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.kov-memo-item:hover {
+  border-color: #a7f3d0;
+  transform: translateX(2px);
+}
+
+.kov-memo-item.is-done {
+  opacity: 0.62;
+  border-left-color: #94a3b8 !important;
+}
+
+.kov-memo-item.is-done .kov-memo-item-title {
+  text-decoration: line-through;
+}
+
+[data-theme="dark"] .kov-memo-item {
+  background: #162923;
+  border-color: #264239;
+}
+
+.dd-cal-day {
+  position: relative !important;
+}
+
+.dd-cal-dots {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  margin-top: -4px;
+  height: 4px;
+}
+
+.dd-cal-dot-memo {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #d97706;
+}
+
+.dd-cal-dot-cand {
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #059669;
+}
+
+
+/* ==========================================================================
+   12. KOV ARTISANAL PASTEL PALETTE & CURATED TYPOGRAPHY (BRICOLAGE + DM SANS)
+   ========================================================================== */
+:root {
+  --kov-font-display: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif;
+  --kov-font-sans: 'DM Sans', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --kov-font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+
+  --kov-bg-canvas: #f4f7f4;
+  --kov-pastel-sage: #e6efe9;
+  --kov-pastel-sage-border: #cfdfd5;
+  --kov-pastel-mint: #dff4e8;
+  --kov-pastel-honey: #fdf3d7;
+  --kov-pastel-sky: #e3f0ff;
+  --kov-pastel-lavender: #ece9ff;
+  --kov-pastel-peach: #fde9e1;
+}
+
+body, .dd-layout-root, .kov-app-shell {
+  font-family: var(--kov-font-sans) !important;
+  background-color: var(--kov-bg-canvas) !important;
+  color: #142820 !important;
+}
+
+h1, h2, h3, h4, .dd-hero-title, .kov-table-title, .kov-card-title, .bento-metric-value, .kov-kpi-cell-val {
+  font-family: var(--kov-font-display) !important;
+  letter-spacing: -0.025em !important;
+}
+
+/* Pastel Sage Sidebar (Friendly, Non-Slop Light Botanical Sidebar in Light Mode) */
+html:not([data-theme="dark"]) .dd-sidebar.kov-sidebar,
+html:not([data-theme="dark"]) .kov-sidebar {
+  background: linear-gradient(180deg, #e5f0e9 0%, #dcebe2 100%) !important;
+  border-right: 1px solid #c8ddd0 !important;
+  box-shadow: none !important;
+}
+
+html:not([data-theme="dark"]) .dd-brand-text span:first-child {
+  color: #113023 !important;
+  font-family: var(--kov-font-display) !important;
+}
+
+html:not([data-theme="dark"]) .dd-nav-group-title,
+html:not([data-theme="dark"]) .kov-nav-group-title {
+  color: #4a6b5d !important;
+  opacity: 0.9 !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item {
+  color: #27473a !important;
+  font-weight: 600 !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item i,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item i {
+  color: #2e6f54 !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item:hover,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item:hover {
+  background: rgba(255, 255, 255, 0.65) !important;
+  color: #0d291e !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active {
+  background: #ffffff !important;
+  color: #0f5338 !important;
+  border: 1px solid #b7d7c5 !important;
+  box-shadow: 0 4px 12px rgba(17, 48, 35, 0.06) !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active i,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active i {
+  color: #059669 !important;
+}
+
+html:not([data-theme="dark"]) .kov-sidebar-footer,
+html:not([data-theme="dark"]) .dd-sidebar-footer {
+  background: rgba(255, 255, 255, 0.45) !important;
+  border-top: 1px solid #c8ddd0 !important;
+}
+
+html:not([data-theme="dark"]) .kov-theme-toggle-sidebar,
+html:not([data-theme="dark"]) .kov-user-badge-box {
+  background: #ffffff !important;
+  border: 1px solid #c8ddd0 !important;
+  color: #143326 !important;
+}
+
+html:not([data-theme="dark"]) .kov-user-name {
+  color: #143326 !important;
+}
+
+/* Pastel KPI Cards */
+html:not([data-theme="dark"]) .kov-kpi-row,
+html:not([data-theme="dark"]) .kov-kpi-strip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  gap: 12px !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(1),
+html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(1) {
+  background: #dff4e8 !important;
+  border: 1px solid #bfe6d0 !important;
+  border-radius: 16px !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(2),
+html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(2) {
+  background: #fdf3d7 !important;
+  border: 1px solid #f5dfa6 !important;
+  border-radius: 16px !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(3),
+html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(3) {
+  background: #dcf2f0 !important;
+  border: 1px solid #b4e2dd !important;
+  border-radius: 16px !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(4),
+html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(4) {
+  background: #eae8ff !important;
+  border: 1px solid #d2cefa !important;
+  border-radius: 16px !important;
+}
+
+/* ==========================================================================
+   14. CURATED TYPOGRAPHY (BRICOLAGE GROTESQUE + DM SANS) & HIGH-CONTRAST ROASTERY UI
+   - Deep KOV Forest Roast Left Sidebar (#0c2219 -> #07150f) with 14:1 WCAG AAA contrast
+   - Warm Pastel Matcha Active Pill (#d8f3e5) with Deep Forest Ink (#062e1e)
+   - High-Contrast Pastel Telemetry Cards & Folder-Tab Division Strip
+   ========================================================================== */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+:root {
+  --kov-font-display: "Bricolage Grotesque", sans-serif !important;
+  --kov-font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif !important;
+  --kov-font-mono: "JetBrains Mono", monospace !important;
+  --kov-bg-canvas: #f3f6f3 !important;
+  --kov-pastel-mint: #d8f3e5;
+  --kov-pastel-honey: #fef0c7;
+  --kov-pastel-sky: #ccfbf1;
+  --kov-pastel-lavender: #ede9fe;
+  --kov-pastel-peach: #ffedd5;
+}
+
+body, .dd-layout-root, .kov-app-shell {
+  font-family: var(--kov-font-sans) !important;
+  background-color: var(--kov-bg-canvas) !important;
+  color: #0b1f17 !important;
+}
+
+h1, h2, h3, h4, .dd-hero-title, .kov-table-title, .kov-card-title, .bento-metric-value, .kov-kpi-cell-val {
+  font-family: var(--kov-font-display) !important;
+  letter-spacing: -0.025em !important;
+}
+
+/* Deep KOV Forest Roast Sidebar (High-Contrast 14:1 WCAG AAA) */
+.dd-sidebar.kov-sidebar,
+.kov-sidebar {
+  background: linear-gradient(180deg, #0c2219 0%, #07150f 100%) !important;
+  border-right: 1px solid #1d4334 !important;
+  box-shadow: 4px 0 20px rgba(7, 21, 15, 0.16) !important;
+}
+
+.dd-brand-text span:first-child {
+  color: #ffffff !important;
+  font-family: var(--kov-font-display) !important;
+  font-weight: 800 !important;
+}
+
+.dd-nav-group-title,
+.kov-nav-group-title {
+  color: #86efac !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+
+.dd-sidebar .dd-nav-item,
+.kov-sidebar .kov-nav-item {
+  color: #f0fdf4 !important;
+  font-weight: 600 !important;
+  opacity: 1 !important;
+  border-radius: 12px !important;
+}
+
+.dd-sidebar .dd-nav-item i,
+.kov-sidebar .kov-nav-item i {
+  color: #6ee7b7 !important;
+  opacity: 1 !important;
+}
+
+.dd-sidebar .dd-nav-item:hover,
+.kov-sidebar .kov-nav-item:hover {
+  background: rgba(52, 211, 153, 0.16) !important;
+  border-color: rgba(110, 231, 183, 0.3) !important;
+  color: #ffffff !important;
+}
+
+.dd-sidebar .dd-nav-item:hover i,
+.kov-sidebar .kov-nav-item:hover i {
+  color: #a7f3d0 !important;
+}
+
+/* Active Nav Item: Warm Pastel Matcha Pill (#d8f3e5) + Deep Forest Ink (#062e1e) */
+.dd-sidebar .dd-nav-item.active,
+.kov-sidebar .kov-nav-item.active {
+  background: #d8f3e5 !important;
+  color: #062e1e !important;
+  border: 1px solid #6ee7b7 !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+}
+
+.dd-sidebar .dd-nav-item.active span,
+.kov-sidebar .kov-nav-item.active span,
+.dd-sidebar .dd-nav-item.active i,
+.kov-sidebar .kov-nav-item.active i {
+  color: #062e1e !important;
+}
+
+.kov-sidebar-collapse-btn {
+  background: rgba(16, 185, 129, 0.18) !important;
+  border: 1px solid rgba(110, 231, 183, 0.4) !important;
+  color: #ecfdf5 !important;
+}
+
+.kov-sidebar-collapse-btn:hover {
+  background: #d8f3e5 !important;
+  color: #062e1e !important;
+}
+
+.kov-sidebar-footer,
+.dd-sidebar-footer {
+  background: rgba(3, 10, 7, 0.45) !important;
+  border-top: 1px solid #1d4334 !important;
+}
+
+.kov-theme-toggle-sidebar,
+.kov-user-badge-box {
+  background: rgba(16, 46, 34, 0.85) !important;
+  border: 1px solid rgba(110, 231, 183, 0.3) !important;
+  color: #f0fdf4 !important;
+}
+
+.kov-user-name {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* High-Contrast Pastel KPI Cards */
+html:not([data-theme="dark"]) .kov-kpi-row,
+html:not([data-theme="dark"]) .kov-kpi-strip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  gap: 12px !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(1),
+html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(1) {
+  background: #d8f3e5 !important;
+  border: 1.5px solid #7fd4a8 !important;
+  border-radius: 16px !important;
+  color: #062e1e !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(2),
+html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(2) {
+  background: #fef0c7 !important;
+  border: 1.5px solid #f6c453 !important;
+  border-radius: 16px !important;
+  color: #451a03 !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(3),
+html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(3) {
+  background: #ccfbf1 !important;
+  border: 1.5px solid #5eead4 !important;
+  border-radius: 16px !important;
+  color: #092e2a !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(4),
+html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(4) {
+  background: #ede9fe !important;
+  border: 1.5px solid #c4b5fd !important;
+  border-radius: 16px !important;
+  color: #2e1065 !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card .bento-metric-title,
+html:not([data-theme="dark"]) .coinbase-kpi-card .bento-metric-value,
+html:not([data-theme="dark"]) .coinbase-kpi-card .bento-metric-sub,
+html:not([data-theme="dark"]) .kov-kpi-cell .kov-kpi-cell-label,
+html:not([data-theme="dark"]) .kov-kpi-cell .kov-kpi-cell-val,
+html:not([data-theme="dark"]) .kov-kpi-cell .kov-kpi-cell-sub {
+  color: inherit !important;
+}
+
+
+
+/* ==========================================================================
+   15. HARMONIOUS PASTEL SYSTEM & SYMMETRICAL 8PT BENTO GRID (V18)
+   - Sidebar: Soft Pastel Sage (#ebf3ee) with Deep Botanical Ink (#1d2b24)
+   - KPI Row: 4 Equal Pastel Cards (Mint #e3f5ec, Peach #fdf0e2, Lavender #eeeaf9, Rose #fce8ec)
+   - Aligned Card Headers & Clean Table Proportions
+   ========================================================================== */
+:root {
+  --kov-bg-canvas: #f7f6f2 !important;
+  --pastel-mint: #e3f5ec;
+  --pastel-mint-border: #bce3cf;
+  --pastel-mint-ink: #163a2a;
+  --pastel-peach: #fdf0e2;
+  --pastel-peach-border: #f3d4b5;
+  --pastel-peach-ink: #592f13;
+  --pastel-lavender: #eeeaf9;
+  --pastel-lavender-border: #d3caf0;
+  --pastel-lavender-ink: #322359;
+  --pastel-rose: #fce8ec;
+  --pastel-rose-border: #f0c9d1;
+  --pastel-rose-ink: #5c212e;
+}
+
+html:not([data-theme="dark"]) body,
+html:not([data-theme="dark"]) .dd-layout-root,
+html:not([data-theme="dark"]) .kov-app-shell,
+html:not([data-theme="dark"]) .dd-main-canvas.kov-main-content {
+  background-color: #f7f6f2 !important;
+  color: #1d2b24 !important;
+  font-family: "DM Sans", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+/* Soft Pastel Sage Sidebar in Light Mode */
+html:not([data-theme="dark"]) .dd-sidebar.kov-sidebar,
+html:not([data-theme="dark"]) .kov-sidebar {
+  background: #ebf3ee !important;
+  border-right: 1px solid #d3e2d9 !important;
+  box-shadow: none !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar-brand,
+html:not([data-theme="dark"]) .kov-sidebar-brand {
+  border-bottom: 1px solid #d3e2d9 !important;
+}
+
+html:not([data-theme="dark"]) .dd-brand-text span:first-child {
+  color: #1d2b24 !important;
+}
+
+html:not([data-theme="dark"]) .dd-brand-text small {
+  color: #485950 !important;
+}
+
+html:not([data-theme="dark"]) .dd-nav-group-title,
+html:not([data-theme="dark"]) .kov-nav-group-title {
+  color: #63786d !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item {
+  color: #364940 !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item i,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item i {
+  color: #2d6a4f !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item:hover,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item:hover {
+  background: rgba(255, 255, 255, 0.7) !important;
+  color: #163a2a !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active {
+  background: #ffffff !important;
+  color: #163a2a !important;
+  border: 1px solid #bce3cf !important;
+  box-shadow: 0 2px 6px rgba(22, 58, 42, 0.06) !important;
+  font-weight: 700 !important;
+}
+
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active span,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active span,
+html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active i,
+html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active i {
+  color: #163a2a !important;
+}
+
+html:not([data-theme="dark"]) .kov-sidebar-footer,
+html:not([data-theme="dark"]) .dd-sidebar-footer {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border-top: 1px solid #d3e2d9 !important;
+}
+
+html:not([data-theme="dark"]) .kov-theme-toggle-sidebar,
+html:not([data-theme="dark"]) .kov-user-badge-box {
+  background: #ffffff !important;
+  border: 1px solid #d3e2d9 !important;
+  color: #1d2b24 !important;
+}
+
+html:not([data-theme="dark"]) .kov-user-name {
+  color: #1d2b24 !important;
+}
+
+/* 4 Symmetrical Pastel KPI Cards */
+.kov-kpi-row {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin-bottom: 16px !important;
+}
+
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(1) {
+  background: #e3f5ec !important;
+  border: 1px solid #bce3cf !important;
+  border-radius: 16px !important;
+  color: #163a2a !important;
+}
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(2) {
+  background: #fdf0e2 !important;
+  border: 1px solid #f3d4b5 !important;
+  border-radius: 16px !important;
+  color: #592f13 !important;
+}
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(3) {
+  background: #eeeaf9 !important;
+  border: 1px solid #d3caf0 !important;
+  border-radius: 16px !important;
+  color: #322359 !important;
+}
+html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(4) {
+  background: #fce8ec !important;
+  border: 1px solid #f0c9d1 !important;
+  border-radius: 16px !important;
+  color: #5c212e !important;
+}
+
+.kov-card, .kov-table-card, .dd-calendar-widget, .dd-task-widget {
+  border-radius: 16px !important;
+  border: 1px solid #e2e8e4 !important;
+  box-shadow: 0 2px 10px -2px rgba(29, 43, 36, 0.04) !important;
+}
+
+
+/* ==========================================================================
+   16. ZERO-BLACK NATURAL PASTEL HARMONY OVERRIDE (V19)
+   - Removes all harsh #000 / #090d16 / #0f172a / #212529 / .bg-dark / .text-dark
+   - Uses Soft Muted Botanical Slate-Green (#384d42) & Pastel Surfaces
+   ========================================================================== */
+:root, [data-theme="dark"], [data-theme="pastel-sage"], body, body.theme-dark {
+  --kov-canvas: #f5f3ed !important;
+  --cb-canvas: #f5f3ed !important;
+  --cb-surface-card: #fcfbf9 !important;
+  --cb-surface-input: #ffffff !important;
+  --cb-border: #d8e2dc !important;
+  --cb-text-primary: #384d42 !important;
+  --cb-text-secondary: #586e62 !important;
+  --cb-text-muted: #7d9186 !important;
+  --kov-slate-900: #384d42 !important;
+  --kov-slate-800: #496054 !important;
+  --kov-slate-700: #586e62 !important;
+  --dd-text-primary: #384d42 !important;
+  --bs-dark-rgb: 56, 77, 66 !important;
+  --bs-body-color: #384d42 !important;
+}
+
+body, .dd-layout-root, .kov-app-shell, .dd-main-canvas.kov-main-content {
+  background-color: #f5f3ed !important;
+  color: #384d42 !important;
+}
+
+.dd-sidebar.kov-sidebar, .kov-sidebar {
+  background: #e6efe9 !important;
+  border-right: 1px solid #d8e2dc !important;
+  box-shadow: none !important;
+}
+
+.text-dark, h1, h2, h3, h4, h5, h6, th, td, strong, b {
+  color: #384d42 !important;
+}
+
+.bg-dark, .modal-header.bg-dark, .modal-header.pigment-celadon, .table-dark {
+  background-color: #dfece3 !important;
+  color: #2e5943 !important;
+  border-color: #bdd6c5 !important;
+}
+
+.btn-dark {
+  background-color: #dfece3 !important;
+  color: #2e5943 !important;
+  border: 1px solid #bdd6c5 !important;
+}

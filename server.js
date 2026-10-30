@@ -240,7 +240,7 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'https://internal.kovgrou
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production' || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
       callback(null, true);
     } else {
       callback(new Error('Blocked by CORS policy'));
@@ -2871,6 +2871,76 @@ app.get('/api/it/invoices/download/:filename', requireAuth, requireITAuth, (req,
   res.status(404).send('File invoice tidak ditemukan.');
 });
 
+
+
+// =========================================================================
+// API: KALENDER MEMO & AGENDA HRD (Right Sidebar Studio)
+// =========================================================================
+app.get('/api/hr/memos', requireAuth, (req, res) => {
+  db.all('SELECT * FROM hr_memos ORDER BY tanggal ASC, waktu ASC, id DESC', [], (err, rows) => {
+    if (err) return res.status(500).json({ ok: false, error: err.message });
+    res.json({ ok: true, memos: rows || [] });
+  });
+});
+
+app.post('/api/hr/memos', requireAuth, (req, res) => {
+  const { tanggal, waktu, kategori, judul, catatan, pic } = req.body || {};
+  if (!judul || !String(judul).trim()) {
+    return res.status(400).json({ ok: false, error: 'Judul memo atau agenda wajib diisi.' });
+  }
+  if (!tanggal || !String(tanggal).trim()) {
+    return res.status(400).json({ ok: false, error: 'Tanggal agenda wajib dipilih.' });
+  }
+  const cleanTanggal = String(tanggal).trim();
+  const cleanWaktu = String(waktu || '09:00').trim();
+  const cleanKategori = String(kategori || 'Interview').trim();
+  const cleanJudul = String(judul).trim();
+  const cleanCatatan = String(catatan || '').trim();
+  const cleanPic = String(pic || (req.session.user && req.session.user.nama) || 'Tim HRD').trim();
+
+  db.run(
+    `INSERT INTO hr_memos (tanggal, waktu, kategori, judul, catatan, pic, selesai) VALUES (?, ?, ?, ?, ?, ?, 0)`,
+    [cleanTanggal, cleanWaktu, cleanKategori, cleanJudul, cleanCatatan, cleanPic],
+    function(err) {
+      if (err) return res.status(500).json({ ok: false, error: err.message });
+      res.json({
+        ok: true,
+        memo: {
+          id: this.lastID,
+          tanggal: cleanTanggal,
+          waktu: cleanWaktu,
+          kategori: cleanKategori,
+          judul: cleanJudul,
+          catatan: cleanCatatan,
+          pic: cleanPic,
+          selesai: 0
+        }
+      });
+    }
+  );
+});
+
+app.patch('/api/hr/memos/:id/toggle', requireAuth, (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (!id) return res.status(400).json({ ok: false, error: 'ID memo tidak valid.' });
+  db.get('SELECT * FROM hr_memos WHERE id = ?', [id], (err, row) => {
+    if (err || !row) return res.status(404).json({ ok: false, error: 'Memo tidak ditemukan.' });
+    const nextVal = row.selesai ? 0 : 1;
+    db.run('UPDATE hr_memos SET selesai = ? WHERE id = ?', [nextVal, id], (upErr) => {
+      if (upErr) return res.status(500).json({ ok: false, error: upErr.message });
+      res.json({ ok: true, id, selesai: nextVal });
+    });
+  });
+});
+
+app.delete('/api/hr/memos/:id', requireAuth, (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (!id) return res.status(400).json({ ok: false, error: 'ID memo tidak valid.' });
+  db.run('DELETE FROM hr_memos WHERE id = ?', [id], (err) => {
+    if (err) return res.status(500).json({ ok: false, error: err.message });
+    res.json({ ok: true, id });
+  });
+});
 
 app.listen(PORT, '0.0.0.0', () => {
   // Sinkronisasi otomatis PO ke Rekap IT saat server booting

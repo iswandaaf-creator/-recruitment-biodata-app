@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_cila_v10" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
   <style>
     .sortable-header { cursor: pointer; user-select: none; transition: var(--kov-transition); }
     .sortable-header:hover { background-color: var(--kov-slate-100); }
@@ -37,11 +37,11 @@
 
         <div class="dd-topbar-actions">
           <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" onclick="copyShareUrl()" title="Salin Tautan Form BA untuk Karyawan/PIC">
-            <i class="fas fa-copy" style="color: var(--dd-primary, #5a60ea);"></i>
+            <i class="fas fa-copy" style="color: var(--dd-primary, #059669);"></i>
             <span>Salin Form</span>
           </button>
           <button type="button" class="btn-topbar-action d-none d-md-inline-flex" onclick="generateAndCopyShareLink()" title="Acak & Salin Link Formulir Publik BA">
-            <i class="fas fa-shuffle" style="color: var(--dd-primary, #5a60ea);"></i>
+            <i class="fas fa-shuffle" style="color: var(--dd-primary, #059669);"></i>
             <span>Acak Link</span>
           </button>
           <a href="/api/operasional/export/excel" class="btn-topbar-action d-none d-sm-inline-flex" title="Export Seluruh Rekap BA ke Excel">
@@ -79,7 +79,7 @@
             <span class="text-muted" style="font-size: 12px;">&bull;</span>
             <span class="text-muted" style="font-size: 12px;"><%= records.length %> Berkas Tercatat</span>
           </div>
-          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #0f172a); letter-spacing: -0.015em;">
+          <h1 class="h4 mb-0 fw-bold" style="color: var(--dd-text-primary, #384d42); letter-spacing: -0.015em;">
             Berita Acara Pengajuan Barang
           </h1>
         </div>
@@ -130,7 +130,7 @@
         <div class="d-flex flex-wrap align-items-center gap-2 mobile-w-100">
           <div class="input-group input-group-sm" style="min-width: 240px;">
             <span class="input-group-text bg-light"><i class="fas fa-search text-secondary"></i></span>
-            <input type="text" id="searchInput" class="form-control" placeholder="Cari No BA, Nama Barang, Outlet, PIC..." aria-label="Cari No BA, Nama Barang, Outlet, atau PIC">
+            <input type="text" id="tableSearchInput" class="form-control" placeholder="Cari No BA, Nama Barang, Outlet, PIC..." aria-label="Cari No BA, Nama Barang, Outlet, atau PIC">
           </div>
 
           <select id="filterStatus" class="form-select form-select-sm" style="min-width: 170px;" aria-label="Filter berdasarkan Status Approval">
@@ -291,6 +291,11 @@
 
     // Live Filtering
     const searchInput = document.getElementById('searchInput');
+    const tableSearchInput = document.getElementById('tableSearchInput');
+    if (tableSearchInput) {
+      tableSearchInput.addEventListener('keyup', function() { if (searchInput) searchInput.value = this.value; applyFilters(); });
+      if (searchInput) searchInput.addEventListener('input', function() { tableSearchInput.value = this.value; });
+    }
     const filterStatus = document.getElementById('filterStatus');
     const filterPrioritas = document.getElementById('filterPrioritas');
     const tableRows = document.querySelectorAll('#recordsTable tbody tr');
