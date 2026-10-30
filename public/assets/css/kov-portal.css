@@ -10097,3 +10097,322 @@ body, .dd-layout-root, .kov-app-shell, .dd-main-canvas.kov-main-content {
   color: #2e5943 !important;
   border: 1px solid #bdd6c5 !important;
 }
+
+/* ==========================================================================
+   17. ARTISAN SYSTEM LAYOUT & ORGANIC PASTEL HARMONY (V20)
+   - Eliminates AI-slop rigidness and artificial flat pastels
+   - Introduces Warm Oat Canvas (#f6f4ee), Soft Bone Surfaces (#fcfbf7),
+     Deep Botanical Slate (#314238), Earthy Sand Rules (#e3dbd0)
+   - Dynamic Rhythmic KPI hierarchy with warm apricot & celadon pigments
+   - Human-crafted optical icons & tactile folder navigation
+   ========================================================================== */
+:root, [data-theme="dark"], [data-theme="pastel-sage"], body, body.theme-dark {
+  --kov-canvas: #f6f4ee !important;
+  --cb-canvas: #f6f4ee !important;
+  --cb-surface-card: #fcfbf7 !important;
+  --cb-surface-input: #ffffff !important;
+  --cb-border: #e3dbd0 !important;
+  --cb-border-subtle: #eee7dd !important;
+  --cb-text-primary: #314238 !important;
+  --cb-text-secondary: #5a6e63 !important;
+  --cb-text-muted: #8b9e94 !important;
+  --kov-slate-900: #314238 !important;
+  --kov-slate-800: #44564c !important;
+  --kov-slate-700: #5a6e63 !important;
+  --dd-text-primary: #314238 !important;
+  --dd-text-secondary: #5a6e63 !important;
+  --bs-dark-rgb: 49, 66, 56 !important;
+  --bs-body-color: #314238 !important;
+  --dd-primary: #1e5135 !important;
+  --dd-primary-hover: #16402a !important;
+  --dd-primary-subtle: #e2efe7 !important;
+}
+
+body, .dd-layout-root, .kov-app-shell, .dd-main-canvas.kov-main-content {
+  background-color: #f6f4ee !important;
+  color: #314238 !important;
+  font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  letter-spacing: -0.011em;
+}
+
+/* Sidebar: Natural Matcha Linen */
+.dd-sidebar.kov-sidebar, .kov-sidebar {
+  background: #e8ede7 !important;
+  border-right: 1px solid #dcd5c9 !important;
+  box-shadow: none !important;
+}
+
+.text-dark, h1, h2, h3, h4, h5, h6, th, td, strong, b {
+  color: #314238 !important;
+}
+
+/* Executive Command Header (Taste-Skill Framed Sheet) */
+.dd-hero-banner {
+  background: #fcfbf7 !important;
+  border: 1px solid #e3dbd0 !important;
+  border-radius: 18px !important;
+  padding: 24px 28px !important;
+  box-shadow: 0 4px 16px -4px rgba(49, 66, 56, 0.04) !important;
+  margin-bottom: 22px !important;
+}
+
+.dd-hero-title {
+  color: #314238 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  font-size: 1.45rem !important;
+}
+
+.dd-hero-subtitle {
+  color: #5a6e63 !important;
+  font-size: 0.88rem !important;
+  line-height: 1.5 !important;
+  max-width: 720px !important;
+}
+
+/* KPI Row: Dynamic Organic Bento */
+.kov-kpi-row {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 16px !important;
+  margin-bottom: 22px !important;
+}
+
+.coinbase-kpi-card {
+  padding: 16px 18px !important;
+  border-radius: 16px !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+  border: 1px solid #e3dbd0 !important;
+  background: #fcfbf7 !important;
+  box-shadow: 0 2px 6px -1px rgba(49, 66, 56, 0.03) !important;
+  cursor: pointer !important;
+}
+
+.coinbase-kpi-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 18px -4px rgba(49, 66, 56, 0.07) !important;
+}
+
+/* Card 1: Total Pelamar (Warm Linen Slate) */
+.coinbase-kpi-card:nth-child(1), .coinbase-kpi-card.kpi-total {
+  background: #edeae1 !important;
+  border-color: #dcd5c7 !important;
+  color: #314238 !important;
+}
+.coinbase-kpi-card:nth-child(1) .bento-metric-title, .coinbase-kpi-card.kpi-total .bento-metric-title {
+  color: #5a6e63 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+.coinbase-kpi-card:nth-child(1) .bento-metric-value, .coinbase-kpi-card.kpi-total .bento-metric-value {
+  color: #314238 !important;
+  font-size: 1.95rem !important;
+  font-weight: 800 !important;
+}
+.coinbase-kpi-card:nth-child(1) .bento-metric-sub, .coinbase-kpi-card.kpi-total .bento-metric-sub {
+  color: #6d8074 !important;
+}
+
+/* Card 2: Perlu Ditinjau (Warm Clay Apricot - High Priority Accent) */
+.coinbase-kpi-card:nth-child(2), .coinbase-kpi-card.kpi-pending {
+  background: #fbf0e1 !important;
+  border-color: #f3dcbe !important;
+  color: #884f17 !important;
+}
+.coinbase-kpi-card:nth-child(2) .bento-metric-title, .coinbase-kpi-card.kpi-pending .bento-metric-title {
+  color: #884f17 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+.coinbase-kpi-card:nth-child(2) .bento-metric-value, .coinbase-kpi-card.kpi-pending .bento-metric-value {
+  color: #884f17 !important;
+  font-size: 1.95rem !important;
+  font-weight: 800 !important;
+}
+.coinbase-kpi-card:nth-child(2) .bento-metric-sub, .coinbase-kpi-card.kpi-pending .bento-metric-sub {
+  color: #a4672b !important;
+}
+
+/* Card 3: Lulus Seleksi (Celadon Sage Mist) */
+.coinbase-kpi-card:nth-child(3), .coinbase-kpi-card.kpi-accepted {
+  background: #e2efe7 !important;
+  border-color: #c5dccf !important;
+  color: #1e5135 !important;
+}
+.coinbase-kpi-card:nth-child(3) .bento-metric-title, .coinbase-kpi-card.kpi-accepted .bento-metric-title {
+  color: #1e5135 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+.coinbase-kpi-card:nth-child(3) .bento-metric-value, .coinbase-kpi-card.kpi-accepted .bento-metric-value {
+  color: #1e5135 !important;
+  font-size: 1.95rem !important;
+  font-weight: 800 !important;
+}
+.coinbase-kpi-card:nth-child(3) .bento-metric-sub, .coinbase-kpi-card.kpi-accepted .bento-metric-sub {
+  color: #3b7454 !important;
+}
+
+/* Card 4: Data Ganda (Dusty Rose Terracotta) */
+.coinbase-kpi-card:nth-child(4), .coinbase-kpi-card.kpi-duplicate {
+  background: #faeceb !important;
+  border-color: #f1c9c7 !important;
+  color: #8b3735 !important;
+}
+.coinbase-kpi-card:nth-child(4) .bento-metric-title, .coinbase-kpi-card.kpi-duplicate .bento-metric-title {
+  color: #8b3735 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+.coinbase-kpi-card:nth-child(4) .bento-metric-value, .coinbase-kpi-card.kpi-duplicate .bento-metric-value {
+  color: #8b3735 !important;
+  font-size: 1.95rem !important;
+  font-weight: 800 !important;
+}
+.coinbase-kpi-card:nth-child(4) .bento-metric-sub, .coinbase-kpi-card.kpi-duplicate .bento-metric-sub {
+  color: #a6514e !important;
+}
+
+/* Folder Cards Divisi (Organic Pastel Tabs) */
+.dd-folders-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 10px !important;
+  margin-bottom: 22px !important;
+}
+
+.dd-folder-card {
+  padding: 9px 15px !important;
+  border-radius: 12px !important;
+  border: 1px solid #e3dbd0 !important;
+  background: #fcfbf7 !important;
+  color: #314238 !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.16s ease !important;
+}
+
+.dd-folder-card:hover {
+  background: #f4f0e6 !important;
+  border-color: #d8cebe !important;
+  transform: translateY(-1px) !important;
+}
+
+.dd-folder-card.active {
+  background: #e2efe7 !important;
+  border-color: #1e5135 !important;
+  color: #1e5135 !important;
+  box-shadow: 0 2px 8px -1px rgba(30, 81, 53, 0.12) !important;
+}
+
+.dd-folder-card .badge-tab-count {
+  background: rgba(49, 66, 56, 0.08) !important;
+  color: #314238 !important;
+  border-radius: 6px !important;
+  padding: 2px 7px !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+}
+
+.dd-folder-card.active .badge-tab-count {
+  background: #1e5135 !important;
+  color: #ffffff !important;
+}
+
+/* Table Card, Header, and Cells */
+.kov-table-card {
+  background: #fcfbf7 !important;
+  border: 1px solid #e3dbd0 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 4px 18px -4px rgba(49, 66, 56, 0.04) !important;
+  overflow: hidden !important;
+}
+
+.kov-table-header-box {
+  padding: 18px 24px !important;
+  border-bottom: 1px solid #e3dbd0 !important;
+  background: #faf8f2 !important;
+}
+
+.kov-table th {
+  background: #f4efe6 !important;
+  color: #44564c !important;
+  font-size: 0.73rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  border-bottom: 1px solid #e3dbd0 !important;
+  padding: 12px 14px !important;
+}
+
+.kov-table td {
+  border-bottom: 1px solid #ede7dc !important;
+  padding: 12px 14px !important;
+  color: #314238 !important;
+  vertical-align: middle !important;
+}
+
+.kov-table tbody tr:hover {
+  background-color: rgba(226, 239, 231, 0.4) !important;
+}
+
+/* Status Pills Organik */
+.status-pill-modern {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 11px !important;
+  border-radius: 9999px !important;
+  font-size: 0.74rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.status-pill-modern.pill-success {
+  background: #e2efe7 !important;
+  border: 1px solid #c5dccf !important;
+  color: #1e5135 !important;
+}
+.status-pill-modern.pill-warning {
+  background: #fbf0e1 !important;
+  border: 1px solid #f3dcbe !important;
+  color: #884f17 !important;
+}
+.status-pill-modern.pill-danger {
+  background: #faeceb !important;
+  border: 1px solid #f1c9c7 !important;
+  color: #8b3735 !important;
+}
+.status-pill-modern.pill-info {
+  background: #edf3f7 !important;
+  border: 1px solid #cfe0ed !important;
+  color: #26557a !important;
+}
+
+/* Right Utility Rail Widgets */
+.dd-calendar-widget, .dd-task-widget, .kov-memo-studio-widget {
+  background: #fcfbf7 !important;
+  border: 1px solid #e3dbd0 !important;
+  border-radius: 16px !important;
+  padding: 16px 18px !important;
+  margin-bottom: 16px !important;
+}
+
+.dd-cal-day.active {
+  background: #1e5135 !important;
+  color: #ffffff !important;
+}
+
+/* Artisan Human-Crafted SVG Icon Helpers */
+.ico-artisan {
+  display: inline-block;
+  vertical-align: -0.15em;
+  stroke: currentColor;
+  stroke-width: 1.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
