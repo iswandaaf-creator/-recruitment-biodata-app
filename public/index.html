@@ -60,46 +60,57 @@
       transform: scale(1.05);
     }
 
-    /* Section Cards - Clean Human Layout */
+    /* Section Cards - Clean Human Layout (KOV Framed-Sheet Architecture) */
     .card-modern-form {
       background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 18px;
-      box-shadow: 0 2px 10px -2px rgba(6, 78, 59, 0.05), 0 1px 3px 0 rgba(15, 23, 42, 0.03);
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
       margin-bottom: 1.5rem;
       overflow: hidden;
+      transition: border-color 0.18s ease;
+    }
+    .card-modern-form:hover {
+      border-color: #cbd5e1;
     }
     .card-modern-form .card-header {
       background: #f8fafc;
       border-bottom: 1px solid #e2e8f0;
-      padding: 0.85rem 1.25rem;
+      padding: 0.9rem 1.25rem;
       font-weight: 700;
       color: #0f172a;
       font-size: 0.95rem;
+      letter-spacing: -0.015em;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
     .form-label {
+      display: block;
       font-weight: 600;
-      font-size: 0.82rem;
+      font-size: 0.8125rem;
       color: #334155;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.005em;
     }
 
     .form-control, .form-select {
-      border-radius: 10px;
+      height: 42px;
+      border-radius: 8px;
       border: 1px solid #cbd5e1;
-      padding: 0.55rem 0.8rem;
-      font-size: 0.885rem;
-      transition: all 0.15s ease;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.9375rem; /* 15px - prevent iOS auto-zoom */
+      color: #0f172a;
       background-color: #ffffff;
+      transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .form-control:focus, .form-select:focus {
-      border-color: #059669;
-      box-shadow: 0 0 0 3.5px rgba(5, 150, 105, 0.16);
+      border-color: #166534; /* KOV Botanical Pine */
+      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12);
       background-color: #ffffff;
+      outline: none;
     }
 
     .signature-container {
@@ -120,17 +131,25 @@
 
     .table-custom-modern th {
       background-color: #f8fafc;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       color: #475569;
       font-weight: 700;
-      padding: 9px 12px;
+      padding: 10px 12px;
       border-bottom: 1px solid #e2e8f0;
+      vertical-align: middle;
     }
     .table-custom-modern td {
-      padding: 7px 10px;
+      padding: 8px 10px;
       border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+    .table-custom-modern .form-control,
+    .table-custom-modern .form-select {
+      height: 38px;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.65rem;
     }
 
     .photo-upload-box {
@@ -145,28 +164,43 @@
       background: #f8fafc;
       overflow: hidden;
       flex-shrink: 0;
+      transition: border-color 0.18s ease;
+    }
+    .photo-upload-box:hover {
+      border-color: #166534;
     }
 
+    /* Human-Crafted KOV Botanical Pine CTA */
     .btn-submit-kov {
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #166534; /* KOV Botanical Pine Solid */
       color: #ffffff;
       border: none;
-      padding: 0.8rem 2.5rem;
-      font-weight: 700;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      transition: background-color 0.15s ease;
+      padding: 0.75rem 2.5rem;
+      font-weight: 600;
+      border-radius: 8px;
+      font-size: 0.9375rem;
+      letter-spacing: -0.01em;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      cursor: pointer;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .btn-submit-kov:hover {
-      background: #047857;
+      background-color: #14532d;
       color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(22, 101, 52, 0.2);
     }
     .btn-submit-kov:active {
-      background: #065f46;
+      background-color: #0d381e;
+      transform: translateY(0);
     }
     .btn-submit-kov:disabled {
-      opacity: 0.65;
+      opacity: 0.6;
       cursor: not-allowed;
+      transform: none;
     }
   </style>
 </head>

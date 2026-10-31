@@ -11441,6 +11441,127 @@ html:not(:has(.kov-app-shell)):not(:has(.dd-layout-root)) {
   color: #6ee7b7 !important;
 }
 
+/* =========================================================================
+   KOV EXECUTIVE ANTI-SLOP FORM ARCHITECTURE & SYMMETRICAL TYPOGRAPHY
+   Standard: Framed-Sheet Minimalism | Symmetrical 8px Spacing Grid
+   Curated by Cila (UI/UX Designer & Anti-Slop Art Director)
+   ========================================================================= */
+
+/* 1. Global Symmetrical Form Stride */
+.form-control:not(.form-control-sm):not(textarea),
+.form-select:not(.form-select-sm) {
+  height: 42px !important;
+  border-radius: 8px !important;
+  border: 1px solid #cbd5e1 !important;
+  padding: 0.55rem 0.85rem !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+  font-size: 0.9375rem !important; /* 15px - prevent iOS zoom */
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.18s ease !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #166534 !important; /* KOV Botanical Pine */
+  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12) !important;
+  outline: none !important;
+}
+
+/* 2. Symmetrical Labels & Optical Alignment */
+.form-label,
+label.form-label {
+  display: block !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
+  font-size: 0.8125rem !important; /* 13px */
+  font-weight: 600 !important;
+  color: #334155 !important;
+  margin-bottom: 0.4rem !important;
+  letter-spacing: -0.005em !important;
+}
+
+/* 3. Anti-Slop Primary Action Buttons */
+.btn-primary,
+.btn-submit-kov,
+.btn-kov-primary {
+  background: #166534 !important; /* KOV Pine Solid */
+  background-color: #166534 !important;
+  border-color: #166534 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-primary:hover,
+.btn-submit-kov:hover,
+.btn-kov-primary:hover {
+  background: #14532d !important;
+  background-color: #14532d !important;
+  border-color: #14532d !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(22, 101, 52, 0.2) !important;
+}
+
+.btn-primary:active,
+.btn-submit-kov:active,
+.btn-kov-primary:active {
+  background-color: #0d381e !important;
+  transform: translateY(0) !important;
+}
+
+/* 4. Tabular Numerics across all inputs & tables */
+input[type="number"],
+input[type="tel"],
+.num-tabular,
+.kov-table td.num {
+  font-feature-settings: "tnum" 1, "lnum" 1 !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+}
+
+/* 5. Framed-Sheet Form Cards */
+.card-modern-form,
+.kov-card-form {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 14px !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+.card-modern-form .card-header,
+.kov-card-form .card-header {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* 6. Dark Theme Symmetrical Form Support */
+[data-theme="dark"] .form-control:not(.form-control-sm):not(textarea),
+[data-theme="dark"] .form-select:not(.form-select-sm) {
+  background-color: #101726 !important;
+  border-color: #1e293b !important;
+  color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  border-color: #166534 !important;
+  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.22) !important;
+}
+
+[data-theme="dark"] .form-label,
+[data-theme="dark"] label.form-label {
+  color: #cbd5e1 !important;
+}
+
 
 
 
