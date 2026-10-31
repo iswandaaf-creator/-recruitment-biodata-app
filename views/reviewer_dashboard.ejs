@@ -692,11 +692,8 @@
             </div>
             <textarea id="hrMemoNoteInput" class="form-control form-control-sm" rows="2" style="font-size: 11.5px;" placeholder="Tulis rincian memo, nama kandidat, atau ruangan..."></textarea>
           </div>
-          <div class="d-flex align-items-center justify-content-between gap-1.5 pt-1">
-            <button type="button" class="btn-kov-outline btn-sm" style="height: 30px; min-height: 30px; font-size: 11px; padding: 0 8px;" onclick="testMemoErrorState()" title="Uji Animasi Error Validasi">
-              <i class="fas fa-bolt text-danger"></i> Uji Error
-            </button>
-            <button type="submit" id="btnSaveHrMemo" class="btn-kov-primary btn-sm flex-grow-1" style="height: 30px; min-height: 30px; font-size: 11.5px;">
+          <div class="d-flex align-items-center justify-content-end pt-1">
+            <button type="submit" id="btnSaveHrMemo" class="btn-kov-primary btn-sm w-100" style="height: 30px; min-height: 30px; font-size: 11.5px;">
               <i class="fas fa-check"></i> Simpan Memo
             </button>
           </div>
@@ -1331,11 +1328,7 @@
     }
 
     function testMemoErrorState() {
-      const titleInput = document.getElementById('hrMemoTitleInput');
-      if (titleInput) titleInput.value = '';
-      if (window.KovToast && typeof window.KovToast.triggerError === 'function') {
-        window.KovToast.triggerError(titleInput, 'Kolom Judul Memo & Agenda wajib diisi sebelum menyimpan!', 'Contoh Validasi Error');
-      }
+      // Backward compatibility stub
     }
 
     function toggleHrMemoDone(id) {

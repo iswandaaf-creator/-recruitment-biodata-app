@@ -41,7 +41,7 @@
             <i class="fas fa-moon kov-theme-icon"></i>
           </button>
           <a href="/api/export/pdf/<%= candidate.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-danger btn-kov-sm">
-            <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">PDF 5 Halaman</span>
+            <i class="fas fa-file-pdf"></i> <span class="d-none d-sm-inline">Unduh PDF</span>
           </a>
           <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
             <form action="/admin/candidate/delete/<%= candidate.id %>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berkas pelamar <%= candidate.nama_lengkap %> secara permanen?');">
