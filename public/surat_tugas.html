@@ -151,7 +151,7 @@
 
   <!-- Clean, Authentic Corporate Top Navbar -->
   <nav class="kov-public-nav mb-4">
-    <div class="container d-flex align-items-center justify-content-between" style="max-width: 980px;">
+    <div class="container d-flex align-items-center justify-content-between" style="max-width: 960px;">
       <div class="d-flex align-items-center gap-3">
         <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" class="kov-public-logo">
         <div>
@@ -160,7 +160,7 @@
         </div>
       </div>
       <div class="d-flex align-items-center gap-2">
-        <button type="button" class="btn-kov-outline btn-sm px-2.5 py-1" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang"><i class="fas fa-moon kov-theme-icon"></i></button>
+        <button type="button" class="btn-kov-outline btn-sm px-3 py-1" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang"><i class="fas fa-moon kov-theme-icon"></i></button>
         <a href="/admin/operasional/surat-tugas" class="btn-kov-outline btn-sm px-3">
           <i class="fas fa-table-columns me-1"></i> Dashboard
         </a>
@@ -169,12 +169,12 @@
   </nav>
 
   <!-- Page Title Block -->
-  <div class="container text-center mb-4" style="max-width: 800px;">
+  <div class="container text-center mb-4" style="max-width: 960px;">
     <h1 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.02em;">Surat Tugas &amp; Pertanggungjawaban Dinas</h1>
     <p class="text-muted small mb-0">Penugasan dinas luar kota dan pelaporan pertanggungjawaban biaya (LPJ) KOV Group.</p>
   </div>
 
-  <div class="container pb-5" style="max-width: 980px;">
+  <div class="container pb-5" style="max-width: 960px;">
     <form id="suratTugasForm">
 
       <!-- ======================================================== -->
@@ -265,14 +265,14 @@
         <div class="card-body p-4">
           <p class="small text-muted mb-3">Masukkan nama staf/karyawan yang ditugaskan dinas luar kota:</p>
           <div class="table-responsive">
-            <table class="table kov-table align-middle" id="tablePetugas">
+            <table class="table kov-table align-middle" id="tablePetugas" style="min-width: 720px;">
               <thead>
                 <tr>
-                  <th style="width: 50px;" class="ps-3 text-center">No</th>
-                  <th>Nama Karyawan</th>
-                  <th style="width: 30%;">Jabatan</th>
-                  <th style="width: 25%;">Divisi</th>
-                  <th style="width: 60px;" class="text-center pe-3">Aksi</th>
+                  <th style="width: 50px; min-width: 50px;" class="ps-3 text-center">No</th>
+                  <th style="min-width: 220px;">Nama Karyawan</th>
+                  <th style="min-width: 180px;">Jabatan</th>
+                  <th style="min-width: 180px;">Divisi</th>
+                  <th style="width: 60px; min-width: 60px;" class="text-center pe-3">Aksi</th>
                 </tr>
               </thead>
               <tbody id="petugasBody">
@@ -337,19 +337,21 @@
           <span>4. Lembar Otorisasi &amp; Tanda Tangan Digital</span>
         </div>
         <div class="card-body p-4">
-          <div class="row g-4">
+          <div class="row g-4 align-items-stretch">
             
             <!-- Dibuat Oleh (User / KA Outlet) -->
             <div class="col-md-4">
-              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between">
+              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between shadow-xs">
                 <div>
-                  <div class="badge bg-secondary mb-2 rounded-pill px-3">Dibuat Oleh</div>
-                  <h6 class="fw-bold mb-1" id="preview_user_nama">User (KA Outlet)</h6>
+                  <div class="badge bg-secondary mb-2 rounded-pill px-3 py-1">Dibuat Oleh</div>
+                  <h6 class="fw-bold mb-0" id="preview_user_nama">User (KA Outlet)</h6>
                   <p class="small text-muted mb-2" id="preview_user_jabatan">KA Outlet</p>
-                  <label class="form-label small text-muted mb-1">Tanda Tangan Digital (Pembuat):</label>
-                  <div class="signature-container mb-2">
+                  <label class="form-label small text-muted mb-1">Tanda Tangan Digital:</label>
+                  <div class="signature-container mb-2" style="height: 150px;">
                     <canvas id="signaturePad"></canvas>
                   </div>
+                </div>
+                <div class="pt-2 border-top">
                   <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="clearSignature()">
                     <i class="fas fa-eraser me-1"></i>Hapus TTD
                   </button>
@@ -359,17 +361,17 @@
 
             <!-- Diperiksa Oleh (Pemeriksa / GM) -->
             <div class="col-md-4">
-              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between">
+              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between shadow-xs">
                 <div>
-                  <div class="badge bg-primary mb-2 rounded-pill px-3">Diperiksa Oleh</div>
-                  <h6 class="fw-bold mb-1">Aldo Widarta - GM</h6>
-                  <p class="small text-muted mb-2">General Manager</p>
-                  <div class="mt-4 pt-3">
-                    <img src="/logo_kov_hijau.png" height="35" style="opacity: 0.7;" alt="KOV">
-                    <div class="small text-muted mt-2">Pemeriksaan Manajemen Pusat</div>
+                  <div class="badge bg-primary mb-2 rounded-pill px-3 py-1">Diperiksa Oleh</div>
+                  <h6 class="fw-bold mb-0">Aldo Widarta</h6>
+                  <p class="small text-muted mb-3">General Manager</p>
+                  <div class="my-4 py-2">
+                    <img src="/logo_kov_2.jpg" height="42" style="border-radius: 8px; opacity: 0.85;" alt="KOV">
+                    <div class="small fw-semibold text-secondary mt-2">Pemeriksaan Manajemen Pusat</div>
                   </div>
                 </div>
-                <div class="small text-muted mt-2 border-top pt-2">
+                <div class="small text-muted pt-2 border-top">
                   <i class="fas fa-clock me-1 text-warning"></i>Status: Pending Review
                 </div>
               </div>
@@ -377,20 +379,20 @@
 
             <!-- Disetujui Oleh (KA Divisi) -->
             <div class="col-md-4">
-              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between border-success">
+              <div class="p-3 border rounded-3 bg-light text-center h-100 d-flex flex-column justify-content-between border-success shadow-xs">
                 <div>
-                  <div class="badge bg-success mb-2 rounded-pill px-3">Disetujui Oleh (KA Divisi)</div>
-                  <h6 class="fw-bold mb-1 text-success fs-5" id="display_ka_divisi_nama">Pilih Divisi di atas</h6>
+                  <div class="badge bg-success mb-2 rounded-pill px-3 py-1">Disetujui Oleh (KA Divisi)</div>
+                  <h6 class="fw-bold mb-0 text-success" id="display_ka_divisi_nama">Pilih Divisi di atas</h6>
                   <p class="small text-muted mb-2" id="display_ka_divisi_jabatan">Penyetuju (KA Divisi)</p>
                   
-                  <div class="text-start mt-3">
-                    <label class="form-label small">Nama Pejabat:</label>
+                  <div class="text-start mt-2">
+                    <label class="form-label small mb-1">Nama Pejabat:</label>
                     <input type="text" class="form-control form-control-sm mb-2 fw-bold text-success font-monospace" name="ka_divisi_nama" id="ka_divisi_nama" readonly required>
-                    <label class="form-label small">Jabatan:</label>
+                    <label class="form-label small mb-1">Jabatan:</label>
                     <input type="text" class="form-control form-control-sm" name="ka_divisi_jabatan" id="ka_divisi_jabatan" readonly>
                   </div>
                 </div>
-                <div class="small text-muted mt-2 border-top pt-2">
+                <div class="small text-muted pt-2 border-top">
                   <i class="fas fa-check-double me-1 text-success"></i>Otoritas Persetujuan Divisi
                 </div>
               </div>

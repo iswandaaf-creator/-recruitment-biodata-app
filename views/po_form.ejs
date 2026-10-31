@@ -409,7 +409,7 @@
               <label class="form-label">Nama Dagang / Toko</label>
               <input type="text" class="form-control" name="vendor_nama_dagang" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.vendor_nama_dagang) ? poToCopy.vendor_nama_dagang : '' %>" placeholder="Contoh: AGRES.ID / Tokopedia Official">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <label class="form-label">Perihal Pengadaan <span class="text-danger">*</span></label>
               <input type="text" class="form-control" name="perihal" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.perihal) ? poToCopy.perihal : '' %>" placeholder="Contoh: Pengadaan Laptop Kasir & Perlengkapan IT" required>
             </div>
@@ -620,6 +620,9 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
               <div class="mb-2">
                 <label class="form-label small">Perwakilan</label>
                 <input type="text" class="form-control form-control-sm" name="vendor_konfirmasi_jabatan" value="Perwakilan Resmi">
+              </div>
+              <div class="p-3 bg-light rounded-3 text-center text-muted small mt-4 border">
+                <i class="fas fa-handshake text-secondary me-1"></i>Konfirmasi Pesanan Sesuai Kesepakatan
               </div>
             </div>
           </div>
