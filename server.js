@@ -464,8 +464,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// Static files (dilindungi di bawah auth guard)
-app.use(express.static(path.join(__dirname, 'public')));
+// Static files (dilindungi di bawah auth guard, anti-cache revalidation for UI assets)
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.css') || filePath.endsWith('.js')) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
+}));
 
 // Favicon route (Official KOV Logo)
 app.get('/favicon.ico', (req, res) => {

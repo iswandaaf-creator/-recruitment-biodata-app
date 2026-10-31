@@ -13,7 +13,7 @@
   
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261101_v14_clean" rel="stylesheet">
 
   <style>
     html, body {
@@ -33,9 +33,7 @@
     }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: #f4f8f6;
-      background-image: radial-gradient(#cde3d9 1px, transparent 1px);
-      background-size: 24px 24px;
+      background-color: #f8fafc;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -43,14 +41,13 @@
       justify-content: center;
       padding: 2rem 1.25rem;
       margin: 0;
-      color: #384d42;
+      color: #0f172a;
       -webkit-font-smoothing: antialiased;
       transition: background-color 0.28s ease, color 0.22s ease;
     }
 
     [data-theme="dark"] body {
-      background-color: #f5f3ed;
-      background-image: radial-gradient(#162923 1px, transparent 1px);
+      background-color: #090d16;
       color: #f8fafc;
     }
 
@@ -64,59 +61,49 @@
     .login-container {
       width: 100%;
       max-width: 440px;
-      animation: kovLoginFadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: kovLoginFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes kovLoginFadeUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     .login-card {
       background: #ffffff;
-      border: 1px solid #dcece5;
-      border-radius: 18px;
-      padding: 2.35rem 2.1rem;
-      box-shadow: 0 4px 20px -4px rgba(6, 78, 59, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 2.25rem 2rem;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
       position: relative;
       overflow: hidden;
-      transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
-    }
-
-    .login-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #064e3b 0%, #059669 50%, #10b981 100%);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
     }
 
     [data-theme="dark"] .login-card {
-      background: #fcfbf9;
-      border-color: #1f362e;
-      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+      background: #111827;
+      border-color: #1f2937;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
 
     .login-brand-header {
       text-align: center;
-      margin-bottom: 1.85rem;
+      margin-bottom: 1.75rem;
     }
 
     .brand-logo-frame {
-      width: 56px;
-      height: 56px;
-      margin: 0 auto 1.15rem;
-      border-radius: 14px;
-      border: 1px solid #a7f3d0;
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 1rem;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
       padding: 4px;
       background: #ffffff;
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.14);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.2s ease;
     }
 
     .brand-logo-frame:hover {
@@ -124,46 +111,46 @@
     }
 
     [data-theme="dark"] .brand-logo-frame {
-      background: #f5f3ed;
-      border-color: rgba(16, 185, 129, 0.35);
+      background: #1f2937;
+      border-color: #374151;
     }
 
     .brand-logo-frame img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 10px;
+      border-radius: 8px;
     }
 
     .brand-kicker {
-      font-family: 'IBM Plex Mono', monospace;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.6875rem;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: #059669;
+      color: #166534;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      padding: 4px 12px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      padding: 3px 10px;
       border-radius: 9999px;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.65rem;
     }
 
     [data-theme="dark"] .brand-kicker {
-      background: rgba(5, 150, 105, 0.2);
-      border-color: rgba(16, 185, 129, 0.35);
-      color: #34d399;
+      background: rgba(22, 101, 52, 0.2);
+      border-color: rgba(34, 197, 94, 0.3);
+      color: #4ade80;
     }
 
     .login-title {
-      font-size: 1.4rem;
-      font-weight: 800;
+      font-size: 1.35rem;
+      font-weight: 700;
       letter-spacing: -0.025em;
-      color: #384d42;
-      margin: 0 0 0.45rem;
+      color: #0f172a;
+      margin: 0 0 0.35rem;
     }
 
     [data-theme="dark"] .login-title {
@@ -171,10 +158,10 @@
     }
 
     .login-sub {
-      font-size: 0.825rem;
+      font-size: 0.8125rem;
       color: #64748b;
       margin: 0;
-      line-height: 1.5;
+      line-height: 1.4;
     }
 
     [data-theme="dark"] .login-sub {
@@ -187,11 +174,11 @@
 
     .form-label-kov {
       display: block;
-      font-size: 0.78rem;
-      font-weight: 700;
+      font-size: 0.8125rem;
+      font-weight: 600;
       color: #334155;
       margin-bottom: 0.4rem;
-      letter-spacing: 0.01em;
+      letter-spacing: -0.005em;
     }
 
     [data-theme="dark"] .form-label-kov {
@@ -210,47 +197,48 @@
       color: #94a3b8;
       font-size: 0.85rem;
       pointer-events: none;
-      transition: color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: color 0.18s ease;
     }
 
     .input-field-kov {
       width: 100%;
-      height: 44px;
-      padding: 0 14px 0 40px;
-      font-size: 0.885rem;
-      color: #384d42;
+      height: 42px;
+      padding: 0 14px 0 38px;
+      font-size: 0.9375rem;
+      color: #0f172a;
       background: #ffffff;
       border: 1px solid #cbd5e1;
-      border-radius: 10px;
+      border-radius: 8px;
       outline: none;
-      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
       font-family: inherit;
     }
 
     [data-theme="dark"] .input-field-kov {
-      background: #f5f3ed;
-      border-color: #264239;
+      background: #101726;
+      border-color: #1e293b;
       color: #f8fafc;
     }
 
     .input-field-kov:focus {
-      border-color: #059669;
+      border-color: #166534;
       background: #ffffff;
-      box-shadow: 0 0 0 3.5px rgba(5, 150, 105, 0.16);
+      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12);
     }
 
     [data-theme="dark"] .input-field-kov:focus {
-      border-color: #10b981;
-      background: #fcfbf9;
-      box-shadow: 0 0 0 3.5px rgba(16, 185, 129, 0.2);
+      border-color: #166534;
+      background: #101726;
+      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.25);
     }
 
     .input-shell:focus-within .input-icon {
-      color: #059669;
+      color: #166534;
     }
 
     [data-theme="dark"] .input-shell:focus-within .input-icon {
-      color: #34d399;
+      color: #4ade80;
     }
 
     .toggle-pw-btn {
@@ -269,41 +257,42 @@
     }
 
     .toggle-pw-btn:hover {
-      color: #059669;
+      color: #166534;
     }
 
     [data-theme="dark"] .toggle-pw-btn:hover {
-      color: #34d399;
+      color: #4ade80;
     }
 
     .btn-submit-linear {
       width: 100%;
-      height: 44px;
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      height: 42px;
+      background-color: #166534; /* KOV Botanical Pine Solid */
       color: #ffffff;
-      border: 1px solid #047857;
-      border-radius: 10px;
+      border: none;
+      border-radius: 8px;
       font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
+      font-weight: 600;
+      letter-spacing: -0.01em;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
       margin-top: 0.5rem;
     }
 
     .btn-submit-linear:hover {
-      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+      background-color: #14532d;
+      box-shadow: 0 4px 12px rgba(22, 101, 52, 0.2);
       transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.35);
     }
 
     .btn-submit-linear:active {
-      transform: translateY(0) scale(0.99);
+      background-color: #0d381e;
+      transform: translateY(0);
     }
 
     .alert-banner-error {
