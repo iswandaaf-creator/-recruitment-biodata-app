@@ -378,8 +378,8 @@ app.get('/api/keep-alive', (req, res) => {
 
 // Global Auth Guard: Rute publik untuk form pelamar ber-token, login, dan asset; rute internal wajib login
 app.use((req, res, next) => {
-  // 1. Izinkan file asset statis (logo, uploads, gambar, css, js, fonts, assets figma)
-  if (req.path.startsWith('/logo') || req.path.startsWith('/uploads/') || req.path.startsWith('/assets/') || req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff|woff2|ttf|pdf)$/i)) {
+  // 1. Izinkan file asset statis (logo, uploads, gambar, css, js, fonts, assets figma, layout prototype)
+  if (req.path.startsWith('/logo') || req.path.startsWith('/uploads/') || req.path.startsWith('/assets/') || req.path === '/kov_layout.html' || req.path === '/kov-layout' || req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff|woff2|ttf|pdf)$/i)) {
     return next();
   }
 
