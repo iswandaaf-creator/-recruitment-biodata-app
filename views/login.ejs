@@ -6,16 +6,23 @@
   <title>Login — KOV Management Portal</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
-  <!-- Typography: Plus Jakarta Sans & IBM Plex Mono -->
+  <!-- Typography: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
 
   <style>
+    html, body {
+      height: auto !important;
+      min-height: 100% !important;
+      max-height: none !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+    }
     :root {
       --kov-emerald: #059669;
       --kov-emerald-dark: #047857;
@@ -356,7 +363,7 @@
     }
   </style>
 </head>
-<body>
+<body class="kov-form-body">
 
   <div class="login-theme-Corner">
     <button type="button" class="btn-kov-outline btn-sm px-3 py-1.5" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">

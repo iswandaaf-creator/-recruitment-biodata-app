@@ -2654,9 +2654,13 @@
 }
 
 @media (min-width: 992px) {
-  /* Lock document viewport so browser window NEVER scrolls */
-  html,
-  body {
+  /* Lock document viewport ONLY on dashboard shells with fixed sidebars */
+  html:has(.dd-layout-root),
+  body:has(.dd-layout-root),
+  html:has(.kov-app-shell),
+  body:has(.kov-app-shell),
+  html.kov-shell-locked,
+  body.kov-shell-locked {
     height: 100% !important;
     max-height: 100vh !important;
     overflow: hidden !important;
@@ -11272,5 +11276,29 @@ a:hover .hand-icon {
   box-shadow: 0 16px 36px -8px rgba(56, 77, 66, 0.14) !important;
   animation: fadeUpOrganic 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
 }
+
+/* =========================================================================
+   PUBLIC FORMS & STANDALONE PAGES SCROLL GUARANTEE (ANTI-TRUNCATION)
+   Guarantees that public recruitment forms, BA pengajuan, surat tugas,
+   and login forms NEVER get cut off / truncated by viewport locks.
+   ========================================================================= */
+body.kov-form-body,
+html.kov-form-html,
+body.kov-public-form,
+body:not(:has(.kov-app-shell)):not(:has(.dd-layout-root)) {
+  height: auto !important;
+  min-height: 100% !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+html:not(:has(.kov-app-shell)):not(:has(.dd-layout-root)) {
+  height: auto !important;
+  max-height: none !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
 
 
