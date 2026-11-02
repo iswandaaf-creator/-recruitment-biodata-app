@@ -6,35 +6,26 @@
   <title>Formulir Berita Acara Pengajuan Barang — Divisi Operasional</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
-  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Bootstrap 5 CSS & FontAwesome -->
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   
   <!-- Figma Design Token System -->
-  <link href="/assets/css/kov-portal.css?v=20261101_v14_clean" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
   <script src="/assets/js/kov-toast.js"></script>
   <script src="/assets/js/kov-theme.js"></script>
 
   <style>
-    html, body {
-      height: auto !important;
-      min-height: 100% !important;
-      max-height: none !important;
-      overflow-x: hidden !important;
-      overflow-y: auto !important;
-    }
-
     body {
       background-color: #f8fafc;
       color: #334155;
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 4rem;
     }
 
     /* Clean, Human Topbar */
@@ -60,57 +51,46 @@
       transform: scale(1.05);
     }
 
-    /* Section Cards - Clean Human Layout (KOV Framed-Sheet Architecture) */
+    /* Section Cards - Clean Human Layout */
     .card-modern-form {
       background: #ffffff;
       border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+      border-radius: 18px;
+      box-shadow: 0 2px 10px -2px rgba(6, 78, 59, 0.05), 0 1px 3px 0 rgba(15, 23, 42, 0.03);
       margin-bottom: 1.5rem;
       overflow: hidden;
-      transition: border-color 0.18s ease;
-    }
-    .card-modern-form:hover {
-      border-color: #cbd5e1;
     }
     .card-modern-form .card-header {
       background: #f8fafc;
       border-bottom: 1px solid #e2e8f0;
-      padding: 0.9rem 1.25rem;
+      padding: 0.85rem 1.25rem;
       font-weight: 700;
       color: #0f172a;
       font-size: 0.95rem;
-      letter-spacing: -0.015em;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
     .form-label {
-      display: block;
       font-weight: 600;
-      font-size: 0.8125rem;
+      font-size: 0.82rem;
       color: #334155;
-      margin-bottom: 0.4rem;
-      letter-spacing: -0.005em;
+      margin-bottom: 0.35rem;
     }
 
     .form-control, .form-select {
-      height: 42px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #cbd5e1;
-      padding: 0.55rem 0.85rem;
-      font-size: 0.9375rem; /* 15px - prevent iOS auto-zoom */
-      color: #0f172a;
+      padding: 0.55rem 0.8rem;
+      font-size: 0.885rem;
+      transition: all 0.15s ease;
       background-color: #ffffff;
-      transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .form-control:focus, .form-select:focus {
-      border-color: #166534; /* KOV Botanical Pine */
-      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12);
+      border-color: #059669;
+      box-shadow: 0 0 0 3.5px rgba(5, 150, 105, 0.16);
       background-color: #ffffff;
-      outline: none;
     }
 
     .item-card-row {
@@ -119,11 +99,10 @@
       border-radius: 8px;
       padding: 1rem;
       margin-bottom: 0.85rem;
-      transition: all 0.18s ease;
+      transition: all 0.15s ease;
     }
     .item-card-row:hover {
       border-color: #cbd5e1;
-      background-color: #ffffff;
     }
 
     .signature-container {
@@ -142,36 +121,26 @@
       border-radius: 8px;
     }
 
-    /* Human-Crafted KOV Botanical Pine CTA */
     .btn-submit-kov {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #166534; /* KOV Botanical Pine Solid */
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
       color: #ffffff;
       border: none;
-      padding: 0.75rem 2.5rem;
-      font-weight: 600;
-      border-radius: 8px;
-      font-size: 0.9375rem;
-      letter-spacing: -0.01em;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-      cursor: pointer;
-      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      padding: 0.8rem 2.5rem;
+      font-weight: 700;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: background-color 0.15s ease;
     }
     .btn-submit-kov:hover {
-      background-color: #14532d;
+      background: #047857;
       color: #ffffff;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(22, 101, 52, 0.2);
     }
     .btn-submit-kov:active {
-      background-color: #0d381e;
-      transform: translateY(0);
+      background: #065f46;
     }
   </style>
 </head>
-<body class="kov-form-body">
+<body>
 
   <!-- Clean, Authentic Corporate Top Navbar -->
   <nav class="kov-public-nav mb-4">
@@ -184,18 +153,18 @@
         </div>
       </div>
       <div class="d-none d-sm-block text-end">
-        <div class="d-inline-flex align-items-center gap-2"><span class="text-secondary small me-1">Semarang, Jawa Tengah</span><button type="button" class="btn-kov-outline btn-sm px-3 py-1" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang"><i class="fas fa-moon kov-theme-icon"></i></button></div>
+        <div class="d-inline-flex align-items-center gap-2"><span class="text-secondary small me-1">Semarang, Jawa Tengah</span><button type="button" class="btn-kov-outline btn-sm px-2.5 py-1" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang"><i class="fas fa-moon kov-theme-icon"></i></button></div>
       </div>
     </div>
   </nav>
 
   <!-- Page Title Block -->
-  <div class="container text-center mb-4" style="max-width: 960px;">
+  <div class="container text-center mb-4" style="max-width: 800px;">
     <h1 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.02em;">Berita Acara Pengajuan Barang</h1>
     <p class="text-muted small mb-0">Formulir pengajuan pembelian, repair, replacement &amp; retur barang operasional KOV Group.</p>
   </div>
 
-  <div class="container pb-5" style="max-width: 960px;">
+  <div class="container pb-5" style="max-width: 980px;">
     <form id="pengajuanForm">
       <input type="hidden" name="share_token" id="shareToken">
 
@@ -425,15 +394,15 @@
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
-            <div class="col-md-3">
+            <div class="col-md-4">
               <label class="form-label">Riwayat Repair Sebelum Ini</label>
               <select class="form-select" name="riwayat_repair_status">
                 <option value="Tidak Pernah" selected>Tidak Pernah</option>
                 <option value="Pernah">Pernah</option>
               </select>
             </div>
-            <div class="col-md-3">
-              <label class="form-label">Frekuensi Pernah Repair</label>
+            <div class="col-md-2">
+              <label class="form-label">Jumlah Kali Repair</label>
               <input type="number" class="form-control" name="riwayat_repair_kali" min="0" value="0">
             </div>
             <div class="col-md-3">
@@ -553,24 +522,18 @@
           <span>G. Persetujuan &amp; Otorisasi Manajemen</span>
         </div>
         <div class="card-body p-4">
-          <div class="row g-4 align-items-stretch">
-            <div class="col-md-6 d-flex flex-column justify-content-between">
-              <div>
-                <label class="form-label fw-bold">Tanda Tangan Digital Pembuat Pengajuan: <span class="text-danger">*</span></label>
-                <div class="signature-container" style="height: 185px;">
-                  <canvas id="sigCanvas"></canvas>
-                </div>
-                <div class="mt-2 d-flex justify-content-between align-items-center">
-                  <span class="text-muted small" style="font-size: 11px;"><i class="fas fa-pen-nib me-1"></i>Gunakan mouse / layar sentuh</span>
-                  <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="btnClearSig">
-                    <i class="fas fa-eraser me-1"></i>Hapus Tanda Tangan
-                  </button>
-                </div>
-                <input type="hidden" name="signature_dibuat" id="signature_dibuat">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label class="form-label fw-bold">Tanda Tangan Digital Pembuat Pengajuan: <span class="text-danger">*</span></label>
+              <div class="signature-container">
+                <canvas id="sigCanvas"></canvas>
               </div>
-              <div class="p-2.5 rounded-3 bg-light border small text-muted mt-3">
-                <i class="fas fa-shield-halved text-success me-1"></i>Tanda tangan digital sah dan terikat secara administratif untuk Berita Acara internal KOV.
+              <div class="mt-2 text-end">
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" id="btnClearSig">
+                  <i class="fas fa-eraser me-1"></i>Hapus Tanda Tangan
+                </button>
               </div>
+              <input type="hidden" name="signature_dibuat" id="signature_dibuat">
             </div>
 
             <div class="col-md-6 border-start ps-4">

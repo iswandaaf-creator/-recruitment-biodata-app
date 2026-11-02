@@ -1,3 +1,11 @@
+/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full
+ * paper: #f8fafc · accent: #166534 · display: Plus Jakarta Sans · body: Plus Jakarta Sans
+ * nav: kept · signature: kept · states: default, hover, focus, active, disabled
+ * axes: paper/display/accent · posture: restrained · contrast: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P_ H_ E_ S_ R_ V_ · weakest: R, refined table column balance, symmetrical grids, and untracked typography */
+@import url("./tokens.css");
+@import url("./base.css");
+
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 /**
  * KOV Management Portal - Unified Anti-Slop Framed-Sheet Design System
@@ -117,7 +125,7 @@
   --kov-radius-pill: 9999px;
 
   /* Smooth Transitions */
-  --kov-transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --kov-transition: color 0.2s cubic-bezier, background-color 0.2s cubic-bezier, border-color 0.2s cubic-bezier, box-shadow 0.2s cubic-bezier, opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* =========================================================================
@@ -305,7 +313,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   font-size: 0.8rem;
   flex-shrink: 0;
 }
@@ -338,7 +346,7 @@
     gap: 0;
   }
   .kov-sidebar.collapsed .kov-sidebar-collapse-btn {
-    display: inline-flex !important;
+    display: none !important;
   }
 
   /* Compact Dividers */
@@ -566,7 +574,7 @@
   font-size: 0.85rem;
   font-weight: 600;
   text-decoration: none;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.2s cubic-bezier, background-color 0.2s cubic-bezier, border-color 0.2s cubic-bezier, box-shadow 0.2s cubic-bezier, opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   margin-bottom: 4px;
 }
 .kov-nav-item:hover {
@@ -631,7 +639,7 @@
   text-decoration: none;
   background: rgba(239, 68, 68, 0.08);
   border: 1px solid rgba(239, 68, 68, 0.15);
-  transition: all 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
 }
 .kov-logout-link:hover {
   background: rgba(239, 68, 68, 0.18);
@@ -722,7 +730,7 @@
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--kov-slate-800, #1e293b);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.2s cubic-bezier, background-color 0.2s cubic-bezier, border-color 0.2s cubic-bezier, box-shadow 0.2s cubic-bezier, opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .coinbase-search-input:focus {
   background: #ffffff;
@@ -840,7 +848,7 @@
   color: var(--kov-slate-600);
   font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.2s cubic-bezier, background-color 0.2s cubic-bezier, border-color 0.2s cubic-bezier, box-shadow 0.2s cubic-bezier, opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   padding: 0;
 }
 
@@ -870,7 +878,7 @@
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 8px;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
 .kov-theme-toggle-sidebar:hover {
@@ -913,7 +921,7 @@
   background: #ffffff;
   border-radius: 14px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.18s cubic-bezier, background-color 0.18s cubic-bezier, border-color 0.18s cubic-bezier, box-shadow 0.18s cubic-bezier, opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .coinbase-table tbody tr:hover {
   transform: translateY(-1.5px);
@@ -1156,7 +1164,7 @@
   border: 1px solid #065f46;
   font-weight: 650;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 2px 4px rgba(4, 120, 87, 0.25);
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.15s cubic-bezier, background-color 0.15s cubic-bezier, border-color 0.15s cubic-bezier, box-shadow 0.15s cubic-bezier, opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-kov-approve:hover {
   background: linear-gradient(180deg, #047857 0%, #064e3b 100%);
@@ -1173,7 +1181,7 @@
   border: 1px solid #9f1239;
   font-weight: 650;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 2px 4px rgba(190, 18, 60, 0.25);
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.15s cubic-bezier, background-color 0.15s cubic-bezier, border-color 0.15s cubic-bezier, box-shadow 0.15s cubic-bezier, opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .btn-kov-reject:hover {
   background: linear-gradient(180deg, #be123c 0%, #881337 100%);
@@ -1511,7 +1519,7 @@
   justify-content: center;
   position: relative;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   font-size: 0.95rem;
 }
 .kov-topbar-bell-btn:hover {
@@ -1561,7 +1569,7 @@
   border-radius: 16px;
   padding: 18px 20px;
   box-shadow: 0 4px 16px rgba(7, 43, 34, 0.04);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: color 0.25s cubic-bezier, background-color 0.25s cubic-bezier, border-color 0.25s cubic-bezier, box-shadow 0.25s cubic-bezier, opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1621,7 +1629,7 @@
   align-items: center;
   justify-content: center;
   font-size: 0.75rem;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   border: 1px solid #e1efe9;
 }
 .kov-kpi-card:hover .kov-kpi-arrow-btn {
@@ -1744,7 +1752,7 @@
   align-items: center;
   gap: 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   text-decoration: none;
 }
 .kov-btn-outline-pill:hover {
@@ -1765,7 +1773,7 @@
   gap: 6px;
   cursor: pointer;
   box-shadow: 0 3px 10px rgba(0, 168, 107, 0.28);
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   text-decoration: none;
 }
 .kov-btn-mint-pill:hover {
@@ -1851,7 +1859,7 @@
   color: #28473e;
   outline: none;
   width: 100%;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 .kov-pill-search:focus {
   background: #ffffff;
@@ -1868,7 +1876,7 @@
   font-weight: 600;
   cursor: pointer;
   outline: none;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 .kov-pill-select:focus {
   border-color: #00a86b;
@@ -1893,7 +1901,7 @@
   background: #ffffff;
   color: #28473e;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2008,7 +2016,7 @@
   align-items: center;
   gap: 6px;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 .kov-action-review-btn:hover {
   background: #00a86b;
@@ -2027,7 +2035,7 @@
   justify-content: center;
   font-size: 0.8rem;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 .kov-action-icon-circle:hover {
   background: #fdf2f2;
@@ -2047,7 +2055,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   font-size: 1rem;
 }
 .kov-mobile-toggle-btn:hover {
@@ -2065,7 +2073,7 @@
   border: 1px solid var(--kov-botanical-card-border, #dcece5);
   border-radius: 9999px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   box-shadow: 0 1px 3px rgba(7, 43, 34, 0.03);
 }
 .kov-topbar-user-pill:hover {
@@ -2084,7 +2092,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 .kov-filter-icon-btn:hover {
   background: #f0f7f4;
@@ -2132,7 +2140,7 @@
   justify-content: center;
   font-size: 0.8rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   margin-left: 8px;
 }
 .kov-url-copy-btn:hover {
@@ -2270,7 +2278,7 @@
   border: 1px solid #047857 !important;
   font-weight: 600 !important;
   border-radius: 8px !important;
-  transition: all 0.15s ease-in-out !important;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, opacity 0.15s ease-in-out !important;
   box-shadow: 0 1px 2px rgba(5, 150, 105, 0.2) !important;
 }
 
@@ -2289,7 +2297,7 @@
   border: 1px solid #cbd5e1 !important;
   font-weight: 500 !important;
   border-radius: 8px !important;
-  transition: all 0.15s ease-in-out !important;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, opacity 0.15s ease-in-out !important;
 }
 
 .btn-kov-secondary:hover, .btn-secondary-kov:hover, .kov-btn-outline-pill:hover {
@@ -2304,7 +2312,7 @@
   border: 1px solid #fecaca !important;
   font-weight: 600 !important;
   border-radius: 8px !important;
-  transition: all 0.15s ease-in-out !important;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, opacity 0.15s ease-in-out !important;
 }
 
 .btn-kov-danger:hover {
@@ -2432,101 +2440,62 @@
   --dd-primary-rgb: 22, 101, 52;
   --dd-primary-hover: #14532d;
   --dd-primary-active: #052e16;
-  --dd-primary-subtle: #dfece3;
+  --dd-primary-subtle: #f0fdf4;
   --dd-primary-glow: none;
 
-  /* Natural Tonal Pastel Palette (Zero Black, Soft Botanical Contrast) */
-  --bg-linen: #f5f3ed;
-  --bg-sidebar: #e6efe9;
-  --bg-paper: #fcfbf9;
-  --bg-cream-pad: #f7f3e8;
-  --border-organic: #d8e2dc;
-  --border-subtle: #e9efe9;
-
-  /* Tonal Pastel Pigments (Varied Hue, Saturation & Brightness - No Black) */
-  --celadon-bg: #dfece3;
-  --celadon-border: #bdd6c5;
-  --celadon-stroke: #3f6f56;
-  --celadon-ink: #2e5943;
-
-  --ochre-bg: #f6eed8;
-  --ochre-border: #e5d4a7;
-  --ochre-stroke: #9c782b;
-  --ochre-ink: #6e5219;
-
-  --terracotta-bg: #f6e5da;
-  --terracotta-border: #e6c6b0;
-  --terracotta-stroke: #a65d37;
-  --terracotta-ink: #784124;
-
-  --mauve-bg: #f0e4e8;
-  --mauve-border: #ddc3cb;
-  --mauve-stroke: #8c4a5b;
-  --mauve-ink: #6e3645;
-
-  --dusk-bg: #e6e9f4;
-  --dusk-border: #c8cfe6;
-  --dusk-stroke: #54638f;
-  --dusk-ink: #3c4a73;
-
-  /* Soft Botanical Ink Hierarchy (Zero Pitch-Black) */
-  --ink-deep: #384d42;
-  --ink-body: #586e62;
-  --ink-muted: #7d9186;
-
   /* Quiet Framed Chrome Sidebar Tokens (Taste-Skill Framed Sheet) */
-  --dd-sidebar-bg: #e6efe9;
-  --dd-sidebar-text: #586e62;
-  --dd-sidebar-text-hover: #384d42;
-  --dd-sidebar-active-bg: #fcfbf9;
-  --dd-sidebar-active-bar: #3f6f56;
-  --dd-sidebar-border: #d8e2dc;
+  --dd-sidebar-bg: #ffffff;
+  --dd-sidebar-text: #475569;
+  --dd-sidebar-text-hover: #0f172a;
+  --dd-sidebar-active-bg: rgba(22, 101, 52, 0.08);
+  --dd-sidebar-active-bar: #166534;
+  --dd-sidebar-border: #e2e8f0;
 
   /* Framed Sheet Surfaces (Light Mode) */
-  --dd-canvas-bg: #f5f3ed;
-  --dd-surface-card: #fcfbf9;
-  --dd-surface-panel: #f7f3e8;
-  --dd-surface-input: #ffffff;
-  --dd-surface-hover: rgba(223, 236, 227, 0.45);
-  --dd-surface-active: #dfece3;
-  --dd-border: #d8e2dc;
-  --dd-border-subtle: #e9efe9;
-  --dd-border-focus: #3f6f56;
+  --dd-canvas-bg: #f8fafc;
+  --dd-surface-card: #ffffff;
+  --dd-surface-panel: #ffffff;
+  --dd-surface-input: #f8fafc;
+  --dd-surface-hover: #f1f5f9;
+  --dd-surface-active: #f1f5f9;
+  --dd-border: #e2e8f0;
+  --dd-border-subtle: #f1f5f9;
+  --dd-border-focus: #166534;
 
   /* High-Contrast Typographic Hierarchy (Light) */
-  --dd-text-primary: #384d42;
-  --dd-text-secondary: #586e62;
-  --dd-text-muted: #7d9186;
+  --dd-text-primary: #0f172a;
+  --dd-text-secondary: #475569;
+  --dd-text-muted: #64748b;
   --dd-text-light: #ffffff;
 
-  /* Architectural Metric Semantic Accents (Anti-Slop Natural Pastels) */
-  --dd-coral-start: #f6e5da;
-  --dd-coral-end: #f6e5da;
+  /* Architectural Metric Semantic Accents (Anti-Slop / Zero Neon Glow) */
+  --dd-coral-start: #ffffff;
+  --dd-coral-end: #ffffff;
   --dd-coral-glow: none;
-  --dd-coral-bg: #f6e5da;
-  --dd-coral-text: #784124;
+  --dd-coral-bg: #fef2f2;
+  --dd-coral-text: #991b1b;
 
-  --dd-royal-start: #e6e9f4;
-  --dd-royal-end: #e6e9f4;
+  --dd-royal-start: #ffffff;
+  --dd-royal-end: #ffffff;
   --dd-royal-glow: none;
-  --dd-royal-bg: #e6e9f4;
-  --dd-royal-text: #3c4a73;
+  --dd-royal-bg: #f1f5f9;
+  --dd-royal-text: #1e293b;
 
-  --dd-amber-start: #f6eed8;
-  --dd-amber-end: #f6eed8;
+  --dd-amber-start: #ffffff;
+  --dd-amber-end: #ffffff;
   --dd-amber-glow: none;
-  --dd-amber-bg: #f6eed8;
-  --dd-amber-text: #6e5219;
+  --dd-amber-bg: #fffbeb;
+  --dd-amber-text: #92400e;
 
-  --dd-emerald-start: #dfece3;
-  --dd-emerald-end: #dfece3;
+  --dd-emerald-start: #ffffff;
+  --dd-emerald-end: #ffffff;
   --dd-emerald-glow: none;
-  --dd-emerald-bg: #dfece3;
-  --dd-emerald-text: #2e5943;
+  --dd-emerald-bg: #f0fdf4;
+  --dd-emerald-text: #166534;
 
   /* Executive Command Header Surface */
-  --dd-hero-gradient: #fcfbf9;
-  --dd-hero-border: #d8e2dc;
+  --dd-hero-gradient: #ffffff;
+  --dd-hero-border: #e2e8f0;
 
   /* Strict Anti-Slop: Zero Drop Shadows (Depth via 1px Rules & Tone Steps) */
   --dd-shadow-sm: none;
@@ -2535,98 +2504,61 @@
   --dd-shadow-card: none;
 
   /* Controlled Geometric Radii */
-  --dd-radius-sm: 8px;
-  --dd-radius-md: 10px;
-  --dd-radius-lg: 14px;
-  --dd-radius-xl: 16px;
-  --dd-radius-2xl: 18px;
+  --dd-radius-sm: 6px;
+  --dd-radius-md: 8px;
+  --dd-radius-lg: 12px;
+  --dd-radius-xl: 14px;
+  --dd-radius-2xl: 16px;
   --dd-radius-pill: 9999px;
 
   /* Precision Transitions */
-  --dd-transition: all 0.16s ease;
+  --dd-transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
   --dd-transition-slow: all 0.25s ease;
 }
 
 /* ==========================================================================
-   2. ALTERNATE PASTEL THEME TOKENS ([data-theme="pastel-sage"] / [data-theme="dark"] / .theme-dark)
+   2. DARK THEME TOKENS ([data-theme="dark"] / .theme-dark)
    ========================================================================== */
 
-[data-theme="pastel-sage"],
 [data-theme="dark"],
 .theme-dark {
-  --bg-linen: #eef3f0;
-  --bg-sidebar: #dfebe4;
-  --bg-paper: #f9fbf9;
-  --bg-cream-pad: #f1eff8;
-  --border-organic: #cddcd3;
-  --border-subtle: #e2ece6;
+  --dd-canvas-bg: #070a12;
+  --dd-surface-card: #101726;
+  --dd-surface-panel: #101726;
+  --dd-surface-input: #151f33;
+  --dd-surface-hover: #19243c;
+  --dd-surface-active: #19243c;
+  --dd-border: #1e293b;
+  --dd-border-subtle: #151e2e;
+  --dd-border-focus: #22c55e;
 
-  --celadon-bg: #d6ebe0;
-  --celadon-border: #b0d1bf;
-  --celadon-stroke: #3b6b52;
-  --celadon-ink: #2c543f;
+  --dd-text-primary: #f8fafc;
+  --dd-text-secondary: #94a3b8;
+  --dd-text-muted: #64748b;
 
-  --ochre-bg: #f5ebd0;
-  --ochre-border: #e0ce9e;
-  --ochre-stroke: #947126;
-  --ochre-ink: #694e16;
+  --dd-hero-gradient: #101726;
+  --dd-hero-border: #1e293b;
 
-  --terracotta-bg: #f4e1d4;
-  --terracotta-border: #e2bfa8;
-  --terracotta-stroke: #9e5632;
-  --terracotta-ink: #733d22;
-
-  --mauve-bg: #ede0e5;
-  --mauve-border: #d8bcc5;
-  --mauve-stroke: #854455;
-  --mauve-ink: #693341;
-
-  --dusk-bg: #e1e5f2;
-  --dusk-border: #c1c9e3;
-  --dusk-stroke: #4f5e8a;
-  --dusk-ink: #39466e;
-
-  --ink-deep: #354a3f;
-  --ink-body: #53695d;
-  --ink-muted: #768b80;
-
-  --dd-canvas-bg: #eef3f0;
-  --dd-surface-card: #f9fbf9;
-  --dd-surface-panel: #f1eff8;
-  --dd-surface-input: #ffffff;
-  --dd-surface-hover: rgba(214, 235, 224, 0.45);
-  --dd-surface-active: #d6ebe0;
-  --dd-border: #cddcd3;
-  --dd-border-subtle: #e2ece6;
-  --dd-border-focus: #3b6b52;
-
-  --dd-text-primary: #354a3f;
-  --dd-text-secondary: #53695d;
-  --dd-text-muted: #768b80;
-
-  --dd-hero-gradient: #f9fbf9;
-  --dd-hero-border: #cddcd3;
-
-  --dd-sidebar-bg: #dfebe4;
-  --dd-sidebar-text: #53695d;
-  --dd-sidebar-text-hover: #354a3f;
-  --dd-sidebar-active-bg: #f9fbf9;
-  --dd-sidebar-active-bar: #3b6b52;
-  --dd-sidebar-border: #cddcd3;
+  --dd-sidebar-bg: #0b0f19;
+  --dd-sidebar-text: #94a3b8;
+  --dd-sidebar-text-hover: #f8fafc;
+  --dd-sidebar-active-bg: rgba(22, 101, 52, 0.25);
+  --dd-sidebar-active-bar: #22c55e;
+  --dd-sidebar-border: #1e293b;
 
   --dd-shadow-sm: none;
   --dd-shadow-md: none;
   --dd-shadow-lg: none;
   --dd-shadow-card: none;
 
-  --dd-coral-bg: #f4e1d4;
-  --dd-coral-text: #733d22;
-  --dd-royal-bg: #e1e5f2;
-  --dd-royal-text: #39466e;
-  --dd-amber-bg: #f5ebd0;
-  --dd-amber-text: #694e16;
-  --dd-emerald-bg: #d6ebe0;
-  --dd-emerald-text: #2c543f;
+  --dd-coral-bg: rgba(239, 68, 68, 0.15);
+  --dd-coral-text: #fca5a5;
+  --dd-royal-bg: rgba(59, 130, 246, 0.15);
+  --dd-royal-text: #93c5fd;
+  --dd-amber-bg: rgba(245, 158, 11, 0.15);
+  --dd-amber-text: #fde68a;
+  --dd-emerald-bg: rgba(16, 185, 129, 0.15);
+  --dd-emerald-text: #6ee7b7;
 }
 
 /* Base Reset & Typography */
@@ -2654,13 +2586,9 @@
 }
 
 @media (min-width: 992px) {
-  /* Lock document viewport ONLY on dashboard shells with fixed sidebars */
-  html:has(.dd-layout-root),
-  body:has(.dd-layout-root),
-  html:has(.kov-app-shell),
-  body:has(.kov-app-shell),
-  html.kov-shell-locked,
-  body.kov-shell-locked {
+  /* Lock document viewport so browser window NEVER scrolls */
+  html,
+  body {
     height: 100% !important;
     max-height: 100vh !important;
     overflow: hidden !important;
@@ -2858,7 +2786,7 @@
     width: 260px !important;
     height: 100vh !important;
     z-index: 1050 !important;
-    transition: left 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.15s ease(0.16, 1, 0.3, 1) !important;
   }
 
   .dd-sidebar.show,
@@ -3033,7 +2961,7 @@
   padding: 8px 12px !important;
   font-weight: 500 !important;
   border-left: 3px solid transparent !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 .dd-nav-item:hover,
@@ -3152,7 +3080,7 @@
   width: 73%;
   background: linear-gradient(90deg, #f8b849 0%, #ee474e 50%, #166534 100%);
   border-radius: var(--dd-radius-pill);
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.15s ease, transform 0.15s ease(0.4, 0, 0.2, 1);
   box-shadow: 0 0 10px rgba(22, 101, 52, 0.5);
 }
 
@@ -3514,7 +3442,7 @@
   justify-content: space-between !important;
   min-height: 52px !important;
   position: relative !important;
-  transition: all 0.16s ease !important;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease !important;
   cursor: pointer !important;
   text-decoration: none !important;
   overflow: hidden !important;
@@ -4145,7 +4073,7 @@
   border: 1px solid var(--dd-border, #e2e8f0) !important;
   color: var(--dd-text-secondary, #475569) !important;
   background-color: var(--dd-surface-card, #ffffff) !important;
-  transition: all 0.16s ease !important;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease !important;
   box-shadow: none !important;
 }
 
@@ -4181,7 +4109,7 @@
   border: 1px solid var(--dd-border, #e2e8f0) !important;
   border-radius: 10px !important;
   box-shadow: none !important;
-  transition: all 0.16s ease !important;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease !important;
 }
 
 .coinbase-kpi-card:hover,
@@ -4208,7 +4136,7 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  transition: all 0.16s ease !important;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease !important;
 }
 .btn-kov-primary:hover {
   background: var(--dd-primary-hover, #14532d) !important;
@@ -4227,7 +4155,7 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  transition: all 0.16s ease !important;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease !important;
   box-shadow: none !important;
 }
 .btn-kov-outline:hover {
@@ -4246,7 +4174,7 @@
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  transition: all 0.16s ease !important;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease !important;
   box-shadow: none !important;
 }
 .btn-kov-secondary:hover {
@@ -4767,7 +4695,7 @@
 /* The 3 Segment Colors matching Sketch */
 .dd-bar-segment {
   width: 100%;
-  transition: height 0.6s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .dd-seg-bottom { background-color: var(--dd-royal-start); }
@@ -5200,7 +5128,7 @@ input:focus-visible,
   border: 1px solid var(--dd-border, #e2e8f0) !important;
   background: var(--dd-surface-card, #ffffff) !important;
   box-shadow: none !important;
-  transition: all 0.16s ease !important;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease !important;
 }
 
 .dd-folder-card:hover {
@@ -5302,7 +5230,7 @@ input:focus-visible,
   font-size: 0.78rem !important;
   font-weight: 600 !important;
   cursor: pointer !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 .dd-theme-toggle-btn:hover {
@@ -5324,7 +5252,7 @@ input:focus-visible,
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 [data-theme="dark"] .kov-user-badge-box {
@@ -5625,7 +5553,7 @@ body, .dd-theme, .kov-app-shell {
   gap: 10px !important;
   cursor: pointer !important;
   text-decoration: none !important;
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: color 0.15s cubic-bezier, background-color 0.15s cubic-bezier, border-color 0.15s cubic-bezier, box-shadow 0.15s cubic-bezier, opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02) !important;
   position: relative !important;
 }
@@ -5863,7 +5791,7 @@ td.num, th.num, .num-tabular {
   font-size: 0.8rem !important;
   font-weight: 600 !important;
   text-decoration: none !important;
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: color 0.15s cubic-bezier, background-color 0.15s cubic-bezier, border-color 0.15s cubic-bezier, box-shadow 0.15s cubic-bezier, opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .btn-kov-outline:hover {
@@ -5890,7 +5818,7 @@ td.num, th.num, .num-tabular {
   gap: 6px !important;
   cursor: pointer !important;
   text-decoration: none !important;
-  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: color 0.15s cubic-bezier, background-color 0.15s cubic-bezier, border-color 0.15s cubic-bezier, box-shadow 0.15s cubic-bezier, opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .btn-dd-hero:hover {
@@ -5934,7 +5862,7 @@ td.num, th.num, .num-tabular {
   height: 36px !important;
   flex: 1 !important;
   max-width: 480px !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 .dd-search-container:focus-within {
@@ -5979,7 +5907,7 @@ td.num, th.num, .num-tabular {
   text-decoration: none !important;
   border: 1px solid transparent !important;
   background: transparent !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
   white-space: nowrap !important;
 }
 
@@ -6123,7 +6051,7 @@ body,
   height: 36px !important;
   flex: 1 !important;
   max-width: 480px !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 .dd-search-container:focus-within {
@@ -6210,7 +6138,7 @@ body,
   border-radius: 8px !important;
   padding: 14px 16px !important;
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04) !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 .coinbase-kpi-card:hover,
@@ -6325,7 +6253,7 @@ body,
   font-size: 0.8125rem !important;
   font-weight: 500 !important;
   box-shadow: none !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
   text-decoration: none !important;
 }
 
@@ -6471,7 +6399,7 @@ body,
   background: #ffffff !important;
   color: #475467 !important;
   cursor: pointer !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 .kov-filter-pill-botanical:hover {
@@ -6589,7 +6517,7 @@ body,
   padding: 10px 12px !important;
   margin-top: 8px !important;
   cursor: pointer !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 .dd-task-card:hover {
@@ -6923,7 +6851,7 @@ body,
   display: inline-flex !important;
   align-items: center !important;
   gap: 5px !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
   text-decoration: none !important;
 }
 
@@ -6955,7 +6883,7 @@ body,
   align-items: center !important;
   justify-content: center !important;
   font-size: 0.75rem !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
   text-decoration: none !important;
 }
 
@@ -7028,7 +6956,7 @@ body,
   border-radius: 8px !important;
   padding: 16px !important;
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04) !important;
-  transition: all 0.15s ease !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
 }
 
 .reviewer-grid-card:hover {
@@ -7111,7 +7039,7 @@ textarea,
 .dd-nav-arrow-btn,
 .dd-icon-btn,
 .kov-botanical-table tbody tr {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: color 0.2s cubic-bezier, background-color 0.2s cubic-bezier, border-color 0.2s cubic-bezier, box-shadow 0.2s cubic-bezier, opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 /* Tactile Active Scaling (Physical feedback on touch/click) */
@@ -7191,7 +7119,7 @@ body,
   gap: 10px !important;
   max-width: 480px !important;
   width: 100% !important;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: color 0.2s cubic-bezier, background-color 0.2s cubic-bezier, border-color 0.2s cubic-bezier, box-shadow 0.2s cubic-bezier, opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .dd-search-container:focus-within {
@@ -7528,7 +7456,7 @@ body,
   cursor: pointer !important;
   white-space: nowrap !important;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
-  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: color 0.16s cubic-bezier, background-color 0.16s cubic-bezier, border-color 0.16s cubic-bezier, box-shadow 0.16s cubic-bezier, opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .dd-folder-card:hover {
@@ -7560,7 +7488,7 @@ body,
   background: #f1f5f9 !important;
   color: #64748b !important;
   font-variant-numeric: tabular-nums !important;
-  transition: all 0.16s ease !important;
+  transition: color 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease !important;
 }
 
 .dd-folder-card.active .badge-tab-count {
@@ -8046,7 +7974,7 @@ time {
   border-right: 1px solid rgba(16, 185, 129, 0.14) !important;
   box-shadow: 4px 0 24px rgba(2, 8, 6, 0.18) !important;
   z-index: 1030 !important;
-  transition: width var(--kov-transition-smooth), flex-basis var(--kov-transition-smooth), transform var(--kov-transition-smooth) !important;
+  transition: opacity 0.15s ease, transform 0.15s ease(--kov-transition-smooth), flex-basis var(--kov-transition-smooth), transform var(--kov-transition-smooth) !important;
 }
 
 @media (min-width: 992px) {
@@ -8199,7 +8127,7 @@ time {
   border: 1px solid transparent !important;
   font-size: 13px !important;
   font-weight: 500 !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
   text-decoration: none !important;
   box-shadow: none !important;
 }
@@ -8265,7 +8193,7 @@ time {
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .kov-theme-toggle-sidebar:hover {
@@ -8317,7 +8245,7 @@ time {
   gap: 8px !important;
   padding: 7px 10px !important;
   text-decoration: none !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .kov-logout-link:hover {
@@ -8437,7 +8365,7 @@ time {
   gap: 8px !important;
   box-shadow: 0 2px 8px rgba(5, 150, 105, 0.22) !important;
   text-decoration: none !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .btn-drive-upload:hover {
@@ -8460,7 +8388,7 @@ time {
   align-items: center !important;
   gap: 7px !important;
   text-decoration: none !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .btn-topbar-action:hover {
@@ -8496,7 +8424,7 @@ time {
   border: 1px solid var(--kov-border-color) !important;
   text-decoration: none !important;
   white-space: nowrap !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .nav-link-modern:hover {
@@ -8603,7 +8531,7 @@ time {
   box-shadow: 0 2px 6px rgba(5, 150, 105, 0.2) !important;
   cursor: pointer !important;
   text-decoration: none !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
   white-space: nowrap !important;
 }
 
@@ -8632,7 +8560,7 @@ time {
   gap: 6px !important;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03) !important;
   text-decoration: none !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
   white-space: nowrap !important;
 }
 
@@ -8812,7 +8740,7 @@ time {
   justify-content: center !important;
   gap: 7px !important;
   white-space: nowrap !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
   box-shadow: none !important;
   text-decoration: none !important;
   outline: none !important;
@@ -8864,7 +8792,7 @@ time {
   border-radius: 9999px !important;
   line-height: 1.3 !important;
   font-variant-numeric: tabular-nums !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .dd-folder-card.active .badge-tab-count {
@@ -9001,7 +8929,7 @@ time {
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
   white-space: nowrap !important;
   flex: 0 0 auto !important;
 }
@@ -9219,7 +9147,7 @@ time {
   gap: 5px !important;
   text-decoration: none !important;
   box-shadow: 0 1px 3px rgba(5, 150, 105, 0.2) !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .kov-action-review-btn:hover {
@@ -9240,7 +9168,7 @@ time {
   font-size: 12px !important;
   color: #475569 !important;
   text-decoration: none !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .kov-action-icon-circle:hover {
@@ -9289,7 +9217,7 @@ time {
   cursor: pointer !important;
   color: #334155 !important;
   font-variant-numeric: tabular-nums !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .dd-cal-day:hover {
@@ -9319,7 +9247,7 @@ time {
   border-radius: 10px !important;
   padding: 10px 12px !important;
   cursor: pointer !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
   margin-top: 8px !important;
 }
 
@@ -9425,7 +9353,7 @@ time {
   border-radius: 10px !important;
   font-size: 0.95rem !important;
   box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28) !important;
-  transition: all var(--kov-transition-fast) !important;
+  transition: color 0.15s var, background-color 0.15s var, border-color 0.15s var, box-shadow 0.15s var, opacity 0.15s var(--kov-transition-fast) !important;
 }
 
 .btn-submit-kov:hover {
@@ -9518,7 +9446,7 @@ time {
   z-index: 100000;
   opacity: 0;
   pointer-events: none;
-  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease(0.22, 1, 0.36, 1), opacity 0.2s ease;
 }
 
 .kov-top-progress-bar.is-active {
@@ -9621,7 +9549,7 @@ html, body {
   border-radius: 10px;
   padding: 9px 11px;
   margin-top: 7px;
-  transition: all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: color 0.2s cubic-bezier, background-color 0.2s cubic-bezier, border-color 0.2s cubic-bezier, box-shadow 0.2s cubic-bezier, opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .kov-memo-item:hover {
@@ -9671,1897 +9599,2162 @@ html, body {
 
 
 /* ==========================================================================
-   12. KOV ARTISANAL PASTEL PALETTE & CURATED TYPOGRAPHY (BRICOLAGE + DM SANS)
+   12. DEFINITIVE KOV FRAMED-SHEET ANTI-SLOP DESIGN SYSTEM (V20)
+   - Architectural Standard: Flat surfaces, 1px solid #e2e8f0 hairlines
+   - Typography: Plus Jakarta Sans with rational scale & tabular numerals
+   - Palette: Pure Slate-50 (#f8fafc) Canvas, Crisp White Cards, KOV Forest Pine (#166534)
+   - Zero-slop: NO rainbow pastel tiles, NO fake icons, NO wobbly radii, NO gradients
    ========================================================================== */
-:root {
-  --kov-font-display: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif;
-  --kov-font-sans: 'DM Sans', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --kov-font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
 
-  --kov-bg-canvas: #f4f7f4;
-  --kov-pastel-sage: #e6efe9;
-  --kov-pastel-sage-border: #cfdfd5;
-  --kov-pastel-mint: #dff4e8;
-  --kov-pastel-honey: #fdf3d7;
-  --kov-pastel-sky: #e3f0ff;
-  --kov-pastel-lavender: #ece9ff;
-  --kov-pastel-peach: #fde9e1;
+:root {
+  --kov-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  --kov-font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace !important;
+  
+  --kov-pine: #166534 !important;
+  --kov-pine-hover: #14532d !important;
+  --kov-pine-light: #f0fdf4 !important;
+  
+  --kov-canvas: #f8fafc !important;
+  --cb-canvas: #f8fafc !important;
+  --cb-surface-card: #ffffff !important;
+  --cb-surface-input: #ffffff !important;
+  --cb-border: #e2e8f0 !important;
+  --cb-border-subtle: #f1f5f9 !important;
+  --cb-border-focus: #166534 !important;
+
+  --cb-text-primary: #0f172a !important;
+  --cb-text-secondary: #334155 !important;
+  --cb-text-muted: #64748b !important;
+  --cb-text-subtle: #94a3b8 !important;
+
+  --kov-slate-900: #0f172a !important;
+  --kov-slate-800: #1e293b !important;
+  --kov-slate-700: #334155 !important;
+  --kov-slate-600: #475569 !important;
+  --kov-slate-500: #64748b !important;
+  --kov-slate-400: #94a3b8 !important;
+  --kov-slate-200: #e2e8f0 !important;
+  --kov-slate-100: #f1f5f9 !important;
+  --kov-slate-50: #f8fafc !important;
+
+  --dd-text-primary: #0f172a !important;
+  --dd-text-secondary: #64748b !important;
+  --dd-surface-card: #ffffff !important;
+  --dd-border: #e2e8f0 !important;
+  --dd-primary: #166534 !important;
+  
+  --bs-body-font-family: var(--kov-font-sans) !important;
+  --bs-body-color: #334155 !important;
+  --bs-body-bg: #f8fafc !important;
 }
 
+/* Base Body & Layout Framework */
 body, .dd-layout-root, .kov-app-shell {
   font-family: var(--kov-font-sans) !important;
-  background-color: var(--kov-bg-canvas) !important;
-  color: #142820 !important;
+  background-color: #f8fafc !important;
+  color: #334155 !important;
+  -webkit-font-smoothing: antialiased !important;
 }
 
-h1, h2, h3, h4, .dd-hero-title, .kov-table-title, .kov-card-title, .bento-metric-value, .kov-kpi-cell-val {
-  font-family: var(--kov-font-display) !important;
-  letter-spacing: -0.025em !important;
+.num, td.num, th.num, .kov-table-date, .kov-table-time, .bento-metric-value, .badge-tab-count {
+  font-variant-numeric: tabular-nums !important;
 }
 
-/* Pastel Sage Sidebar (Friendly, Non-Slop Light Botanical Sidebar in Light Mode) */
-html:not([data-theme="dark"]) .dd-sidebar.kov-sidebar,
-html:not([data-theme="dark"]) .kov-sidebar {
-  background: linear-gradient(180deg, #e5f0e9 0%, #dcebe2 100%) !important;
-  border-right: 1px solid #c8ddd0 !important;
-  box-shadow: none !important;
-}
-
-html:not([data-theme="dark"]) .dd-brand-text span:first-child {
-  color: #113023 !important;
-  font-family: var(--kov-font-display) !important;
-}
-
-html:not([data-theme="dark"]) .dd-nav-group-title,
-html:not([data-theme="dark"]) .kov-nav-group-title {
-  color: #4a6b5d !important;
-  opacity: 0.9 !important;
-}
-
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item {
-  color: #27473a !important;
+/* Headings & Rational Scale */
+h1, h2, h3, h4, h5, h6, .dd-hero-title, .kov-table-title, .kov-card-title {
+  font-family: var(--kov-font-sans) !important;
+  color: #0f172a !important;
   font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
 }
 
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item i,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item i {
-  color: #2e6f54 !important;
+.text-dark {
+  color: #0f172a !important;
 }
 
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item:hover,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item:hover {
-  background: rgba(255, 255, 255, 0.65) !important;
-  color: #0d291e !important;
+.text-muted {
+  color: #64748b !important;
 }
 
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active {
-  background: #ffffff !important;
-  color: #0f5338 !important;
-  border: 1px solid #b7d7c5 !important;
-  box-shadow: 0 4px 12px rgba(17, 48, 35, 0.06) !important;
+/* --- 1. Symmetrical App Shell & Sidebar Navigation --- */
+.dd-layout-root {
+  display: flex !important;
+  min-height: 100vh !important;
+  background-color: #f8fafc !important;
 }
 
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active i,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active i {
-  color: #059669 !important;
-}
-
-html:not([data-theme="dark"]) .kov-sidebar-footer,
-html:not([data-theme="dark"]) .dd-sidebar-footer {
-  background: rgba(255, 255, 255, 0.45) !important;
-  border-top: 1px solid #c8ddd0 !important;
-}
-
-html:not([data-theme="dark"]) .kov-theme-toggle-sidebar,
-html:not([data-theme="dark"]) .kov-user-badge-box {
-  background: #ffffff !important;
-  border: 1px solid #c8ddd0 !important;
-  color: #143326 !important;
-}
-
-html:not([data-theme="dark"]) .kov-user-name {
-  color: #143326 !important;
-}
-
-/* Pastel KPI Cards */
-html:not([data-theme="dark"]) .kov-kpi-row,
-html:not([data-theme="dark"]) .kov-kpi-strip {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  gap: 12px !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(1),
-html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(1) {
-  background: #dff4e8 !important;
-  border: 1px solid #bfe6d0 !important;
-  border-radius: 16px !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(2),
-html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(2) {
-  background: #fdf3d7 !important;
-  border: 1px solid #f5dfa6 !important;
-  border-radius: 16px !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(3),
-html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(3) {
-  background: #dcf2f0 !important;
-  border: 1px solid #b4e2dd !important;
-  border-radius: 16px !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(4),
-html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(4) {
-  background: #eae8ff !important;
-  border: 1px solid #d2cefa !important;
-  border-radius: 16px !important;
-}
-
-/* ==========================================================================
-   14. CURATED TYPOGRAPHY (BRICOLAGE GROTESQUE + DM SANS) & HIGH-CONTRAST ROASTERY UI
-   - Deep KOV Forest Roast Left Sidebar (#0c2219 -> #07150f) with 14:1 WCAG AAA contrast
-   - Warm Pastel Matcha Active Pill (#d8f3e5) with Deep Forest Ink (#062e1e)
-   - High-Contrast Pastel Telemetry Cards & Folder-Tab Division Strip
-   ========================================================================== */
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
-
-:root {
-  --kov-font-display: "Bricolage Grotesque", sans-serif !important;
-  --kov-font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif !important;
-  --kov-font-mono: "JetBrains Mono", monospace !important;
-  --kov-bg-canvas: #f3f6f3 !important;
-  --kov-pastel-mint: #d8f3e5;
-  --kov-pastel-honey: #fef0c7;
-  --kov-pastel-sky: #ccfbf1;
-  --kov-pastel-lavender: #ede9fe;
-  --kov-pastel-peach: #ffedd5;
-}
-
-body, .dd-layout-root, .kov-app-shell {
-  font-family: var(--kov-font-sans) !important;
-  background-color: var(--kov-bg-canvas) !important;
-  color: #0b1f17 !important;
-}
-
-h1, h2, h3, h4, .dd-hero-title, .kov-table-title, .kov-card-title, .bento-metric-value, .kov-kpi-cell-val {
-  font-family: var(--kov-font-display) !important;
-  letter-spacing: -0.025em !important;
-}
-
-/* Deep KOV Forest Roast Sidebar (High-Contrast 14:1 WCAG AAA) */
 .dd-sidebar.kov-sidebar,
 .kov-sidebar {
-  background: linear-gradient(180deg, #0c2219 0%, #07150f 100%) !important;
-  border-right: 1px solid #1d4334 !important;
-  box-shadow: 4px 0 20px rgba(7, 21, 15, 0.16) !important;
+  width: 250px !important;
+  min-width: 250px !important;
+  background: #ffffff !important;
+  border-right: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 50 !important;
 }
 
-.dd-brand-text span:first-child {
-  color: #ffffff !important;
-  font-family: var(--kov-font-display) !important;
+.dd-sidebar-brand,
+.kov-sidebar-brand {
+  height: 64px !important;
+  padding: 0 18px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.dd-brand-logo {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  text-decoration: none !important;
+}
+
+.dd-brand-icon img {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.dd-brand-text {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.dd-brand-text span:first-child,
+.kov-brand-title {
+  font-size: 14.5px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  letter-spacing: -0.01em !important;
+}
+
+.dd-dot {
+  color: #166534 !important;
   font-weight: 800 !important;
+}
+
+.kov-brand-subtitle {
+  font-size: 9.5px !important;
+  font-weight: 600 !important;
+  color: #94a3b8 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+.dd-sidebar-nav,
+.kov-sidebar-nav {
+  padding: 14px 12px !important;
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
 }
 
 .dd-nav-group-title,
 .kov-nav-group-title {
-  color: #86efac !important;
-  font-weight: 800 !important;
-  opacity: 1 !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: #94a3b8 !important;
+  padding: 12px 10px 4px !important;
 }
 
 .dd-sidebar .dd-nav-item,
 .kov-sidebar .kov-nav-item {
-  color: #f0fdf4 !important;
-  font-weight: 600 !important;
-  opacity: 1 !important;
-  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 10px !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #475569 !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
+  border: 1px solid transparent !important;
 }
 
 .dd-sidebar .dd-nav-item i,
 .kov-sidebar .kov-nav-item i {
-  color: #6ee7b7 !important;
-  opacity: 1 !important;
+  font-size: 14px !important;
+  width: 18px !important;
+  text-align: center !important;
+  color: #64748b !important;
 }
 
 .dd-sidebar .dd-nav-item:hover,
 .kov-sidebar .kov-nav-item:hover {
-  background: rgba(52, 211, 153, 0.16) !important;
-  border-color: rgba(110, 231, 183, 0.3) !important;
-  color: #ffffff !important;
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
 }
 
-.dd-sidebar .dd-nav-item:hover i,
-.kov-sidebar .kov-nav-item:hover i {
-  color: #a7f3d0 !important;
-}
-
-/* Active Nav Item: Warm Pastel Matcha Pill (#d8f3e5) + Deep Forest Ink (#062e1e) */
 .dd-sidebar .dd-nav-item.active,
 .kov-sidebar .kov-nav-item.active {
-  background: #d8f3e5 !important;
-  color: #062e1e !important;
-  border: 1px solid #6ee7b7 !important;
-  font-weight: 800 !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  border: 1px solid #dcfce7 !important;
+  font-weight: 600 !important;
+  box-shadow: none !important;
 }
 
-.dd-sidebar .dd-nav-item.active span,
-.kov-sidebar .kov-nav-item.active span,
 .dd-sidebar .dd-nav-item.active i,
-.kov-sidebar .kov-nav-item.active i {
-  color: #062e1e !important;
-}
-
-.kov-sidebar-collapse-btn {
-  background: rgba(16, 185, 129, 0.18) !important;
-  border: 1px solid rgba(110, 231, 183, 0.4) !important;
-  color: #ecfdf5 !important;
-}
-
-.kov-sidebar-collapse-btn:hover {
-  background: #d8f3e5 !important;
-  color: #062e1e !important;
+.kov-sidebar .kov-nav-item.active i,
+.dd-sidebar .dd-nav-item.active span,
+.kov-sidebar .kov-nav-item.active span {
+  color: #166534 !important;
 }
 
 .kov-sidebar-footer,
 .dd-sidebar-footer {
-  background: rgba(3, 10, 7, 0.45) !important;
-  border-top: 1px solid #1d4334 !important;
+  padding: 12px 14px !important;
+  border-top: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
 }
 
-.kov-theme-toggle-sidebar,
+.kov-theme-toggle-sidebar {
+  width: 100% !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  color: #475569 !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
+}
+
+.kov-theme-toggle-sidebar:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
 .kov-user-badge-box {
-  background: rgba(16, 46, 34, 0.85) !important;
-  border: 1px solid rgba(110, 231, 183, 0.3) !important;
-  color: #f0fdf4 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 10px !important;
+  border-radius: 6px !important;
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.kov-user-avatar {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 999px !important;
+  background: #0f172a !important;
+  color: #ffffff !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .kov-user-name {
-  color: #ffffff !important;
-  font-weight: 700 !important;
-}
-
-/* High-Contrast Pastel KPI Cards */
-html:not([data-theme="dark"]) .kov-kpi-row,
-html:not([data-theme="dark"]) .kov-kpi-strip {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  gap: 12px !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(1),
-html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(1) {
-  background: #d8f3e5 !important;
-  border: 1.5px solid #7fd4a8 !important;
-  border-radius: 16px !important;
-  color: #062e1e !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(2),
-html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(2) {
-  background: #fef0c7 !important;
-  border: 1.5px solid #f6c453 !important;
-  border-radius: 16px !important;
-  color: #451a03 !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(3),
-html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(3) {
-  background: #ccfbf1 !important;
-  border: 1.5px solid #5eead4 !important;
-  border-radius: 16px !important;
-  color: #092e2a !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(4),
-html:not([data-theme="dark"]) .kov-kpi-cell:nth-child(4) {
-  background: #ede9fe !important;
-  border: 1.5px solid #c4b5fd !important;
-  border-radius: 16px !important;
-  color: #2e1065 !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card .bento-metric-title,
-html:not([data-theme="dark"]) .coinbase-kpi-card .bento-metric-value,
-html:not([data-theme="dark"]) .coinbase-kpi-card .bento-metric-sub,
-html:not([data-theme="dark"]) .kov-kpi-cell .kov-kpi-cell-label,
-html:not([data-theme="dark"]) .kov-kpi-cell .kov-kpi-cell-val,
-html:not([data-theme="dark"]) .kov-kpi-cell .kov-kpi-cell-sub {
-  color: inherit !important;
-}
-
-
-
-/* ==========================================================================
-   15. HARMONIOUS PASTEL SYSTEM & SYMMETRICAL 8PT BENTO GRID (V18)
-   - Sidebar: Soft Pastel Sage (#ebf3ee) with Deep Botanical Ink (#1d2b24)
-   - KPI Row: 4 Equal Pastel Cards (Mint #e3f5ec, Peach #fdf0e2, Lavender #eeeaf9, Rose #fce8ec)
-   - Aligned Card Headers & Clean Table Proportions
-   ========================================================================== */
-:root {
-  --kov-bg-canvas: #f7f6f2 !important;
-  --pastel-mint: #e3f5ec;
-  --pastel-mint-border: #bce3cf;
-  --pastel-mint-ink: #163a2a;
-  --pastel-peach: #fdf0e2;
-  --pastel-peach-border: #f3d4b5;
-  --pastel-peach-ink: #592f13;
-  --pastel-lavender: #eeeaf9;
-  --pastel-lavender-border: #d3caf0;
-  --pastel-lavender-ink: #322359;
-  --pastel-rose: #fce8ec;
-  --pastel-rose-border: #f0c9d1;
-  --pastel-rose-ink: #5c212e;
-}
-
-html:not([data-theme="dark"]) body,
-html:not([data-theme="dark"]) .dd-layout-root,
-html:not([data-theme="dark"]) .kov-app-shell,
-html:not([data-theme="dark"]) .dd-main-canvas.kov-main-content {
-  background-color: #f7f6f2 !important;
-  color: #1d2b24 !important;
-  font-family: "DM Sans", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif !important;
-}
-
-/* Soft Pastel Sage Sidebar in Light Mode */
-html:not([data-theme="dark"]) .dd-sidebar.kov-sidebar,
-html:not([data-theme="dark"]) .kov-sidebar {
-  background: #ebf3ee !important;
-  border-right: 1px solid #d3e2d9 !important;
-  box-shadow: none !important;
-}
-
-html:not([data-theme="dark"]) .dd-sidebar-brand,
-html:not([data-theme="dark"]) .kov-sidebar-brand {
-  border-bottom: 1px solid #d3e2d9 !important;
-}
-
-html:not([data-theme="dark"]) .dd-brand-text span:first-child {
-  color: #1d2b24 !important;
-}
-
-html:not([data-theme="dark"]) .dd-brand-text small {
-  color: #485950 !important;
-}
-
-html:not([data-theme="dark"]) .dd-nav-group-title,
-html:not([data-theme="dark"]) .kov-nav-group-title {
-  color: #63786d !important;
-}
-
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item {
-  color: #364940 !important;
+  font-size: 12.5px !important;
   font-weight: 600 !important;
-  border-radius: 8px !important;
+  color: #0f172a !important;
 }
 
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item i,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item i {
-  color: #2d6a4f !important;
+.kov-role-badge {
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  color: #166534 !important;
+  background: #f0fdf4 !important;
+  border: 1px solid #dcfce7 !important;
+  padding: 1px 6px !important;
+  border-radius: 4px !important;
+  display: inline-block !important;
 }
 
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item:hover,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item:hover {
-  background: rgba(255, 255, 255, 0.7) !important;
-  color: #163a2a !important;
+.kov-user-chevron {
+  color: #94a3b8 !important;
+  font-size: 11px !important;
 }
 
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active {
+.kov-logout-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 12px !important;
+  color: #64748b !important;
+  text-decoration: none !important;
+  padding: 4px 6px !important;
+  transition: color 0.15s ease !important;
+}
+
+.kov-logout-link:hover {
+  color: #ef4444 !important;
+}
+
+/* --- 2. Main Workspace Canvas & Topbar --- */
+.dd-main-canvas.kov-main-content {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  padding: 20px 28px 40px !important;
+  background-color: #f8fafc !important;
+  overflow-y: auto !important;
+}
+
+.dd-topbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  margin-bottom: 18px !important;
+}
+
+.dd-search-container {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 520px !important;
+}
+
+.dd-search-icon {
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #94a3b8 !important;
+  font-size: 13px !important;
+  pointer-events: none !important;
+}
+
+.dd-search-input {
+  width: 100% !important;
+  height: 38px !important;
+  padding: 0 14px 0 36px !important;
   background: #ffffff !important;
-  color: #163a2a !important;
-  border: 1px solid #bce3cf !important;
-  box-shadow: 0 2px 6px rgba(22, 58, 42, 0.06) !important;
-  font-weight: 700 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  font-size: 13px !important;
+  color: #0f172a !important;
+  outline: none !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
 }
 
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active span,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active span,
-html:not([data-theme="dark"]) .dd-sidebar .dd-nav-item.active i,
-html:not([data-theme="dark"]) .kov-sidebar .kov-nav-item.active i {
-  color: #163a2a !important;
+.dd-search-input:focus {
+  border-color: #166534 !important;
+  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12) !important;
 }
 
-html:not([data-theme="dark"]) .kov-sidebar-footer,
-html:not([data-theme="dark"]) .dd-sidebar-footer {
-  background: rgba(255, 255, 255, 0.5) !important;
-  border-top: 1px solid #d3e2d9 !important;
-}
-
-html:not([data-theme="dark"]) .kov-theme-toggle-sidebar,
-html:not([data-theme="dark"]) .kov-user-badge-box {
-  background: #ffffff !important;
-  border: 1px solid #d3e2d9 !important;
-  color: #1d2b24 !important;
-}
-
-html:not([data-theme="dark"]) .kov-user-name {
-  color: #1d2b24 !important;
-}
-
-/* 4 Symmetrical Pastel KPI Cards */
-.kov-kpi-row {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 14px !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  margin-bottom: 16px !important;
-}
-
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(1) {
-  background: #e3f5ec !important;
-  border: 1px solid #bce3cf !important;
-  border-radius: 16px !important;
-  color: #163a2a !important;
-}
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(2) {
-  background: #fdf0e2 !important;
-  border: 1px solid #f3d4b5 !important;
-  border-radius: 16px !important;
-  color: #592f13 !important;
-}
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(3) {
-  background: #eeeaf9 !important;
-  border: 1px solid #d3caf0 !important;
-  border-radius: 16px !important;
-  color: #322359 !important;
-}
-html:not([data-theme="dark"]) .coinbase-kpi-card:nth-child(4) {
-  background: #fce8ec !important;
-  border: 1px solid #f0c9d1 !important;
-  border-radius: 16px !important;
-  color: #5c212e !important;
-}
-
-.kov-card, .kov-table-card, .dd-calendar-widget, .dd-task-widget {
-  border-radius: 16px !important;
-  border: 1px solid #e2e8e4 !important;
-  box-shadow: 0 2px 10px -2px rgba(29, 43, 36, 0.04) !important;
-}
-
-
-/* ==========================================================================
-   16. ZERO-BLACK NATURAL PASTEL HARMONY OVERRIDE (V19)
-   - Removes all harsh #000 / #090d16 / #0f172a / #212529 / .bg-dark / .text-dark
-   - Uses Soft Muted Botanical Slate-Green (#384d42) & Pastel Surfaces
-   ========================================================================== */
-:root, [data-theme="dark"], [data-theme="pastel-sage"], body, body.theme-dark {
-  --kov-canvas: #f5f3ed !important;
-  --cb-canvas: #f5f3ed !important;
-  --cb-surface-card: #fcfbf9 !important;
-  --cb-surface-input: #ffffff !important;
-  --cb-border: #d8e2dc !important;
-  --cb-text-primary: #384d42 !important;
-  --cb-text-secondary: #586e62 !important;
-  --cb-text-muted: #7d9186 !important;
-  --kov-slate-900: #384d42 !important;
-  --kov-slate-800: #496054 !important;
-  --kov-slate-700: #586e62 !important;
-  --dd-text-primary: #384d42 !important;
-  --bs-dark-rgb: 56, 77, 66 !important;
-  --bs-body-color: #384d42 !important;
-}
-
-body, .dd-layout-root, .kov-app-shell, .dd-main-canvas.kov-main-content {
-  background-color: #f5f3ed !important;
-  color: #384d42 !important;
-}
-
-.dd-sidebar.kov-sidebar, .kov-sidebar {
-  background: #e6efe9 !important;
-  border-right: 1px solid #d8e2dc !important;
-  box-shadow: none !important;
-}
-
-.text-dark, h1, h2, h3, h4, h5, h6, th, td, strong, b {
-  color: #384d42 !important;
-}
-
-.bg-dark, .modal-header.bg-dark, .modal-header.pigment-celadon, .table-dark {
-  background-color: #dfece3 !important;
-  color: #2e5943 !important;
-  border-color: #bdd6c5 !important;
-}
-
-.btn-dark {
-  background-color: #dfece3 !important;
-  color: #2e5943 !important;
-  border: 1px solid #bdd6c5 !important;
-}
-
-/* ==========================================================================
-   17. ARTISAN SYSTEM LAYOUT & ORGANIC PASTEL HARMONY (V20)
-   - Eliminates AI-slop rigidness and artificial flat pastels
-   - Introduces Warm Oat Canvas (#f6f4ee), Soft Bone Surfaces (#fcfbf7),
-     Deep Botanical Slate (#314238), Earthy Sand Rules (#e3dbd0)
-   - Dynamic Rhythmic KPI hierarchy with warm apricot & celadon pigments
-   - Human-crafted optical icons & tactile folder navigation
-   ========================================================================== */
-:root, [data-theme="dark"], [data-theme="pastel-sage"], body, body.theme-dark {
-  --kov-canvas: #f6f4ee !important;
-  --cb-canvas: #f6f4ee !important;
-  --cb-surface-card: #fcfbf7 !important;
-  --cb-surface-input: #ffffff !important;
-  --cb-border: #e3dbd0 !important;
-  --cb-border-subtle: #eee7dd !important;
-  --cb-text-primary: #314238 !important;
-  --cb-text-secondary: #5a6e63 !important;
-  --cb-text-muted: #8b9e94 !important;
-  --kov-slate-900: #314238 !important;
-  --kov-slate-800: #44564c !important;
-  --kov-slate-700: #5a6e63 !important;
-  --dd-text-primary: #314238 !important;
-  --dd-text-secondary: #5a6e63 !important;
-  --bs-dark-rgb: 49, 66, 56 !important;
-  --bs-body-color: #314238 !important;
-  --dd-primary: #1e5135 !important;
-  --dd-primary-hover: #16402a !important;
-  --dd-primary-subtle: #e2efe7 !important;
-}
-
-body, .dd-layout-root, .kov-app-shell, .dd-main-canvas.kov-main-content {
-  background-color: #f6f4ee !important;
-  color: #314238 !important;
-  font-family: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-  letter-spacing: -0.011em;
-}
-
-/* Sidebar: Natural Matcha Linen */
-.dd-sidebar.kov-sidebar, .kov-sidebar {
-  background: #e8ede7 !important;
-  border-right: 1px solid #dcd5c9 !important;
-  box-shadow: none !important;
-}
-
-.text-dark, h1, h2, h3, h4, h5, h6, th, td, strong, b {
-  color: #314238 !important;
-}
-
-/* Executive Command Header (Taste-Skill Framed Sheet) */
+/* --- 3. Executive Command Header --- */
 .dd-hero-banner {
-  background: #fcfbf7 !important;
-  border: 1px solid #e3dbd0 !important;
-  border-radius: 18px !important;
-  padding: 24px 28px !important;
-  box-shadow: 0 4px 16px -4px rgba(49, 66, 56, 0.04) !important;
-  margin-bottom: 22px !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  padding: 16px 20px !important;
+  margin-bottom: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02) !important;
 }
 
 .dd-hero-title {
-  color: #314238 !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.02em !important;
-  font-size: 1.45rem !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  margin: 0 0 3px !important;
+  line-height: 1.3 !important;
 }
 
 .dd-hero-subtitle {
-  color: #5a6e63 !important;
-  font-size: 0.88rem !important;
-  line-height: 1.5 !important;
-  max-width: 720px !important;
-}
-
-/* KPI Row: Dynamic Organic Bento */
-.kov-kpi-row {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 16px !important;
-  margin-bottom: 22px !important;
-}
-
-.coinbase-kpi-card {
-  padding: 16px 18px !important;
-  border-radius: 16px !important;
-  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
-  border: 1px solid #e3dbd0 !important;
-  background: #fcfbf7 !important;
-  box-shadow: 0 2px 6px -1px rgba(49, 66, 56, 0.03) !important;
-  cursor: pointer !important;
-}
-
-.coinbase-kpi-card:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 18px -4px rgba(49, 66, 56, 0.07) !important;
-}
-
-/* Card 1: Total Pelamar (Warm Linen Slate) */
-.coinbase-kpi-card:nth-child(1), .coinbase-kpi-card.kpi-total {
-  background: #edeae1 !important;
-  border-color: #dcd5c7 !important;
-  color: #314238 !important;
-}
-.coinbase-kpi-card:nth-child(1) .bento-metric-title, .coinbase-kpi-card.kpi-total .bento-metric-title {
-  color: #5a6e63 !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.05em !important;
-}
-.coinbase-kpi-card:nth-child(1) .bento-metric-value, .coinbase-kpi-card.kpi-total .bento-metric-value {
-  color: #314238 !important;
-  font-size: 1.95rem !important;
-  font-weight: 800 !important;
-}
-.coinbase-kpi-card:nth-child(1) .bento-metric-sub, .coinbase-kpi-card.kpi-total .bento-metric-sub {
-  color: #6d8074 !important;
-}
-
-/* Card 2: Perlu Ditinjau (Warm Clay Apricot - High Priority Accent) */
-.coinbase-kpi-card:nth-child(2), .coinbase-kpi-card.kpi-pending {
-  background: #fbf0e1 !important;
-  border-color: #f3dcbe !important;
-  color: #884f17 !important;
-}
-.coinbase-kpi-card:nth-child(2) .bento-metric-title, .coinbase-kpi-card.kpi-pending .bento-metric-title {
-  color: #884f17 !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.05em !important;
-}
-.coinbase-kpi-card:nth-child(2) .bento-metric-value, .coinbase-kpi-card.kpi-pending .bento-metric-value {
-  color: #884f17 !important;
-  font-size: 1.95rem !important;
-  font-weight: 800 !important;
-}
-.coinbase-kpi-card:nth-child(2) .bento-metric-sub, .coinbase-kpi-card.kpi-pending .bento-metric-sub {
-  color: #a4672b !important;
-}
-
-/* Card 3: Lulus Seleksi (Celadon Sage Mist) */
-.coinbase-kpi-card:nth-child(3), .coinbase-kpi-card.kpi-accepted {
-  background: #e2efe7 !important;
-  border-color: #c5dccf !important;
-  color: #1e5135 !important;
-}
-.coinbase-kpi-card:nth-child(3) .bento-metric-title, .coinbase-kpi-card.kpi-accepted .bento-metric-title {
-  color: #1e5135 !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.05em !important;
-}
-.coinbase-kpi-card:nth-child(3) .bento-metric-value, .coinbase-kpi-card.kpi-accepted .bento-metric-value {
-  color: #1e5135 !important;
-  font-size: 1.95rem !important;
-  font-weight: 800 !important;
-}
-.coinbase-kpi-card:nth-child(3) .bento-metric-sub, .coinbase-kpi-card.kpi-accepted .bento-metric-sub {
-  color: #3b7454 !important;
-}
-
-/* Card 4: Data Ganda (Dusty Rose Terracotta) */
-.coinbase-kpi-card:nth-child(4), .coinbase-kpi-card.kpi-duplicate {
-  background: #faeceb !important;
-  border-color: #f1c9c7 !important;
-  color: #8b3735 !important;
-}
-.coinbase-kpi-card:nth-child(4) .bento-metric-title, .coinbase-kpi-card.kpi-duplicate .bento-metric-title {
-  color: #8b3735 !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.05em !important;
-}
-.coinbase-kpi-card:nth-child(4) .bento-metric-value, .coinbase-kpi-card.kpi-duplicate .bento-metric-value {
-  color: #8b3735 !important;
-  font-size: 1.95rem !important;
-  font-weight: 800 !important;
-}
-.coinbase-kpi-card:nth-child(4) .bento-metric-sub, .coinbase-kpi-card.kpi-duplicate .bento-metric-sub {
-  color: #a6514e !important;
-}
-
-/* Folder Cards Divisi (Organic Pastel Tabs) */
-.dd-folders-grid {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 10px !important;
-  margin-bottom: 22px !important;
-}
-
-.dd-folder-card {
-  padding: 9px 15px !important;
-  border-radius: 12px !important;
-  border: 1px solid #e3dbd0 !important;
-  background: #fcfbf7 !important;
-  color: #314238 !important;
-  font-size: 0.82rem !important;
-  font-weight: 600 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  cursor: pointer !important;
-  transition: all 0.16s ease !important;
-}
-
-.dd-folder-card:hover {
-  background: #f4f0e6 !important;
-  border-color: #d8cebe !important;
-  transform: translateY(-1px) !important;
-}
-
-.dd-folder-card.active {
-  background: #e2efe7 !important;
-  border-color: #1e5135 !important;
-  color: #1e5135 !important;
-  box-shadow: 0 2px 8px -1px rgba(30, 81, 53, 0.12) !important;
-}
-
-.dd-folder-card .badge-tab-count {
-  background: rgba(49, 66, 56, 0.08) !important;
-  color: #314238 !important;
-  border-radius: 6px !important;
-  padding: 2px 7px !important;
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-}
-
-.dd-folder-card.active .badge-tab-count {
-  background: #1e5135 !important;
-  color: #ffffff !important;
-}
-
-/* Table Card, Header, and Cells */
-.kov-table-card {
-  background: #fcfbf7 !important;
-  border: 1px solid #e3dbd0 !important;
-  border-radius: 18px !important;
-  box-shadow: 0 4px 18px -4px rgba(49, 66, 56, 0.04) !important;
-  overflow: hidden !important;
-}
-
-.kov-table-header-box {
-  padding: 18px 24px !important;
-  border-bottom: 1px solid #e3dbd0 !important;
-  background: #faf8f2 !important;
-}
-
-.kov-table th {
-  background: #f4efe6 !important;
-  color: #44564c !important;
-  font-size: 0.73rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.05em !important;
-  border-bottom: 1px solid #e3dbd0 !important;
-  padding: 12px 14px !important;
-}
-
-.kov-table td {
-  border-bottom: 1px solid #ede7dc !important;
-  padding: 12px 14px !important;
-  color: #314238 !important;
-  vertical-align: middle !important;
-}
-
-.kov-table tbody tr:hover {
-  background-color: rgba(226, 239, 231, 0.4) !important;
-}
-
-/* Status Pills Organik */
-.status-pill-modern {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 6px !important;
-  padding: 4px 11px !important;
-  border-radius: 9999px !important;
-  font-size: 0.74rem !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.02em !important;
-}
-
-.status-pill-modern.pill-success {
-  background: #e2efe7 !important;
-  border: 1px solid #c5dccf !important;
-  color: #1e5135 !important;
-}
-.status-pill-modern.pill-warning {
-  background: #fbf0e1 !important;
-  border: 1px solid #f3dcbe !important;
-  color: #884f17 !important;
-}
-.status-pill-modern.pill-danger {
-  background: #faeceb !important;
-  border: 1px solid #f1c9c7 !important;
-  color: #8b3735 !important;
-}
-.status-pill-modern.pill-info {
-  background: #edf3f7 !important;
-  border: 1px solid #cfe0ed !important;
-  color: #26557a !important;
-}
-
-/* Right Utility Rail Widgets */
-.dd-calendar-widget, .dd-task-widget, .kov-memo-studio-widget {
-  background: #fcfbf7 !important;
-  border: 1px solid #e3dbd0 !important;
-  border-radius: 16px !important;
-  padding: 16px 18px !important;
-  margin-bottom: 16px !important;
-}
-
-.dd-cal-day.active {
-  background: #1e5135 !important;
-  color: #ffffff !important;
-}
-
-/* Artisan Human-Crafted SVG Icon Helpers */
-.ico-artisan {
-  display: inline-block;
-  vertical-align: -0.15em;
-  stroke: currentColor;
-  stroke-width: 1.85;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  fill: none;
-}
-
-/* Unified Anti-Slop Sub-Module Navigation & KPI Strips */
-.nav-link-modern {
-  background: #fcfbf7 !important;
-  border: 1px solid #e3dbd0 !important;
-  color: #5a6e63 !important;
-  border-radius: 10px !important;
-  padding: 7px 15px !important;
-  font-size: 0.81rem !important;
-  font-weight: 600 !important;
-  transition: all 0.16s ease !important;
-}
-
-.nav-link-modern:hover {
-  background: #f4f0e6 !important;
-  border-color: #d8cebe !important;
-  color: #314238 !important;
-  transform: translateY(-1px) !important;
-}
-
-.nav-link-modern.active {
-  background: #e2efe7 !important;
-  border-color: #1e5135 !important;
-  color: #1e5135 !important;
-  box-shadow: 0 2px 8px -1px rgba(30, 81, 53, 0.12) !important;
-}
-
-.nav-link-modern.active i {
-  color: #1e5135 !important;
-}
-
-.kov-kpi-strip {
-  display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  gap: 16px !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  margin-bottom: 22px !important;
-}
-
-.kov-kpi-cell {
-  padding: 16px 18px !important;
-  border-radius: 16px !important;
-  border: 1px solid #e3dbd0 !important;
-  background: #fcfbf7 !important;
-  box-shadow: 0 2px 6px -1px rgba(49, 66, 56, 0.03) !important;
-  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
-  cursor: pointer !important;
-}
-
-.kov-kpi-cell:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 18px -4px rgba(49, 66, 56, 0.07) !important;
-}
-
-.kov-kpi-cell-label {
-  font-size: 0.72rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-  margin-bottom: 4px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-}
-
-.kov-kpi-cell-val {
-  font-size: 1.85rem !important;
-  font-weight: 800 !important;
-  line-height: 1.15 !important;
-  margin-bottom: 4px !important;
-}
-
-.kov-kpi-cell-sub {
-  font-size: 0.75rem !important;
-  color: #7a8d82 !important;
-}
-
-.kov-kpi-cell:nth-child(1) {
-  background: #edeae1 !important;
-  border-color: #dcd5c7 !important;
-  color: #314238 !important;
-}
-.kov-kpi-cell:nth-child(1) .kov-kpi-cell-label { color: #5a6e63 !important; }
-.kov-kpi-cell:nth-child(1) .kov-kpi-cell-val { color: #314238 !important; }
-
-.kov-kpi-cell:nth-child(2) {
-  background: #fbf0e1 !important;
-  border-color: #f3dcbe !important;
-  color: #884f17 !important;
-}
-.kov-kpi-cell:nth-child(2) .kov-kpi-cell-label { color: #884f17 !important; }
-.kov-kpi-cell:nth-child(2) .kov-kpi-cell-val { color: #884f17 !important; }
-
-.kov-kpi-cell:nth-child(3) {
-  background: #e2efe7 !important;
-  border-color: #c5dccf !important;
-  color: #1e5135 !important;
-}
-.kov-kpi-cell:nth-child(3) .kov-kpi-cell-label { color: #1e5135 !important; }
-.kov-kpi-cell:nth-child(3) .kov-kpi-cell-val { color: #1e5135 !important; }
-
-.kov-kpi-cell:nth-child(4) {
-  background: #edf3f7 !important;
-  border-color: #cfe0ed !important;
-  color: #26557a !important;
-}
-.kov-kpi-cell:nth-child(4) .kov-kpi-cell-label { color: #26557a !important; }
-.kov-kpi-cell:nth-child(4) .kov-kpi-cell-val { color: #26557a !important; }
-
-/* =========================================================================
-   KOV KOFFIE — NATURAL PASTEL & HAND-CRAFTED ATELIER SYSTEM LAYOUT (V22)
-   Master Reference: kov_koffie_natural_pastel_hand_crafted_system_layout.html
-   ========================================================================= */
-
-/* Hand-Crafted SVG Icon Styling (Organic Offset Fill + Varied Stroke) */
-.hand-icon {
-  width: 19px;
-  height: 19px;
-  flex-shrink: 0;
-  transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
-  display: inline-block;
-  vertical-align: middle;
-}
-button:hover .hand-icon,
-a:hover .hand-icon {
-  transform: rotate(-3deg) scale(1.06);
-}
-
-/* Animations */
-@keyframes fadeUpOrganic {
-  0% { opacity: 0; transform: translateY(6px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-@keyframes kovLaserSweep {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
-}
-@keyframes kovGentleShake {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  25%, 75% { transform: translate3d(-4px, 0, 0); }
-  50% { transform: translate3d(4px, 0, 0); }
-}
-@keyframes kovDrawStroke { to { stroke-dashoffset: 0; } }
-
-.animate-fade { animation: fadeUpOrganic 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.kov-shake { animation: kovGentleShake 0.36s ease both !important; }
-.kov-input-error { border-color: var(--mauve-stroke) !important; background-color: var(--mauve-bg) !important; }
-
-/* Top Laser Loading Bar */
-.kov-laser-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  z-index: 99999;
-  background: linear-gradient(90deg, #3f6f56, #9c782b, #8c4a5b, #3f6f56);
-  background-size: 200% 100%;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-.kov-laser-bar.is-loading {
-  opacity: 1;
-  animation: kovLaserSweep 1.1s linear infinite;
-}
-
-/* 1. Left Pebble-Sage Dock (194px) with Symmetrical Proportions & Smooth Slide Transition */
-.atelier-sidebar,
-.dd-sidebar,
-.kov-sidebar {
-  width: 194px !important;
-  min-width: 194px !important;
-  max-width: 194px !important;
-  background: var(--bg-sidebar, #e6efe9) !important;
-  border-right: 1px solid var(--border-organic, #d8e2dc) !important;
-  transition: width 0.28s cubic-bezier(0.4, 0, 0.2, 1), transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
-}
-
-/* Collapsed State: Symmetrical 64px Dock */
-.atelier-sidebar.collapsed,
-.dd-sidebar.collapsed,
-.kov-sidebar.collapsed {
-  width: 64px !important;
-  min-width: 64px !important;
-  max-width: 64px !important;
-}
-
-.atelier-sidebar.collapsed .hide-on-collapse,
-.dd-sidebar.collapsed .hide-on-collapse,
-.kov-sidebar.collapsed .hide-on-collapse,
-.dd-sidebar.collapsed .dd-brand-text,
-.dd-sidebar.collapsed .kov-nav-group-title,
-.dd-sidebar.collapsed .dd-nav-item span,
-.dd-sidebar.collapsed .kov-user-name,
-.dd-sidebar.collapsed .kov-logout-link span,
-.dd-sidebar.collapsed .kov-theme-toggle-sidebar span {
-  display: none !important;
-}
-
-.atelier-sidebar.collapsed .dd-sidebar-brand,
-.dd-sidebar.collapsed .dd-sidebar-brand,
-.kov-sidebar.collapsed .kov-sidebar-brand {
-  padding: 8px 6px !important;
-  justify-content: center !important;
-  gap: 4px !important;
-}
-
-.atelier-sidebar.collapsed .kov-sidebar-collapse-btn,
-.dd-sidebar.collapsed .kov-sidebar-collapse-btn,
-.kov-sidebar.collapsed .kov-sidebar-collapse-btn {
-  display: inline-flex !important;
-  width: 26px !important;
-  height: 26px !important;
-  margin: 0 !important;
-}
-
-/* Chevron Smooth Rotation on Collapse */
-.atelier-sidebar.collapsed #sidebarCollapseIcon,
-.dd-sidebar.collapsed #sidebarCollapseIcon,
-.kov-sidebar.collapsed #sidebarCollapseIcon,
-.sidebar-collapsed #sidebarCollapseIcon {
-  transform: rotate(180deg) !important;
-}
-
-.atelier-sidebar.collapsed .nav-btn,
-.dd-sidebar.collapsed .dd-nav-item,
-.kov-sidebar.collapsed .kov-nav-item {
-  justify-content: center !important;
-  padding: 10px 0 !important;
-  width: 44px !important;
-  margin: 3px auto !important;
-  border-radius: 10px !important;
-}
-
-/* Tooltip on Hover in Collapsed Mode */
-.atelier-sidebar.collapsed .nav-btn:hover::after,
-.dd-sidebar.collapsed .dd-nav-item:hover::after,
-.kov-sidebar.collapsed .kov-nav-item:hover::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  left: calc(100% + 10px);
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--ink-deep, #384d42);
-  color: #ffffff;
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-  z-index: 10000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  pointer-events: none;
-}
-
-/* Mobile Slide-Out Drawer (<992px) */
-@media (max-width: 991.98px) {
-  .atelier-sidebar,
-  .dd-sidebar,
-  .kov-sidebar {
-    position: fixed !important;
-    top: 0 !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    height: 100vh !important;
-    z-index: 1050 !important;
-    transform: translateX(-100%) !important;
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 4px 0 24px rgba(56, 77, 66, 0.15) !important;
-  }
-  .atelier-sidebar.show,
-  .dd-sidebar.show,
-  .kov-sidebar.show {
-    transform: translateX(0) !important;
-  }
-  .kov-sidebar-backdrop {
-    position: fixed !important;
-    inset: 0 !important;
-    background: rgba(46, 89, 67, 0.35) !important;
-    backdrop-filter: blur(2px) !important;
-    z-index: 1040 !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transition: opacity 0.25s ease !important;
-  }
-  .kov-sidebar-backdrop.show {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-}
-
-.nav-group-heading,
-.kov-nav-group-title {
-  font-size: 10px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.06em !important;
-  color: var(--ink-muted, #7d9186) !important;
-  padding: 12px 10px 4px !important;
-}
-
-/* Symmetrical Nav Items */
-.nav-btn,
-.dd-nav-item,
-.kov-nav-item {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  width: 100% !important;
-  padding: 8.5px 11px !important;
-  border-radius: 10px !important;
   font-size: 12.5px !important;
-  font-weight: 600 !important;
-  color: var(--ink-body, #586e62) !important;
-  background: transparent !important;
-  border: 1px solid transparent !important;
-  cursor: pointer !important;
-  text-align: left !important;
-  white-space: nowrap !important;
-  text-decoration: none !important;
-  transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  color: #64748b !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
 }
 
-.nav-btn:hover,
-.dd-nav-item:hover,
-.kov-nav-item:hover {
-  background: rgba(255, 255, 255, 0.65) !important;
-  color: var(--ink-deep, #384d42) !important;
-}
-
-.nav-btn.active,
-.dd-nav-item.active,
-.kov-nav-item.active {
-  background: var(--bg-paper, #fcfbf9) !important;
-  color: var(--celadon-ink, #2e5943) !important;
-  border-color: var(--celadon-border, #bdd6c5) !important;
-  font-weight: 700 !important;
-  box-shadow: 0 2px 8px rgba(56, 77, 66, 0.05) !important;
-}
-
-/* 2. Topbar 64px */
-.dd-topbar,
-.kov-topbar {
-  height: 64px !important;
-  min-height: 64px !important;
-  max-height: 64px !important;
-  padding: 0 24px !important;
-  background: var(--bg-paper, #fcfbf9) !important;
-  border-bottom: 1px solid var(--border-organic, #d8e2dc) !important;
+.dd-hero-actions {
   display: flex !important;
   align-items: center !important;
-  justify-content: space-between !important;
-  gap: 16px !important;
-}
-
-/* 3. Center Main Canvas & Editorial Header */
-.editorial-header-band,
-.dd-hero-banner {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: flex-end !important;
-  gap: 20px !important;
-  padding: 18px 0 !important;
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 1px solid var(--border-organic, #d8e2dc) !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-@media (max-width: 960px) {
-  .editorial-header-band,
-  .dd-hero-banner {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-  }
-}
-
-/* Tonal Summary Strip (3 Symmetrical Cards) */
-.tonal-summary-strip,
-.kov-kpi-row {
-  display: flex !important;
-  align-items: stretch !important;
-  gap: 12px !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  margin: 0 !important;
-}
-
-.tonal-pill-card,
-.coinbase-kpi-card {
-  padding: 10px 14px !important;
-  border-radius: 12px !important;
-  border: 1px solid transparent !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 12px !important;
-  min-width: 146px !important;
-  box-shadow: 0 4px 14px -3px rgba(56, 77, 66, 0.05), 0 1px 2px rgba(56, 77, 66, 0.02) !important;
-  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1) !important;
-  cursor: pointer !important;
-}
-
-.tonal-pill-card:hover,
-.coinbase-kpi-card:hover {
-  transform: translateY(-1.5px) !important;
-}
-
-.tonal-summary-strip .bento-metric-title,
-.tonal-pill-card .bento-metric-title,
-.coinbase-kpi-card .bento-metric-title {
-  font-size: 10px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-  line-height: 1.15 !important;
-  margin-bottom: 2px !important;
-  opacity: 0.85 !important;
-}
-
-.tonal-summary-strip .bento-metric-value,
-.tonal-pill-card .bento-metric-value,
-.coinbase-kpi-card .bento-metric-value {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-  font-size: 1.25rem !important;
-  font-weight: 800 !important;
-  line-height: 1.15 !important;
-  letter-spacing: -0.015em !important;
-  margin: 0 !important;
-  white-space: nowrap !important;
-}
-
-.tonal-pill-card .bento-metric-sub,
-.coinbase-kpi-card .bento-metric-sub {
-  display: none !important;
-}
-
-.kpi-duplicate {
-  display: none !important;
-}
-
-/* Tonal Pigments */
-.pigment-celadon,
-.kpi-total {
-  background: var(--celadon-bg, #dfece3) !important;
-  border-color: var(--celadon-border, #bdd6c5) !important;
-  color: var(--celadon-ink, #2e5943) !important;
-}
-.pigment-ochre,
-.kpi-pending {
-  background: var(--ochre-bg, #f6eed8) !important;
-  border-color: var(--ochre-border, #e5d4a7) !important;
-  color: var(--ochre-ink, #6e5219) !important;
-}
-.pigment-mauve,
-.kpi-accepted {
-  background: var(--mauve-bg, #f0e4e8) !important;
-  border-color: var(--mauve-border, #ddc3cb) !important;
-  color: var(--mauve-ink, #6e3645) !important;
-}
-.pigment-terracotta,
-.kpi-duplicate {
-  background: var(--terracotta-bg, #f6e5da) !important;
-  border-color: var(--terracotta-border, #e6c6b0) !important;
-  color: var(--terracotta-ink, #784124) !important;
-}
-.pigment-dusk {
-  background: var(--dusk-bg, #e6e9f4) !important;
-  border-color: var(--dusk-border, #c8cfe6) !important;
-  color: var(--dusk-ink, #3c4a73) !important;
-}
-
-/* Folder Cards in Natural Pastel */
-.dd-folders-grid {
-  display: grid !important;
-  grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
   gap: 8px !important;
-  margin-bottom: 16px !important;
-}
-@media (max-width: 1200px) {
-  .dd-folders-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
-}
-@media (max-width: 640px) {
-  .dd-folders-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
-}
-
-.dd-folder-card {
-  padding: 8px 10px !important;
-  border-radius: 10px !important;
-  border: 1px solid var(--border-organic, #d8e2dc) !important;
-  background: var(--bg-paper, #fcfbf9) !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 6px !important;
-  font-size: 11.5px !important;
-  font-weight: 600 !important;
-  color: var(--ink-body, #586e62) !important;
-  cursor: pointer !important;
-  transition: all 0.16s ease !important;
-}
-.dd-folder-card:hover {
-  background: var(--celadon-bg, #dfece3) !important;
-  color: var(--celadon-ink, #2e5943) !important;
-  border-color: var(--celadon-border, #bdd6c5) !important;
-  transform: translateY(-1px) !important;
-}
-.dd-folder-card.active {
-  background: var(--celadon-bg, #dfece3) !important;
-  color: var(--celadon-ink, #2e5943) !important;
-  border-color: var(--celadon-stroke, #3f6f56) !important;
-  font-weight: 700 !important;
-}
-
-/* Paper Card for Table (Symmetrical 14px) */
-.kov-paper-card,
-.kov-table-card {
-  background: var(--bg-paper, #fcfbf9) !important;
-  border: 1px solid var(--border-organic, #d8e2dc) !important;
-  border-radius: 14px !important;
-  box-shadow: 0 4px 18px -4px rgba(56, 77, 66, 0.055), 0 1px 2px rgba(56, 77, 66, 0.03) !important;
-  overflow: hidden !important;
-  margin-bottom: 24px !important;
-}
-
-/* 4. Right Pad Card (268px - Symmetrical 14px) */
-.kov-pad-card,
-.dd-right-panel {
-  width: 268px !important;
-  min-width: 268px !important;
-  max-width: 268px !important;
-  background: var(--bg-cream-pad, #f7f3e8) !important;
-  border-left: 1px solid var(--border-organic, #d8e2dc) !important;
-  padding: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  box-shadow: none !important;
-}
-
-/* Status Pills (Symmetrical 9999px) */
-.status-pill,
-.status-pill-modern {
-  border-radius: 9999px !important;
-  padding: 3.5px 10px !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 4px !important;
-  white-space: nowrap !important;
-  border: 1px solid transparent !important;
-}
-.pill-emerald,
-.pill-success {
-  background: var(--celadon-bg, #dfece3) !important;
-  color: var(--celadon-ink, #2e5943) !important;
-  border-color: var(--celadon-border, #bdd6c5) !important;
-}
-.pill-peach,
-.pill-warning {
-  background: var(--ochre-bg, #f6eed8) !important;
-  color: var(--ochre-ink, #6e5219) !important;
-  border-color: var(--ochre-border, #e5d4a7) !important;
-}
-.pill-rose,
-.pill-danger {
-  background: var(--mauve-bg, #f0e4e8) !important;
-  color: var(--mauve-ink, #6e3645) !important;
-  border-color: var(--mauve-border, #ddc3cb) !important;
-}
-.pill-lavender,
-.pill-info {
-  background: var(--dusk-bg, #e6e9f4) !important;
-  color: var(--dusk-ink, #3c4a73) !important;
-  border-color: var(--dusk-border, #c8cfe6) !important;
-}
-
-/* Buttons (Symmetrical 8px) */
-.btn-kov-primary,
-.btn-dd-hero {
-  height: 35px !important;
-  padding: 0 14px !important;
-  border-radius: 8px !important;
-  background: #497a61 !important;
-  color: #fcfbf9 !important;
-  border: 1px solid #3f6f56 !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 6px !important;
-  cursor: pointer !important;
-  text-decoration: none !important;
-  transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1) !important;
-  white-space: nowrap !important;
-}
-.btn-kov-primary:hover,
-.btn-dd-hero:hover {
-  background: #3f6f56 !important;
-  color: #ffffff !important;
-  transform: translateY(-1px) !important;
 }
 
 .btn-kov-outline {
   height: 34px !important;
-  padding: 0 11px !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  padding: 0 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
+  cursor: pointer !important;
+}
+
+.btn-kov-outline:hover {
+  background: #f8fafc !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+.btn-dd-hero {
+  height: 34px !important;
+  background: #166534 !important;
+  border: 1px solid #166534 !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  padding: 0 14px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  transition: background-color 0.15s ease !important;
+  cursor: pointer !important;
+}
+
+.btn-dd-hero:hover {
+  background: #14532d !important;
+  border-color: #14532d !important;
+  color: #ffffff !important;
+}
+
+/* --- 4. Executive KPI Metric Strip (Anti-Slop: Type, Not Tiles - Crisp White Cards) --- */
+.kov-kpi-row,
+.kov-kpi-strip {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 12px !important;
+  margin-bottom: 16px !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.coinbase-kpi-card,
+.kov-kpi-cell {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
   border-radius: 8px !important;
-  background: var(--bg-paper, #fcfbf9) !important;
-  color: var(--ink-deep, #384d42) !important;
-  border: 1px solid var(--border-organic, #d8e2dc) !important;
+  padding: 14px 18px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02) !important;
+  cursor: pointer !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+  color: #0f172a !important;
+}
+
+.coinbase-kpi-card:hover,
+.kov-kpi-cell:hover {
+  border-color: #cbd5e1 !important;
+}
+
+.coinbase-kpi-card.active,
+.kov-kpi-cell.active {
+  border-color: #166534 !important;
+  box-shadow: 0 0 0 1px #166534 !important;
+}
+
+.bento-metric-title,
+.kov-kpi-cell-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: #64748b !important;
+  margin-bottom: 4px !important;
+  display: block !important;
+}
+
+.bento-metric-value,
+.kov-kpi-cell-val {
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+  line-height: 1.15 !important;
+  font-variant-numeric: tabular-nums !important;
+  display: block !important;
+}
+
+.bento-metric-sub,
+.kov-kpi-cell-sub {
   font-size: 11.5px !important;
+  color: #94a3b8 !important;
+  margin-top: 4px !important;
+  display: block !important;
+}
+
+/* Status indicator colors */
+.kpi-total .bento-metric-value { color: #0f172a !important; }
+.kpi-pending .bento-metric-value { color: #d97706 !important; }
+.kpi-accepted .bento-metric-value { color: #166534 !important; }
+.kpi-duplicate .bento-metric-value { color: #dc2626 !important; }
+
+/* --- 5. Division Filter Tabs (Symmetrical 4x2 Responsive Grid) --- */
+.dd-folders-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 6px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  padding: 5px !important;
+  margin-bottom: 16px !important;
+}
+
+.dd-folder-card {
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 12px !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  border: 1px solid transparent !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
+  box-shadow: none !important;
+}
+
+.dd-folder-card:hover {
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+
+.dd-folder-card.active {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05) !important;
+}
+
+.dd-folder-title {
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  color: #475569 !important;
+  white-space: nowrap !important;
+}
+
+.dd-folder-card.active .dd-folder-title {
+  color: #166534 !important;
+  font-weight: 600 !important;
+}
+
+.badge-tab-count {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #94a3b8 !important;
+  font-variant-numeric: tabular-nums !important;
+  background: rgba(0, 0, 0, 0.04) !important;
+  padding: 1px 6px !important;
+  border-radius: 4px !important;
+}
+
+.dd-folder-card.active .badge-tab-count {
+  color: #166534 !important;
+  background: #f0fdf4 !important;
+}
+
+/* --- 6. Candidate Data Table Architecture --- */
+.kov-table-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02) !important;
+}
+
+.kov-table-header-box {
+  padding: 14px 18px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  flex-wrap: wrap !important;
+}
+
+.kov-table-title-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.kov-table-squircle {
+  display: none !important;
+}
+
+.kov-table-title {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.kov-badge-count {
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  color: #64748b !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+}
+
+.kov-status-filter-bar {
+  padding: 8px 18px !important;
+  background: #fafafa !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex-wrap: wrap !important;
+}
+
+.kov-filter-pill-botanical {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  color: #475569 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
+}
+
+.kov-filter-pill-botanical:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.kov-filter-pill-botanical.active {
+  background: #166534 !important;
+  border-color: #166534 !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.kov-botanical-table-wrap {
+  width: 100% !important;
+  overflow-x: auto !important;
+}
+
+.kov-botanical-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  table-layout: auto !important;
+}
+
+.kov-botanical-table thead th {
+  background: #fafafa !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  color: #64748b !important;
+  padding: 10px 14px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  white-space: nowrap !important;
+}
+
+.kov-botanical-table tbody td {
+  padding: 11px 14px !important;
+  font-size: 13px !important;
+  color: #334155 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  vertical-align: middle !important;
+}
+
+.kov-botanical-table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+.dd-file-badge {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+  display: inline-block !important;
+}
+
+.dd-badge-pdf { background: #fee2e2 !important; color: #dc2626 !important; border: 1px solid #fecaca !important; }
+.dd-badge-png { background: #e0e7ff !important; color: #4338ca !important; border: 1px solid #c7d2fe !important; }
+.dd-badge-zip { background: #fef3c7 !important; color: #d97706 !important; border: 1px solid #fde68a !important; }
+
+.kov-table-date {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+
+.kov-table-time {
+  font-size: 11px !important;
+  color: #94a3b8 !important;
+}
+
+.kov-avatar-monogram {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 999px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  flex-shrink: 0 !important;
+}
+
+.kov-candidate-name {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  line-height: 1.3 !important;
+}
+
+.kov-candidate-sub {
+  font-size: 11.5px !important;
+  color: #64748b !important;
+}
+
+.kov-divisi-pill {
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #334155 !important;
+  display: inline-block !important;
+}
+
+/* Status Pills */
+.status-pill-modern {
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  white-space: nowrap !important;
+}
+
+.status-dot-pulse {
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 999px !important;
+}
+
+.pill-success {
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  border: 1px solid #bbf7d0 !important;
+}
+.pill-success .status-dot-pulse { background: #166534 !important; }
+
+.pill-info {
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border: 1px solid #bfdbfe !important;
+}
+.pill-info .status-dot-pulse { background: #1d4ed8 !important; }
+
+.pill-warning {
+  background: #fffbeb !important;
+  color: #b45309 !important;
+  border: 1px solid #fde68a !important;
+}
+.pill-warning .status-dot-pulse { background: #b45309 !important; }
+
+.pill-danger {
+  background: #fff1f2 !important;
+  color: #be123c !important;
+  border: 1px solid #fecdd3 !important;
+}
+.pill-danger .status-dot-pulse { background: #be123c !important; }
+
+.kov-action-review-btn {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+  background: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 6px !important;
+  padding: 4px 10px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
+}
+
+.kov-action-review-btn:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+.kov-action-icon-circle {
+  width: 28px !important;
+  height: 28px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 6px !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #64748b !important;
+  text-decoration: none !important;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease !important;
+}
+
+.kov-action-icon-circle:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* --- 7. Right Utility Panel --- */
+.dd-right-panel {
+  width: 300px !important;
+  min-width: 300px !important;
+  background: #ffffff !important;
+  border-left: 1px solid #e2e8f0 !important;
+  padding: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+  overflow-y: auto !important;
+}
+
+.dd-profile-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding-bottom: 12px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.dd-utility-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.dd-icon-btn {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 6px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  color: #64748b !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+}
+
+.dd-user-pill {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  cursor: pointer !important;
+}
+
+.dd-user-avatar {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 999px !important;
+  background: #166534 !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+}
+
+.dd-calendar-widget,
+.dd-task-widget {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  padding: 14px !important;
+  box-shadow: none !important;
+}
+
+.dd-calendar-title,
+.dd-section-title {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+}
+
+.dd-period-toggle {
+  display: flex !important;
+  background: #f1f5f9 !important;
+  border-radius: 6px !important;
+  padding: 2px !important;
+  margin: 10px 0 !important;
+}
+
+.dd-period-btn {
+  flex: 1 !important;
+  padding: 3px 0 !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
+  color: #64748b !important;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+}
+
+.dd-period-btn.active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+}
+
+.dd-month-nav {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 8px !important;
+}
+
+.dd-month-label {
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+
+.dd-nav-arrow-btn {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 4px !important;
+  border: 1px solid #e2e8f0 !important;
+  background: #ffffff !important;
+  color: #64748b !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  font-size: 10px !important;
+}
+
+.dd-calendar-grid {
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: 2px !important;
+  text-align: center !important;
+}
+
+.dd-cal-cell {
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11.5px !important;
+  color: #334155 !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+.dd-cal-cell.today {
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+  font-weight: 700 !important;
+}
+
+.dd-cal-cell.selected {
+  background: #166534 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+/* --- 8. Candidate Application Forms (Clean Symmetrical Architecture) --- */
+.card-modern-form {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02) !important;
+  margin-bottom: 20px !important;
+}
+
+.card-modern-form .card-header {
+  background: transparent !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding: 14px 20px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #0f172a !important;
+}
+
+.form-label {
+  font-size: 12.5px !important;
+  font-weight: 500 !important;
+  color: #334155 !important;
+  margin-bottom: 4px !important;
+}
+
+.form-control, .form-select {
+  height: 38px !important;
+  border-radius: 6px !important;
+  border: 1px solid #cbd5e1 !important;
+  padding: 6px 12px !important;
+  font-size: 13.5px !important;
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #166534 !important;
+  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12) !important;
+}
+
+.btn-submit-kov {
+  height: 42px !important;
+  background: #166534 !important;
+  color: #ffffff !important;
+  border: 1px solid #166534 !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  padding: 0 24px !important;
+  transition: background-color 0.15s ease !important;
+  box-shadow: none !important;
+}
+
+.btn-submit-kov:hover {
+  background: #14532d !important;
+  border-color: #14532d !important;
+  color: #ffffff !important;
+}
+
+/* --- 9. Clean Dark Mode (Obsidian / Slate Palette) --- */
+[data-theme="dark"] {
+  --kov-canvas: #090d16 !important;
+  --cb-canvas: #090d16 !important;
+  --cb-surface-card: #111827 !important;
+  --cb-border: #1f2937 !important;
+  --cb-text-primary: #f8fafc !important;
+  --cb-text-secondary: #cbd5e1 !important;
+  --cb-text-muted: #94a3b8 !important;
+  --bs-body-bg: #090d16 !important;
+  --bs-body-color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] body,
+[data-theme="dark"] .dd-layout-root,
+[data-theme="dark"] .dd-main-canvas {
+  background-color: #090d16 !important;
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .dd-sidebar.kov-sidebar,
+[data-theme="dark"] .dd-right-panel,
+[data-theme="dark"] .dd-hero-banner,
+[data-theme="dark"] .coinbase-kpi-card,
+[data-theme="dark"] .kov-table-card,
+[data-theme="dark"] .dd-calendar-widget,
+[data-theme="dark"] .dd-task-widget,
+[data-theme="dark"] .card-modern-form {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
+[data-theme="dark"] .text-dark, [data-theme="dark"] .dd-hero-title,
+[data-theme="dark"] .kov-table-title, [data-theme="dark"] .bento-metric-value,
+[data-theme="dark"] .kov-candidate-name, [data-theme="dark"] .kov-brand-title {
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .dd-folders-grid,
+[data-theme="dark"] .dd-period-toggle,
+[data-theme="dark"] .kov-status-filter-bar,
+[data-theme="dark"] .kov-botanical-table thead th {
+  background: #1e293b !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .dd-folder-card.active,
+[data-theme="dark"] .dd-period-btn.active {
+  background: #111827 !important;
+  color: #34d399 !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .dd-search-input {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody td {
+  border-bottom-color: #1f2937 !important;
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody tr:hover {
+  background: #1e293b !important;
+}
+
+
+/* ==========================================================================
+   KOV FRAMED-SHEET ANTI-SLOP DESIGN SYSTEM (SINGLE SOURCE OF TRUTH)
+   Hallmark Design Methodology: Pure neutral canvas, crisp white cards,
+   hairline rules (1px solid #e2e8f0), KOV Botanical Pine (#166534), tabular numerals,
+   untracked sentence-case typography, zero decorative dots, zero pastel gradients.
+   ========================================================================== */
+
+/* --- 1. Canvas & Root Framing --- */
+body, .dd-theme, .dd-layout-root, .dd-main-canvas {
+  background-color: var(--color-paper, #f8fafc) !important;
+  color: var(--color-ink-2, #334155) !important;
+  font-family: var(--font-body, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif) !important;
+  overflow-x: clip !important;
+}
+
+/* --- 2. Topbar Clean Layout --- */
+.dd-topbar {
+  background: var(--color-paper-2, #ffffff) !important;
+  border-bottom: 1px solid var(--color-rule, #e2e8f0) !important;
+  padding: 10px 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  box-shadow: none !important;
+}
+
+.dd-search-container {
+  background: var(--color-paper, #f8fafc) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  border-radius: var(--radius-control, 6px) !important;
+  padding: 0 12px !important;
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  transition: border-color var(--dur-micro, 0.15s) ease, box-shadow var(--dur-micro, 0.15s) ease !important;
+  box-shadow: none !important;
+}
+
+.dd-search-container:focus-within {
+  border-color: var(--color-accent, #166534) !important;
+  background: var(--color-paper-2, #ffffff) !important;
+  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.1) !important;
+}
+
+.dd-search-input {
+  border: none !important;
+  background: transparent !important;
+  outline: none !important;
+  font-size: var(--text-base, 14px) !important;
+  color: var(--color-ink, #0f172a) !important;
+  width: 100% !important;
+}
+
+.dd-search-input::placeholder {
+  color: var(--color-muted, #64748b) !important;
+}
+
+.dd-search-icon {
+  color: var(--color-muted, #64748b) !important;
+  font-size: 14px !important;
+}
+
+/* --- 3. Hero Command Banner --- */
+.dd-hero-banner {
+  background: var(--color-paper-2, #ffffff) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  border-radius: var(--radius-card, 8px) !important;
+  padding: 20px 24px !important;
+  margin-bottom: 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+  box-shadow: var(--shadow-card, 0 1px 3px 0 rgba(15, 23, 42, 0.04)) !important;
+}
+
+.dd-hero-title {
+  font-size: var(--text-xl, 1.25rem) !important;
+  font-weight: 700 !important;
+  color: var(--color-ink, #0f172a) !important;
+  letter-spacing: var(--tracking-tight, -0.015em) !important;
+  margin: 0 0 4px 0 !important;
+  line-height: 1.3 !important;
+}
+
+.dd-hero-subtitle {
+  font-size: var(--text-sm, 0.8125rem) !important;
+  color: var(--color-muted, #64748b) !important;
+  margin: 0 !important;
+  line-height: 1.45 !important;
+}
+
+/* Button System: Symmetrical 38px Controls */
+.btn-dd-hero, .btn-kov-primary {
+  height: 38px !important;
+  background-color: var(--color-accent, #166534) !important;
+  color: var(--color-accent-ink, #ffffff) !important;
+  border: 1px solid var(--color-accent, #166534) !important;
+  border-radius: var(--radius-control, 6px) !important;
+  padding: 0 16px !important;
+  font-size: var(--text-sm, 13px) !important;
   font-weight: 600 !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   gap: 6px !important;
   cursor: pointer !important;
-  text-decoration: none !important;
-  transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1) !important;
-  white-space: nowrap !important;
-}
-.btn-kov-outline:hover {
-  background: var(--celadon-bg, #dfece3) !important;
-  border-color: var(--celadon-border, #bdd6c5) !important;
-  color: var(--celadon-ink, #2e5943) !important;
+  transition: background-color var(--dur-micro, 0.15s) ease, border-color var(--dur-micro, 0.15s) ease !important;
+  box-shadow: none !important;
 }
 
-/* Filter Tab Pills (Symmetrical 8px) */
-.kov-tab-pill,
-.kov-filter-pill-botanical {
-  height: 30px !important;
-  padding: 0 12px !important;
-  border-radius: 8px !important;
-  font-size: 11.5px !important;
+.btn-dd-hero:hover, .btn-kov-primary:hover {
+  background-color: var(--color-accent-hover, #14532d) !important;
+  border-color: var(--color-accent-hover, #14532d) !important;
+  color: #ffffff !important;
+}
+
+.btn-kov-outline {
+  height: 38px !important;
+  background-color: var(--color-paper-2, #ffffff) !important;
+  color: var(--color-ink-2, #334155) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  border-radius: var(--radius-control, 6px) !important;
+  padding: 0 14px !important;
+  font-size: var(--text-sm, 13px) !important;
   font-weight: 600 !important;
-  color: var(--ink-body, #586e62) !important;
-  background: transparent !important;
-  border: 1px solid transparent !important;
-  cursor: pointer !important;
   display: inline-flex !important;
   align-items: center !important;
-  gap: 5px !important;
-  transition: all 0.16s ease !important;
-  white-space: nowrap !important;
-}
-.kov-tab-pill:hover,
-.kov-filter-pill-botanical:hover {
-  color: var(--celadon-ink, #2e5943) !important;
-  background: rgba(223, 236, 227, 0.5) !important;
-}
-.kov-tab-pill.active,
-.kov-filter-pill-botanical.active {
-  background: var(--celadon-bg, #dfece3) !important;
-  color: var(--celadon-ink, #2e5943) !important;
-  border-color: var(--celadon-border, #bdd6c5) !important;
-  font-weight: 700 !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: background-color var(--dur-micro, 0.15s) ease, border-color var(--dur-micro, 0.15s) ease !important;
+  box-shadow: none !important;
 }
 
-/* Breathable Artisanal Table (Symmetrical & Clean) */
-.kov-table,
+.btn-kov-outline:hover {
+  background-color: var(--color-paper, #f8fafc) !important;
+  border-color: #cbd5e1 !important;
+  color: var(--color-ink, #0f172a) !important;
+}
+
+/* --- 4. Symmetrical 4-Card KPI Strip --- */
+.kov-kpi-row {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 16px !important;
+  margin-bottom: 20px !important;
+}
+
+@media (max-width: 991px) {
+  .kov-kpi-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 575px) {
+  .kov-kpi-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.coinbase-kpi-card {
+  background: var(--color-paper-2, #ffffff) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  border-radius: var(--radius-card, 8px) !important;
+  padding: 16px 18px !important;
+  box-shadow: var(--shadow-card, 0 1px 3px 0 rgba(15, 23, 42, 0.04)) !important;
+  cursor: pointer !important;
+  transition: border-color var(--dur-micro, 0.15s) ease, box-shadow var(--dur-micro, 0.15s) ease !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.coinbase-kpi-card:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.06) !important;
+}
+
+.coinbase-kpi-card.active {
+  border-color: var(--color-accent, #166534) !important;
+  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.15) !important;
+}
+
+.bento-metric-title {
+  font-size: var(--text-xs, 12px) !important;
+  font-weight: 600 !important;
+  color: var(--color-muted, #64748b) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  margin-bottom: 6px !important;
+}
+
+.bento-metric-value {
+  font-size: var(--text-2xl, 1.625rem) !important;
+  font-weight: 700 !important;
+  color: var(--color-ink, #0f172a) !important;
+  line-height: 1.15 !important;
+  font-variant-numeric: tabular-nums !important;
+  margin-bottom: 4px !important;
+}
+
+.bento-metric-sub {
+  font-size: 11px !important;
+  color: var(--color-muted, #64748b) !important;
+  margin-top: auto !important;
+}
+
+/* --- 5. Division Tabs: Symmetrical 4x2 Grid --- */
+.dd-folders-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-rows: auto auto !important;
+  gap: 10px !important;
+  margin-bottom: 20px !important;
+}
+
+@media (max-width: 991px) {
+  .dd-folders-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+.dd-folder-card {
+  height: 42px !important;
+  min-height: 42px !important;
+  background: var(--color-paper-2, #ffffff) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  border-radius: var(--radius-control, 6px) !important;
+  padding: 0 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+  transition: background-color var(--dur-micro, 0.15s) ease, border-color var(--dur-micro, 0.15s) ease !important;
+  box-shadow: none !important;
+}
+
+.dd-folder-card:hover {
+  background-color: var(--color-paper, #f8fafc) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.dd-folder-card.active {
+  background-color: var(--color-accent, #166534) !important;
+  border-color: var(--color-accent, #166534) !important;
+}
+
+.dd-folder-card.active .dd-folder-title {
+  color: #ffffff !important;
+}
+
+.dd-folder-card.active .badge-tab-count {
+  background: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+
+.dd-folder-title {
+  font-size: var(--text-sm, 13px) !important;
+  font-weight: 600 !important;
+  color: var(--color-ink-2, #334155) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.badge-tab-count {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 2px 7px !important;
+  border-radius: 4px !important;
+  background: var(--color-paper, #f1f5f9) !important;
+  color: var(--color-muted, #64748b) !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* --- 6. Table & List Presentation --- */
+.kov-table-card {
+  background: var(--color-paper-2, #ffffff) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  border-radius: var(--radius-card, 8px) !important;
+  box-shadow: var(--shadow-card, 0 1px 3px 0 rgba(15, 23, 42, 0.04)) !important;
+  overflow: hidden !important;
+  margin-bottom: 24px !important;
+}
+
+.kov-table-header-box {
+  padding: 16px 20px !important;
+  border-bottom: 1px solid var(--color-rule, #e2e8f0) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+}
+
+.kov-table-title {
+  font-size: var(--text-md, 15px) !important;
+  font-weight: 700 !important;
+  color: var(--color-ink, #0f172a) !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.kov-badge-count {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  background: var(--color-paper, #f1f5f9) !important;
+  color: var(--color-muted, #64748b) !important;
+}
+
+.kov-status-filter-bar {
+  padding: 10px 20px !important;
+  background: var(--color-paper, #f8fafc) !important;
+  border-bottom: 1px solid var(--color-rule, #e2e8f0) !important;
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+
+.kov-filter-pill-botanical {
+  height: 32px !important;
+  padding: 0 12px !important;
+  font-size: var(--text-xs, 12px) !important;
+  font-weight: 500 !important;
+  border-radius: var(--radius-control, 6px) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  background: var(--color-paper-2, #ffffff) !important;
+  color: var(--color-ink-2, #334155) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  cursor: pointer !important;
+  transition: background-color var(--dur-micro, 0.15s) ease, border-color var(--dur-micro, 0.15s) ease !important;
+}
+
+.kov-filter-pill-botanical:hover {
+  background: var(--color-paper, #f1f5f9) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.kov-filter-pill-botanical.active {
+  background: var(--color-accent, #166534) !important;
+  color: #ffffff !important;
+  border-color: var(--color-accent, #166534) !important;
+}
+
 .kov-botanical-table {
   width: 100% !important;
   border-collapse: collapse !important;
-  font-size: 12.5px !important;
-  color: var(--ink-deep, #384d42) !important;
-}
-.kov-table thead th,
-.kov-botanical-table thead th {
-  color: var(--ink-muted, #7d9186) !important;
-  font-size: 10.5px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-  padding: 13px 18px !important;
-  border-bottom: 1px solid var(--border-organic, #d8e2dc) !important;
-  text-align: left !important;
-  white-space: nowrap !important;
-  background: rgba(245, 243, 237, 0.55) !important;
-}
-.kov-table tbody td,
-.kov-botanical-table tbody td {
-  height: 62px !important;
-  padding: 12px 18px !important;
-  border-bottom: 1px solid var(--border-subtle, #e9efe9) !important;
-  vertical-align: middle !important;
-  white-space: nowrap !important;
-  color: var(--ink-deep, #384d42) !important;
-  background: transparent !important;
-}
-.kov-table tbody tr:hover td,
-.kov-botanical-table tbody tr:hover td {
-  background: rgba(223, 236, 227, 0.35) !important;
 }
 
-/* Calendar Day Buttons (Symmetrical 8px) */
-.cal-day-btn,
-.dd-cal-day {
-  height: 28px !important;
-  width: 100% !important;
-  border-radius: 8px !important;
-  font-size: 11px !important;
+.kov-botanical-table thead th {
+  background: var(--color-paper, #f8fafc) !important;
+  font-size: var(--text-xs, 12px) !important;
   font-weight: 600 !important;
+  color: var(--color-muted, #64748b) !important;
+  padding: 10px 14px !important;
+  border-bottom: 1px solid var(--color-rule, #e2e8f0) !important;
+  text-align: left !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.kov-botanical-table tbody td {
+  padding: 12px 14px !important;
+  border-bottom: 1px solid var(--color-rule-subtle, #f1f5f9) !important;
+  vertical-align: middle !important;
+  font-size: var(--text-sm, 13px) !important;
+  color: var(--color-ink-2, #334155) !important;
+}
+
+.kov-botanical-table tbody tr:hover {
+  background-color: var(--color-paper, #f8fafc) !important;
+}
+
+/* Symmetrical Action Buttons in Table */
+.kov-action-review-btn {
+  height: 30px !important;
+  padding: 0 10px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  border-radius: var(--radius-control, 6px) !important;
+  background: var(--color-accent, #166534) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--color-accent, #166534) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  transition: background-color var(--dur-micro, 0.15s) ease !important;
+}
+
+.kov-action-review-btn:hover {
+  background: var(--color-accent-hover, #14532d) !important;
+  color: #ffffff !important;
+}
+
+.kov-action-icon-circle {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: var(--radius-control, 6px) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  background: var(--color-paper-2, #ffffff) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  text-decoration: none !important;
+  transition: background-color var(--dur-micro, 0.15s) ease !important;
+}
+
+.kov-action-icon-circle:hover {
+  background: var(--color-paper, #f1f5f9) !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* --- 7. Status Pills (Semantic, Accessible, No Fake Blinking) --- */
+.status-pill-modern {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  line-height: 1.3 !important;
+  white-space: nowrap !important;
+}
+
+.status-dot-pulse {
+  display: none !important;
+}
+
+.pill-success {
+  background: var(--color-success-bg, #f0fdf4) !important;
+  color: var(--color-success, #166534) !important;
+  border: 1px solid var(--color-success-border, #bbf7d0) !important;
+}
+
+.pill-warning {
+  background: var(--color-warning-bg, #fef3c7) !important;
+  color: var(--color-warning, #b45309) !important;
+  border: 1px solid var(--color-warning-border, #fde68a) !important;
+}
+
+.pill-danger {
+  background: var(--color-error-bg, #fef2f2) !important;
+  color: var(--color-error, #b91c1c) !important;
+  border: 1px solid var(--color-error-border, #fecaca) !important;
+}
+
+.pill-info {
+  background: var(--color-info-bg, #eff6ff) !important;
+  color: var(--color-info, #1d4ed8) !important;
+  border: 1px solid var(--color-info-border, #bfdbfe) !important;
+}
+
+/* --- 8. Right Panel Calendar & Tasks --- */
+.dd-calendar-widget, .dd-task-widget {
+  background: var(--color-paper-2, #ffffff) !important;
+  border: 1px solid var(--color-rule, #e2e8f0) !important;
+  border-radius: var(--radius-card, 8px) !important;
+  box-shadow: var(--shadow-card, 0 1px 3px 0 rgba(15, 23, 42, 0.04)) !important;
+  padding: 16px !important;
+  margin-bottom: 20px !important;
+}
+
+.dd-calendar-title, .dd-task-title {
+  font-size: var(--text-sm, 13px) !important;
+  font-weight: 700 !important;
+  color: var(--color-ink, #0f172a) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+}
+
+.dd-cal-day {
+  height: 30px !important;
+  width: 30px !important;
+  border-radius: 4px !important;
+  font-size: 11.5px !important;
+  font-weight: 500 !important;
   display: flex !important;
-  flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer !important;
-  border: 1px solid transparent !important;
-  background: transparent !important;
-  color: var(--ink-deep, #384d42) !important;
-  transition: all 0.15s ease !important;
+  transition: background-color var(--dur-micro, 0.15s) ease !important;
 }
-.cal-day-btn:hover,
+
 .dd-cal-day:hover {
-  background: var(--celadon-bg, #dfece3) !important;
-  color: var(--celadon-ink, #2e5943) !important;
-  border-color: var(--celadon-border, #bdd6c5) !important;
+  background-color: var(--color-paper, #f1f5f9) !important;
 }
-.cal-day-btn.active,
+
+.dd-cal-day.has-event {
+  background-color: var(--color-accent-subtle, #f0fdf4) !important;
+  color: var(--color-accent, #166534) !important;
+  font-weight: 700 !important;
+}
+
 .dd-cal-day.active {
-  background: #497a61 !important;
+  background-color: var(--color-accent, #166534) !important;
   color: #ffffff !important;
 }
-.cal-dot {
-  width: 4px !important;
-  height: 4px !important;
-  border-radius: 9999px !important;
-  margin-top: 1px !important;
+
+/* --- 9. Dark Mode System --- */
+[data-theme="dark"] body,
+[data-theme="dark"] .dd-layout-root,
+[data-theme="dark"] .dd-main-canvas {
+  background-color: #090d16 !important;
+  color: #cbd5e1 !important;
 }
 
-/* Soft Pastel Inputs (Symmetrical 8px) */
-.kov-pastel-input,
-.dd-search-input,
-.form-control,
-.form-select {
-  background-color: #ffffff !important;
-  color: var(--ink-deep, #384d42) !important;
-  border: 1px solid var(--border-organic, #d8e2dc) !important;
-  border-radius: 8px !important;
-  outline: none !important;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease !important;
-}
-.kov-pastel-input:focus,
-.dd-search-input:focus,
-.form-control:focus,
-.form-select:focus {
-  border-color: var(--celadon-stroke, #3f6f56) !important;
-  box-shadow: 0 0 0 3px rgba(223, 236, 227, 0.7) !important;
+[data-theme="dark"] .dd-topbar,
+[data-theme="dark"] .dd-hero-banner,
+[data-theme="dark"] .coinbase-kpi-card,
+[data-theme="dark"] .dd-folder-card,
+[data-theme="dark"] .kov-table-card,
+[data-theme="dark"] .kov-status-filter-bar,
+[data-theme="dark"] .dd-calendar-widget,
+[data-theme="dark"] .dd-task-widget {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #cbd5e1 !important;
 }
 
-/* Submit Overlay Modal & Toast (Symmetrical 16px) */
-.kov-submit-overlay,
-.kov-modal-backdrop {
-  position: fixed !important;
-  inset: 0 !important;
-  background: rgba(90, 115, 102, 0.24) !important;
-  backdrop-filter: blur(3px) !important;
-  z-index: 99998 !important;
+[data-theme="dark"] .dd-search-container {
+  background-color: #0f172a !important;
+  border-color: #1f2937 !important;
+}
+
+[data-theme="dark"] .dd-hero-title,
+[data-theme="dark"] .kov-table-title,
+[data-theme="dark"] .bento-metric-value,
+[data-theme="dark"] .kov-candidate-name {
+  color: #f8fafc !important;
+}
+
+[data-theme="dark"] .kov-botanical-table thead th {
+  background-color: #1e293b !important;
+  border-color: #1f2937 !important;
+  color: #94a3b8 !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody td {
+  border-bottom-color: #1f2937 !important;
+  color: #cbd5e1 !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody tr:hover {
+  background-color: #1e293b !important;
+}
+
+
+/* ==========================================================================
+   13. CILA MASTER FRAMED-SHEET UI/UX OVERHAUL (ZERO-SLOP EDITION)
+   Architect: Cila (UI/UX Designer & Anti-Slop Art Director)
+   Standard: Framed-Sheet Architecture (Flat Surfaces, 1px Hairlines, KOV Botanical Pine #166534)
+   ========================================================================== */
+
+:root {
+  --kov-pine: #166534 !important;
+  --kov-pine-hover: #14532d !important;
+  --kov-pine-light: #f0fdf4 !important;
+  --kov-pine-border: #bbf7d0 !important;
+
+  --kov-canvas: #f8fafc !important;
+  --kov-surface: #ffffff !important;
+  --kov-border: #e2e8f0 !important;
+  --kov-border-focus: #166534 !important;
+
+  --kov-text-primary: #0f172a !important;
+  --kov-text-secondary: #334155 !important;
+  --kov-text-muted: #64748b !important;
+  --kov-text-subtle: #94a3b8 !important;
+
+  --kov-radius-card: 16px !important;
+  --kov-radius-btn: 8px !important;
+  --kov-radius-pill: 9999px !important;
+
+  --kov-shadow-subtle: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+  --kov-shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.05) !important;
+}
+
+/* Master Shell & Main Canvas */
+.kov-app-shell,
+.dd-layout-root {
+  background-color: var(--kov-canvas) !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.kov-main-content,
+.dd-main-canvas {
+  background-color: var(--kov-canvas) !important;
+  background-image: none !important;
+  padding: 24px 28px !important;
+}
+
+/* Topbar */
+.kov-topbar,
+.dd-topbar {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: var(--kov-radius-card) !important;
+  padding: 12px 20px !important;
+  margin-bottom: 20px !important;
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  padding: 16px !important;
-}
-.kov-submit-modal {
-  background: var(--bg-paper, #fcfbf9) !important;
-  border: 1px solid var(--border-organic, #d8e2dc) !important;
-  border-radius: 16px !important;
-  padding: 26px 28px !important;
-  max-width: 340px !important;
-  width: 100% !important;
-  text-align: center !important;
-  box-shadow: 0 16px 36px -8px rgba(56, 77, 66, 0.14) !important;
-  animation: fadeUpOrganic 0.24s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+  justify-content: space-between !important;
+  box-shadow: var(--kov-shadow-subtle) !important;
 }
 
-/* =========================================================================
-   PUBLIC FORMS & STANDALONE PAGES SCROLL GUARANTEE (ANTI-TRUNCATION)
-   Guarantees that public recruitment forms, BA pengajuan, surat tugas,
-   and login forms NEVER get cut off / truncated by viewport locks.
-   ========================================================================= */
-body.kov-form-body,
-html.kov-form-html,
-body.kov-public-form,
-body:not(:has(.kov-app-shell)):not(:has(.dd-layout-root)) {
-  height: auto !important;
-  min-height: 100% !important;
-  max-height: none !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-}
-
-html:not(:has(.kov-app-shell)):not(:has(.dd-layout-root)) {
-  height: auto !important;
-  max-height: none !important;
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-}
-
-/* =========================================================================
-   KOV FORM SYSTEM & UI FILLING INTEGRITY TOKENS
-   Standardized layout, symmetry, no text overlap, and baseline alignment
-   ========================================================================= */
-
-/* Emerald and Botanical Utility Classes */
-.bg-emerald-subtle {
-  background-color: #ecfdf5 !important;
-  color: #065f46 !important;
-}
-.text-emerald-dark {
-  color: #065f46 !important;
-}
-.border-emerald-subtle {
-  border-color: #a7f3d0 !important;
-}
-.border-slate-200 {
-  border-color: #e2e8f0 !important;
-}
-
-/* Form Card Design Tokens (Taste-Skill Framed Sheet) */
-.card-modern-form {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 4px 12px -2px rgba(6, 78, 59, 0.03);
-  margin-bottom: 1.5rem;
-  overflow: hidden;
-}
-.card-modern-form .card-header {
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 0.95rem 1.25rem;
-  font-weight: 700;
-  color: #0f172a;
-  font-size: 0.95rem;
-}
-.card-modern-form .card-body {
-  padding: 1.5rem;
-}
-
-/* Form Label Strict Alignment */
-.form-label {
-  font-weight: 600;
-  font-size: 0.825rem;
-  color: #334155;
-  margin-bottom: 0.4rem;
-  display: block;
-  line-height: 1.35;
-}
-
-/* Form Controls Symmetric Styling */
-.form-control, .form-select {
-  border-radius: 8px;
-  border: 1px solid #cbd5e1;
-  padding: 0.55rem 0.85rem;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  background-color: #ffffff;
-  color: #1e293b;
-}
-.form-control:focus, .form-select:focus {
-  border-color: #059669;
-  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
-  background-color: #ffffff;
-  outline: none;
-}
-.form-control-sm, .form-select-sm {
-  border-radius: 6px;
-  padding: 0.35rem 0.65rem;
-  font-size: 0.825rem;
-}
-
-/* Table Custom Modern - Symmetric Column & Input Alignment */
-.table-custom-modern {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-bottom: 0;
-}
-.table-custom-modern th {
-  background-color: #f8fafc;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #475569;
-  font-weight: 700;
-  padding: 10px 12px;
-  border-bottom: 1px solid #e2e8f0;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-.table-custom-modern td {
-  padding: 8px 10px;
-  border-bottom: 1px solid #f1f5f9;
-  vertical-align: middle;
-}
-.table-custom-modern .form-control,
-.table-custom-modern .form-select {
-  font-size: 0.825rem;
-  padding: 0.35rem 0.6rem;
-}
-
-/* Dark Mode Overrides for Form Components */
-[data-theme="dark"] .card-modern-form {
-  background: #23302a !important;
-  border-color: #3b4e44 !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
-}
-[data-theme="dark"] .card-modern-form .card-header {
-  background: #1d2722 !important;
-  border-bottom-color: #3b4e44 !important;
-  color: #e2e8f0 !important;
-}
-[data-theme="dark"] .form-label {
-  color: #cbd5e1 !important;
-}
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .form-select {
-  background-color: #1a2420 !important;
-  border-color: #3b4e44 !important;
-  color: #f1f5f9 !important;
-}
-[data-theme="dark"] .table-custom-modern th {
-  background-color: #1d2722 !important;
-  color: #94a3b8 !important;
-  border-bottom-color: #3b4e44 !important;
-}
-[data-theme="dark"] .table-custom-modern td {
-  border-bottom-color: #2b3932 !important;
-  color: #e2e8f0 !important;
-}
-[data-theme="dark"] .bg-emerald-subtle {
-  background-color: rgba(5, 150, 105, 0.2) !important;
-  color: #6ee7b7 !important;
-}
-[data-theme="dark"] .text-emerald-dark {
-  color: #6ee7b7 !important;
-}
-
-/* =========================================================================
-   KOV EXECUTIVE ANTI-SLOP FORM ARCHITECTURE & SYMMETRICAL TYPOGRAPHY
-   Standard: Framed-Sheet Minimalism | Symmetrical 8px Spacing Grid
-   Curated by Cila (UI/UX Designer & Anti-Slop Art Director)
-   ========================================================================= */
-
-/* 1. Global Symmetrical Form Stride */
-.form-control:not(.form-control-sm):not(textarea),
-.form-select:not(.form-select-sm) {
+.dd-search-container {
+  background: var(--kov-canvas) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: var(--kov-radius-btn) !important;
   height: 42px !important;
-  border-radius: 8px !important;
-  border: 1px solid #cbd5e1 !important;
-  padding: 0.55rem 0.85rem !important;
-  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
-  font-size: 0.9375rem !important; /* 15px - prevent iOS zoom */
-  color: #0f172a !important;
-  background-color: #ffffff !important;
-  transition: border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.18s ease !important;
+  padding: 0 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 520px !important;
+  transition: all 0.2s ease !important;
 }
 
-.form-control:focus,
-.form-select:focus {
-  border-color: #166534 !important; /* KOV Botanical Pine */
+.dd-search-container:focus-within {
+  border-color: var(--kov-pine) !important;
   box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12) !important;
+  background: var(--kov-surface) !important;
+}
+
+.dd-search-input {
+  border: none !important;
   outline: none !important;
+  background: transparent !important;
+  color: var(--kov-text-primary) !important;
+  font-size: 13.5px !important;
+  width: 100% !important;
+  font-family: inherit !important;
 }
 
-/* 2. Symmetrical Labels & Optical Alignment */
-.form-label,
-label.form-label {
-  display: block !important;
-  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif !important;
-  font-size: 0.8125rem !important; /* 13px */
-  font-weight: 600 !important;
-  color: #334155 !important;
-  margin-bottom: 0.4rem !important;
-  letter-spacing: -0.005em !important;
+/* Command Header / Hero Banner */
+.kov-hero-banner,
+.dd-hero-banner {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: var(--kov-radius-card) !important;
+  padding: 20px 24px !important;
+  margin-bottom: 20px !important;
+  box-shadow: var(--kov-shadow-subtle) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
 }
 
-/* 3. Anti-Slop Primary Action Buttons */
-.btn-primary,
-.btn-submit-kov,
-.btn-kov-primary {
-  background: #166534 !important; /* KOV Pine Solid */
-  background-color: #166534 !important;
-  border-color: #166534 !important;
-  color: #ffffff !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.01em !important;
-  border-radius: 8px !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
-}
-
-.btn-primary:hover,
-.btn-submit-kov:hover,
-.btn-kov-primary:hover {
-  background: #14532d !important;
-  background-color: #14532d !important;
-  border-color: #14532d !important;
-  color: #ffffff !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(22, 101, 52, 0.2) !important;
-}
-
-.btn-primary:active,
-.btn-submit-kov:active,
-.btn-kov-primary:active {
-  background-color: #0d381e !important;
-  transform: translateY(0) !important;
-}
-
-/* 4. Tabular Numerics across all inputs & tables */
-input[type="number"],
-input[type="tel"],
-.num-tabular,
-.kov-table td.num {
-  font-feature-settings: "tnum" 1, "lnum" 1 !important;
-  font-variant-numeric: tabular-nums lining-nums !important;
-}
-
-/* 5. Framed-Sheet Form Cards */
-.card-modern-form,
-.kov-card-form {
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  border-radius: 14px !important;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
-}
-
-.card-modern-form .card-header,
-.kov-card-form .card-header {
-  background: #f8fafc !important;
-  border-bottom: 1px solid #e2e8f0 !important;
-  color: #0f172a !important;
+.dd-hero-title {
+  font-size: 18px !important;
   font-weight: 700 !important;
-  font-size: 0.95rem !important;
-  letter-spacing: -0.015em !important;
+  color: var(--kov-text-primary) !important;
+  margin: 0 0 4px !important;
+  letter-spacing: -0.02em !important;
 }
 
-/* 6. Dark Theme Symmetrical Form Support */
-[data-theme="dark"] .form-control:not(.form-control-sm):not(textarea),
-[data-theme="dark"] .form-select:not(.form-select-sm) {
-  background-color: #101726 !important;
-  border-color: #1e293b !important;
-  color: #f1f5f9 !important;
+.dd-hero-subtitle {
+  font-size: 13px !important;
+  color: var(--kov-text-muted) !important;
+  margin: 0 !important;
+  line-height: 1.5 !important;
 }
 
-[data-theme="dark"] .form-control:focus,
-[data-theme="dark"] .form-select:focus {
-  border-color: #166534 !important;
-  box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.22) !important;
+.btn-dd-hero {
+  background: var(--kov-pine) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--kov-pine) !important;
+  border-radius: var(--kov-radius-btn) !important;
+  height: 38px !important;
+  padding: 0 16px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 6px rgba(22, 101, 52, 0.15) !important;
 }
 
-[data-theme="dark"] .form-label,
-[data-theme="dark"] label.form-label {
-  color: #cbd5e1 !important;
+.btn-dd-hero:hover {
+  background: var(--kov-pine-hover) !important;
+  border-color: var(--kov-pine-hover) !important;
+  color: #ffffff !important;
 }
 
+.btn-kov-outline {
+  background: var(--kov-surface) !important;
+  border: 1px solid #cbd5e1 !important;
+  color: var(--kov-text-secondary) !important;
+  border-radius: var(--kov-radius-btn) !important;
+  height: 38px !important;
+  padding: 0 14px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
 
+.btn-kov-outline:hover {
+  background: var(--kov-canvas) !important;
+  border-color: var(--kov-text-muted) !important;
+  color: var(--kov-text-primary) !important;
+}
 
+/* KPI Metric Cards Grid */
+.kov-kpi-row {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 16px !important;
+  margin-bottom: 24px !important;
+}
 
+@media (max-width: 991px) {
+  .kov-kpi-row {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .kov-kpi-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.coinbase-kpi-card,
+.kov-stat-card {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: var(--kov-radius-card) !important;
+  padding: 18px 20px !important;
+  box-shadow: var(--kov-shadow-subtle) !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.coinbase-kpi-card:hover,
+.kov-stat-card:hover {
+  transform: translateY(-2px) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: var(--kov-shadow-card) !important;
+}
+
+.coinbase-kpi-card.active,
+.kov-stat-card.active {
+  border-color: var(--kov-pine) !important;
+  box-shadow: 0 0 0 2px rgba(22, 101, 52, 0.15) !important;
+}
+
+.bento-metric-title {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--kov-text-muted) !important;
+  margin-bottom: 8px !important;
+  display: block !important;
+}
+
+.bento-metric-value {
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  color: var(--kov-text-primary) !important;
+  letter-spacing: -0.03em !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1.2 !important;
+}
+
+.bento-metric-sub {
+  font-size: 12px !important;
+  color: var(--kov-text-muted) !important;
+  margin-top: 6px !important;
+  display: block !important;
+}
+
+/* Division Filter Pills */
+.dd-folders-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-bottom: 20px !important;
+}
+
+.dd-folder-card {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: var(--kov-radius-pill) !important;
+  padding: 7px 16px !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  color: var(--kov-text-secondary) !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  transition: all 0.2s ease !important;
+  box-shadow: var(--kov-shadow-subtle) !important;
+}
+
+.dd-folder-card:hover {
+  background: var(--kov-canvas) !important;
+  color: var(--kov-text-primary) !important;
+  border-color: #cbd5e1 !important;
+}
+
+.dd-folder-card.active {
+  background: var(--kov-pine) !important;
+  border-color: var(--kov-pine) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.25) !important;
+}
+
+.dd-folder-card.active .badge-tab-count {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.badge-tab-count {
+  background: var(--kov-canvas) !important;
+  color: var(--kov-text-muted) !important;
+  padding: 2px 7px !important;
+  border-radius: var(--kov-radius-pill) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+/* Table Container & Content */
+.kov-table-card {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: var(--kov-radius-card) !important;
+  box-shadow: var(--kov-shadow-subtle) !important;
+  overflow: hidden !important;
+}
+
+.kov-table-header-box {
+  padding: 16px 20px !important;
+  border-bottom: 1px solid var(--kov-border) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 12px !important;
+}
+
+.kov-table-title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: var(--kov-text-primary) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.kov-badge-count {
+  background: var(--kov-pine-light) !important;
+  color: var(--kov-pine) !important;
+  border: 1px solid var(--kov-pine-border) !important;
+  border-radius: var(--kov-radius-pill) !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  padding: 2px 10px !important;
+}
+
+.kov-status-filter-bar {
+  background: var(--kov-canvas) !important;
+  border-bottom: 1px solid var(--kov-border) !important;
+  padding: 10px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+}
+
+.kov-filter-pill-botanical {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: var(--kov-radius-pill) !important;
+  padding: 6px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: var(--kov-text-secondary) !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.2s ease !important;
+}
+
+.kov-filter-pill-botanical:hover {
+  background: #f1f5f9 !important;
+  color: var(--kov-text-primary) !important;
+}
+
+.kov-filter-pill-botanical.active {
+  background: var(--kov-pine) !important;
+  border-color: var(--kov-pine) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(22, 101, 52, 0.2) !important;
+}
+
+/* Botanical Data Table */
+.kov-botanical-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+.kov-botanical-table thead th {
+  background: #fafbfc !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--kov-text-muted) !important;
+  padding: 12px 16px !important;
+  border-bottom: 1px solid var(--kov-border) !important;
+  white-space: nowrap !important;
+}
+
+.kov-botanical-table tbody td {
+  padding: 14px 16px !important;
+  font-size: 13px !important;
+  color: var(--kov-text-secondary) !important;
+  border-bottom: 1px solid var(--kov-border) !important;
+  vertical-align: middle !important;
+}
+
+.kov-botanical-table tbody tr:hover {
+  background-color: #f8fafc !important;
+}
+
+.kov-candidate-name {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: var(--kov-text-primary) !important;
+  line-height: 1.3 !important;
+}
+
+.kov-action-review-btn {
+  background: var(--kov-pine-light) !important;
+  color: var(--kov-pine) !important;
+  border: 1px solid var(--kov-pine-border) !important;
+  border-radius: var(--kov-radius-btn) !important;
+  padding: 6px 14px !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.kov-action-review-btn:hover {
+  background: var(--kov-pine) !important;
+  color: #ffffff !important;
+}
+
+/* Right Activity Panel */
+.dd-right-panel {
+  background: var(--kov-surface) !important;
+  border-left: 1px solid var(--kov-border) !important;
+  padding: 24px 20px !important;
+}
+
+.dd-calendar-widget,
+.dd-task-widget,
+.kov-memo-studio-widget {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: var(--kov-radius-card) !important;
+  padding: 18px !important;
+  margin-bottom: 20px !important;
+  box-shadow: var(--kov-shadow-subtle) !important;
+}
+
+/* Dark Mode Alignment */
+[data-theme="dark"] {
+  --kov-canvas: #090d16 !important;
+  --kov-surface: #111827 !important;
+  --kov-border: #1e293b !important;
+  --kov-border-focus: #22c55e !important;
+
+  --kov-text-primary: #f8fafc !important;
+  --kov-text-secondary: #cbd5e1 !important;
+  --kov-text-muted: #94a3b8 !important;
+  --kov-text-subtle: #64748b !important;
+
+  --kov-pine: #22c55e !important;
+  --kov-pine-hover: #16a34a !important;
+  --kov-pine-light: rgba(34, 197, 94, 0.12) !important;
+  --kov-pine-border: rgba(34, 197, 94, 0.25) !important;
+}
+
+[data-theme="dark"] .kov-botanical-table thead th {
+  background: #0d131f !important;
+}
+
+[data-theme="dark"] .kov-botanical-table tbody tr:hover {
+  background-color: #172033 !important;
+}

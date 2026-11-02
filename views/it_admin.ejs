@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -6,17 +6,17 @@
   <title>Rekap Pembelanjaan IT per Outlet — KOV Group</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
-  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Bootstrap 5 CSS & FontAwesome -->
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   
   <!-- Figma Design Token System -->
-  <link href="/assets/css/kov-portal.css?v=20261101_v14_clean" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
   
   <style>
     body {
@@ -222,10 +222,8 @@
       <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
       <div class="dd-topbar kov-topbar">
         <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
-          <button type="button" class="kov-sidebar-toggle-btn btn-kov-outline d-inline-flex align-items-center justify-content-center flex-shrink-0" onclick="toggleKovSidebar()" aria-label="Geser / Lipat Navigasi" title="Lipat / Geser Navigasi Sidebar" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-organic, #d8e2dc); background: var(--bg-paper, #fcfbf9); color: var(--ink-deep, #384d42); cursor: pointer; padding: 0;">
-            <svg viewBox="0 0 24 24" fill="none" style="width: 17px; height: 17px;">
-              <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+          <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
           </button>
           <div class="dd-search-container">
             <i class="fas fa-magnifying-glass dd-search-icon"></i>
@@ -591,10 +589,10 @@
         <form action="/api/it/expenses" method="POST" onsubmit="return prepareSubmitItems('tambah')">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header pigment-celadon py-3 px-4">
-            <h5 class="modal-title fw-bold fs-6 d-flex align-items-center gap-2" style="color: #2e5943;">
+            <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-cart-plus text-success"></i>Catat Belanja Baru (Multi-Item per Outlet)
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body p-4">
             
@@ -602,11 +600,14 @@
             <div id="aiScannerBox" class="ai-scanner-panel p-3 mb-4 shadow-sm">
               <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
                 <div class="d-flex align-items-center gap-2">
-                  <span class="badge rounded-pill text-white px-2.5 py-1" style="background-color: #166534; font-size: 11px;">
+                  <span class="badge rounded-pill text-white px-2 py-1 shadow-sm" style="background-color: #064e3b;">
                     <i class="fas fa-magic me-1 text-warning"></i>Smart AI Scanner
                   </span>
-                  <span class="fw-bold small text-dark" style="font-size: 12px;">Pindai Struk / Nota PDF Otomatis</span>
+                  <strong class="text-success small"><i class="fas fa-file-invoice me-1"></i>Input Otomatis via Foto Struk / Nota PDF</strong>
                 </div>
+                <span class="badge bg-success bg-opacity-20 text-success border border-success border-opacity-25 small">
+                  <i class="fas fa-check-circle me-1"></i>Ekstraksi Cepat &bull; Auto Item
+                </span>
               </div>
 
               <p class="text-muted small mb-2" style="font-size: 11px;">
@@ -766,10 +767,10 @@
         <form id="formEditExpense" method="POST" onsubmit="return prepareSubmitItems('edit')">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header pigment-celadon py-3 px-4">
-            <h5 class="modal-title fw-bold fs-6 d-flex align-items-center gap-2" style="color: #2e5943;">
+            <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-edit text-primary"></i>Edit Catatan Belanja
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body p-4">
             
@@ -894,10 +895,10 @@
         <form action="/api/it/ai/save-key" method="POST" id="formGeminiKey">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header pigment-celadon py-3 px-4">
-            <h5 class="modal-title fw-bold fs-6 d-flex align-items-center gap-2" style="color: #2e5943;">
+            <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-key text-warning"></i>Konfigurasi Google Gemini API Key
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body p-4">
             <p class="text-muted small mb-3">
@@ -927,10 +928,10 @@
         <form action="/api/it/change-password" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="modal-header pigment-celadon py-3 px-4">
-            <h5 class="modal-title fw-bold fs-6 d-flex align-items-center gap-2" style="color: #2e5943;">
+            <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
               <i class="fas fa-key text-warning"></i>Ganti Password Akun IT
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body p-4">
             <div class="mb-3">
@@ -958,10 +959,10 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
         <div class="modal-header pigment-celadon py-3 px-4">
-          <h5 class="modal-title fw-bold fs-6 d-flex align-items-center gap-2" style="color: #2e5943;">
+          <h5 class="modal-title fw-bold fs-6 text-white d-flex align-items-center gap-2">
             <i class="fas fa-file-export text-warning"></i>Export Rekap Belanja IT
           </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body p-4">
           <p class="text-muted small mb-3">
@@ -1531,6 +1532,15 @@
     filterKat.addEventListener('change', applyAllFilters);
 
     if (btnReset) btnReset.addEventListener('click', resetAllITFilters);
+    const __dummy_btnReset_listener = () => {
+      searchInput.value = '';
+      if (filterVendor) filterVendor.value = '';
+      if (filterStartDate) filterStartDate.value = '';
+      if (filterEndDate) filterEndDate.value = '';
+      filterStat.value = '';
+      filterKat.value = '';
+      selectOutletFilter('ALL', document.querySelector('.btn-outlet'));
+    };
 
     // ==========================================
     // GOOGLE GEMINI AI - INVOICE SCANNER

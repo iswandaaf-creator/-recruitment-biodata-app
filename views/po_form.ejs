@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -6,17 +6,17 @@
   <title>Buat Purchase Order (PO) Baru — KOV Group</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
-  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Bootstrap 5 CSS & FontAwesome -->
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   
   <!-- Figma Design Token System -->
-  <link href="/assets/css/kov-portal.css?v=20261101_v14_clean" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
   
   <style>
     body {
@@ -334,10 +334,8 @@
       <!-- Modern Minimalist Topbar -->
       <header class="kov-topbar">
         <div class="kov-topbar-left">
-          <button type="button" class="kov-sidebar-toggle-btn btn-kov-outline d-inline-flex align-items-center justify-content-center flex-shrink-0" onclick="toggleKovSidebar()" aria-label="Geser / Lipat Navigasi" title="Lipat / Geser Navigasi Sidebar" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-organic, #d8e2dc); background: var(--bg-paper, #fcfbf9); color: var(--ink-deep, #384d42); cursor: pointer; padding: 0;">
-            <svg viewBox="0 0 24 24" fill="none" style="width: 17px; height: 17px;">
-              <path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
+          <button type="button" class="kov-mobile-toggle" onclick="toggleKovSidebar()" aria-label="Buka Menu">
+            <i class="fas fa-bars"></i>
           </button>
           <a class="btn-kov-secondary btn-kov-sm" href="/admin/operasional/po">
             <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline">Kembali</span>
@@ -409,7 +407,7 @@
               <label class="form-label">Nama Dagang / Toko</label>
               <input type="text" class="form-control" name="vendor_nama_dagang" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.vendor_nama_dagang) ? poToCopy.vendor_nama_dagang : '' %>" placeholder="Contoh: AGRES.ID / Tokopedia Official">
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
               <label class="form-label">Perihal Pengadaan <span class="text-danger">*</span></label>
               <input type="text" class="form-control" name="perihal" value="<%= (typeof poToCopy !== 'undefined' && poToCopy && poToCopy.perihal) ? poToCopy.perihal : '' %>" placeholder="Contoh: Pengadaan Laptop Kasir & Perlengkapan IT" required>
             </div>
@@ -620,9 +618,6 @@ Pengiriman melampirkan Faktur Pembelian/Invoice resmi dan Berita Acara Serah Ter
               <div class="mb-2">
                 <label class="form-label small">Perwakilan</label>
                 <input type="text" class="form-control form-control-sm" name="vendor_konfirmasi_jabatan" value="Perwakilan Resmi">
-              </div>
-              <div class="p-3 bg-light rounded-3 text-center text-muted small mt-4 border">
-                <i class="fas fa-handshake text-secondary me-1"></i>Konfirmasi Pesanan Sesuai Kesepakatan
               </div>
             </div>
           </div>

@@ -20,6 +20,20 @@
       --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
 
+      /* Type Scale — 7 slots, satu-satunya sumber ukuran huruf.
+         Rasio longgar ~1.25 (dua oktaf UI): lihat docs panduan. */
+      --fs-2xs: 10px;  /* micro-caps: label KPI & penanda kecil */
+      --fs-xs: 11px;   /* badge status & header tabel */
+      --fs-sm: 12px;   /* label form & teks sekunder */
+      --fs-md: 13px;   /* body utama: input, tombol, sel tabel */
+      --fs-lg: 16px;   /* judul seksi */
+      --fs-xl: 20px;   /* judul kartu & angka KPI */
+      --fs-2xl: 24px;  /* judul halaman H1 */
+      --lh-tight: 1.25;
+      --lh-body: 1.55;
+      --ls-caps: 0.07em;
+      --ls-display: -0.02em;
+
       /* KOV Executive Minimalist Palette */
       --bg-canvas: #f8fafc;
       --bg-surface: #ffffff;
@@ -31,6 +45,7 @@
       --border-subtle: #f1f5f9;
       --border-input: #cbd5e1;
       --border-input-focus: #166534;
+      --required-ink: #be123c;
 
       /* Inks */
       --ink-primary: #0f172a;      /* Obsidian Slate 900 */
@@ -133,7 +148,7 @@
 
     .font-display {
       font-family: var(--font-display);
-      letter-spacing: -0.025em;
+      letter-spacing: var(--ls-display);
     }
 
     .font-mono-num {
@@ -156,11 +171,6 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-hairline);
       border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-subtle);
-      transition: box-shadow 0.2s var(--ease-smooth);
-    }
-    .kov-card:hover {
-      box-shadow: var(--shadow-card);
     }
 
     /* Form Fields */
@@ -171,10 +181,10 @@
       background: var(--bg-surface);
       border: 1px solid var(--border-input);
       border-radius: var(--radius-md);
-      font-size: 13.5px;
+      font-size: var(--fs-md);
       color: var(--ink-primary);
       outline: none;
-      transition: all 0.18s var(--ease-smooth);
+      transition: border-color 0.18s var(--ease-smooth), box-shadow 0.18s var(--ease-smooth);
     }
     .kov-field:focus {
       border-color: var(--border-input-focus);
@@ -182,6 +192,26 @@
     }
     select.kov-field {
       cursor: pointer;
+    }
+    .kov-file {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .kov-file::-webkit-file-upload-button {
+      background: var(--bg-subtle);
+      color: var(--ink-secondary);
+      border: 0;
+      border-radius: var(--radius-sm);
+      padding: 5px 12px;
+      margin-right: 10px;
+      font-weight: 600;
+      font-size: var(--fs-xs);
+      cursor: pointer;
+    }
+    .req-mark {
+      color: var(--required-ink);
+      font-weight: 600;
+      margin-left: 2px;
     }
 
     /* Buttons */
@@ -192,15 +222,14 @@
       color: #ffffff;
       border: 1px solid transparent;
       border-radius: var(--radius-md);
-      font-size: 13px;
+      font-size: var(--fs-md);
       font-weight: 600;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       cursor: pointer;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-      transition: all 0.16s ease;
+      transition: background-color 0.16s ease, transform 0.16s ease;
       white-space: nowrap;
     }
     .btn-primary:hover {
@@ -218,14 +247,14 @@
       color: var(--ink-secondary);
       border: 1px solid var(--border-input);
       border-radius: var(--radius-md);
-      font-size: 13px;
+      font-size: var(--fs-md);
       font-weight: 500;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       cursor: pointer;
-      transition: all 0.16s ease;
+      transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
       white-space: nowrap;
     }
     .btn-outline:hover {
@@ -245,7 +274,7 @@
       justify-content: center;
       color: var(--ink-secondary);
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: background-color 0.15s ease, color 0.15s ease;
     }
     .btn-icon:hover {
       background: var(--bg-subtle);
@@ -257,7 +286,7 @@
       height: 36px;
       padding: 0 16px;
       border-radius: var(--radius-md);
-      font-size: 13px;
+      font-size: var(--fs-md);
       font-weight: 500;
       color: var(--ink-secondary);
       background: transparent;
@@ -266,7 +295,7 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      transition: all 0.15s ease;
+      transition: color 0.15s ease, background-color 0.15s ease;
       white-space: nowrap;
     }
     .nav-tab-pill:hover {
@@ -278,7 +307,6 @@
       color: var(--kov-pine);
       font-weight: 600;
       border-color: var(--border-hairline);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     }
 
     /* Badges */
@@ -287,7 +315,7 @@
       align-items: center;
       gap: 5px;
       padding: 3px 10px;
-      font-size: 11px;
+      font-size: var(--fs-xs);
       font-weight: 600;
       border-radius: var(--radius-pill);
       white-space: nowrap;
@@ -302,11 +330,11 @@
     .kov-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 13px;
+      font-size: var(--fs-md);
     }
     .kov-table thead th {
       color: var(--ink-muted);
-      font-size: 11px;
+      font-size: var(--fs-xs);
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -324,6 +352,30 @@
     .kov-table tbody tr:hover td {
       background: var(--bg-hover);
     }
+
+    /* Type utilities & bezel sistem kalender */
+    .t-caps { font-size: var(--fs-2xs); font-weight: 700; text-transform: uppercase; letter-spacing: var(--ls-caps); }
+    .t-11 { font-size: var(--fs-xs); }
+    .badge-sm { font-size: var(--fs-xs); padding: 2px 7px; }
+    .cal-cell {
+      height: 40px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-surface);
+      color: var(--ink-secondary);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+    .cal-cell:hover { background: var(--bg-subtle); }
+    .cal-cell--active { background: var(--kov-pine); border-color: var(--kov-pine); color: #ffffff; }
+    .cal-dot { width: 6px; height: 6px; border-radius: var(--radius-pill); background: var(--kov-pine); margin-top: 2px; }
+    .cal-cell--active .cal-dot { background: #ffffff; }
 
     /* Modal Backdrop */
     .modal-overlay {
@@ -347,15 +399,15 @@
   <header class="h-16 px-6 lg:px-10 border-b flex items-center justify-between gap-4 sticky top-0 z-50" style="background: var(--bg-surface); border-color: var(--border-hairline);">
     <!-- Brand Identity -->
     <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-white text-base shadow-sm" style="background: var(--kov-pine);">
+      <div class="w-9 h-9 rounded-lg flex items-center justify-center font-bold text-white text-base" style="background: var(--kov-pine);">
         K
       </div>
       <div>
-        <div class="font-display font-bold text-sm tracking-tight flex items-center gap-1.5" style="color: var(--ink-primary);">
+        <div class="font-display font-semibold text-base tracking-tight flex items-center gap-1.5" style="color: var(--ink-primary);">
           KOV KOFFIE
-          <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full" style="background: var(--status-emerald-bg); color: var(--status-emerald-ink); border: 1px solid var(--status-emerald-border);">HOLDING</span>
+          <span class="t-11 font-semibold px-2 py-0.5 rounded-full" style="background: var(--status-emerald-bg); color: var(--status-emerald-ink); border: 1px solid var(--status-emerald-border);">HOLDING</span>
         </div>
-        <div class="text-[11px] font-medium" style="color: var(--ink-muted);">Management Portal &amp; Form Suite</div>
+        <div class="t-11 font-medium" style="color: var(--ink-muted);">Management Portal &amp; Form Suite</div>
       </div>
     </div>
 
@@ -416,19 +468,19 @@
       <!-- Quick KPI Counters -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
         <div class="px-4 py-3 rounded-xl border" style="background: var(--bg-subtle); border-color: var(--border-hairline);">
-          <div class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--ink-muted);">Total Pelamar</div>
+          <div class="t-caps" style="color: var(--ink-muted);">Total Pelamar</div>
           <div class="font-display font-mono-num text-lg font-bold mt-0.5" style="color: var(--ink-primary);" id="kpiTotal">5 Data</div>
         </div>
         <div class="px-4 py-3 rounded-xl border" style="background: var(--bg-subtle); border-color: var(--border-hairline);">
-          <div class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--ink-muted);">Perlu Review</div>
+          <div class="t-caps" style="color: var(--ink-muted);">Perlu Review</div>
           <div class="font-display font-mono-num text-lg font-bold mt-0.5" style="color: var(--status-amber-ink);" id="kpiReview">2 Berkas</div>
         </div>
         <div class="px-4 py-3 rounded-xl border" style="background: var(--bg-subtle); border-color: var(--border-hairline);">
-          <div class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--ink-muted);">Siap PKWT</div>
+          <div class="t-caps" style="color: var(--ink-muted);">Siap PKWT</div>
           <div class="font-display font-mono-num text-lg font-bold mt-0.5" style="color: var(--status-emerald-ink);" id="kpiLulus">2 Lulus</div>
         </div>
         <div class="px-4 py-3 rounded-xl border" style="background: var(--bg-subtle); border-color: var(--border-hairline);">
-          <div class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--ink-muted);">Agenda Aktif</div>
+          <div class="t-caps" style="color: var(--ink-muted);">Agenda Aktif</div>
           <div class="font-display font-mono-num text-lg font-bold mt-0.5" style="color: var(--status-blue-ink);" id="kpiAgenda">3 Jadwal</div>
         </div>
       </div>
@@ -466,32 +518,32 @@
           <div>
             <div class="flex items-center gap-2 mb-4">
               <span class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs text-white" style="background: var(--kov-pine);">1</span>
-              <h3 class="font-display font-bold text-sm tracking-tight" style="color: var(--ink-primary);">Informasi Identitas Diri</h3>
+              <h3 class="font-display font-semibold text-base tracking-tight" style="color: var(--ink-primary);">Informasi Identitas Diri</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Nama Lengkap Sesuai KTP <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Nama Lengkap Sesuai KTP <span class="req-mark">*</span></label>
                 <input type="text" id="inpNama" value="Budi Santoso" required class="kov-field" placeholder="Masukkan nama lengkap">
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Nomor Induk Kependudukan (NIK 16 Digit) <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Nomor Induk Kependudukan (NIK 16 Digit) <span class="req-mark">*</span></label>
                 <input type="text" id="inpNik" value="3374012410980001" maxlength="16" required class="kov-field font-mono-num" placeholder="3374xxxxxxxxxxxx">
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Nomor WhatsApp Aktif <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Nomor WhatsApp Aktif <span class="req-mark">*</span></label>
                 <input type="tel" id="inpHp" value="0812-3456-7890" required class="kov-field font-mono-num" placeholder="08xxxxxxxxxx">
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Alamat Email Resmi <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Alamat Email Resmi <span class="req-mark">*</span></label>
                 <input type="email" id="inpEmail" value="budi.santoso@kov.id" required class="kov-field" placeholder="nama@email.com">
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Tempat &amp; Tanggal Lahir <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Tempat &amp; Tanggal Lahir <span class="req-mark">*</span></label>
                 <input type="text" id="inpTtl" value="Semarang, 24 Oktober 1998" required class="kov-field" placeholder="Kota, DD Bulan YYYY">
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Jenis Kelamin <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Jenis Kelamin <span class="req-mark">*</span></label>
                 <select id="inpGender" class="kov-field">
                   <option value="Laki-laki">Laki-laki</option>
                   <option value="Perempuan">Perempuan</option>
@@ -504,12 +556,12 @@
           <div class="pt-6 border-t" style="border-color: var(--border-hairline);">
             <div class="flex items-center gap-2 mb-4">
               <span class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs text-white" style="background: var(--kov-pine);">2</span>
-              <h3 class="font-display font-bold text-sm tracking-tight" style="color: var(--ink-primary);">Pilihan Divisi &amp; Outlet Penempatan</h3>
+              <h3 class="font-display font-semibold text-base tracking-tight" style="color: var(--ink-primary);">Pilihan Divisi &amp; Outlet Penempatan</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Divisi Tujuan <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Divisi Tujuan <span class="req-mark">*</span></label>
                 <select id="inpDivisi" class="kov-field">
                   <option value="Barista">Barista &amp; Roastery</option>
                   <option value="Kitchen">Kitchen &amp; Pastry</option>
@@ -519,7 +571,7 @@
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Outlet Pilihan <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Outlet Pilihan <span class="req-mark">*</span></label>
                 <select id="inpOutlet" class="kov-field">
                   <option value="KOV Koffie Sula">KOV Koffie Sula (Holding)</option>
                   <option value="KOV Heritage Kota Lama">KOV Heritage Kota Lama</option>
@@ -529,7 +581,7 @@
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Pendidikan Terakhir <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Pendidikan Terakhir <span class="req-mark">*</span></label>
                 <input type="text" id="inpPendidikan" value="D3 Perhotelan" required class="kov-field" placeholder="Contoh: S1 Manajemen, SMK Pariwisata">
               </div>
               <div>
@@ -543,17 +595,17 @@
           <div class="pt-6 border-t" style="border-color: var(--border-hairline);">
             <div class="flex items-center gap-2 mb-4">
               <span class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs text-white" style="background: var(--kov-pine);">3</span>
-              <h3 class="font-display font-bold text-sm tracking-tight" style="color: var(--ink-primary);">Rekening Payroll &amp; Lampiran Berkas</h3>
+              <h3 class="font-display font-semibold text-base tracking-tight" style="color: var(--ink-primary);">Rekening Payroll &amp; Lampiran Berkas</h3>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Nomor Rekening Payroll <span class="text-rose-500">*</span></label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Nomor Rekening Payroll <span class="req-mark">*</span></label>
                 <input type="text" id="inpRekening" value="BCA 1234567890" required class="kov-field font-mono-num" placeholder="BCA / Mandiri / BNI / BRI">
               </div>
               <div>
                 <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Upload Berkas CV &amp; KTP (PDF / ZIP)</label>
-                <input type="file" class="kov-field !py-2 text-xs file:mr-3 file:py-1 file:px-2.5 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer">
+                <input type="file" class="kov-field kov-file">
               </div>
             </div>
           </div>
@@ -561,7 +613,7 @@
           <!-- Form Action Footer -->
           <div class="pt-6 border-t flex flex-wrap items-center justify-between gap-4" style="border-color: var(--border-hairline);">
             <div class="flex items-center gap-2 text-xs" style="color: var(--ink-muted);">
-              <svg class="w-4 h-4 text-emerald-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <svg class="w-4 h-4" style="color: var(--kov-pine);" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               <span>Enkripsi data sesuai standar kepatuhan privasi karyawan KOV Group.</span>
             </div>
 
@@ -649,17 +701,17 @@
         <div class="kov-card p-6 space-y-5">
           <div class="border-b pb-4" style="border-color: var(--border-hairline);">
             <h3 class="font-display font-bold text-sm" style="color: var(--ink-primary);">Tambah Agenda Seleksi</h3>
-            <p class="text-xs mt-0.5" style="color: var(--ink-muted);">Tanggal terpilih: <span class="font-bold text-emerald-700" id="selectedDateLabel">24/10/2026</span></p>
+            <p class="text-xs mt-0.5" style="color: var(--ink-muted);">Tanggal terpilih: <span class="font-bold" style="color: var(--kov-pine);" id="selectedDateLabel">24/10/2026</span></p>
           </div>
 
           <form id="calendarAgendaForm" class="space-y-3">
             <div>
-              <label class="block text-xs font-semibold mb-1" style="color: var(--ink-secondary);">Judul Agenda / Nama Pelamar</label>
+              <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Judul Agenda / Nama Pelamar</label>
               <input type="text" id="calAgendaTitle" placeholder="Contoh: Interview Barista — Budi" required class="kov-field !h-9 text-xs">
             </div>
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <label class="block text-xs font-semibold mb-1" style="color: var(--ink-secondary);">Kategori</label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Kategori</label>
                 <select id="calAgendaCategory" class="kov-field !h-9 text-xs">
                   <option value="Interview">Interview</option>
                   <option value="Uji Praktik">Uji Praktik</option>
@@ -668,7 +720,7 @@
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold mb-1" style="color: var(--ink-secondary);">Jam</label>
+                <label class="block text-xs font-semibold mb-1.5" style="color: var(--ink-secondary);">Jam</label>
                 <input type="time" id="calAgendaTime" value="10:00" class="kov-field !h-9 text-xs font-mono-num">
               </div>
             </div>
@@ -678,7 +730,7 @@
           </form>
 
           <div class="pt-4 border-t" style="border-color: var(--border-hairline);">
-            <h4 class="font-display font-bold text-xs uppercase tracking-wider mb-3" style="color: var(--ink-muted);">Daftar Agenda Aktif</h4>
+            <h4 class="font-display font-semibold text-xs mb-3" style="color: var(--ink-muted);">Daftar Agenda Aktif</h4>
             <div class="space-y-2 max-h-56 overflow-y-auto pr-1" id="agendaItemsList"></div>
           </div>
         </div>
@@ -718,7 +770,7 @@
        4. MODAL DIALOGS (Symmetrical, Crisp, Professional)
        ======================================================================= -->
   <div id="candidateDetailModal" class="hidden modal-overlay">
-    <div class="kov-card max-w-lg w-full p-6 sm:p-8 animate-fade" id="candidateModalContent"></div>
+    <div class="kov-card max-w-lg w-full p-6 sm:p-8" id="candidateModalContent"></div>
   </div>
 
   <div id="toastRoot" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"></div>
@@ -760,7 +812,7 @@
       toast.innerHTML = `
         <div class="flex-1">
           <div class="font-display font-bold text-xs" style="color: var(--ink-primary);">${title}</div>
-          <div class="text-[11px] mt-0.5" style="color: var(--ink-muted);">${msg}</div>
+          <div class="t-11 mt-0.5" style="color: var(--ink-muted);">${msg}</div>
         </div>
       `;
       root.appendChild(toast);
@@ -807,7 +859,7 @@
       });
 
       if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-xs text-slate-500">Tidak ada data pelamar yang cocok.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-10 text-xs" style="color: var(--ink-muted);">Tidak ada data pelamar yang cocok.</td></tr>';
         return;
       }
 
@@ -824,17 +876,17 @@
                 </div>
                 <div>
                   <div class="font-display font-bold text-xs sm:text-sm" style="color: var(--ink-primary);">${c.nama}</div>
-                  <div class="text-[11px]" style="color: var(--ink-muted);">${c.pendidikan} &bull; Tgl: ${c.tanggal}</div>
+                  <div class="t-11" style="color: var(--ink-muted);">${c.pendidikan} &bull; Tgl: ${c.tanggal}</div>
                 </div>
               </div>
             </td>
             <td>
               <div class="font-semibold text-xs" style="color: var(--ink-primary);">${c.posisi}</div>
-              <div class="text-[11px] mt-0.5" style="color: var(--ink-muted);">${c.outlet} &bull; <span class="badge badge-emerald !text-[9.5px] !py-0 !px-1.5">${c.divisi}</span></div>
+              <div class="t-11 mt-0.5" style="color: var(--ink-muted);">${c.outlet} &bull; <span class="badge badge-emerald badge-sm">${c.divisi}</span></div>
             </td>
             <td>
               <div class="font-mono-num text-xs font-semibold" style="color: var(--ink-primary);">${displayNik}</div>
-              <div class="font-mono-num text-[11px]" style="color: var(--ink-muted);">${c.rek} &bull; ${c.hp}</div>
+              <div class="font-mono-num t-11" style="color: var(--ink-muted);">${c.rek} &bull; ${c.hp}</div>
             </td>
             <td class="text-right">
               <div class="inline-flex items-center gap-2">
@@ -862,12 +914,12 @@
           <button type="button" class="btn-icon !w-7 !h-7 text-xs" onclick="closeModal()">&times;</button>
         </div>
         <div class="space-y-3 text-xs">
-          <div class="flex justify-between py-1 border-b" style="border-color: var(--border-subtle);"><span class="text-slate-500">NIK KTP</span><span class="font-mono-num font-semibold">${c.nik}</span></div>
-          <div class="flex justify-between py-1 border-b" style="border-color: var(--border-subtle);"><span class="text-slate-500">Kontak WhatsApp</span><span class="font-mono-num font-semibold">${c.hp}</span></div>
-          <div class="flex justify-between py-1 border-b" style="border-color: var(--border-subtle);"><span class="text-slate-500">Rekening Payroll</span><span class="font-mono-num font-semibold">${c.rek}</span></div>
-          <div class="flex justify-between py-1 border-b" style="border-color: var(--border-subtle);"><span class="text-slate-500">Pengalaman</span><span class="font-semibold">${c.pengalaman}</span></div>
+          <div class="flex justify-between py-1 border-b" style="border-color: var(--border-subtle);"><span style="color: var(--ink-muted);">NIK KTP</span><span class="font-mono-num font-semibold">${c.nik}</span></div>
+          <div class="flex justify-between py-1 border-b" style="border-color: var(--border-subtle);"><span style="color: var(--ink-muted);">Kontak WhatsApp</span><span class="font-mono-num font-semibold">${c.hp}</span></div>
+          <div class="flex justify-between py-1 border-b" style="border-color: var(--border-subtle);"><span style="color: var(--ink-muted);">Rekening Payroll</span><span class="font-mono-num font-semibold">${c.rek}</span></div>
+          <div class="flex justify-between py-1 border-b" style="border-color: var(--border-subtle);"><span style="color: var(--ink-muted);">Pengalaman</span><span class="font-semibold">${c.pengalaman}</span></div>
           <div class="p-3 rounded-lg mt-3" style="background: var(--bg-subtle);">
-            <div class="font-bold text-[10px] uppercase text-slate-500 mb-1">Catatan Evaluasi HRD</div>
+            <div class="t-caps mb-1" style="color: var(--ink-muted);">Catatan Evaluasi HRD</div>
             <div class="text-xs italic">"${c.catatan}"</div>
           </div>
         </div>
@@ -903,10 +955,10 @@
 
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `h-10 rounded-lg flex flex-col items-center justify-center font-semibold text-xs border transition ${isSelected ? 'bg-emerald-800 text-white border-emerald-800' : 'bg-white hover:bg-slate-100 border-slate-200'}`;
+        btn.className = 'cal-cell' + (isSelected ? ' cal-cell--active' : '');
         btn.innerHTML = `
           <span>${d}</span>
-          ${hasMemo ? `<span class="w-1.5 h-1.5 rounded-full ${isSelected ? 'bg-white' : 'bg-emerald-600'} mt-0.5"></span>` : ''}
+          ${hasMemo ? '<span class="cal-dot"></span>' : ''}
         `;
         btn.onclick = () => {
           state.selectedDate = dateStr;
@@ -923,7 +975,7 @@
       const filtered = state.memos.filter(m => m.tanggal === state.selectedDate);
 
       if (filtered.length === 0) {
-        list.innerHTML = '<div class="text-xs text-slate-400 py-3 text-center">Tidak ada agenda pada tanggal ini.</div>';
+        list.innerHTML = '<div class="text-xs py-3 text-center" style="color: var(--ink-faint);">Tidak ada agenda pada tanggal ini.</div>';
         return;
       }
 
@@ -931,9 +983,9 @@
         <div class="p-2.5 rounded-lg border text-xs flex items-center justify-between" style="background: var(--bg-surface); border-color: var(--border-hairline);">
           <div>
             <div class="font-bold">${m.judul}</div>
-            <div class="text-[10px] text-slate-500 mt-0.5 font-mono-num">${m.waktu} &bull; ${m.kategori}</div>
+            <div class="t-11 font-mono-num mt-0.5" style="color: var(--ink-muted);">${m.waktu} &bull; ${m.kategori}</div>
           </div>
-          <span class="badge badge-emerald !text-[9.5px]">Aktif</span>
+          <span class="badge badge-emerald badge-sm">Aktif</span>
         </div>
       `).join('');
     }
@@ -943,9 +995,9 @@
       tbody.innerHTML = state.baList.map(r => `
         <tr>
           <td><span class="font-mono-num font-bold text-xs">${r.no}</span></td>
-          <td><div class="font-bold text-xs">${r.outlet}</div><div class="text-[11px] text-slate-500">${r.pemohon}</div></td>
+          <td><div class="font-bold text-xs">${r.outlet}</div><div class="t-11" style="color: var(--ink-muted);">${r.pemohon}</div></td>
           <td><div class="text-xs">${r.perihal}</div></td>
-          <td class="text-right"><span class="font-mono-num font-bold text-xs text-emerald-800">Rp ${r.estimasi.toLocaleString('id-ID')}</span></td>
+          <td class="text-right"><span class="font-mono-num font-bold text-xs" style="color: var(--kov-pine);">Rp ${r.estimasi.toLocaleString('id-ID')}</span></td>
           <td class="text-right">
             <span class="badge ${r.status === 'Disetujui' ? 'badge-emerald' : 'badge-amber'}">${r.status}</span>
           </td>
