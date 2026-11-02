@@ -351,7 +351,7 @@ async function runEmpiricalAudit() {
     await new Promise(r => setTimeout(r, 200));
 
     // Capture visual screenshot of the modernized dashboard
-    const screenshotPath = 'C:\\Users\\ACER\\.gemini\\antigravity-cli\\brain\\41a9a5d4-6eb7-444c-bcfc-256cd766709f\\dribbble_drive_dashboard.png';
+    const screenshotPath = 'C:\\Users\\ACER\\.gemini\\antigravity-cli\\brain\\4f92e4be-5d20-4796-a2a9-eb659b2f9ff3\\admin_dashboard.png';
     await page.screenshot({ path: screenshotPath, fullPage: false });
     console.log('📸 Visual screenshot captured at:', screenshotPath);
 
