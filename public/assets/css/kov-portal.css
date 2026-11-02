@@ -11758,3 +11758,366 @@ body, .dd-theme, .dd-layout-root, .dd-main-canvas {
 [data-theme="dark"] .kov-botanical-table tbody tr:hover {
   background-color: #172033 !important;
 }
+
+/* ==========================================================================
+   CILA MASTER ARCHITECTURAL REORGANIZATION & ERGONOMICS (v20261103)
+   Compact, Zero-Waste, Full-Table Visibility, Framed-Sheet Aesthetic
+   ========================================================================== */
+
+/* Main Canvas & Inner Layout */
+.kov-canvas-inner {
+  padding: 16px 20px 32px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+/* Executive Command Banner */
+.dd-hero-banner {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: 12px !important;
+  padding: 14px 20px !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+.dd-hero-title {
+  font-size: 16.5px !important;
+  font-weight: 700 !important;
+  color: var(--kov-text-primary) !important;
+  margin: 0 0 2px !important;
+  letter-spacing: -0.01em !important;
+}
+
+.dd-hero-subtitle {
+  font-size: 12px !important;
+  color: var(--kov-text-muted) !important;
+  margin: 0 !important;
+}
+
+.btn-dd-hero {
+  background: var(--kov-pine) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--kov-pine) !important;
+  border-radius: 8px !important;
+  height: 34px !important;
+  padding: 0 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  box-shadow: 0 1px 2px rgba(22, 101, 52, 0.15) !important;
+  text-decoration: none !important;
+}
+
+.btn-dd-hero:hover {
+  background: var(--kov-pine-hover) !important;
+  border-color: var(--kov-pine-hover) !important;
+  color: #ffffff !important;
+}
+
+.btn-kov-outline {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  color: var(--kov-text-secondary) !important;
+  border-radius: 8px !important;
+  height: 34px !important;
+  padding: 0 12px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  text-decoration: none !important;
+}
+
+.btn-kov-outline:hover {
+  background: var(--kov-canvas) !important;
+  border-color: #cbd5e1 !important;
+  color: var(--kov-text-primary) !important;
+}
+
+/* Symmetrical Bento KPI Deck */
+.kov-kpi-row {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 12px !important;
+  margin-bottom: 0 !important;
+}
+
+.coinbase-kpi-card {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  user-select: none !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+.coinbase-kpi-card:hover {
+  border-color: #cbd5e1 !important;
+  background: var(--kov-canvas) !important;
+}
+
+.coinbase-kpi-card.active {
+  border-color: var(--kov-pine) !important;
+  box-shadow: 0 0 0 1.5px var(--kov-pine) !important;
+}
+
+.bento-metric-title {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: var(--kov-text-muted) !important;
+  margin-bottom: 2px !important;
+}
+
+.bento-metric-value {
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  color: var(--kov-text-primary) !important;
+  letter-spacing: -0.02em !important;
+  font-variant-numeric: tabular-nums !important;
+  line-height: 1.15 !important;
+}
+
+.bento-metric-sub {
+  font-size: 10.5px !important;
+  color: var(--kov-text-subtle) !important;
+  margin-top: 2px !important;
+}
+
+/* Division Filter Rail */
+.dd-division-section {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
+.dd-folders-grid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 6px !important;
+  align-items: center !important;
+  padding: 2px 0 4px !important;
+}
+
+.dd-folder-card {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  max-width: none !important;
+  height: 28px !important;
+  padding: 0 10px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: 9999px !important;
+  color: var(--kov-text-secondary) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  user-select: none !important;
+}
+
+.dd-folder-card:hover {
+  background: var(--kov-canvas) !important;
+  color: var(--kov-text-primary) !important;
+}
+
+.dd-folder-card.active {
+  background: var(--kov-pine) !important;
+  border-color: var(--kov-pine) !important;
+  color: #ffffff !important;
+}
+
+.badge-tab-count {
+  background: var(--kov-canvas) !important;
+  color: var(--kov-text-muted) !important;
+  padding: 0 5px !important;
+  border-radius: 9999px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+
+.dd-folder-card.active .badge-tab-count {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+/* Master Table Card */
+.kov-table-card {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+.kov-table-header-box {
+  padding: 10px 16px !important;
+  border-bottom: 1px solid var(--kov-border) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+}
+
+.kov-table-title {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: var(--kov-text-primary) !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.kov-status-filter-bar {
+  background: var(--kov-canvas) !important;
+  border-bottom: 1px solid var(--kov-border) !important;
+  padding: 6px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  flex-wrap: wrap !important;
+}
+
+.kov-filter-pill-botanical {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: 9999px !important;
+  padding: 3px 9px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--kov-text-secondary) !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  transition: all 0.15s ease !important;
+}
+
+.kov-filter-pill-botanical:hover {
+  background: #f1f5f9 !important;
+  color: var(--kov-text-primary) !important;
+}
+
+.kov-filter-pill-botanical.active {
+  background: var(--kov-pine) !important;
+  border-color: var(--kov-pine) !important;
+  color: #ffffff !important;
+}
+
+/* Botanical Data Table (Zero Horizontal Overflow) */
+.kov-botanical-table-wrap {
+  overflow-x: auto !important;
+  width: 100% !important;
+}
+
+.kov-botanical-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 12px !important;
+}
+
+.kov-botanical-table thead th {
+  background: #fafbfc !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  color: var(--kov-text-muted) !important;
+  padding: 8px 10px !important;
+  border-bottom: 1px solid var(--kov-border) !important;
+  white-space: nowrap !important;
+}
+
+[data-theme="dark"] .kov-botanical-table thead th {
+  background: #0d131f !important;
+}
+
+.kov-botanical-table tbody td {
+  padding: 9px 10px !important;
+  color: var(--kov-text-secondary) !important;
+  border-bottom: 1px solid var(--kov-border) !important;
+  vertical-align: middle !important;
+}
+
+.kov-botanical-table tbody tr:hover {
+  background-color: var(--kov-canvas) !important;
+}
+
+/* Right Activity Panel Optimization */
+.dd-right-panel {
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
+  flex: 0 0 260px !important;
+  background: var(--kov-surface) !important;
+  border-left: 1px solid var(--kov-border) !important;
+  padding: 14px 12px !important;
+  overflow-y: auto !important;
+  transition: all 0.2s ease !important;
+}
+
+.panel-collapsed .dd-right-panel {
+  display: none !important;
+}
+
+.dd-calendar-widget,
+.dd-task-widget,
+.kov-memo-studio-widget {
+  background: var(--kov-surface) !important;
+  border: 1px solid var(--kov-border) !important;
+  border-radius: 10px !important;
+  padding: 12px !important;
+  margin-bottom: 12px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+.dd-calendar-title,
+.dd-section-title {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: var(--kov-text-primary) !important;
+  margin: 0 !important;
+}
+
+.dd-cal-day {
+  height: 26px !important;
+  font-size: 11px !important;
+}
+
+.dd-task-card {
+  padding: 8px 10px !important;
+  border-radius: 6px !important;
+}
+
+.dd-task-title {
+  font-size: 11.5px !important;
+}
+
+.dd-task-time {
+  font-size: 10.5px !important;
+}
+

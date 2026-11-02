@@ -6,33 +6,80 @@
   <title>Dashboard Rekrutmen HR — KOV Management Portal</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
-  <!-- Typography: Plus Jakarta Sans & JetBrains Mono (Executive Editorial) -->
+  <!-- Typography: Plus Jakarta Sans & JetBrains Mono (Executive Human-Crafted) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261103_cila_executive_perfection" rel="stylesheet">
+  <link href="/assets/css/kov-portal.css?v=20261103_cila_masterpiece_v3" rel="stylesheet">
   
-  <!-- Toast & Theme Global Utilities in Head for Immediate Execution -->
+  <!-- Global Scripts in Head -->
   <script src="/assets/js/kov-toast.js"></script>
   <script src="/assets/js/kov-theme.js"></script>
 
   <style>
     /* =========================================================================
-       Cila Master Layout Ergonomics & Button/Menu Perfection
+       Cila Masterpiece UI/UX Architecture (Linear / Vercel Grade Restructuring)
+       Zero-Slop, Pure Flat Surfaces, 1px Hairlines, KOV Botanical Pine #166534
        ========================================================================= */
 
-    /* Root Shell */
+    :root {
+      --kov-pine: #166534;
+      --kov-pine-hover: #14532d;
+      --kov-pine-light: rgba(22, 101, 52, 0.08);
+      --kov-pine-border: rgba(22, 101, 52, 0.2);
+      
+      --kov-canvas: #f8fafc;
+      --kov-surface: #ffffff;
+      --kov-border: #e2e8f0;
+      --kov-border-subtle: #f1f5f9;
+      
+      --kov-text-primary: #0f172a;
+      --kov-text-secondary: #475569;
+      --kov-text-muted: #64748b;
+      --kov-text-subtle: #94a3b8;
+
+      --kov-radius-card: 12px;
+      --kov-radius-btn: 8px;
+      --kov-radius-pill: 9999px;
+    }
+
+    [data-theme="dark"] {
+      --kov-pine: #22c55e;
+      --kov-pine-hover: #16a34a;
+      --kov-pine-light: rgba(34, 197, 94, 0.12);
+      --kov-pine-border: rgba(34, 197, 94, 0.25);
+      
+      --kov-canvas: #090d16;
+      --kov-surface: #111827;
+      --kov-border: #1e293b;
+      --kov-border-subtle: #172033;
+      
+      --kov-text-primary: #f8fafc;
+      --kov-text-secondary: #cbd5e1;
+      --kov-text-muted: #94a3b8;
+      --kov-text-subtle: #64748b;
+    }
+
+    body {
+      background-color: var(--kov-canvas);
+      color: var(--kov-text-primary);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Master Shell */
     .dd-layout-root {
       display: flex;
       min-height: 100vh;
-      background: var(--kov-canvas, #f8fafc);
-      color: var(--kov-text-primary, #0f172a);
-      font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+      width: 100%;
     }
 
+    /* Main Workspace Canvas */
     .dd-main-canvas {
       flex: 1 1 0%;
       min-width: 0;
@@ -41,18 +88,18 @@
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      background: var(--kov-canvas, #f8fafc);
+      background: var(--kov-canvas);
     }
 
-    /* 1. Sleek Topbar Navigation */
+    /* 1. Global Symmetrical Topbar (Enterprise Command Bar) */
     .dd-topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 12px 28px;
-      background: var(--kov-surface, #ffffff);
-      border-bottom: 1px solid var(--kov-border, #e2e8f0);
+      padding: 10px 24px;
+      background: var(--kov-surface);
+      border-bottom: 1px solid var(--kov-border);
       position: sticky;
       top: 0;
       z-index: 1020;
@@ -61,15 +108,15 @@
     .dd-search-container {
       position: relative;
       flex-grow: 1;
-      max-width: 440px;
+      max-width: 460px;
     }
 
     .dd-search-icon {
       position: absolute;
-      left: 14px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
-      color: var(--kov-text-muted, #94a3b8);
+      color: var(--kov-text-subtle);
       font-size: 13px;
       pointer-events: none;
     }
@@ -77,21 +124,21 @@
     .dd-search-input {
       width: 100%;
       height: 36px;
-      padding: 0 14px 0 38px;
-      font-size: 13px;
+      padding: 0 12px 0 36px;
+      font-size: 12.5px;
       font-family: inherit;
-      color: var(--kov-text-primary, #0f172a);
-      background: var(--kov-canvas, #f8fafc);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      border-radius: var(--kov-radius-btn, 8px);
+      color: var(--kov-text-primary);
+      background: var(--kov-canvas);
+      border: 1px solid var(--kov-border);
+      border-radius: var(--kov-radius-btn);
       transition: all 0.15s ease;
       outline: none;
     }
 
     .dd-search-input:focus {
-      background: #ffffff;
-      border-color: var(--kov-pine, #166534);
-      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12);
+      background: var(--kov-surface);
+      border-color: var(--kov-pine);
+      box-shadow: 0 0 0 3px var(--kov-pine-light);
     }
 
     .dd-topbar-actions {
@@ -104,23 +151,23 @@
     .dd-icon-btn {
       width: 36px;
       height: 36px;
-      border-radius: var(--kov-radius-btn, 8px);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      background: var(--kov-surface, #ffffff);
-      color: var(--kov-text-secondary, #475569);
+      border-radius: var(--kov-radius-btn);
+      border: 1px solid var(--kov-border);
+      background: var(--kov-surface);
+      color: var(--kov-text-secondary);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: all 0.15s ease;
       padding: 0;
-      font-size: 13.5px;
+      font-size: 13px;
       text-decoration: none;
     }
 
     .dd-icon-btn:hover {
-      background: var(--kov-canvas, #f8fafc);
-      color: var(--kov-text-primary, #0f172a);
+      background: var(--kov-canvas);
+      color: var(--kov-text-primary);
       border-color: #cbd5e1;
     }
 
@@ -128,28 +175,28 @@
       position: absolute;
       top: 7px;
       right: 7px;
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       background: #ef4444;
       border-radius: 50%;
-      border: 1.5px solid #ffffff;
+      border: 1.5px solid var(--kov-surface);
     }
 
     .dd-user-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 3px 12px 3px 4px;
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      border-radius: var(--kov-radius-pill, 9999px);
+      padding: 3px 10px 3px 4px;
+      background: var(--kov-surface);
+      border: 1px solid var(--kov-border);
+      border-radius: var(--kov-radius-pill);
       cursor: pointer;
       transition: all 0.15s ease;
       user-select: none;
     }
 
     .dd-user-pill:hover {
-      background: var(--kov-canvas, #f8fafc);
+      background: var(--kov-canvas);
       border-color: #cbd5e1;
     }
 
@@ -157,41 +204,37 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: var(--kov-pine, #166534);
+      background: var(--kov-pine);
       color: #ffffff;
       font-weight: 700;
-      font-size: 11.5px;
+      font-size: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .dd-user-name {
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
       line-height: 1.2;
     }
 
-    .dd-user-caret {
-      font-size: 10px;
-      color: var(--kov-text-muted, #94a3b8);
-      margin-left: 2px;
-    }
-
-    /* Content Canvas Inner Area */
+    /* Content Canvas Area */
     .kov-canvas-inner {
-      padding: 20px 28px 40px;
+      padding: 14px 14px 32px !important;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
+      max-width: 100%;
+      width: 100%;
     }
 
-    /* 2. Executive Command Header Bar */
+    /* 2. Executive Page Command Banner */
     .dd-hero-banner {
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      border-radius: var(--kov-radius-card, 14px);
+      background: var(--kov-surface);
+      border: 1px solid var(--kov-border);
+      border-radius: var(--kov-radius-card);
       padding: 16px 20px;
       display: flex;
       align-items: center;
@@ -204,23 +247,23 @@
     .dd-hero-title {
       font-size: 18px;
       font-weight: 700;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
       margin: 0 0 2px;
       letter-spacing: -0.02em;
     }
 
     .dd-hero-subtitle {
       font-size: 12.5px;
-      color: var(--kov-text-muted, #64748b);
+      color: var(--kov-text-muted);
       margin: 0;
       line-height: 1.4;
     }
 
     .btn-dd-hero {
-      background: var(--kov-pine, #166534);
+      background: var(--kov-pine);
       color: #ffffff;
-      border: 1px solid var(--kov-pine, #166534);
-      border-radius: var(--kov-radius-btn, 8px);
+      border: 1px solid var(--kov-pine);
+      border-radius: var(--kov-radius-btn);
       height: 34px;
       padding: 0 14px;
       font-size: 12px;
@@ -236,16 +279,16 @@
     }
 
     .btn-dd-hero:hover {
-      background: var(--kov-pine-hover, #14532d);
-      border-color: var(--kov-pine-hover, #14532d);
+      background: var(--kov-pine-hover);
+      border-color: var(--kov-pine-hover);
       color: #ffffff;
     }
 
     .btn-kov-outline {
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      color: var(--kov-text-secondary, #475569);
-      border-radius: var(--kov-radius-btn, 8px);
+      background: var(--kov-surface);
+      border: 1px solid var(--kov-border);
+      color: var(--kov-text-secondary);
+      border-radius: var(--kov-radius-btn);
       height: 34px;
       padding: 0 12px;
       font-size: 12px;
@@ -260,17 +303,16 @@
     }
 
     .btn-kov-outline:hover {
-      background: var(--kov-canvas, #f8fafc);
+      background: var(--kov-canvas);
       border-color: #cbd5e1;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
     }
 
-    /* 3. Restrained Metric Strip (4 Symmetrical KPI Columns) */
+    /* 3. Sleek Segmented Metric Deck (4 Equal Columns) */
     .kov-kpi-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
-      margin-bottom: 4px;
     }
 
     @media (max-width: 991px) {
@@ -286,9 +328,9 @@
     }
 
     .coinbase-kpi-card {
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      border-radius: var(--kov-radius-card, 12px);
+      background: var(--kov-surface);
+      border: 1px solid var(--kov-border);
+      border-radius: var(--kov-radius-card);
       padding: 14px 18px;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -301,12 +343,12 @@
 
     .coinbase-kpi-card:hover {
       border-color: #cbd5e1;
-      background: #fafbfc;
+      background: var(--kov-canvas);
     }
 
     .coinbase-kpi-card.active {
-      border-color: var(--kov-pine, #166534);
-      box-shadow: 0 0 0 1.5px var(--kov-pine, #166534);
+      border-color: var(--kov-pine);
+      box-shadow: 0 0 0 1.5px var(--kov-pine);
     }
 
     .bento-metric-title {
@@ -314,7 +356,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      color: var(--kov-text-muted, #64748b);
+      color: var(--kov-text-muted);
       margin-bottom: 4px;
       display: block;
     }
@@ -322,7 +364,7 @@
     .bento-metric-value {
       font-size: 24px;
       font-weight: 700;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
       letter-spacing: -0.02em;
       font-variant-numeric: tabular-nums;
       line-height: 1.2;
@@ -330,12 +372,12 @@
 
     .bento-metric-sub {
       font-size: 11px;
-      color: var(--kov-text-muted, #94a3b8);
+      color: var(--kov-text-subtle);
       margin-top: 4px;
       display: block;
     }
 
-    /* 4. Division Filter Matrix (Strict Zero-Stretching Pills) */
+    /* 4. Division Filter Tray (Clean Horizontal Strip, Zero Stretching) */
     .dd-division-section {
       display: flex;
       flex-direction: column;
@@ -369,13 +411,13 @@
       max-width: none !important;
       min-height: auto !important;
       height: 30px !important;
-      background: var(--kov-surface, #ffffff) !important;
-      border: 1px solid var(--kov-border, #e2e8f0) !important;
+      background: var(--kov-surface) !important;
+      border: 1px solid var(--kov-border) !important;
       border-radius: 9999px !important;
       padding: 0 11px !important;
       font-size: 11.5px !important;
       font-weight: 600 !important;
-      color: var(--kov-text-secondary, #475569) !important;
+      color: var(--kov-text-secondary) !important;
       cursor: pointer !important;
       display: inline-flex !important;
       align-items: center !important;
@@ -388,14 +430,14 @@
     }
 
     .dd-folder-card:hover {
-      background: var(--kov-canvas, #f1f5f9) !important;
-      color: var(--kov-text-primary, #0f172a) !important;
+      background: var(--kov-canvas) !important;
+      color: var(--kov-text-primary) !important;
       border-color: #cbd5e1 !important;
     }
 
     .dd-folder-card.active {
-      background: var(--kov-pine, #166534) !important;
-      border-color: var(--kov-pine, #166534) !important;
+      background: var(--kov-pine) !important;
+      border-color: var(--kov-pine) !important;
       color: #ffffff !important;
     }
 
@@ -405,8 +447,8 @@
     }
 
     .badge-tab-count {
-      background: var(--kov-canvas, #f1f5f9) !important;
-      color: var(--kov-text-muted, #64748b) !important;
+      background: var(--kov-canvas) !important;
+      color: var(--kov-text-muted) !important;
       padding: 1px 6px !important;
       border-radius: 9999px !important;
       font-size: 10.5px !important;
@@ -414,18 +456,18 @@
       font-variant-numeric: tabular-nums !important;
     }
 
-    /* 5. Master Table Card & Filter Bar */
+    /* 5. Master Candidate Table Card & Status Filters */
     .kov-table-card {
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      border-radius: var(--kov-radius-card, 14px);
+      background: var(--kov-surface);
+      border: 1px solid var(--kov-border);
+      border-radius: var(--kov-radius-card);
       overflow: hidden;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
     }
 
     .kov-table-header-box {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--kov-border, #e2e8f0);
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--kov-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -436,7 +478,7 @@
     .kov-table-title {
       font-size: 14.5px;
       font-weight: 700;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
       margin: 0;
       display: flex;
       align-items: center;
@@ -444,9 +486,9 @@
     }
 
     .kov-badge-count {
-      background: rgba(22, 101, 52, 0.08);
-      color: var(--kov-pine, #166534);
-      border: 1px solid rgba(22, 101, 52, 0.2);
+      background: var(--kov-pine-light);
+      color: var(--kov-pine);
+      border: 1px solid var(--kov-pine-border);
       border-radius: 9999px;
       font-size: 11px;
       font-weight: 700;
@@ -454,9 +496,9 @@
     }
 
     .kov-status-filter-bar {
-      background: var(--kov-canvas, #f8fafc);
-      border-bottom: 1px solid var(--kov-border, #e2e8f0);
-      padding: 8px 20px;
+      background: var(--kov-canvas);
+      border-bottom: 1px solid var(--kov-border);
+      padding: 8px 18px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -464,13 +506,13 @@
     }
 
     .kov-filter-pill-botanical {
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #e2e8f0);
+      background: var(--kov-surface);
+      border: 1px solid var(--kov-border);
       border-radius: 9999px;
       padding: 4px 11px;
       font-size: 11.5px;
       font-weight: 600;
-      color: var(--kov-text-secondary, #475569);
+      color: var(--kov-text-secondary);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -481,55 +523,60 @@
 
     .kov-filter-pill-botanical:hover {
       background: #f1f5f9;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
     }
 
     .kov-filter-pill-botanical.active {
-      background: var(--kov-pine, #166534);
-      border-color: var(--kov-pine, #166534);
+      background: var(--kov-pine);
+      border-color: var(--kov-pine);
       color: #ffffff;
     }
 
-    /* Clean Botanical Table */
+    /* Botanical Table Styling */
     .kov-botanical-table-wrap {
       overflow-x: auto;
       width: 100%;
     }
 
     .kov-botanical-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12.5px;
+      width: 100% !important;
+      border-collapse: collapse !important;
+      font-size: 12px !important;
     }
 
     .kov-botanical-table thead th {
-      background: #fafbfc;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--kov-text-muted, #64748b);
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--kov-border, #e2e8f0);
-      white-space: nowrap;
+      background: #fafbfc !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.04em !important;
+      color: var(--kov-text-muted) !important;
+      padding: 6px 4px !important;
+      border-bottom: 1px solid var(--kov-border) !important;
+      white-space: nowrap !important;
+    }
+
+    [data-theme="dark"] .kov-botanical-table thead th {
+      background: #0d131f !important;
     }
 
     .kov-botanical-table tbody td {
-      padding: 12px 16px;
-      color: var(--kov-text-secondary, #475569);
-      border-bottom: 1px solid var(--kov-border, #e2e8f0);
-      vertical-align: middle;
+      padding: 6px 4px !important;
+      color: var(--kov-text-secondary) !important;
+      border-bottom: 1px solid var(--kov-border) !important;
+      vertical-align: middle !important;
+      font-size: 11.5px !important;
     }
 
     .kov-botanical-table tbody tr:hover {
-      background-color: #f8fafc;
+      background-color: var(--kov-canvas) !important;
     }
 
     .dd-file-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+      font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
       font-weight: 700;
       padding: 2px 6px;
@@ -582,49 +629,64 @@
       border-radius: 4px;
       font-size: 11px;
       font-weight: 600;
-      border: 1px solid #e2e8f0;
-      background: #f8fafc;
-      color: #475569;
+      border: 1px solid var(--kov-border);
+      background: var(--kov-canvas);
+      color: var(--kov-text-secondary);
     }
 
     .kov-action-review-btn {
-      background: rgba(22, 101, 52, 0.08);
-      color: var(--kov-pine, #166534);
-      border: 1px solid rgba(22, 101, 52, 0.2);
+      background: var(--kov-pine-light);
+      color: var(--kov-pine);
+      border: 1px solid var(--kov-pine-border);
       border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 11.5px;
+      padding: 3px 7px !important;
+      font-size: 11px !important;
       font-weight: 600;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
 
     .kov-action-review-btn:hover {
-      background: var(--kov-pine, #166534);
+      background: var(--kov-pine);
       color: #ffffff;
     }
 
-    /* 6. Right Utility Panel */
+    /* 6. Right Activity & Agenda Panel */
     .dd-right-panel {
-      width: 290px;
-      min-width: 290px;
-      max-width: 290px;
-      background: var(--kov-surface, #ffffff);
-      border-left: 1px solid var(--kov-border, #e2e8f0);
-      padding: 16px;
-      overflow-y: auto;
-      flex-shrink: 0;
+      width: 215px !important;
+      min-width: 215px !important;
+      max-width: 215px !important;
+      flex: 0 0 215px !important;
+      background: var(--kov-surface) !important;
+      border-left: 1px solid var(--kov-border) !important;
+      padding: 10px 5px !important;
+      overflow-y: auto !important;
+      flex-shrink: 0 !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .panel-collapsed .dd-right-panel {
+      display: none !important;
+    }
+
+    .dd-sidebar.kov-sidebar,
+    .kov-sidebar {
+      width: 205px !important;
+      min-width: 205px !important;
+      max-width: 205px !important;
+      flex: 0 0 205px !important;
     }
 
     .dd-calendar-widget,
     .dd-task-widget,
     .kov-memo-studio-widget {
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      border-radius: var(--kov-radius-card, 12px);
+      background: var(--kov-surface);
+      border: 1px solid var(--kov-border);
+      border-radius: var(--kov-radius-card);
       padding: 14px;
       margin-bottom: 14px;
     }
@@ -633,14 +695,14 @@
     .dd-section-title {
       font-size: 12.5px;
       font-weight: 700;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
       margin: 0;
     }
 
     .dd-cal-weekday {
       font-size: 10px;
       font-weight: 600;
-      color: var(--kov-text-muted, #94a3b8);
+      color: var(--kov-text-muted);
       text-align: center;
       padding: 3px 0;
     }
@@ -648,7 +710,7 @@
     .dd-cal-day {
       font-size: 11.5px;
       font-weight: 500;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
       height: 30px;
       display: flex;
       flex-direction: column;
@@ -661,22 +723,22 @@
     }
 
     .dd-cal-day:hover {
-      background: var(--kov-canvas, #f1f5f9);
+      background: var(--kov-canvas);
     }
 
     .dd-cal-day.today {
       font-weight: 700;
-      color: var(--kov-pine, #166534);
+      color: var(--kov-pine);
     }
 
     .dd-cal-day.active {
-      background: var(--kov-pine, #166534) !important;
+      background: var(--kov-pine) !important;
       color: #ffffff !important;
       font-weight: 700;
     }
 
     .dd-cal-day.muted {
-      color: #cbd5e1;
+      color: var(--kov-text-subtle);
     }
 
     .dd-event-dot {
@@ -692,7 +754,7 @@
 
     .dd-period-toggle {
       display: flex;
-      background: var(--kov-canvas, #f1f5f9);
+      background: var(--kov-canvas);
       border-radius: 6px;
       padding: 2px;
       margin-bottom: 10px;
@@ -705,15 +767,15 @@
       padding: 3px 0;
       font-size: 10.5px;
       font-weight: 600;
-      color: var(--kov-text-secondary, #64748b);
+      color: var(--kov-text-muted);
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.15s ease;
     }
 
     .dd-period-btn.active {
-      background: #ffffff;
-      color: var(--kov-text-primary, #0f172a);
+      background: var(--kov-surface);
+      color: var(--kov-text-primary);
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     }
 
@@ -727,12 +789,12 @@
     .dd-month-label {
       font-size: 12px;
       font-weight: 700;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
     }
 
     .dd-nav-arrow-btn {
-      border: 1px solid var(--kov-border, #e2e8f0);
-      background: var(--kov-surface, #ffffff);
+      border: 1px solid var(--kov-border);
+      background: var(--kov-surface);
       width: 24px;
       height: 24px;
       border-radius: 6px;
@@ -740,13 +802,13 @@
       align-items: center;
       justify-content: center;
       font-size: 9px;
-      color: var(--kov-text-secondary, #64748b);
+      color: var(--kov-text-muted);
       cursor: pointer;
     }
 
     .dd-nav-arrow-btn:hover {
-      background: #f1f5f9;
-      color: var(--kov-text-primary, #0f172a);
+      background: var(--kov-canvas);
+      color: var(--kov-text-primary);
     }
 
     .dd-calendar-grid {
@@ -756,8 +818,8 @@
     }
 
     .dd-task-card {
-      background: var(--kov-canvas, #f8fafc);
-      border: 1px solid var(--kov-border, #e2e8f0);
+      background: var(--kov-canvas);
+      border: 1px solid var(--kov-border);
       border-left: 3px solid #dc2626;
       border-radius: 8px;
       padding: 10px 12px;
@@ -766,20 +828,20 @@
     }
 
     .dd-task-card:hover {
-      background: #ffffff;
+      background: var(--kov-surface);
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
     }
 
     .dd-task-title {
       font-size: 12px;
       font-weight: 700;
-      color: var(--kov-text-primary, #0f172a);
+      color: var(--kov-text-primary);
       margin: 0 0 3px;
     }
 
     .dd-task-time {
       font-size: 11px;
-      color: var(--kov-text-muted, #64748b);
+      color: var(--kov-text-muted);
     }
 
     @media (max-width: 1199.98px) {
@@ -830,10 +892,10 @@
 
         <div class="dd-topbar-actions">
           <!-- Real-Time Date & Clock Stamp -->
-          <div class="d-none d-md-flex align-items-center gap-1.5 px-2 text-muted" style="font-size: 11px; font-family: var(--font-mono, monospace);">
+          <div class="d-none d-md-flex align-items-center gap-1.5 px-2 text-muted" style="font-size: 11px; font-family: 'JetBrains Mono', monospace;">
             <i class="far fa-clock"></i>
             <span id="kovLiveDate">25 Okt 2026</span>
-            <span class="opacity-40">&bull;</span>
+            <span class="opacity-40" style="padding: 0 2px;">•</span>
             <span id="kovLiveTime">00:00 WIB</span>
           </div>
 
@@ -891,6 +953,11 @@
           <!-- Dual-Theme Switcher Button -->
           <button type="button" class="dd-icon-btn" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
             <i class="fas fa-moon kov-theme-icon"></i>
+          </button>
+
+          <!-- Toggle Right Utility Panel Button -->
+          <button type="button" class="dd-icon-btn d-none d-xl-inline-flex" id="btnToggleRightPanel" onclick="toggleRightPanel()" title="Sembunyikan / Tampilkan Panel Kalender & Memo" aria-label="Toggle Panel Samping">
+            <i class="fas fa-table-columns" id="iconToggleRightPanel"></i>
           </button>
 
           <!-- Interactive User Profile Dropdown -->
@@ -980,7 +1047,7 @@
           </div>
         </div>
 
-        <!-- Segmented Division Filter Tabs (Taste-Skill Symmetrical Matrix) -->
+        <!-- Segmented Division Filter Tabs (Symmetrical Horizontal Matrix) -->
         <div class="dd-division-section">
           <div class="dd-division-header">
             <div class="d-flex align-items-center gap-2">
@@ -1052,7 +1119,7 @@
                 <span>Berkas Pelamar Terbaru</span>
                 <span class="kov-badge-count"><span id="candidateCount"><%= candidates.length %></span> Data</span>
               </h2>
-              <div style="font-size: 11.5px; color: var(--kov-text-muted, #64748b); margin-top: 2px;">
+              <div style="font-size: 11.5px; color: var(--kov-text-muted); margin-top: 2px;">
                 Daftar pelamar yang telah mengisi formulir biodata online.
               </div>
             </div>
@@ -1130,20 +1197,20 @@
             <table class="kov-botanical-table" id="candidateTable">
               <thead>
                 <tr>
-                  <th style="width: 50px; text-align: center;">Tipe</th>
-                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" style="width: 110px; cursor: pointer;">
+                  <th style="width: 32px; text-align: center;">Tipe</th>
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('date')" style="width: 70px; cursor: pointer;">
                     Tanggal <i class="fas fa-sort ms-1 opacity-50" id="sortIconDate"></i>
                   </th>
-                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" style="min-width: 200px; cursor: pointer;">
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('name')" style="min-width: 125px; cursor: pointer;">
                     Nama kandidat <i class="fas fa-sort ms-1 opacity-50" id="sortIconName"></i>
                   </th>
-                  <th style="min-width: 130px;">Posisi</th>
-                  <th style="min-width: 140px;">Kontak</th>
-                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" style="min-width: 120px; cursor: pointer;">
+                  <th style="width: 80px;">Posisi</th>
+                  <th style="width: 95px;">Kontak</th>
+                  <th class="sortable-header" role="button" tabindex="0" aria-sort="none" onclick="toggleSort('status')" style="width: 90px; cursor: pointer;">
                     Status <i class="fas fa-sort ms-1 opacity-50" id="sortIconStatus"></i>
                   </th>
-                  <th style="width: 80px; text-align: center;">Data</th>
-                  <th class="text-center" style="width: 135px;">Aksi</th>
+                  <th style="width: 42px; text-align: center;">Data</th>
+                  <th class="text-center" style="width: 82px;">Aksi</th>
                 </tr>
               </thead>
               <tbody id="candidateTableBody">
@@ -1185,7 +1252,7 @@
                     </td>
                     <td>
                       <div class="fw-semibold text-dark" style="font-size: 12px;"><%= formatDate(c.created_at, false) %></div>
-                      <div class="text-muted" style="font-size: 10.5px; font-family: var(--font-mono, monospace);"><%= formatDate(c.created_at, true).split(' ')[1] || '' %> WIB</div>
+                      <div class="text-muted" style="font-size: 10.5px; font-family: 'JetBrains Mono', monospace;"><%= formatDate(c.created_at, true).split(' ')[1] || '' %> WIB</div>
                     </td>
                     <td>
                       <div class="d-flex align-items-center gap-2.5">
@@ -1196,17 +1263,16 @@
                             <%= (c.nama_lengkap && c.nama_lengkap.trim()) ? c.nama_lengkap.trim().charAt(0).toUpperCase() : '?' %>
                           </div>
                         <% } %>
-                        <div class="min-w-0">
-                          <div class="fw-bold text-dark text-truncate" title="<%= c.nama_lengkap || '(Tanpa Nama)' %>" style="max-width: 220px; font-size: 13px;">
+                        <div class="min-w-0" style="max-width: 140px;">
+                          <div class="fw-bold text-dark text-truncate" title="<%= c.nama_lengkap || '(Tanpa Nama)' %>" style="max-width: 140px; font-size: 12.5px;">
                             <% if (c.nama_lengkap && c.nama_lengkap.trim()) { %>
                               <%= c.nama_lengkap %>
                             <% } else { %>
                               <span class="text-muted fst-italic">(Tanpa Nama)</span>
                             <% } %>
                           </div>
-                          <div class="text-muted text-truncate" style="font-size: 10.5px; font-family: var(--font-mono, monospace);">
+                          <div class="text-muted text-truncate" style="font-size: 10px; font-family: 'JetBrains Mono', monospace;" title="NIK: <%= c.nomor_ktp || '-' %>">
                             <% if (c.nomor_ktp) { %><span>NIK: <%= c.nomor_ktp %></span><% } %>
-                            <% if (c.no_rekening) { %><span class="ms-1 border-start ps-1">Rek: <%= c.no_rekening %></span><% } %>
                           </div>
                         </div>
                       </div>
@@ -1223,7 +1289,7 @@
                     </td>
                     <td>
                       <div style="font-size: 11.5px;">
-                        <div class="text-truncate text-dark" style="font-family: var(--font-mono, monospace);" title="<%= c.no_hp || '-' %>">
+                        <div class="text-truncate text-dark" style="font-family: 'JetBrains Mono', monospace;" title="<%= c.no_hp || '-' %>">
                           <i class="fas fa-phone text-muted me-1" style="font-size: 9.5px;"></i><%= c.no_hp || '-' %>
                         </div>
                         <div class="text-truncate text-muted" style="font-size: 10.5px;" title="<%= c.email || '-' %>">
@@ -1255,15 +1321,15 @@
                         </span>
                       <% } %>
                       <% if (c.share_token) { %>
-                        <div class="text-muted" style="font-family: var(--font-mono, monospace); font-size: 9.5px; margin-top: 1px;"><%= c.share_token %></div>
+                        <div class="text-muted" style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; margin-top: 1px;"><%= c.share_token %></div>
                       <% } %>
                     </td>
                     <td class="text-center">
-                      <div class="d-inline-flex gap-1.5 align-items-center">
+                      <div class="d-inline-flex gap-1 align-items-center">
                         <a href="/admin/candidate/<%= c.id %>" class="kov-action-review-btn" title="Review Berkas & Catatan Pewawancara">
                           <i class="fas fa-eye me-1"></i> Review
                         </a>
-                        <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="kov-action-icon-circle border p-1 rounded text-danger bg-white" title="Export PDF Biodata" aria-label="Export PDF Biodata <%= c.nama_lengkap %>" style="width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-size: 11px;">
+                        <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="kov-action-icon-circle border p-1 rounded text-danger bg-white" title="Export PDF Biodata" aria-label="Export PDF Biodata <%= c.nama_lengkap %>" style="width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; font-size: 10.5px;">
                           <i class="fas fa-file-pdf"></i>
                         </a>
                         <% if (typeof user !== 'undefined' && user && (user.role === 'superadmin' || user.role === 'admin')) { %>
@@ -2022,11 +2088,29 @@
     window.toggleMemoComposer = toggleMemoComposer;
     window.submitHrMemo = submitHrMemo;
 
+    window.toggleRightPanel = function() {
+      const root = document.querySelector('.dd-layout-root');
+      if (!root) return;
+      root.classList.toggle('panel-collapsed');
+      const isCollapsed = root.classList.contains('panel-collapsed');
+      localStorage.setItem('kov_right_panel_collapsed', isCollapsed ? 'true' : 'false');
+      const icon = document.getElementById('iconToggleRightPanel');
+      if (icon) {
+        icon.className = isCollapsed ? 'fas fa-calendar-days text-success' : 'fas fa-table-columns';
+      }
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
       renderCalendar();
       updateKovLiveClock();
       setInterval(updateKovLiveClock, 30000);
       renderHrMemoList();
+
+      if (localStorage.getItem('kov_right_panel_collapsed') === 'true' && window.innerWidth >= 1200) {
+        document.querySelector('.dd-layout-root')?.classList.add('panel-collapsed');
+        const icon = document.getElementById('iconToggleRightPanel');
+        if (icon) icon.className = 'fas fa-calendar-days text-success';
+      }
 
       try {
         generateRandomShareLink(false, false);
