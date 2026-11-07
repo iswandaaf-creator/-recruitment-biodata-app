@@ -240,7 +240,7 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'https://internal.kovgrou
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production' || origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== 'production') {
       callback(null, true);
     } else {
       callback(new Error('Blocked by CORS policy'));
@@ -378,8 +378,8 @@ app.get('/api/keep-alive', (req, res) => {
 
 // Global Auth Guard: Rute publik untuk form pelamar ber-token, login, dan asset; rute internal wajib login
 app.use((req, res, next) => {
-  // 1. Izinkan file asset statis (logo, uploads, gambar, css, js, fonts, assets figma, layout prototype)
-  if (req.path.startsWith('/logo') || req.path.startsWith('/uploads/') || req.path.startsWith('/assets/') || req.path === '/kov_layout.html' || req.path === '/kov-layout' || req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff|woff2|ttf|pdf)$/i)) {
+  // 1. Izinkan file asset statis (logo, uploads, gambar, css, js, fonts, assets figma)
+  if (req.path.startsWith('/logo') || req.path.startsWith('/uploads/') || req.path.startsWith('/assets/') || req.path.match(/\.(css|js|png|jpg|jpeg|svg|ico|woff|woff2|ttf|pdf)$/i)) {
     return next();
   }
 
@@ -464,16 +464,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Static files (dilindungi di bawah auth guard, anti-cache revalidation for UI assets)
-app.use(express.static(path.join(__dirname, 'public'), {
-  setHeaders: (res, filePath) => {
-    if (filePath.endsWith('.css') || filePath.endsWith('.js')) {
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      res.setHeader('Pragma', 'no-cache');
-      res.setHeader('Expires', '0');
-    }
-  }
-}));
+// Static files (dilindungi di bawah auth guard)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Favicon route (Official KOV Logo)
 app.get('/favicon.ico', (req, res) => {
@@ -1518,8 +1510,32 @@ app.get('/api/export/pdf/:id', requireAuth, (req, res) => {
       res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
       res.send(pdfBuffer);
     } catch (pdfErr) {
-      console.error('PDF Generation Error:', pdfErr);
-      res.status(500).send('Error generating PDF: ' + pdfErr.message);
+      console.warn('Puppeteer PDF fallback to printable HTML view:', pdfErr.message);
+      try {
+        const ejs = require('ejs');
+        const templatePath = path.join(__dirname, 'views', 'pdf_template.ejs');
+        const candidate = {
+          ...row,
+          keluarga_kandung: typeof row.keluarga_kandung === 'string' ? JSON.parse(row.keluarga_kandung || '{}') : (row.keluarga_kandung || {}),
+          keluarga_menikah: typeof row.keluarga_menikah === 'string' ? JSON.parse(row.keluarga_menikah || '{}') : (row.keluarga_menikah || {}),
+          pendidikan_formal: typeof row.pendidikan_formal === 'string' ? JSON.parse(row.pendidikan_formal || '{}') : (row.pendidikan_formal || {}),
+          pendidikan_non_formal: typeof row.pendidikan_non_formal === 'string' ? JSON.parse(row.pendidikan_non_formal || '[]') : (row.pendidikan_non_formal || []),
+          referensi: typeof row.referensi === 'string' ? JSON.parse(row.referensi || '[]') : (row.referensi || []),
+          riwayat_pekerjaan: typeof row.riwayat_pekerjaan === 'string' ? JSON.parse(row.riwayat_pekerjaan || '[]') : (row.riwayat_pekerjaan || []),
+          social_media: typeof row.social_media === 'string' ? JSON.parse(row.social_media || '{}') : (row.social_media || {}),
+          catatan_wawancara_1: typeof row.catatan_wawancara_1 === 'string' ? JSON.parse(row.catatan_wawancara_1 || '{}') : (row.catatan_wawancara_1 || {}),
+          catatan_wawancara_2: typeof row.catatan_wawancara_2 === 'string' ? JSON.parse(row.catatan_wawancara_2 || '{}') : (row.catatan_wawancara_2 || {}),
+          catatan_wawancara_3: typeof row.catatan_wawancara_3 === 'string' ? JSON.parse(row.catatan_wawancara_3 || '{}') : (row.catatan_wawancara_3 || {})
+        };
+        const logoPath = path.join(__dirname, 'public', 'logo_kov_2.jpg');
+        const logoBase64 = fs.existsSync(logoPath) ? ('data:image/jpeg;base64,' + fs.readFileSync(logoPath).toString('base64')) : '';
+        let html = await ejs.renderFile(templatePath, { candidate, logoBase64, formatDate, formatDateTime });
+        html = html.replace('</body>', '<script>window.onload=function(){setTimeout(function(){window.print();},350);};</script></body>');
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.send(html);
+      } catch (fallbackErr) {
+        return res.status(500).send('Error generating PDF: ' + fallbackErr.message);
+      }
     }
   });
 });

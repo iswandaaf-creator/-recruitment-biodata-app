@@ -3,64 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal Reviewer Pelamar - KOV Management Portal</title>
+  <title>KOV Koffie — Atelier Sistem &amp; Evaluasi Divisi</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
-  <!-- Google Fonts: IBM Plex Sans & IBM Plex Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261103_cila_executive_perfection" rel="stylesheet">
-  <style>
-    /* Reviewer Specific Dribbble Enhancements */
-    .filter-btn {
-      font-size: 0.8rem;
-      font-weight: 600;
-      border-radius: var(--kov-radius-pill);
-      padding: 0.45rem 1rem;
-      border: 1px solid var(--kov-slate-200);
-      background: #ffffff;
-      color: var(--kov-slate-600);
-      cursor: pointer;
-      transition: var(--kov-transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-    .filter-btn:hover, .filter-btn.active {
-      background: var(--dd-primary, #166534) !important;
-      border-color: var(--dd-primary, #166534) !important;
-      color: #ffffff !important;
-      box-shadow: none !important;
-    }
-    .dd-folder-card:focus {
-      outline: 3px solid rgba(255, 255, 255, 0.6);
-      outline-offset: 2px;
-    }
-    .reviewer-grid-card {
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 16px 18px;
-      border: 1px solid rgba(226, 232, 240, 0.75);
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
-    }
-    .reviewer-grid-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.1);
-      border-color: rgba(5, 150, 105, 0.35);
-    }
-    [data-theme="dark"] .reviewer-grid-card {
-      background: #181c2f;
-      border-color: rgba(255, 255, 255, 0.08);
-    }
-  </style>
+  <link href="/assets/css/kov-portal.css?v=20261103_atelier" rel="stylesheet">
+  <script src="/assets/js/kov-toast.js"></script>
+  <script src="/assets/js/kov-theme.js"></script>
 </head>
 <body>
 
@@ -70,9 +22,7 @@
     const sudahDireview = (candidates || []).filter(c => c.review_count && c.review_count > 0).length;
     const direkomendasikan = (candidates || []).filter(c => (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima')).length;
     const dipertimbangkan = (candidates || []).filter(c => (c.latest_rekomendasi || '').includes('Dipertimbangkan') || (c.kesimpulan_status === 'Dipertimbangkan')).length;
-    const reviewPercent = totalKandidat > 0 ? Math.round((sudahDireview / totalKandidat) * 100) : 0;
 
-    // Division Candidate Counts
     const baristaCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('barista')).length;
     const opsCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('operasional') || (c.divisi || '').toLowerCase().includes('staff') || (c.divisi || '').toLowerCase().includes('kasir')).length;
     const kitchenCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('kitchen') || (c.divisi || '').toLowerCase().includes('cook') || (c.divisi || '').toLowerCase().includes('pastry')).length;
@@ -80,769 +30,357 @@
     const itCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('it') || (c.divisi || '').toLowerCase().includes('developer') || (c.divisi || '').toLowerCase().includes('support') || (c.divisi || '').toLowerCase().includes('tech')).length;
     const fatCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('fat') || (c.divisi || '').toLowerCase().includes('finance') || (c.divisi || '').toLowerCase().includes('akunting') || (c.divisi || '').toLowerCase().includes('tax')).length;
     const hrCount = (candidates || []).filter(c => (c.divisi || '').toLowerCase().includes('hr') || (c.divisi || '').toLowerCase().includes('personalia') || (c.divisi || '').toLowerCase().includes('ga')).length;
+
+    function maskNik(val) {
+      if (!val) return '337401********01';
+      const s = String(val).trim();
+      if (s.length <= 8) return s;
+      return s.slice(0, 6) + '*'.repeat(s.length - 8) + s.slice(-2);
+    }
   %>
 
-  <div class="dd-layout-root kov-app-shell">
-
-    <!-- 1. Deep Midnight Navy Sidebar Navigation (Pane 1) -->
+  <div class="atelier-shell dd-layout-root kov-app-shell">
+    <!-- 1. Left Pebble-Sage Sidebar (194px) -->
     <%- include('partials/sidebar', { active: 'reviewer', user: typeof user !== 'undefined' ? user : null }) %>
 
-    <!-- 2. Main Center Workspace Canvas (Pane 2) -->
-    <main class="dd-main-canvas kov-main-content dd-theme" id="mainCanvas">
+    <!-- 2. Main System Workspace -->
+    <main class="atelier-main dd-main-canvas kov-main-content dd-theme" id="mainCanvas">
 
-      <!-- Top Search & View Action Bar (Dribbble Signature - Symmetrical 46px Row) -->
-      <div class="dd-topbar">
-        <div class="d-flex align-items-center gap-2 flex-grow-1 min-w-0">
+      <!-- Top Bar (64px Warm Artisanal Paper #FCFBF9) -->
+      <header class="atelier-topbar dd-topbar">
+        <div class="d-flex align-items-center gap-2 min-w-0">
           <button type="button" class="kov-mobile-toggle-btn d-lg-none" onclick="toggleKovSidebar()" aria-label="Buka Menu">
-            <i class="fas fa-bars"></i>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           </button>
-          <div class="dd-search-container">
-            <i class="fas fa-magnifying-glass dd-search-icon"></i>
-            <input type="text" class="dd-search-input" id="searchInput" placeholder="Cari nama pelamar, posisi, kontak, atau nomor berkas..." aria-label="Cari nama pelamar" onkeyup="filterTable()">
-          </div>
+          <span class="status-pill pill-emerald font-mono-num">Reviewer Divisi</span>
+          <span class="d-none d-sm-inline" style="color: var(--ink-muted); font-size: 12px;">/</span>
+          <span class="d-none d-sm-inline text-truncate fw-semibold" style="color: var(--ink-body); font-size: 12px;">KOV Semarang Roastery &amp; People</span>
         </div>
 
-        <div class="dd-topbar-actions">
-          <button type="button" class="btn-topbar-action d-none d-sm-inline-flex" onclick="filterByStatusPill('BELUM')" title="Saring hanya pelamar yang belum direview">
-            <i class="fas fa-clock text-warning"></i>
-            <span>Perlu Tindakan (<%= belumDireview %>)</span>
+        <div class="d-flex align-items-center gap-2 flex-shrink-0">
+          <div class="atelier-search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" class="flex-shrink-0">
+              <path d="M10.8 4.2C14.6 4.1 17.5 7.2 17.3 10.9C17.1 14.7 14 17.4 10.3 17.3C6.6 17.2 3.9 14.1 4.1 10.4C4.3 7.1 7.2 4.3 10.8 4.2Z" fill="#dfece3" stroke="#3f6f56" stroke-width="1.85" stroke-linecap="round"/>
+              <path d="M15.6 15.8L20.2 20.1" stroke="#3f6f56" stroke-width="2.1" stroke-linecap="round"/>
+            </svg>
+            <input type="text" id="searchInput" class="atelier-search-input" placeholder="Cari kandidat, posisi, divisi..." aria-label="Cari nama pelamar" onkeyup="filterTable()">
+          </div>
+
+          <button type="button" class="btn-kov-outline" onclick="document.getElementById('bentoWorkspaceGrid').classList.toggle('calendar-collapsed')" title="Sembunyikan / Tampilkan Kalender">
+            <svg class="hand-icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none">
+              <path d="M4.5 7.2C4.5 5.8 5.6 4.8 7 4.8H17.2C18.6 4.8 19.6 5.9 19.5 7.3V18.2C19.4 19.6 18.3 20.5 16.9 20.5H6.8C5.4 20.5 4.4 19.4 4.5 18V7.2Z" fill="#dfece3" stroke="#3f6f56" stroke-width="1.75"/>
+              <path d="M8.2 3.2V6.1M15.8 3.4V6.2M4.8 9.6H19.2" stroke="#3f6f56" stroke-width="1.9" stroke-linecap="round"/>
+            </svg>
+            <span class="d-none d-sm-inline">Kalender</span>
           </button>
-          <a href="/api/export/excel" class="btn-drive-upload" title="Export Rekap Pelamar ke Excel">
-            <i class="fas fa-file-excel"></i>
+
+          <a href="/api/export/excel" class="btn-kov-primary text-decoration-none" title="Export Rekap Pelamar ke Excel">
             <span>Export Excel</span>
           </a>
         </div>
-      </div>
+      </header>
 
-      <div class="dd-body-content">
+      <!-- Scrollable Workspace Body -->
+      <div class="atelier-scroll">
 
-        <!-- Executive Command Header (Taste-Skill Framed Sheet) -->
-        <div class="dd-hero-banner">
-          <div class="dd-hero-content">
-            <div class="d-flex align-items-center gap-2 mb-1 flex-nowrap overflow-hidden">
-              <span class="badge py-1 px-2 text-nowrap" style="background: rgba(22, 101, 52, 0.1); color: #166534; border: 1px solid rgba(22, 101, 52, 0.22); border-radius: 6px; font-weight: 700; font-size: 11px;">
-                <span class="kov-pulse-dot"></span> EVALUASI PELAMAR
-              </span>
-              <span class="text-muted small">&bull;</span>
-              <span class="text-muted small text-nowrap">Portal Penilai Divisi</span>
-            </div>
-            <h2 class="dd-hero-title">
-              Portal Reviewer Divisi: <%= (typeof user !== 'undefined' && user && (user.nama || user.username)) ? (user.nama || user.username) : 'Staff Reviewer' %>
-            </h2>
-            <p class="dd-hero-subtitle">
-              Berikan penilaian teknis kualifikasi, catatan wawancara, dan verifikasi kelolosan kandidat divisi Anda secara terpusat.
-            </p>
-            <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
-              <span class="small fw-semibold text-secondary" style="font-size: 0.78rem;">Divisi Penugasan:</span>
-              <% if (allowedDivisions && allowedDivisions.length > 0) { %>
-                <% allowedDivisions.forEach(div => { %>
-                  <span class="status-pill-modern pill-success" style="font-size: 0.72rem; padding: 3px 10px;">
-                    <span class="status-dot-pulse"></span> <%= div %>
-                  </span>
-                <% }); %>
-              <% } else { %>
-                <span class="status-pill-modern pill-warning" style="font-size: 0.72rem;">
-                  <span class="status-dot-pulse"></span> Belum ada divisi spesifik
-                </span>
-              <% } %>
-            </div>
-            <div class="d-flex align-items-center gap-2 flex-nowrap overflow-x-auto pt-1">
-              <button type="button" class="btn-dd-hero text-nowrap" onclick="filterByStatusPill('BELUM')">
-                <i class="fas fa-pen-to-square me-1.5"></i> Mulai Review Berkas (<%= belumDireview %>)
-              </button>
-              <a href="/api/export/excel" class="btn-kov-outline btn-sm text-nowrap" style="font-size: 0.82rem; padding: 7px 14px;">
-                <i class="fas fa-file-excel text-success me-1.5"></i> Export Rekap Excel
-              </a>
-            </div>
-          </div>
-          <div class="dd-hero-illustration d-none d-lg-flex align-items-center justify-content-center pe-3" style="opacity: 0.9;">
-            <svg width="140" height="110" viewBox="0 0 140 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="20" y="18" width="88" height="82" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" />
-              <rect x="32" y="8" width="88" height="82" rx="6" fill="#ffffff" stroke="#166534" stroke-width="1.5" />
-              <line x1="45" y1="22" x2="78" y2="22" stroke="#166534" stroke-width="2" stroke-linecap="round" />
-              <line x1="45" y1="32" x2="105" y2="32" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" />
-              <line x1="45" y1="42" x2="95" y2="42" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-              <circle cx="50" cy="58" r="5" fill="#166534" fill-opacity="0.12" stroke="#166534" stroke-width="1.5" />
-              <path d="M48 58L50 60L53 56" stroke="#166534" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-              <line x1="62" y1="58" x2="105" y2="58" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" />
-              <circle cx="50" cy="72" r="5" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" />
-              <line x1="62" y1="72" x2="90" y2="72" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" />
-            </svg>
-          </div>
-        </div>
-
-        <!-- Alert Notification if any -->
         <% if (typeof success !== 'undefined' && success) { %>
-          <div class="alert alert-success alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
-            <i class="fas fa-circle-check me-2"></i> <%= success %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <div class="kov-paper-card p-3 pigment-celadon" role="alert">
+            <strong>Berhasil:</strong> <%= success %>
           </div>
         <% } %>
         <% if (typeof error !== 'undefined' && error) { %>
-          <div class="alert alert-danger alert-dismissible fade show mb-4 rounded-3 shadow-xs" role="alert">
-            <i class="fas fa-circle-exclamation me-2"></i> <%= error %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          <div class="kov-paper-card p-3 pigment-mauve" role="alert">
+            <strong>Perhatian:</strong> <%= error %>
           </div>
         <% } %>
 
-        <!-- Executive KPI Metric Strip (Anti-Slop: Type, Not Tiles - Direct Grid Children) -->
-        <div class="kov-kpi-row mb-3">
-          <div class="coinbase-kpi-card kpi-total active" onclick="filterByStatusPill('ALL')" role="button" tabindex="0" title="Tampilkan semua berkas penugasan">
-            <span class="bento-metric-title">TOTAL PENUGASAN</span>
-            <div class="bento-metric-value text-primary"><%= totalKandidat %></div>
-            <span class="bento-metric-sub">Sesuai divisi reviewer</span>
-          </div>
-
-          <div class="coinbase-kpi-card kpi-pending" onclick="filterByStatusPill('BELUM')" role="button" tabindex="0" title="Saring berkas belum direview">
-            <span class="bento-metric-title text-warning">BELUM DIREVIEW</span>
-            <div class="bento-metric-value text-warning"><%= belumDireview %></div>
-            <span class="bento-metric-sub">Perlu scoring &amp; evaluasi</span>
-          </div>
-
-          <div class="coinbase-kpi-card kpi-accepted" onclick="filterByStatusPill('SUDAH')" role="button" tabindex="0" title="Saring berkas sudah direview">
-            <span class="bento-metric-title text-success">SUDAH DIREVIEW</span>
-            <div class="bento-metric-value text-success"><%= sudahDireview %></div>
-            <span class="bento-metric-sub">Telah diberi rekomendasi</span>
-          </div>
-
-          <div class="coinbase-kpi-card kpi-info" role="button" tabindex="0" title="Tingkat progres review">
-            <span class="bento-metric-title text-info">TINGKAT PROGRES</span>
-            <div class="bento-metric-value text-info">
-              <%= totalKandidat > 0 ? Math.round((sudahDireview / totalKandidat) * 100) : 0 %>%
+        <!-- Row 1: Asymmetric Editorial Title Band + 3 Natural Tonal Summary Pills -->
+        <section class="editorial-header-band">
+          <div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <h1 class="font-display m-0 fw-bold" style="font-size: 1.35rem; color: var(--ink-deep);">
+                Antrean Evaluasi Divisi
+              </h1>
+              <span class="status-pill pill-emerald font-mono-num" id="candidateCountBadge">
+                <%= totalKandidat %> Data
+              </span>
             </div>
-            <span class="bento-metric-sub">Penyelesaian review divisi</span>
-          </div>
-        </div>
-
-        <!-- Segmented Division Filter Tabs (Untitled UI / Linear Architecture) -->
-        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-          <div class="d-flex align-items-center gap-2">
-            <span class="text-uppercase fw-bold text-muted" style="font-size: 11px; letter-spacing: 0.05em;">Filter Divisi</span>
-            <span class="badge py-0.5 px-2" style="background: rgba(22, 101, 52, 0.08); color: #166534; border: 1px solid rgba(22, 101, 52, 0.2); border-radius: 4px; font-weight: 700; font-size: 10.5px;">8 Divisi Lengkap</span>
-          </div>
-          <a href="javascript:void(0)" onclick="filterByDivisiQuick('all')" class="text-decoration-none text-muted small fw-medium" id="btnViewAllDivisions" title="Reset filter dan tampilkan seluruh pelamar">
-            <i class="fas fa-rotate-left me-1"></i> Reset Divisi
-          </a>
-        </div>
-
-        <div class="dd-folders-grid mb-3" id="foldersGrid">
-          <!-- 8. Semua Pelamar (Master) -->
-          <div class="dd-folder-card dd-folder-indigo folder-indigo active" data-divisi="all" onclick="filterByDivisiQuick('all')" title="Tampilkan Seluruh Pelamar" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">Semua Divisi</span>
-            <span class="badge-tab-count"><%= totalKandidat %></span>
+            <p class="m-0 mt-1" style="font-size: 12px; color: var(--ink-body);">
+              Berikan penilaian uji praktik, catatan evaluasi teknis, dan rekomendasi kelulusan kandidat divisi Anda.
+            </p>
           </div>
 
-          <!-- 1. Barista (Coral) -->
-          <div class="dd-folder-card dd-folder-coral folder-coral" data-divisi="barista" onclick="filterByDivisiQuick('barista')" title="Filter Divisi Barista" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">Barista</span>
-            <span class="badge-tab-count"><%= baristaCount %></span>
-          </div>
-
-          <!-- 2. Operasional (Royal) -->
-          <div class="dd-folder-card dd-folder-royal folder-blue" data-divisi="operasional" onclick="filterByDivisiQuick('operasional')" title="Filter Divisi Operasional" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">Operasional</span>
-            <span class="badge-tab-count"><%= opsCount %></span>
-          </div>
-
-          <!-- 3. Kitchen (Amber) -->
-          <div class="dd-folder-card dd-folder-amber folder-amber" data-divisi="kitchen" onclick="filterByDivisiQuick('kitchen')" title="Filter Divisi Kitchen" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">Kitchen</span>
-            <span class="badge-tab-count"><%= kitchenCount %></span>
-          </div>
-
-          <!-- 4. Teknisi & ME (Cyan) -->
-          <div class="dd-folder-card dd-folder-cyan folder-cyan" data-divisi="teknisi" onclick="filterByDivisiQuick('teknisi')" title="Filter Divisi Teknisi & ME" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">Teknisi</span>
-            <span class="badge-tab-count"><%= teknisiCount %></span>
-          </div>
-
-          <!-- 5. IT & Systems (Violet) -->
-          <div class="dd-folder-card dd-folder-violet folder-violet" data-divisi="it" onclick="filterByDivisiQuick('it')" title="Filter Divisi IT & Sistem" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">IT Systems</span>
-            <span class="badge-tab-count"><%= itCount %></span>
-          </div>
-
-          <!-- 6. FAT / Finance & Tax (Emerald) -->
-          <div class="dd-folder-card dd-folder-emerald folder-emerald" data-divisi="fat" onclick="filterByDivisiQuick('fat')" title="Filter Divisi FAT / Finance" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">Finance</span>
-            <span class="badge-tab-count"><%= fatCount %></span>
-          </div>
-
-          <!-- 7. HR & GA (Rose) -->
-          <div class="dd-folder-card dd-folder-rose folder-rose" data-divisi="hr" onclick="filterByDivisiQuick('hr')" title="Filter Divisi HR & GA" role="button" tabindex="0">
-            <span class="dd-folder-title dd-folder-name">HR &amp; GA</span>
-            <span class="badge-tab-count"><%= hrCount %></span>
-          </div>
-        </div>
-
-        <!-- Recent Candidates Section (Modern Botanical / Dribbble High-Contrast) -->
-        <div class="dd-section-header mt-4">
-          <div class="d-flex align-items-center gap-2">
-            <h3 class="dd-section-title">Daftar Berkas Pelamar</h3>
-            <span class="badge rounded-pill bg-light text-dark border px-2.5 py-1" id="candidateCountBadge" style="font-size: 0.75rem; font-weight: 700;">
-              <%= totalKandidat %> Berkas
-            </span>
-          </div>
-
-          <!-- Segmented Filter Pills -->
-          <div class="d-flex align-items-center gap-1.5 flex-wrap">
-            <button type="button" class="filter-btn active" data-filter="ALL" onclick="setStatusFilter('ALL', this)">
-              Semua (<%= totalKandidat %>)
-            </button>
-            <button type="button" class="filter-btn" data-filter="BELUM" onclick="setStatusFilter('BELUM', this)">
-              <i class="fas fa-clock text-warning"></i> Belum Direview (<%= belumDireview %>)
-            </button>
-            <button type="button" class="filter-btn" data-filter="SUDAH" onclick="setStatusFilter('SUDAH', this)">
-              <i class="fas fa-check text-success"></i> Sudah Direview (<%= sudahDireview %>)
-            </button>
-            <button type="button" class="filter-btn" data-filter="LOLOS" onclick="setStatusFilter('LOLOS', this)">
-              <i class="fas fa-circle-check text-primary"></i> Direkomendasikan (<%= direkomendasikan %>)
-            </button>
-            <button type="button" class="filter-btn" data-filter="HOLD" onclick="setStatusFilter('HOLD', this)">
-              <i class="fas fa-hourglass-half text-warning"></i> Dipertimbangkan (<%= dipertimbangkan %>)
-            </button>
-          </div>
-        </div>
-
-        <!-- Active Calendar Date Filter Alert Chip -->
-        <div id="activeDateBadgeWrap" class="d-none pt-2 pb-1">
-          <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 0.8rem; font-weight: 700;">
-            <i class="far fa-calendar-check"></i>
-            <span id="activeDateBadgeText">Filter Tanggal: 26 Oktober 2026</span>
-            <button type="button" onclick="clearCalDateFilter()" class="btn-close ms-1" style="font-size: 0.6rem; cursor: pointer;" aria-label="Hapus Filter Tanggal" title="Hapus Filter Tanggal"></button>
-          </div>
-        </div>
-        <select id="divisionFilter" class="d-none">
-          <option value="ALL">Semua</option>
-          <option value="barista">Barista</option>
-          <option value="operasional">Operasional</option>
-          <option value="kitchen">Kitchen</option>
-          <option value="teknisi">Teknisi</option>
-          <option value="it">IT</option>
-          <option value="fat">FAT</option>
-          <option value="hr">HR</option>
-        </select>
-
-        <!-- VIEW MODE 1: GRID VIEW -->
-        <div id="candidatesGridView" class="row g-3 mb-4">
-          <% if (candidates.length === 0) { %>
-            <div class="col-12 text-center py-5">
-              <i class="fas fa-folder-open fa-3x text-secondary opacity-50 mb-3"></i>
-              <h5 class="fw-bold text-dark">Belum Ada Pelamar Masuk</h5>
-              <p class="small text-muted mb-0">Saat ini belum ada berkas pelamar untuk divisi penugasan Anda.</p>
+          <div class="tonal-summary-strip">
+            <div class="tonal-pill-card pigment-terracotta" onclick="filterByStatusPill('ALL')" role="button" tabindex="0">
+              <div>
+                <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85;">Antrean Divisi</div>
+                <div class="font-display font-mono-num fw-bold mt-0.5" style="font-size: 1.2rem; color: var(--terracotta-ink);"><%= totalKandidat %> Kandidat</div>
+              </div>
+              <svg class="hand-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M12.4 4.5L14.6 9.1L19.6 9.7L15.9 13.1L16.9 18.1L12.3 15.6L7.8 18.2L8.8 13.2L5.1 9.8L10.1 9.1L12.4 4.5Z" fill="#e5d4a7" fill-opacity="0.7"/>
+                <path d="M11.9 4.2L14.1 8.8L19.1 9.4L15.4 12.8L16.4 17.8L11.8 15.3L7.3 17.9L8.3 12.9L4.6 9.5L9.6 8.8L11.9 4.2Z" stroke="#9c782b" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
             </div>
-          <% } %>
 
-          <% candidates.forEach(c => {
-            const dLow = (c.divisi || 'operasional').toLowerCase();
-            const hasReview = c.review_count && c.review_count > 0;
-            const isLolos = (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima');
-            const isHold = (c.latest_rekomendasi || '').includes('Dipertimbangkan') || (c.kesimpulan_status === 'Dipertimbangkan');
-          %>
-            <div class="col-md-6 col-xl-4 candidate-grid-item"
-                 data-id="<%= c.id %>"
-                 data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
-                 data-posisi="<%= (c.posisi_dilamar || '').toLowerCase() %>"
-                 data-divisi="<%= dLow %>"
-                 data-hasreview="<%= hasReview ? 'true' : 'false' %>"
-                 data-isrecommended="<%= isLolos ? 'true' : 'false' %>"
-                 data-ishold="<%= isHold ? 'true' : 'false' %>"
-                 data-date="<%= c.created_at ? new Date(c.created_at).getTime() : 0 %>">
-              <div class="reviewer-grid-card shadow-xs">
-                <div>
-                  <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
-                    <div class="d-flex align-items-center gap-2.5">
-                      <% if (c.foto_kandidat) { %>
-                        <img src="<%= c.foto_kandidat %>" class="rounded-circle border shadow-xs flex-shrink-0" style="width: 44px; height: 44px; object-fit: cover;">
-                      <% } else { %>
-                        <div class="user-avatar-initials flex-shrink-0" style="width: 44px; height: 44px; font-size: 1rem;">
-                          <%= c.nama_lengkap ? c.nama_lengkap.charAt(0).toUpperCase() : 'P' %>
-                        </div>
-                      <% } %>
-                      <div>
-                        <h6 class="fw-bold text-dark mb-0 leading-tight"><%= c.nama_lengkap %></h6>
-                        <span class="text-muted" style="font-size: 0.74rem;">
-                          <i class="far fa-clock me-1"></i><%= formatDate(c.created_at, true) %>
-                        </span>
-                      </div>
-                    </div>
-                    <span class="badge bg-light text-dark border px-2 py-1" style="font-size: 0.72rem; font-weight: 700;">
-                      #<%= c.id %>
-                    </span>
-                  </div>
+            <div class="tonal-pill-card pigment-celadon" onclick="filterByStatusPill('SUDAH')" role="button" tabindex="0">
+              <div>
+                <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85;">Sudah Direview</div>
+                <div class="font-display font-mono-num fw-bold mt-0.5" style="font-size: 1.2rem; color: var(--celadon-ink);"><%= sudahDireview %> / <%= totalKandidat %></div>
+              </div>
+              <svg class="hand-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M7.5 9.2C7.5 6.8 9.4 5 11.8 5.2C14.2 5.4 15.8 7.3 15.6 9.7C15.4 12.1 13.5 13.8 11.1 13.6C8.8 13.4 7.5 11.5 7.5 9.2Z" fill="#bdd6c5" fill-opacity="0.65"/>
+                <path d="M11.2 4.8C13.6 4.7 15.6 6.6 15.5 9C15.4 11.4 13.4 13.2 11 13.2C8.6 13.2 6.8 11.3 6.9 8.9C7 6.6 8.9 4.9 11.2 4.8Z" stroke="#3f6f56" stroke-width="1.85" stroke-linecap="round"/>
+                <path d="M4.2 19.6C4.8 16.5 7.6 15.1 11.2 15.1C14.8 15.1 17.5 16.7 18.2 19.7" stroke="#3f6f56" stroke-width="2.05" stroke-linecap="round"/>
+              </svg>
+            </div>
 
-                  <div class="mb-2.5">
-                    <div class="small fw-semibold text-dark"><i class="fas fa-briefcase text-muted me-1.5"></i><%= c.posisi_dilamar %></div>
-                    <div class="text-muted small" style="font-size: 0.75rem;"><i class="fas fa-location-dot text-muted me-1.5"></i><%= c.kota_domisili || c.kota_ktp || 'Indonesia' %> &bull; <%= c.no_hp || '-' %></div>
-                  </div>
+            <div class="tonal-pill-card pigment-dusk" onclick="filterByStatusPill('BELUM')" role="button" tabindex="0">
+              <div>
+                <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.85;">Proteksi Data</div>
+                <div class="font-display font-mono-num fw-bold mt-0.5" style="font-size: 1.05rem; color: var(--dusk-ink);">NIK Masked</div>
+              </div>
+              <svg class="hand-icon" viewBox="0 0 24 24" fill="none">
+                <path d="M12.4 4.4L19.2 7.2V12.4C19.2 16.6 16.3 19.6 12.4 20.8C8.5 19.6 5.6 16.6 5.6 12.4V7.2L12.4 4.4Z" fill="#ddc3cb" fill-opacity="0.6"/>
+                <path d="M12 3.8L18.8 6.6V11.8C18.8 16 15.9 19 12 20.2C8.1 19 5.2 16 5.2 11.8V6.6L12 3.8Z" stroke="#8c4a5b" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M9.4 11.8L11.3 13.7L14.8 9.8" stroke="#8c4a5b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </section>
 
-                  <div class="mb-3">
-                    <% if (hasReview) { %>
-                      <span class="status-pill-modern pill-success mb-1" style="font-size: 0.72rem;">
-                        <span class="status-dot-pulse"></span> <%= c.review_count %> Catatan Review
-                      </span>
-                      <% if (isLolos) { %>
-                        <span class="status-pill-modern pill-success" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Lolos</span>
-                      <% } else if (isHold) { %>
-                        <span class="status-pill-modern pill-warning" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Hold</span>
-                      <% } else { %>
-                        <span class="status-pill-modern pill-danger" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Tidak Sesuai</span>
-                      <% } %>
-                    <% } else { %>
-                      <span class="status-pill-modern pill-warning" style="font-size: 0.72rem;">
-                        <span class="status-dot-pulse"></span> Belum Direview
-                      </span>
-                    <% } %>
-                  </div>
+        <!-- Row 2: Asymmetric 2-Column Workspace -->
+        <section class="workspace-asymmetric-grid" id="bentoWorkspaceGrid">
 
-                  <% if (c.latest_catatan || c.catatan_reviewer) { %>
-                    <div class="p-2.5 rounded-3 bg-light border mb-3" style="font-size: 0.75rem; color: #475569;">
-                      <i class="fas fa-comment-dots text-primary me-1"></i>
-                      "<%= (c.latest_catatan || c.catatan_reviewer) %>"
-                    </div>
-                  <% } %>
+          <!-- Left Column: Main Reviewer Sheet -->
+          <div class="kov-paper-card min-w-0">
+            <div class="atelier-table-toolbar">
+              <div class="d-flex align-items-center gap-1 flex-wrap">
+                <button type="button" class="kov-tab-pill filter-btn active" data-filter="ALL" onclick="setStatusFilter('ALL', this)">
+                  <span>Semua (<%= totalKandidat %>)</span>
+                </button>
+                <button type="button" class="kov-tab-pill filter-btn" data-filter="BELUM" onclick="setStatusFilter('BELUM', this)">
+                  <span>Belum Direview (<%= belumDireview %>)</span>
+                </button>
+                <button type="button" class="kov-tab-pill filter-btn" data-filter="SUDAH" onclick="setStatusFilter('SUDAH', this)">
+                  <span>Sudah Direview (<%= sudahDireview %>)</span>
+                </button>
+                <button type="button" class="kov-tab-pill filter-btn" data-filter="LOLOS" onclick="setStatusFilter('LOLOS', this)">
+                  <span>Direkomendasikan (<%= direkomendasikan %>)</span>
+                </button>
+                <button type="button" class="kov-tab-pill filter-btn" data-filter="HOLD" onclick="setStatusFilter('HOLD', this)">
+                  <span>Dipertimbangkan (<%= dipertimbangkan %>)</span>
+                </button>
+              </div>
+
+              <div class="d-flex align-items-center gap-2">
+                <div id="activeDateBadgeWrap" class="d-none">
+                  <button type="button" onclick="clearCalDateFilter()" class="status-pill pill-ochre border-0" style="cursor: pointer;">
+                    <span id="activeDateBadgeText">Tanggal</span> &times;
+                  </button>
                 </div>
 
-                <div class="d-flex align-items-center justify-content-between pt-2 border-top">
-                  <span class="dd-file-badge dd-badge-pdf" style="font-size: 0.68rem; padding: 3px 8px;">
-                    <i class="fas fa-file-pdf text-danger me-1"></i> PDF
-                  </span>
-                  <div class="d-inline-flex gap-1.5">
-                    <a href="/reviewer/candidate/<%= c.id %>" class="btn-kov-primary btn-kov-sm" title="Buka Form Evaluasi & Berikan Review">
-                      <i class="fas fa-pen-to-square me-1"></i> Review
-                    </a>
-                    <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Download Biodata PDF">
-                      <i class="fas fa-file-pdf"></i>
-                    </a>
-                  </div>
-                </div>
+                <select id="divisiSelectReviewer" class="kov-pastel-input" style="height: 32px; padding: 0 11px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;" onchange="filterByDivisiQuick(this.value)">
+                  <option value="all" selected>Semua Divisi (<%= totalKandidat %>)</option>
+                  <option value="barista">Barista (<%= baristaCount %>)</option>
+                  <option value="kitchen">Kitchen (<%= kitchenCount %>)</option>
+                  <option value="operasional">Operasional (<%= opsCount %>)</option>
+                  <option value="fat">Finance (<%= fatCount %>)</option>
+                  <option value="it">IT Systems (<%= itCount %>)</option>
+                  <option value="teknisi">Teknisi (<%= teknisiCount %>)</option>
+                  <option value="hr">HR &amp; GA (<%= hrCount %>)</option>
+                </select>
               </div>
             </div>
-          <% }); %>
-        </div>
 
-        <!-- VIEW MODE 2: SPREADSHEET TABLE VIEW (D-NONE BY DEFAULT) -->
-        <div id="candidatesListView" class="kov-card d-none mb-4">
-          <div class="table-responsive-modern">
-            <table class="kov-table" id="candidateReviewTable">
-              <thead>
-                <tr>
-                  <th class="ps-3" style="width: 50px;">ID</th>
-                  <th style="width: 110px;">Tgl Melamar</th>
-                  <th style="min-width: 180px;">Nama Pelamar &amp; Kontak</th>
-                  <th style="width: 130px;">Divisi &amp; Posisi</th>
-                  <th style="width: 120px;">Status Evaluasi</th>
-                  <th style="min-width: 160px;">Catatan Terakhir Reviewer</th>
-                  <th class="text-center pe-3" style="width: 120px;">Aksi</th>
-                </tr>
-              </thead>
-              <tbody id="candidateTableBody">
-                <% candidates.forEach(c => { 
-                  const dLow = (c.divisi || 'operasional').toLowerCase();
-                  const hasReview = c.review_count && c.review_count > 0;
-                  const isLolos = (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima');
-                  const isHold = (c.latest_rekomendasi || '').includes('Dipertimbangkan') || (c.kesimpulan_status === 'Dipertimbangkan');
-                %>
-                  <tr class="candidate-row"
-                      data-id="<%= c.id %>"
-                      data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
-                      data-posisi="<%= (c.posisi_dilamar || '').toLowerCase() %>"
-                      data-divisi="<%= dLow %>"
-                      data-hasreview="<%= hasReview ? 'true' : 'false' %>"
-                      data-isrecommended="<%= isLolos ? 'true' : 'false' %>"
-                      data-ishold="<%= isHold ? 'true' : 'false' %>"
-                      data-date="<%= c.created_at ? new Date(c.created_at).getTime() : 0 %>">
-                    <td class="ps-3 fw-bold text-muted">#<%= c.id %></td>
-                    <td class="small text-secondary fw-semibold">
-                      <%= formatDate(c.created_at, true) %>
-                    </td>
-                    <td>
-                      <div class="d-flex align-items-center gap-2.5">
-                        <% if (c.foto_kandidat) { %>
-                          <img src="<%= c.foto_kandidat %>" class="rounded-3 border shadow-xs flex-shrink-0" style="width: 38px; height: 38px; object-fit: cover;">
-                        <% } else { %>
-                          <div class="user-avatar-initials flex-shrink-0">
+            <div class="table-responsive">
+              <table class="kov-table" id="reviewerTable">
+                <thead>
+                  <tr>
+                    <th style="width: 28%;">Kandidat &amp; Domisili</th>
+                    <th style="width: 25%;">Posisi &amp; Divisi</th>
+                    <th style="width: 25%;">NIK (Masked) &amp; Catatan</th>
+                    <th style="width: 22%; text-align: right;">Status &amp; Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="candidateTableBody">
+                  <% if (candidates.length === 0) { %>
+                    <tr>
+                      <td colspan="4" class="text-center py-5" style="color: var(--ink-muted);">
+                        Belum ada berkas pelamar untuk divisi penugasan Anda.
+                      </td>
+                    </tr>
+                  <% } %>
+                  <%
+                    const avatarPalettes = [
+                      { bg: '#dfece3', ink: '#2e5943' },
+                      { bg: '#e6e9f4', ink: '#3c4a73' },
+                      { bg: '#f0e4e8', ink: '#6e3645' },
+                      { bg: '#f6eed8', ink: '#6e5219' },
+                      { bg: '#f6e5da', ink: '#784124' }
+                    ];
+                    candidates.forEach((c, idx) => {
+                      const cDiv = c.divisi || 'Operasional';
+                      const dLow = cDiv.toLowerCase();
+                      const hasReview = c.review_count && c.review_count > 0;
+                      const isLolos = (c.latest_rekomendasi || '').includes('Direkomendasikan Lolos') || (c.kesimpulan_status === 'Diterima');
+                      const isHold = (c.latest_rekomendasi || '').includes('Dipertimbangkan') || (c.kesimpulan_status === 'Dipertimbangkan');
+                      const pal = avatarPalettes[idx % avatarPalettes.length];
+
+                      let divPillClass = 'pill-emerald';
+                      if (dLow.includes('barista')) divPillClass = 'pill-peach';
+                      else if (dLow.includes('kitchen')) divPillClass = 'pill-rose';
+                      else if (dLow.includes('fat')) divPillClass = 'pill-ochre';
+                      else if (dLow.includes('it') || dLow.includes('operasional')) divPillClass = 'pill-lavender';
+                  %>
+                    <tr class="candidate-row"
+                        data-id="<%= c.id %>"
+                        data-name="<%= (c.nama_lengkap || '').toLowerCase() %>"
+                        data-posisi="<%= (c.posisi_dilamar || '').toLowerCase() %>"
+                        data-divisi="<%= dLow %>"
+                        data-hasreview="<%= hasReview ? 'true' : 'false' %>"
+                        data-isrecommended="<%= isLolos ? 'true' : 'false' %>"
+                        data-ishold="<%= isHold ? 'true' : 'false' %>"
+                        data-date="<%= c.created_at ? new Date(c.created_at).getTime() : 0 %>">
+                      <td>
+                        <div class="d-flex align-items-center gap-3">
+                          <div class="rounded-circle font-display fw-bold d-flex align-items-center justify-content-center flex-shrink-0" style="width: 32px; height: 32px; font-size: 12px; background: <%= pal.bg %>; color: <%= pal.ink %>;">
                             <%= c.nama_lengkap ? c.nama_lengkap.charAt(0).toUpperCase() : 'P' %>
                           </div>
-                        <% } %>
-                        <div>
-                          <div class="fw-bold text-dark"><%= c.nama_lengkap %></div>
-                          <div class="text-muted" style="font-size: 0.76rem;">
-                            <i class="fas fa-phone me-1"></i><%= c.no_hp || '-' %> &bull; <%= c.kota_domisili || c.kota_ktp || '-' %>
+                          <div>
+                            <div class="font-display fw-bold" style="font-size: 13px; color: var(--ink-deep);"><%= c.nama_lengkap %></div>
+                            <div style="font-size: 11px; color: var(--ink-muted);"><%= c.kota_domisili || c.kota_ktp || 'Semarang' %> &bull; <%= formatDate(c.created_at, false) %></div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="mb-1"><span class="badge bg-light text-dark border px-2 py-1"><%= c.divisi || 'Operasional' %></span></div>
-                      <div class="small fw-semibold text-dark"><%= c.posisi_dilamar %></div>
-                    </td>
-                    <td>
-                      <% if (hasReview) { %>
-                        <span class="status-pill-modern pill-success mb-1">
-                          <span class="status-dot-pulse"></span> <%= c.review_count %> Catatan Review
-                        </span>
-                        <% if (isLolos) { %>
-                          <div><span class="status-pill-modern pill-success" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Lolos</span></div>
-                        <% } else if (isHold) { %>
-                          <div><span class="status-pill-modern pill-warning" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Dipertimbangkan</span></div>
-                        <% } else { %>
-                          <div><span class="status-pill-modern pill-danger" style="font-size: 0.7rem; padding: 2px 8px;"><span class="status-dot-pulse"></span> Tidak Sesuai</span></div>
-                        <% } %>
-                      <% } else { %>
-                        <span class="status-pill-modern pill-warning">
-                          <span class="status-dot-pulse"></span> Belum Direview
-                        </span>
-                      <% } %>
-                    </td>
-                    <td>
-                      <% if (c.latest_catatan) { %>
-                        <div class="small text-dark text-truncate" style="max-width: 220px;" title="<%= c.latest_catatan %>">
-                          "<%= c.latest_catatan %>"
+                      </td>
+                      <td>
+                        <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                          <span class="fw-semibold" style="font-size: 12px; color: var(--ink-deep);"><%= c.posisi_dilamar || cDiv %></span>
+                          <span class="status-pill <%= divPillClass %>" style="font-size: 9.5px; padding: 1px 8px;"><%= cDiv %></span>
                         </div>
-                        <div class="text-muted" style="font-size: 0.7rem;">
-                          Oleh: <%= c.latest_reviewer_name || 'Reviewer' %> (<%= formatDate(c.latest_review_date) %>)
+                        <div style="font-size: 11px; color: var(--ink-muted); margin-top: 2px;">Berkas #<%= c.id %></div>
+                      </td>
+                      <td>
+                        <div class="font-mono-num fw-semibold" style="font-size: 12px; color: var(--ink-deep);"><%= maskNik(c.nomor_ktp) %></div>
+                        <div class="text-truncate" style="font-size: 11px; color: var(--ink-muted); max-width: 210px;">
+                          <%= c.latest_catatan || c.catatan_reviewer || 'Belum ada catatan reviewer' %>
                         </div>
-                      <% } else if (c.catatan_reviewer) { %>
-                        <div class="small text-dark text-truncate" style="max-width: 220px;" title="<%= c.catatan_reviewer %>">
-                          "<%= c.catatan_reviewer %>"
+                      </td>
+                      <td class="text-end">
+                        <div class="d-inline-flex align-items-center justify-content-end gap-1.5">
+                          <% if (hasReview) { %>
+                            <span class="status-pill pill-emerald"><%= c.review_count %> Review</span>
+                          <% } else { %>
+                            <span class="status-pill pill-ochre">Belum Direview</span>
+                          <% } %>
+                          <a href="/reviewer/candidate/<%= c.id %>" class="btn-kov-outline text-decoration-none" style="height: 28px; padding: 0 10px; font-size: 11px;">
+                            Nilai
+                          </a>
+                          <button type="button" class="btn-kov-outline" style="height: 28px; padding: 0 8px; font-size: 11px;" onclick="scheduleReviewerMemo(<%= JSON.stringify(c.nama_lengkap || 'Kandidat') %>)" title="Jadwalkan Uji Praktik">
+                            + Memo
+                          </button>
+                          <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-outline text-decoration-none" style="height: 28px; padding: 0 8px; font-size: 11px;">
+                            PDF
+                          </a>
                         </div>
-                      <% } else { %>
-                        <span class="text-muted small fst-italic">Belum ada catatan evaluasi</span>
-                      <% } %>
-                    </td>
-                    <td class="text-center pe-3">
-                      <div class="d-inline-flex gap-1.5">
-                        <a href="/reviewer/candidate/<%= c.id %>" class="btn-kov-primary btn-kov-sm" title="Buka Detail & Beri Catatan Evaluasi">
-                          <i class="fas fa-pen-to-square me-1"></i> Review
-                        </a>
-                        <a href="/api/export/pdf/<%= c.id %>" target="_blank" rel="noopener noreferrer" class="btn-kov-secondary btn-kov-sm text-danger" title="Download Biodata PDF">
-                          <i class="fas fa-file-pdf"></i>
-                        </a>
-                      </div>
-                    </td>
-                  </tr>
-                <% }); %>
-              </tbody>
-            </table>
+                      </td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+
+          <!-- Right Column: Warm Cream Calendar & Memo Pad -->
+          <aside class="kov-pad-card dd-right-panel" id="hrRightSidebar">
+            <div class="d-flex align-items-center justify-content-between border-bottom" style="border-color: var(--border-organic) !important; padding: 14px 16px;">
+              <div class="d-flex align-items-center gap-2">
+                <svg class="hand-icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24" fill="none">
+                  <path d="M6.5 4.8H17.5C18.5 4.8 19.2 5.6 19.2 6.6V18.4C19.2 19.4 18.4 20.2 17.4 20.2H6.5C5.5 20.2 4.8 19.4 4.8 18.4V6.6C4.8 5.6 5.5 4.8 6.5 4.8Z" fill="#f6eed8" stroke="#9c782b" stroke-width="1.75"/>
+                  <path d="M8.5 9.5H15.5M8.5 13H13.5" stroke="#9c782b" stroke-width="1.9" stroke-linecap="round"/>
+                </svg>
+                <h2 class="font-display m-0 fw-bold" style="font-size: 12px; color: var(--ink-deep);">Kalender &amp; Memo</h2>
+              </div>
+              <span class="status-pill pill-ochre font-mono-num"><%= belumDireview %> Notif</span>
+            </div>
+
+            <div style="padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+              <!-- Mini Calendar Grid -->
+              <div class="dd-calendar-widget" style="background: var(--bg-paper); border: 1px solid var(--border-organic); border-radius: 12px; padding: 12px;">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span class="font-display fw-bold" style="font-size: 12px; color: var(--ink-deep);" id="calMonthDisplay">Oktober 2026</span>
+                  <div class="d-flex align-items-center gap-1">
+                    <button type="button" onclick="prevCalPeriod()" class="kov-soft-icon-btn border-0 rounded" style="width: 22px; height: 22px; font-size: 12px;">&lsaquo;</button>
+                    <button type="button" onclick="clearCalDateFilter()" class="kov-soft-icon-btn border-0 rounded fw-bold" style="height: 22px; padding: 0 6px; font-size: 10px; color: var(--celadon-stroke);">Semua</button>
+                    <button type="button" onclick="nextCalPeriod()" class="kov-soft-icon-btn border-0 rounded" style="width: 22px; height: 22px; font-size: 12px;">&rsaquo;</button>
+                  </div>
+                </div>
+                <div class="dd-calendar-grid font-mono-num" id="calGrid"></div>
+              </div>
+
+              <!-- Click-Date Memo Composer -->
+              <div class="pigment-celadon" style="padding: 14px; border-radius: 12px; border: 1px solid var(--celadon-border);">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <span style="font-size: 11px; font-weight: 700; color: var(--celadon-ink);">Catatan Tanggal</span>
+                  <span class="font-mono-num fw-bold px-2 py-0.5 rounded-pill" style="font-size: 10px; background: #ffffff; color: var(--celadon-ink);" id="memoActiveDateLabel">24/10/2026</span>
+                </div>
+
+                <form id="hrMemoForm" onsubmit="submitHrMemo(event)" novalidate>
+                  <div class="mb-2">
+                    <input type="text" id="hrMemoTitleInput" placeholder="Tulis jadwal uji praktik..." class="w-100 kov-pastel-input" style="height: 32px; padding: 0 10px; border-radius: 8px; font-size: 12px; border-color: var(--celadon-border);">
+                  </div>
+                  <div class="row g-1.5 mb-2">
+                    <div class="col-6">
+                      <select id="hrMemoCatInput" class="w-100 kov-pastel-input" style="height: 28px; padding: 0 8px; border-radius: 8px; font-size: 11px; font-weight: 600; border-color: var(--celadon-border);">
+                        <option value="Uji Praktik">Uji Praktik</option>
+                        <option value="Interview">Interview</option>
+                        <option value="Approval">Approval</option>
+                      </select>
+                    </div>
+                    <div class="col-6">
+                      <input type="time" id="hrMemoTimeInput" value="14:00" class="w-100 kov-pastel-input font-mono-num" style="height: 28px; padding: 0 8px; border-radius: 8px; font-size: 11px; border-color: var(--celadon-border);">
+                    </div>
+                  </div>
+                  <input type="hidden" id="hrMemoDateInput" value="2026-10-24">
+                  <button type="submit" class="btn-kov-primary w-100" style="height: 32px; font-size: 12px;">
+                    <span>+ Simpan ke Kalender</span>
+                  </button>
+                </form>
+              </div>
+
+              <!-- Daftar Agenda -->
+              <div>
+                <div class="fw-bold mb-2" style="font-size: 11px; color: var(--ink-deep);">Daftar Agenda</div>
+                <div id="hrMemoListContainer" style="max-height: 170px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;"></div>
+              </div>
+            </div>
+          </aside>
+
+        </section>
 
       </div>
     </main>
-
-    <!-- 3. Right Utility Panel (Pane 3 - Dribbble Signature) -->
-    <aside class="dd-right-panel" id="rightPanel">
-
-      <!-- Profile Header (Symmetrical 46px Row aligned with Topbar) -->
-      <div class="dd-profile-header">
-        <div class="dd-utility-actions">
-          <button type="button" class="dd-icon-btn" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
-            <i class="fas fa-moon kov-theme-icon"></i>
-          </button>
-        </div>
-
-        <!-- Interactive User Profile Dropdown -->
-        <div class="dropdown">
-          <div class="dd-user-pill" id="userMenuDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" role="button" title="Menu Pengguna">
-            <div class="dd-user-avatar d-flex align-items-center justify-content-center bg-primary text-white fw-bold">
-              <%= (typeof user !== 'undefined' && user && user.username) ? user.username.charAt(0).toUpperCase() : 'R' %>
-            </div>
-            <div class="d-none d-xl-flex flex-column text-start" style="line-height: 1.2;">
-              <span class="dd-user-name" title="<%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Reviewer Divisi' %>"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Reviewer Divisi' %></span>
-              <span class="small text-muted" style="font-size: 0.7rem;"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Reviewer' %></span>
-            </div>
-            <i class="fas fa-chevron-down dd-user-caret"></i>
-          </div>
-          <div class="dropdown-menu dropdown-menu-end kov-user-dropdown-menu p-2" aria-labelledby="userMenuDropdownBtn">
-            <div class="px-3 py-2 border-bottom mb-1">
-              <div class="fw-bold text-dark small"><%= (typeof user !== 'undefined' && user && user.nama) ? user.nama : 'Reviewer Divisi' %></div>
-              <div class="text-muted" style="font-size: 0.72rem;"><%= (typeof user !== 'undefined' && user && user.username) ? '@' + user.username : '@reviewer' %> &bull; <span class="badge bg-primary bg-opacity-25 text-primary"><%= (typeof user !== 'undefined' && user && user.role) ? user.role : 'Reviewer' %></span></div>
-            </div>
-            <a class="dropdown-item rounded-2 py-1.5 small text-danger" href="/logout"><i class="fas fa-right-from-bracket me-2"></i> Keluar (Logout)</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Storage / Review Quota Progress Widget -->
-      <div class="dd-storage-card">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-          <span class="dd-storage-title">Progress Evaluasi</span>
-          <span class="dd-storage-percent"><%= reviewPercent %>%</span>
-        </div>
-        <div class="dd-storage-track">
-          <div class="dd-storage-fill" style="width: <%= reviewPercent %>%; background: linear-gradient(90deg, #059669, #10b981);"></div>
-        </div>
-        <div class="dd-storage-subtext mt-2 d-flex justify-content-between">
-          <span><%= sudahDireview %> Selesai</span>
-          <span><%= belumDireview %> Menunggu</span>
-        </div>
-      </div>
-
-      <!-- Interactive Calendar Widget (Direct Dribbble Design - Dynamic Selection Calendar) -->
-      <div class="dd-calendar-widget" id="ddCalendarWidget">
-        <div class="dd-calendar-top" onclick="toggleCalCollapse()" style="cursor: pointer;" title="Sembunyikan / Buka Kalender">
-          <h4 class="dd-calendar-title">Kalender Seleksi</h4>
-          <i class="fas fa-chevron-up text-muted" id="calCollapseIcon" style="font-size: 0.8rem; transition: transform 0.2s;"></i>
-        </div>
-        <div id="calBodyWrapper">
-          <div class="dd-period-toggle">
-            <button type="button" class="dd-period-btn" id="calTabWeek" onclick="switchCalPeriod('week', this)">Minggu</button>
-            <button type="button" class="dd-period-btn active" id="calTabMonth" onclick="switchCalPeriod('month', this)">Bulan</button>
-            <button type="button" class="dd-period-btn" id="calTabYear" onclick="switchCalPeriod('year', this)">Tahun</button>
-          </div>
-          <div class="dd-month-nav">
-            <button type="button" class="dd-nav-arrow-btn" id="btnPrevCalMonth" onclick="prevCalPeriod()" title="Bulan Sebelumnya"><i class="fas fa-chevron-left"></i></button>
-            <span class="dd-month-label" id="calMonthDisplay">Oktober 2026</span>
-            <button type="button" class="dd-nav-arrow-btn" id="btnNextCalMonth" onclick="nextCalPeriod()" title="Bulan Selanjutnya"><i class="fas fa-chevron-right"></i></button>
-          </div>
-          <div class="dd-calendar-grid" id="calGrid">
-            <!-- Dynamically populated via renderCalendar() -->
-          </div>
-          <div id="calYearGrid" class="dd-year-grid d-none">
-            <!-- Dynamically populated for Year view -->
-          </div>
-          <div id="calDateFilterNotice" class="d-none mt-2 pt-2 border-top text-center" style="font-size: 0.75rem;">
-            <span class="text-primary fw-bold" id="calFilterText">Filter Tanggal Aktif</span>
-            <a href="javascript:void(0)" onclick="clearCalDateFilter()" class="ms-2 text-danger text-decoration-none fw-semibold"><i class="fas fa-xmark"></i> Hapus Filter</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tindakan Tertunda Widget -->
-      <div class="dd-section-header mt-3">
-        <h4 class="dd-section-title" style="font-size: 1.15rem;">Tindakan Tertunda</h4>
-        <a href="javascript:void(0)" onclick="filterByStatusPill('BELUM')" class="dd-view-all-link" style="padding: 4px 10px; font-size: 0.75rem;">
-          Lihat Semua <i class="fas fa-chevron-right" style="font-size: 0.6rem;"></i>
-        </a>
-      </div>
-      <div class="dd-task-card" onclick="filterByStatusPill('BELUM')" role="button" tabindex="0" title="Klik untuk menyaring pelamar yang belum dievaluasi">
-        <div class="dd-task-accent-bar"></div>
-        <div class="dd-task-card-header">
-          <h5 class="dd-task-title">Review Berkas Kandidat Baru</h5>
-          <button type="button" class="dd-row-btn" aria-label="Menu Task"><i class="fas fa-ellipsis-vertical"></i></button>
-        </div>
-        <div class="dd-task-time">
-          <i class="far fa-clock"></i> 25 Okt, 2026 &bull; <%= belumDireview %> Berkas Menunggu
-        </div>
-        <div class="dd-task-desc">
-          Evaluasi kesesuaian kualifikasi dan isi formulir catatan rekomendasi teknis.
-        </div>
-      </div>
-
-
-      <!-- Memo & Agenda HRD Studio (Interactive Right Sidebar Widget) -->
-      <div class="kov-memo-studio-widget" id="hrMemoStudioWidget">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <div>
-            <h4 class="dd-section-title" style="font-size: 0.78rem; letter-spacing: 0.04em;">MEMO &amp; AGENDA HRD</h4>
-            <div class="text-muted" style="font-size: 10.5px;" id="memoActiveDateLabel">Semua Jadwal &amp; Catatan</div>
-          </div>
-          <button type="button" class="btn-kov-primary btn-sm" style="height: 26px; min-height: 26px; padding: 0 9px; font-size: 11px; border-radius: 6px;" onclick="toggleMemoComposer()" id="btnToggleMemoComposer">
-            <i class="fas fa-plus"></i> Isi Memo
-          </button>
-        </div>
-
-        <!-- Inline Memo & Agenda Form -->
-        <form id="hrMemoForm" class="kov-memo-composer d-none" onsubmit="submitHrMemo(event)" novalidate>
-          <div class="mb-2">
-            <label class="form-label mb-1" style="font-size: 11px; font-weight: 700;">Judul Memo / Agenda HRD <span class="text-danger">*</span></label>
-            <input type="text" id="hrMemoTitleInput" class="form-control form-control-sm" style="font-size: 12px; height: 32px;" placeholder="Cth: Interview Barista / Evaluasi Kontrak...">
-          </div>
-          <div class="row g-1.5 mb-2">
-            <div class="col-7">
-              <label class="form-label mb-1" style="font-size: 10.5px; font-weight: 600;">Tanggal</label>
-              <input type="date" id="hrMemoDateInput" class="form-control form-control-sm font-monospace" style="font-size: 11.5px; height: 30px;" value="2026-10-29">
-            </div>
-            <div class="col-5">
-              <label class="form-label mb-1" style="font-size: 10.5px; font-weight: 600;">Jam</label>
-              <input type="time" id="hrMemoTimeInput" class="form-control form-control-sm font-monospace" style="font-size: 11.5px; height: 30px;" value="10:00">
-            </div>
-          </div>
-          <div class="mb-2">
-            <label class="form-label mb-1" style="font-size: 10.5px; font-weight: 600;">Kategori &amp; Catatan Singkat</label>
-            <div class="d-flex gap-1 mb-1.5">
-              <select id="hrMemoCatInput" class="form-select form-select-sm" style="font-size: 11.5px; height: 30px;">
-                <option value="Interview">Agenda Interview</option>
-                <option value="Memo HRD">Catatan Memo HRD</option>
-                <option value="Onboarding">Onboarding Staf</option>
-                <option value="Deadline">Deadline Penting</option>
-              </select>
-            </div>
-            <textarea id="hrMemoNoteInput" class="form-control form-control-sm" rows="2" style="font-size: 11.5px;" placeholder="Tulis rincian memo, nama kandidat, atau ruangan..."></textarea>
-          </div>
-          <div class="d-flex align-items-center justify-content-between gap-1.5 pt-1">
-            <button type="button" class="btn-kov-outline btn-sm" style="height: 30px; min-height: 30px; font-size: 11px; padding: 0 8px;" onclick="testMemoErrorState()" title="Uji Animasi Error Validasi">
-              <i class="fas fa-bolt text-danger"></i> Uji Error
-            </button>
-            <button type="submit" id="btnSaveHrMemo" class="btn-kov-primary btn-sm flex-grow-1" style="height: 30px; min-height: 30px; font-size: 11.5px;">
-              <i class="fas fa-check"></i> Simpan Memo
-            </button>
-          </div>
-        </form>
-
-        <!-- Dynamic Memo & Agenda List -->
-        <div id="hrMemoListContainer" class="mt-2" style="max-height: 240px; overflow-y: auto;"></div>
-      </div>
-
-    </aside>
-
   </div>
 
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script>
+    const KOV_CSRF_TOKEN = '<%= typeof csrfToken !== "undefined" ? csrfToken : "" %>';
     let currentStatusFilter = 'ALL';
-    let currentDivisiFilter = 'ALL';
-
-    function setStatusFilter(status, btn) {
-      currentStatusFilter = status;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      if (btn) {
-        btn.classList.add('active');
-      } else {
-        const matchingBtn = document.querySelector(`.filter-btn[data-filter="${status}"]`);
-        if (matchingBtn) matchingBtn.classList.add('active');
-      }
-      filterTable();
-    }
-
-    function filterByStatusPill(status) {
-      setStatusFilter(status, null);
-      const grid = document.getElementById('candidatesGridView');
-      if (grid) {
-        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
-
-    function filterByDivisiQuick(divisi) {
-      currentDivisiFilter = divisi.toLowerCase();
-      const divSelect = document.getElementById('divisionFilter');
-      if (divSelect) divSelect.value = divisi;
-
-      // Update active state on 8 folder cards
-      document.querySelectorAll('.dd-folder-card').forEach(card => {
-        if (divisi === 'all' && card.getAttribute('data-divisi') === 'all') {
-          card.classList.add('active');
-        } else if (card.getAttribute('data-divisi') === divisi.toLowerCase()) {
-          card.classList.add('active');
-        } else {
-          card.classList.remove('active');
-        }
-      });
-
-      filterTable();
-    }
-
-    function filterTable() {
-      const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-      const rows = document.querySelectorAll('.candidate-row');
-      const cards = document.querySelectorAll('.candidate-grid-item');
-      let visibleCount = 0;
-
-      function checkMatch(name, posisi, divisi, hasReview, isRecommended, isHold, dateTs) {
-        const matchesSearch = !q || name.includes(q) || posisi.includes(q) || divisi.includes(q);
-        const matchesDiv = currentDivisiFilter === 'all' || currentDivisiFilter === 'ALL' || divisi.includes(currentDivisiFilter);
-
-        let matchesStatus = true;
-        if (currentStatusFilter === 'BELUM') matchesStatus = !hasReview;
-        else if (currentStatusFilter === 'SUDAH') matchesStatus = hasReview;
-        else if (currentStatusFilter === 'LOLOS') matchesStatus = isRecommended;
-        else if (currentStatusFilter === 'HOLD') matchesStatus = isHold;
-
-        let matchesDate = true;
-        if (activeDateFilter) {
-          if (dateTs) {
-            const rd = new Date(dateTs);
-            const rk = formatDateKey(rd);
-            matchesDate = (rk === activeDateFilter);
-          } else {
-            matchesDate = false;
-          }
-        }
-
-        return matchesSearch && matchesDiv && matchesStatus && matchesDate;
-      }
-
-      // Filter Grid Cards
-      cards.forEach(c => {
-        const name = c.getAttribute('data-name') || '';
-        const posisi = c.getAttribute('data-posisi') || '';
-        const divisi = c.getAttribute('data-divisi') || '';
-        const hasReview = c.getAttribute('data-hasreview') === 'true';
-        const isRec = c.getAttribute('data-isrecommended') === 'true';
-        const isHold = c.getAttribute('data-ishold') === 'true';
-        const dateTs = parseInt(c.getAttribute('data-date')) || 0;
-
-        if (checkMatch(name, posisi, divisi, hasReview, isRec, isHold, dateTs)) {
-          c.style.display = '';
-          visibleCount++;
-        } else {
-          c.style.display = 'none';
-        }
-      });
-
-      // Filter Table Rows
-      rows.forEach(r => {
-        const name = r.getAttribute('data-name') || '';
-        const posisi = r.getAttribute('data-posisi') || '';
-        const divisi = r.getAttribute('data-divisi') || '';
-        const hasReview = r.getAttribute('data-hasreview') === 'true';
-        const isRec = r.getAttribute('data-isrecommended') === 'true';
-        const isHold = r.getAttribute('data-ishold') === 'true';
-        const dateTs = parseInt(r.getAttribute('data-date')) || 0;
-
-        if (checkMatch(name, posisi, divisi, hasReview, isRec, isHold, dateTs)) {
-          r.style.display = '';
-        } else {
-          r.style.display = 'none';
-        }
-      });
-
-      const countBadge = document.getElementById('candidateCountBadge');
-      if (countBadge) countBadge.textContent = `${visibleCount} Berkas`;
-    }
-
-    // View Mode Toggle (Grid vs Spreadsheet)
-    function setViewMode(mode) {
-      const gridView = document.getElementById('candidatesGridView');
-      const listView = document.getElementById('candidatesListView');
-      const btnGrid = document.getElementById('btnViewGrid');
-      const btnList = document.getElementById('btnViewList');
-
-      if (mode === 'list') {
-        if (gridView) gridView.classList.add('d-none');
-        if (listView) listView.classList.remove('d-none');
-        if (btnGrid) btnGrid.classList.remove('active');
-        if (btnList) btnList.classList.add('active');
-        localStorage.setItem('reviewer_view_mode', 'list');
-      } else {
-        if (gridView) gridView.classList.remove('d-none');
-        if (listView) listView.classList.add('d-none');
-        if (btnGrid) btnGrid.classList.add('active');
-        if (btnList) btnList.classList.remove('active');
-        localStorage.setItem('reviewer_view_mode', 'grid');
-      }
-    }
-
-    // =========================================================================
-    // DYNAMIC SELECTION CALENDAR SYSTEM (Fully Interactive)
-    // =========================================================================
-    const today = new Date();
+    let currentDivisiFilter = 'all';
     let currentCalYear = 2026;
-    let currentCalMonth = 9; // October (0-indexed)
-    let activeCalPeriod = 'month'; // 'week', 'month', 'year'
-    let activeDateFilter = null; // 'YYYY-MM-DD' or null
-    let currentWeekStart = getMondayOfWeek(new Date(2026, 9, 26));
-
+    let currentCalMonth = 9;
+    let activeDateFilter = null;
     const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-    const shortMonthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
-    function getMondayOfWeek(d) {
-      const date = new Date(d);
-      const day = (date.getDay() + 6) % 7;
-      date.setDate(date.getDate() - day);
-      date.setHours(0, 0, 0, 0);
-      return date;
+    function scheduleReviewerMemo(name) {
+      document.getElementById('bentoWorkspaceGrid')?.classList.remove('calendar-collapsed');
+      const input = document.getElementById('hrMemoTitleInput');
+      if (input) {
+        input.value = 'Uji Praktik — ' + name;
+        input.focus();
+      }
+      if (window.KovToast && typeof window.KovToast.info === 'function') {
+        window.KovToast.info('Klik "+ Simpan ke Kalender" di panel kanan.', 'Jadwalkan ' + name);
+      }
     }
 
     function formatDateKey(d) {
@@ -853,324 +391,143 @@
     }
 
     function formatDisplayDate(dateKey) {
-      if (!dateKey) return '';
+      if (!dateKey) return '24/10/2026';
       const parts = dateKey.split('-');
       if (parts.length !== 3) return dateKey;
-      const day = parseInt(parts[2], 10);
-      const mIdx = parseInt(parts[1], 10) - 1;
-      const year = parts[0];
-      return `${day} ${monthNames[mIdx] || ''} ${year}`;
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
     }
 
-    function getCandidateDateMap() {
-      const counts = {};
-      const rows = document.querySelectorAll('.candidate-row[data-date]');
-      rows.forEach(r => {
-        const ts = parseInt(r.getAttribute('data-date')) || 0;
-        if (ts) {
-          const d = new Date(ts);
-          const k = formatDateKey(d);
-          counts[k] = (counts[k] || 0) + 1;
+    function setStatusFilter(status, btn) {
+      currentStatusFilter = status;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      filterTable();
+    }
+
+    function filterByStatusPill(status) {
+      const btn = document.querySelector(`.filter-btn[data-filter="${status}"]`);
+      setStatusFilter(status, btn);
+    }
+
+    function filterByDivisiQuick(div) {
+      currentDivisiFilter = (div || 'all').toLowerCase();
+      filterTable();
+    }
+
+    function filterTable() {
+      const q = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+      const rows = document.querySelectorAll('#candidateTableBody tr.candidate-row');
+      let count = 0;
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        const div = (row.getAttribute('data-divisi') || '').toLowerCase();
+        const hasRev = row.getAttribute('data-hasreview') === 'true';
+        const isRec = row.getAttribute('data-isrecommended') === 'true';
+        const isHold = row.getAttribute('data-ishold') === 'true';
+
+        let matchStatus = true;
+        if (currentStatusFilter === 'BELUM') matchStatus = !hasRev;
+        else if (currentStatusFilter === 'SUDAH') matchStatus = hasRev;
+        else if (currentStatusFilter === 'LOLOS') matchStatus = isRec;
+        else if (currentStatusFilter === 'HOLD') matchStatus = isHold;
+
+        let matchDiv = currentDivisiFilter === 'all' || div.includes(currentDivisiFilter);
+        let matchSearch = !q || text.includes(q);
+        let matchDate = true;
+        if (activeDateFilter) {
+          const ts = parseInt(row.getAttribute('data-date')) || 0;
+          matchDate = ts ? (formatDateKey(new Date(ts)) === activeDateFilter) : false;
+        }
+
+        if (matchStatus && matchDiv && matchSearch && matchDate) {
+          row.style.display = '';
+          count++;
+        } else {
+          row.style.display = 'none';
         }
       });
-      return counts;
+
+      const badge = document.getElementById('candidateCountBadge');
+      if (badge) badge.textContent = count + ' Data';
     }
 
     function renderCalendar() {
       const calGrid = document.getElementById('calGrid');
-      const calYearGrid = document.getElementById('calYearGrid');
       const headerEl = document.getElementById('calMonthDisplay');
       if (!calGrid) return;
-
-      const candidateMap = getCandidateDateMap();
-      const todayKey = formatDateKey(today);
-
-      if (activeCalPeriod === 'year') {
-        if (headerEl) headerEl.textContent = String(currentCalYear);
-        calGrid.classList.add('d-none');
-        if (calYearGrid) {
-          calYearGrid.classList.remove('d-none');
-          let yHtml = '';
-          for (let m = 0; m < 12; m++) {
-            const isSelectedMonth = (m === currentCalMonth);
-            let mCount = 0;
-            const prefix = `${currentCalYear}-${String(m + 1).padStart(2, '0')}`;
-            for (const k in candidateMap) {
-              if (k.startsWith(prefix)) mCount += candidateMap[k];
-            }
-            yHtml += `
-              <button type="button" class="dd-year-month-btn ${isSelectedMonth ? 'active' : ''}" onclick="selectCalMonth(${m})">
-                <div class="fw-bold">${shortMonthNames[m]}</div>
-                <div style="font-size: 0.65rem; opacity: 0.8;">${mCount > 0 ? mCount + ' berkas' : '-'}</div>
-              </button>
-            `;
-          }
-          calYearGrid.innerHTML = yHtml;
-        }
-        return;
-      }
-
-      if (calYearGrid) calYearGrid.classList.add('d-none');
-      calGrid.classList.remove('d-none');
-
-      if (activeCalPeriod === 'week') {
-        const weekEnd = new Date(currentWeekStart);
-        weekEnd.setDate(weekEnd.getDate() + 6);
-        if (headerEl) {
-          headerEl.textContent = `${currentWeekStart.getDate()} ${shortMonthNames[currentWeekStart.getMonth()]} - ${weekEnd.getDate()} ${shortMonthNames[weekEnd.getMonth()]} ${weekEnd.getFullYear()}`;
-        }
-
-        let html = `
-          <div class="dd-cal-weekday">Sen</div>
-          <div class="dd-cal-weekday">Sel</div>
-          <div class="dd-cal-weekday">Rab</div>
-          <div class="dd-cal-weekday">Kam</div>
-          <div class="dd-cal-weekday">Jum</div>
-          <div class="dd-cal-weekday">Sab</div>
-          <div class="dd-cal-weekday">Min</div>
-        `;
-
-        for (let i = 0; i < 7; i++) {
-          const d = new Date(currentWeekStart);
-          d.setDate(d.getDate() + i);
-          const k = formatDateKey(d);
-          const isToday = (k === todayKey);
-          const isActive = (k === activeDateFilter);
-          const count = candidateMap[k] || 0;
-
-          let classes = ['dd-cal-day'];
-          if (isToday) classes.push('today');
-          if (isActive) classes.push('active');
-          if (count > 0) classes.push('has-event');
-
-          let dot = (count > 0) ? `<span class="dd-event-dot ${isActive ? 'dot-white' : 'dd-event-royal'}"></span>` : '';
-          html += `<div class="${classes.join(' ')}" onclick="selectCalDate('${k}')" title="${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}${count > 0 ? ' (' + count + ' berkas pelamar)' : ''}">${d.getDate()}${dot}</div>`;
-        }
-        calGrid.innerHTML = html;
-        return;
-      }
-
-      // Default: Month View
-      if (headerEl) {
-        headerEl.textContent = `${monthNames[currentCalMonth]} ${currentCalYear}`;
-      }
+      if (headerEl) headerEl.textContent = `${monthNames[currentCalMonth]} ${currentCalYear}`;
 
       let html = `
-        <div class="dd-cal-weekday">Sen</div>
-        <div class="dd-cal-weekday">Sel</div>
-        <div class="dd-cal-weekday">Rab</div>
-        <div class="dd-cal-weekday">Kam</div>
-        <div class="dd-cal-weekday">Jum</div>
-        <div class="dd-cal-weekday">Sab</div>
-        <div class="dd-cal-weekday">Min</div>
+        <div class="dd-cal-weekday">Sn</div><div class="dd-cal-weekday">Sl</div><div class="dd-cal-weekday">Rb</div>
+        <div class="dd-cal-weekday">Km</div><div class="dd-cal-weekday">Jm</div><div class="dd-cal-weekday">Sb</div><div class="dd-cal-weekday">Mg</div>
       `;
 
       const firstDayIdx = (new Date(currentCalYear, currentCalMonth, 1).getDay() + 6) % 7;
       const daysInMonth = new Date(currentCalYear, currentCalMonth + 1, 0).getDate();
-      const daysInPrevMonth = new Date(currentCalYear, currentCalMonth, 0).getDate();
 
-      // Trailing previous month days
-      for (let i = firstDayIdx - 1; i >= 0; i--) {
-        const dayNum = daysInPrevMonth - i;
-        const prevDate = new Date(currentCalYear, currentCalMonth - 1, dayNum);
-        const k = formatDateKey(prevDate);
-        const count = candidateMap[k] || 0;
-        let dot = (count > 0) ? `<span class="dd-event-dot dd-event-royal"></span>` : '';
-        html += `<div class="dd-cal-day muted" onclick="navToDate('${k}')" title="${dayNum} ${monthNames[prevDate.getMonth()]} ${prevDate.getFullYear()}">${dayNum}${dot}</div>`;
+      for (let i = 0; i < firstDayIdx; i++) {
+        html += `<div class="dd-cal-day cal-day-btn muted"></div>`;
       }
-
-      // Current month days
       for (let day = 1; day <= daysInMonth; day++) {
         const curDate = new Date(currentCalYear, currentCalMonth, day);
         const k = formatDateKey(curDate);
-        const isToday = (k === todayKey);
         const isActive = (k === activeDateFilter);
-        const count = candidateMap[k] || 0;
-
-        let classes = ['dd-cal-day'];
-        if (isToday) classes.push('today');
-        if (isActive) classes.push('active');
-        if (count > 0) classes.push('has-event');
-
-        let dot = (count > 0) ? `<span class="dd-event-dot ${isActive ? 'dot-white' : 'dd-event-royal'}"></span>` : '';
-        html += `<div class="${classes.join(' ')}" onclick="selectCalDate('${k}')" title="${day} ${monthNames[currentCalMonth]} ${currentCalYear}${count > 0 ? ' (' + count + ' berkas pelamar)' : ''}">${day}${dot}</div>`;
+        const hasMemo = (hrMemosState || []).some(m => m.tanggal === k);
+        let dot = hasMemo ? `<span class="cal-dot" style="background: ${isActive ? '#ffffff' : '#497a61'};"></span>` : '';
+        html += `<div class="dd-cal-day cal-day-btn ${isActive ? 'active' : ''}" onclick="selectCalDate('${k}')"><span>${day}</span>${dot}</div>`;
       }
-
-      // Leading next month days
-      const totalCells = firstDayIdx + daysInMonth;
-      const remaining = (7 - (totalCells % 7)) % 7;
-      for (let nextDay = 1; nextDay <= remaining; nextDay++) {
-        const nextDate = new Date(currentCalYear, currentCalMonth + 1, nextDay);
-        const k = formatDateKey(nextDate);
-        const count = candidateMap[k] || 0;
-        let dot = (count > 0) ? `<span class="dd-event-dot dd-event-royal"></span>` : '';
-        html += `<div class="dd-cal-day muted" onclick="navToDate('${k}')" title="${nextDay} ${monthNames[nextDate.getMonth()]} ${nextDate.getFullYear()}">${nextDay}${dot}</div>`;
-      }
-
       calGrid.innerHTML = html;
     }
 
     function selectCalDate(dateKey) {
-      if (activeDateFilter === dateKey) {
-        activeDateFilter = null;
+      activeDateFilter = (activeDateFilter === dateKey) ? null : dateKey;
+      const chipWrap = document.getElementById('activeDateBadgeWrap');
+      const chipText = document.getElementById('activeDateBadgeText');
+      const dateLabel = document.getElementById('memoActiveDateLabel');
+      const dateInput = document.getElementById('hrMemoDateInput');
+
+      if (activeDateFilter) {
+        const disp = formatDisplayDate(activeDateFilter);
+        if (chipWrap && chipText) { chipText.textContent = disp; chipWrap.classList.remove('d-none'); }
+        if (dateLabel) dateLabel.textContent = disp;
+        if (dateInput) dateInput.value = activeDateFilter;
       } else {
-        activeDateFilter = dateKey;
-        const parts = dateKey.split('-');
-        if (parts.length === 3) {
-          currentCalYear = parseInt(parts[0], 10);
-          currentCalMonth = parseInt(parts[1], 10) - 1;
-        }
+        if (chipWrap) chipWrap.classList.add('d-none');
+        if (dateLabel) dateLabel.textContent = '24/10/2026';
       }
-      updateDateFilterUI();
       renderCalendar();
+      renderHrMemoList();
       filterTable();
-    }
-
-    function navToDate(dateKey) {
-      const parts = dateKey.split('-');
-      if (parts.length === 3) {
-        currentCalYear = parseInt(parts[0], 10);
-        currentCalMonth = parseInt(parts[1], 10) - 1;
-      }
-      selectCalDate(dateKey);
-    }
-
-    function selectCalMonth(m) {
-      currentCalMonth = m;
-      switchCalPeriod('month');
     }
 
     function clearCalDateFilter() {
       activeDateFilter = null;
-      updateDateFilterUI();
+      document.getElementById('activeDateBadgeWrap')?.classList.add('d-none');
       renderCalendar();
+      renderHrMemoList();
       filterTable();
     }
 
-    function updateDateFilterUI() {
-      const chipWrap = document.getElementById('activeDateBadgeWrap');
-      const chipText = document.getElementById('activeDateBadgeText');
-      const noticeWrap = document.getElementById('calDateFilterNotice');
-      const noticeText = document.getElementById('calFilterText');
-
-      if (activeDateFilter) {
-        const label = formatDisplayDate(activeDateFilter);
-        if (chipWrap && chipText) {
-          chipText.textContent = `Tanggal: ${label}`;
-          chipWrap.classList.remove('d-none');
-          chipWrap.classList.add('d-flex');
-        }
-        if (noticeWrap && noticeText) {
-          noticeText.textContent = `Filter: ${label}`;
-          noticeWrap.classList.remove('d-none');
-        }
-      } else {
-        if (chipWrap) {
-          chipWrap.classList.add('d-none');
-          chipWrap.classList.remove('d-flex');
-        }
-        if (noticeWrap) {
-          noticeWrap.classList.add('d-none');
-        }
-      }
-    }
-
-    function switchCalPeriod(period, btn) {
-      activeCalPeriod = period;
-      document.querySelectorAll('.dd-period-btn').forEach(b => b.classList.remove('active'));
-      const targetBtn = btn || document.getElementById(`calTab${period.charAt(0).toUpperCase() + period.slice(1)}`);
-      if (targetBtn) targetBtn.classList.add('active');
-      renderCalendar();
-    }
-
-    function prevCalMonth() {
-      prevCalPeriod();
-    }
-
-    function nextCalMonth() {
-      nextCalPeriod();
-    }
-
     function prevCalPeriod() {
-      if (activeCalPeriod === 'month') {
-        currentCalMonth--;
-        if (currentCalMonth < 0) { currentCalMonth = 11; currentCalYear--; }
-      } else if (activeCalPeriod === 'week') {
-        currentWeekStart.setDate(currentWeekStart.getDate() - 7);
-      } else if (activeCalPeriod === 'year') {
-        currentCalYear--;
-      }
+      currentCalMonth = (currentCalMonth + 11) % 12;
       renderCalendar();
     }
-
     function nextCalPeriod() {
-      if (activeCalPeriod === 'month') {
-        currentCalMonth++;
-        if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; }
-      } else if (activeCalPeriod === 'week') {
-        currentWeekStart.setDate(currentWeekStart.getDate() + 7);
-      } else if (activeCalPeriod === 'year') {
-        currentCalYear++;
-      }
+      currentCalMonth = (currentCalMonth + 1) % 12;
       renderCalendar();
     }
 
-    function toggleCalCollapse() {
-      const body = document.getElementById('calBodyWrapper');
-      const icon = document.getElementById('calCollapseIcon');
-      if (body) {
-        const isHidden = body.classList.contains('d-none');
-        if (isHidden) {
-          body.classList.remove('d-none');
-          if (icon) icon.style.transform = 'rotate(0deg)';
-        } else {
-          body.classList.add('d-none');
-          if (icon) icon.style.transform = 'rotate(180deg)';
-        }
-      }
-    }
-
-    window.setStatusFilter = setStatusFilter;
-    window.filterByStatusPill = filterByStatusPill;
-    window.filterByDivisiQuick = filterByDivisiQuick;
-    window.filterTable = filterTable;
-    window.setViewMode = setViewMode;
-    window.prevCalMonth = prevCalMonth;
-    window.nextCalMonth = nextCalMonth;
-    window.prevCalPeriod = prevCalPeriod;
-    window.nextCalPeriod = nextCalPeriod;
-    window.switchCalPeriod = switchCalPeriod;
-    window.selectCalDate = selectCalDate;
-    window.selectCalMonth = selectCalMonth;
-    window.clearCalDateFilter = clearCalDateFilter;
-    window.toggleCalCollapse = toggleCalCollapse;
-    window.renderCalendar = renderCalendar;
-
-
-    // =========================================================================
-    // HRD CALENDAR MEMO & AGENDA STUDIO (Right Sidebar Interactive Controller)
-    // =========================================================================
-    const DEFAULT_HR_MEMOS = [
-      { id: 901, tanggal: '2026-10-24', waktu: '10:00', kategori: 'Interview', judul: 'Interview User Head Barista — Budi Santoso', catatan: 'Tes kalibrasi mesin espresso bersama SPV Bar.', selesai: 0 },
-      { id: 902, tanggal: '2026-10-24', waktu: '14:00', kategori: 'Memo HRD', judul: 'Cek Referensi Kerja Siti Rahma', catatan: 'Konfirmasi riwayat kerja & disiplin shift.', selesai: 0 },
-      { id: 903, tanggal: '2026-10-29', waktu: '09:30', kategori: 'Onboarding', judul: 'Briefing Kontrak & Seragam Karyawan Baru', catatan: 'Outlet KOV Koffie Sula & Heritage Kota Lama.', selesai: 0 }
+    let hrMemosState = [
+      { id: 901, tanggal: '2026-10-24', waktu: '15:30', kategori: 'Uji Praktik', judul: 'Kalibrasi Espresso & Latte Art Budi', selesai: 0 }
     ];
-
-    let hrMemosState = [];
 
     function loadHrMemos() {
       try {
         const raw = localStorage.getItem('kov_hr_memos_v11');
-        if (raw) {
-          hrMemosState = JSON.parse(raw);
-        } else {
-          hrMemosState = DEFAULT_HR_MEMOS.slice();
-          localStorage.setItem('kov_hr_memos_v11', JSON.stringify(hrMemosState));
-        }
-      } catch (e) {
-        hrMemosState = DEFAULT_HR_MEMOS.slice();
-      }
-      // Also fetch from server API if available
+        if (raw) hrMemosState = JSON.parse(raw);
+      } catch (e) {}
+      renderHrMemoList();
       if (typeof fetch === 'function') {
         fetch('/api/hr/memos', { headers: { 'Accept': 'application/json' } })
           .then(r => r.ok ? r.json() : null)
@@ -1178,84 +535,32 @@
             if (data && data.ok && Array.isArray(data.memos) && data.memos.length > 0) {
               hrMemosState = data.memos;
               renderHrMemoList();
+              renderCalendar();
             }
-          })
-          .catch(() => {});
+          }).catch(() => {});
       }
-      renderHrMemoList();
     }
 
-    function saveHrMemosLocal() {
-      try {
-        localStorage.setItem('kov_hr_memos_v11', JSON.stringify(hrMemosState));
-      } catch (e) {}
-    }
-
-    function toggleMemoComposer() {
-      const form = document.getElementById('hrMemoForm');
-      if (!form) return;
-      form.classList.toggle('d-none');
-      const input = document.getElementById('hrMemoTitleInput');
-      if (!form.classList.contains('d-none') && input) input.focus();
-    }
-
-    function renderHrMemoList(newlyAddedId = null) {
+    function renderHrMemoList() {
       const container = document.getElementById('hrMemoListContainer');
-      const dateLabel = document.getElementById('memoActiveDateLabel');
-      const dateInput = document.getElementById('hrMemoDateInput');
       if (!container) return;
-
-      if (activeDateFilter) {
-        if (dateLabel) dateLabel.textContent = 'Agenda Tanggal: ' + formatDisplayDate(activeDateFilter);
-        if (dateInput) dateInput.value = activeDateFilter;
-      } else {
-        if (dateLabel) dateLabel.textContent = 'Semua Jadwal & Catatan (' + hrMemosState.length + ')';
-      }
-
-      const filtered = activeDateFilter
-        ? hrMemosState.filter(m => m.tanggal === activeDateFilter)
-        : hrMemosState;
-
-      if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="text-center py-3 px-2 rounded-3 border border-dashed mt-2" style="font-size: 11.5px; color: #64748b;">
-            Belum ada memo atau agenda pada tanggal ini. Isi form di atas untuk menambahkan.
-          </div>
-        `;
+      const filtered = activeDateFilter ? hrMemosState.filter(m => m.tanggal === activeDateFilter) : hrMemosState;
+      if (!filtered.length) {
+        container.innerHTML = `<div class="text-center py-2" style="font-size: 11px; color: var(--ink-muted);">Tidak ada agenda di tanggal ini.</div>`;
         return;
       }
-
-      const catColorMap = {
-        'Interview': { border: '#059669', badgeBg: '#d1fae5', badgeText: '#065f46' },
-        'Memo HRD': { border: '#d97706', badgeBg: '#fef3c7', badgeText: '#854d0e' },
-        'Onboarding': { border: '#2563eb', badgeBg: '#dbeafe', badgeText: '#1e40af' },
-        'Deadline': { border: '#dc2626', badgeBg: '#fee2e2', badgeText: '#991b1b' }
-      };
-
-      container.innerHTML = filtered.map(m => {
-        const c = catColorMap[m.kategori] || catColorMap['Interview'];
-        const isNew = newlyAddedId && m.id === newlyAddedId;
-        return `
-          <div class="kov-memo-item ${m.selesai ? 'is-done' : ''} ${isNew ? 'kov-memo-arrive' : ''}" style="border-left-color: ${c.border};">
-            <div class="d-flex align-items-start justify-content-between gap-1">
-              <div class="d-flex align-items-start gap-2 min-w-0">
-                <input type="checkbox" class="form-check-input mt-0.5 flex-shrink-0" style="cursor: pointer;" ${m.selesai ? 'checked' : ''} onchange="toggleHrMemoDone(${m.id})" title="Tandai Selesai">
-                <div class="min-w-0">
-                  <div class="kov-memo-item-title fw-bold text-dark" style="font-size: 11.5px; line-height: 1.3;">${m.judul}</div>
-                  ${m.catatan ? `<div class="text-muted mt-0.5" style="font-size: 10.5px; line-height: 1.35;">${m.catatan}</div>` : ''}
-                  <div class="d-flex align-items-center gap-1.5 mt-1 flex-wrap">
-                    <span class="badge" style="background: ${c.badgeBg}; color: ${c.badgeText}; font-size: 9.5px; font-weight: 700; padding: 2px 6px;">${m.kategori}</span>
-                    <span class="font-monospace text-muted" style="font-size: 10px;"><i class="far fa-clock me-0.5"></i>${m.tanggal} ${m.waktu || ''}</span>
-                  </div>
-                </div>
-              </div>
-              <button type="button" class="btn btn-sm p-0 text-muted hover-danger border-0 bg-transparent" style="font-size: 11px;" onclick="deleteHrMemo(${m.id})" title="Hapus Memo">
-                <i class="fas fa-xmark"></i>
-              </button>
+      container.innerHTML = filtered.map(m => `
+        <div class="p-2.5 rounded-3 d-flex align-items-start justify-content-between gap-2 ${m.selesai ? 'opacity-50' : ''}" style="background: var(--bg-paper); border: 1px solid var(--border-organic); padding: 9px 11px;">
+          <label class="d-flex align-items-start gap-2 flex-grow-1 min-w-0 m-0" style="cursor: pointer;">
+            <input type="checkbox" class="mt-1 flex-shrink-0" style="accent-color: #497a61; cursor: pointer;" ${m.selesai ? 'checked' : ''} onchange="toggleHrMemoDone(${m.id})">
+            <div class="min-w-0 flex-grow-1">
+              <div class="fw-bold ${m.selesai ? 'text-decoration-line-through' : ''}" style="font-size: 11.5px; color: var(--ink-deep); line-height: 1.3;">${m.judul}</div>
+              <div class="font-mono-num mt-0.5" style="font-size: 10px; color: var(--ink-muted);">${formatDisplayDate(m.tanggal)} &bull; ${m.waktu || '14:00'} &bull; ${m.kategori}</div>
             </div>
-          </div>
-        `;
-      }).join('');
+          </label>
+          <button type="button" class="border-0 bg-transparent p-0 px-1" style="color: var(--ink-muted); font-size: 12px;" onclick="deleteHrMemo(${m.id})">&times;</button>
+        </div>
+      `).join('');
     }
 
     function submitHrMemo(e) {
@@ -1264,56 +569,35 @@
       const dateInput = document.getElementById('hrMemoDateInput');
       const timeInput = document.getElementById('hrMemoTimeInput');
       const catInput = document.getElementById('hrMemoCatInput');
-      const noteInput = document.getElementById('hrMemoNoteInput');
-      const saveBtn = document.getElementById('btnSaveHrMemo');
-
       const judul = titleInput ? titleInput.value.trim() : '';
       if (!judul) {
         if (window.KovToast && typeof window.KovToast.triggerError === 'function') {
-          window.KovToast.triggerError(titleInput, 'Judul memo atau agenda HRD tidak boleh kosong!', 'Gagal Menyimpan Memo');
+          window.KovToast.triggerError(titleInput, 'Isi memo wajib ditulis dulu!', 'Belum Lengkap');
         }
         return;
       }
-
-      if (window.KovToast && typeof window.KovToast.setLoading === 'function') {
-        window.KovToast.setLoading(saveBtn, 'Menyimpan...');
-      }
-
-      const newMemo = {
-        id: Date.now(),
-        tanggal: (dateInput && dateInput.value) ? dateInput.value : '2026-10-29',
-        waktu: (timeInput && timeInput.value) ? timeInput.value : '10:00',
-        kategori: (catInput && catInput.value) ? catInput.value : 'Interview',
-        judul: judul,
-        catatan: (noteInput && noteInput.value) ? noteInput.value.trim() : '',
-        selesai: 0
+      const payload = {
+        tanggal: (dateInput && dateInput.value) ? dateInput.value : '2026-10-24',
+        waktu: (timeInput && timeInput.value) ? timeInput.value : '14:00',
+        kategori: (catInput && catInput.value) ? catInput.value : 'Uji Praktik',
+        judul,
+        catatan: '',
+        _csrf: KOV_CSRF_TOKEN
       };
-
-      setTimeout(() => {
-        hrMemosState.unshift(newMemo);
-        saveHrMemosLocal();
-        if (titleInput) titleInput.value = '';
-        if (noteInput) noteInput.value = '';
-        if (window.KovToast && typeof window.KovToast.resetLoading === 'function') {
-          window.KovToast.resetLoading(saveBtn);
-        }
-        renderHrMemoList(newMemo.id);
-        if (typeof renderCalendar === 'function') renderCalendar();
-        if (window.KovToast && typeof window.KovToast.approvalFeedback === 'function') {
-          window.KovToast.approvalFeedback({
-            title: 'Memo & Agenda HRD Tersimpan',
-            message: `[${newMemo.kategori}] "${newMemo.judul}" dijadwalkan pada ${newMemo.tanggal} pukul ${newMemo.waktu}.`,
-            duration: 1650
-          });
-        }
-      }, 420);
-    }
-
-    function testMemoErrorState() {
-      const titleInput = document.getElementById('hrMemoTitleInput');
+      hrMemosState.unshift({ id: Date.now(), ...payload, selesai: 0 });
+      try { localStorage.setItem('kov_hr_memos_v11', JSON.stringify(hrMemosState)); } catch (err) {}
       if (titleInput) titleInput.value = '';
-      if (window.KovToast && typeof window.KovToast.triggerError === 'function') {
-        window.KovToast.triggerError(titleInput, 'Kolom Judul Memo & Agenda wajib diisi sebelum menyimpan!', 'Contoh Validasi Error');
+      renderHrMemoList();
+      renderCalendar();
+      if (typeof fetch === 'function') {
+        fetch('/api/hr/memos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-csrf-token': KOV_CSRF_TOKEN },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      }
+      if (window.KovToast && typeof window.KovToast.success === 'function') {
+        window.KovToast.success(`Agenda "${judul}" disimpan ke kalender.`, 'Memo Tersimpan');
       }
     }
 
@@ -1321,72 +605,36 @@
       const item = hrMemosState.find(m => m.id === id);
       if (!item) return;
       item.selesai = item.selesai ? 0 : 1;
-      saveHrMemosLocal();
+      try { localStorage.setItem('kov_hr_memos_v11', JSON.stringify(hrMemosState)); } catch (err) {}
       renderHrMemoList();
-      if (window.KovToast) {
-        window.KovToast.success(
-          item.selesai ? `Agenda "${item.judul}" ditandai selesai.` : `Agenda "${item.judul}" dibuka kembali.`,
-          item.selesai ? 'Agenda Selesai' : 'Status Diperbarui'
-        );
+      if (typeof fetch === 'function') {
+        fetch('/api/hr/memos/' + id + '/toggle', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json', 'x-csrf-token': KOV_CSRF_TOKEN },
+          body: JSON.stringify({ _csrf: KOV_CSRF_TOKEN })
+        }).catch(() => {});
       }
     }
 
     function deleteHrMemo(id) {
       hrMemosState = hrMemosState.filter(m => m.id !== id);
-      saveHrMemosLocal();
+      try { localStorage.setItem('kov_hr_memos_v11', JSON.stringify(hrMemosState)); } catch (err) {}
       renderHrMemoList();
-      if (window.KovToast) {
-        window.KovToast.info('Catatan memo telah dihapus dari kalender HRD.', 'Memo Dihapus');
+      renderCalendar();
+      if (typeof fetch === 'function') {
+        fetch('/api/hr/memos/' + id, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json', 'x-csrf-token': KOV_CSRF_TOKEN },
+          body: JSON.stringify({ _csrf: KOV_CSRF_TOKEN })
+        }).catch(() => {});
       }
     }
-
-    
-    function onCalendarDateClickForMemo(dateKey) {
-      const form = document.getElementById('hrMemoForm');
-      const dateInput = document.getElementById('hrMemoDateInput');
-      const titleInput = document.getElementById('hrMemoTitleInput');
-      if (dateKey) {
-        if (form && form.classList.contains('d-none')) {
-          form.classList.remove('d-none');
-        }
-        if (dateInput) dateInput.value = dateKey;
-        if (titleInput) setTimeout(() => titleInput.focus(), 80);
-        const dayMemos = (hrMemosState || []).filter(m => m.tanggal === dateKey);
-        if (window.KovToast) {
-          if (dayMemos.length > 0) {
-            window.KovToast.info(
-              `Ada ${dayMemos.length} agenda pada ${formatDisplayDate(dateKey)}: "${dayMemos[0].judul}". Silakan isi form di bawah kalender untuk menambah memo baru.`,
-              `Pengingat Kalender (${formatDisplayDate(dateKey)})`
-            );
-          } else {
-            window.KovToast.info(
-              `Tanggal ${formatDisplayDate(dateKey)} dipilih. Ketik memo atau agenda HRD pada kotak di bawah kalender.`,
-              `Isi Memo — ${formatDisplayDate(dateKey)}`
-            );
-          }
-        }
-      }
-    }
-    window.onCalendarDateClickForMemo = onCalendarDateClickForMemo;
-
-    window.toggleMemoComposer = toggleMemoComposer;
-    window.submitHrMemo = submitHrMemo;
-    window.testMemoErrorState = testMemoErrorState;
-    window.toggleHrMemoDone = toggleHrMemoDone;
-    window.deleteHrMemo = deleteHrMemo;
 
     document.addEventListener('DOMContentLoaded', () => {
       loadHrMemos();
       renderCalendar();
-      const savedMode = localStorage.getItem('reviewer_view_mode');
-      if (savedMode === 'list') {
-        setViewMode('list');
-      } else {
-        setViewMode('grid');
-      }
     });
   </script>
-  <!-- Inactivity Auto-Logout (2 Jam) -->
   <script src="/idle-timer.js"></script>
 </body>
 </html>

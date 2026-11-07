@@ -297,3 +297,49 @@
   });
 
 })(window);
+
+// =========================================================================
+// EMBEDDED VISUAL ERROR CODE & MULTI-STEP LOADER ENGINE (v3.2)
+// =========================================================================
+(function() {
+  window.KovErrorCodes = {
+    "ERR-400-VAL": { code: "ERR-400-VAL", title: "Kolom Wajib Belum Lengkap", desc: "Terdapat kolom bertanda bintang (*) yang masih kosong." },
+    "ERR-422-NIK": { code: "ERR-422-NIK", title: "Format NIK / KK 16 Digit Tidak Valid", desc: "Panjang digit NIK/KK harus 16 digit numerik." },
+    "ERR-409-DUP": { code: "ERR-409-DUP", title: "Deteksi Berkas Pelamar Ganda", desc: "NIK atau Nomor WhatsApp pernah terdaftar sebelumnya." },
+    "ERR-403-RBAC": { code: "ERR-403-RBAC", title: "Proteksi Hak Akses Peran (RBAC)", desc: "Tindakan dibatasi untuk peran pengguna aktif saat ini." },
+    "ERR-503-PDF": { code: "ERR-503-PDF", title: "Engine Cetak A4 Browser Aktif", desc: "Mengalihkan otomatis ke dialog cetak A4 presisi." }
+  };
+
+  window.raiseKovVisualError = function(code, customMsg, targetEl) {
+    const meta = window.KovErrorCodes[code] || window.KovErrorCodes["ERR-400-VAL"];
+    if (targetEl) {
+      targetEl.classList.add("kov-input-error", "kov-shake");
+      try { targetEl.focus(); } catch(e) {}
+      setTimeout(() => targetEl.classList.remove("kov-shake"), 500);
+    }
+    if (window.KovToast && typeof window.KovToast.error === "function") {
+      window.KovToast.error("[" + meta.code + "] " + (customMsg || meta.desc), meta.title);
+    }
+  };
+
+  document.addEventListener("DOMContentLoaded", function() {
+    // Embed telemetry chip into topbar if present
+    const topActions = document.querySelector(".dd-topbar-actions, .kov-topbar-right");
+    if (topActions && !document.getElementById("kovSysTelemetryChip")) {
+      const chip = document.createElement("span");
+      chip.id = "kovSysTelemetryChip";
+      chip.className = "d-none d-md-inline-flex align-items-center gap-1 px-2.5 py-1 rounded border font-monospace";
+      chip.style.cssText = "background:#dfece3;color:#2e5943;border-color:#bdd6c5;font-size:10.5px;font-weight:700;";
+      chip.innerHTML = "<span style=\"width:6px;height:6px;border-radius:99px;background:#3f6f56;display:inline-block;\"></span> Sistem Normal";
+      topActions.prepend(chip);
+    }
+
+    // Intercept invalid required inputs with visual error code ERR-400-VAL
+    document.addEventListener("invalid", function(e) {
+      const el = e.target;
+      if (el && el.tagName) {
+        window.raiseKovVisualError("ERR-400-VAL", "Kolom \"" + (el.name || el.id || "Wajib") + "\" harus dilengkapi.", el);
+      }
+    }, true);
+  });
+})();

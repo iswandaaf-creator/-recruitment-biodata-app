@@ -3,226 +3,383 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Masuk — KOV Management Portal</title>
+  <title>Login — KOV Management Portal</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
-  <!-- Typography: Plus Jakarta Sans & JetBrains Mono -->
+  <!-- Typography: Plus Jakarta Sans & IBM Plex Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
   
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261102_cila_overhaul" rel="stylesheet">
-
-  <script src="/assets/js/kov-toast.js"></script>
-  <script src="/assets/js/kov-theme.js"></script>
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
 
   <style>
+    :root {
+      --kov-emerald: #059669;
+      --kov-emerald-dark: #047857;
+      --kov-emerald-light: #ecfdf5;
+    }
+    * {
+      box-sizing: border-box;
+    }
     body {
-      background-color: var(--kov-canvas, #f8fafc);
-      color: var(--kov-text-primary, #0f172a);
-      font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f4f8f6;
+      background-image: radial-gradient(#cde3d9 1px, transparent 1px);
+      background-size: 24px 24px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px 16px;
+      padding: 2rem 1.25rem;
       margin: 0;
+      color: #384d42;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.28s ease, color 0.22s ease;
     }
 
-    .kov-login-corner {
+    [data-theme="dark"] body {
+      background-color: #f5f3ed;
+      background-image: radial-gradient(#162923 1px, transparent 1px);
+      color: #f8fafc;
+    }
+
+    .login-theme-Corner {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 50;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 20;
     }
 
-    .kov-login-wrapper {
+    .login-container {
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
+      animation: kovLoginFadeUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .kov-login-card {
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #e2e8f0);
-      border-radius: var(--kov-radius-card, 18px);
-      padding: 36px 32px;
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+    @keyframes kovLoginFadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .kov-login-brand {
-      width: 52px;
-      height: 52px;
-      margin: 0 auto 16px;
-      border-radius: 12px;
-      border: 1px solid var(--kov-border, #e2e8f0);
-      padding: 3px;
+    .login-card {
       background: #ffffff;
+      border: 1px solid #dcece5;
+      border-radius: 18px;
+      padding: 2.35rem 2.1rem;
+      box-shadow: 0 4px 20px -4px rgba(6, 78, 59, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #064e3b 0%, #059669 50%, #10b981 100%);
+    }
+
+    [data-theme="dark"] .login-card {
+      background: #fcfbf9;
+      border-color: #1f362e;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .login-brand-header {
+      text-align: center;
+      margin-bottom: 1.85rem;
+    }
+
+    .brand-logo-frame {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 1.15rem;
+      border-radius: 14px;
+      border: 1px solid #a7f3d0;
+      padding: 4px;
+      background: #ffffff;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.14);
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .kov-login-brand img {
+    .brand-logo-frame:hover {
+      transform: scale(1.04);
+    }
+
+    [data-theme="dark"] .brand-logo-frame {
+      background: #f5f3ed;
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .brand-logo-frame img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 9px;
+      border-radius: 10px;
     }
 
-    .kov-login-title {
-      font-size: 20px;
+    .brand-kicker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6875rem;
       font-weight: 700;
-      color: var(--kov-text-primary, #0f172a);
-      margin: 0 0 6px;
-      text-align: center;
-      letter-spacing: -0.02em;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #059669;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 0.75rem;
     }
 
-    .kov-login-subtitle {
-      font-size: 13px;
-      color: var(--kov-text-muted, #64748b);
-      margin: 0 0 24px;
-      text-align: center;
+    [data-theme="dark"] .brand-kicker {
+      background: rgba(5, 150, 105, 0.2);
+      border-color: rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+
+    .login-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #384d42;
+      margin: 0 0 0.45rem;
+    }
+
+    [data-theme="dark"] .login-title {
+      color: #f8fafc;
+    }
+
+    .login-sub {
+      font-size: 0.825rem;
+      color: #64748b;
+      margin: 0;
       line-height: 1.5;
     }
 
-    .kov-form-group {
-      margin-bottom: 18px;
+    [data-theme="dark"] .login-sub {
+      color: #94a3b8;
     }
 
-    .kov-form-label {
+    .form-group-kov {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-label-kov {
       display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--kov-text-secondary, #334155);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.01em;
     }
 
-    .kov-input-wrap {
+    [data-theme="dark"] .form-label-kov {
+      color: #cbd5e1;
+    }
+
+    .input-shell {
       position: relative;
       display: flex;
       align-items: center;
     }
 
-    .kov-input-icon {
+    .input-icon {
       position: absolute;
-      left: 14px;
-      color: var(--kov-text-muted, #94a3b8);
-      font-size: 14px;
+      left: 13px;
+      color: #94a3b8;
+      font-size: 0.85rem;
       pointer-events: none;
+      transition: color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .kov-input-control {
+    .input-field-kov {
       width: 100%;
       height: 44px;
       padding: 0 14px 0 40px;
-      font-size: 14px;
-      color: var(--kov-text-primary, #0f172a);
-      background: var(--kov-surface, #ffffff);
-      border: 1px solid var(--kov-border, #cbd5e1);
-      border-radius: var(--kov-radius-btn, 10px);
+      font-size: 0.885rem;
+      color: #384d42;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
       outline: none;
-      transition: all 0.2s ease;
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
       font-family: inherit;
     }
 
-    [data-theme="dark"] .kov-input-control {
-      border-color: #334155;
-      background: #0f172a;
+    [data-theme="dark"] .input-field-kov {
+      background: #f5f3ed;
+      border-color: #264239;
       color: #f8fafc;
     }
 
-    .kov-input-control:focus {
-      border-color: var(--kov-pine, #166534);
-      box-shadow: 0 0 0 3px rgba(22, 101, 52, 0.12);
+    .input-field-kov:focus {
+      border-color: #059669;
+      background: #ffffff;
+      box-shadow: 0 0 0 3.5px rgba(5, 150, 105, 0.16);
     }
 
-    .kov-pw-toggle {
+    [data-theme="dark"] .input-field-kov:focus {
+      border-color: #10b981;
+      background: #fcfbf9;
+      box-shadow: 0 0 0 3.5px rgba(16, 185, 129, 0.2);
+    }
+
+    .input-shell:focus-within .input-icon {
+      color: #059669;
+    }
+
+    [data-theme="dark"] .input-shell:focus-within .input-icon {
+      color: #34d399;
+    }
+
+    .toggle-pw-btn {
       position: absolute;
-      right: 12px;
+      right: 10px;
       background: transparent;
       border: none;
-      color: var(--kov-text-muted, #94a3b8);
-      font-size: 14px;
+      color: #94a3b8;
       cursor: pointer;
-      padding: 4px;
+      padding: 6px 8px;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      transition: color 0.18s ease;
+      display: flex;
+      align-items: center;
     }
 
-    .kov-pw-toggle:hover {
-      color: var(--kov-text-primary, #0f172a);
+    .toggle-pw-btn:hover {
+      color: #059669;
     }
 
-    .kov-btn-login {
+    [data-theme="dark"] .toggle-pw-btn:hover {
+      color: #34d399;
+    }
+
+    .btn-submit-linear {
       width: 100%;
       height: 44px;
-      background: var(--kov-pine, #166534);
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
       color: #ffffff;
-      border: 1px solid var(--kov-pine, #166534);
-      border-radius: var(--kov-radius-btn, 10px);
-      font-size: 14px;
+      border: 1px solid #047857;
+      border-radius: 10px;
+      font-size: 0.9rem;
       font-weight: 700;
+      letter-spacing: 0.01em;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: 24px;
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 6px rgba(22, 101, 52, 0.2);
+      transition: all 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.28);
+      margin-top: 0.5rem;
     }
 
-    .kov-btn-login:hover {
-      background: var(--kov-pine-hover, #14532d);
-      border-color: var(--kov-pine-hover, #14532d);
+    .btn-submit-linear:hover {
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.35);
     }
 
-    .kov-alert-error {
-      background: #fff1f2;
-      border: 1px solid #fecdd3;
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #be123c;
+    .btn-submit-linear:active {
+      transform: translateY(0) scale(0.99);
+    }
+
+    .alert-banner-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #991b1b;
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 1.25rem;
     }
 
-    .kov-login-footer {
+    [data-theme="dark"] .alert-banner-error {
+      background: rgba(220, 38, 38, 0.15);
+      border-color: rgba(220, 38, 38, 0.35);
+      color: #fca5a5;
+    }
+
+    .login-footer-meta {
       text-align: center;
-      margin-top: 24px;
-      font-size: 12px;
-      color: var(--kov-text-muted, #64748b);
+      margin-top: 1.75rem;
+      font-size: 0.75rem;
+      color: #64748b;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    [data-theme="dark"] .login-footer-meta {
+      color: #94a3b8;
+    }
+
+    .meta-security {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    [data-theme="dark"] .meta-security {
+      color: #cbd5e1;
+    }
+
+    .meta-security i {
+      color: #059669;
+      font-size: 0.75rem;
+    }
+
+    [data-theme="dark"] .meta-security i {
+      color: #34d399;
     }
   </style>
 </head>
 <body>
 
-  <!-- Theme Toggle Corner Button -->
-  <div class="kov-login-corner">
-    <button type="button" class="btn btn-sm btn-outline-secondary px-2.5 py-1.5" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
+  <div class="login-theme-Corner">
+    <button type="button" class="btn-kov-outline btn-sm px-3 py-1.5" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang">
       <i class="fas fa-moon kov-theme-icon"></i>
+      <span class="d-none d-sm-inline ms-1">Tema</span>
     </button>
   </div>
 
-  <div class="kov-login-wrapper">
-    <div class="kov-login-card">
-      <div class="kov-login-brand">
-        <img src="/logo_kov_2.jpg" alt="KOV Logo" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 40 40\'%3E%3Crect width=\'40\' height=\'40\' fill=\'%23166534\' rx=\'8\'/%3E%3Ctext x=\'50%25\' y=\'55%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\' font-family=\'sans-serif\' font-size=\'14\'%3EKOV%3C/text%3E%3C/svg%3E';">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-brand-header">
+        <div class="brand-logo-frame">
+          <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 40 40\'%3E%3Crect width=\'40\' height=\'40\' fill=\'%23059669\' rx=\'8\'/%3E%3Ctext x=\'50%25\' y=\'55%25\' dominant-baseline=\'middle\' text-anchor=\'middle\' fill=\'white\' font-weight=\'bold\' font-family=\'sans-serif\' font-size=\'14\'%3EKOV%3C/text%3E%3C/svg%3E';">
+        </div>
+        <div class="brand-kicker">
+          <i class="fas fa-shield-halved"></i> KOV Management Portal
+        </div>
+        <h1 class="login-title">Masuk ke Portal</h1>
+        <p class="login-sub">Sistem terpadu rekrutmen HR, operasional, purchase order &amp; IT.</p>
       </div>
-      <h1 class="kov-login-title">Masuk ke Portal</h1>
-      <p class="kov-login-subtitle">Sistem terpadu manajemen rekrutmen HR, operasional &amp; IT.</p>
 
       <% if (error) { %>
-        <div class="kov-alert-error" role="alert">
+        <div class="alert-banner-error" role="alert">
           <i class="fas fa-circle-exclamation flex-shrink-0"></i>
           <span><%= error %></span>
         </div>
@@ -231,54 +388,56 @@
       <form action="/admin/login" method="POST" data-kov-loading>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-        <div class="kov-form-group">
-          <label for="username" class="kov-form-label">Username</label>
-          <div class="kov-input-wrap">
-            <i class="fas fa-user kov-input-icon"></i>
-            <input type="text" class="kov-input-control" id="username" name="username" placeholder="Masukkan username Anda" required autofocus autocomplete="username">
+        <div class="form-group-kov">
+          <label for="username" class="form-label-kov">Username</label>
+          <div class="input-shell">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" class="input-field-kov" id="username" name="username" placeholder="Masukkan username Anda" required autofocus autocomplete="username">
           </div>
         </div>
 
-        <div class="kov-form-group">
-          <div class="d-flex justify-content-between align-items-center mb-1">
-            <label for="password" class="kov-form-label mb-0">Password</label>
-          </div>
-          <div class="kov-input-wrap">
-            <i class="fas fa-lock kov-input-icon"></i>
-            <input type="password" class="kov-input-control" id="password" name="password" placeholder="Masukkan password Anda" required autocomplete="current-password">
-            <button type="button" class="kov-pw-toggle" id="togglePasswordBtn" aria-label="Tampilkan / Sembunyikan Password">
-              <i class="fas fa-eye" id="togglePasswordIcon"></i>
+        <div class="form-group-kov">
+          <label for="password" class="form-label-kov">Kata Sandi</label>
+          <div class="input-shell">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" class="input-field-kov" id="password" name="password" placeholder="Masukkan kata sandi" required autocomplete="current-password" style="padding-right: 40px;">
+            <button class="toggle-pw-btn" type="button" id="togglePassword" aria-label="Lihat Password">
+              <i class="fas fa-eye" id="eyeIcon"></i>
             </button>
           </div>
         </div>
 
-        <button type="submit" class="kov-btn-login" id="submitBtn">
-          <span>Masuk ke Akun</span>
-          <i class="fas fa-arrow-right"></i>
+        <button type="submit" class="btn-submit-linear" data-loading-text="Memverifikasi...">
+          <i class="fas fa-arrow-right-to-bracket"></i> Masuk ke Dashboard
         </button>
       </form>
+    </div>
 
-      <div class="kov-login-footer">
-        <span>&copy; 2026 KOV Group. All rights reserved.</span>
+    <div class="login-footer-meta">
+      <div class="meta-security">
+        <i class="fas fa-lock"></i>
+        <span>Koneksi terenkripsi SSL 256-bit &bull; Sesi diaudit</span>
       </div>
+      <div>&copy; <%= new Date().getFullYear() %> PT KOV Manajemen Group. Hak cipta dilindungi.</div>
     </div>
   </div>
 
+  <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/kov-toast.js"></script>
+  <script src="/assets/js/kov-theme.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const toggleBtn = document.getElementById('togglePasswordBtn');
-      const passwordInput = document.getElementById('password');
-      const toggleIcon = document.getElementById('togglePasswordIcon');
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
 
-      if (toggleBtn && passwordInput && toggleIcon) {
-        toggleBtn.addEventListener('click', function () {
-          const isPassword = passwordInput.getAttribute('type') === 'password';
-          passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-          toggleIcon.classList.toggle('fa-eye', !isPassword);
-          toggleIcon.classList.toggle('fa-eye-slash', isPassword);
-        });
-      }
-    });
+    if (togglePassword && passwordInput && eyeIcon) {
+      togglePassword.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        eyeIcon.classList.toggle('fa-eye');
+        eyeIcon.classList.toggle('fa-eye-slash');
+      });
+    }
   </script>
 </body>
 </html>

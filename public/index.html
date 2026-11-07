@@ -3,291 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Formulir pendaftaran dan biodata resmi calon karyawan KOV Group.">
-  <title>Formulir Biodata Calon Karyawan: KOV Group</title>
+  <title>Formulir Biodata Pelamar Kerja — KOV Group</title>
   <link rel="icon" type="image/jpeg" href="/logo_kov_2.jpg">
   
-  <!-- Typography: Plus Jakarta Sans & IBM Plex Mono -->
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Bootstrap 5 CSS & FontAwesome -->
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/vendor/fontawesome/css/all.min.css" rel="stylesheet">
   
-  <!-- Hallmark Tokens & Base Stylesheet -->
-  <link href="/assets/css/tokens.css" rel="stylesheet">
-  <link href="/assets/css/base.css" rel="stylesheet">
-  <link href="/assets/css/kov-portal.css?v=20261101_hallmark" rel="stylesheet">
-
+  <!-- Figma Design Token System -->
+  <link href="/assets/css/kov-portal.css?v=20261029_kov_v11" rel="stylesheet">
   <script src="/assets/js/kov-toast.js"></script>
   <script src="/assets/js/kov-theme.js"></script>
 
   <style>
-/* Hallmark · shape: app screen · genre: modern-minimal · theme: brand · redesign: full
- * paper: var(--color-paper) · accent: var(--color-accent) · display: var(--font-display) · body: var(--font-body)
- * nav: kept · signature: candidate form · states: default, hover, focus, active, disabled
- * axes: paper/display/accent · posture: restrained · contrast: pass · v2.0.0 */
-
-    html, body {
-      overflow-x: clip !important;
-    }
-
     body {
-      background-color: var(--color-paper);
-      color: var(--color-ink-2);
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      line-height: 1.55;
+      background-color: #f6f5f1;
+      color: #384d42;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Top Navigation Bar: Human Architectural Alignment */
+    /* Clean, Human Topbar */
     .kov-public-nav {
-      background-color: var(--color-paper-2);
-      border-bottom: 1px solid var(--color-rule);
-      padding: var(--space-sm) 0;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0.85rem 0;
     }
 
     .kov-public-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-control);
-      border: 1px solid var(--color-rule);
-      padding: 2px;
-      object-fit: cover;
-      background-color: var(--color-paper-2);
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 3px;
+      object-fit: contain;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      image-rendering: -webkit-optimize-contrast;
+      transition: transform 0.2s ease;
+    }
+    .kov-public-logo:hover {
+      transform: scale(1.05);
     }
 
-    .nav-brand-title {
-      font-size: var(--text-base);
-      font-weight: 700;
-      color: var(--color-ink);
-      line-height: 1.2;
-    }
-
-    .nav-brand-sub {
-      font-size: var(--text-xs);
-      color: var(--color-muted);
-      line-height: 1.3;
-    }
-
-    /* Form Section Cards: Framed-Sheet Anti-Slop */
+    /* Section Cards - Clean Human Layout */
     .card-modern-form {
-      background-color: var(--color-paper-2);
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-card);
-      box-shadow: var(--shadow-card);
-      margin-bottom: var(--space-lg);
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      box-shadow: 0 2px 10px -2px rgba(6, 78, 59, 0.05), 0 1px 3px 0 rgba(15, 23, 42, 0.03);
+      margin-bottom: 1.5rem;
       overflow: hidden;
     }
-
     .card-modern-form .card-header {
-      background-color: var(--color-paper-2);
-      border-bottom: 1px solid var(--color-rule-subtle);
-      padding: var(--space-md) var(--space-lg);
+      background: #dfece3;
+      border-bottom: 1px solid #bdd6c5;
+      padding: 0.85rem 1.25rem;
+      font-weight: 700;
+      color: #2e5943;
+      font-size: 0.95rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 0.5rem;
     }
 
-    .section-heading {
-      margin: 0;
-      font-size: var(--text-md);
-      font-weight: 600;
-      color: var(--color-ink);
-      letter-spacing: var(--tracking-tight);
-      display: flex;
-      align-items: center;
-      gap: var(--space-xs);
-    }
-
-    .section-badge-spec {
-      font-size: var(--text-xs);
-      font-weight: 500;
-      padding: var(--space-2xs) var(--space-xs);
-      border-radius: var(--radius-control);
-      background-color: var(--color-accent-subtle);
-      color: var(--color-accent);
-      border: 1px solid var(--color-accent-border);
-    }
-
-    /* Form Controls & Layout Symmetry */
     .form-label {
-      display: block;
-      font-weight: 500;
-      font-size: var(--text-sm);
-      color: var(--color-ink-2);
-      margin-bottom: var(--space-2xs);
-    }
-
-    .req {
-      color: var(--color-error);
       font-weight: 600;
-      margin-left: 2px;
+      font-size: 0.82rem;
+      color: #384d42;
+      margin-bottom: 0.35rem;
     }
 
     .form-control, .form-select {
-      height: 40px;
-      border-radius: var(--radius-control);
-      border: 1px solid var(--color-paper-muted);
-      padding: 0 var(--space-sm);
-      font-size: var(--text-base);
-      color: var(--color-ink);
-      background-color: var(--color-paper-2);
-      transition: border-color var(--dur-micro) ease, box-shadow var(--dur-micro) ease;
+      border-radius: 10px;
+      border: 1px solid #cbd5e1;
+      padding: 0.55rem 0.8rem;
+      font-size: 0.885rem;
+      transition: all 0.15s ease;
+      background-color: #ffffff;
     }
-
-    textarea.form-control {
-      height: auto;
-      padding: var(--space-xs) var(--space-sm);
-      min-height: 80px;
-      resize: vertical;
-    }
-
     .form-control:focus, .form-select:focus {
-      border-color: var(--color-accent);
-      box-shadow: 0 0 0 3px var(--color-accent-subtle);
-      outline: none;
+      border-color: #059669;
+      box-shadow: 0 0 0 3.5px rgba(5, 150, 105, 0.16);
+      background-color: #ffffff;
     }
 
-    /* Data Entry Tables: Clean Hairline Grids */
-    .table-custom-modern {
-      margin: 0;
-      border-color: var(--color-rule);
-    }
-
-    .table-custom-modern th {
-      background-color: var(--color-paper);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      color: var(--color-muted);
-      padding: var(--space-xs) var(--space-sm);
-      border-bottom: 1px solid var(--color-rule);
-      text-transform: none;
-      letter-spacing: normal;
-    }
-
-    .table-custom-modern td {
-      padding: var(--space-2xs) var(--space-xs);
-      border-bottom: 1px solid var(--color-rule-subtle);
-      vertical-align: middle;
-    }
-
-    .table-custom-modern .form-control-sm,
-    .table-custom-modern .form-select-sm {
-      height: 34px;
-      font-size: var(--text-sm);
-      padding: 0 var(--space-xs);
-      border-radius: 4px;
-    }
-
-    /* Passport Photo Box */
-    .photo-upload-box {
-      width: 105px;
-      height: 135px;
-      border: 1px dashed var(--color-paper-muted);
-      border-radius: var(--radius-control);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--color-paper);
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    /* Digital Signature Pad Box */
     .signature-container {
-      border: 1px dashed var(--color-paper-muted);
-      border-radius: var(--radius-control);
-      background-color: var(--color-paper);
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      background-color: #f6f5f1;
       position: relative;
       width: 100%;
       height: 160px;
       touch-action: none;
     }
-
     canvas#signature-pad {
       width: 100%;
       height: 100%;
       cursor: crosshair;
-      border-radius: var(--radius-control);
+      border-radius: 8px;
     }
 
-    /* Human-Crafted Primary Action Button */
-    .btn-submit-kov {
-      height: 42px;
-      background-color: var(--color-accent);
-      color: var(--color-accent-ink);
-      border: 1px solid var(--color-accent);
-      padding: 0 var(--space-xl);
-      font-weight: 600;
-      border-radius: var(--radius-control);
-      font-size: var(--text-base);
-      display: inline-flex;
+    .table-custom-modern th {
+      background-color: #f6f5f1;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #475569;
+      font-weight: 700;
+      padding: 9px 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .table-custom-modern td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .photo-upload-box {
+      width: 110px;
+      height: 135px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: var(--space-xs);
-      cursor: pointer;
-      transition: background-color var(--dur-micro) ease, border-color var(--dur-micro) ease;
-    }
-
-    .btn-submit-kov:hover {
-      background-color: var(--color-accent-hover);
-      border-color: var(--color-accent-hover);
-      color: var(--color-accent-ink);
-    }
-
-    .btn-submit-kov:active {
-      transform: translateY(1px);
-    }
-
-    .btn-submit-kov:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 2px;
-    }
-
-    .btn-submit-kov:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    /* Accordion Work Experience Styling */
-    .accordion-item {
-      border: 1px solid var(--color-rule);
-      border-radius: var(--radius-card);
+      background: #f8fafc;
       overflow: hidden;
-      margin-bottom: var(--space-sm);
+      flex-shrink: 0;
     }
 
-    .accordion-button {
-      font-size: var(--text-base);
-      font-weight: 600;
-      color: var(--color-ink);
-      background-color: var(--color-paper-2);
-      padding: var(--space-md);
-      box-shadow: none !important;
+    .btn-submit-kov {
+      background: #497a61;
+      color: #ffffff;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-weight: 700;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      transition: background-color 0.15s ease;
     }
-
-    .accordion-button:not(.collapsed) {
-      background-color: var(--color-paper);
-      color: var(--color-accent);
+    .btn-submit-kov:hover {
+      background: #047857;
+      color: #ffffff;
     }
-
-    .accordion-body {
-      background-color: var(--color-paper-2);
-      padding: var(--space-lg);
-      border-top: 1px solid var(--color-rule-subtle);
+    .btn-submit-kov:active {
+      background: #065f46;
     }
-
-    /* Sub-section headings inside educational & experience sections */
-    .sub-section-title {
-      font-size: var(--text-sm);
-      font-weight: 600;
-      color: var(--color-accent);
-      margin: 0 0 var(--space-sm) 0;
+    .btn-submit-kov:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
     }
   </style>
 </head>
@@ -295,48 +165,41 @@
 
   <!-- Clean, Authentic Corporate Top Navbar -->
   <nav class="kov-public-nav mb-4">
-    <div class="container d-flex align-items-center justify-content-between" style="max-width: 860px;">
+    <div class="container d-flex align-items-center justify-content-between" style="max-width: 880px;">
       <div class="d-flex align-items-center gap-3">
         <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" class="kov-public-logo">
         <div>
-          <div class="nav-brand-title">KOV Koffie &amp; Eatery</div>
-          <div class="nav-brand-sub">Portal Rekrutmen dan Penerimaan Karyawan</div>
+          <div class="fw-bold text-dark" style="font-size: 0.98rem; line-height: 1.2;">KOV Koffie &amp; Eatery</div>
+          <div class="text-muted" style="font-size: 0.78rem;">Portal Rekrutmen &amp; Penerimaan Karyawan</div>
         </div>
       </div>
-      <div class="d-flex align-items-center gap-2">
-        <span class="text-secondary small d-none d-sm-inline">Semarang, Jawa Tengah</span>
-        <button type="button" class="btn btn-sm btn-outline-secondary px-2.5 py-1" onclick="toggleKovTheme()" title="Ganti Mode Gelap atau Terang" aria-label="Ganti Mode Gelap atau Terang">
-          <i class="fas fa-moon kov-theme-icon"></i>
-        </button>
+      <div class="d-none d-sm-block text-end">
+        <div class="d-inline-flex align-items-center gap-2"><span class="text-secondary small me-1">Semarang, Jawa Tengah</span><button type="button" class="btn-kov-outline btn-sm px-2.5 py-1" onclick="toggleKovTheme()" title="Ganti Mode Gelap / Terang"><i class="fas fa-moon kov-theme-icon"></i></button></div>
       </div>
     </div>
   </nav>
 
-  <!-- Page Title Block: Restrained Typography -->
-  <header class="container text-center mb-4" style="max-width: 760px;">
-    <h1 class="fw-bold mb-1" style="font-size: 1.5rem; letter-spacing: -0.02em; color: var(--color-ink);">
-      Formulir Biodata Calon Karyawan
-    </h1>
-    <p class="small mb-0" style="color: var(--color-muted);">
-      Silakan isi data diri dan pengalaman kerja Anda secara lengkap untuk proses seleksi rekrutmen KOV Group.
-    </p>
-  </header>
+  <!-- Page Title Block -->
+  <div class="container text-center mb-4" style="max-width: 760px;">
+    <h1 class="fw-bold text-dark mb-1" style="font-size: 1.6rem; letter-spacing: -0.02em;">Formulir Biodata Calon Karyawan</h1>
+    <p class="text-muted small mb-0">Silakan isi data diri dan pengalaman kerja Anda secara lengkap untuk proses seleksi rekrutmen KOV Group.</p>
+  </div>
 
-  <main class="container pb-5" style="max-width: 860px;">
+  <div class="container pb-5" style="max-width: 960px;">
     <form id="biodataForm">
       <input type="hidden" name="share_token" id="shareTokenInput">
 
       <!-- SECTION 0: INFORMASI LOWONGAN -->
-      <section class="card-modern-form">
+      <div class="card-modern-form">
         <div class="card-header">
-          <h2 class="section-heading">1. Informasi lowongan kerja</h2>
+          <span>1. Informasi Lowongan Kerja</span>
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label" for="divisi">Divisi / Departemen lowongan <span class="req">*</span></label>
-              <select class="form-select" name="divisi" id="divisi" required>
-                <option value="" disabled selected>Pilih divisi yang dilamar</option>
+              <label class="form-label">Divisi / Departemen Lowongan <span class="text-danger">*</span></label>
+              <select class="form-select" name="divisi" required>
+                <option value="" disabled selected>-- Pilih Divisi Yang Dilamar --</option>
                 <option value="Kitchen">Kitchen (Cook, Kitchen Helper, Pastry, Chef)</option>
                 <option value="Barista">Barista (Barista, Cashier Bar, Beverage)</option>
                 <option value="Operasional">Operasional (Supervisor Outlet, Store Manager, Crew Outlet, Kasir, Steward)</option>
@@ -347,104 +210,108 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="posisi_dilamar">Posisi yang dilamar <span class="req">*</span></label>
-              <input type="text" class="form-control" name="posisi_dilamar" id="posisi_dilamar" required placeholder="Contoh: Barista Staff">
+              <label class="form-label">Posisi Yang Dilamar <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="posisi_dilamar" required placeholder="Contoh: Barista Staff / Cook Helper">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="posisi_lain">Posisi lain yang diminati</label>
-              <input type="text" class="form-control" name="posisi_lain" id="posisi_lain" placeholder="Contoh: Kasir Outlet">
+              <label class="form-label">Posisi Lain Yang Diminati</label>
+              <input type="text" class="form-control" name="posisi_lain" placeholder="Contoh: Kasir Outlet / Service">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="sumber_info">Sumber informasi lowongan</label>
-              <input type="text" class="form-control" name="sumber_info" id="sumber_info" placeholder="LinkedIn, Instagram, Teman, dll">
+              <label class="form-label">Sumber Informasi Lowongan</label>
+              <input type="text" class="form-control" name="sumber_info" placeholder="LinkedIn, JobStreet, Instagram, Teman, dll">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="punya_kerabat">Memiliki kerabat aktif di perusahaan ini?</label>
-              <select class="form-select" name="punya_kerabat" id="punya_kerabat" onchange="toggleKerabatInfo(this.value)">
+              <label class="form-label">Memiliki Kerabat Aktif di Perusahaan Ini?</label>
+              <select class="form-select" name="punya_kerabat" onchange="toggleKerabatInfo(this.value)">
                 <option value="Tidak">Tidak</option>
                 <option value="Ya">Ya</option>
               </select>
             </div>
             <div class="col-md-12 d-none" id="kerabatInfoBox">
-              <label class="form-label" for="nama_kerabat_posisi">Nama dan posisi jabatan kerabat</label>
-              <input type="text" class="form-control" name="nama_kerabat_posisi" id="nama_kerabat_posisi" placeholder="Tuliskan nama dan jabatan kerabat">
+              <label class="form-label">Nama dan Posisi Jabatan Kerabat</label>
+              <input type="text" class="form-control" name="nama_kerabat_posisi" placeholder="Tuliskan Nama & Jabatan kerabat di perusahaan">
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECTION 1: IDENTITAS DIRI -->
-      <section class="card-modern-form">
-        <div class="card-header">
-          <h2 class="section-heading">2. Identitas diri dan pasfoto</h2>
-          <span class="section-badge-spec">Pasfoto 3x4 formal</span>
+      <div class="card-modern-form">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <span>2. Identitas Diri &amp; Pasfoto</span>
+          </div>
+          <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1 small">
+            Foto 3x4 Formal
+          </span>
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
 
             <!-- Candidate Photo Upload Field -->
-            <div class="col-md-12 p-3 rounded-2 border mb-2" style="background-color: var(--color-paper);">
-              <label class="form-label fw-semibold text-success mb-2" for="fotoFileInput">
-                <i class="fas fa-camera me-1"></i>Unggah pasfoto formal (JPG / PNG)
+            <div class="col-md-12 p-3 bg-light rounded-3 border mb-2">
+              <label class="form-label fw-bold text-success mb-2">
+                <i class="fas fa-camera me-1"></i>Unggah Pasfoto Formal (JPG/PNG)
               </label>
               <div class="d-flex align-items-center gap-3 flex-wrap">
-                <div id="photoPreviewBox" class="photo-upload-box">
+                <div id="photoPreviewBox" class="photo-upload-box shadow-sm">
                   <i class="fas fa-user-circle fa-3x text-secondary mb-1 opacity-50"></i>
                   <span class="text-muted" style="font-size: 10px;">Pasfoto 3x4</span>
                 </div>
                 <div class="flex-grow-1" style="max-width: 450px;">
-                  <input type="file" class="form-control form-control-sm mb-1" id="fotoFileInput" accept="image/*" onchange="previewCandidatePhoto(this)" aria-label="Pilih file pasfoto">
+                  <input type="file" class="form-control form-control-sm mb-1" id="fotoFileInput" accept="image/*" onchange="previewCandidatePhoto(this)">
                   <input type="hidden" name="foto_kandidat" id="fotoKandidatBase64">
-                  <div class="form-text" style="font-size: 11px; color: var(--color-muted);">
-                    Pilih pasfoto formal berlatar belakang polos (maksimal 5MB). Foto akan terlampir otomatis di formulir dan dokumen PDF.
+                  <div class="form-text text-muted" style="font-size: 11px;">
+                    <i class="fas fa-info-circle me-1"></i>Pilih pasfoto formal berlatar belakang polos (Maks 5MB). Foto akan terlampir otomatis di formulir dan dokumen PDF.
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="col-md-8">
-              <label class="form-label" for="nama_lengkap">Nama lengkap <span class="req">*</span></label>
-              <input type="text" class="form-control" name="nama_lengkap" id="nama_lengkap" required placeholder="Sesuai KTP">
+              <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="nama_lengkap" required placeholder="Sesuai KTP">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="nama_panggilan">Nama panggilan</label>
-              <input type="text" class="form-control" name="nama_panggilan" id="nama_panggilan">
+              <label class="form-label">Nama Panggilan</label>
+              <input type="text" class="form-control" name="nama_panggilan">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="email">Email <span class="req">*</span></label>
-              <input type="email" class="form-control" name="email" id="email" required placeholder="nama@email.com">
+              <label class="form-label">Email <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" name="email" required placeholder="nama@email.com">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="jenis_kelamin">Jenis kelamin <span class="req">*</span></label>
-              <select class="form-select" name="jenis_kelamin" id="jenis_kelamin" required>
+              <label class="form-label">Jenis Kelamin <span class="text-danger">*</span></label>
+              <select class="form-select" name="jenis_kelamin" required>
                 <option value="Laki-laki">Laki-laki</option>
                 <option value="Perempuan">Perempuan</option>
               </select>
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="kewarganegaraan">Kewarganegaraan</label>
-              <input type="text" class="form-control" name="kewarganegaraan" id="kewarganegaraan" value="WNI">
+              <label class="form-label">Kewarganegaraan</label>
+              <input type="text" class="form-control" name="kewarganegaraan" value="WNI">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="suku">Suku</label>
-              <input type="text" class="form-control" name="suku" id="suku" placeholder="Jawa, Sunda, dll">
+              <label class="form-label">Suku</label>
+              <input type="text" class="form-control" name="suku" placeholder="Jawa, Sunda, dll">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="agama">Agama</label>
-              <input type="text" class="form-control" name="agama" id="agama">
+              <label class="form-label">Agama</label>
+              <input type="text" class="form-control" name="agama">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="tempat_lahir">Tempat lahir</label>
-              <input type="text" class="form-control" name="tempat_lahir" id="tempat_lahir">
+              <label class="form-label">Tempat Lahir</label>
+              <input type="text" class="form-control" name="tempat_lahir">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="tanggal_lahir">Tanggal lahir</label>
-              <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir">
+              <label class="form-label">Tanggal Lahir</label>
+              <input type="date" class="form-control" name="tanggal_lahir">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="golongan_darah">Golongan darah</label>
-              <select class="form-select" name="golongan_darah" id="golongan_darah">
-                <option value="">Pilih</option>
+              <label class="form-label">Golongan Darah</label>
+              <select class="form-select" name="golongan_darah">
+                <option value="">-- Pilih --</option>
                 <option value="A">A</option>
                 <option value="B">B</option>
                 <option value="AB">AB</option>
@@ -452,56 +319,56 @@
               </select>
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="nomor_ktp">Nomor KTP (NIK)</label>
-              <input type="text" class="form-control" name="nomor_ktp" id="nomor_ktp" maxlength="16" placeholder="16 digit NIK">
+              <label class="form-label">Nomor KTP</label>
+              <input type="text" class="form-control" name="nomor_ktp" maxlength="16" placeholder="16 digit NIK">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="nomor_kk">Nomor Kartu Keluarga</label>
-              <input type="text" class="form-control" name="nomor_kk" id="nomor_kk" maxlength="16" placeholder="16 digit No. KK">
+              <label class="form-label">Nomor KK (Kartu Keluarga)</label>
+              <input type="text" class="form-control" name="nomor_kk" maxlength="16" placeholder="16 digit No. KK">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="no_rekening">No. rekening bank</label>
-              <input type="text" class="form-control" name="no_rekening" id="no_rekening" placeholder="BCA / Mandiri / dll">
+              <label class="form-label">No. Rekening Bank</label>
+              <input type="text" class="form-control" name="no_rekening" placeholder="BCA / Mandiri / dll - No Rek">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="no_hp">No. handphone (WhatsApp) <span class="req">*</span></label>
-              <input type="tel" class="form-control" name="no_hp" id="no_hp" required placeholder="08xxxxxxxxxx">
+              <label class="form-label">No. Handphone (WhatsApp) <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" name="no_hp" required placeholder="08xxxxxxxxxx">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="no_telp_rumah">Nomor telepon rumah</label>
-              <input type="text" class="form-control" name="no_telp_rumah" id="no_telp_rumah" value="-">
+              <label class="form-label">Nomor Telepon Rumah</label>
+              <input type="text" class="form-control" name="no_telp_rumah" value="-">
             </div>
             <div class="col-md-12">
-              <label class="form-label" for="alamat_ktp">Alamat sesuai KTP</label>
-              <textarea class="form-control" name="alamat_ktp" id="alamat_ktp" rows="2" placeholder="Nama Jalan, RT/RW, Kelurahan, Kecamatan"></textarea>
+              <label class="form-label">Alamat Sesuai KTP</label>
+              <textarea class="form-control" name="alamat_ktp" rows="2" placeholder="Nama Jalan, RT/RW, Kelurahan, Kecamatan"></textarea>
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="kota_ktp">Kota (KTP)</label>
-              <input type="text" class="form-control" name="kota_ktp" id="kota_ktp">
+              <label class="form-label">Kota (KTP)</label>
+              <input type="text" class="form-control" name="kota_ktp">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="kode_pos_ktp">Kode pos (KTP)</label>
-              <input type="text" class="form-control" name="kode_pos_ktp" id="kode_pos_ktp">
+              <label class="form-label">Kode Pos (KTP)</label>
+              <input type="text" class="form-control" name="kode_pos_ktp">
             </div>
             <div class="col-md-12">
-              <label class="form-label" for="alamat_domisili">Alamat domisili saat ini</label>
-              <textarea class="form-control" name="alamat_domisili" id="alamat_domisili" rows="2" placeholder="Alamat domisili jika berbeda dengan KTP"></textarea>
+              <label class="form-label">Alamat Domisili Saat Ini</label>
+              <textarea class="form-control" name="alamat_domisili" rows="2" placeholder="Alamat tempat tinggal sekarang jika berbeda dengan KTP"></textarea>
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="kota_domisili">Kota (Domisili)</label>
-              <input type="text" class="form-control" name="kota_domisili" id="kota_domisili">
+              <label class="form-label">Kota (Domisili)</label>
+              <input type="text" class="form-control" name="kota_domisili">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="kode_pos_domisili">Kode pos (Domisili)</label>
-              <input type="text" class="form-control" name="kode_pos_domisili" id="kode_pos_domisili">
+              <label class="form-label">Kode Pos (Domisili)</label>
+              <input type="text" class="form-control" name="kode_pos_domisili">
             </div>
             <div class="col-md-4">
-              <label class="form-label" for="status_alamat_domisili">Status alamat domisili</label>
-              <input type="text" class="form-control" name="status_alamat_domisili" id="status_alamat_domisili" placeholder="Rumah Sendiri / Kost / Ortu">
+              <label class="form-label">Status Alamat Domisili</label>
+              <input type="text" class="form-control" name="status_alamat_domisili" placeholder="Rumah Sendiri / Kost / Orang Tua">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="status_perkawinan">Status perkawinan</label>
-              <select class="form-select" name="status_perkawinan" id="status_perkawinan" onchange="toggleMarriageSection(this.value)">
+              <label class="form-label">Status Perkawinan</label>
+              <select class="form-select" name="status_perkawinan" onchange="toggleMarriageSection(this.value)">
                 <option value="Lajang">Lajang</option>
                 <option value="Menikah">Menikah</option>
                 <option value="Janda">Janda</option>
@@ -509,424 +376,584 @@
               </select>
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="hobby">Hobi dan kegemaran</label>
-              <input type="text" class="form-control" name="hobby" id="hobby" placeholder="Membaca, olahraga, kopi, dll">
+              <label class="form-label">Hobi & Kegemaran</label>
+              <input type="text" class="form-control" name="hobby" placeholder="Membaca, olahraga, kopi, dll">
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECTION 2: LATAR BELAKANG KELUARGA KANDUNG -->
-      <section class="card-modern-form">
+      <div class="card-modern-form">
         <div class="card-header">
-          <h2 class="section-heading">3. Latar belakang keluarga kandung</h2>
+          <span>3. Latar Belakang Keluarga Kandung</span>
         </div>
         <div class="card-body p-4">
           <div class="table-responsive">
             <table class="table table-bordered table-custom-modern text-nowrap align-middle">
               <thead>
                 <tr>
-                  <th style="width: 15%;">Anggota keluarga</th>
-                  <th>Nama lengkap</th>
+                  <th style="width: 15%;">Anggota Keluarga</th>
+                  <th>Nama</th>
                   <th style="width: 10%;">L/P</th>
-                  <th>Tempat dan tanggal lahir</th>
+                  <th>Tempat/Tanggal Lahir</th>
                   <th>Pendidikan</th>
                   <th>Pekerjaan</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="fw-semibold">Ayah</td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Ayah_nama" aria-label="Nama Ayah"></td>
+                  <td class="fw-bold">Ayah</td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Ayah_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="kk_Ayah_lp" aria-label="Jenis kelamin Ayah">
+                    <select class="form-select form-select-sm" name="kk_Ayah_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Ayah_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Ayah"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Ayah_pendidikan" aria-label="Pendidikan Ayah"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Ayah_pekerjaan" aria-label="Pekerjaan Ayah"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Ayah_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Ayah_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Ayah_pekerjaan"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Ibu</td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Ibu_nama" aria-label="Nama Ibu"></td>
+                  <td class="fw-bold">Ibu</td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Ibu_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="kk_Ibu_lp" aria-label="Jenis kelamin Ibu">
+                    <select class="form-select form-select-sm" name="kk_Ibu_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Ibu_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Ibu"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Ibu_pendidikan" aria-label="Pendidikan Ibu"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Ibu_pekerjaan" aria-label="Pekerjaan Ibu"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Ibu_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Ibu_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Ibu_pekerjaan"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Anak 1</td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 1_nama" aria-label="Nama Anak 1"></td>
+                  <td class="fw-bold">Anak 1</td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 1_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="kk_Anak 1_lp" aria-label="Jenis kelamin Anak 1">
+                    <select class="form-select form-select-sm" name="kk_Anak 1_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 1_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Anak 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 1_pendidikan" aria-label="Pendidikan Anak 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 1_pekerjaan" aria-label="Pekerjaan Anak 1"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 1_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 1_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 1_pekerjaan"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Anak 2</td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 2_nama" aria-label="Nama Anak 2"></td>
+                  <td class="fw-bold">Anak 2</td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 2_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="kk_Anak 2_lp" aria-label="Jenis kelamin Anak 2">
+                    <select class="form-select form-select-sm" name="kk_Anak 2_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 2_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Anak 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 2_pendidikan" aria-label="Pendidikan Anak 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 2_pekerjaan" aria-label="Pekerjaan Anak 2"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 2_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 2_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 2_pekerjaan"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Anak 3</td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 3_nama" aria-label="Nama Anak 3"></td>
+                  <td class="fw-bold">Anak 3</td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 3_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="kk_Anak 3_lp" aria-label="Jenis kelamin Anak 3">
+                    <select class="form-select form-select-sm" name="kk_Anak 3_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 3_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Anak 3"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 3_pendidikan" aria-label="Pendidikan Anak 3"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 3_pekerjaan" aria-label="Pekerjaan Anak 3"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 3_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 3_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 3_pekerjaan"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Anak 4</td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 4_nama" aria-label="Nama Anak 4"></td>
+                  <td class="fw-bold">Anak 4</td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 4_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="kk_Anak 4_lp" aria-label="Jenis kelamin Anak 4">
+                    <select class="form-select form-select-sm" name="kk_Anak 4_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 4_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Anak 4"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 4_pendidikan" aria-label="Pendidikan Anak 4"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 4_pekerjaan" aria-label="Pekerjaan Anak 4"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 4_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 4_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 4_pekerjaan"></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Anak 5</td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 5_nama"></td>
+                  <td>
+                    <select class="form-select form-select-sm" name="kk_Anak 5_lp">
+                      <option value=""></option>
+                      <option value="L">L</option>
+                      <option value="P">P</option>
+                    </select>
+                  </td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 5_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 5_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 5_pekerjaan"></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Anak 6</td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 6_nama"></td>
+                  <td>
+                    <select class="form-select form-select-sm" name="kk_Anak 6_lp">
+                      <option value=""></option>
+                      <option value="L">L</option>
+                      <option value="P">P</option>
+                    </select>
+                  </td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 6_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 6_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="kk_Anak 6_pekerjaan"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECTION 3: DIISI BILA SUDAH MENIKAH -->
-      <section class="card-modern-form d-none" id="marriageSection">
+      <div class="card-modern-form" id="marriageSection">
         <div class="card-header">
-          <h2 class="section-heading">4. Data pernikahan dan tanggungan (bila sudah menikah)</h2>
+          <span>4. Data Pernikahan &amp; Tanggungan (Bila Sudah Menikah)</span>
         </div>
         <div class="card-body p-4">
           <div class="table-responsive">
             <table class="table table-bordered table-custom-modern text-nowrap align-middle">
               <thead>
                 <tr>
-                  <th style="width: 15%;">Anggota keluarga</th>
-                  <th>Nama lengkap</th>
+                  <th style="width: 15%;">Anggota Keluarga</th>
+                  <th>Nama</th>
                   <th style="width: 10%;">L/P</th>
-                  <th>Tempat dan tanggal lahir</th>
+                  <th>Tempat/Tanggal Lahir</th>
                   <th>Pendidikan</th>
                   <th>Pekerjaan</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="fw-semibold">Istri / Suami</td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Istri/Suami_nama" aria-label="Nama Istri/Suami"></td>
+                  <td class="fw-bold">Istri/Suami</td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Istri/Suami_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="km_Istri/Suami_lp" aria-label="Jenis kelamin Istri/Suami">
+                    <select class="form-select form-select-sm" name="km_Istri/Suami_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Istri/Suami_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Istri/Suami"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Istri/Suami_pendidikan" aria-label="Pendidikan Istri/Suami"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Istri/Suami_pekerjaan" aria-label="Pekerjaan Istri/Suami"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Istri/Suami_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Istri/Suami_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Istri/Suami_pekerjaan"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Anak 1</td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 1_nama" aria-label="Nama Anak 1"></td>
+                  <td class="fw-bold">Anak 1</td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 1_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="km_Anak 1_lp" aria-label="Jenis kelamin Anak 1">
+                    <select class="form-select form-select-sm" name="km_Anak 1_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 1_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Anak 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 1_pendidikan" aria-label="Pendidikan Anak 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 1_pekerjaan" aria-label="Pekerjaan Anak 1"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 1_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 1_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 1_pekerjaan"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Anak 2</td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 2_nama" aria-label="Nama Anak 2"></td>
+                  <td class="fw-bold">Anak 2</td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 2_nama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="km_Anak 2_lp" aria-label="Jenis kelamin Anak 2">
+                    <select class="form-select form-select-sm" name="km_Anak 2_lp">
                       <option value=""></option>
                       <option value="L">L</option>
                       <option value="P">P</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 2_ttl" placeholder="Kota, Tgl/Bln/Thn" aria-label="TTL Anak 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 2_pendidikan" aria-label="Pendidikan Anak 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 2_pekerjaan" aria-label="Pekerjaan Anak 2"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 2_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 2_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 2_pekerjaan"></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Anak 3</td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 3_nama"></td>
+                  <td>
+                    <select class="form-select form-select-sm" name="km_Anak 3_lp">
+                      <option value=""></option>
+                      <option value="L">L</option>
+                      <option value="P">P</option>
+                    </select>
+                  </td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 3_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 3_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 3_pekerjaan"></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Anak 4</td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 4_nama"></td>
+                  <td>
+                    <select class="form-select form-select-sm" name="km_Anak 4_lp">
+                      <option value=""></option>
+                      <option value="L">L</option>
+                      <option value="P">P</option>
+                    </select>
+                  </td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 4_ttl" placeholder="Kota, Tgl/Bln/Thn"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 4_pendidikan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="km_Anak 4_pekerjaan"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECTION 4: LATAR BELAKANG PENDIDIKAN -->
-      <section class="card-modern-form">
+      <div class="card-modern-form">
         <div class="card-header">
-          <h2 class="section-heading">5. Riwayat pendidikan formal dan non formal</h2>
+          <span>5. Riwayat Pendidikan Formal &amp; Non Formal</span>
         </div>
         <div class="card-body p-4">
-          <h3 class="sub-section-title">Pendidikan formal</h3>
+          <h6 class="fw-bold text-success mb-3 small text-uppercase tracking-wider">1. Pendidikan Formal</h6>
           <div class="table-responsive mb-4">
             <table class="table table-bordered table-custom-modern align-middle">
               <thead>
                 <tr>
                   <th style="width: 15%;">Tingkatan</th>
-                  <th>Nama sekolah / universitas</th>
+                  <th>Nama Sekolah / Universitas</th>
                   <th>Kota</th>
-                  <th>Jurusan / fakultas</th>
+                  <th>Jurusan / Fakultas</th>
                   <th style="width: 14%;">Tahun</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="fw-semibold">SD</td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SD_sekolah" aria-label="Nama SD"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SD_kota" aria-label="Kota SD"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SD_jurusan" aria-label="Jurusan SD"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SD_tahun" placeholder="Contoh: 2008 - 2014" aria-label="Tahun SD"></td>
+                  <td class="fw-bold">SD</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SD_sekolah"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SD_kota"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SD_jurusan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SD_tahun" placeholder="yyyy - yyyy"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">SMP</td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SMP_sekolah" aria-label="Nama SMP"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SMP_kota" aria-label="Kota SMP"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SMP_jurusan" aria-label="Jurusan SMP"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SMP_tahun" placeholder="Contoh: 2014 - 2017" aria-label="Tahun SMP"></td>
+                  <td class="fw-bold">SMP</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SMP_sekolah"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SMP_kota"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SMP_jurusan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SMP_tahun" placeholder="yyyy - yyyy"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">SMU / SMK</td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SMU_sekolah" aria-label="Nama SMU"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SMU_kota" aria-label="Kota SMU"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SMU_jurusan" aria-label="Jurusan SMU"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_SMU_tahun" placeholder="Contoh: 2017 - 2020" aria-label="Tahun SMU"></td>
+                  <td class="fw-bold">SMU</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SMU_sekolah"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SMU_kota"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SMU_jurusan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_SMU_tahun" placeholder="yyyy - yyyy"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Akademi / Diploma</td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_Akademi_sekolah" aria-label="Nama Akademi"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_Akademi_kota" aria-label="Kota Akademi"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_Akademi_jurusan" aria-label="Jurusan Akademi"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_Akademi_tahun" placeholder="Tahun" aria-label="Tahun Akademi"></td>
+                  <td class="fw-bold">Akademi</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Akademi_sekolah"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Akademi_kota"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Akademi_jurusan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Akademi_tahun" placeholder="yyyy - yyyy"></td>
                 </tr>
                 <tr>
-                  <td class="fw-semibold">Sarjana (S-1)</td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_Sarjana S-1_sekolah" aria-label="Nama Sarjana S1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_Sarjana S-1_kota" aria-label="Kota S1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_Sarjana S-1_jurusan" aria-label="Jurusan S1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pf_Sarjana S-1_tahun" placeholder="Tahun" aria-label="Tahun S1"></td>
+                  <td class="fw-bold">Sarjana S-1</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Sarjana S-1_sekolah"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Sarjana S-1_kota"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Sarjana S-1_jurusan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Sarjana S-1_tahun" placeholder="yyyy - yyyy"></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">PascaSarjana</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_PascaSarjana_sekolah"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_PascaSarjana_kota"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_PascaSarjana_jurusan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_PascaSarjana_tahun" placeholder="yyyy - yyyy"></td>
+                </tr>
+                <tr>
+                  <td class="fw-bold">Doktoral</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Doktoral_sekolah"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Doktoral_kota"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Doktoral_jurusan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pf_Doktoral_tahun" placeholder="yyyy - yyyy"></td>
                 </tr>
               </tbody>
             </table>
           </div>
 
-          <h3 class="sub-section-title">Pendidikan non formal (kursus, pelatihan, sertifikasi)</h3>
+          <h6 class="fw-bold text-success mb-3 small text-uppercase tracking-wider">2. Pendidikan Non Formal (Kursus / Pelatihan / Sertifikasi)</h6>
           <div class="table-responsive">
             <table class="table table-bordered table-custom-modern align-middle" id="nonFormalTable">
               <thead>
                 <tr>
-                  <th style="width: 5%;">No</th>
-                  <th>Jenis kursus / topik</th>
+                  <th style="width: 5%;">#</th>
+                  <th>Jenis Kursus / Topik</th>
                   <th style="width: 12%;">Tahun</th>
                   <th style="width: 12%;">Lama</th>
                   <th style="width: 15%;">Sertifikat</th>
-                  <th>Dibiayai oleh</th>
+                  <th>Dibiayai Oleh</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="text-center fw-semibold">1</td>
-                  <td><input type="text" class="form-control form-control-sm" name="pnf_1_topik" aria-label="Topik kursus 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pnf_1_tahun" aria-label="Tahun kursus 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pnf_1_lama" aria-label="Lama kursus 1"></td>
+                  <td class="text-center fw-bold">1</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_1_topik"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_1_tahun"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_1_lama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="pnf_1_ijazah" aria-label="Ijazah kursus 1">
+                    <select class="form-select form-select-sm" name="pnf_1_ijazah">
                       <option value="TidakAda">Tidak Ada</option>
                       <option value="Ada">Ada</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="pnf_1_dibiayai" aria-label="Biaya kursus 1"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_1_dibiayai"></td>
                 </tr>
                 <tr>
-                  <td class="text-center fw-semibold">2</td>
-                  <td><input type="text" class="form-control form-control-sm" name="pnf_2_topik" aria-label="Topik kursus 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pnf_2_tahun" aria-label="Tahun kursus 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="pnf_2_lama" aria-label="Lama kursus 2"></td>
+                  <td class="text-center fw-bold">2</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_2_topik"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_2_tahun"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_2_lama"></td>
                   <td>
-                    <select class="form-select form-select-sm" name="pnf_2_ijazah" aria-label="Ijazah kursus 2">
+                    <select class="form-select form-select-sm" name="pnf_2_ijazah">
                       <option value="TidakAda">Tidak Ada</option>
                       <option value="Ada">Ada</option>
                     </select>
                   </td>
-                  <td><input type="text" class="form-control form-control-sm" name="pnf_2_dibiayai" aria-label="Biaya kursus 2"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_2_dibiayai"></td>
+                </tr>
+                <tr>
+                  <td class="text-center fw-bold">3</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_3_topik"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_3_tahun"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_3_lama"></td>
+                  <td>
+                    <select class="form-select form-select-sm" name="pnf_3_ijazah">
+                      <option value="TidakAda">Tidak Ada</option>
+                      <option value="Ada">Ada</option>
+                    </select>
+                  </td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_3_dibiayai"></td>
+                </tr>
+                <tr>
+                  <td class="text-center fw-bold">4</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_4_topik"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_4_tahun"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_4_lama"></td>
+                  <td>
+                    <select class="form-select form-select-sm" name="pnf_4_ijazah">
+                      <option value="TidakAda">Tidak Ada</option>
+                      <option value="Ada">Ada</option>
+                    </select>
+                  </td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_4_dibiayai"></td>
+                </tr>
+                <tr>
+                  <td class="text-center fw-bold">5</td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_5_topik"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_5_tahun"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_5_lama"></td>
+                  <td>
+                    <select class="form-select form-select-sm" name="pnf_5_ijazah">
+                      <option value="TidakAda">Tidak Ada</option>
+                      <option value="Ada">Ada</option>
+                    </select>
+                  </td>
+                  <td><input type="text" class="form-control form-control-sm" name="pnf_5_dibiayai"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECTION 5: REFERENSI KERJA -->
-      <section class="card-modern-form">
+      <div class="card-modern-form">
         <div class="card-header">
-          <h2 class="section-heading">6. Referensi kerja dan personal</h2>
+          <span>6. Referensi Kerja / Personal</span>
         </div>
         <div class="card-body p-4">
           <div class="table-responsive">
             <table class="table table-bordered table-custom-modern align-middle">
               <thead>
                 <tr>
-                  <th style="width: 5%;">No</th>
-                  <th>Nama referensi</th>
-                  <th>Nama perusahaan</th>
-                  <th>No. telepon / HP</th>
-                  <th>Jabatan / posisi</th>
+                  <th style="width: 5%;">#</th>
+                  <th>Nama Referensi</th>
+                  <th>Nama Perusahaan</th>
+                  <th>No. Telp / HP</th>
+                  <th>Jabatan / Posisi</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class="text-center fw-semibold">1</td>
-                  <td><input type="text" class="form-control form-control-sm" name="ref_1_nama" aria-label="Nama referensi 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="ref_1_perusahaan" aria-label="Perusahaan referensi 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="ref_1_telp" aria-label="Telepon referensi 1"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="ref_1_posisi" aria-label="Posisi referensi 1"></td>
+                  <td class="text-center fw-bold">1</td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_1_nama"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_1_perusahaan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_1_telp"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_1_posisi"></td>
                 </tr>
                 <tr>
-                  <td class="text-center fw-semibold">2</td>
-                  <td><input type="text" class="form-control form-control-sm" name="ref_2_nama" aria-label="Nama referensi 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="ref_2_perusahaan" aria-label="Perusahaan referensi 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="ref_2_telp" aria-label="Telepon referensi 2"></td>
-                  <td><input type="text" class="form-control form-control-sm" name="ref_2_posisi" aria-label="Posisi referensi 2"></td>
+                  <td class="text-center fw-bold">2</td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_2_nama"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_2_perusahaan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_2_telp"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_2_posisi"></td>
+                </tr>
+                <tr>
+                  <td class="text-center fw-bold">3</td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_3_nama"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_3_perusahaan"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_3_telp"></td>
+                  <td><input type="text" class="form-control form-control-sm" name="ref_3_posisi"></td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECTION 6: RIWAYAT PEKERJAAN -->
-      <section class="card-modern-form">
+      <div class="card-modern-form">
         <div class="card-header">
-          <h2 class="section-heading">7. Riwayat pekerjaan</h2>
+          <span>7. Riwayat Pekerjaan (Dimulai Dari Yang Terakhir)</span>
         </div>
         <div class="card-body p-4">
           <div id="jobAccordion" class="accordion">
-            <div class="accordion-item shadow-none">
-              <h3 class="accordion-header" style="margin: 0;">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#job_1" aria-expanded="true">
-                  Pengalaman 1: Pekerjaan terakhir
+<div class="accordion-item mb-3 border rounded-3 overflow-hidden shadow-none">
+              <h2 class="accordion-header">
+                <button class="accordion-button  fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#job_1">
+                  <i class="fas fa-building text-success me-2"></i> Pengalaman #1 (Pekerjaan Terakhir / Saat Ini)
                 </button>
-              </h3>
+              </h2>
               <div id="job_1" class="accordion-collapse collapse show">
-                <div class="accordion-body">
+                <div class="accordion-body bg-light bg-opacity-50 p-4">
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <label class="form-label" for="rp_1_nama_perusahaan">Nama perusahaan</label>
-                      <input type="text" class="form-control" name="rp_1_nama_perusahaan" id="rp_1_nama_perusahaan">
+                      <label class="form-label">Nama Perusahaan</label>
+                      <input type="text" class="form-control" name="rp_1_nama_perusahaan">
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="rp_1_jabatan">Jabatan / posisi</label>
-                      <input type="text" class="form-control" name="rp_1_jabatan" id="rp_1_jabatan">
+                      <label class="form-label">Jabatan / Posisi</label>
+                      <input type="text" class="form-control" name="rp_1_jabatan">
                     </div>
                     <div class="col-md-12">
-                      <label class="form-label" for="rp_1_alamat_telp">Alamat dan no. telepon perusahaan</label>
-                      <input type="text" class="form-control" name="rp_1_alamat_telp" id="rp_1_alamat_telp">
+                      <label class="form-label">Alamat &amp; No. Telp Perusahaan</label>
+                      <input type="text" class="form-control" name="rp_1_alamat_telp">
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label" for="rp_1_periode">Periode kerja</label>
-                      <input type="text" class="form-control" name="rp_1_periode" id="rp_1_periode" placeholder="Bln/Thn - Bln/Thn">
+                      <label class="form-label">Periode Kerja</label>
+                      <input type="text" class="form-control" name="rp_1_periode" placeholder="Bln/Thn - Bln/Thn">
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label" for="rp_1_gaji_terakhir">Gaji terakhir</label>
-                      <input type="text" class="form-control" name="rp_1_gaji_terakhir" id="rp_1_gaji_terakhir" placeholder="Rp ...">
+                      <label class="form-label">Gaji Terakhir</label>
+                      <input type="text" class="form-control" name="rp_1_gaji_terakhir" placeholder="Rp ...">
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label" for="rp_1_atasan_langsung">Nama atasan langsung</label>
-                      <input type="text" class="form-control" name="rp_1_atasan_langsung" id="rp_1_atasan_langsung">
+                      <label class="form-label">Nama Atasan Langsung</label>
+                      <input type="text" class="form-control" name="rp_1_atasan_langsung">
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="rp_1_tugas_pokok">Tugas dan tanggung jawab singkat</label>
-                      <textarea class="form-control" name="rp_1_tugas_pokok" id="rp_1_tugas_pokok" rows="2"></textarea>
+                      <label class="form-label">Tugas &amp; Tanggung Jawab Singkat</label>
+                      <textarea class="form-control" name="rp_1_tugas_pokok" rows="2"></textarea>
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="rp_1_alasan_keluar">Alasan mengundurkan diri</label>
-                      <textarea class="form-control" name="rp_1_alasan_keluar" id="rp_1_alasan_keluar" rows="2"></textarea>
+                      <label class="form-label">Alasan Mengundurkan Diri</label>
+                      <textarea class="form-control" name="rp_1_alasan_keluar" rows="2"></textarea>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="accordion-item shadow-none">
-              <h3 class="accordion-header" style="margin: 0;">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#job_2" aria-expanded="false">
-                  Pengalaman 2
+            <div class="accordion-item mb-3 border rounded-3 overflow-hidden shadow-none">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#job_2">
+                  <i class="fas fa-building text-success me-2"></i> Pengalaman #2 
                 </button>
-              </h3>
-              <div id="job_2" class="accordion-collapse collapse">
-                <div class="accordion-body">
+              </h2>
+              <div id="job_2" class="accordion-collapse collapse ">
+                <div class="accordion-body bg-light bg-opacity-50 p-4">
                   <div class="row g-3">
                     <div class="col-md-6">
-                      <label class="form-label" for="rp_2_nama_perusahaan">Nama perusahaan</label>
-                      <input type="text" class="form-control" name="rp_2_nama_perusahaan" id="rp_2_nama_perusahaan">
+                      <label class="form-label">Nama Perusahaan</label>
+                      <input type="text" class="form-control" name="rp_2_nama_perusahaan">
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="rp_2_jabatan">Jabatan / posisi</label>
-                      <input type="text" class="form-control" name="rp_2_jabatan" id="rp_2_jabatan">
+                      <label class="form-label">Jabatan / Posisi</label>
+                      <input type="text" class="form-control" name="rp_2_jabatan">
                     </div>
                     <div class="col-md-12">
-                      <label class="form-label" for="rp_2_alamat_telp">Alamat dan no. telepon perusahaan</label>
-                      <input type="text" class="form-control" name="rp_2_alamat_telp" id="rp_2_alamat_telp">
+                      <label class="form-label">Alamat &amp; No. Telp Perusahaan</label>
+                      <input type="text" class="form-control" name="rp_2_alamat_telp">
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label" for="rp_2_periode">Periode kerja</label>
-                      <input type="text" class="form-control" name="rp_2_periode" id="rp_2_periode" placeholder="Bln/Thn - Bln/Thn">
+                      <label class="form-label">Periode Kerja</label>
+                      <input type="text" class="form-control" name="rp_2_periode" placeholder="Bln/Thn - Bln/Thn">
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label" for="rp_2_gaji_terakhir">Gaji terakhir</label>
-                      <input type="text" class="form-control" name="rp_2_gaji_terakhir" id="rp_2_gaji_terakhir" placeholder="Rp ...">
+                      <label class="form-label">Gaji Terakhir</label>
+                      <input type="text" class="form-control" name="rp_2_gaji_terakhir" placeholder="Rp ...">
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label" for="rp_2_atasan_langsung">Nama atasan langsung</label>
-                      <input type="text" class="form-control" name="rp_2_atasan_langsung" id="rp_2_atasan_langsung">
+                      <label class="form-label">Nama Atasan Langsung</label>
+                      <input type="text" class="form-control" name="rp_2_atasan_langsung">
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="rp_2_tugas_pokok">Tugas dan tanggung jawab singkat</label>
-                      <textarea class="form-control" name="rp_2_tugas_pokok" id="rp_2_tugas_pokok" rows="2"></textarea>
+                      <label class="form-label">Tugas &amp; Tanggung Jawab Singkat</label>
+                      <textarea class="form-control" name="rp_2_tugas_pokok" rows="2"></textarea>
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label" for="rp_2_alasan_keluar">Alasan mengundurkan diri</label>
-                      <textarea class="form-control" name="rp_2_alasan_keluar" id="rp_2_alasan_keluar" rows="2"></textarea>
+                      <label class="form-label">Alasan Mengundurkan Diri</label>
+                      <textarea class="form-control" name="rp_2_alasan_keluar" rows="2"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item mb-3 border rounded-3 overflow-hidden shadow-none">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#job_3">
+                  <i class="fas fa-building text-success me-2"></i> Pengalaman #3 
+                </button>
+              </h2>
+              <div id="job_3" class="accordion-collapse collapse ">
+                <div class="accordion-body bg-light bg-opacity-50 p-4">
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label class="form-label">Nama Perusahaan</label>
+                      <input type="text" class="form-control" name="rp_3_nama_perusahaan">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Jabatan / Posisi</label>
+                      <input type="text" class="form-control" name="rp_3_jabatan">
+                    </div>
+                    <div class="col-md-12">
+                      <label class="form-label">Alamat &amp; No. Telp Perusahaan</label>
+                      <input type="text" class="form-control" name="rp_3_alamat_telp">
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">Periode Kerja</label>
+                      <input type="text" class="form-control" name="rp_3_periode" placeholder="Bln/Thn - Bln/Thn">
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">Gaji Terakhir</label>
+                      <input type="text" class="form-control" name="rp_3_gaji_terakhir" placeholder="Rp ...">
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label">Nama Atasan Langsung</label>
+                      <input type="text" class="form-control" name="rp_3_atasan_langsung">
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Tugas &amp; Tanggung Jawab Singkat</label>
+                      <textarea class="form-control" name="rp_3_tugas_pokok" rows="2"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">Alasan Mengundurkan Diri</label>
+                      <textarea class="form-control" name="rp_3_alasan_keluar" rows="2"></textarea>
                     </div>
                   </div>
                 </div>
@@ -934,155 +961,156 @@
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECTION 7: INFORMASI PRIBADI LAINNYA -->
-      <section class="card-modern-form">
+      <div class="card-modern-form">
         <div class="card-header">
-          <h2 class="section-heading">8. Informasi pribadi dan ekspektasi</h2>
+          <span>8. Informasi Pribadi &amp; Ekspektasi</span>
         </div>
         <div class="card-body p-4">
           <div class="row g-3">
             <div class="col-md-12">
-              <label class="form-label" for="alasan_rekrutmen">1. Alasan Anda bersedia mengikuti proses seleksi di KOV Group?</label>
-              <textarea class="form-control" name="alasan_rekrutmen" id="alasan_rekrutmen" rows="2"></textarea>
+              <label class="form-label">1. Alasan Anda bersedia mengikuti proses seleksi di KOV Group?</label>
+              <textarea class="form-control" name="alasan_rekrutmen" rows="2"></textarea>
             </div>
             <div class="col-md-12">
-              <label class="form-label" for="minat_passion">2. Sebutkan bidang yang menjadi minat utama Anda dalam bekerja:</label>
-              <textarea class="form-control" name="minat_passion" id="minat_passion" rows="2"></textarea>
+              <label class="form-label">2. Sebutkan bidang yang menjadi minat / passion utama Anda dalam bekerja:</label>
+              <textarea class="form-control" name="minat_passion" rows="2"></textarea>
             </div>
             <div class="col-md-12">
-              <label class="form-label" for="rencana_3_5_tahun">3. Apa rencana karier Anda dalam 3 hingga 5 tahun ke depan?</label>
-              <textarea class="form-control" name="rencana_3_5_tahun" id="rencana_3_5_tahun" rows="2"></textarea>
+              <label class="form-label">3. Apa rencana karier Anda dalam 3 - 5 tahun ke depan?</label>
+              <textarea class="form-control" name="rencana_3_5_tahun" rows="2"></textarea>
             </div>
             <div class="col-md-12">
-              <label class="form-label" for="prestasi">4. Prestasi atau pencapaian terbesar yang pernah Anda raih:</label>
-              <textarea class="form-control" name="prestasi" id="prestasi" rows="2"></textarea>
+              <label class="form-label">4. Prestasi atau pencapaian terbesar apa yang pernah Anda raih?</label>
+              <textarea class="form-control" name="prestasi" rows="2"></textarea>
             </div>
             <div class="col-md-12">
-              <label class="form-label" for="melamar_perusahaan_lain">5. Apakah saat ini Anda sedang melamar di perusahaan lain?</label>
-              <textarea class="form-control" name="melamar_perusahaan_lain" id="melamar_perusahaan_lain" rows="2"></textarea>
+              <label class="form-label">5. Apakah saat ini Anda sedang melamar di perusahaan lain? Jika ya, sebutkan:</label>
+              <textarea class="form-control" name="melamar_perusahaan_lain" rows="2"></textarea>
             </div>
 
             <!-- Social Media -->
             <div class="col-md-12">
-              <label class="form-label fw-semibold">6. Akun media sosial:</label>
+              <label class="form-label fw-bold">6. Akun Media Sosial Anda:</label>
               <div class="row g-2">
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text bg-white text-muted"><i class="fab fa-instagram text-danger"></i></span>
-                    <input type="text" class="form-control" name="sm_instagram" placeholder="Username Instagram" aria-label="Username Instagram">
+                    <input type="text" class="form-control" name="sm_instagram" placeholder="Username Instagram">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text bg-white text-muted"><i class="fab fa-linkedin text-primary"></i></span>
-                    <input type="text" class="form-control" name="sm_linkedin" placeholder="URL Profil LinkedIn" aria-label="URL Profil LinkedIn">
+                    <input type="text" class="form-control" name="sm_linkedin" placeholder="URL Profil LinkedIn">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text bg-white text-muted"><i class="fab fa-twitter text-info"></i></span>
-                    <input type="text" class="form-control" name="sm_twitter" placeholder="Username Twitter / X" aria-label="Username Twitter">
+                    <input type="text" class="form-control" name="sm_twitter" placeholder="Username Twitter / X">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="input-group">
                     <span class="input-group-text bg-white text-muted"><i class="fab fa-facebook text-primary"></i></span>
-                    <input type="text" class="form-control" name="sm_facebook" placeholder="Username Facebook" aria-label="Username Facebook">
+                    <input type="text" class="form-control" name="sm_facebook" placeholder="Username / URL Facebook">
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="col-md-12">
-              <label class="form-label" for="riwayat_kesehatan">7. Riwayat kesehatan penting (rawat inap atau pengobatan rutin dalam 1 tahun terakhir):</label>
-              <textarea class="form-control" name="riwayat_kesehatan" id="riwayat_kesehatan" rows="2" placeholder="Isi 'Tidak ada' jika tidak memiliki riwayat sakit berat"></textarea>
+              <label class="form-label">7. Riwayat kesehatan penting (rawat inap atau pengobatan rutin dalam 1 tahun terakhir):</label>
+              <textarea class="form-control" name="riwayat_kesehatan" rows="2" placeholder="Isi 'Tidak ada' jika tidak memiliki riwayat sakit berat"></textarea>
             </div>
 
-            <div class="col-12"><hr class="my-2" style="border-color: var(--color-rule);"></div>
+            <div class="col-12"><hr class="my-2"></div>
 
             <div class="col-md-6">
-              <label class="form-label" for="perkiraan_bergabung">Kapan Anda dapat mulai bergabung jika diterima?</label>
-              <input type="text" class="form-control" name="perkiraan_bergabung" id="perkiraan_bergabung" placeholder="Contoh: Langsung / 2 Minggu Notice">
+              <label class="form-label">Kapan Anda dapat mulai bergabung jika diterima?</label>
+              <input type="text" class="form-control" name="perkiraan_bergabung" placeholder="Contoh: Langsung / 2 Minggu Notice">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="gaji_diharapkan">Total gaji dan fasilitas yang diharapkan (Rp):</label>
-              <input type="text" class="form-control" name="gaji_diharapkan" id="gaji_diharapkan" placeholder="Contoh: Rp 4.500.000">
+              <label class="form-label">Total Gaji & Fasilitas yang diharapkan (Rp):</label>
+              <input type="text" class="form-control" name="gaji_diharapkan" placeholder="Contoh: Rp 4.500.000 / Nego">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="gaji_pokok">Gaji pokok</label>
-              <input type="text" class="form-control" name="gaji_pokok" id="gaji_pokok" placeholder="Contoh: Rp 3.500.000">
+              <label class="form-label">Gaji Pokok</label>
+              <input type="text" class="form-control" name="gaji_pokok" placeholder="Contoh: Rp 3.500.000">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="produktivitas">Produktivitas / performa</label>
-              <input type="text" class="form-control" name="produktivitas" id="produktivitas" placeholder="Skor / Penilaian">
+              <label class="form-label">Produktivitas / Performa</label>
+              <input type="text" class="form-control" name="produktivitas" placeholder="Skor / Penilaian">
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SECTION 8: PERNYATAAN & TANDA TANGAN -->
-      <section class="card-modern-form">
+      <div class="card-modern-form">
         <div class="card-header">
-          <h2 class="section-heading">9. Pernyataan kebenaran data dan tanda tangan</h2>
+          <span>9. Pernyataan Kebenaran Data &amp; Tanda Tangan Digital</span>
         </div>
         <div class="card-body p-4">
-          <div class="p-3 rounded-2 small mb-3 border" style="background-color: var(--color-accent-subtle); color: var(--color-accent); border-color: var(--color-accent-border);">
+          <div class="p-3 bg-emerald-subtle rounded-3 text-emerald-dark small mb-3 border border-success border-opacity-25">
             <i class="fas fa-shield-halved me-2"></i>Dengan ini saya menyatakan bahwa keterangan yang saya cantumkan dalam formulir ini adalah benar dan dapat dipertanggungjawabkan.
           </div>
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label" for="kota_ttd">Kota tempat pengisian</label>
-              <input type="text" class="form-control" name="kota_ttd" id="kota_ttd" value="Semarang">
+              <label class="form-label">Kota Tempat Pengisian</label>
+              <input type="text" class="form-control" name="kota_ttd" value="Semarang">
             </div>
             <div class="col-md-6">
-              <label class="form-label" for="tanggalTtd">Tanggal tanda tangan</label>
+              <label class="form-label">Tanggal Tanda Tangan</label>
               <input type="date" class="form-control" name="tanggal_ttd" id="tanggalTtd">
             </div>
             <div class="col-md-12">
-              <label class="form-label" for="signature-pad">Tanda tangan digital (Gunakan Touchscreen / Mouse) <span class="req">*</span></label>
+              <label class="form-label">Tanda Tangan Digital (Gunakan Touchscreen / Mouse) <span class="text-danger">*</span></label>
               <div class="signature-container">
-                <canvas id="signature-pad" aria-label="Kanvas tanda tangan digital"></canvas>
+                <canvas id="signature-pad"></canvas>
               </div>
               <div class="mt-2 text-end">
-                <button type="button" class="btn btn-sm btn-outline-secondary px-3" onclick="clearSignature()" style="border-radius: var(--radius-control); font-size: var(--text-xs);">
-                  <i class="fas fa-eraser me-1"></i>Hapus tanda tangan
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="clearSignature()">
+                  <i class="fas fa-eraser me-1"></i>Hapus Tanda Tangan
                 </button>
               </div>
               <input type="hidden" name="signature_data" id="signatureData">
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
       <!-- SUBMIT BUTTON -->
       <div class="text-center mt-4 mb-4">
         <button type="submit" class="btn-submit-kov" id="btnKirimBiodata">
-          <i class="fas fa-paper-plane"></i> Kirim Biodata Pelamar
+          <i class="fas fa-paper-plane me-2"></i>Kirim Biodata Pelamar
         </button>
       </div>
 
       <!-- Official Company Footer Banner -->
-      <footer class="text-center py-4 px-3 mt-4 rounded-2 bg-white border" style="border-color: var(--color-rule); box-shadow: var(--shadow-card);">
+      <div class="text-center py-4 px-3 mt-4 rounded-4 bg-white border border-slate-200 shadow-sm">
         <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
-          <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="height: 32px; width: 32px; object-fit: cover; border-radius: 6px;">
-          <span class="fw-bold fs-6" style="color: var(--color-ink);">KOV GROUP / KOV KOFFIE</span>
+          <img src="/logo_kov_2.jpg" alt="KOV Koffie Logo" style="height: 32px; width: 32px; object-fit: contain; border-radius: 6px;">
+          <span class="fw-bold text-dark fs-6">KOV GROUP / KOV KOFFIE</span>
         </div>
-        <p class="small mb-1" style="color: var(--color-muted); font-size: 0.8125rem;">
+        <p class="text-muted small mb-1" style="font-size: 0.82rem;">
           Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232
         </p>
-        <div class="small fw-semibold text-success" style="font-size: 0.8125rem;">
-          <i class="fab fa-instagram me-1"></i>Instagram: KOV KOFFIE
+        <div class="small fw-semibold text-success" style="font-size: 0.82rem;">
+          <i class="fab fa-instagram me-1"></i>IG : KOV KOFFIE
         </div>
-      </footer>
+      </div>
 
     </form>
-  </main>
+  </div>
 
   <!-- Signature Pad JS & Bootstrap JS -->
   <script src="/assets/vendor/signature_pad/js/signature_pad.umd.min.js"></script>
   <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Bespoke Toast & Micro-Interaction System -->
   <script src="/assets/js/kov-toast.js"></script>
 
   <script>
@@ -1112,8 +1140,8 @@
     document.addEventListener("DOMContentLoaded", () => {
       resizeCanvas();
       signaturePad = new SignaturePad(canvas, {
-        backgroundColor: 'rgb(248, 250, 252)',
-        penColor: 'rgb(22, 101, 52)'
+        backgroundColor: 'rgb(255, 255, 255)',
+        penColor: 'rgb(6, 78, 59)'
       });
     });
 
@@ -1125,7 +1153,7 @@
       if (input.files && input.files[0]) {
         const file = input.files[0];
         if (file.size > 5 * 1024 * 1024) {
-          KovToast.error('Ukuran file foto terlalu besar: maksimal 5MB.', 'Foto Terlalu Besar');
+          KovToast.error('Ukuran file foto terlalu besar! Maksimal 5MB.', 'Foto Terlalu Besar');
           input.value = '';
           return;
         }
@@ -1134,7 +1162,7 @@
           const base64Data = e.target.result;
           document.getElementById('fotoKandidatBase64').value = base64Data;
           const previewBox = document.getElementById('photoPreviewBox');
-          previewBox.innerHTML = `<img src="${base64Data}" alt="Pasfoto pelamar" style="width: 100%; height: 100%; object-fit: cover;">`;
+          previewBox.innerHTML = `<img src="${base64Data}" style="width: 100%; height: 100%; object-fit: cover;">`;
           KovToast.info('Foto pelamar berhasil dimuat.', 'Foto Terpasang');
         };
         reader.readAsDataURL(file);
@@ -1190,7 +1218,7 @@
 
         const res = await response.json();
         if (res.success) {
-          const title = res.is_duplicate ? 'Biodata Diperbarui' : 'Biodata Berhasil Terkirim';
+          const title = res.is_duplicate ? 'Biodata Diperbarui!' : 'Biodata Berhasil Terkirim!';
           const msg = res.is_duplicate 
             ? 'Sistem mendeteksi pembaruan data yang sudah ada sebelumnya. Terima kasih.' 
             : 'Terima kasih telah melamar di KOV Koffie. Tim HR kami akan segera meninjau profil Anda.';
@@ -1227,5 +1255,12 @@
       }
     });
   </script>
+  <footer class="kov-editorial-footer text-center">
+    <div class="container" style="max-width: 960px;">
+      <div class="kov-editorial-footer-brand mb-1">KOV KOFFIE INDONESIA — Divisi Human Capital Management</div>
+      <div class="mb-2">Jl. Sultan Agung No.135, Kaliwiru, Kec. Candisari, Kota Semarang, Jawa Tengah 50232 &bull; IG : KOV KOFFIE</div>
+      <div class="text-muted small">&copy; 2026 KOV Group. Dokumen ini bersifat rahasia dan dipergunakan khusus untuk keperluan seleksi kerja.</div>
+    </div>
+  </footer>
 </body>
 </html>

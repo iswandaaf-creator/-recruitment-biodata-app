@@ -12,6 +12,7 @@ public/uploads/*
 .env
 backups/*.sqlite
 *.sketch
+.taste-skill/
 .agents/*
 !.agents/skills/
 .agents/skills/*
